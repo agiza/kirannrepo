@@ -6,15 +6,16 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name = "int-etrac"
 include_recipe "altitomcat"
 
-package "int-etrac" do
-  version "node[int_etrac_version].noarch"
+package {app_name} do
+  version "node[{app_name}_version].noarch"
   action :install
 end
 
-template "/opt/tomcat/conf/int-etrac.properties" do
-  source "int-etrac.properties.erb"
+template "/opt/tomcat/conf/{app_name}.properties" do
+  source "{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
