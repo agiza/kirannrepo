@@ -1,0 +1,38 @@
+amqp.queue.inbound=etrac.orders.new
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.host=<%= amqp_host %>
+amqp.port=<%= amqp_port %>
+
+etrac.ws.orders.uri=http://staging.oasissoftware.biz/GDMSWS/Orders.svc/other
+etrac.ws.fileupload.uri=http://staging.oasissoftware.biz/GDMSWS/FileUpload.svc
+
+registry.fileLocation=${catalina.base}/Registry/etracRegistry.json
+
+#monitoring.realtransInboundChannel=newOrderRequestChannel
+#monitoring.vendorOutboundChannel=newOrderRequestHttpChannel
+#monitoring.vendorInboundChannel=newOrderAckChannel,incomingOrderResponseChannel
+#monitoring.realtransOutboundChannel=realtransOrderResponseChannel
+#
+#monitoring.realtrans.inbound.source=Trans-Central
+#monitoring.realtrans.inbound.target=Int-DataVision
+#
+#monitoring.vendor.outbound.source=Int-DataVision
+#monitoring.vendor.outbound.target=DataVision
+#
+#monitoring.vendor.inbound.source=DataVision
+#monitoring.vendor.inbound.target=Int-DataVision
+#
+#monitoring.realtrans.outbound.source=Int-DataVision
+#monitoring.realtrans.outbound.target=Trans-Central
+
+monitoring.taskExecutor.poolSize=10
+
+rt.header.source.name=ETRAC
+rt.header.target.name=TRANS-CENTRAL
+
+etrac.user.name=Jay Jones
+etrac.password=1234
+etrac.companyId=2314
+
+etrac.submit.report.soap.action=http://tempuri.org/IFileUpload/SubmitReport
+

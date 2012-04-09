@@ -1,0 +1,34 @@
+amqp.queue.inbound=interthinx.orders.new
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.exchange.monitoring=rt.monitoring
+amqp.host=<%= amqp_host %>
+amqp.port=<%= amqp_port %>
+
+interthinx.ws.orders.uri=https://fgws1.interthinx.com/SOAP/ProcessRequest.asmx
+
+registry.fileLocation=${catalina.base}/InterthinxRegistry/interthinxJobRegistry.json
+
+interthinx.ws.userid=INTSTALT
+interthinx.ws.password=Re@ltrans
+
+rt.header.source.name=INTERTHINX
+rt.header.target.name=TRANS-CENTRAL
+
+monitoring.realtransInboundChannel=amqpIncomingChannel
+monitoring.vendorOutboundChannel=createFraudCheckRequestChannel,statusChangeRequestChannel,jobResultRequestChannel,pdfReportRequestChannel
+monitoring.vendorInboundChannel=newOrderResponseChannel,statusChangeResponseChannel,jobResultResponseChannel,pdfResponseChannel
+monitoring.realtransOutboundChannel=realtransOrderResponseChannel
+
+monitoring.realtrans.inbound.source=Trans-Central
+monitoring.realtrans.inbound.target=Int-Interthinx
+
+monitoring.vendor.outbound.source=Int-Interthinx
+monitoring.vendor.outbound.target=Interthinx
+
+monitoring.vendor.inbound.source=Interthinx
+monitoring.vendor.inbound.target=Int-Interthinx
+
+monitoring.realtrans.outbound.source=Int-Interthinx
+monitoring.realtrans.outbound.target=Trans-Central
+
+monitoring.taskExecutor.poolSize=10

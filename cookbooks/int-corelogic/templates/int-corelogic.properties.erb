@@ -1,0 +1,35 @@
+corelogic.newOrderUrl=https://betaasync.floodcert.com/async/receiver
+corelogic.authToken=Basic VEVTVC1BTFRJUzo1NFRFMjY5
+# TODO: use username and password to create authtoken
+corelogic.username=
+corelogic.password=
+amqp.host=<%= amqp_host %>
+amqp.port=<%= amqp_port %>
+amqp.corelogic.queue.changeOrder=corelogic.orders.change
+amqp.corelogic.queue.cancelOrder=corelogic.orders.cancel
+amqp.corelogic.queue.newOrder=corelogic.orders.new
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.exchange.monitoring=rt.monitoring
+amqp.username=<%= amqp_user %>
+amqp.password=<%= amqp_pass %>
+
+rt.header.source.name=CORELOGIC
+rt.header.target.name=TRANS-CENTRAL
+
+monitoring.realtransInboundChannel=amqpIncomingChannel
+monitoring.vendorOutboundChannel=createFraudCheckRequestChannel,statusChangeRequestChannel,jobResultRequestChannel,pdfReportRequestChannel
+monitoring.vendorInboundChannel=newOrderResponseChannel,statusChangeResponseChannel,jobResultResponseChannel,pdfResponseChannel
+monitoring.realtransOutboundChannel=realtransOrderResponseChannel
+
+monitoring.realtrans.inbound.source=Trans-Central
+monitoring.realtrans.inbound.target=Int-Corelogic
+
+monitoring.vendor.outbound.source=Int-Corelogic
+monitoring.vendor.outbound.target=Corelogic
+
+monitoring.vendor.inbound.source=Corelogic
+monitoring.vendor.inbound.target=Int-Corelogic
+
+monitoring.realtrans.outbound.source=Int-Corelogic
+monitoring.realtrans.outbound.target=Trans-Central
+monitoring.taskExecutor.poolSize=10

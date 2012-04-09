@@ -1,0 +1,34 @@
+amqp.host=<%= amqp_host %>
+amqp.port=<%= amqp_port %>
+
+amqp.datavision.orders.new=datavision.orders.new
+amqp.datavision.orders.change=datavision.orders.change
+amqp.datavision.orders.cancel=datavision.orders.cancel
+
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.exchange.monitoring=rt.monitoring
+
+datavision.newOrderUrl=http://svc1.doc-vault.net/DVLSOrderProcess/DVRLSPortalInterface.aspx
+datavision.incomingOrderResponseUrl=/order/response/
+
+monitoring.realtransInboundChannel=newOrderRequestChannel,cancelOrderRequestChannel,modifyOrderRequestChannel
+monitoring.vendorOutboundChannel=newOrderRequestHttpChannel,cancelOrderRequestHttpChannel,modifyOrderRequestHttpChannel
+monitoring.vendorInboundChannel=newOrderAckChannel,incomingOrderChannel,cancelOrderResponseChannel,modifyOrderResponseChannel
+monitoring.realtransOutboundChannel=realtransOrderResponseChannel
+
+monitoring.realtrans.inbound.source=Trans-Central
+monitoring.realtrans.inbound.target=Int-DataVision
+
+monitoring.vendor.outbound.source=Int-DataVision
+monitoring.vendor.outbound.target=DataVision
+
+monitoring.vendor.inbound.source=DataVision
+monitoring.vendor.inbound.target=Int-DataVision
+
+monitoring.realtrans.outbound.source=Int-DataVision
+monitoring.realtrans.outbound.target=Trans-Central
+
+monitoring.taskExecutor.poolSize=10
+
+rt.header.source.name=DATAVISION
+rt.header.target.name=TRANS-CENTRAL
