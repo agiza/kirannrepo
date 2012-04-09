@@ -4,15 +4,16 @@
 #
 
 #include_recipe "java"
+app_name = realtrans-central
 include_recipe "altitomcat"
 
-package "realtrans-central" do
-  version "node[realtrans_central_version].noarch"
+package {app_name} do
+  version "node[{app_name}_version].noarch"
   action :install
 end
 
-template "/opt/tomcat/conf/realtrans-central.properties" do
-  source "realtrans-central.properties.erb"
+template "/opt/tomcat/conf/{app_name}.properties" do
+  source "{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
