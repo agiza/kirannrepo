@@ -4,17 +4,11 @@
 #
 
 #include_recipe "java"
+app_name = "altitomcat"
 
-tomcat_pkgs = value_for_platform(
-  ["centos","redhat","fedora"] => {
-    "default" => ["altitomcat-1.0.0-4.noarch"]
-  },
-  "default" => ["altitomcat-1.0.0-4.noarch"]
-)
-tomcat_pkgs.each do |pkg|
-  package pkg do
-    action :install
-  end
+package "#{app_name}" do
+  version "1.0.0-5.noarch"
+  action :install
 end
 
 template "/etc/sysconfig/real_region" do
