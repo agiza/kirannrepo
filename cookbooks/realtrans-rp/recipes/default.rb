@@ -9,7 +9,7 @@
 app_name = "realtrans-rp"
 include_recipe "altitomcat"
 
-package #{app_name} do
+package "#{app_name}" do
   version "node[{#app_name}_version].noarch"
   action :install
 end
