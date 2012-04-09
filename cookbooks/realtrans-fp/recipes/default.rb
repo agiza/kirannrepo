@@ -6,15 +6,16 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name = "realtrans-fp"
 include_recipe "altitomcat"
 
-package "realtrans-fp" do
-  version "node[realtrans_fp_version].noarch"
+package {app_name} do
+  version "node[{app_name}_version].noarch"
   action :install
 end
 
-template "/opt/tomcat/conf/realtrans-fp.properties" do
-  source "realtrans-fp.properties.erb"
+template "/opt/tomcat/conf/{app_name}.properties" do
+  source "{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
