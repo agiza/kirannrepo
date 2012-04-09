@@ -11,8 +11,8 @@ package "#{app_name}" do
   action :install
 end
 
-template "/etc/sysconfig/real_region" do
-  source "real_region.erb"
+template "/etc/sysconfig/real_settings" do
+  source "real_settings.erb"
   group 'root'
   owner 'root'
   mode '0644'
