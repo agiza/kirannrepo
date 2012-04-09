@@ -4,7 +4,7 @@
 #
 
 #include_recipe "java"
-app_name = realtrans-central
+app_name = "realtrans-central"
 include_recipe "altitomcat"
 
 package {app_name} do
