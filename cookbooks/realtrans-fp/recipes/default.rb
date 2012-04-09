@@ -9,13 +9,13 @@
 app_name = "realtrans-fp"
 include_recipe "altitomcat"
 
-package {app_name} do
-  version "node[{app_name}_version].noarch"
+package "#{app_name}" do
+  version "node[#{app_name}_version].noarch"
   action :install
 end
 
-template "/opt/tomcat/conf/{app_name}.properties" do
-  source "{app_name}.properties.erb"
+template "/opt/tomcat/conf/#{app_name}.properties" do
+  source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
