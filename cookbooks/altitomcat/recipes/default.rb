@@ -7,7 +7,7 @@
 app_name = "altitomcat"
 
 package "#{app_name}" do
-  version "<%= node[:altitomcat_version] %>.noarch"
+  version "1.0.0-5.noarch"
   action :install
 end
 
