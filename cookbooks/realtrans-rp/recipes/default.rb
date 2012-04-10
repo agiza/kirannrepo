@@ -14,7 +14,7 @@ package "#{app_name}" do
   action :install
 end
 
-template "/opt/tomcat/conf#{app_name}.properties" do
+template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
