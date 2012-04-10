@@ -1,8 +1,8 @@
 amqp.queue.inbound=interthinx.orders.new
 amqp.exchange.messages.inbound=rt.core.incoming
 amqp.exchange.monitoring=rt.monitoring
-amqp.host=<%= amqp_host %>
-amqp.port=<%= amqp_port %>
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
 
 interthinx.ws.orders.uri=https://fgws1.interthinx.com/SOAP/ProcessRequest.asmx
 
