@@ -5,10 +5,12 @@
 
 #include_recipe "java"
 app_name = "realtrans-central"
+app_version = node[:realtrans-central_version]
+
 include_recipe "altitomcat"
 
 package "#{app_name}" do
-  version "node[#{app_name}_version].noarch"
+  version "#{app_version}"
   action :install
 end
 
