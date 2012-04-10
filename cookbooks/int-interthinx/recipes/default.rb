@@ -7,10 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-interthinx"
+app_version = node[:int-interthinx_version"
+
 include_recipe "altitomcat"
 
 package "#{app_name}" do
-  version "node[#{app_name}_version].noarch"
+  version "#{app_version}"
   action :install
 end
 
