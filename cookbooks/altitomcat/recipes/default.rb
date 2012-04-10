@@ -5,9 +5,10 @@
 
 #include_recipe "java"
 app_name = "altitomcat"
+app_version = node[:altitomcat_version]
 
 package "#{app_name}" do
-  version node[:#{app_name}_version]
+  version "#{app_version}"
   action :install
 end
 
