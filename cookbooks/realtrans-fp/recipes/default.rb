@@ -12,7 +12,7 @@ app_version = node[:realtrans-fp_version]
 include_recipe "altitomcat"
 
 package "#{app_name}" do
-  version "#{app_version"
+  version "#{app_version}"
   action :install
 end
 
