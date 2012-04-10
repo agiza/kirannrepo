@@ -1,0 +1,24 @@
+db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rt_dbname] %>?autoReconnect=true
+db.name=<%= node[:rt_dbname] %>
+db.username=<%= node[:db_user] %>
+db.password=<%= node[:db_pass] %>
+db.initialSize=<%= node[:db_initsize] %>
+db.maxActive=<%= node[:db_maxactive] %>
+db.maxIdle=<%= node[:db_maxidle] %>
+db.maxWait=<%= node[:db_maxwait] %>
+db.removeAbandoned=true
+db.removeAbandonedTimeout=600
+db.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
+db.validationQuery=SELECT 1
+db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:amqp_user] %>
+amqp.password=<%= node[:amqp_pass] %>
+ldap.port=<%= node[:ldap_port] %>
+ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+
+tenantCode=<%= node[:tenantid] %>
