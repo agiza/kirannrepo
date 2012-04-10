@@ -7,7 +7,7 @@
 app_name = "altitomcat"
 
 package "#{app_name}" do
-  version node[:"#{app_name}"_version]
+  version node[:#{app_name}_version]
   action :install
 end
 
