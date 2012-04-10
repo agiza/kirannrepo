@@ -9,8 +9,6 @@
 app_name = "realtrans-rp"
 app_version = node[:realtrans_rp_version]
 
-include_recipe "altitomcat"
-
 package "#{app_name}" do
   version "#{app_version}"
   action :install
