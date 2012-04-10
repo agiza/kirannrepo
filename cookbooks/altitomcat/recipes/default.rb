@@ -12,6 +12,11 @@ package "#{app_name}" do
   action :install
 end
 
+service "altitomcat" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :enable
+end
+
 template "/etc/sysconfig/real_settings" do
   source "real_settings.erb"
   group 'root'
