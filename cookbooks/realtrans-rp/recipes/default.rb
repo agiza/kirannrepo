@@ -14,8 +14,8 @@ package "#{app_name}" do
   action :install
 end
 
-template "/opt/tomcat/conf/#{app_name}.properties" do
-  source "#{app_name}.properties.erb"
+template "/opt/tomcat/conf/realtrans-rp.properties" do
+  source "realtrans-rp.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
