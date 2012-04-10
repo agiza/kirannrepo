@@ -3,15 +3,15 @@ corelogic.authToken=Basic VEVTVC1BTFRJUzo1NFRFMjY5
 # TODO: use username and password to create authtoken
 corelogic.username=
 corelogic.password=
-amqp.host=<%= amqp_host %>
-amqp.port=<%= amqp_port %>
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
 amqp.corelogic.queue.changeOrder=corelogic.orders.change
 amqp.corelogic.queue.cancelOrder=corelogic.orders.cancel
 amqp.corelogic.queue.newOrder=corelogic.orders.new
 amqp.exchange.messages.inbound=rt.core.incoming
 amqp.exchange.monitoring=rt.monitoring
-amqp.username=<%= amqp_user %>
-amqp.password=<%= amqp_pass %>
+amqp.username=<%= node[:amqp_user] %>
+amqp.password=<%= node[:amqp_pass] %>
 
 rt.header.source.name=CORELOGIC
 rt.header.target.name=TRANS-CENTRAL
