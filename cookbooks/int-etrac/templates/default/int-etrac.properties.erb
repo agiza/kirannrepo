@@ -1,7 +1,7 @@
 amqp.queue.inbound=etrac.orders.new
 amqp.exchange.messages.inbound=rt.core.incoming
-amqp.host=<%= amqp_host %>
-amqp.port=<%= amqp_port %>
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
 
 etrac.ws.orders.uri=http://staging.oasissoftware.biz/GDMSWS/Orders.svc/other
 etrac.ws.fileupload.uri=http://staging.oasissoftware.biz/GDMSWS/FileUpload.svc
