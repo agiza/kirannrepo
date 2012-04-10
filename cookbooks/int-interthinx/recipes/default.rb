@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-interthinx"
-app_version = node[:int-interthinx_version"
+app_version = node[:int-interthinx_version]
 
 include_recipe "altitomcat"
 
