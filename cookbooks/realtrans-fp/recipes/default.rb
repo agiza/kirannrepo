@@ -7,10 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "realtrans-fp"
+app_version = node[:realtrans-fp_version]
+
 include_recipe "altitomcat"
 
 package "#{app_name}" do
-  version "node[#{app_name}_version].noarch"
+  version "#{app_version"
   action :install
 end
 
