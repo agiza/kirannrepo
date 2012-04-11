@@ -14,5 +14,5 @@ end
 
 execute "yum" do
   command "yum clean all"
-  action ":run"
+  action "run"
 end
