@@ -33,7 +33,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   group 'root'
   owner 'root'
   mode '0644'
-  rabbitservers = search(:node, "role:rabbitserver" AND "chef_environment:#{node.chef_environment}")
+  rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
   rabbitnodes = @rabbitservers.collect { |rabbitserver| "'rabbit@#{rabbitserver}'" }.join(",")
   notifies :restart, resources(:service => "rabbitmq-server")
 end
