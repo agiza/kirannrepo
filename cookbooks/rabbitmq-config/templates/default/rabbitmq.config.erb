@@ -1,8 +1,5 @@
-[{rabbit, [{cluster_nodes, ['
+[{rabbit, [{cluster_nodes,
 <% curr_environ = node[:chef_environment] -%>
 <% rabbitservers = search(:node, "role:rabbitserver" AND "chef_environment:#{curr_environ}") -%>
-<% rabbitservers.each do |rabbitserver| -%>
-	rabbit@<%= rabbitserver %>
-', '
-<% end -%>
-']}]}].
+['rabbit@<% rabbitservers.join (',') %>'
+]}]}].
