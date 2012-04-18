@@ -38,8 +38,6 @@ template "/etc/rabbitmq/rabbitmq.config" do
     source "rabbitmq.config.uat.erb"
     when "Production"
     source "rabbitmq.config.prod.erb"
-    when "_default"
-    source "rabbitmq.config.erb"
     end
   group 'root'
   owner 'root'
