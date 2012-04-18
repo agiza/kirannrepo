@@ -1,4 +1,1 @@
-[{rabbit, [{cluster_nodes, [
-<% rabbitservers = search(:node, "role:rabbitserver AND chef_environment:# {node.chef_environment}") -%>
-<% @rabbitservers.collect { |rabbitserver| "\'rabbit\@#{rabbitserver}\'" }.join(",") -%>
-]}]}].
+[{rabbit, [{cluster_nodes, [ <% @rabbitnodes.join(",") -%> ]}]}].
