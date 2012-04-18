@@ -29,7 +29,18 @@ service "rabbitmq-server" do
 end
 
 template "/etc/rabbitmq/rabbitmq.config" do
-  source "rabbitmq.config.erb"
+  case node[:chef_environment]
+    when "QA"
+    source "rabbitmq.config.qa.erb"
+    when "Demo"
+    source "rabbitmq.config.demo.erb"
+    when "UAT"
+    source "rabbitmq.config.uat.erb"
+    when "Production"
+    source "rabbitmq.config.prod.erb"
+    when "_default"
+    source "rabbitmq.config.erb"
+    end
   group 'root'
   owner 'root'
   mode '0644'
