@@ -9,7 +9,7 @@
 include_recipe "altirepo"
 
 app_name = "rabbitmq-server-config"
-app_version = node[:rabbitmq-config_version]
+app_version = node[:rabbitmqconfig_version]
 
 package "rabbitmq-server" do
   version "2.7.1-1"
