@@ -36,7 +36,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   group 'root'
   owner 'root'
   mode '0644'
-  variables(:bunnies => rabbitnodes)
+  variables(:bunnies = rabbitnodes)
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
