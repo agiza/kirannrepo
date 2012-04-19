@@ -42,6 +42,12 @@ template "/etc/rabbitmq/rabbitmq.config" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
+execute "rabbit-restart" do
+  command "service rabbitmq-server restart"
+  action :run
+  environment ({'HOME' => '/etc/init.d'})
+end
+
 execute "queue-config" do
   command "/etc/rabbitmq/realtrans-rabbit.sh"
   action :run
