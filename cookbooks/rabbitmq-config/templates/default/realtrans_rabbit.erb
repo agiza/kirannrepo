@@ -1,18 +1,8 @@
 #!/bin/bash
-
-#if [ -f /etc/rabbitmq/rabbitmq.config.bak ]; then
-#	echo "replacing new configuration file with backup."
-#	cp /etc/rabbitmq/rabbitmq.config.bak /etc/rabbitmq/rabbitmq.config
-#else
-#	echo "You need to edit the rabbitmq.config file and add all nodes to this configuration to create the cluster."
-#	echo "Hit Enter to continue."; read p
-#	vi /etc/rabbitmq/rabbitmq.config
-#	echo "If you have added the nodes, you are ready to proceed. Hit Enter to continue."; read p
-#fi
-
-# Restart service to make node and plugin changes take effect.
-#	echo "Restarting service for node changes"
-#	service rabbitmq-server restart
+/sbin/service rabbitmq-server status
+if [ "$?" -gt "0" ]; then
+  /sbin/service rabbitmq-server start
+fi
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
