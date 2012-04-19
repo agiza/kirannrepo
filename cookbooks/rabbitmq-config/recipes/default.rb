@@ -39,7 +39,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   owner 'root'
   mode '0644'
   variables(:rabbitnodes => rabbitnodes)
-  notifies :restart, resources(:service => "rabbitmq-server")
+  notifies :restart, resources(:service => "rabbitmq-server") :immediately
 end
 
 execute "queue-config" do
@@ -53,6 +53,6 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   group "root"
   owner "root"
   mode '0755'
-  notifies :run, resources(:execute => "queue-config")
+  notifies :run, 'execute[queue-config]', :immediately
 end
 
