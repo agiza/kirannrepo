@@ -29,7 +29,7 @@ service "rabbitmq-server" do
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")  
-rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(",")
+rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@rabbitserver\'" }.join(",")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
