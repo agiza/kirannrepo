@@ -25,8 +25,7 @@ end
 
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable 
-  action :start
+  action :enable
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")  
@@ -43,15 +42,17 @@ template "/etc/rabbitmq/rabbitmq.config" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
-execute "rabbit-restart" do
-  command "service rabbitmq-server restart"
-  action :run
-  environment ({'HOME' => '/etc/init.d'})
-end
-
 execute "queue-config" do
   command "/etc/rabbitmq/realtrans-rabbit.sh"
-  action :run
+  action :nothing
   environment ({'HOME' => '/etc/rabbitmq'})
+end
+
+template "/etc/rabbitmq/realtrans-rabbit.sh" do
+  source "realtrans_rabbit.erb"
+  group "root"
+  owner "root"
+  mode '0755'
+  notifies :run, resources(:execute => "queue-config")
 end
 
