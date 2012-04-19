@@ -25,7 +25,8 @@ end
 
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable :start
+  action :enable 
+  action :start
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")  
