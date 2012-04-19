@@ -29,14 +29,14 @@ service "rabbitmq-server" do
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")  
-rabbitnodes = rabbitservers.collect( |rabbitserver| "\'rabbit@rabbitserver\'" )
+rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(",")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
   owner 'root'
   mode '0644'
-  variables rabbitnodes.join(",")
+  variables :rabbitnodes
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
