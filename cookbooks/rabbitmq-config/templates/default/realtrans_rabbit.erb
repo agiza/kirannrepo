@@ -1,0 +1,92 @@
+#!/bin/bash
+
+#if [ -f /etc/rabbitmq/rabbitmq.config.bak ]; then
+#	echo "replacing new configuration file with backup."
+#	cp /etc/rabbitmq/rabbitmq.config.bak /etc/rabbitmq/rabbitmq.config
+#else
+#	echo "You need to edit the rabbitmq.config file and add all nodes to this configuration to create the cluster."
+#	echo "Hit Enter to continue."; read p
+#	vi /etc/rabbitmq/rabbitmq.config
+#	echo "If you have added the nodes, you are ready to proceed. Hit Enter to continue."; read p
+#fi
+
+# Restart service to make node and plugin changes take effect.
+#	echo "Restarting service for node changes"
+#	service rabbitmq-server restart
+
+#host=${1-$HOSTNAME}
+host=`hostname -s`
+# Check to see if the user accounts configuration has been run yet.
+/etc/rabbitmq/rabbitmqadmin -u guest -p guest list users > /dev/null
+guest_check=$?
+/etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
+admin_check=$?
+if [ "$guest_check" -lt "1"   ]; then
+# Change user accounts for better security
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=admin password=5P3cial tags=administrator
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=admin configure=.* write=.* read=.*
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=bugsbunny password=wH4t5Up tags=prodcon
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=bugsbunny configure= write=.* read=.*
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest delete user name=guest
+elif [ "$admin_check" -lt "1" ]; then
+   echo "Admin accounts working."
+fi
+
+# Set variables for admin account
+admin_user="admin"
+admin_pass="5P3cial"
+
+/etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
+admin_check=$?
+if [ "$admin_check" -lt "1" ]; then
+
+# Add all queue names here
+queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.core.orders.response rt.core.orders.error rt.core.orders.ack rt.core.deadmessages rt.core.interapp.messages rt.monitoring.messages corelogic.orders.new corelogic.orders.change corelogic.orders.cancel etrac.orders.new etrac.orders.change etrac.orders.cancel interthinx.orders.new interthinx.orders.change interthinx.orders.cancel datavision.orders.new datavision.orders.change datavision.orders.cancel"
+
+# Move to working directory
+cd /etc/rabbitmq/
+
+# Loop to add each queue with mirror turned on.
+for i in $queue_names; do
+curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
+-XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" \
+http://$host:55672/api/queues/%2f/$i
+
+done
+
+# Use the standard python script to add all other elements and bindings
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare exchange name=rt.core.internal auto_delete=false durable=true type=topic
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare exchange name=rt.core.incoming auto_delete=false durable=true type=topic
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare exchange name=rt.core.outgoing auto_delete=false durable=true type=topic
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare exchange name=rt.core.deadmessage auto_delete=false durable=true type=topic
+# Binding elements
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.new routing_key=create.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.change routing_key=change.order#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.cancel routing_key=cancel.order#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.ack routing_key=order.ack.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.response routing_key=order.response.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.error routing_key=order.error#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.deadmessage destination_type=queue destination=rt.core.deadmessages routing_key=#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.internal destination_type=queue destination=rt.core.interapp.messages routing_key=#
+
+# Monitoring queues and exchanges
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare exchange name=rt.monitoring auto_delete=false durable=true type=topic
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.monitoring destination_type=queue destination=rt.monitoring.messages routing_key=#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.new routing_key=corelogic.create.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.change routing_key=corelogic.change.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.cancel routing_key=corelogic.cancel.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.new routing_key=etrac.create.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.change routing_key=etrac.change.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.cancel routing_key=etrac.cancel.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.new routing_key=interthinx.create.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.change routing_key=interthinx.change.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.cancel routing_key=interthinx.cancel.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.new routing_key=datavision.create.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.change routing_key=datavision.change.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.cancel routing_key=datavision.cancel.order.#
+echo "Done."
+
+else
+	echo "Admin accounts not working, something is wrong."; exit 1
+fi
+
