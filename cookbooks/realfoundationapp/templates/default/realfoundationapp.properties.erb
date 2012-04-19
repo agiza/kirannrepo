@@ -30,6 +30,12 @@ auditdb.timeBetweenEvictionRunsMillis=<%= node[:audit_timeevict] %>
 auditdb.validationQuery=SELECT 1
 auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
 
+ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+ldap.searchBase=<%= node[:ldap_searchbase %>
+
+multipartResolver.maxUploadSize=100000
+activiti.databaseSchemaUpdate=false
+
 ## the following properties will be gone once security is fully built
 
 appKey=<%= node[:realfound_appkey] %>REALFoundationApp
