@@ -39,7 +39,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   owner 'root'
   mode '0644'
   variables(:rabbitnodes => rabbitnodes)
-  notifies :restart, resources(:service => "rabbitmq-server") :immediately
+  notifies :restart, resources(:service => "rabbitmq-server")
 end
 
 execute "queue-config" do
