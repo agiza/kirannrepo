@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-etrac"
-app_version = node[:int-etrac_version]
+app_version = node[:intetrac_version]
 
 include_recipe "altitomcat"
 
