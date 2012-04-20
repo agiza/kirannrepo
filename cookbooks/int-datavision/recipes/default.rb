@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-datavision"
-app_version - node[:intdatavision_version]
+app_version = node[:intdatavision_version]
 
 include_recipe "altitomcat"
 
