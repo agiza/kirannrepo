@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "realtrans-fp"
-app_version = node[:realtrans-fp_version]
+app_version = node[:realtransfp_version]
 
 include_recipe "altitomcat"
 
