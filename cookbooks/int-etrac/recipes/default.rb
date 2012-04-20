@@ -24,7 +24,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-directory "/opt/tomcat/EtracRegistry"
+directory "/opt/tomcat/EtracRegistry" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
