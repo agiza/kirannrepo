@@ -32,9 +32,9 @@ rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.che
 rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(",")
 rabbitnodes = rabbitnodes.gsub!("node\[", "")
 rabbitnodes = rabbitnodes.gsub!("\]", "")
-clusternodes = rabbitservers.gsub!("node\[", "")
+clusternodes = rabbitservers.collect { |rabbitserver| "#{rabbitserver}" }.join(" ")
+clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
-clusternodes = clusternodes.join(" ")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
