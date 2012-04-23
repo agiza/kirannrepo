@@ -12,6 +12,10 @@ guest_check=$?
 /etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
 admin_check=$?
 if [ "$guest_check" -lt "1"   ]; then
+# Setup cluster here
+rabbitnodes="<%= @clusternodes %>"
+/usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
+
 # Change user accounts for better security
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=admin password=5P3cial tags=administrator
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=admin configure=.* write=.* read=.*
@@ -29,10 +33,6 @@ admin_pass="5P3cial"
 /etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
 admin_check=$?
 if [ "$admin_check" -lt "1" ]; then
-
-# Setup cluster here
-rabbitnodes="<%= @clusternodes %>"
-/usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 # Add all queue names here
 queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.core.orders.response rt.core.orders.error rt.core.orders.ack rt.core.deadmessages rt.core.interapp.messages rt.monitoring.messages corelogic.orders.new corelogic.orders.change corelogic.orders.cancel etrac.orders.new etrac.orders.change etrac.orders.cancel interthinx.orders.new interthinx.orders.change interthinx.orders.cancel datavision.orders.new datavision.orders.change datavision.orders.cancel"
