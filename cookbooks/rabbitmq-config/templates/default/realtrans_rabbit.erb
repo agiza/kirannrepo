@@ -30,6 +30,10 @@ admin_pass="5P3cial"
 admin_check=$?
 if [ "$admin_check" -lt "1" ]; then
 
+# Setup cluster here
+clusternodes="<%= @rabbitnodes %>"
+/usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$clusternodes"; /usr/sbin/rabbitmqctl start_app
+
 # Add all queue names here
 queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.core.orders.response rt.core.orders.error rt.core.orders.ack rt.core.deadmessages rt.core.interapp.messages rt.monitoring.messages corelogic.orders.new corelogic.orders.change corelogic.orders.cancel etrac.orders.new etrac.orders.change etrac.orders.cancel interthinx.orders.new interthinx.orders.change interthinx.orders.cancel datavision.orders.new datavision.orders.change datavision.orders.cancel"
 
