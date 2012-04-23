@@ -32,6 +32,10 @@ rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.che
 rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")
 rabbitnodes = rabbitnodes.gsub!("node\[", "")
 rabbitnodes = rabbitnodes.gsub!("\]", "")
+clusternodes = rabbitservers.collect { |rabbitserver| "rabbit@#{rabbitserver}" }.join(" ")
+clusternodes = clusternodes.gsub!("node\[", "")
+clusternodes = clusternodes.gsub!("\]", "")
+
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
@@ -53,7 +57,7 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   group "root"
   owner "root"
   mode '0755'
-  variables(:rabbitnodes => rabbitnodes)
+  variables(:clusternodes => clusternodes)
   notifies :run, 'execute[queue-config]', :immediately
 end
 
