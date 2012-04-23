@@ -13,7 +13,8 @@ guest_check=$?
 admin_check=$?
 if [ "$guest_check" -lt "1"   ]; then
 # Setup cluster here
-rabbitnodes="<%= @clusternodes %>"
+full_domin=`hostname -d`
+rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 # Change user accounts for better security
