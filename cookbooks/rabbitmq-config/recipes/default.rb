@@ -53,6 +53,7 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   group "root"
   owner "root"
   mode '0755'
+  variables(:rabbitnodes => rabbitnodes)
   notifies :run, 'execute[queue-config]', :immediately
 end
 
