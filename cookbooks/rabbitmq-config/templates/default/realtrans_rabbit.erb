@@ -31,7 +31,7 @@ admin_check=$?
 if [ "$admin_check" -lt "1" ]; then
 
 # Setup cluster here
-rabbitnodes=`echo <%= @rabbitnodes %> | sed -e 's/,\ /\ /g'`
+rabbitnodes=`echo <%= @rabbitnodes %> | sed -e 's/,\ /\ /g' | sed -e 's/'//g'`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 # Add all queue names here
