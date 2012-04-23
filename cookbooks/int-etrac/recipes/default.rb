@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-etrac"
-app_version = node[:int-etrac_version]
+app_version = node[:intetrac_version]
 
 include_recipe "altitomcat"
 
@@ -22,5 +22,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
+end
+
+directory "/opt/tomcat/EtracRegistry" do
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
 end
 

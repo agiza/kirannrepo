@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-interthinx"
-app_version = node[:int-interthinx_version]
+app_version = node[:intinterthinx_version]
 
 include_recipe "altitomcat"
 
@@ -16,7 +16,7 @@ package "#{app_name}" do
   action :install
 end
 
-template "/opt/tomcat/conf/#{app-name}.properties" do
+template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'

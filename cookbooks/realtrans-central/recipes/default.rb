@@ -5,7 +5,7 @@
 
 #include_recipe "java"
 app_name = "realtrans-central"
-app_version = node[:realtrans-central_version]
+app_version = node[:realtranscentral_version]
 
 include_recipe "altitomcat"
 

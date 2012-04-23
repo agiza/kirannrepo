@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "int-corelogic"
-app_version = node[:int-corelogic_version]
+app_version = node[:intcorelogic_version]
 
 include_recipe "altitomcat"
 

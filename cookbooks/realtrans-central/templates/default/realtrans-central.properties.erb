@@ -22,3 +22,28 @@ ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs
 
 tenantCode=<%= node[:tenantid] %>
+
+db.showSql=false
+db.generateDdl=false
+
+mail.host=mail
+mail.port=25
+mail.userName=do_not_reply@altidev.com
+mail.password=password
+mail.smtp.auth=false
+mail.smtp.starttls.enable=false
+
+mail.from=realtrans@altidev.com
+mail.recipients=realtrans@myprivcy.org
+mail.replyTo=do_not_reply@altidev.com
+
+daysToCloseOrders=90
+
+melissadata.address.webhost=addresscheck.melissadata.net
+melissadata.phone.webhost=phonecheck.melissadata.net
+melissadata.email.webhost=email.melissadata.net
+melissadata.customerId=102942719
+melissadata.defaultMaxConnectionsPerHost=1
+
+multipartResolver.maxUploadSize=100000
+
