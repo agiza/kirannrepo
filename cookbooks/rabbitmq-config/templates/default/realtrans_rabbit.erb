@@ -36,7 +36,7 @@ admin_check=$?
 if [ "$admin_check" -lt "1" ]; then
 
 # Add all queue names here
-queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.core.orders.response rt.core.orders.error rt.core.orders.ack rt.core.deadmessages rt.core.interapp.messages rt.monitoring.messages corelogic.orders.new corelogic.orders.change corelogic.orders.cancel etrac.orders.new etrac.orders.change etrac.orders.cancel interthinx.orders.new interthinx.orders.change interthinx.orders.cancel datavision.orders.new datavision.orders.change datavision.orders.cancel"
+queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.core.orders.response rt.core.orders.error rt.core.orders.ack rt.core.deadmessages rt.core.interapp.messages rt.monitoring.messages corelogic.orders.new corelogic.orders.change corelogic.orders.cancel etrac.orders.new etrac.orders.change etrac.orders.cancel interthinx.orders.new interthinx.orders.change interthinx.orders.cancel datavision.orders.new datavision.orders.change datavision.orders.cancel realservicing.order.create realservicing.order.response realresolution.order.create realresolution.order.response"
 
 # Move to working directory
 cd /etc/rabbitmq/
@@ -79,6 +79,12 @@ done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.new routing_key=datavision.create.order.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.change routing_key=datavision.change.order.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.cancel routing_key=datavision.cancel.order.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=realservicing.order.create routing_key=realservicing.order.create.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realservicing.order.response routing_key=realservicing.order.response.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=realresolution.order.create routing_key=realresolution.order.create.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realresolution.order.response routing_key=realresolution.order.response.#
+
+
 echo "Done."
 
 else
