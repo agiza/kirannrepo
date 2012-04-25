@@ -1,8 +1,8 @@
 corelogic.newOrderUrl=https://betaasync.floodcert.com/async/receiver
 corelogic.authToken=Basic VEVTVC1BTFRJUzo1NFRFMjY5
 # TODO: use username and password to create authtoken
-corelogic.username=
-corelogic.password=
+corelogic.username=<%= node[:corelogic_user] %>
+corelogic.password=<%= node[:corelogic_pass] %>
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
 amqp.corelogic.queue.changeOrder=corelogic.orders.change
