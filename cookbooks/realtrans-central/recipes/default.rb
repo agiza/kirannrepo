@@ -16,7 +16,15 @@ end
 
 package "#{app_name}" do
   version "#{app_version}"
+  action :update
+  only_if "test -f /opt/tomcat/#{app_name}.war"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+package "#{app_name}" do
+  version "#{app_version}"
   action :install
+  only_if "test ! -f /opt/tomcat/#{app_name}.war"
   notifies :restart, resources(:service => "altitomcat")
 end
 
