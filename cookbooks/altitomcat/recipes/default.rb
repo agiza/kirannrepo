@@ -20,6 +20,14 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+execute "yum-reinstall" do
+  command "yum reinstall -y #{app_name}-#{app_version}"
+  creates "/etc/init.d/altitomcat"
+  action :run
+  only_if "test ! -f /etc/init.d/altitomcat"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
 template "/opt/tomcat/bin/catalina.sh" do
   source "catalina_sh.erb"
   group "tomcat"
