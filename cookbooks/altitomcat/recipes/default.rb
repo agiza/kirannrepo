@@ -8,21 +8,14 @@ app_name = "altitomcat"
 app_version = node[:altitomcat_version]
 
 package "#{app_name}" do
-  version "#{app_version}"
+  version "#{app_version}.noarch"
   action :install
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :enable
-end
-
-template "/etc/sysconfig/real_settings" do
-  source "real_settings.erb"
-  group 'root'
-  owner 'root'
-  mode '0644'
-  #notifies :restart, resources(:service => "tomcat")
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
