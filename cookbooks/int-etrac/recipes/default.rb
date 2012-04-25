@@ -12,7 +12,7 @@ app_version = node[:intetrac_version]
 include_recipe "altitomcat"
 
 package "#{app_name}" do
-  version "#{app_version}"
+  version "#{app_version}.noarch"
   action :install
   notifies :restart, resources(:service => "altitomcat")
 end
