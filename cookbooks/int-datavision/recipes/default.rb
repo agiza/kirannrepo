@@ -14,6 +14,7 @@ include_recipe "altitomcat"
 package "#{app_name}" do
   version "#{app_version}"
   action :install
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 template "/opt/tomcat/conf/#{app_name}.properties" do
