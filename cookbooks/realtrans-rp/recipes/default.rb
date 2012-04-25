@@ -17,7 +17,7 @@ service "altitomcat" do
 end
 
 package "#{app_name}" do
-  version "#{app_version}.noarch"
+  version "#{app_version}"
   action :install
   notifies :restart, resources(:service => "altitomcat")
 end
