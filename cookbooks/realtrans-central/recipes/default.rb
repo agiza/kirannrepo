@@ -22,12 +22,10 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-yum_package "#{app_name}" do
-  version "#{app_version}"
-  action :remove 
-  action :install
-  flush_cache [ :before ]
-  allow_downgrade true
+execute "yum-reinstall" do
+  command "yum reinstall #{app_name}-#{app_version}"
+  creates "/opt/tomcat/webapps/#{app_name}.war"
+  action :run
   only_if "test ! -f /opt/tomcat/webapps/#{app_name}.war"
   notifies :restart, resources(:service => "altitomcat")
 end
