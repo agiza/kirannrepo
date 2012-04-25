@@ -13,6 +13,8 @@ db.removeAbandonedTimeout=600
 db.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
 db.validationQuery=SELECT 1
 db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
+amqp.exchange.monitoring=rt.monitoring
+amqp.exchange.outgoing=rt.core.internal
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
 amqp.username=<%= node[:amqp_user] %>
