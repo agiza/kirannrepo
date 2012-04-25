@@ -24,7 +24,7 @@ end
 
 yum_package "#{app_name}" do
   version "#{app_version}"
-  action :reinstall
+  action :remove :install
   flush_cache [ :before ]
   allow_downgrade true
   only_if "test ! -f /opt/tomcat/webapps/#{app_name}.war"
