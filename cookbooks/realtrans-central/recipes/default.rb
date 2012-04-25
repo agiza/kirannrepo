@@ -23,7 +23,7 @@ yum_package "#{app_name}" do
 end
 
 execute "yum-reinstall" do
-  command "yum reinstall #{app_name}-#{app_version}"
+  command "yum reinstall -y #{app_name}-#{app_version}"
   creates "/opt/tomcat/webapps/#{app_name}.war"
   action :run
   only_if "test ! -f /opt/tomcat/webapps/#{app_name}.war"
