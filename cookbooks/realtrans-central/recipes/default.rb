@@ -17,7 +17,7 @@ end
 yum_package "#{app_name}" do
   version "#{app_version}"
   action :install
-  flush_cache true
+  flush_cache [ :before ]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
