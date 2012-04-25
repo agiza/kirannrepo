@@ -11,6 +11,11 @@ app_version = node[:realfoundationapp_version]
 
 include_recipe "altitomcat"
 
+service "altitomcat" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :nothing
+end
+
 package "#{app_name}" do
   version "#{app_version}.noarch"
   action :install
