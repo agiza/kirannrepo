@@ -24,6 +24,14 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+execute "yum-reinstall" do
+  command "yum reinstall -y #{app_name}-#{app_version}"
+  creates "/opt/tomcat/webapps/#{app_name}.war"
+  action :run
+  only_if "test ! -f /opt/tomcat/webapps/#{app_name}.war"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
 template "/opt/tomcat/conf/realfoundationapp.properties" do
   source "realfoundationapp.properties.erb"
   group 'tomcat'
