@@ -18,16 +18,16 @@ end
 
 package "#{app_name}" do
   version "#{app_version}"
-  action :update
-  only_if "test -f /opt/tomcat/#{app_name}.war"
+  action :upgrade
   notifies :restart, resources(:service => "altitomcat")
+  only_if "test -f /opt/tomcat/#{app_name}.war"
 end
 
 package "#{app_name}" do
   version "#{app_version}"
   action :install
-  only_if "test ! -f /opt/tomcat/#{app_name}.war"
   notifies :restart, resources(:service => "altitomcat")
+  only_if "test ! -f /opt/tomcat/#{app_name}.war"
 end
 
 template "/opt/tomcat/conf/#{app_name}.properties" do
