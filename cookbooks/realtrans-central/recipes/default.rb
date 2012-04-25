@@ -14,17 +14,11 @@ service "altitomcat" do
   action :nothing
 end
 
-package "#{app_name}" do
-  version "#{app_version}"
-  action :upgrade
-  only_if "test -f /opt/tomcat/#{app_name}.war"
-  notifies :restart, resources(:service => "altitomcat")
-end
-
-package "#{app_name}" do
+yum_package "#{app_name}" do
   version "#{app_version}"
   action :install
-  only_if "test ! -f /opt/tomcat/#{app_name}.war"
+  flush_cache true
+  allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
 
