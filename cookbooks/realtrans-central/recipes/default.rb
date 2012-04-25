@@ -22,6 +22,15 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+yum_package "#{app_name}" do
+  version "#{app_version}"
+  action :reinstall
+  flush_cache [ :before ]
+  allow_downgrade true
+  only_if "test ! -f /opt/tomcat/webapps/#{app_name}.war"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
