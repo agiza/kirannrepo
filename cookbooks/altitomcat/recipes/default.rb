@@ -16,6 +16,14 @@ package "#{app_name}" do
   version "#{app_version}"
   action :install
   notifies :restart, resources(:service => "altitomcat")
+  only_if "test ! -f /etc/init.d/altitomcat"
+end
+
+package "#{app_name}" do
+  version "#{app_version}"
+  action :upgrade
+  notifies :restart, resources(:service => "altitomcat")
+  only_if "test -f /etc/init.d/altitomcat"
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
