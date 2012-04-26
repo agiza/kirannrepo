@@ -40,3 +40,25 @@ schema.path=/realservicing/schemas/
 json.schema=realServicing.json
 header.schema=realServicingHeader.json
 
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.queue.inbound=realresolution.order.response
+amqp.rt.core.deadmessage=rt.core.deadmessage
+amqp.exchange.monitoring=rt.monitoring
+
+monitoring.vendorOutboundChannel=ftpIncomingChannel,ftpOutboundChannel
+monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
+monitoring.realtransOutboundChannel=avaOrderResponseChannel
+monitoring.vendorInboundChannel=
+
+monitoring.realtrans.inbound.source=Trans-Central
+monitoring.realtrans.inbound.target=Int-RealResolution
+
+monitoring.vendor.outbound.source=Int-RealResolution
+monitoring.vendor.outbound.target=RealResolution
+
+monitoring.vendor.inbound.source=
+monitoring.vendor.inbound.target=
+
+monitoring.realtrans.outbound.source=Trans-Central
+monitoring.realtrans.outbound.target=Int-RealResolution
+
