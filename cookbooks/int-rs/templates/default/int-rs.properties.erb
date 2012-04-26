@@ -1,0 +1,28 @@
+rres.ftp.host<%= node[:rres_ftp_host] %>
+rres.ftp.port=<%= node[:rres_ftp_port] %>
+rres.ftp.user=<%= node[:rres_ftp_user] %>
+rres.ftp.pwd=<%= node[:rres_ftp_pass] %>
+rres.filename.pattern=*.xml
+rres.remote.directory=/In
+rres.local.directory=/opt/tomcat/temp
+rres.ftp.poller.delay=120000
+
+
+rres.remote.archive.directory=/Archive
+rres.remote.error.directory=/Error
+
+
+
+monitoring.taskExecutor.poolSize=10
+
+schema.path=/ava/schemas/
+json.schema=realServicing.json
+header.schema=realServicingHeader.json
+
+
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:amqp_user] %>
+amqp.password=<%= node[:amqp_pass] %>
+
+
