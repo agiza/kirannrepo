@@ -26,27 +26,12 @@ defaults
 	clitimeout	50000
 	srvtimeout	50000
 
-listen rabbitmqdev <%= node:[ipaddress] %>:5100
+
+listen rabbitmq<%= node[:chef_environment] %> <%= node:[ipaddress] %>:<%= node:[amqp_port] %>
 	mode    tcp
 	balance roundrobin
 	option  tcpka
 <% @clusternodes.each do |clusternode| -%>
 	server  <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500    
-<% end -%>
-
-listen rabbitmqqa <%= node:[ipaddress] %>:5200
-        mode    tcp
-        balance roundrobin
-        option  tcpka
-<% @clusternodes.each do |clusternode| -%>
-        server  <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500       
-<% end -%>
-
-listen rabbitmqdemo <%= node:[ipaddress] %>:5300
-	mode	tcp
-	balance	roundrobin
-	option	tcpka
-<% @clusternodes.each do |clusternode| -%>
-        server  <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500       
 <% end -%>
 
