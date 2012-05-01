@@ -12,7 +12,7 @@ app_name = "rabbitmq-server-config"
 app_version = node[:rabbitmqconfig_version]
 
 package "rabbitmq-server" do
-  version >= "2.7.1-1"
+  version "2.8.2-1"
   provider Chef::Provider::Package::Yum
   action :install
 end
