@@ -3,6 +3,9 @@ amqp.exchange.messages.inbound=rt.core.incoming
 amqp.exchange.monitoring=rt.monitoring
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
 interthinx.ws.orders.uri=https://fgws1.interthinx.com/SOAP/ProcessRequest.asmx
 

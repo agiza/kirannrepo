@@ -20,8 +20,9 @@ amqp.queue.internal.inbound=rt.core.interapp.messages
 amqp.queue.orders.response=rt.core.orders.response
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
-amqp.username=<%= node[:amqp_user] %>
-amqp.password=<%= node[:amqp_pass] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 ldap.port=<%= node[:ldap_port] %>
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs

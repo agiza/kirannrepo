@@ -15,8 +15,9 @@ db.validationQuery=SELECT 1
 db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
-amqp.username=<%= node[:amqp_user] %>
-amqp.password=<%= node[:amqp_pass] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 ldap.port=<%= node[:ldap_port] %>
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs

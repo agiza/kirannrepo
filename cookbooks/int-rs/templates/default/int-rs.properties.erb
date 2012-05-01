@@ -1,7 +1,8 @@
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
-amqp.username=<%= node[:amqp_user] %>
-amqp.password=<%= node[:amqp_pass] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
 amqp.realservicing.order.create=realservicing.order.create
 amqp.realservicing.order.response=realservicing.order.response

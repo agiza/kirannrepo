@@ -10,8 +10,9 @@ amqp.corelogic.queue.cancelOrder=corelogic.orders.cancel
 amqp.corelogic.queue.newOrder=corelogic.orders.new
 amqp.exchange.messages.inbound=rt.core.incoming
 amqp.exchange.monitoring=rt.monitoring
-amqp.username=<%= node[:amqp_user] %>
-amqp.password=<%= node[:amqp_pass] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
 rt.header.source.name=CORELOGIC
 rt.header.target.name=TRANS-CENTRAL

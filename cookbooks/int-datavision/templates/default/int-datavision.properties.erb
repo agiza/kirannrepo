@@ -1,5 +1,8 @@
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
 amqp.datavision.orders.new=datavision.orders.new
 amqp.datavision.orders.change=datavision.orders.change
