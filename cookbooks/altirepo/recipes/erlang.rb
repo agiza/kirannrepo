@@ -1,6 +1,4 @@
-#
-# Cookbook Name:: altirepo
-# Recipe:: default
+# Recipe:: erlang
 #
 # Copyright 2012, Altisource
 #
@@ -12,8 +10,8 @@ execute "yum" do
   action :nothing
 end
 
-template "/etc/yum.repos.d/altisource.repo" do
-  source "altisource.repo.erb"
+template "/etc/yum.repos.d/epel-erlang.repo" do
+  source "erlang.repo.erb"
   mode "0644"
   notifies :run, resources(:execute => "yum")
 end
