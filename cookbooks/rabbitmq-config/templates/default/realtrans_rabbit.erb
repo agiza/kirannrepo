@@ -61,7 +61,7 @@ http://$host:55672/api/queues/%2frealtransdemo/$i
 done
 
 # Use the standard python script to add all other elements and bindings
-for i in "$vhosts"; do
+for i in `echo "$vhosts"`; do
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.internal auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.incoming auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.outgoing auto_delete=false durable=true type=topic
