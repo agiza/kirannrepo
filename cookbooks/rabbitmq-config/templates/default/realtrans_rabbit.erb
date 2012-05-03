@@ -4,7 +4,7 @@ if [ "$?" -gt "0" ]; then
   /sbin/service rabbitmq-server start
 fi
 
-vhosts="/realtrans /realtransdemo"
+vhosts="<%= node[:rt_amqp_vhosts] %>"
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
