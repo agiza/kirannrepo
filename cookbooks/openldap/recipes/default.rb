@@ -13,7 +13,7 @@ service "slapd" do
 end
 
 package "openldap-servers" do
-  action :update
+  action :upgrade
   notifies :restart, resources(:service => "slapd")
 end
 
