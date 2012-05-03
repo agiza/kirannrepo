@@ -18,3 +18,10 @@ template "/etc/yum.repos.d/altisource.repo" do
   notifies :run, resources(:execute => "yum")
 end
 
+template "/etc/hosts" do
+  source "hosts.erb"
+  mode "0644"
+  owner "root"
+  group "root"
+end
+
