@@ -25,3 +25,9 @@ template "/etc/hosts" do
   group "root"
 end
 
+template "/etc/sysconfig/network" do
+  source "network.erb"
+  mode "0644"
+  owner "root"
+  group "root"
+end
