@@ -27,7 +27,7 @@ defaults
 	srvtimeout	50000
 
 
-listen rabbitmq<%= node[:chef_environment] %> <%= node:[ipaddress] %>:<%= node:[amqp_port] %>
+listen rabbitmq<%= node[:chef_environment] %> <%= node[:ipaddress] %>:<%= node[:amqp_port] %>
 	mode    tcp
 	balance roundrobin
 	option  tcpka
