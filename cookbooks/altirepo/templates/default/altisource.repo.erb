@@ -15,6 +15,7 @@ baseurl=http://<%= node[:yum_server] %>/yum/testing
 enabled=<%= node[:yum_test_setting] %>
 gpgcheck=0
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+installonlypkgs=realtrans-central realtrans-rp realtrans-fp int-corelogic int-datavision int-etrac int-interthinx int-rs int-rres
 
 [altisourcerelease]
 name=Packages from Altisource - release
@@ -24,4 +25,5 @@ baseurl=http://<%= node[:yum_server] %>/yum/release
 enabled=<%= node[:yum_release_setting] %>
 gpgcheck=0
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+installonlypkgs=realtrans-central realtrans-rp realtrans-fp int-corelogic int-datavision int-etrac int-interthinx int-rs int-rres
 
