@@ -22,13 +22,13 @@ template "/etc/init.d/host_command" do
   mode "0755"
   owner "root"
   group "root"
-  if platform?("redhat", "centos", "fedora")
-     notifies :run, resources(:execute => "chkconfig")
-  end
+end
 
-  if platform?("ubuntu")
-     notifies :run, resources(:execute => "update-rc")
-  end
+if platform?("redhat", "centos", "fedora")
+  notifies :run, resources(:execute => "chkconfig")
+end
 
+if platform?("ubuntu")
+   notifies :run, resources(:execute => "update-rc")
 end
 
