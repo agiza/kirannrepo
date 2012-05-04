@@ -31,7 +31,7 @@ auditdb.validationQuery=SELECT 1
 auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
 
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-ldap.searchBase=<%= node[:ldap_searchbase %>
+ldap.searchBase=<%= node[:ldap_searchbase] %>
 
 multipartResolver.maxUploadSize=100000
 activiti.databaseSchemaUpdate=false
