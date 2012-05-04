@@ -30,17 +30,3 @@ template "/etc/init.d/host_command" do
   end 
 end
 
-if platform?("redhat", "centos", "fedora") do
-  execute "chkconfig" do
-    command "chkconfig --add host_command; chkconfig host_command on"
-    action :run
-  end
-end
-
-if platform?("ubuntu") do
-  execute "update-rc" do
-    command "sudo update-rc.d host_command defaults; sudo update-rc.d host_command enable"
-    action :run
-  end
-end
-
