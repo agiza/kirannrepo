@@ -1,0 +1,31 @@
+#! /bin/bash
+#
+# hostname_script       Set Hostname to node hostname on startup
+#
+# chkconfig: 2345 10 90
+# description: Sets the hostname to the chef node hostname.
+#              
+#
+### BEGIN INIT INFO
+# Provides: $hostname
+# Short-Description: Sets Hostname on machine
+# Description: Sets the hostname
+### END INIT INFO
+
+# See how we were called.
+case "$1" in 
+  start)
+	hostname "$2"
+	;;
+  stop)
+	hostname "$2"
+  	;;
+  reload)
+	hostname "$2"
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|reload}"
+	exit 2
+esac
+exit $rc
+
