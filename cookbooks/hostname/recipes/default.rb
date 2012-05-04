@@ -8,7 +8,7 @@
 #
 
 execute "update-rc" do
-  command "update-rc.d host_command defaults; update-rc.d host_command enable"
+  command "sudo update-rc.d host_command defaults; sudo update-rc.d host_command enable"
   action :nothing
 end
 
