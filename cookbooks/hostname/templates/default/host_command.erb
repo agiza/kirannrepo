@@ -12,16 +12,19 @@
 # Description: Sets the hostname
 ### END INIT INFO
 
+# Chef sets the hostname in this file when it is installed
+host_name="<%= node[:hostname] %>.<%= node[:domain] %>"
+
 # See how we were called.
 case "$1" in 
   start)
-	hostname "$2"
+	hostname "$host_name"
 	;;
   stop)
-	hostname "$2"
+	hostname "$host_name"
   	;;
   reload)
-	hostname "$2"
+	hostname "$host_name"
 	;;
   *)
 	echo $"Usage: $0 {start|stop|reload}"
