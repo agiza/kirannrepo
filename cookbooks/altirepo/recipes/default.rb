@@ -12,6 +12,11 @@ execute "yum" do
   action :nothing
 end
 
+execute "hostname" do
+  command "hostname #{node.hostname}.#{node.domain}"
+  action :run
+end
+
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
   mode "0644"
