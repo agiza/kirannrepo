@@ -23,7 +23,7 @@ service "apache2" do
   action :start
 end
 
-template "/etc/apache2/httpd.conf"
+template "/etc/apache2/httpd.conf" do
   source "httpd.conf.erb"
   owner "root"
   group "root"
@@ -31,7 +31,7 @@ template "/etc/apache2/httpd.conf"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/ports.conf"
+template "/etc/apache2/ports.conf" do
   source "ports.conf.erb"
   owner "root"
   group "root"
@@ -39,7 +39,7 @@ template "/etc/apache2/ports.conf"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/apache2.conf"
+template "/etc/apache2/apache2.conf" do
   source "apache2.conf.erb"
   owner "root"
   group "root"
@@ -47,7 +47,7 @@ template "/etc/apache2/apache2.conf"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/conf.d/security"
+template "/etc/apache2/conf.d/security" do
   source "security.erb"
   owner "root"
   group "root"
@@ -55,7 +55,7 @@ template "/etc/apache2/conf.d/security"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/000-default"
+template "/etc/apache2/mods-available/000-default" do
   source "default.erb"
   owner "root"
   group "root"
@@ -63,7 +63,7 @@ template "/etc/apache2/mods-available/000-default"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/000-default-ssl"
+template "/etc/apache2/mods-available/000-default-ssl" do
   source "default-ssl.erb"
   owner "root"
   group "root"
@@ -71,7 +71,7 @@ template "/etc/apache2/mods-available/000-default-ssl"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/corelogic-dev-mod_proxy"
+template "/etc/apache2/mods-available/corelogic-dev-mod_proxy" do
   source "corelogic-dev-mod_proxy.erb"
   owner "root"
   group "root"
@@ -79,7 +79,7 @@ template "/etc/apache2/mods-available/corelogic-dev-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/corelogic-demo-mod_proxy"
+template "/etc/apache2/mods-available/corelogic-demo-mod_proxy" do
   source "corelogic-demo-mod_proxy.erb"
   owner "root"
   group "root"
@@ -87,7 +87,7 @@ template "/etc/apache2/mods-available/corelogic-demo-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/corelogic-qa-mod_proxy"
+template "/etc/apache2/mods-available/corelogic-qa-mod_proxy" do
   source "corelogic-qa-mod_proxy.erb"
   owner "root"
   group "root"
@@ -95,7 +95,7 @@ template "/etc/apache2/mods-available/corelogic-qa-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/datavision-dev-mod_proxy"
+template "/etc/apache2/mods-available/datavision-dev-mod_proxy" do
   source "datavison-dev-mod_proxy.erb"
   owner "root"
   group "root"
@@ -103,7 +103,7 @@ template "/etc/apache2/mods-available/datavision-dev-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/datavision-demo-mod_proxy"
+template "/etc/apache2/mods-available/datavision-demo-mod_proxy" do
   source "datavison-demo-mod_proxy.erb"
   owner "root"
   group "root"
@@ -111,7 +111,7 @@ template "/etc/apache2/mods-available/datavision-demo-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/datavision-qa-mod_proxy"
+template "/etc/apache2/mods-available/datavision-qa-mod_proxy" do
   source "datavison-qa-mod_proxy.erb"
   owner "root"
   group "root"
@@ -119,7 +119,7 @@ template "/etc/apache2/mods-available/datavision-qa-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/rtqa-mod_proxy"
+template "/etc/apache2/mods-available/rtqa-mod_proxy" do
   source "rtqa-mod_proxy.erb"
   owner "root"
   group "root"
@@ -127,7 +127,7 @@ template "/etc/apache2/mods-available/rtqa-mod_proxy"
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/vpn-mod_proxy"
+template "/etc/apache2/mods-available/vpn-mod_proxy" do
   source "vpn-mod_proxy.erb"
   owner "root"
   group "root"
