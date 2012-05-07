@@ -38,10 +38,9 @@ clusternodes = clusternodes.gsub!("\]", "")
 queue_names = []
 
 #Build list of queues names for configuration
-search(:queue_names, "*.*") do |apps|
+search(:queue_names, "queues") do |queue|
   # Set appname to id of the data bag item
-  appname = queue_names["id"]
-  queue_names << queues
+  queue_names << queue
 end
 
 template "/etc/rabbitmq/rabbitmq.config" do
