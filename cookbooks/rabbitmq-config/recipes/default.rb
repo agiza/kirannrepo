@@ -37,7 +37,7 @@ clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
 
 #Build list of queues names for configuration
-rabbit_queue = data_bag_item("queue_names", "realtran")
+rabbit_queue = data_bag_item("queue_names", "realtrans")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
