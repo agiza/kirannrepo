@@ -37,11 +37,7 @@ clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
 
 #Build list of queues names for configuration
-queues = []
-search(:queue_names, "queues") do |queue|
-  # Set appname to id of the data bag item
-  queues << queue
-end
+rabbit_queue = data_bag_item("queue_names", "realtran")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
@@ -65,7 +61,7 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   mode '0755'
   variables(
     :clusternodes => clusternodes,
-    :queue_names  => queues
+    :queue_names  => rabbit_queue['queues']
   )
   notifies :run, 'execute[queue-config]', :immediately
 end
