@@ -35,7 +35,14 @@ rabbitnodes = rabbitnodes.gsub!("\]", "")
 clusternodes = rabbitservers.collect { |rabbitserver| "rabbit@#{rabbitserver}" }.join(" ")
 clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
-queue_names = data_bag_item('realtrans', 'queues')
+queue_names = []
+
+#Build list of queues names for configuration
+search(:queue_names, "*.*") do |apps|
+  # Set appname to id of the data bag item
+  appname = queue_names["id"]
+  queue_names << queues
+end
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
