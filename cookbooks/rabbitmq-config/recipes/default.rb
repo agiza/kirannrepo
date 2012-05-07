@@ -35,12 +35,12 @@ rabbitnodes = rabbitnodes.gsub!("\]", "")
 clusternodes = rabbitservers.collect { |rabbitserver| "rabbit@#{rabbitserver}" }.join(" ")
 clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
-queue_names = []
 
 #Build list of queues names for configuration
+queues = []
 search(:queue_names, "queues") do |queue|
   # Set appname to id of the data bag item
-  queue_names << queue
+  queues << queue
 end
 
 template "/etc/rabbitmq/rabbitmq.config" do
@@ -63,7 +63,10 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   group "root"
   owner "root"
   mode '0755'
-  variables(:clusternodes => clusternodes, :queue_names => queue_names)
+  variables(
+    :clusternodes => clusternodes
+    :queue_names => queues
+  )
   notifies :run, 'execute[queue-config]', :immediately
 end
 
