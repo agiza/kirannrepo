@@ -47,6 +47,14 @@ template "/etc/apache2/apache2.conf"
   notifies :reload, resources(:service => "apache2")
 end
 
+template "/etc/apache2/conf.d/security"
+  source "security.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :reload, resources(:service => "apache2")
+end
+
 template "/etc/apache2/mods-available/000-default"
   source "default.erb"
   owner "root"
@@ -129,45 +137,56 @@ end
 
 link "/etc/apache2/mods-enabled/proxy_http.load" do
   to "../mods-available/proxy_http.load"
+  only_if "test -f /etc/apache2/mods-available/proxy_http.load"
 end
 
 link "/etc/apache2/mods-enabled/proxy.conf" do
   to "../mods-available/proxy.conf"
+  only_if "test -f /etc/apache2/mods-available/proxy.conf"
 end
 
 link "/etc/apache2/mods-enabled/proxy.load" do
   to "../mods-available/proxy.load"
+  only_if "test -f /etc/apache2/mods-available/proxy.load"
 end
 
 link "/etc/apache2/mods-enabled/proxy_balancer.load" do
   to "../mods-available/proxy_balancer.load"
+  only_if "test -f /etc/apache2/mods-available/proxy_balancer.load"
 end
 
 link "/etc/apache2/mods-enabled/proxy_balancer.conf" do
   to "../mods-available/proxy_balancer.conf"
+  only_if "test -f /etc/apache2/mods-available/proxy_balancer.conf"
 end
 
 link "/etc/apache2/mods-enabled/auth_digest.load" do
   to "../mods-available/auth_digest.load"
+  only_if "test -f /etc/apache2/mods-available/auth_digest.load"
 end
 
 link "/etc/apache2/mods-enabled/ssl.conf" do
   to "../mods-available/ssl.conf"
+  only_if "test -f /etc/apache2/mods-available/ssl.conf"
 end
 
 link "/etc/apache2/mods-enabled/ssl.load" do
   to "../mods-available/ssl.load"
+  only_if "test -f /etc/apache2/mods-available/ssl.load"
 end
 
 link "/etc/apache2/mods-enabled/mod-security.load" do
   to "../mods-available/mod-security.load"
+  only_if "test -f /etc/apache2/mods-available/mod-security.load"
 end
 
 link "/etc/apache2/mods-enabled/mod-security.conf" do
   to "../mods-available/mod-security.conf"
+  only_if "test -f /etc/apache2/mods-available/mod-security.conf"
 end
 
 link "/etc/apache2/mods-enabled/unique_id.load" do
   to "../mods-available/unique_id.load"
+  only_if "test -f /etc/apache2/mods-available/unique_id.load"
 end
 
