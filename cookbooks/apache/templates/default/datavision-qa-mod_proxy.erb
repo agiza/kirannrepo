@@ -1,0 +1,23 @@
+<Proxy *>
+Order deny,allow
+Deny from all
+</Proxy>
+
+ProxyRequests             Off
+ProxyPreserveHost         On
+#ProxyPass                 /int-datavision        http://realtrans-dev:8080/int-datavision
+ProxyPassReverse          /int-datavision/qa       http://realtrans-qa:8080/int-datavision
+<Location /int-datavision/qa>
+ProxyPass  http://realtrans-qa:8080/int-datavision
+Order allow,deny
+Allow from 69.87.90.251
+Allow from 216.81.240.177
+Allow from 122.165.78.24
+Allow from 207.108.34.14
+Allow from 10.
+Allow from 127.0.0.0/255.0.0.0 ::1/128
+#Deny from all
+</Location>
+
+#ProxyVia	On
+
