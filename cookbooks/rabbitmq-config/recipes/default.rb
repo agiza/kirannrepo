@@ -35,7 +35,7 @@ rabbitnodes = rabbitnodes.gsub!("\]", "")
 clusternodes = rabbitservers.collect { |rabbitserver| "rabbit@#{rabbitserver}" }.join(" ")
 clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
-
+queue_names = data_bag_item('realtrans', 'queues')
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
@@ -57,7 +57,7 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   group "root"
   owner "root"
   mode '0755'
-  variables(:clusternodes => clusternodes)
+  variables(:clusternodes => clusternodes, :queue_names => queue_names)
   notifies :run, 'execute[queue-config]', :immediately
 end
 
