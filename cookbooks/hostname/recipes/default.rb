@@ -7,6 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+host_name=node[:name]
+execute "hostname" do
+  command "sudo hostname #{host_name} "
+  action :run
+end
+
 execute "chkconfig" do
   command "chkconfig --add host_command; chkconfig host_command on"
   action :nothing
