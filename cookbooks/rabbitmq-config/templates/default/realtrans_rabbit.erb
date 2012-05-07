@@ -20,16 +20,19 @@ rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 # Change user accounts for better security
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare vhost name=/realtrans
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare vhost name=/realtransdemo
+for i in `echo "$vhosts"`; do
+  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare vhost name="$i"
+done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=admin password=5P3cial tags=administrator
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=admin configure=.* write=.* read=.*
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/realtrans user=admin configure=.* write=.* read=.*
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/realtransdemo user=admin configure=.* write=.* read=.*
+for i in `echo "$vhosts"`; do
+  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost="$i" user=admin configure=.* write=.* read=.*
+done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=bugsbunny password=wH4t5Up tags=prodcon
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=bugsbunny configure= write=.* read=.*
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/realtrans user=bugsbunny configure= write=.* read=.*
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/realtransdemo user=bugsbunny configure= write=.* read=.*
+for i in `echo "$vhosts"`; do
+  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost="$i" user=bugsbunny configure= write=.* read=.*
+done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest delete user name=guest
 elif [ "$admin_check" -lt "1" ]; then
    echo "Admin accounts working."
@@ -50,13 +53,14 @@ queue_names="rt.core.orders.new rt.core.orders.change rt.core.orders.cancel rt.c
 cd /etc/rabbitmq/
 
 # Loop to add each queue with mirror turned on.
-for i in $queue_names; do
-curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
+# convert character to html ready
+html_vhost=`echo "$vhosts" | sed -e 's/\//%2f/g'`
+for h in `echo "$html_vhosts"`; do
+  for i in $queue_names; do
+     curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
 -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" \
-http://$host:55672/api/queues/%2frealtrans/$i
-curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
--XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" \
-http://$host:55672/api/queues/%2frealtransdemo/$i
+http://$host:55672/api/queues/"$h"/$i
+  done
 
 done
 
