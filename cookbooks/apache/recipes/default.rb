@@ -2,7 +2,7 @@
 # Cookbook Name:: apache
 # Recipe:: default
 #
-# Copyright 2012, YOUR_COMPANY_NAME
+# Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
