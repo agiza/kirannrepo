@@ -64,8 +64,8 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   owner "root"
   mode '0755'
   variables(
-    :clusternodes => clusternodes
-    :queue_names => queues
+    :clusternodes => clusternodes,
+    :queue_names  => queues
   )
   notifies :run, 'execute[queue-config]', :immediately
 end
