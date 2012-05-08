@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "altirepo::aegisco"
+include_recipe "altirepo::10gen"
 
 package "mongo-10gen" do
   action :upgrade
