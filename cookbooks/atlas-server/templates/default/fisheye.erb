@@ -1,0 +1,74 @@
+#/bin/sh
+
+### BEGIN INIT INFO
+# Provides:             fishseye
+# Required-Start:       $remote_fs $syslog
+# Required-Stop:        $remote_fs $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:         
+# Short-Description:    Fisheye server
+### END INIT INFO
+case "`uname`" in
+  Darwin*) if [ -z "$JAVA_HOME" ] ; then
+             JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+           fi
+           ;;
+esac
+
+start(){
+
+PRG="$0"
+FISHEYE_HOME="/opt/atlassian/fisheye/"
+FISHEYE_INST="/var/atlassian/application-data/fisheye/fisheye_inst/"
+
+if [ ! -f "$FISHEYE_HOME/fisheyeboot.jar" ] ; then
+  echo "Error: Could not find $FISHEYE_HOME/fisheyeboot.jar"
+  exit 1
+fi
+
+
+
+exec "$FISHEYE_HOME/bin/fisheyectl.sh" start "$@"
+}
+
+
+stop(){
+
+PRG="$0"
+FISHEYE_HOME="/opt/atlassian/fisheye/"
+FISHEYE_INST="/storage/atlassian/fisheye/fisheye_inst/"
+
+if [ ! -f "$FISHEYE_HOME/fisheyeboot.jar" ] ; then
+  echo "Error: Could not find $FISHEYE_HOME/fisheyeboot.jar"
+  exit 1
+fi
+
+
+exec "$FISHEYE_HOME/bin/fisheyectl.sh" stop "$@"
+}
+
+status(){
+
+        pid_status=`ps -ef | grep java | grep fisheye | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Crucible/Fisheye is running with pid $pid_status."
+        else
+          echo "Crucible/Fisheye is not running."
+        fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status}"; exit 1
+        ;;
+esac
+
