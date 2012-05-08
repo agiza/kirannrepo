@@ -5,17 +5,15 @@
 
 #include_recipe "java"
 app_name = "altitomcat"
-app_version = node[:altitomcat_version]
+
+package "#{app_name}" do
+  action :upgrade
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :enable
-end
-
-yum_package "#{app_name}" do
-  action :upgrade
-  flush_cache [ :before ]
-  notifies :restart, resources(:service => "altitomcat")
+  action :start
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
@@ -23,5 +21,6 @@ template "/opt/tomcat/bin/catalina.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
+  notifies :restart, resources(:service => "altitomcat")
 end
 
