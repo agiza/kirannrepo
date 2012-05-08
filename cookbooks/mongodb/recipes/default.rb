@@ -8,9 +8,12 @@
 #
 include_recipe "altirepo::aegisco"
 
+package "mongo-10gen" do
+  action :upgrade
+end
+
 package "mongo-10gen-server" do
-  version "2.0.4-mongodb_1"
-  action :install
+  action :upgrade
 end
 
 service "mongod" do
