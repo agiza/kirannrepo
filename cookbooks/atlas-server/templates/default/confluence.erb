@@ -5,10 +5,10 @@ cd "/opt/atlassian/confluence/bin"
 
 case "$1" in
     start)
-        su -c '/opt/atlassian/confluence/bin/start-confluence.sh' - confluence 
+        /opt/atlassian/confluence/bin/start-confluence.sh 
         ;;
     stop)
-        su -c '/opt/atlassian/confluence/bin/stop-confluence.sh' - confluence
+        /opt/atlassian/confluence/bin/stop-confluence.sh
         ;;
     restart)
         stop
