@@ -13,18 +13,8 @@ service "altitomcat" do
 end
 
 yum_package "#{app_name}" do
-  version "#{app_version}"
-  action :install
+  action :upgrade
   flush_cache [ :before ]
-  allow_downgrade true
-  notifies :restart, resources(:service => "altitomcat")
-end
-
-execute "yum-reinstall" do
-  command "yum reinstall -y #{app_name}-#{app_version}"
-  creates "/etc/init.d/altitomcat"
-  action :run
-  only_if "test ! -f /etc/init.d/altitomcat"
   notifies :restart, resources(:service => "altitomcat")
 end
 
