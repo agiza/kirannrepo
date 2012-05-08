@@ -2,7 +2,82 @@
 # Cookbook Name:: bamboo-server
 # Recipe:: default
 #
-# Copyright 2012, YOUR_COMPANY_NAME
+# Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
+
+service "bamboo" do
+  supports :stop => true, :start => true, :restart => true, :statue => true
+  action :enable
+  action :start
+end
+
+template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
+  source "bamboo.cfg.xml.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0644"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+template "/opt/atlassian/bamboo/bamboo-mail.cfg.xml" do
+  source "bamboo-mail.cfg.xml.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0644"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+template "/etc/init.d/bamboo" do
+  source "bamboo.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+template "/opt/atlassian/webapp/WEB-INF/classes/bamboo-init.properties" do
+  source "bamboo-init.properties.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0644"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+template "/etc/cron.hourly/data-bak.sh" do
+  source "data-bak.sh.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+template "/opt/atlassian/bamboo/conf/wrapper.conf" do
+  source "wrapper.conf.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0644"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+link "/opt/atlassian/bamboo/artifacts" do
+  source "/mnt/bamboo_data/artifacts"
+end
+
+link "/opt/atlassian/bamboo/rpmbuild" do
+  source "/mnt/bamboo_data/rpmbuild"
+end
+
+link "/opt/atlassian/bamboo/.m2" do
+  source "/mnt/bamboo_data/.m2"
+end
+
+link "/opt/atlassian/bamboo/plugins" do
+  source "/mnt/bamboo_data/plugins"
+end
+
+link "/opt/atlassian/webapps/WEB-INF/lib/hung-build-killer-2.1.jar" do
+  source "/mnt/bamboo_data/plugins/hung-build-killer-2.1.jar"
+end
+
+
