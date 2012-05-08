@@ -12,10 +12,16 @@ execute "yum" do
   action :nothing
 end
 
+realapps = data_bag_item("real_apps", "names")
+
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
   mode "0644"
   notifies :run, resources(:execute => "yum")
+  variables(
+    :app_names => realapps['appnames'],
+    :common_names => realapps['common_names']
+  )
 end
 
 template "/etc/sysconfig/network" do
