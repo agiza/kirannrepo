@@ -100,6 +100,9 @@ for i in `echo "$vhosts"`; do
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realservicing.order.response routing_key=realservicing.order.response.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=realresolution.order.create routing_key=realresolution.order.create.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realresolution.order.response routing_key=realresolution.order.response.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.insert routing_key=realsearch.data.insert.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.update routing_key=realsearch.data.update.#
+/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.delete routing_key=realsearch.data.delete.#
 
 done
 
