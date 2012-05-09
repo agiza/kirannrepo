@@ -25,6 +25,11 @@ service "fisheye" do
   action :start
 end
 
+service "apache2" do
+  supports :start => true, :stop => true, :restart => true, :status => true, :reload => true
+  action :enable
+end
+
 template "/opt/atlassian/confluence/confluence/WEB-INF/classes/confluence-init.properties" do
   source "confluence-init.properties.erb"
   owner "root"
@@ -125,6 +130,7 @@ template "/etc/apache2/sites-available/conf-mod_proxy" do
   owner "root"
   group "root"
   mode  "0644"
+  notifies :reload, resources(:service => "apache2")
 end
 
 link "/etc/apache2/sites-enabled/conf-mod_proxy" do
@@ -138,6 +144,7 @@ template "/etc/apache2/sites-available/jira-mod_proxy" do
   owner "root"
   group "root"
   mode  "0644"
+  notifies :reload, resources(:service => "apache2")
 end
 
 link "/etc/apache2/sites-enabled/jira-mod_proxy" do
@@ -151,6 +158,7 @@ template "/etc/apache2/sites-available/fisheye-mod_proxy" do
   owner "root"
   group "root"
   mode  "0644"
+  notifies :reload, resources(:service => "apache2")
 end
 
 link "/etc/apache2/sites-enabled/fisheye-mod_proxy" do
@@ -164,6 +172,7 @@ template "/etc/apache2/sites-available/bamboo-mod_proxy" do
   owner  "root"
   group  "root"
   mode   "0644"
+  notifies :reload, resources(:service => "apache2")
 end
 
 link "/etc/apache2/sites-enabled/bamboo-mod_proxy" do
@@ -177,6 +186,7 @@ template "/etc/apache2/sites-available/nexus-mod_proxy" do
   owner  "root"
   group  "root"
   mode   "0644"
+  notifies :reload, resources(:service => "apache2")
 end
 
 link "/etc/apache2/sites-enabled/nexus-mod_proxy" do
@@ -190,4 +200,18 @@ template "/opt/atlassian/cli/atlassian.sh" do
   owner  "root"
   group  "root"
   mode   "0644"
+end
+
+template "/etc/apache2/sites-available/vpn-mod_proxy" do
+  source "vpn-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "apache2")
+end
+
+link "/etc/apache2/sites-enabled/vpn-mod_proxy" do
+  to "../sites-available/vpn-mod_proxy"
+  owner "root"
+  group "root"
 end

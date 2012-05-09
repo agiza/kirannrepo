@@ -1,0 +1,16 @@
+<Proxy *>
+Order allow,deny
+</Proxy>
+
+ProxyRequests           Off
+ProxyPreserveHost       On
+
+<Location /openvpn/>
+ProxyPass         http://nexus:81/openvpn/
+ProxyPassReverse  http://nexus:81/openvpn/
+#Allow from 65.214.21.101
+Allow from 10.
+Allow from 127.0.0.0/255.0.0.0 ::1/128
+Deny from all
+</Location>
+
