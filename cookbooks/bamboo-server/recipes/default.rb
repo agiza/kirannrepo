@@ -61,23 +61,33 @@ template "/opt/atlassian/bamboo/conf/wrapper.conf" do
 end
 
 link "/opt/atlassian/bamboo/artifacts" do
-  source "/mnt/bamboo_data/artifacts"
+  to "/mnt/bamboo_data/artifacts"
+  owner "bamboo"
+  group "bamboo"
 end
 
 link "/opt/atlassian/bamboo/rpmbuild" do
-  source "/mnt/bamboo_data/rpmbuild"
+  to "/mnt/bamboo_data/rpmbuild"
+  owner "bamboo"
+  group "bamboo"
 end
 
 link "/opt/atlassian/bamboo/.m2" do
-  source "/mnt/bamboo_data/.m2"
+  to "/mnt/bamboo_data/.m2"
+  owner "bamboo"
+  group "bamboo"
 end
 
 link "/opt/atlassian/bamboo/plugins" do
-  source "/mnt/bamboo_data/plugins"
+  to "/mnt/bamboo_data/plugins"
+  owner "bamboo"
+  group "bamboo"
 end
 
 link "/opt/atlassian/webapps/WEB-INF/lib/hung-build-killer-2.1.jar" do
-  source "/mnt/bamboo_data/plugins/hung-build-killer-2.1.jar"
+  to "/mnt/bamboo_data/plugins/hung-build-killer-2.1.jar"
+  owner "bamboo"
+  group "bamboo"
 end
 
 
