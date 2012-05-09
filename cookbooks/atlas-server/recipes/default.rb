@@ -185,3 +185,9 @@ link "/etc/apache2/sites-enabled/nexus-mod_proxy" do
   group "root"
 end
 
+template "/opt/atlassian/cli/atlassian.sh" do
+  source "atlassian.sh.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end

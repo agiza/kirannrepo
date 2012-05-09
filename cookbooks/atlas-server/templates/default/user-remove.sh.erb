@@ -3,6 +3,7 @@
 cd /opt/atlassian/cli
 
 userid=$1
+email="bryan.phinney@gmail.com"
 
 ./atlassian.sh jira --action updateUser --userId "$userid" --userPassword "In4cT1v3!"
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "bamboo-user" 
