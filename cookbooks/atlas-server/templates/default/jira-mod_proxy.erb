@@ -1,0 +1,11 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /jira   http://atlas:8080/jira
+ProxyPassReverse                                /jira   http://atlas:8080/jira
+
+

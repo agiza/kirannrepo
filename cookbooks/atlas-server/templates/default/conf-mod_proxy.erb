@@ -1,0 +1,9 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /confluence     http://atlas:8090/confluence
+ProxyPassReverse                                /confluence     http://atlas:8090/confluence

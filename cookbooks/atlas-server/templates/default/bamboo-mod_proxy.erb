@@ -1,0 +1,11 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /bamboo http://bamboo:8085/bamboo
+ProxyPassReverse                                /bamboo http://bamboo:8085/bamboo
+
+

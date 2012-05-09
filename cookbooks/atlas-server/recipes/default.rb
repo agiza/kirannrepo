@@ -120,4 +120,54 @@ template "/etc/cron.daily/fisheye" do
   mode "0755"
 end
 
+template "/etc/apache2/sites-available/conf-mod_proxy" do
+  source "conf-mod_proxy.erb"
+  owner "root"
+  group "root"
+  mode  "0644"
+end
 
+link "/etc/apache2/sites-enabled/conf-mod_proxy" do
+  to "../sites-available/conf-mod_proxy"
+  owner "root"
+  group "root"
+end
+
+template "/etc/apache2/sites-available/jira-mod_proxy" do
+  source "jira-mod_proxy.erb"
+  owner "root"
+  group "root"
+  mode  "0644"
+end
+
+link "/etc/apache2/sites-enabled/jira-mod_proxy" do
+  to "../sites-available/jira-mod_proxy"
+  owner "root"
+  group "root"
+end
+
+template "/etc/apache2/sites-available/fisheye-mod_proxy" do
+  source "fisheye-mod_proxy.erb"
+  owner "root"
+  group "root"
+  mode  "0644"
+end
+
+link "/etc/apache2/sites-enabled/fisheye-mod_proxy" do
+  to "../sites-available/fisheye-mod_proxy"
+  owner "root"
+  group "root"
+end
+
+template "/etc/apache2/sites-available/bamboo-mod_proxy" do
+  source "bamboo-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+link "/etc/apache2/sites-enabled/bamboo-mod_proxy" do
+  to "../sites-available/bamboo-mod_proxy"
+  owner "root"
+  group "root"
+end
