@@ -171,3 +171,17 @@ link "/etc/apache2/sites-enabled/bamboo-mod_proxy" do
   owner "root"
   group "root"
 end
+
+template "/etc/apache2/sites-available/nexus-mod_proxy" do
+  source "nexus-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+link "/etc/apache2/sites-enabled/nexus-mod_proxy" do
+  to "../sites-available/nexus-mod_proxy"
+  owner "root"
+  group "root"
+end
+
