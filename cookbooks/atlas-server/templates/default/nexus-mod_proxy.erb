@@ -1,0 +1,11 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /nexus  http://10.0.0.72:8081/nexus
+ProxyPassReverse                                /nexus  http://10.0.0.72:8081/nexus
+
+
