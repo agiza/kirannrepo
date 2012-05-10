@@ -16,14 +16,14 @@ service "elasticsearch" do
   action :start
 end
 
-template "/etc/elastisearch/elastisearch.yml" do
-  source "elastisearch.yml.erb"
+template "/etc/elasticsearch/elasticsearch.yml" do
+  source "elasticsearch.yml.erb"
   owner  "root"
   group  "root"
-  notifies :restart, resources(:service => "elastisearch")
+  notifies :restart, resources(:service => "elasticsearch")
 end
 
-template "/etc/sysconfig/sysconfig-elastisearch" do
+template "/etc/sysconfig/sysconfig-elasticsearch" do
   source "sysconfig-elasticsearch.erb"
   owner  "root"
   group  "root"
