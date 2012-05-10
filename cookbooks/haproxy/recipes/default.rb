@@ -27,6 +27,7 @@ template "/etc/haproxy/haproxy.cfg" do
   group "haproxy"
   owner "haproxy"
   mode "0644"
+  variables(:clusternodes => clusternodes)
   notifies :restart, resources(:service => "haproxy")
 end
 
