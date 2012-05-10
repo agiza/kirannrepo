@@ -9,7 +9,6 @@
 app_name = "haproxy"
 
 package "haproxy" do
-  action :install
   action :upgrade
 end
 
