@@ -23,7 +23,9 @@ rabbitservers = rabbitservers.collect { |rabbitserver| "#{rabbitserver}" }.join(
 rabbitservers = rabbitservers.gsub!("node\[", "")
 rabbitservers = rabbitservers.gsub!("\]", "")
 rabbitservers = rabbitservers.gsub!(".altidev.com", "")
-clusternodes = rabbitservers
+rabbitservers.each do |rabbitserver|
+  clusternodes.push(rabbitserver)
+end
 
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
