@@ -13,9 +13,8 @@ service "haproxy" do
   action :enable
 end
 
-yum_package "haproxy" do
+package "haproxy" do
   action :upgrade
-  notifies :restart, resources(:service => "haproxy")
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
