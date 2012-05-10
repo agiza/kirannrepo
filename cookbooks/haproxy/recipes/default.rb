@@ -8,14 +8,14 @@
 #
 app_name = "haproxy"
 
-service "haproxy" do
-  supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
-end
-
 package "haproxy" do
   action :install
   action :upgrade
+end
+
+service "haproxy" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :enable
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
