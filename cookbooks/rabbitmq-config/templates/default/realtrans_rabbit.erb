@@ -5,6 +5,7 @@ if [ "$?" -gt "0" ]; then
 fi
 
 vhosts="<%= node[:amqp_vhosts] %>"
+html_vhost=`echo "$vhosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
@@ -54,13 +55,9 @@ queue_names="<%= @queue_names %>"
 cd /etc/rabbitmq/
 
 # Loop to add each queue with mirror turned on.
-# convert character to html ready
-html_vhost=`echo "$vhosts" | sed -e 's/\///g'`
-for h in `echo "$html_vhosts"`; do
-  for i in $queue_names; do
-     curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
--XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" \
-http://$host:55672/api/queues/'%2f'"$h"/$i
+for vhost in `echo "$html_vhosts"`; do
+  for queue in `echo "$queue_names"`; do
+   curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" 'http://'$host':55672/api/queues/%2f'$vhost/$queue
   done
 
 done
