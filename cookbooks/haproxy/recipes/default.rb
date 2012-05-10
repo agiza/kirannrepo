@@ -19,10 +19,11 @@ end
 
 clusternodes = []
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
-clusternodes = rabbitservers.collect { |rabbitserver| "rabbitserver" }.join(" ")
-clusternodes = clusternodes.gsub!("node\[", "")
-clusternodes = clusternodes.gsub!("\]", "")
-clusternodes = clusternodes.gsub!(".altidev.com", "")
+rabbitservers = rabbitservers.collect { |rabbitserver| "rabbitserver" }.join(" ")
+rabbitservers = rabbitservers.gsub!("node\[", "")
+rabbitservers = rabbitservers.gsub!("\]", "")
+rabbitservers = rabbitservers.gsub!(".altidev.com", "")
+clusternodes => rabbitservers
 
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
