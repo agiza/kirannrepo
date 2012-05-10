@@ -10,6 +10,20 @@ package "elasticsearch" do
   action :upgrade
 end
 
+directory "/opt/elasticsearch/logs" do
+  owner  "elasticsearch"
+  group  "elasticsearch"
+  mode   "0644"
+  action :create
+end
+
+directory "/opt/elasticsearch/data" do
+  owner  "elasticsearch"
+  group  "elasticsearch"
+  mode   "0644"
+  action :create
+end
+
 service "elasticsearch" do
   supports :start => true, :stop => true, :restart => true, :reload => true
   action :enable
