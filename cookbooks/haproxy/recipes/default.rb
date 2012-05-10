@@ -19,7 +19,7 @@ end
 
 clusternodes = []
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
-rabbitservers = rabbitservers.collect { |rabbitserver| "rabbitserver" }.join(" ")
+rabbitservers = rabbitservers.collect { |rabbitserver| "#{rabbitserver}" }.join(" ")
 rabbitservers = rabbitservers.gsub!("node\[", "")
 rabbitservers = rabbitservers.gsub!("\]", "")
 rabbitservers = rabbitservers.gsub!(".altidev.com", "")
