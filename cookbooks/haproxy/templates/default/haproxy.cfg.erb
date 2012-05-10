@@ -66,6 +66,6 @@ listen rabbitmq 0.0.0.0:<%= node[:amqp_port] %>
 	balance roundrobin
 	option  tcpka
 <% @clusternodes.each do |clusternode| -%>
-	server  <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500    
+	server  <%= #{clusternode} %> <%= #{clusternode} %>:5672 check inter 5000 downinter 500    
 <% end -%>
 
