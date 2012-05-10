@@ -15,9 +15,6 @@ end
 
 package "haproxy" do
   action :install
-end
-
-package "haproxy" do
   action :upgrade
 end
 
