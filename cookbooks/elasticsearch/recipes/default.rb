@@ -18,8 +18,8 @@ end
 
 template "/etc/elasticsearch/elasticsearch.yml" do
   source "elasticsearch.yml.erb"
-  owner  "root"
-  group  "root"
+  owner  "elasticsearch"
+  group  "elasticsearch"
   notifies :restart, resources(:service => "elasticsearch")
 end
 
