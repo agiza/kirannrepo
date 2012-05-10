@@ -55,12 +55,12 @@ cd /etc/rabbitmq/
 
 # Loop to add each queue with mirror turned on.
 # convert character to html ready
-html_vhost=`echo "$vhosts" | sed -e 's/\//%2f/g'`
+html_vhost=`echo "$vhosts" | sed -e 's/\///g'`
 for h in `echo "$html_vhosts"`; do
   for i in $queue_names; do
      curl -i -u $admin_user:$admin_pass -H "content-type:application/json" \
 -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" \
-http://$host:55672/api/queues/"$h"/$i
+http://$host:55672/api/queues/'%2f'"$h"/$i
   done
 
 done
