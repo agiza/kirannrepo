@@ -14,7 +14,7 @@ service "haproxy" do
 end
 
 yum_package "haproxy" do
-  action :update
+  action :upgrade
   notifies :restart, resources(:service => "haproxy")
 end
 
