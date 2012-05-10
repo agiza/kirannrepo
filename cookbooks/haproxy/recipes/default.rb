@@ -17,15 +17,11 @@ service "haproxy" do
   action :enable
 end
 
-clusternodes = []
-rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
-rabbitservers = rabbitservers.collect { |rabbitserver| "#{rabbitserver}" }.join(" ")
-rabbitservers = rabbitservers.gsub!("node\[", "")
-rabbitservers = rabbitservers.gsub!("\]", "")
-rabbitservers = rabbitservers.gsub!(".altidev.com", "")
-rabbitservers.each do |rabbitserver|
-  clusternodes.push(rabbitserver)
+clusternodes = {}
+search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+  clusternodes[n.hostname] = {}
 end
+
 
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
