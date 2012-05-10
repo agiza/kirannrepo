@@ -5,7 +5,7 @@ if [ "$?" -gt "0" ]; then
 fi
 
 vhosts="<%= node[:amqp_vhosts] %>"
-html_vhost=`echo "$vhosts" | sed -e 's/\///g'`
+html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
