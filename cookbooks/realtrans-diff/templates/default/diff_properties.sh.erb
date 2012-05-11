@@ -2,7 +2,8 @@
 apps="realtrans-central realtrans-rp realtrans-fp int-corelogic int-datavision int-etrac int-interthinx int-rs int-rres"
 for i in `echo "$apps"`; do
 	cd /home/ubuntu/work
-	diff -i /opt/tomcat/conf/$i.properties /home/ubuntu/config/$i.config > /home/ubuntu/work/$i.diff
+	sudo diff -i /opt/tomcat/conf/$i.properties /home/ubuntu/config/$i.config > /home/ubuntu/work/$i.diff
+	sudo chown -R ubuntu.ubuntu /home/ubuntu
 done
 
 
