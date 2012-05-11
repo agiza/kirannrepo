@@ -1,5 +1,5 @@
-#wq
-# Cookbook Name:: realtrans-config
+#
+# Cookbook Name:: realtrans-diff
 # Recipe:: default
 #
 # Copyright 2012, Altisource
@@ -43,7 +43,7 @@ template "/home/ubuntu/config/realtrans-fp.config" do
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-corelogic.config"
+template "/home/ubuntu/config/int-corelogic.config" do
   source "int-corelogic.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -51,7 +51,7 @@ template "/home/ubuntu/config/int-corelogic.config"
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-datavision.config"
+template "/home/ubuntu/config/int-datavision.config" do
   source "int-datavision.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -59,7 +59,7 @@ template "/home/ubuntu/config/int-datavision.config"
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-etrac.config"
+template "/home/ubuntu/config/int-etrac.config" do
   source "int-etrac.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -67,7 +67,7 @@ template "/home/ubuntu/config/int-etrac.config"
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-interthinx.config"
+template "/home/ubuntu/config/int-interthinx.config" do
   source "int-interthinx.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -75,7 +75,7 @@ template "/home/ubuntu/config/int-interthinx.config"
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-rs.config"
+template "/home/ubuntu/config/int-rs.config" do
   source "int-rs.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -83,7 +83,7 @@ template "/home/ubuntu/config/int-rs.config"
   notifies :run, resources(:command => "diff")
 end
 
-template "/home/ubuntu/config/int-rres.config"
+template "/home/ubuntu/config/int-rres.config" do
   source "int-rres.properties.erb"
   owner  "tomcat"
   group  "tomcat"
