@@ -57,7 +57,7 @@ template "/opt/tomcat/conf/int-etrac.properties" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:command => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 template "/opt/tomcat/conf/int-interthinx.properties" do
@@ -65,7 +65,7 @@ template "/opt/tomcat/conf/int-interthinx.properties" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:command => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 template "/opt/tomcat/conf/int-rs.properties" do
@@ -73,7 +73,7 @@ template "/opt/tomcat/conf/int-rs.properties" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:command => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 template "/opt/tomcat/conf/int-rres.properties" do
@@ -81,5 +81,5 @@ template "/opt/tomcat/conf/int-rres.properties" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:command => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat")
 end
