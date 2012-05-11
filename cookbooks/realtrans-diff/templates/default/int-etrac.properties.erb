@@ -1,31 +1,33 @@
 rt.int.amqp.queue.inbound=etrac.orders.new
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
+rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rt.int.amqp.host=<%= node[:amqp_host] %>
 rt.int.amqp.port=<%= node[:amqp_port] %>
 rt.int.amqp.username=<%= node[:rt_amqp_user] %>
 rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
-rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
-
 rt.int.etrac.ws.orders.uri=http://staging.oasissoftware.biz/GDMSWS/Orders.svc/other
 rt.int.etrac.ws.fileupload.uri=http://staging.oasissoftware.biz/GDMSWS/FileUpload.svc
 
 rt.int.registry.fileLocation=${catalina.base}/Registry/etracRegistry.json
 
-rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel
-rt.int.monitoring.vendorOutboundChannel=newOrderRequestHttpChannel
-rt.int.monitoring.vendorInboundChannel=newOrderAckChannel,incomingOrderResponseChannel
+rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,updateOrderRequestChannel
+#rt.int.monitoring.vendorOutboundChannel=staffOrderOutgoingChannel,submitReportSplittedOutgoingChannel,updateStaffOrderOutgoingChannel,orderInfoRequestChannel,checkForNewDocsChannel,checkForStatusChangeChannel,retrieveEtracDocumentRequestChannel
+rt.int.monitoring.vendorOutboundChannel=staffOrderOutgoingChannel,submitReportSplittedOutgoingChannel,updateStaffOrderOutgoingChannel
+#rt.int.monitoring.vendorInboundChannel=staffOrderReplyChannel,submitReportReplyChannel,newDocsResponseChannel,statusChangeResponseChannel,retreiveEtacDocumentResponseChannel
+rt.int.monitoring.vendorInboundChannel=staffOrderReplyChannel,submitReportReplyChannel
 rt.int.monitoring.realtransOutboundChannel=realtransOrderResponseChannel
-#
+
+
 rt.int.monitoring.realtrans.inbound.source=Trans-Central
-rt.int.monitoring.realtrans.inbound.target=Int-DataVision
-#
-rt.int.monitoring.vendor.outbound.source=Int-DataVision
-rt.int.monitoring.vendor.outbound.target=DataVision
-#
-rt.int.monitoring.vendor.inbound.source=DataVision
-rt.int.monitoring.vendor.inbound.target=Int-DataVision
-#
-rt.int.monitoring.realtrans.outbound.source=Int-DataVision
+rt.int.monitoring.realtrans.inbound.target=Int-Etrac
+
+rt.int.monitoring.vendor.outbound.source=Int-Etrac
+rt.int.monitoring.vendor.outbound.target=Etrac
+
+rt.int.monitoring.vendor.inbound.source=Etrac
+rt.int.monitoring.vendor.inbound.target=Int-Etrac
+
+rt.int.monitoring.realtrans.outbound.source=Int-Etrac
 rt.int.monitoring.realtrans.outbound.target=Trans-Central
 
 rt.int.monitoring.taskExecutor.poolSize=10
