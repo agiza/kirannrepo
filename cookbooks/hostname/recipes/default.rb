@@ -9,17 +9,22 @@
 
 host_name=node[:name]
 execute "hostname" do
-  command "sudo hostname #{host_name} "
+  case node[:platform]
+  when "centos", "redhat", "fedora", "suse"
+    command "hostname #{host_name} "
+  when "debian", "ubuntu"
+    command "sudo hostname #{host_name} "
+  end
   action :run
 end
 
 execute "chkconfig" do
-  command "chkconfig --add host_command; chkconfig host_command on"
-  action :nothing
-end
-
-execute "update-rc" do
-  command "sudo update-rc.d host_command defaults; sudo update-rc.d host_command enable"
+  case node[:platform]
+  when "centos", "redhat", "fedora", "suse"
+    command "chkconfig --add host_command; chkconfig host_command on"
+  when "debian", "ubuntu"
+    command "update-rc.d host_command defaults; update-rc.d host_command enable"
+  end
   action :nothing
 end
 
@@ -28,11 +33,6 @@ template "/etc/init.d/host_command" do
   mode "0755"
   owner "root"
   group "root"
-  case node[:platform]
-  when "redhat", "centos", "fedora"
-    notifies :run, resources(:execute => "chkconfig")
-  when "ubuntu"
-    notifies :run, resources(:execute => "update-rc")
-  end 
+  notifies :run, resources(:execute => "chkconfig")
 end
 
