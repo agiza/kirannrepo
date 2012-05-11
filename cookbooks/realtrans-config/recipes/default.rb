@@ -36,7 +36,7 @@ template "/opt/tomcat/conf/realtrans-fp.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/int-corelogic.properties"
+template "/opt/tomcat/conf/int-corelogic.properties" do
   source "int-corelogic.properties.erb"
   owner  "tomcat"
   group  "tomcat"
@@ -76,7 +76,7 @@ template "/opt/tomcat/conf/int-rs.properties" do
   notifies :restart, resources(:command => "altitomcat")
 end
 
-template "/opt/tomcat/conf/int-rres.properties"
+template "/opt/tomcat/conf/int-rres.properties" do
   source "int-rres.properties.erb"
   owner  "tomcat"
   group  "tomcat"
