@@ -1,0 +1,8 @@
+#!/bin/bash
+apps="realtrans-central realtrans-rp realtrans-fp int-corelogic int-datavision int-etrac int-interthinx int-rs int-rres"
+for i in `echo "$apps"`; do
+	cd /home/ubuntu/work
+	diff /opt/tomcat/conf/$i.properties /home/ubuntu/config/$i.config > /home/ubuntu/work/$i.diff
+done
+
+
