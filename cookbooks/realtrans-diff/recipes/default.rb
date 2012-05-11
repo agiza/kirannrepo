@@ -7,16 +7,16 @@
 # All rights reserved - Do Not Redistribute
 #
 
-exec "diff" do
-  command "/home/ubuntu/bin/diff_properties.sh"
-  action :nothing
-end
-
 template "/home/ubuntu/bin/diff_properties.sh" do
   source "diff_properties.sh.erb"
   owner  "ubuntu"
   group  "ubuntu"
   mode   "0755"
+end
+
+exec "diff" do
+  command "/home/ubuntu/bin/diff_properties.sh"
+  action :nothing
 end
 
 template "/home/ubuntu/config/realtrans-central.config" do
