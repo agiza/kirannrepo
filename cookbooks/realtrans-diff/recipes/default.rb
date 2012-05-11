@@ -14,7 +14,7 @@ template "/home/ubuntu/bin/diff_properties.sh" do
   mode   "0755"
 end
 
-exec "diff" do
+execute "diff" do
   command "/home/ubuntu/bin/diff_properties.sh"
   action :nothing
 end
@@ -24,7 +24,7 @@ template "/home/ubuntu/config/realtrans-central.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/realtrans-rp.config" do
@@ -32,7 +32,7 @@ template "/home/ubuntu/config/realtrans-rp.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/realtrans-fp.config" do
@@ -40,7 +40,7 @@ template "/home/ubuntu/config/realtrans-fp.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-corelogic.config" do
@@ -48,7 +48,7 @@ template "/home/ubuntu/config/int-corelogic.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-datavision.config" do
@@ -56,7 +56,7 @@ template "/home/ubuntu/config/int-datavision.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-etrac.config" do
@@ -64,7 +64,7 @@ template "/home/ubuntu/config/int-etrac.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-interthinx.config" do
@@ -72,7 +72,7 @@ template "/home/ubuntu/config/int-interthinx.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-rs.config" do
@@ -80,7 +80,7 @@ template "/home/ubuntu/config/int-rs.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
 
 template "/home/ubuntu/config/int-rres.config" do
@@ -88,5 +88,5 @@ template "/home/ubuntu/config/int-rres.config" do
   owner  "tomcat"
   group  "tomcat"
   mode   "0644"
-  notifies :run, resources(:command => "diff")
+  notifies :run, resources(:execute => "diff")
 end
