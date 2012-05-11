@@ -8,7 +8,8 @@ rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.int.etrac.ws.orders.uri=http://staging.oasissoftware.biz/GDMSWS/Orders.svc/other
 rt.int.etrac.ws.fileupload.uri=http://staging.oasissoftware.biz/GDMSWS/FileUpload.svc
 
-rt.int.registry.fileLocation=${catalina.base}/Registry/etracRegistry.json
+rt.int.registry.fileLocation=${catalina.base}/EtracRegistry/etracRegistry.json
+
 
 rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,updateOrderRequestChannel
 #rt.int.monitoring.vendorOutboundChannel=staffOrderOutgoingChannel,submitReportSplittedOutgoingChannel,updateStaffOrderOutgoingChannel,orderInfoRequestChannel,checkForNewDocsChannel,checkForStatusChangeChannel,retrieveEtracDocumentRequestChannel
