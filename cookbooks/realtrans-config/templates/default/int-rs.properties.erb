@@ -11,8 +11,8 @@ rt.int.amqp.rt.core.deadmessage=rt.core.deadmessage
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
 rt.int.amqp.exchange.monitoring=rt.monitoring
 
-rt.int.realservicing.createOrdersRequestUrl=<%= realServicingRequestURL %>
-rt.int.realservicing.createOrdersResponseUrl=<%= realServicingResponseURL %>
+rt.int.realservicing.createOrdersRequestUrl=<%= node[:realServicingRequestURL] %>
+rt.int.realservicing.createOrdersResponseUrl=<%= node[:realServicingResponseURL] %>
 
 rt.int.monitoring.vendorOutboundChannel=createOrderRequestHttpChannel,createOrderResponseHttpChannel
 rt.int.monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
@@ -33,8 +33,8 @@ rt.int.monitoring.realtrans.outbound.target=Int-RealServicing
 
 rt.int.monitoring.taskExecutor.poolSize=10
 
-rt.int.rs.username=<%= rsUsername %>
-rt.int.rs.password=<%= rsPassword %>
+rt.int.rs.username=<%= node[:rsUsername] %>
+rt.int.rs.password=<%= node[:rsPassword] %>
 
 rt.int.poller.retry=4
 rt.int.poller.poolSize=10
