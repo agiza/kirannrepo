@@ -22,16 +22,16 @@ auditdb.removeAbandonedTimeout=600
 auditdb.timeBetweenEvictionRunsMillis=<%= node[:audit_timeevict] %>
 auditdb.validationQuery=SELECT 1
 auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
-amqp.exchange.monitoring=rt.monitoring
-amqp.exchange.error=rt.core.deadmessage
-amqp.exchange.outbound=rt.core.outgoing
-amqp.queue.internal.inbound=rt.core.interapp.messages
-amqp.queue.orders.response=rt.core.orders.response
-amqp.host=<%= node[:amqp_host] %>
-amqp.port=<%= node[:amqp_port] %>
-amqp.username=<%= node[:rt_amqp_user] %>
-amqp.password=<%= node[:rt_amqp_pass] %>
-amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.amqp.exchange.monitoring=rt.monitoring
+rt.amqp.exchange.error=rt.core.deadmessage
+rt.amqp.exchange.outbound=rt.core.outgoing
+rt.amqp.queue.internal.inbound=rt.core.interapp.messages
+rt.amqp.queue.orders.response=rt.core.orders.response
+rt.amqp.host=<%= node[:amqp_host] %>
+rt.amqp.port=<%= node[:amqp_port] %>
+rt.amqp.username=<%= node[:rt_amqp_user] %>
+rt.amqp.password=<%= node[:rt_amqp_pass] %>
+rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 ldap.port=<%= node[:ldap_port] %>
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 
@@ -50,7 +50,7 @@ mail.from=realtrans@altidev.com
 mail.recipients=realtrans@myprivcy.org
 mail.replyTo=do_not_reply@altidev.com
 
-daysToCloseOrders=90
+rt.daysToCloseOrders=90
 
 melissadata.address.webhost=addresscheck.melissadata.net
 melissadata.phone.webhost=phonecheck.melissadata.net
