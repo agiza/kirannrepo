@@ -13,6 +13,15 @@ db.removeAbandonedTimeout=600
 db.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
 db.validationQuery=SELECT 1
 db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
+auditdb.initialSize=<%= node[:audit_initsize] %>
+auditdb.maxActive=<%= node[:audit_maxactive] %>
+auditdb.maxIdle=<%= node[:audit_maxidle] %>
+auditdb.maxWait=<%= node[:audit_maxwait] %>
+auditdb.removeAbandoned=true
+auditdb.removeAbandonedTimeout=600
+auditdb.timeBetweenEvictionRunsMillis=<%= node[:audit_timeevict] %>
+auditdb.validationQuery=SELECT 1
+auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
 amqp.exchange.monitoring=rt.monitoring
 amqp.exchange.outgoing=rt.core.internal
 amqp.host=<%= node[:amqp_host] %>
@@ -22,12 +31,11 @@ amqp.password=<%= node[:rt_amqp_pass] %>
 amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 ldap.port=<%= node[:ldap_port] %>
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-documentService.baseDirectoryPath=/opt/tomcat/storage/docs
-
-tenantCode=<%= node[:tenantid] %>
 
 db.showSql=false
 db.generateDdl=false
+documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+tenantCode=<%= node[:tenantid] %>
 
 multipartResolver.maxUploadSize=100000
 
@@ -36,4 +44,3 @@ melissadata.phone.webhost=phonecheck.melissadata.net
 melissadata.email.webhost=email.melissadata.net
 melissadata.customerId=102942719
 melissadata.defaultMaxConnectionsPerHost=1
-

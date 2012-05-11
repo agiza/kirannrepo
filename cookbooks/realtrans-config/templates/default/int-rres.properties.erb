@@ -1,45 +1,26 @@
+rt.int.rres.ftp.host=<%= node[:rres_ftp_user] %>
+rt.int.rres.ftp.port=<%= node[:rres_ftp_port] %>
+rt.int.rres.ftp.user=<%= node[:rres_ftp_host] %>
+rt.int.rres.ftp.pwd=<%= node[:rres_ftp_pass] %>
+rt.int.rres.filename.pattern=*.xml
+rt.int.rres.remote.directory=/In
+rt.int.rres.local.directory=/opt/tomcat/temp
+rt.int.rres.ftp.poller.delay=120000
+
+
+rt.int.rres.remote.archive.directory=/Archive
+rt.int.rres.remote.error.directory=/Error
+
+rt.int.monitoring.taskExecutor.poolSize=10
+
+rt.int.schema.path=/ava/schemas/
+rt.int.json.schema=realServicing.json
+rt.int.header.schema=realServicingHeader.json
+
+
 rt.int.amqp.host=<%= node[:amqp_host] %>
 rt.int.amqp.port=<%= node[:amqp_port] %>
 rt.int.amqp.username=<%= node[:rt_amqp_user] %>
 rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
-
-rt.int.amqp.realservicing.order.create=realservicing.order.create
-rt.int.amqp.realservicing.order.response=realservicing.order.response
-rt.int.amqp.core.deadmessage=rt.core.deadmessage
-
-rt.int.amqp.exchange.messages.inbound=rt.core.incoming
-rt.int.amqp.exchange.monitoring=rt.monitoring
-
-rt.int.realservicing.createOrdersRequestUrl=<%= node[:realServicingRequestURL] %>
-rt.int.realservicing.createOrdersResponseUrl=<%= node[:realServicingResponseURL] %>
-
-rt.int.monitoring.vendorOutboundChannel=createOrderRequestHttpChannel,createOrderResponseHttpChannel
-rt.int.monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
-rt.int.monitoring.realtransOutboundChannel=amqpResponseChannel
-rt.int.monitoring.vendorInboundChannel=
-
-rt.int.monitoring.realtrans.inbound.source=Trans-Central
-rt.int.monitoring.realtrans.inbound.target=Int-RealServicing
-
-rt.int.monitoring.vendor.outbound.source=Int-RealServicing
-rt.int.monitoring.vendor.outbound.target=RealServicing
-
-rt.int.monitoring.vendor.inbound.source=
-rt.int.monitoring.vendor.inbound.target=
-
-rt.int.monitoring.realtrans.outbound.source=Trans-Central
-rt.int.monitoring.realtrans.outbound.target=Int-RealServicing
-
-rt.int.monitoring.taskExecutor.poolSize=10
-
-rt.int.rs.username=<%= node[:rsUsername] %>
-rt.int.rs.password=<%= node[:rsPassword] %>
-
-rt.int.poller.retry=4
-rt.int.poller.poolSize=10
-
-rt.int.schema.path=/ava/schemas/
-rt.int.json.schema=realServicing.json
-rt.int.header.schema=realServicingHeader.json
 
