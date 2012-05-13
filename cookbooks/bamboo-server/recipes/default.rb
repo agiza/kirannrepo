@@ -37,7 +37,7 @@ template "/etc/init.d/bamboo" do
   notifies :restart, resources(:service => "bamboo")
 end
 
-template "/opt/atlassian/webapp/WEB-INF/classes/bamboo-init.properties" do
+template "/opt/atlassian/bamboo/webapp/WEB-INF/classes/bamboo-init.properties" do
   source "bamboo-init.properties.erb"
   owner  "bamboo"
   group  "bamboo"
