@@ -84,7 +84,7 @@ link "/opt/atlassian/bamboo/plugins" do
   group "bamboo"
 end
 
-link "/opt/atlassian/bamboo/webapps/WEB-INF/lib/hung-build-killer-2.1.jar" do
+link "/opt/atlassian/bamboo/webapp/WEB-INF/lib/hung-build-killer-2.1.jar" do
   to "/mnt/bamboo_data/plugins/hung-build-killer-2.1.jar"
   owner "bamboo"
   group "bamboo"
