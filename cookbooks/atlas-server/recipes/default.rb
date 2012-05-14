@@ -199,7 +199,7 @@ template "/opt/atlassian/cli/atlassian.sh" do
   source "atlassian.sh.erb"
   owner  "root"
   group  "root"
-  mode   "0644"
+  mode   "0755"
 end
 
 template "/etc/apache2/sites-available/vpn-mod_proxy" do
