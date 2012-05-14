@@ -24,7 +24,7 @@
     <property name="hibernate.connection.username">bamboo</property>
     <property name="hibernate.dialect">com.atlassian.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.setup">true</property>
-    <property name="license.string"><%= node[:bambooLicense_key] %></property>
+    <property name="license.string"><%= #{bambooLicense_key} %></property>
     <property name="lucene.index.dir">${bambooHome}/index</property>
     <property name="serverId">BGWA-KS50-U4J2-I2BS</property>
     <property name="webwork.multipart.saveDir">${bambooHome}/temp</property>
