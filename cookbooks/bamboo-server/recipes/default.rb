@@ -19,7 +19,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
-  variables(:bambooLicenseKey => #{bambooLicenseKey})
+  variables(:bambooLicenseKey => bambooLicenseKey)
   notifies :restart, resources(:service => "bamboo")
 end
 
