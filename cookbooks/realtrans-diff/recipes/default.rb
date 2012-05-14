@@ -14,6 +14,21 @@ template "/home/ubuntu/bin/diff_properties.sh" do
   mode   "0755"
 end
 
+directory "/home/ubuntu/work" do
+  owner "ubuntu"
+  group "ubuntu"
+end
+
+directory "/home/ubuntu/config" do
+  owner "ubuntu"
+  group "ubuntu"
+end
+
+directory "/home/ubuntu/bin" do
+  owner "ubuntu"
+  group "ubuntu"
+end
+
 execute "diff" do
   command "/home/ubuntu/bin/diff_properties.sh"
   action :nothing
