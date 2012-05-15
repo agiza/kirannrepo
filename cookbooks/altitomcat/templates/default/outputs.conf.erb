@@ -1,5 +1,5 @@
 [tcpout]
-defaultGroup = splunk_<%= node[:splunk_port %>
+defaultGroup = splunk_<%= node[:splunk_port] %>
 
 [tcpout:splunk_<%= node[:splunk_port] %>]
 server = <%= node[:splunk_host] %>:<%= node[:splunk_port] %>
