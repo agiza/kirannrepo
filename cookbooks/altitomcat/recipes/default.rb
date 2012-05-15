@@ -46,3 +46,10 @@ template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
   notifies :restart, resources(:service => "splunkforwarder")
 end
 
+template "/etc/init.d/splunkforwarder" do
+  source "splunkforwarder.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  notifies :restart, resources(:service => "splunkforwarder")
+end
