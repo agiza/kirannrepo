@@ -41,7 +41,7 @@ end
 template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
   source "outputs.conf.erb"
   group  "splunk"
-  user   "splunk"
+  owner  "splunk"
   mode   "0644"
   notifies :restart, resources(:service => "splunkforwarder")
 end
