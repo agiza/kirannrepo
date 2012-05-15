@@ -10,10 +10,6 @@ package "#{app_name}" do
   action :upgrade
 end
 
-package "splunkforwarder" do
-  action :upgrade
-end
-
 package "appdynamics" do
   action :upgrade
 end
@@ -26,8 +22,8 @@ end
 
 service "splunkforwarder" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
-  action :start
+  action :disable
+  action :stop
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
@@ -43,7 +39,7 @@ template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
   group  "splunk"
   owner  "splunk"
   mode   "0644"
-  notifies :restart, resources(:service => "splunkforwarder")
+  notifies :stop, resources(:service => "splunkforwarder")
 end
 
 template "/etc/init.d/splunkforwarder" do
@@ -51,5 +47,5 @@ template "/etc/init.d/splunkforwarder" do
   owner  "root"
   group  "root"
   mode   "0755"
-  notifies :restart, resources(:service => "splunkforwarder")
+  notifies :stop, resources(:service => "splunkforwarder")
 end
