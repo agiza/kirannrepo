@@ -16,6 +16,11 @@ package "mongo-10gen-server" do
   action :upgrade
 end
 
+directory "/data/db" do
+  owner "mongod"
+  group "mongod"
+end
+
 service "mongod" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :enable
