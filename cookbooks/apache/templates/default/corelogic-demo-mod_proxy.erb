@@ -1,6 +1,5 @@
 <Proxy *>
 Order deny,allow
-#Allow from all
 Allow from 69.87.90.251
 Allow from 10.
 Allow from 127.0.0.1
@@ -13,10 +12,8 @@ ProxyPreserveHost         On
 ProxyPassReverse  /int-corelogic/demo/        http://10.0.0.113:8080/int-corelogic/
 <Location /int-corelogic/demo/>
 ProxyPass                 http://10.0.0.113:8080/int-corelogic/
-#ProxyPassReverse          http://realtrans-dev:8080/realtrans-vi
 Allow from 69.87.90.251
 Allow from 10.
 Allow from 127.0.0.0/255.0.0.0 ::1/128
 </Location>
-#ProxyVia	On
 

@@ -7,6 +7,10 @@
 		AllowOverride AuthConfig
 	</Directory>
 	<Directory /var/www/>
+		<LimitExcept POST GET>
+		  Order allow,deny
+		  Deny from all
+		</LimitExcept>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
 		Order deny,allow

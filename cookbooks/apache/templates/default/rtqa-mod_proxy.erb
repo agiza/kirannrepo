@@ -1,10 +1,5 @@
 <Proxy balancer://rtqa-rp>
-#Order allow,deny
-#Allow from all
-#Allow from 10.
-#Allow from 127.0.0.0/255.0.0.0 ::1/128
 BalancerMember http://realtrans-qa:8080/realtrans-rp route=realtrans-qa
-#BalancerMember http://nuxeo6:8080/nuxeo route=nuxeo6
 ProxySet stickysession=JSESSIONID
 </Proxy>
 
@@ -13,6 +8,10 @@ ProxyPreserveHost         On
 ProxyPassReverse        /realtrans-rp   balancer://rtqa-rp stickysession=JSESSIONID|jsessionid
 
 <Location /realtrans-rp>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
 Order allow,deny
 Allow from 10.
 Allow from 65.214.21.1/24
@@ -20,16 +19,10 @@ Allow from 111.93.137.1/26
 Allow from 127.0.0.0/255.0.0.0 ::1/128
 
 ProxyPass               balancer://rtqa-rp stickysession=JSESSIONID|jsessionid
-#ProxyPassReverse       balancer://nuxeo stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Proxy balancer://rtqa-fp>
-#Order allow,deny
-#Allow from all
-#Allow from 10.
-#Allow from 127.0.0.0/255.0.0.0 ::1/128
 BalancerMember http://realtrans-qa:8080/realtrans-fp route=realtrans-qa
-#BalancerMember http://nuxeo6:8080/nuxeo route=nuxeo6
 ProxySet stickysession=JSESSIONID
 </Proxy>
 
@@ -38,6 +31,10 @@ ProxyPreserveHost         On
 ProxyPassReverse        /realtrans-fp   balancer://rtqa-fp stickysession=JSESSIONID|jsessionid
 
 <Location /realtrans-fp>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
 Order allow,deny
 Allow from 10.
 Allow from 65.214.21.1/24
@@ -45,6 +42,5 @@ Allow from 111.93.137.1/26
 Allow from 127.0.0.0/255.0.0.0 ::1/128
 
 ProxyPass               balancer://rtqa-fp stickysession=JSESSIONID|jsessionid
-#ProxyPassReverse       balancer://nuxeo stickysession=JSESSIONID|jsessionid
 </Location>
 
