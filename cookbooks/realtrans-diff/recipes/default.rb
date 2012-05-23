@@ -7,13 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-template "/home/ubuntu/bin/diff_properties.sh" do
-  source "diff_properties.sh.erb"
-  owner  "ubuntu"
-  group  "ubuntu"
-  mode   "0755"
-end
-
 directory "/home/ubuntu/work" do
   owner "ubuntu"
   group "ubuntu"
@@ -27,6 +20,28 @@ end
 directory "/home/ubuntu/bin" do
   owner "ubuntu"
   group "ubuntu"
+end
+
+directory "/home/ubuntu/.ssh" do
+  owner "ubuntu"
+  group "ubuntu"
+end
+
+directory "/opt/tomcat/.ssh" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/mnt/tomcat/logs" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+template "/home/ubuntu/bin/diff_properties.sh" do
+  source "diff_properties.sh.erb"
+  owner  "ubuntu"
+  group  "ubuntu"
+  mode   "0755"
 end
 
 execute "diff" do
