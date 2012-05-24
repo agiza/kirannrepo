@@ -8,67 +8,96 @@
 #
 
 package "apache2" do
+  case node[:platform]
+  when "centos","redhat","fedora","suse"
+    package_name "httpd"
+  when "debian","ubuntu"
   package_name "apache2"
+  end
   action :upgrade
 end
 
 package "mod_security" do
-  package_name "mod_security"
+  case node[:platform]
+  when "centos","redhat","fedora","suse"
+    package_name "mod_security"
+  when "debian","ubuntu"
+    package_name "libapache2-modsecurity"
+  end
   action :upgrade
 end
 
 service "apache2" do
+  case node[:platform]
+  when "centos","redhat","fedora","suse"
+    service_name "httpd"
+  when "debian","ubuntu"
+    service_name "apache2"
+  end
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
-  action :start
+  action [:enable, :start]
 end
 
-template "/etc/apache2/httpd.conf" do
-  source "httpd.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
+case node[:platform]
+  when "centos","redhat","fedora","suse"
+    template "/etc/httpd/conf/httpd.conf" do
+      source "httpd.rhel.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "httpd")
+    end
+  when "debian","ubuntu"
+    template "/etc/apache2/httpd.conf" do
+      source "httpd.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 end
 
-template "/etc/apache2/ports.conf" do
-  source "ports.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
-end
+case node[:platform]
+  when "debian","ubuntu"
+    template "/etc/apache2/ports.conf" do
+      source "ports.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 
-template "/etc/apache2/apache2.conf" do
-  source "apache2.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
-end
+    template "/etc/apache2/apache2.conf" do
+      source "apache2.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 
-template "/etc/apache2/conf.d/security" do
-  source "security.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
-end
+    template "/etc/apache2/conf.d/security" do
+      source "security.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 
-template "/etc/apache2/mods-available/000-default" do
-  source "default.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
-end
+    template "/etc/apache2/mods-available/000-default" do
+      source "default.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 
-template "/etc/apache2/mods-available/000-default-ssl" do
-  source "default-ssl.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "apache2")
+    template "/etc/apache2/mods-available/000-default-ssl" do
+      source "default-ssl.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      notifies :reload, resources(:service => "apache2")
+    end
 end
 
 template "/etc/apache2/mods-available/corelogic-dev-mod_proxy" do
@@ -120,12 +149,12 @@ template "/etc/apache2/mods-available/datavision-qa-mod_proxy" do
 end
 
 server_list = Hash.new
-rt_servers = search(:node, "role:Realtrans-CORE AND chef_environment:#{node.chef_environment}").each do |server|
+rt_servers = search(:node, "role:Realtrans-CORE AND chef_environment:QA").each do |server|
   server_list[server.hostname] = server.ipaddress
 end
 
-template "/etc/apache2/mods-available/rt-mod_proxy" do
-  source "rt-mod_proxy.erb"
+template "/etc/apache2/mods-available/rtqa-mod_proxy" do
+  source "rtqa-mod_proxy.erb"
   owner "root"
   group "root"
   mode "0644"
