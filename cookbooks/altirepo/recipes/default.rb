@@ -30,3 +30,12 @@ template "/etc/sysconfig/network" do
   owner "root"
   group "root"
 end
+
+template "/etc/yum.conf" do
+  source "yum.conf.erb"
+  mode "0644"
+  owner "root"
+  group "root"
+  only_if { node[:yum_proxy] }
+end
+
