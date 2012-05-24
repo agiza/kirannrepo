@@ -119,11 +119,17 @@ template "/etc/apache2/mods-available/datavision-qa-mod_proxy" do
   notifies :reload, resources(:service => "apache2")
 end
 
-template "/etc/apache2/mods-available/rtqa-mod_proxy" do
-  source "rtqa-mod_proxy.erb"
+server_list = Hash.new
+rt_servers = search(:node, "role:Realtrans-CORE AND chef_environment:#{node.chef_environment}").each do |server|
+server_list[server.hostname] = server.ipaddress
+end
+
+template "/etc/apache2/mods-available/rt-mod_proxy" do
+  source "rt-mod_proxy.erb"
   owner "root"
   group "root"
   mode "0644"
+  variables(:servers -> server_list)
   notifies :reload, resources(:service => "apache2")
 end
 

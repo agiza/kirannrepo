@@ -1,11 +1,13 @@
-<Proxy balancer://rtqa-rp>
-BalancerMember http://realtrans-qa:8080/realtrans-rp route=realtrans-qa
+<Proxy balancer://rt-rp>
+<% @servers.each do |name,ip| -%>
+BalancerMember http://<%= name %>:8080/realtrans-rp route=<%= ip %>
+<% end -%>
 ProxySet stickysession=JSESSIONID
 </Proxy>
 
 ProxyRequests             Off
 ProxyPreserveHost         On
-ProxyPassReverse        /realtrans-rp   balancer://rtqa-rp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-rp   balancer://rt-rp stickysession=JSESSIONID|jsessionid
 
 <Location /realtrans-rp>
 <LimitExcept POST GET>
@@ -18,17 +20,19 @@ Allow from 65.214.21.1/24
 Allow from 111.93.137.1/26
 Allow from 127.0.0.0/255.0.0.0 ::1/128
 
-ProxyPass               balancer://rtqa-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rt-rp stickysession=JSESSIONID|jsessionid
 </Location>
 
-<Proxy balancer://rtqa-fp>
-BalancerMember http://realtrans-qa:8080/realtrans-fp route=realtrans-qa
+<Proxy balancer://rt-fp>
+<% @servers.each do |name,ip| -%>
+BalancerMember http://<%= name %>:8080/realtrans-fp route=<%= ip %>
+<% end -%>
 ProxySet stickysession=JSESSIONID
 </Proxy>
 
 ProxyRequests             Off
 ProxyPreserveHost         On
-ProxyPassReverse        /realtrans-fp   balancer://rtqa-fp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-fp   balancer://rt-fp stickysession=JSESSIONID|jsessionid
 
 <Location /realtrans-fp>
 <LimitExcept POST GET>
@@ -41,6 +45,6 @@ Allow from 65.214.21.1/24
 Allow from 111.93.137.1/26
 Allow from 127.0.0.0/255.0.0.0 ::1/128
 
-ProxyPass               balancer://rtqa-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rt-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
