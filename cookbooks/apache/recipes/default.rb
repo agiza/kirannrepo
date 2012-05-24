@@ -121,7 +121,7 @@ end
 
 server_list = Hash.new
 rt_servers = search(:node, "role:Realtrans-CORE AND chef_environment:#{node.chef_environment}").each do |server|
-server_list[server.hostname] = server.ipaddress
+  server_list[server.hostname] = server.ipaddress
 end
 
 template "/etc/apache2/mods-available/rt-mod_proxy" do
@@ -129,7 +129,7 @@ template "/etc/apache2/mods-available/rt-mod_proxy" do
   owner "root"
   group "root"
   mode "0644"
-  variables(:servers -> server_list)
+  variables(:servers => server_list)
   notifies :reload, resources(:service => "apache2")
 end
 
