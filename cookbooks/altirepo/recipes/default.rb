@@ -36,6 +36,9 @@ template "/etc/yum.conf" do
   mode "0644"
   owner "root"
   group "root"
-  only_if { node[:yum_proxy] }
+  variables(
+    :app_names => realapps['appnames'],
+    :common_names => realapps['common_names']
+  )
 end
 
