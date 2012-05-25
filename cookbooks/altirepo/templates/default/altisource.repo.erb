@@ -6,8 +6,6 @@ baseurl=http://<%= node[:yum_server] %>/yum/common
 enabled=1
 gpgcheck=0
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
-installonlypkgs=<%= @common_names %>
-#exclude=<%= @common_names %>
 
 [altisourcetesting]
 name=Packages from Altisource - testing
@@ -17,8 +15,6 @@ baseurl=http://<%= node[:yum_server] %>/yum/testing
 enabled=<%= node[:yum_test_setting] %>
 gpgcheck=0
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
-installonlypkgs=<%= @app_names %>
-#exclude=<%= @app_names %>
 
 [altisourcerelease]
 name=Packages from Altisource - release
@@ -28,6 +24,4 @@ baseurl=http://<%= node[:yum_server] %>/yum/release
 enabled=<%= node[:yum_release_setting] %>
 gpgcheck=0
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
-installonlypkgs=<%= @app_names %>
-#exclude=<%= @app_names %>
 
