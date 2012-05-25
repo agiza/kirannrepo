@@ -7,8 +7,8 @@ exactarch=1
 obsoletes=1
 gpgcheck=1
 plugins=1
-installonly_limit=3
 installonlypkgs=<%= @app_names %> <%= @common_names %>
+installonly_limit=3
 <% if node.attribute?('yum_proxy') -%>
 proxy=<%= node[:yum_proxy] %>
 <% end -%>
