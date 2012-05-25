@@ -8,7 +8,10 @@ obsoletes=1
 gpgcheck=1
 plugins=1
 installonly_limit=3
+installonlypkgs=<%= @app_names %> <%= @common_names %>
+<% if node.attribute?('yum_proxy') -%>
 proxy=<%= node[:yum_proxy] %>
+<% end -%>
 
 #  This is the default, if you make this bigger yum won't see if the metadata
 # is newer on the remote and so you'll "gain" the bandwidth of not having to
