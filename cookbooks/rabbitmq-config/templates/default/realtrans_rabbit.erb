@@ -27,14 +27,14 @@ done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=admin password=5P3cial tags=administrator
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=admin configure=.* write=.* read=.*
 for i in `echo "$vhosts"`; do
-  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost="$i" user=admin configure=.* write=.* read=.*
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
 done
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=bugsbunny password=wH4t5Up tags=prodcon
 /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=bugsbunny configure= write=.* read=.*
 for i in `echo "$vhosts"`; do
-  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost="$i" user=bugsbunny configure= write=.* read=.*
+  /usr/sbin/rabbitmqctl -p "$i" bugsbunny " " ".*" ".*"
 done
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest delete user name=guest
+/etc/rabbitmq/rabbitmqadmin -H ${host} -u admin -p 5P3cial delete user name=guest
 elif [ "$admin_check" -lt "1" ]; then
    echo "Admin accounts working."
 fi
