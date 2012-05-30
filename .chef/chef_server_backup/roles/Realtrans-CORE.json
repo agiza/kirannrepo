@@ -1,0 +1,1 @@
+{"run_list":["recipe[realtrans-fp]","recipe[realtrans-rp]","recipe[realtrans-central]"],"name":"Realtrans-CORE","chef_type":"role","env_run_lists":{},"override_attributes":{},"json_class":"Chef::Role","description":"Just the Core apps","default_attributes":{}}
