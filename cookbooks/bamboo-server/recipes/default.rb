@@ -130,3 +130,10 @@ template "/home/bamboo/bin/tomcat-command.sh" do
   mode   "0755"
 end
 
+template "/home/bamboo/bin/rpm-package" do
+  source "rpm-package.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0755"
+end
+
