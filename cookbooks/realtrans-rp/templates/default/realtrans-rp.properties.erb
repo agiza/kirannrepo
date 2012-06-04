@@ -39,8 +39,8 @@ tenantCode=<%= node[:tenantid] %>
 
 multipartResolver.maxUploadSize=100000
 
-melissadata.address.webhost=addresscheck.melissadata.net
-melissadata.phone.webhost=phonecheck.melissadata.net
-melissadata.email.webhost=email.melissadata.net
+melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
+melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
+melissadata.email.webhost=email.<%= node[:melissa_server] %>
 melissadata.customerId=102942719
 melissadata.defaultMaxConnectionsPerHost=1

@@ -39,8 +39,8 @@ db.showSql=false
 db.generateDdl=false
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs
 
-mail.host=mail
-mail.port=25
+mail.host=<%= node[:mailhost] %>
+mail.port=<%= node[:mailport] %>
 mail.userName=do_not_reply@altidev.com
 mail.password=password
 mail.smtp.auth=false
@@ -52,9 +52,9 @@ mail.replyTo=do_not_reply@altidev.com
 
 rt.daysToCloseOrders=90
 
-melissadata.address.webhost=addresscheck.melissadata.net
-melissadata.phone.webhost=phonecheck.melissadata.net
-melissadata.email.webhost=email.melissadata.net
+melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
+melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
+melissadata.email.webhost=email.<%= node[:melissa_server] %>
 melissadata.customerId=102942719
 melissadata.defaultMaxConnectionsPerHost=1
 
