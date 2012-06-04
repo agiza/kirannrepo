@@ -1,0 +1,13 @@
+#!/bin/bash
+#repository="$1"
+working_dir="$1"
+repository="$2"
+branch="$3"
+build="$4"
+
+#git clone git@github:$repository
+cd $working_dir
+git tag -a "$branch-$build" -m "Release Candidate Tag from Bamboo."
+git push --tags git@github:$repository
+#rm -rf $repository
+

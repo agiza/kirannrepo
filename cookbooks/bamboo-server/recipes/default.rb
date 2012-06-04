@@ -13,13 +13,23 @@ service "bamboo" do
   action :start
 end
 
-bambooLicenseKey = 'AAABMA0ODAoPeNptkF1rgzAUhu/zKwK7TjG2lrUQWNUw3NQWbdnNbqI7WwM1ShLL/PdLbbuPMkhu8vC+5zm5K3uFMzFgOnVnSe+XdIGjeIt9j/ooBlNr2VnZKhaKpmpbzJUF3Wlp4HWJ+VEcenHCKO+bCvT6fWdAG+YHKNIwklhYYKc24gWEzlDUKitqm4sGWKgHofBmL5WC4Up4JuSBVSc06c7oQRysNG2va5jUbYN+5jKre0DV6DZxYXmE85MrcaZKqBr4Zyf18MtjTuj0mkllDcoAf5NjHc+3vNgUScnRWn8IJc15zOpbAJU8Z+6SlM7pwgvmqAR9BJ3ELHx8WZHnMvDIbvbkk8QPy5sx26GDcfNonWW8iJJVii7I5dMk/lN8dfvXf+Nk9sLA7f9+AWwPmK8wLAIUVNr6ciLulZ0lzzzqLzHvN0ApQ5YCFAzRP0i6evwDqsoYujmKVmwtcwcUX02f7'
+directory "/home/bamboo/.ssh" do
+  owner "bamboo"
+  group "bamboo"
+  action :create
+end
+
+directory "/home/bamboo/bin" do
+  owner "bamboo"
+  group "bamboo"
+  action :create
+end
+
 template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   source "bamboo.cfg.xml.erb"
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
-  variables(:bambooLicenseKey => bambooLicenseKey)
   notifies :restart, resources(:service => "bamboo")
 end
 
@@ -92,4 +102,31 @@ link "/opt/atlassian/bamboo/webapp/WEB-INF/lib/hung-build-killer-2.1.jar" do
   group "bamboo"
 end
 
+template "/home/bamboo/bin/bamboo-git-tag" do
+  source "bamboo-git-tag.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0755"
+end
+
+template "/home/bamboo/bin/chef-run.sh" do
+  source "chef-run.sh.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0755"
+end
+
+template "/home/bamboo/bin/tomcat-command-rhel.sh" do
+  source "tomcat-command-rhel.sh.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0755"
+end
+
+template "/home/bamboo/bin/tomcat-command.sh" do
+  source "tomcat-command.sh.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0755"
+end
 
