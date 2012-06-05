@@ -187,3 +187,9 @@ template "/usr/lib/apache-maven-3.0.4/conf/settings.xml" do
   mode   "0644"
 end
 
+link "/home/bamboo/.chef" do
+  to "/opt/bamboo/.chef"
+  owner "bamboo"
+  group "bamboo"
+end
+
