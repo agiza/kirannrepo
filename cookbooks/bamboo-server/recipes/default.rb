@@ -90,6 +90,12 @@ link "/opt/atlassian/bamboo/.m2" do
   group "bamboo"
 end
 
+link "/home/bamboo/.m2" do
+  to "/mnt/bamboo_data/.m2"
+  owner "bamboo"
+  group "bamboo"
+end
+
 link "/opt/atlassian/bamboo/plugins" do
   to "/mnt/bamboo_data/plugins"
   owner "bamboo"
