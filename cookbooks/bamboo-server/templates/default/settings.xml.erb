@@ -210,13 +210,13 @@ under the License.
       <repositories>
         <repository>
           <id>public</id>
-          <url>http://10.0.0.20/nexus/content/groups/public</url>
+          <url>http://<%= node[:atlassian_server] %>/nexus/content/groups/public</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </repository>
         <repository>
           <id>public-snapshots</id>
-          <url>http://10.0.0.20/nexus/content/groups/public-snapshots</url>
+          <url>http://<%= node[:atlassian_server] %>/nexus/content/groups/public-snapshots</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </repository>
@@ -224,13 +224,13 @@ under the License.
      <pluginRepositories>
         <pluginRepository>
           <id>public</id>
-          <url>http://10.0.0.20/nexus/content/groups/public</url>
+          <url>http://<%= node[:atlassian_server] %>/nexus/content/groups/public</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>
         <pluginRepository>
           <id>public-snapshots</id>
-          <url>http://10.0.0.20/nexus/content/groups/public-snapshots</url>
+          <url>http://<%= node[:atlassian_server] %>/nexus/content/groups/public-snapshots</url>
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>       

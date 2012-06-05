@@ -19,14 +19,14 @@
     <property name="hibernate.c3p0.min_size">0</property>
     <property name="hibernate.c3p0.timeout">30</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.password">bamboo_123</property>
-    <property name="hibernate.connection.url">jdbc:mysql://atlasdbprim:3306/bamboo</property>
-    <property name="hibernate.connection.username">bamboo</property>
+    <property name="hibernate.connection.password"><%= node[:bamboo_dbpass] %></property>
+    <property name="hibernate.connection.url">jdbc:mysql://<%= node[:atlas_db_server] %>:3306/bamboo</property>
+    <property name="hibernate.connection.username"><%= node[:bamboo_dbuser] %></property>
     <property name="hibernate.dialect">com.atlassian.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.setup">true</property>
     <property name="license.string">AAABMA0ODAoPeNptkF1rgzAUhu/zKwK7TjG2lrUQWNUw3NQWbdnNbqI7WwM1ShLL/PdLbbuPMkhu8 vC+5zm5K3uFMzFgOnVnSe+XdIGjeIt9j/ooBlNr2VnZKhaKpmpbzJUF3Wlp4HWJ+VEcenHCKO+bC vT6fWdAG+YHKNIwklhYYKc24gWEzlDUKitqm4sGWKgHofBmL5WC4Up4JuSBVSc06c7oQRysNG2va 5jUbYN+5jKre0DV6DZxYXmE85MrcaZKqBr4Zyf18MtjTuj0mkllDcoAf5NjHc+3vNgUScnRWn8IJ c15zOpbAJU8Z+6SlM7pwgvmqAR9BJ3ELHx8WZHnMvDIbvbkk8QPy5sx26GDcfNonWW8iJJVii7I5 dMk/lN8dfvXf+Nk9sLA7f9+AWwPmK8wLAIUVNr6ciLulZ0lzzzqLzHvN0ApQ5YCFAzRP0i6evwDq soYujmKVmwtcwcUX02f7</property>
     <property name="lucene.index.dir">${bambooHome}/index</property>
-    <property name="serverId">BGWA-KS50-U4J2-I2BS</property>
+    <property name="serverId"><%= node[:bamboo_serverid] %></property>
     <property name="webwork.multipart.saveDir">${bambooHome}/temp</property>
   </properties>
 </application-configuration>

@@ -5,9 +5,9 @@
     <name>Bamboo</name>
     <defaultFrom>bamboo@altidev.com</defaultFrom>
     <prefix>[Bamboo]</prefix>
-    <hostname>mail</hostname>
+    <hostname><%= node[:mail_server] %></hostname>
     <sessionServer>false</sessionServer>
-    <port>25</port>
+    <port><%= node[:mail_port] %></port>
     <tlsRequired>false</tlsRequired>
   </smtp-server>
 </mail-servers>
