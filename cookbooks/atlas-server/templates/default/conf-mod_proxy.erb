@@ -5,5 +5,5 @@ Allow from all
 
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
-ProxyPass                                       /confluence     http://atlas:8090/confluence
-ProxyPassReverse                                /confluence     http://atlas:8090/confluence
+ProxyPass                                       /confluence     http://<%= node[:confluence_server] %>:<%= node[:confluence_port] %>/confluence
+ProxyPassReverse                                /confluence     http://<%= node[:confluence_server] %>:<%= node[:confluence_port] %>/confluence

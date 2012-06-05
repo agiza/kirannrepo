@@ -3,9 +3,9 @@ Order deny,allow
 Allow from all
 </Proxy>
 
-ProxyRequests                                   Off
-ProxyPreserveHost                               On
-ProxyPass                                       /fisheye        http://atlas:8060/fisheye
-ProxyPassReverse                                /fisheye        http://atlas:8060/fisheye
+ProxyRequests                Off
+ProxyPreserveHost            On
+ProxyPass                    /fisheye        http://<%= node[:fisheye_server] %>:<%= node[:fisheye_port] %>/fisheye
+ProxyPassReverse             /fisheye        http://<%= node[:fisheye_server] %>:<%= node[:fisheye_port] %>/fisheye
 
 

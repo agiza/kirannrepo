@@ -5,7 +5,7 @@ Allow from all
 
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
-ProxyPass                                       /bamboo http://bamboo:8085/bamboo
-ProxyPassReverse                                /bamboo http://bamboo:8085/bamboo
+ProxyPass                                       /bamboo http://<%= node[:bamboo_server] %>:<%= node[:bamboo_port] %>/bamboo
+ProxyPassReverse                                /bamboo http://<%= node[:bamboo_server] %>:<%= node[:bamboo_port] %>/bamboo
 
 
