@@ -137,3 +137,35 @@ template "/home/bamboo/bin/rpm-package" do
   mode   "0755"
 end
 
+template "/usr/lib/apache-maven-2.2.1/conf/settings.xml" do
+  source "settings.xml.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/usr/lib/apache-maven-3.0.4/conf/settings.xml" do
+  source "settings.xml.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+link "/usr/lib/jdk1.6.0_25" do
+  to "/usr/lib/jvm/jdk1.6.0_25"
+  owner "root"
+  group "root"
+end
+
+link "/usr/lib/jdk1.7.0_03" do
+  to "/usr/lib/jvm/jdk1.7.0_03"
+  owner "root"
+  group "root"
+end
+
+link "/usr/lib/jdk1.6.0_25/bin/java" do
+  to "/etc/alternatives/java"
+  owner "root"
+  group "root"
+do
+
