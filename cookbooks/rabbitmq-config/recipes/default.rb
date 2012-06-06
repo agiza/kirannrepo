@@ -70,7 +70,7 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   mode '0755'
   variables(
     :clusternodes => clusternodes,
-    :queue_names  => realtrans_queue['queues']
+    :queue_names  => realtrans_queue['queues'],
     :exchange_names => realtrans_queue['exchange']
   )
   notifies :run, 'execute[queue-config]', :immediately
@@ -82,7 +82,7 @@ template "/etc/rabbitmq/realdoc-rabbit.sh" do
   owner "root"
   mode "0755"
   variables(
-    :queue_names => realdoc_queue['queues']
+    :queue_names => realdoc_queue['queues'],
     :exchange_names => realdoc_queue['exchange']
   )
   notifies :run, 'execute[realdoc-config]', :immediately
