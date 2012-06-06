@@ -37,7 +37,8 @@ clusternodes = clusternodes.gsub!("node\[", "")
 clusternodes = clusternodes.gsub!("\]", "")
 
 #Build list of queues names for configuration
-rabbit_queue = data_bag_item("queue_names", "realtrans")
+realtrans_queue = data_bag_item("queue_names", "realtrans")
+realdoc_queue = data_bag_item("queue_names", "realdoc")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
@@ -54,6 +55,12 @@ execute "queue-config" do
   environment ({'HOME' => '/etc/rabbitmq'})
 end
 
+execute "realdoc-config" do
+  command "/etc/rabbitmq/realdoc-rabbit.sh"
+  action :nothing
+  environment ({'HOME' => '/etc/rabbitmq'})
+end
+
 template "/etc/rabbitmq/realtrans-rabbit.sh" do
   source "realtrans_rabbit.erb"
   group "root"
@@ -61,8 +68,19 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   mode '0755'
   variables(
     :clusternodes => clusternodes,
-    :queue_names  => rabbit_queue['queues']
+    :queue_names  => realtrans_queue['queues']
   )
   notifies :run, 'execute[queue-config]', :immediately
+end
+
+template "/etc/rabbitmq/realdoc-rabbit.sh" do
+  source "realdoc_rabbit.erb"
+  group "root"
+  owner "root"
+  mode "0755"
+  variables(
+    :queue_names => realdoc_queue['queues']
+  )
+  notifies :run, 'execute[realdoc-config]', :immediately
 end
 
