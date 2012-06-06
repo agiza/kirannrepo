@@ -5,8 +5,7 @@ if [ "$?" -gt "0" ]; then
 fi
 
 vhosts="<%= node[:amqp_vhosts] %>"
-trans_hosts=`echo $vhosts | grep trans`
-html_vhosts=`echo "$trans_hosts" | sed -e 's/\///g'`
+html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
@@ -68,14 +67,21 @@ cd /etc/rabbitmq/
 # Loop to add each queue with mirror turned on.
 for vhost in `echo "$html_vhosts"`; do
   for queue in `echo "$queue_names"`; do
-   echo "Create $queue on $vhost..."
-   curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" http://$host:55672/api/queues/%2f$vhost/$queue
+   check=`echo $vhost | grep trans`
+   if [ "$check" != "" ]; then
+     echo "Create $queue on $vhost..."
+     curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" http://$host:55672/api/queues/%2f$vhost/$queue
+   else
+     echo "This is the wrong vhost for these queues."
+   fi
   done
 
 done
 
 # Use the standard python script to add all other elements and bindings
-for i in `echo "$trans_hosts"`; do
+for i in `echo "$vhosts"`; do
+check=`echo $i | grep trans`
+if [ "$check" != "" ]; then
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.internal auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.incoming auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.outgoing auto_delete=false durable=true type=topic
@@ -113,6 +119,9 @@ for i in `echo "$trans_hosts"`; do
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.update routing_key=realsearch.data.update.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.delete routing_key=realsearch.data.delete.#
 
+else
+  echo "Wrong vhost for these actions."
+fi
 done
 
 echo "Done."
