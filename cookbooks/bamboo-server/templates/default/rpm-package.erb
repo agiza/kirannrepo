@@ -153,7 +153,7 @@ echo "Moving the RPM to the yum repository."
 rsync -q -e ssh -av /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package ubuntu@github:/storage/yum-repo/testing/$application_package; if [ "$?" -gt "0" ]; then echo "Error occurred pushing to yum repo."; clean; exit 1; fi
 
 # Now run the updaterepo process to update yum repository information
-ssh ubuntu@github "sudo /storage/yum-update > /dev/null 2>&1"; sleep 60
+$ssh_command ubuntu@github "sudo /storage/yum-update > /dev/null 2>&1"; sleep 60
 
 # Clean up the files used by RPM during packaging, just to be clean
 echo "Cleaning up our working directories."
@@ -200,7 +200,7 @@ fi
 
 execute_tag(){
 # Execute chef client to perform an update on the server.
-ssh root@$target_host "yum clean all; chef-client"
+$ssh_command root@$target_host "yum clean all; chef-client"
 
 } 
 
@@ -210,7 +210,7 @@ promote(){
 # This will promote a build from the QA (Testing) repository to the Certified Software (Release) repository.
 app_target="$application_name"
 app_version="$version"
-ssh ubuntu@github "rsync -av /storage/yum-repo/testing/$application_target-$version.noarch.rpm /storage/yum-repo/release/$application_target-$version.noarch.rpm; sudo /storage/yum-update"
+$ssh_command ubuntu@github "rsync -av /storage/yum-repo/testing/$application_target-$version.noarch.rpm /storage/yum-repo/release/$application_target-$version.noarch.rpm; sudo /storage/yum-update"
 echo "Version has been promoted."
 }
 
