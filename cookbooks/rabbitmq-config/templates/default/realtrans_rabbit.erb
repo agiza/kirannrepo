@@ -5,7 +5,8 @@ if [ "$?" -gt "0" ]; then
 fi
 
 vhosts="<%= node[:amqp_vhosts] %>"
-html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
+trans_hosts=`echo $vhosts | grep trans`
+html_vhosts=`echo "$trans_hosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
@@ -65,7 +66,7 @@ queue_names="<%= @queue_names %>"
 cd /etc/rabbitmq/
 
 # Loop to add each queue with mirror turned on.
-for vhost in `echo "$html_vhosts"| grep realtrans`; do
+for vhost in `echo "$html_vhosts"`; do
   for queue in `echo "$queue_names"`; do
    echo "Create $queue on $vhost..."
    curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" http://$host:55672/api/queues/%2f$vhost/$queue
@@ -74,7 +75,7 @@ for vhost in `echo "$html_vhosts"| grep realtrans`; do
 done
 
 # Use the standard python script to add all other elements and bindings
-for i in `echo "$vhosts"| grep realtrans`; do
+for i in `echo "$trans_hosts"`; do
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.internal auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.incoming auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.outgoing auto_delete=false durable=true type=topic
