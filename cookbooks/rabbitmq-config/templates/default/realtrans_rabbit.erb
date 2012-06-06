@@ -10,17 +10,15 @@ html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 #host=${1-$HOSTNAME}
 host=`hostname -s`
 # Check to see if the user accounts configuration has been run yet.
-/etc/rabbitmq/rabbitmqadmin -u guest -p guest list users > /dev/null
-guest_check=$?
-/etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
-admin_check=$?
-if [ "$guest_check" -lt "1"   ]; then
+guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+if [ "$guest_check" != ""   ]; then
 # Setup cluster here
 full_domin=`hostname -d`
 rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
-elif [ "$admin_check" -lt "1" ]; then
+elif [ "$admin_check" != "" ]; then
    echo "Admin accounts working."
 fi
 
@@ -54,9 +52,8 @@ fi
 admin_user="admin"
 admin_pass="5P3cial"
 
-/etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
-admin_check=$?
-if [ "$admin_check" -lt "1" ]; then
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+if [ "$admin_check" != "" ]; then
 
 # Add all queue names here
 queue_names="<%= @queue_names %>"
