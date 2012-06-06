@@ -35,9 +35,9 @@ for i in `echo "$vhosts"`; do
     if [ "$check" != "" ]; then
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=search.indexing auto_delete=false durable=true type=topic
       # Binding elements
-      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.create destination_type=exchange destination=search.indexing routing_key=realsearch.data.insert.#
-      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding sources=search.indexing.update destination_type=exchange destination=search.indexing routing_key=realsearch.data.update.#
-      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.delete destination_type=exchange destination=search.indexing routing_key=realsearch.data.delete.#
+      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.create destination_type=queue destination=search.indexing.create routing_key=realsearch.data.insert.#
+      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.update destination_type=queue destination=search.indexing.update routing_key=realsearch.data.update.#
+      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.delete destination_type=queue destination=search.indexing.delete routing_key=realsearch.data.delete.#
 
     # Monitoring queues and exchanges
 
