@@ -61,6 +61,9 @@ if [ "$admin_check" -lt "1" ]; then
 # Add all queue names here
 queue_names="<%= @queue_names %>"
 
+# Add all exchange names here
+exchanges="<%= @exchange_names %>"
+
 # Move to working directory
 cd /etc/rabbitmq/
 
@@ -80,10 +83,9 @@ done
 for i in `echo "$vhosts"`; do
 check=`echo $i | grep trans`
 if [ "$check" != "" ]; then
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.internal auto_delete=false durable=true type=topic
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.incoming auto_delete=false durable=true type=topic
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.outgoing auto_delete=false durable=true type=topic
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.core.deadmessage auto_delete=false durable=true type=topic
+  for h in `echo "$exchanges"`; do
+    /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=$h auto_delete=false durable=true type=topic
+  done
 # Binding elements
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.new routing_key=create.order.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.change routing_key=change.order#
@@ -95,7 +97,6 @@ if [ "$check" != "" ]; then
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.internal destination_type=queue destination=rt.core.interapp.messages routing_key=#
 
 # Monitoring queues and exchanges
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=rt.monitoring auto_delete=false durable=true type=topic
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.monitoring destination_type=queue destination=rt.monitoring.messages routing_key=#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.new routing_key=corelogic.create.order.#
 /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.change routing_key=corelogic.change.order.#

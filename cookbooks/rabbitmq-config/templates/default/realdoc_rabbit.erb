@@ -15,6 +15,8 @@ if [ "$admin_check" -lt "1" ]; then
 # Add all queue names here
 queue_names="<%= @queue_names %>"
 
+# Add all exchange names here
+exchanges="<%= @exchange_names %>"
 # Move to working directory
 cd /etc/rabbitmq/
 
@@ -33,7 +35,9 @@ done
 for i in `echo "$vhosts"`; do
   check=`echo $vhost | grep doc`
     if [ "$check" != "" ]; then
-      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=search.indexing auto_delete=false durable=true type=topic
+      for h in `echo "$exchanges"`; do
+      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=$h auto_delete=false durable=true type=topic
+      done
       # Binding elements
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.create destination_type=queue destination=search.indexing.create routing_key=realsearch.data.insert.#
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.update destination_type=queue destination=search.indexing.update routing_key=realsearch.data.update.#
