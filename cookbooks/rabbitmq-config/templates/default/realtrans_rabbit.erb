@@ -28,21 +28,26 @@ fi
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl add_vhost "$i"
 done
-/usr/sbin/rabbitmqctl add_user admin 5P3cial
-/usr/sbin/rabbitmqctl set_user_tags admin administrator
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+if [ "$admin_check" != "" ]; then
+  /usr/sbin/rabbitmqctl add_user admin 5P3cial
+  /usr/sbin/rabbitmqctl set_user_tags admin administrator
+fi
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
 done
-/usr/sbin/rabbitmqctl add_user bugsbunny wH4t5Up
-/usr/sbin/rabbitmqctl set_user_tags bugsbunny prodcon
-
+bugs_check=`/usr/sbin/rabbitmqctl list_users | grep bugsbunny`
+if [ "$bugs_check" != "" ]; then
+  /usr/sbin/rabbitmqctl add_user bugsbunny wH4t5Up
+  /usr/sbin/rabbitmqctl set_user_tags bugsbunny prodcon
+fi
 for i in `echo "$vhosts"`; do
-  /usr/sbin/rabbitmqctl -p "$i" bugsbunny " " ".*" ".*"
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" bugsbunny " " ".*" ".*"
 done
-/usr/sbin/rabbitmqctl delete_user guest
 
-elif [ "$admin_check" -lt "1" ]; then
-   echo "Admin accounts working."
+guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
+if [ "$guest_check" != "" ]; then
+  /usr/sbin/rabbitmqctl delete_user guest
 fi
 
 # Set variables for admin account
