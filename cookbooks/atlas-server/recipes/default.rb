@@ -215,3 +215,18 @@ link "/etc/apache2/sites-enabled/vpn-mod_proxy" do
   owner "root"
   group "root"
 end
+
+template "/etc/apache2/sites-available/realtrans-dev-mod_proxy" do
+  source "realtrans-dev-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "apache2")
+end
+
+link  "/etc/apache2/sites-enabled/realtrans-dev-mod_proxy" do
+  to "../sites-available/realtrans-dev-mod_proxy"
+  owner "root"
+  group "root"
+end
+
