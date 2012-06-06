@@ -20,21 +20,27 @@ full_domin=`hostname -d`
 rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
+elif [ "$admin_check" -lt "1" ]; then
+   echo "Admin accounts working."
+fi
+
 # Change user accounts for better security
 for i in `echo "$vhosts"`; do
-  /etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare vhost name="$i"
+  /usr/sbin/rabbitmqctl add_vhost "$i"
 done
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=admin password=5P3cial tags=administrator
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=admin configure=.* write=.* read=.*
+/usr/sbin/rabbitmqctl add_user admin 5P3cial
+/usr/sbin/rabbitmqctl set_user_tags admin administrator
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
 done
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare user name=bugsbunny password=wH4t5Up tags=prodcon
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u guest -p guest declare permission vhost=/ user=bugsbunny configure= write=.* read=.*
+/usr/sbin/rabbitmqctl add_user bugsbunny wH4t5Up
+/usr/sbin/rabbitmqctl set_user_tags bugsbunny prodcon
+
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl -p "$i" bugsbunny " " ".*" ".*"
 done
-/etc/rabbitmq/rabbitmqadmin -H ${host} -u admin -p 5P3cial delete user name=guest
+/usr/sbin/rabbitmqctl delete_user guest
+
 elif [ "$admin_check" -lt "1" ]; then
    echo "Admin accounts working."
 fi
