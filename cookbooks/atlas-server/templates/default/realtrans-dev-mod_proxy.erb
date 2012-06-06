@@ -1,0 +1,30 @@
+<Proxy balancer://rtdev-rp>
+Order deny,allow
+Allow from all
+BalancerMember http://realtrans-dev:8080/realtrans-rp route=realtrans-dev
+ProxySet stickysession=JSESSIONID
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+</Proxy>
+
+ProxyRequests           Off
+ProxyPreserveHost       On
+ProxyPass               /realtrans-rp   balancer://rtdev-rp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-rp   balancer://rtdev-rp stickysession=JSESSIONID|jsessionid
+
+<Proxy balancer://rtdev-fp>
+Order deny,allow
+Allow from all
+BalancerMember http://realtrans-dev:8080/realtrans-fp route=realtrans-dev
+ProxySet stickysession=JSESSIONID
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+</Proxy>
+ProxyRequests           Off
+ProxyPreserveHost       On
+ProxyPass               /realtrans-fp   balancer://rtdev-fp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-fp   balancer://rtdev-fp stickysession=JSESSIONID|jsessionid
