@@ -40,6 +40,12 @@ clusternodes = clusternodes.gsub!("\]", "")
 realtrans_queue = data_bag_item("queue_names", "realtrans")
 realdoc_queue = data_bag_item("queue_names", "realdoc")
 
+vhost_names = []
+data_bag('queue_names').each do |id|
+  name = data_bag_item('queue_names', id)
+    vhost_names << name
+  end
+    
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -73,7 +79,8 @@ template "/etc/rabbitmq/rabbit-common.sh" do
   owner  "root"
   mode   "0755"
   variables(
-    :clusternodes => clusternodes
+    :clusternodes => clusternodes,
+    :vhost_names => vhost_names
   )
   notifies :run, 'execute[rabbit-config]', :immediate
 end

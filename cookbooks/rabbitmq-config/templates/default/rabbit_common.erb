@@ -7,6 +7,8 @@ fi
 vhosts="<%= node[:amqp_vhosts] %>"
 html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
+new_vhosts="<%= @vhost_names %>
+
 #host=${1-$HOSTNAME}
 host=`hostname -s`
 # Check to see if the user accounts configuration has been run yet.
