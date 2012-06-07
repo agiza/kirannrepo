@@ -39,7 +39,7 @@ clusternodes = clusternodes.gsub!("\]", "")
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("queue_names", "realtrans")
 realdoc_queue = data_bag_item("queue_names", "realdoc")
-vhost_names []
+vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names << realdoc_queue['vhosts']
 
