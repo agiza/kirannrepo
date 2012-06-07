@@ -39,13 +39,10 @@ clusternodes = clusternodes.gsub!("\]", "")
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("queue_names", "realtrans")
 realdoc_queue = data_bag_item("queue_names", "realdoc")
+vhost_names []
+vhost_names << realtrans_queue['vhosts']
+vhost_names << realdoc_queue['vhosts']
 
-vhost_names = []
-data_bag('queue_names').each do |id|
-  name = data_bag_item('queue_names', id)
-    vhost_names << name
-  end
-    
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
