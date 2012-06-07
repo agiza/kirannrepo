@@ -40,8 +40,8 @@ clusternodes = clusternodes.gsub!("\]", "")
 realtrans_queue = data_bag_item("queue_names", "realtrans")
 realdoc_queue = data_bag_item("queue_names", "realdoc")
 vhost_names []
-vhost_names = vhost_names + [realtrans_queue['vhosts']]
-vhost_names = vhost_names + [realdoc_queue['vhosts']]
+vhost_names << realtrans_queue['vhosts']
+vhost_names << realdoc_queue['vhosts']
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
