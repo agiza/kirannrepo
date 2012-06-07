@@ -86,7 +86,8 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   variables(
     :queue_names  => realtrans_queue['queues'],
     :exchange_names => realtrans_queue['exchange'],
-    :binding_names => realtrans_queue['binding']
+    :binding_names => realtrans_queue['binding'],
+    :vhost_names => realtrans_queue['vhosts']
   )
   notifies :run, 'execute[realtrans-config]', :immediately
 end
@@ -99,7 +100,8 @@ template "/etc/rabbitmq/realdoc-rabbit.sh" do
   variables(
     :queue_names => realdoc_queue['queues'],
     :exchange_names => realdoc_queue['exchange'],
-    :binding_names => realdoc_queue['binding']
+    :binding_names => realdoc_queue['binding'],
+    :vhost_names => realdoc_queue['vhosts']
   )
   notifies :run, 'execute[realdoc-config]', :immediately
 end
