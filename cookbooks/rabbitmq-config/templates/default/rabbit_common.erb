@@ -4,7 +4,6 @@ if [ "$?" -gt "0" ]; then
   /sbin/service rabbitmq-server start
 fi
 
-#vhosts="<%= node[:amqp_vhosts] %>"
 vhosts="<%= @vhost_names %>"
 html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
