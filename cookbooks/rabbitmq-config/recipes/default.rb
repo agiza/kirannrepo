@@ -51,7 +51,13 @@ template "/etc/rabbitmq/rabbitmq.config" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
-execute "queue-config" do
+execute "rabbit-config" do
+  command "/etc/rabbitmq/rabbit-common.sh"
+  action :nothing
+  environment ({'HOME' => '/etc/rabbitmq'})
+end
+
+execute "realtrans-config" do
   command "/etc/rabbitmq/realtrans-rabbit.sh"
   action :nothing
   environment ({'HOME' => '/etc/rabbitmq'})
@@ -63,17 +69,27 @@ execute "realdoc-config" do
   environment ({'HOME' => '/etc/rabbitmq'})
 end
 
+template "/etc/rabbitmq/rabbit-common.sh" do
+  source "rabbit_common.erb"
+  group  "root"
+  owner  "root"
+  mode   "0755"
+  variables (
+  :clusternodes => clusternodes
+  )
+  notifies :run, 'execute[rabbit-config]', :immediate
+end
+
 template "/etc/rabbitmq/realtrans-rabbit.sh" do
   source "realtrans_rabbit.erb"
   group "root"
   owner "root"
   mode '0755'
   variables(
-    :clusternodes => clusternodes,
     :queue_names  => realtrans_queue['queues'],
     :exchange_names => realtrans_queue['exchange']
   )
-  notifies :run, 'execute[queue-config]', :immediately
+  notifies :run, 'execute[realtrans-config]', :immediately
 end
 
 template "/etc/rabbitmq/realdoc-rabbit.sh" do

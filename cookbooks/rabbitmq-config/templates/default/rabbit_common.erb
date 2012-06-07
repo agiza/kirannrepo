@@ -1,0 +1,50 @@
+#!/bin/bash
+/sbin/service rabbitmq-server status
+if [ "$?" -gt "0" ]; then
+  /sbin/service rabbitmq-server start
+fi
+
+vhosts="<%= node[:amqp_vhosts] %>"
+html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
+
+#host=${1-$HOSTNAME}
+host=`hostname -s`
+# Check to see if the user accounts configuration has been run yet.
+guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+if [ "$guest_check" != ""   ]; then
+# Setup cluster here
+full_domin=`hostname -d`
+rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
+/usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
+
+elif [ "$admin_check" != "" ]; then
+   echo "Admin accounts working."
+fi
+
+# Change user accounts for better security
+for i in `echo "$vhosts"`; do
+  /usr/sbin/rabbitmqctl add_vhost "$i"
+done
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+if [ "$admin_check" != "" ]; then
+  /usr/sbin/rabbitmqctl add_user admin 5P3cial
+  /usr/sbin/rabbitmqctl set_user_tags admin administrator
+fi
+for i in `echo "$vhosts"`; do
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
+done
+bugs_check=`/usr/sbin/rabbitmqctl list_users | grep bugsbunny`
+if [ "$bugs_check" != "" ]; then
+  /usr/sbin/rabbitmqctl add_user bugsbunny wH4t5Up
+  /usr/sbin/rabbitmqctl set_user_tags bugsbunny prodcon
+fi
+for i in `echo "$vhosts"`; do
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" bugsbunny " " ".*" ".*"
+done
+
+guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
+if [ "$guest_check" != "" ]; then
+  /usr/sbin/rabbitmqctl delete_user guest
+fi
+
