@@ -18,6 +18,9 @@ queue_names="<%= @queue_names %>"
 # Add all exchange names here
 exchanges="<%= @exchange_names %>"
 
+# Add all binding names here
+bindings="<%= @binding_names %>"
+
 # Move to working directory
 cd /etc/rabbitmq/
 
@@ -41,36 +44,15 @@ if [ "$check" != "" ]; then
     /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=$h auto_delete=false durable=true type=topic
   done
 # Binding elements
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.new routing_key=create.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.change routing_key=change.order#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=rt.core.orders.cancel routing_key=cancel.order#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.ack routing_key=order.ack.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.response routing_key=order.response.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=rt.core.orders.error routing_key=order.error#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.deadmessage destination_type=queue destination=rt.core.deadmessages routing_key=#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.internal destination_type=queue destination=rt.core.interapp.messages routing_key=#
+       for j in `echo "$bindings"`; do
+         source=`echo $j | cut -d "|" -f1`
+         type=`echo $j | cut -d "|" -f2`
+         dest=`echo $j | cut -d "|" -f3`
+         key=`echo $j | cut -d "|" -f4`
+         /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
+       done
 
 # Monitoring queues and exchanges
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.monitoring destination_type=queue destination=rt.monitoring.messages routing_key=#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.new routing_key=corelogic.create.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.change routing_key=corelogic.change.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=corelogic.orders.cancel routing_key=corelogic.cancel.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.new routing_key=etrac.create.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.change routing_key=etrac.change.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=etrac.orders.cancel routing_key=etrac.cancel.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.new routing_key=interthinx.create.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.change routing_key=interthinx.change.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=interthinx.orders.cancel routing_key=interthinx.cancel.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.new routing_key=datavision.create.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.change routing_key=datavision.change.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=datavision.orders.cancel routing_key=datavision.cancel.order.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=realservicing.order.create routing_key=realservicing.order.create.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realservicing.order.response routing_key=realservicing.order.response.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.incoming destination_type=queue destination=realresolution.order.create routing_key=realresolution.order.create.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realresolution.order.response routing_key=realresolution.order.response.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.insert routing_key=realsearch.data.insert.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.update routing_key=realsearch.data.update.#
-/etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=rt.core.outgoing destination_type=queue destination=realsearch.data.delete routing_key=realsearch.data.delete.#
 
 fi
 done

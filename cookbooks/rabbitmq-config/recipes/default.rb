@@ -85,7 +85,8 @@ template "/etc/rabbitmq/realtrans-rabbit.sh" do
   mode '0755'
   variables(
     :queue_names  => realtrans_queue['queues'],
-    :exchange_names => realtrans_queue['exchange']
+    :exchange_names => realtrans_queue['exchange'],
+    :binding_names => realtrans_queue['binding']
   )
   notifies :run, 'execute[realtrans-config]', :immediately
 end

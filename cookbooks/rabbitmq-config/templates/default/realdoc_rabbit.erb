@@ -50,9 +50,6 @@ for i in `echo "$vhosts"`; do
          key=`echo $j | cut -d "|" -f4`
          /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=$source destination_type=$type destination=$dest routing_key=$key
        done
-#      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.create destination_type=queue destination=search.indexing.create routing_key=realsearch.data.insert.#
-#      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.update destination_type=queue destination=search.indexing.update routing_key=realsearch.data.update.#
-#      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=search.indexing.delete destination_type=queue destination=search.indexing.delete routing_key=realsearch.data.delete.#
 
     # Monitoring queues and exchanges
 
