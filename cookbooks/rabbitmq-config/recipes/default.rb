@@ -74,8 +74,8 @@ template "/etc/rabbitmq/rabbit-common.sh" do
   group  "root"
   owner  "root"
   mode   "0755"
-  variables (
-  :clusternodes => clusternodes
+  variables(
+    :clusternodes => clusternodes
   )
   notifies :run, 'execute[rabbit-config]', :immediate
 end
