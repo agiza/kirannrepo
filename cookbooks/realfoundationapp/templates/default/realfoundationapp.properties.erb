@@ -36,11 +36,12 @@ ldap.searchBase=<%= node[:ldap_searchbase] %>
 multipartResolver.maxUploadSize=100000
 activiti.databaseSchemaUpdate=false
 
-melissadata.address.webhost=addresscheck.melissadata.net
-melissadata.phone.webhost=phonecheck.melissadata.net
-melissadata.email.webhost=email.melissadata.net
-melissadata.customerId=102942719
-melissadata.defaultMaxConnectionsPerHost=5
+rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
+rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
+rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
+rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.customerId=102942719
+
 
 ## the following properties will be gone once security is fully built
 
