@@ -43,7 +43,6 @@ template "/opt/atlassian/bamboo/bamboo.cfg.new.xml" do
   variables (
     :bamboo_key => bamboo_keys['bamboo']
   )
-  notifies :restart, resources(:service => "bamboo")
 end
 
 template "/opt/atlassian/bamboo/bamboo-mail.cfg.xml" do
