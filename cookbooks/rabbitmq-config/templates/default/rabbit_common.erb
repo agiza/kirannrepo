@@ -4,7 +4,8 @@ if [ "$?" -gt "0" ]; then
   /sbin/service rabbitmq-server start
 fi
 
-vhosts="<%= @vhost_names %>"
+init_vhosts="<%= @vhost_names %>"
+vhosts=`echo "$init_vhosts" | sed -e 's/\//\ \//g'`
 html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
