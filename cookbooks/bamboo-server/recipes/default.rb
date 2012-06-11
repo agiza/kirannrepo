@@ -41,7 +41,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.new.xml" do
   group  "bamboo"
   mode   "0644"
   variables (
-    :bamboo_key => bamboo_keys['bamboo']
+    :bamboo_key => bamboo_keys['bamboo_key']
   )
 end
 
