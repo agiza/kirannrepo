@@ -40,7 +40,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.new.xml" do
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
-  variables (
+  variables(
     :bamboo_key => bamboo_keys['bamboo_key']
   )
 end
