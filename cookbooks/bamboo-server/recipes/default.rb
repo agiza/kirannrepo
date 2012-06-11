@@ -25,11 +25,24 @@ directory "/home/bamboo/bin" do
   action :create
 end
 
+bamboo_keys = data_bag_item("atlassian_keys", "bamboo")
+
 template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   source "bamboo.cfg.xml.erb"
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
+  notifies :restart, resources(:service => "bamboo")
+end
+
+template "/opt/atlassian/bamboo/bamboo.cfg.new.xml" do
+  source "bamboo.cfg.xml.new.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0644"
+  variables (
+    :bamboo_key => bamboo_keys['bamboo']
+  )
   notifies :restart, resources(:service => "bamboo")
 end
 
