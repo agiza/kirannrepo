@@ -35,7 +35,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   notifies :restart, resources(:service => "bamboo")
 end
 
-template "/opt/atlassian/bamboo/bamboo.cfg.new.xml" do
+template "/opt/atlassian/bamboo/bamboo.cfg.xml.new" do
   source "bamboo.cfg.xml.new.erb"
   owner  "bamboo"
   group  "bamboo"
