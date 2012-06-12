@@ -29,7 +29,7 @@ end
 case node[:platform]
 when "centos", "redhat", "fedora", "suse"
   execute "chkconfig" do
-    command " chkconfig host_command enable"
+    command " chkconfig host_command on"
     action :run
   end
 when "debian", "ubuntu"
