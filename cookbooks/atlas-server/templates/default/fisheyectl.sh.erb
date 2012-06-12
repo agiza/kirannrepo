@@ -12,7 +12,7 @@ PRG="$0"
 FISHEYE_HOME=`dirname "$PRG"`/..
 # make it fully qualified
 FISHEYE_HOME=`cd "$FISHEYE_HOME" && pwd`
-FISHEYE_INST=/var/atlassian/application-data/fisheye/fisheye_inst
+FISHEYE_INST=/var/atlassian/application-data/fisheye_inst
 
 if [ ! -f "$FISHEYE_HOME/fisheyeboot.jar" ] ; then
   echo "Error: Could not find $FISHEYE_HOME/fisheyeboot.jar"  

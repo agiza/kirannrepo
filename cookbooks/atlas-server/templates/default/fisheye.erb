@@ -18,8 +18,8 @@ esac
 start(){
 
 PRG="$0"
-FISHEYE_HOME="/opt/atlassian/fisheye/"
-FISHEYE_INST="/var/atlassian/application-data/fisheye/fisheye_inst/"
+FISHEYE_HOME=/opt/atlassian/fisheye
+FISHEYE_INST=/var/atlassian/application-data/fisheye_inst
 
 if [ ! -f "$FISHEYE_HOME/fisheyeboot.jar" ] ; then
   echo "Error: Could not find $FISHEYE_HOME/fisheyeboot.jar"
@@ -35,8 +35,8 @@ exec "$FISHEYE_HOME/bin/fisheyectl.sh" start "$@"
 stop(){
 
 PRG="$0"
-FISHEYE_HOME="/opt/atlassian/fisheye/"
-FISHEYE_INST="/storage/atlassian/fisheye/fisheye_inst/"
+FISHEYE_HOME=/opt/atlassian/fisheye
+FISHEYE_INST=/var/atlassian/application-data/fisheye_inst
 
 if [ ! -f "$FISHEYE_HOME/fisheyeboot.jar" ] ; then
   echo "Error: Could not find $FISHEYE_HOME/fisheyeboot.jar"
