@@ -9,8 +9,7 @@
 
 service "bamboo" do
   supports :stop => true, :start => true, :restart => true, :statue => true
-  action :enable
-  action :start
+  action [:enable, :start]
 end
 
 directory "/home/bamboo/.ssh" do

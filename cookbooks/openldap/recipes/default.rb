@@ -9,7 +9,7 @@
 
 service "slapd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
+  action [:enable, :start]
 end
 
 package "openldap-servers" do

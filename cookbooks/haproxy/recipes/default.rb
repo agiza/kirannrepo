@@ -14,7 +14,7 @@ end
 
 service "haproxy" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
+  action [:enable, :start]
 end
 
 clusternodes = {}

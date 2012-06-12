@@ -26,8 +26,7 @@ end
 
 service "elasticsearch" do
   supports :start => true, :stop => true, :restart => true, :reload => true
-  action :enable
-  action :start
+  action [:enable, :start]
 end
 
 template "/etc/elasticsearch/elasticsearch.yml" do
