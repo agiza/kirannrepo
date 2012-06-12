@@ -62,6 +62,14 @@ template "/opt/atlassian/jira/conf/server.xml" do
   notifies :restart, resources(:service => "jira")
 end
 
+template "/opt/atlassian/fisheye/bin/fisheyectl.sh" do
+  source "fisheyectl.sh.erb"
+  owner "root"
+  group "root"
+  mode  "0755"
+  notifies :restart, resources(:service => "fisheye")
+end
+
 template "/opt/atlassian/cli/user-add.sh" do
   source "user-add.sh.erb"
   owner  "root"
