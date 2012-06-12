@@ -131,6 +131,8 @@
 	#     This enables optimized SSL connection renegotiation handling when SSL
 	#     directives are used in per-directory context.
 	#SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+	SSLProtocol -ALL +SSLv3 +TLSv1
+        SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:!MEDIUM:!LOW:!SSLv2:!EXPORT
 	<FilesMatch "\.(cgi|shtml|phtml|php)$">
 		SSLOptions +StdEnvVars
 	</FilesMatch>
