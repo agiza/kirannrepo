@@ -9,20 +9,22 @@
 
 service "confluence" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action :enable
-  action :start
+  action [:enable, :start]
 end
 
 service "jira" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action :enable
-  action :start
+  action [:enable, :start]
 end
 
 service "fisheye" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action :enable
-  action :start
+  action [:enable, :start]
+end
+
+service "crowd" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action [:enable, :start]
 end
 
 service "apache2" do
@@ -68,6 +70,22 @@ template "/opt/atlassian/fisheye/bin/fisheyectl.sh" do
   group "root"
   mode  "0755"
   notifies :restart, resources(:service => "fisheye")
+end
+
+template "/opt/atlassian/crowd/crowd.cfg.xml" do
+  source "crowd.cfg.xml.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "crowd")
+end
+
+template "/opt/atlassian/crowd/crowd-openidserver-webapp/WEB-INF/classes/crowd.properties" do
+  source "crowd.properties.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "crowd")
 end
 
 template "/opt/atlassian/cli/user-add.sh" do
@@ -234,6 +252,20 @@ end
 
 link  "/etc/apache2/sites-enabled/realtrans-dev-mod_proxy" do
   to "../sites-available/realtrans-dev-mod_proxy"
+  owner "root"
+  group "root"
+end
+
+template "/etc/apache2/sites-available/crowd-mod_proxy" do
+  source "crowd-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "apache2")
+end
+
+link  "/etc/apache2/sites-enabled/crowd-mod_proxy" do
+  to "../sites-available/crowd-mod_proxy"
   owner "root"
   group "root"
 end
