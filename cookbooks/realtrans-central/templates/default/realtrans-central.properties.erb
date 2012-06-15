@@ -38,6 +38,7 @@ ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 db.showSql=false
 db.generateDdl=false
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+documentService.baseTemplatePath=/opt/tomcat/storage/templates
 
 rt.email.host=<%= node[:mailhost] %>
 rt.email.port=<%= node[:mailport] %>
