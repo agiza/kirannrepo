@@ -1,35 +1,3 @@
-db.driver=com.mysql.jdbc.Driver
-db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/realfoundation?autoReconnect=true
-db.username=<%= node[:rfdb_user] %>
-db.password=<%= node[:rfdb_pass] %>
-db.initialSize=<%= node[:db_initsize] %>
-db.maxActive=<%= node[:db_maxactive] %>
-db.maxIdle=<%= node[:db_maxidle] %>
-db.maxWait=<%= node[:db_maxwait] %>
-db.removeAbandoned=true
-db.removeAbandonedTimeout=600
-db.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
-db.validationQuery=SELECT 1
-db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
-
-db.dialect=org.hibernate.dialect.MySQLDialect
-db.generateDdl=false
-db.showSql=false
-
-auditdb.driver=com.mysql.jdbc.Driver
-auditdb.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/realfoundation?autoReconnect=true
-auditdb.username=<%= node[:audit_user] %>
-auditdb.password=<%= node[:audit_pass] %>
-auditdb.initialSize=<%= node[:audit_initsize] %>
-auditdb.maxActive=<%= node[:audit_maxactive] %>
-auditdb.maxIdle=<%= node[:audit_maxidle] %>
-auditdb.maxWait=<%= node[:audit_maxwait] %>
-auditdb.removeAbandoned=true
-auditdb.removeAbandonedTimeout=600
-auditdb.timeBetweenEvictionRunsMillis=<%= node[:audit_timeevict] %>
-auditdb.validationQuery=SELECT 1
-auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
-
 ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 ldap.searchBase=<%= node[:ldap_searchbase] %>
 
