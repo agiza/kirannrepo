@@ -38,7 +38,8 @@ ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 db.showSql=false
 db.generateDdl=false
 documentService.baseDirectoryPath=/opt/tomcat/storage/docs
-documentService.baseTemplatePath=/opt/tomcat/storage/templates
+documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-central/WEB-INF/classes/templates
+rt.notification.rpUrl=<%= node[:rt_notif_url] %>
 
 rt.email.host=<%= node[:mailhost] %>
 rt.email.port=<%= node[:mailport] %>
