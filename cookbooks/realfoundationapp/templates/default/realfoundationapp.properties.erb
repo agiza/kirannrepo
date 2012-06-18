@@ -1,8 +1,11 @@
-ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-ldap.searchBase=<%= node[:ldap_searchbase] %>
+rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+rf.db.showSql=false
 
-multipartResolver.maxUploadSize=100000
-activiti.databaseSchemaUpdate=false
+rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+
+rf.multipartResolver.maxUploadSize=100000
+rf.activiti.databaseSchemaUpdate=false
 
 rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
 rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
@@ -14,11 +17,11 @@ rf.melissadata.customerId=102942719
 ## the following properties will be gone once security is fully built
 
 appKey=<%= node[:realfound_appkey] %>
-tenantCode=<%= node[:tenantid] %>
-storageLocation=${catalina.base}/storage
-archiveLocation=${catalina.base}/archive
-documentService.baseDirectoryPath=/usr/demo/documents
-documentService.baseTemplatePath=/usr/demo/templates
+rf.tenantCode=<%= node[:tenantid] %>
+rf.storageLocation=${catalina.base}/storage
+rf.archiveLocation=${catalina.base}/archive
+rf.documentService.baseDirectoryPath=/usr/demo/documents
+rf.documentService.baseTemplatePath=/usr/demo/templates
 
 rf.security.maxBadLoginsDefault=3
 rf.security.lockoutWindowMinsDefault=60
