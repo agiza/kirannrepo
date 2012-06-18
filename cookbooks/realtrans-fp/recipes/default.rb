@@ -32,3 +32,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
+  notifies :restart, resources(:service => "altitomcat")
+end
+

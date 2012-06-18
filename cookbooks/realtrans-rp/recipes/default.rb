@@ -32,3 +32,10 @@ template "/opt/tomcat/conf/realtrans-rp.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-rp.xml" do
+  source "realtrans-rp.xml.erb"
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
+  notifies :restart, resources(:service => "altitomcat")
+end

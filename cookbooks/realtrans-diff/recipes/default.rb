@@ -128,6 +128,30 @@ template "/home/ubuntu/config/int-rres.config" do
   notifies :run, resources(:execute => "diff")
 end
 
+template "/home/ubuntu/config/realtrans-central.xml" do
+  source "realtrans-central.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
+template "/home/ubuntu/config/realtrans-rp.xml" do
+  source "realtrans-rp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
+template "/home/ubuntu/config/realtrans-fp.xml" do
+  source "realtrans-fp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
 file "/home/ubuntu/.ssh/authorized_keys" do
   owner "ubuntu"
   group "ubuntu"
