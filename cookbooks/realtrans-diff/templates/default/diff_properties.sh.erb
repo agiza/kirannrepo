@@ -6,7 +6,7 @@ for i in `echo "$apps"`; do
 	sudo chown -R ubuntu.ubuntu /home/ubuntu
 done
 
-appsds="realtrans-central realtrans-rp realtransfp"
+appsds="realtrans-central realtrans-rp realtrans-fp"
 for h in `echo "$appsds"`; do
 	cd /home/ubuntu/work
 	sudo diff -i /opt/tomcat/conf/Catalina/localhost/$h.xml /home/ubuntu/config/$h.xml > /home/ubuntu/work/$h.diff
