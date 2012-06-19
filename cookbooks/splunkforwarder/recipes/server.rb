@@ -25,7 +25,7 @@ template "/opt/splunk/etc/apps/launcher/local/indexes.conf" do
   group  "root"
   mode   "0600"
   variables(
-    :splunk_indexes => splunkindexes['indexes']
+    :splunk_indexes => splunkindexes['indexes'].join(", ")
   )
   notifies :restart, resources(:service => "splunk")
 end
