@@ -8,7 +8,7 @@
 #
 
 package "splunk" do
-  version "4.3.2"
+  version "4.3.2-123586"
   provider Chef::Provider::Package::Yum
   action :install
 end
