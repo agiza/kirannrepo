@@ -19,13 +19,14 @@ service "splunk" do
 end
 
 splunkindexes = data_bag_item("splunk_index", "indexes")
+splunkindexes = {splunkindexes['indexes'].join(", ")}
 template "/opt/splunk/etc/apps/launcher/local/indexes.conf" do
   source "server.indexes.conf.erb"
   owner  "root"
   group  "root"
   mode   "0600"
   variables(
-    :splunk_indexes => splunkindexes['indexes'].join(", ")
+    :splunk_indexes => splunkindexes
   )
   notifies :restart, resources(:service => "splunk")
 end
