@@ -1,0 +1,9 @@
+[monitor:///opt/tomcat/logs/*access*txt]
+disabled = false
+sourcetype = access_combined
+index = <%= node[:access_index ] %>
+
+[monitor:///opt/tomcat/logs/*.log]
+disabled = false
+sourcetype = log4j
+index = <%= node[:log4j_index ] %>
