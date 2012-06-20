@@ -8,20 +8,29 @@
 #
 
 package "splunkforwarder" do
-  #version "4.3.2-123586"
-  arch "x86_64"
-  action :upgrade
+  version "4.3.2-123586"
+  case node[:kernel][:machine]
+  when "i386"
+    arch "i386"
+  when "x86_64"
+    arch "x86_64"
+  end
+  action :install
 end
 
 execute "splunk-first-run" do
-  command "/opt/splunk/bin/splunk --accept-license -user splunk enable boot"
+  command "/opt/splunkforwarder/bin/splunk --accept-license"
   action :run
 end
 
-execute
+execute "splunk-boot-enable" do
+  command "/opt/splunkforwarder/bin/splunk start; /opt/splunkforwarder/bin/splunk enable bootstart -user splunk"
+  action :run
+end
+
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
-  action [:enable, :start]
+  action :nothing
 end
 
 directory "/opt/splunkforwarder/etc/apps/search/local" do
