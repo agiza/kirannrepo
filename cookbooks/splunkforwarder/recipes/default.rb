@@ -8,8 +8,9 @@
 #
 
 package "splunkforwarder" do
-  version "splunkforwarder-4.3.2-123586-linux-2.6-x86_64"
-  action :install
+  #version "4.3.2-123586"
+  arch "x86_64"
+  action :upgrade
 end
 
 execute "splunk-first-run" do
@@ -17,6 +18,7 @@ execute "splunk-first-run" do
   action :run
 end
 
+execute
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
   action [:enable, :start]
