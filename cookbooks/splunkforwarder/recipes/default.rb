@@ -18,14 +18,17 @@ yum_package "splunkforwarder" do
   action :install
 end
 
-execute "splunk-first-run" do
-  command "/opt/splunkforwarder/bin/splunk --accept-license"
-  action :run
+execute "chkconfig-enable" do
+  command "chkconfig splunk on"
+  action :nothing
 end
 
-execute "splunk-boot-enable" do
-  command "/opt/splunkforwarder/bin/splunk status > /dev/null; splunk_check=`echo $?`; if [ "$splunk_check" == "3" ]; then /opt/splunkforwarder/bin/splunk start; fi; /opt/splunkforwarder/bin/splunk enable boot-start -user splunk"
-  action :run
+template "/etc/init.d/splunk" do
+  source "splunk.init.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  notifies :run, resources(:execute -> "chkconfig-enable")
 end
 
 service "splunk" do
