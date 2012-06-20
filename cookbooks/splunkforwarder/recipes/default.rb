@@ -17,6 +17,11 @@ service "splunk" do
   action :enable
 end
 
+directory "/opt/splunkforwarder/etc/apps/search/local" do
+  owner "splunk"
+  group "splunk"
+end
+
 template "/opt/splunkforwarder/etc/system/local/server.conf" do
   source "server.conf.erb"
   owner  "splunk"
