@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package "splunkforwarder" do
+yum_package "splunkforwarder" do
   version "4.3.2-123586"
   case node[:kernel][:machine]
   when "i386"
