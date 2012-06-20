@@ -8,11 +8,11 @@
 #
 
 package "splunkforwarder" do
-  version "splunk-4.3.2-1"
+  version "splunkforwarder-4.3.2-1"
   action :install
 end
 
-service "splunkforwarder" do
+service "splunk" do
   supports :stop => true, :start => true, :reload => true
   action :enable
 end
@@ -22,7 +22,7 @@ template "/opt/splunkforwarder/etc/system/local/server.conf" do
   owner  "splunk"
   group  "splunk"
   mode   "0644"
-  notifies :restart, resources(:service => "splunkforwarder")
+  notifies :restart, resources(:service => "splunk")
 end
 
 template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
@@ -30,7 +30,7 @@ template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
   owner  "splunk"
   group  "splunk"
   mode   "0644"
-  notifies :restart, resources(:service => "splunkforwarder")
+  notifies :restart, resources(:service => "splunk")
 end
 
 template "/opt/splunkforwarder/etc/apps/search/local/inputs.conf" do
@@ -38,6 +38,6 @@ template "/opt/splunkforwarder/etc/apps/search/local/inputs.conf" do
   owner  "splunk"
   group  "splunk"
   mode   "0644"
-  notifies :restart, resources(:service => "splunkforwarder")
+  notifies :restart, resources(:service => "splunk")
 end
 
