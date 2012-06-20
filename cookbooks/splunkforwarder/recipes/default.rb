@@ -8,7 +8,7 @@
 #
 
 package "splunkforwarder" do
-  version "splunkforwarder-4.3.2-1"
+  #version "splunkforwarder-4.3.2-1"
   action :install
 end
 
