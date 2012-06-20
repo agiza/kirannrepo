@@ -18,7 +18,7 @@ yum_package "splunkforwarder" do
   action :install
 end
 
-execute "chkconfig-enable" do
+execute "chkconfig_enable" do
   command "chkconfig splunk on"
   action :nothing
 end
@@ -28,7 +28,7 @@ template "/etc/init.d/splunk" do
   owner  "root"
   group  "root"
   mode   "0755"
-  notifies :run, resources(:execute -> "chkconfig-enable")
+  notifies :run, resources(:execute -> "chkconfig_enable")
 end
 
 service "splunk" do
