@@ -24,7 +24,7 @@ execute "splunk-first-run" do
 end
 
 execute "splunk-boot-enable" do
-  command "/opt/splunkforwarder/bin/splunk start; /opt/splunkforwarder/bin/splunk enable bootstart -user splunk"
+  command "/opt/splunkforwarder/bin/splunk start; /opt/splunkforwarder/bin/splunk enable boot-start -user splunk"
   action :run
 end
 
