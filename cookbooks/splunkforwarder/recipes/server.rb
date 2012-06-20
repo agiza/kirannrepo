@@ -20,7 +20,7 @@ end
 
 splunkindexes = data_bag_item("splunk_index", "indexes")
 splunk_indexes = splunkindexes['indexes'].split(',')
-template "/opt/splunk/etc/apps/launcher/local/indexes.conf" do
+template "/opt/splunk/etc/apps/search/local/indexes.conf" do
   source "server.indexes.conf.erb"
   owner  "root"
   group  "root"
