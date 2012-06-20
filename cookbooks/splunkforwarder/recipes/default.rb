@@ -15,6 +15,7 @@ yum_package "splunkforwarder" do
   when "x86_64"
     arch "x86_64"
   end
+  flush_cache [ :before ]
   action :install
 end
 
