@@ -8,13 +8,18 @@
 #
 
 package "splunkforwarder" do
-  #version "splunkforwarder-4.3.2-1"
+  version "splunkforwarder-4.3.2-123586-linux-2.6-x86_64"
   action :install
+end
+
+execute "splunk-first-run" do
+  command "/opt/splunk/bin/splunk --accept-license -user splunk enable boot"
+  action :run
 end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
-  action :enable
+  action [:enable, :start]
 end
 
 directory "/opt/splunkforwarder/etc/apps/search/local" do
