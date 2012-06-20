@@ -28,7 +28,7 @@ template "/etc/init.d/splunk" do
   owner  "root"
   group  "root"
   mode   "0755"
-  notifies :run, resources(:execute -> "chkconfig_enable")
+  notifies :run, resources(:execute => "chkconfig_enable")
 end
 
 service "splunk" do
