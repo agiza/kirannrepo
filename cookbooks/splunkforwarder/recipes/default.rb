@@ -8,7 +8,7 @@
 #
 
 yum_package "splunkforwarder" do
-  version >= "4.3.2-123586"
+  version "4.3.2-123586"
   case node[:kernel][:machine]
   when "i386"
     arch "i386"
