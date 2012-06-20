@@ -18,22 +18,21 @@ yum_package "splunkforwarder" do
   action :install
 end
 
-execute "chkconfig_enable" do
-  command "chkconfig splunk on"
-  action :nothing
-end
-
 template "/etc/init.d/splunk" do
   source "splunk.init.erb"
   owner  "root"
   group  "root"
   mode   "0755"
-  notifies :run, resources(:execute => "chkconfig_enable")
 end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
-  action :nothing
+  action :enable
+end
+
+execute "first_start" do
+  command "service splunk start --accept-license"
+  action :run_once
 end
 
 directory "/opt/splunkforwarder/etc/apps/search/local" do
