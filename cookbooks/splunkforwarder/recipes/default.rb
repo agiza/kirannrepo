@@ -18,6 +18,11 @@ yum_package "splunkforwarder" do
   action :install
 end
 
+execute "accept_license" do
+  command "/opt/splunkforwarder/bin/splunk --accept-license"
+  action :run
+end
+
 execute "chkconfig_enable" do
   command "chkconfig splunk on"
   action :nothing
