@@ -70,6 +70,7 @@ echo "Version is $branch-$build"
 	else
 		echo -e "$application_name is not a valid application.  Valid application names are: \n  $application_names  \n  Please try again."; exit 1
 	fi
+application_package="$application_target-$branch-$build.noarch.rpm"
 	
 }
 
@@ -200,7 +201,7 @@ fi
 
 execute_tag(){
 # Execute chef client to perform an update on the server.
-$ssh_command root@$target_host "yum clean all; chef-client"
+$ssh_command root@$target_host "yum clean all; sleep 30; chef-client"
 
 } 
 
