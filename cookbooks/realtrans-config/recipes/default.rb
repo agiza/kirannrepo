@@ -132,7 +132,7 @@ template "/opt/tomcat/conf/Catalina/localhost/realtrans-vp.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/realfoundationapp.properties" do
+template "/opt/tomcat/conf/realfoundationapp.properties" do
   source "realfoundationapp.properties.erb"
   owner  "tomcat"
   group  "tomcat"
