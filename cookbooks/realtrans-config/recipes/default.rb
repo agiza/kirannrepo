@@ -83,3 +83,53 @@ template "/opt/tomcat/conf/int-rres.properties" do
   mode   "0644"
   notifies :restart, resources(:service => "altitomcat")
 end
+
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-central.xml" do
+  source "realtrans-central.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-rp.xml" do
+  source "realtrans-rp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-fp.xml" do
+  source "realtrans-fp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/rfviewer.properties" do
+  source "rfviewer.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/realtrans-vp.properties" do
+  source "realtrans-vp.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-vp.xml" do
+  source "realtrans-vp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+
