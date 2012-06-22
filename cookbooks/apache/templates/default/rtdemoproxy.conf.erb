@@ -1,0 +1,24 @@
+<Proxy balancer://rtdemo-rp>
+  Order deny,allow
+  Allow from 10.
+  Allow from 184.72.127.192
+  Allow from 65.214.21.1/24
+  Allow from 111.93.137.1/26
+  Allow from 127.0.0.0/255.0.0.0 ::1/128
+  BalancerMember http://realtrans-demo:8080 route=realtrans-demo
+  ProxySet stickysession=JSESSIONID
+  <LimitExcept POST GET>
+    Order allow,deny
+    Deny from all
+  </LimitExcept>
+  </Proxy>
+
+ProxyRequests             Off
+ProxyPreserveHost         On
+# RP
+ProxyPass               /realtrans-rp   balancer://rtdemo-rp/realtrans-rp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-rp   balancer://rtdemo-rp/realtrans-rp stickysession=JSESSIONID|jsessionid
+# FP
+ProxyPass               /realtrans-fp   balancer://rtdemo-rp/realtrans-fp stickysession=JSESSIONID|jsessionid
+ProxyPassReverse        /realtrans-fp   balancer://rtdemo-rp/realtrans-fp stickysession=JSESSIONID|jsessionid
+

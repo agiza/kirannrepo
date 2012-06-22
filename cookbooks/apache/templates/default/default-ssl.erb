@@ -170,5 +170,8 @@
 	# MSIE 7 and newer should be able to use keepalive
 	BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
 
+Include proxy-enabled/rtqaproxy.conf
+Include proxy-enabled/rtdemoproxy.conf
+
 </VirtualHost>
 </IfModule>

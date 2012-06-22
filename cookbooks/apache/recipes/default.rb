@@ -59,6 +59,16 @@ end
 
 case node[:platform]
   when "debian","ubuntu"
+    directory "/etc/apache2/proxy-available" do
+      owner "root"
+      group "root"
+    end
+
+    directory "/etc/apache2/proxy-enabled" do
+      owner "root"
+      group "root"
+    end
+
     template "/etc/apache2/ports.conf" do
       source "ports.conf.erb"
       owner "root"
@@ -97,6 +107,38 @@ case node[:platform]
       group "root"
       mode "0644"
       notifies :reload, resources(:service => "apache2")
+    end
+   
+    template "/etc/apache2/proxy-available/rtqaproxy.conf" do
+      source "rtqaproxy.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      variables(:servers => server_list)
+      notifies :reload, resources(:service => "apache2")
+    end
+
+    template "/etc/apache2/proxy_available/rtdemoproxy.conf" do
+      source "rtdemoproxy.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      variables(:servers => server_list)
+      notifies :reload, resources(:service => "apache2")
+    end
+
+    link "/etc/apache2/proxy-enabled/rtqaproxy.conf" do
+      to "../proxy-available/rtqaproxy.conf"
+      owner "root"
+      group "root"
+      only_if "test -f /etc/apache2/proxy-available/rtqaproxy.conf"
+    end
+
+    link "/etc/apache2/proxy-enabled/rtdemoproxy.conf" do
+      to "../proxy-available/rtdemoproxy.conf"
+      owner "root"
+      group "root"
+      only_if "test -f /etc/apache2/proxy-available/rtdemoproxy.conf"
     end
 end
 
@@ -151,15 +193,6 @@ end
 server_list = Hash.new
 rt_servers = search(:node, "role:Realtrans-CORE AND chef_environment:QA").each do |server|
   server_list[server.hostname] = server.ipaddress
-end
-
-template "/etc/apache2/mods-available/rtqa-mod_proxy" do
-  source "rtqa-mod_proxy.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables(:servers => server_list)
-  notifies :reload, resources(:service => "apache2")
 end
 
 template "/etc/apache2/mods-available/vpn-mod_proxy" do

@@ -1,5 +1,6 @@
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
+	ServerName 107.21.20.81
 
 	DocumentRoot /var/www
 	<Directory />
@@ -55,6 +56,8 @@
 	Allow from 24.126.242.183
 	Allow from 10.
     </Directory>
+Include proxy-enabled/rtqaproxy.conf
+Include proxy-enabled/rtdemoproxy.conf
 
 
 </VirtualHost>
