@@ -4,7 +4,7 @@
 # Requirements to follow
 #Static variables
 repo="http://atlas"
-altitomcat="http://atlas/yum/common/altitomcat-1.0.0-5.noarch.rpm"
+altitomcat="http://atlas/yum/common/altitomcat-1.0.0-8.noarch.rpm"
 splunk_forward="http://atlas/yum/common/splunkforwarder-1.0.0-2.noarch.rpm"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 application_names="realfoundation \n  realtrans-central \n  realtrans-vi \n  realtrans-rp \n  realtrans-fp \n  int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n"
@@ -47,6 +47,10 @@ echo "Version is $branch-$build"
 		application_bin=$application_name
 		application_target=$application_name
 		app_attribute="realtransfp_version"
+        elif [ "$application_name" == "realtrans-vp" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="realtransvp_version"
 	elif [ "$application_name" == "int-corelogic" ]; then
 		application_bin=$application_name
 		application_target=$application_name
