@@ -8,9 +8,15 @@
 #
 
 package "splunk" do
-  version "4.3.2-123586"
+  #version "4.3.3-128297"
   provider Chef::Provider::Package::Yum
-  action :install
+  case node[:kernel][:machine]
+  when "i386"
+    arch "i386"
+  when "x86_64"
+    arch "x86_64"
+  end
+  action :upgrade
 end
 
 service "splunk" do

@@ -7,13 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 
-yum_package "splunkforwarder" do
+package "splunkforwarder" do
   version "4.3.3-128297"
   case node[:kernel][:machine]
   when "i386"
-    arch "i386"
+    source "http://10.0.0.20/yum/common/splunkforwarer-4.3.3-128297-linux-2.6-intel.deb"
   when "x86_64"
-    arch "x86_64"
+    source "http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
   end
   action :upgrade
 end
