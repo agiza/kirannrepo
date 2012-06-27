@@ -7,13 +7,26 @@
 # All rights reserved - Do Not Redistribute
 #
 
+execute "splunk_download" do
+  case node[:kernel][:machine]
+  when "i386"
+    command "wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
+    creates "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
+  when "x86_64"
+    command "wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
+    creates "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
+  end
+  action :run
+end
+
+
 package "splunkforwarder" do
   version "4.3.3-128297"
   case node[:kernel][:machine]
   when "i386"
-    source "http://10.0.0.20/yum/common/splunkforwarer-4.3.3-128297-linux-2.6-intel.deb"
+    source "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
   when "x86_64"
-    source "http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
+    source "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
   end
   action :upgrade
 end
