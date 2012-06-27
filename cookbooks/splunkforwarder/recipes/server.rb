@@ -20,7 +20,7 @@ package "splunk" do
 end
 
 service "splunk" do
-  supports :stop => true, :start => true, :reload => true
+  supports :stop => true, :start => true, :reload => true, :restart => true
   action [:enable, :start]
 end
 

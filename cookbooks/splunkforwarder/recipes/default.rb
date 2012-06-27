@@ -19,7 +19,7 @@ yum_package "splunkforwarder" do
 end
 
 execute "first_start" do
-  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license\" splunk"
+  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes\" splunk"
   action :nothing
 end
 
@@ -33,7 +33,7 @@ end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
-  action :enable
+  action [:enable, :start]
 end
 
 directory "/opt/splunkforwarder/etc/apps/search/local" do
