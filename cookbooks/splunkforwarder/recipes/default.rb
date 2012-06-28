@@ -19,7 +19,7 @@ yum_package "splunkforwarder" do
 end
 
 execute "first_start" do
-  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes && touch /var/opt/splunkforwarder/first_run\" splunk"
+  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes && touch /opt/splunkforwarder/first_run\" splunk"
   creates "/opt/splunkforwarder/first_run"
   action :run
 end
