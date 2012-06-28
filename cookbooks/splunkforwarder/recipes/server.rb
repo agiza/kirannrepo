@@ -11,7 +11,7 @@ package "splunk" do
   #version "4.3.3-128297"
   provider Chef::Provider::Package::Yum
   case node[:kernel][:machine]
-  when "i386"
+  when "i386","i686"
     arch "i386"
   when "x86_64"
     arch "x86_64"

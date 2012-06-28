@@ -10,7 +10,7 @@
 yum_package "splunkforwarder" do
   version "4.3.3-128297"
   case node[:kernel][:machine]
-  when "i386"
+  when "i386","i686"
     arch "i386"
   when "x86_64"
     arch "x86_64"
@@ -19,8 +19,9 @@ yum_package "splunkforwarder" do
 end
 
 execute "first_start" do
-  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes\" splunk"
-  action :nothing
+  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes && touch /var/opt/splunkforwarder/first_run\" splunk"
+  creates "/opt/splunkforwarder/first_run"
+  action :run
 end
 
 template "/etc/init.d/splunk" do
