@@ -30,7 +30,7 @@ dpkg_package "splunkforwarder" do
   when "x86_64"
     source "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
   end
-  action :upgrade
+  action :install
 end
 
 execute "first_start" do
