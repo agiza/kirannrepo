@@ -7,13 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
-execute "splunk_download" do
+execute "splunkdownload" do
+  user "ubuntu"
+  cwd "/tmp"
   case node[:kernel][:machine]
-  when "i386"
-    command "wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
+  when "i386","i686"
+    command "/usr/bin/wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
     creates "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
   when "x86_64"
-    command "wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
+    command "/usr/bin/wget -O /tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb http://10.0.0.20/yum/common/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
     creates "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
   end
   action :run
@@ -25,24 +27,32 @@ package "splunkforwarder" do
   case node[:kernel][:machine]
   when "i386"
     source "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-intel.deb"
+    provider "Chef::Provider::Package::Dpkg"
   when "x86_64"
     source "/tmp/splunkforwarder-4.3.3-128297-linux-2.6-amd64.deb"
+    provider "Chef::Provider::Package::Dpkg"
   end
   action :upgrade
 end
 
 execute "first_start" do
   command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes\" splunk"
-  action :nothing
+  action :run
 end
 
-template "/etc/init.d/splunk" do
-  source "splunk.init.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-  notifies :run, resources(:execute => "first_start")
+execute "splunk_init" do
+  command "/opt/splunkforwarder/bin/splunk enable boot-start"
+  creates "/etc/init.d/splunk"
+  action :run
 end
+  
+#template "/etc/init.d/splunk" do
+#  source "splunk.init.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0755"
+#  notifies :run, resources(:execute => "first_start")
+#end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true, :restart => true
