@@ -34,7 +34,8 @@ dpkg_package "splunkforwarder" do
 end
 
 execute "first_start" do
-  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes\" splunk"
+  command "su -c \"/opt/splunkforwarder/bin/splunk start --accept-license --no-prompt --answer-yes && touch /opt/splunkforwarder/first_run\" splunk"
+  creates "/opt/splunkforwarder/first_run"
   action :run
 end
 
