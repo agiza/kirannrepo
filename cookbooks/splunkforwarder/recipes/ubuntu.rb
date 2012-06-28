@@ -22,7 +22,7 @@ execute "splunkdownload" do
 end
 
 
-package "splunkforwarder" do
+dpkg_package "splunkforwarder" do
   version "4.3.3-128297"
   case node[:kernel][:machine]
   when "i386"
