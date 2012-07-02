@@ -39,7 +39,7 @@
 #                   only be used by Tomcat itself, not by the stop process,
 #                   the version command etc.
 #                   Examples are heap size, GC logging, JMX ports etc.
-CATALINA_OPTS="-Xrunjdwp:transport=dt_socket,address=5005,suspend=n,server=y <%= node[:appdynamix_agent] %> -Dappdynamics.controller.hostName=<%= node[:appdynamix_host] %> -Dappdynamics.controller.port=8090 <%= node[:java_mem_min] %> <%= node[:java_mem_max] %> <%= node[:java_perm_size] %> jvm.route=<%= node[:hostname] %>"
+CATALINA_OPTS="-Xrunjdwp:transport=dt_socket,address=5005,suspend=n,server=y <%= node[:appdynamix_agent] %> -Dappdynamics.controller.hostName=<%= node[:appdynamix_host] %> -Dappdynamics.controller.port=8090 <%= node[:java_mem_min] %> <%= node[:java_mem_max] %> <%= node[:java_perm_size] %>"
 #
 #   CATALINA_TMPDIR (Optional) Directory path location of temporary directory
 #                   the JVM should use (java.io.tmpdir).  Defaults to
