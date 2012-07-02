@@ -23,3 +23,11 @@ template "/opt/tomcat/bin/catalina.sh" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/server.xml" do
+  source "server.xml.erb"
+  group  "tomcat"
+  owner  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
