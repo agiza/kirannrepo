@@ -10,6 +10,7 @@ email="bryan.phinney@gmail.com"
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "confluence-users" 
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "fisheye-users" 
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "jira-users" 
+./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "jira-developers" 
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "nexus-users"
 
 nohup echo -e "User account $userid has been deactivated by changing the password. \n
