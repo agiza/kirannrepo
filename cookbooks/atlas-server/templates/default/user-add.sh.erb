@@ -11,6 +11,7 @@ email=`cat $1 | cut -d "|" -f3`
 ./atlassian.sh jira --action addUserToGroup --userId "$userid" --group "confluence-users" 
 ./atlassian.sh jira --action addUserToGroup --userId "$userid" --group "fisheye-users" 
 ./atlassian.sh jira --action addUserToGroup --userId "$userid" --group "jira-users" 
+./atlassian.sh jira --action addUserToGroup --userId "$userid" --group "jira-developers"
 ./atlassian.sh jira --action addUserToGroup --userId "$userid" --group "nexus-users"
 
 nohup echo -e "A user account has been created for "$fullname" with userid "$userid" and the same password. \n
