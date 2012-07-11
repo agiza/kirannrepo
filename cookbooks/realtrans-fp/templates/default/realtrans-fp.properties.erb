@@ -1,44 +1,20 @@
-db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-db.driver=com.mysql.jdbc.Driver
-db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rt_dbname] %>?autoReconnect=true
-db.name=<%= node[:rt_dbname] %>
-db.username=<%= node[:db_user] %>
-db.password=<%= node[:db_pass] %>
-db.initialSize=<%= node[:db_initsize] %>
-db.maxActive=<%= node[:db_maxactive] %>
-db.maxIdle=<%= node[:db_maxidle] %>
-db.maxWait=<%= node[:db_maxwait] %>
-db.removeAbandoned=true
-db.removeAbandonedTimeout=600
-db.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
-db.validationQuery=SELECT 1
-db.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
-auditdb.initialSize=<%= node[:audit_initsize] %>
-auditdb.maxActive=<%= node[:audit_maxactive] %>
-auditdb.maxIdle=<%= node[:audit_maxidle] %>
-auditdb.maxWait=<%= node[:audit_maxwait] %>
-auditdb.removeAbandoned=true
-auditdb.removeAbandonedTimeout=600
-auditdb.timeBetweenEvictionRunsMillis=<%= node[:audit_timeevict] %>
-auditdb.validationQuery=SELECT 1
-auditdb.validationQueryTimeout=<%= node[:audit_valquerytimeout] %>
 rt.amqp.host=<%= node[:amqp_host] %>
 rt.amqp.port=<%= node[:amqp_port] %>
 rt.amqp.username=<%= node[:rt_amqp_user] %>
 rt.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
-ldap.port=<%= node[:ldap_port] %>
-ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+rf.ldap.port=<%= node[:ldap_port] %>
+rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 
-db.showSql=false
-db.generateDdl=false
-documentService.baseDirectoryPath=/opt/tomcat/storage/docs
-tenantCode=<%= node[:tenantid] %>
+rf.db.showSql=false
+rf.db.generateDdl=false
+rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+rf.tenantCode=<%= node[:tenantid] %>
 
-multipartResolver.maxUploadSize=100000
+rf.multipartResolver.maxUploadSize=100000
 
-melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-melissadata.email.webhost=email.<%= node[:melissa_server] %>
-melissadata.customerId=102942719
-melissadata.defaultMaxConnectionsPerHost=1
+rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
+rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
+rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.customerId=102942719
+rf.melissadata.defaultMaxConnectionsPerHost=1
