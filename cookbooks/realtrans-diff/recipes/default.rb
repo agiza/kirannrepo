@@ -80,6 +80,22 @@ template "/home/ubuntu/config/realtrans-fp.config" do
   notifies :run, resources(:execute => "diff")
 end
 
+template "/home/ubuntu/config/realtrans-vp.config" do
+  source "realtrans-vp.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
+template "/home/ubuntu/config/realtrans-reg.config" do
+  source "realtrans-reg.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
 template "/home/ubuntu/config/int-corelogic.config" do
   source "int-corelogic.properties.erb"
   owner  "tomcat"
@@ -151,6 +167,23 @@ template "/home/ubuntu/config/realtrans-fp.xml" do
   mode   "0644"
   notifies :run, resources(:execute => "diff")
 end
+
+template "/home/ubuntu/config/realtrans-vp.xml" do
+  source "realtrans-vp.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
+template "/home/ubuntu/config/realtrans-reg.xml" do
+  source "realtrans-reg.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
 
 file "/home/ubuntu/.ssh/authorized_keys" do
   owner "ubuntu"

@@ -132,6 +132,23 @@ template "/opt/tomcat/conf/Catalina/localhost/realtrans-vp.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/realtrans-reg.properties" do
+  source "realtrans-reg.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/Catalina/localhost/realtrans-reg.xml" do
+  source "realtrans-reg.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+
 template "/opt/tomcat/conf/realfoundationapp.properties" do
   source "realfoundationapp.properties.erb"
   owner  "tomcat"
