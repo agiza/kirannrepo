@@ -7,6 +7,7 @@ rt.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 
 rf.db.showSql=false
 rf.db.generateDdl=false
