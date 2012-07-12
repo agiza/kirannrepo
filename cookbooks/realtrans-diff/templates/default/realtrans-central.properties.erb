@@ -23,7 +23,9 @@ rt.vendor.certification.process.definition.key=VendorCertificationMainprocess
 
 rf.db.showSql=false
 rf.db.generateDdl=false
-rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs/
+rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-central/WEB-INF/classes/templates
 
 rt.email.host=<%= node[:mailhost] %>
 rt.email.port=<%= node[:mailport] %>
