@@ -7,20 +7,48 @@ rt.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 
 rf.db.showSql=false
 rf.db.generateDdl=false
 rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-reg/WEB-INF/classes/templates
 rf.tenantCode=<%= node[:tenantid] %>
 
 rf.multipartResolver.maxUploadSize=100000
 
-rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.address.webhost=addresscheck.melissadata.net
+rf.melissadata.phone.webhost=phonecheck.melissadata.net
+rf.melissadata.email.webhost=email.melissadata.net
 rf.melissadata.customerId=102942719
 rf.melissadata.defaultMaxConnectionsPerHost=1
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=<%= node[:mailport] %>
+rf.melissadata.geocode.webhost=geocoder.melissadata.net
+
+rf.email.host=mail
+rf.email.port=25
+rf.email.username=none
+rf.email.password=none
+
+internalDomains=
+
+rf.startupFileLocation=${catalina.base}/startup.xml
+
+rf.activiti.databaseSchemaUpdate=false
+
+rf.security.lockoutWindowMinsDefault=60
+rf.security.maxBadLoginsDefault=3
+rf.security.password.alphaMinDefault=1
+rf.security.password.lengthDefault=6
+rf.security.password.lowerCaseMinDefault=1
+rf.security.password.nonAlphaMinDefault=0
+rf.security.password.numericMinDefault=1
+rf.security.password.upperCaseMinDefault=1
+rf.security.passwordTokenExpiryMinsDefault=600
+
+rf.newUserTemplate=classpath:/rt_vrp_newUserTemplate.html
+rf.newUserSubject=Welcome!
+rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
+rf.passwordResetSubject=Password Reset
+rf.userNotificationFromAddress=noreply@altisource.com
 
