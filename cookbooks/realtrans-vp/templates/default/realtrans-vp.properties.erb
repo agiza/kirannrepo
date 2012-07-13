@@ -9,6 +9,16 @@ rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 
+#vendor order app config related.
+rt.vendor.order.app.config.name=valuation
+rt.vendor.order.app.config.version=1.0
+rt.vendor.order.process.definition.key=VendorAssignmentMainProcess
+
+#Vendor Certification app config related.
+rt.vendor.certification.app.config.name=valuation
+rt.vendor.certification.app.config.version=1.0
+rt.vendor.certification.process.definition.key=VendorCertificationMainprocess
+
 rf.db.showSql=false
 rf.db.generateDdl=false
 rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
