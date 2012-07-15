@@ -5,6 +5,13 @@ rt.amqp.port=<%= node[:amqp_port] %>
 rt.amqp.username=<%= node[:rt_amqp_user] %>
 rt.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+amqp.exchange.monitoring=rt.monitoring
+amqp.exchange.outgoing=rt.core.internal
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
