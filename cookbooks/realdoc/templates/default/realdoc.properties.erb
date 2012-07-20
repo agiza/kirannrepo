@@ -1,23 +1,95 @@
+realdoc.mongo.server=<%= node[:mongodb_server] %>
+realdoc.mongo.database=<%= node[:mongodb_database] %>
+mongo.server=<%= node[:fqdn] %>
+mongo.database=<%= node[:mongodb_database] %>
+
+realdoc.email.fromAddress=ubuntu@altidev.com
+realdoc.fax.toAddress=robert.hudson@altisource.com
+
+realdoc.printstandard.ftp.host=<%= node[:hostname] %>
+realdoc.printstandard.ftp.port=21
+realdoc.printstandard.ftp.username=ftptest
+realdoc.printstandard.ftp.password=ftppass
+
+realdoc.printcertified.ftp.host=<%= node[:hostname] %>
+realdoc.printcertified.ftp.port=21
+realdoc.printcertified.ftp.username=ftptest
+realdoc.printcertified.ftp.password=ftppass
+realdoc.correspondence.directory=correspondence
+
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
+amqp.username=<%= node[:rd_amqp_user] %>
+amqp.password=<%= node[:rd_amdqp_pass] %>
+amqp.queue.inbound=realdoc
+
+db.driver=com.mysql.jdbc.Driver
+rf.db.showSql=false
+rf.db.generateDdl=false
+rf.db.dialect=org.hibernate.dialect.MySQLDialect
+rf.db.maxActive=10
+rf.db.maxIdle=2
+rf.db.maxWait=6000
+rf.db.timeBetweenEvictionRunsMillis=60000
+rf.db.removeAbandoned=true
+rf.db.removeAbandonedTimeout=600
+rf.db.validationQuery= SELECT 1
+rf.db.validationQueryTimeout=2
+rf.db.initialSize=2
+rf.defaultPlugin=realdoc-ui
+
 rf.db.dialect=org.hibernate.dialect.MySQLDialect
 rf.db.generateDdl=false
 rf.db.showSql=false
+
+auditdb.driver=com.mysql.jdbc.Driver
+auditdb.url=jdbc:mysql://localhost:3306/realsuite
+auditdb.username=realsuite
+auditdb.password=realsuite
+## the following properties will be gone once security is fully built
+appKey=REALTRANS
+rf.tenantCode=Tenant1
+
+rf.storageLocation=/tmp
+rf.archiveLocation=/tmp
+rf.documentService.baseDirectoryPath=/opt/tomcat/temp
+rf.documentService.baseTemplatePath=/opt/tomcat/temp
 
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false
-
 rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
 rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
 rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
 rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
 rf.melissadata.customerId=102942719
 
-rf.ui.config.logoLink=http://www.altisource11.com/
+template.mongo.database=realdoc
+realdoc.mongo.host=<%= node[:fqdn] %>
+template.mongo.host=<%= node[:fqdn] %>
+mongo.host=<%= node[:fqdn] %>
+correspondence.mongo.host=<%= node[:fqdn] %>
+correspondence.mongo.database=realdoc
+viewer.mongo.host=<%= node[:fqdn] %>
+viewer.mongo.database=realdoc
+
+logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
 rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
-brandName=wide
+brandName=default
+
+rf.security.maxBadLoginsDefault=3
+rf.security.lockoutWindowMinsDefault=60
+rf.security.password.lengthDefault=6
+rf.security.password.numericMinDefault=1
+rf.security.password.alphaMinDefault=1
+rf.security.password.nonAlphaMinDefault=0
+rf.security.password.lowerCaseMinDefault=1
+rf.security.password.upperCaseMinDefault=1
+rf.security.passwordTokenExpiryMinsDefault=30
+
 
 ## the following properties will be gone once security is fully built
 
@@ -38,39 +110,19 @@ rf.security.password.lowerCaseMinDefault=1
 rf.security.password.upperCaseMinDefault=1
 rf.security.passwordTokenExpiryMinsDefault=30
 
-rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
-rf.newUserTemplate=classpath:/newUserTemplate.html
-rf.passwordResetSubject=Password Reset
-rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=noreply@altisource.com
-
 rf.startupFileLocation=${catalina.base}/startup.xml
 rf.ldapAuthenticationProvider.enabled=false
 
 rf.email.host=<%= node[:mailhost] %>
 rf.email.port=25
-rf.email.username=altisource
-rf.email.password=whatever
+rf.email.username=
+rf.email.password=
 
-internalDomains=none
-
+rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
+rf.newUserTemplate=classpath:/newUserTemplate.html
+rf.passwordResetSubject=Password Reset
+rf.newUserSubject=Welcome!
+rf.userNotificationFromAddress=noreply@altisource.com
 realsearch.elasticsearch.url=localhost:9200/realsearch/entity
 
-realdoc.correspondence.directory=correspondence
-
-realdoc.email.fromAddress=ubuntu@altidev.com
-realdoc.fax.toAddress=robert.hudson@altisource.com
-#realdoc.fax.toAddress=rhudson.altisource@gmail.com
-
-realdoc.printstandard.ftp.host=node[:hostname]
-realdoc.printstandard.ftp.port=21
-realdoc.printstandard.ftp.username=ftptest
-realdoc.printstandard.ftp.password=ftppass
-
-realdoc.printcertified.ftp.host=node[:hostname]
-realdoc.printcertified.ftp.port=21
-realdoc.printcertified.ftp.username=ftptest
-realdoc.printcertified.ftp.password=ftppass
-
-realdoc.mongo.server=node[:fqdn]
-realdoc.mongo.database=realdoc
+internalDomains=none
