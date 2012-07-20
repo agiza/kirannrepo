@@ -157,3 +157,9 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/root/tomcat-clean.sh" do
+  source "tomcat-clean.sh.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end

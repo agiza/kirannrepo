@@ -184,6 +184,12 @@ template "/home/ubuntu/config/realtrans-reg.xml" do
   notifies :run, resources(:execute => "diff")
 end
 
+template "/home/ubuntu/tomcat-clean.sh" do
+  source "tomcat-clean.sh.erb"
+  owner  "ubuntu"
+  group  "ubuntu"
+  mode   "0755"
+end
 
 file "/home/ubuntu/.ssh/authorized_keys" do
   owner "ubuntu"
