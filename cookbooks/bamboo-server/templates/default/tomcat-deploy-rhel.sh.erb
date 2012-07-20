@@ -1,0 +1,15 @@
+#!/bin/sh
+hostname=$1
+targetURL=$2
+targetApp=$3
+appname=`echo $targetApp | cut -d "/" -f2`
+# clean up temporary directory first
+rm -rf /tmp/$appname
+# Get webapp
+wget -O /tmp/$appname $targetURL/$targetApp; if [ "$?" -gt "0" ]; then echo "Error getting binaries"; exit 1; fi
+# Deploy webapp
+scp -q -o StrictHostKeyChecking=no /tmp/$appname root@$hostname:/opt/tomcat/webapps/$appname; if [ "$?" -gt "0" ]; then echo "Error deploying binaries"; exit 1; fi
+# cleanup
+rm -rf /tmp/$appname
+
+
