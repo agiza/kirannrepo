@@ -68,12 +68,12 @@ rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
 rf.melissadata.customerId=102942719
 
 template.mongo.database=realdoc
-realdoc.mongo.host=<%= node[:fqdn] %>
-template.mongo.host=<%= node[:fqdn] %>
-mongo.host=<%= node[:fqdn] %>
-correspondence.mongo.host=<%= node[:fqdn] %>
+realdoc.mongo.host=<%= node[:mongodb_server] %>
+template.mongo.host=<%= node[:mongodb_server] %>
+mongo.host=<%= node[:mongodb_server] %>
+correspondence.mongo.host=<%= node[:mongodb_server] %>
 correspondence.mongo.database=realdoc
-viewer.mongo.host=<%= node[:fqdn] %>
+viewer.mongo.host=<%= node[:mongodb_server] %>
 viewer.mongo.database=realdoc
 
 logoLink=http://www.altisource11.com/
