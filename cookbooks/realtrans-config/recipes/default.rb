@@ -165,14 +165,6 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/int-rs.xml" do
-  source "int-rs.xml.erb"
-  owner  "tomcat"
-  group  "tomcat"
-  mode   "0644"
-  notifies :restart, resources(:service => "altitomcat")
-end
-
 template "/root/tomcat-clean.sh" do
   source "tomcat-clean.sh.erb"
   owner  "root"
