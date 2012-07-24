@@ -84,6 +84,14 @@ template "/opt/tomcat/conf/int-rres.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/realservicing.simulator.properties" do
+  source "realservicing.simulator.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
 template "/opt/tomcat/conf/Catalina/localhost/realtrans-central.xml" do
   source "realtrans-central.xml.erb"
   owner  "tomcat"

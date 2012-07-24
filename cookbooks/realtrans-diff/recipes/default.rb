@@ -144,6 +144,14 @@ template "/home/ubuntu/config/int-rres.config" do
   notifies :run, resources(:execute => "diff")
 end
 
+template "/home/ubuntu/config/realservicing.simulator.config" do
+  source "realservicing.simulator.properties.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
 template "/home/ubuntu/config/realtrans-central.xml" do
   source "realtrans-central.xml.erb"
   owner  "tomcat"
