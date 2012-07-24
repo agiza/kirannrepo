@@ -192,6 +192,14 @@ template "/home/ubuntu/config/realtrans-reg.xml" do
   notifies :run, resources(:execute => "diff")
 end
 
+template "/home/ubuntu/config/int-rs.xml" do
+  source "int-rs.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
+  notifies :run, resources(:execute => "diff")
+end
+
 template "/home/ubuntu/tomcat-clean.sh" do
   source "tomcat-clean.sh.erb"
   owner  "ubuntu"
