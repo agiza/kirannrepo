@@ -204,6 +204,13 @@ template "/home/ubuntu/tomcat-clean.sh" do
   mode   "0755"
 end
 
+template "/opt/tomcat/bin/catalina.sh" do
+  source "catalina.sh.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0755"
+end
+
 file "/home/ubuntu/.ssh/authorized_keys" do
   owner "ubuntu"
   group "ubuntu"
