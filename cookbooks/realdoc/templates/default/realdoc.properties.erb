@@ -24,6 +24,13 @@ amqp.password=<%= node[:rd_amqp_pass] %>
 amqp.virtual-host=/<%= node[:rd_amqp_vhost] %>
 amqp.queue.inbound=realdoc
 
+realdoc.correspondence.amqp.host=<%= node[:amqp_host] %>
+realdoc.correspondence.amqp.port=<%= node[:amqp_port] %>
+realdoc.correspondence.amqp.username=<%= node[:rd_amqp_user] %>
+realdoc.correspondence.amqp.password=<%= node[:rd_amqp_pass] %>
+realdoc.correspondence.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
+realdoc.correspondence.amqp.recon.inbound=correspondence.recon.in
+
 db.driver=com.mysql.jdbc.Driver
 rf.db.showSql=false
 rf.db.generateDdl=false
