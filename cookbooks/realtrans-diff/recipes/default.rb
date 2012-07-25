@@ -32,6 +32,11 @@ directory "/opt/tomcat/.ssh" do
   group "tomcat"
 end
 
+directory "/mnt/logs" do
+  owner "tomcat"
+  group "tomcat"
+end
+
 directory "/mnt/tomcat/logs" do
   owner "tomcat"
   group "tomcat"
