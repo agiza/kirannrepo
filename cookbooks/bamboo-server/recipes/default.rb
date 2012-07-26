@@ -218,38 +218,3 @@ link "/home/bamboo/.chef" do
   group "bamboo"
 end
 
-template "/home/bamboo/.chef/client.rb" do
-  source "client.rb.erb"
-  owner "bamboo"
-  group "bamboo"
-  mode  "0644"
-end
-
-template "/home/bamboo/.chef/knife.rb" do
-  source "knife.rb.erb"
-  owner "bamboo"
-  group "bamboo"
-  mode  "0664"
-end
-
-template "/home/bamboo/.chef/validation.pem" do
-  source "validation.pem.erb"
-  owner "bamboo"
-  group "bamboo"
-  mode  "0644"
-end
-
-template "/home/bamboo/.chef/client.pem" do
-  source "client.pem.erb"
-  owner "bamboo"
-  group "bamboo"
-  mode  "0600"
-end
-
-template "/home/bamboo/.chef/bamboo.altidev.com.pem" do
-  source "bamboo.altidev.com.pem.erb"
-  owner "bamboo"
-  group "bamboo"
-  mode  "0600"
-end
-
