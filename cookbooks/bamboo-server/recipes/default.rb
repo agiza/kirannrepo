@@ -113,12 +113,6 @@ link "/opt/atlassian/bamboo/plugins" do
   group "bamboo"
 end
 
-link "/opt/atlassian/bamboo/webapp/WEB-INF/lib/hung-build-killer-2.1.jar" do
-  to "/mnt/bamboo_data/plugins/hung-build-killer-2.1.jar"
-  owner "bamboo"
-  group "bamboo"
-end
-
 template "/home/bamboo/bin/bamboo-git-tag" do
   source "bamboo-git-tag.erb"
   owner "bamboo"
@@ -222,5 +216,40 @@ link "/home/bamboo/.chef" do
   to "/opt/bamboo/.chef"
   owner "bamboo"
   group "bamboo"
+end
+
+template "/home/bamboo/.chef/client.rb" do
+  source "client.rb.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0644"
+end
+
+template "/home/bamboo/.chef/knife.rb" do
+  source "knife.rb.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0664"
+end
+
+template "/home/bamboo/.chef/validation.pem" do
+  source "validation.pem.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0644"
+end
+
+template "/home/bamboo/.chef/client.pem" do
+  source "client.pem.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0600"
+end
+
+template "/home/bamboo/.chef/bamboo.altidev.com.pem" do
+  source "bamboo.altidev.com.pem.erb"
+  owner "bamboo"
+  group "bamboo"
+  mode  "0600"
 end
 
