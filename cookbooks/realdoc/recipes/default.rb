@@ -24,6 +24,10 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+package "msttcorefonts" do
+  action :upgrade
+end
+
 template "/opt/tomcat/conf/realdoc.properties" do
   source "realdoc.properties.erb"
   group 'tomcat'
