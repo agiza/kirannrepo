@@ -7,9 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package "splunk" do
+yum_package "splunk" do
   #version "4.3.3-128297"
-  provider Chef::Provider::Package::Yum
   case node[:kernel][:machine]
   when "i386","i686"
     arch "i386"
