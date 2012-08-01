@@ -27,7 +27,6 @@ yum_package "#{app_name}" do
   flush_cache [ :before ]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
-  only_if "test #{node.chef_environment} == 'Dev'"
 end
 
 package "msttcorefonts" do
