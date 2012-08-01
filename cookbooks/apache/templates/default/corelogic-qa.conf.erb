@@ -9,7 +9,7 @@ Deny from all
 
 ProxyRequests             Off
 ProxyPreserveHost         On
-ProxyPassReverse  /int-corelogic/qa/        http://realtrans-qa:8080/int-corelogic/
+#ProxyPassReverse  /int-corelogic/qa/        http://realtrans-qa:8080/int-corelogic/
 <Location /int-corelogic/qa/>
 ProxyPass                 http://realtrans-qa:8080/int-corelogic/
 Allow from 69.87.90.251

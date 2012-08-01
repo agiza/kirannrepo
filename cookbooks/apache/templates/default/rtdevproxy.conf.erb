@@ -1,4 +1,4 @@
-<Proxy balancer://rtqa-cen>
+<Proxy balancer://rtdev-cen>
     Order allow,deny
     #Allow from all
     Allow from 10.
@@ -6,12 +6,12 @@
     Allow from 65.214.21.1/24
     Allow from 111.93.137.1/26
     Allow from 127.0.0.0/255.0.0.0 ::1/128
-    BalancerMember http://realtrans-qa:8080 route=realtrans-qa
+    BalancerMember http://realtrans-intdev:8080 route=realtrans-intdev
     #BalancerMember http://realtrans-demo:8080 route=realtrans-demo
     ProxySet stickysession=JSESSIONID
 </Proxy>
 
-<Proxy balancer://rtqa-ven>
+<Proxy balancer://rtdev-ven>
     Order allow,deny
     #Allow from all
     Allow from 10.
@@ -19,7 +19,7 @@
     Allow from 65.214.21.1/24
     Allow from 111.93.137.1/26
     Allow from 127.0.0.0/255.0.0.0 ::1/128
-    BalancerMember http://realtrans-qa:8080 route=realtrans-qa
+    BalancerMember http://realtrans-intdev2:8080 route=realtrans-intdev
     #BalancerMember http://realtrans-demo:8080 route=realtrans-demo
     ProxySet stickysession=JSESSIONID
 </Proxy>
@@ -34,7 +34,7 @@ ProxyPreserveHost         On
 </LimitExcept>
 
 # RP
-ProxyPass               balancer://rtqa-cen/realtrans-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtdev-cen/realtrans-rp stickysession=JSESSIONID|jsessionid
 #ProxyPassReverse        /realtrans-rp   balancer://rtqa-rp/realtrans-rp stickysession=JSESSIONID|jsessionid
 </Location>
 <Location /realtrans-fp>
@@ -43,7 +43,7 @@ ProxyPass               balancer://rtqa-cen/realtrans-rp stickysession=JSESSIONI
   Deny from all
 </LimitExcept>
 # FP
-ProxyPass               balancer://rtqa-cen/realtrans-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtdev-cen/realtrans-fp stickysession=JSESSIONID|jsessionid
 #ProxyPassReverse        /realtrans-fp   balancer://rtqa-rp/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
@@ -53,7 +53,7 @@ ProxyPass               balancer://rtqa-cen/realtrans-fp stickysession=JSESSIONI
   Deny from all
 </LimitExcept>
 # FP
-ProxyPass               balancer://rtqa-ven/realtrans-reg stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtdev-ven/realtrans-reg stickysession=JSESSIONID|jsessionid
 #ProxyPassReverse        /realtrans-fp   balancer://rtqa-rp/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
@@ -63,7 +63,7 @@ ProxyPass               balancer://rtqa-ven/realtrans-reg stickysession=JSESSION
   Deny from all
 </LimitExcept>
 # FP
-ProxyPass               balancer://rtqa-ven/realtrans-vp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtdev-ven/realtrans-vp stickysession=JSESSIONID|jsessionid
 #ProxyPassReverse        /realtrans-fp   balancer://rtqa-rp/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 

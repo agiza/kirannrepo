@@ -5,9 +5,8 @@ Deny from all
 
 ProxyRequests             Off
 ProxyPreserveHost         On
-ProxyPassReverse          /int-datavision/demo       http://10.0.0.113:8080/int-datavision
-<Location /int-datavision/demo>
-ProxyPass  http://10.0.0.113:8080/int-datavision
+<Location /int-datavision/qa>
+ProxyPass  http://realtrans-qa:8080/int-datavision
 Order allow,deny
 Allow from 69.87.90.251
 Allow from 216.81.240.177
