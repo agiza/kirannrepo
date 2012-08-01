@@ -18,7 +18,12 @@ end
 
 yum_package "#{app_name}" do
   version "#{app_version}"
-  action :install
+  case node[:chef_environment]
+  when "Dev"
+    action :nothing
+  else
+    action :install
+  end
   flush_cache [ :before ]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
