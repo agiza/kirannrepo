@@ -72,7 +72,7 @@ template "/etc/httpd/conf.d/rtdemoproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/demo-vhost.conf"
+template "/etc/httpd/conf.d/demo-vhost.conf" do
   source "demo-vhost.conf.erb"
   owner  "root"
   group  "root"
@@ -80,7 +80,7 @@ template "/etc/httpd/conf.d/demo-vhost.conf"
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/qa-vhost.conf"
+template "/etc/httpd/conf.d/qa-vhost.conf" do
   source "qa-vhost.conf.erb"
   owner  "root"
   group  "root"
@@ -88,7 +88,7 @@ template "/etc/httpd/conf.d/qa-vhost.conf"
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/dev-vhost.conf"
+template "/etc/httpd/conf.d/dev-vhost.conf" do
   source "dev-vhost.conf.erb"
   owner  "root"
   group  "root"
