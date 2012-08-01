@@ -20,22 +20,22 @@ service "httpd" do
   action [:enable, :start]
 end
 
-directory "/var/www/html/demo"
+directory "/var/www/html/demo" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/qa"
+directory "/var/www/html/qa" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/dev"
+directory "/var/www/html/dev" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/vpn"
+directory "/var/www/html/vpn" do
   owner  "root"
   group  "root"
 end
