@@ -16,7 +16,7 @@ end
 
 yum_package "#{app_name}" do
   version "#{app_version}"
-  case node[:chef_environment]
+  case node.chef_environment
   when "Dev","Intdev"
     action :nothing
   else
