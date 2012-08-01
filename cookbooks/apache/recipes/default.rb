@@ -7,6 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+execute "epelinstall" do
+  command "rpm -Uvh --nosignature http://mirror.us.leaseweb.net/epel/6/i386/epel-release-6-7.noarch.rpm"
+  creates "/etc/yum.repos.d/epel.repo"
+  action  :run
+end
+
 yum_package "httpd" do
   action :upgrade
 end
