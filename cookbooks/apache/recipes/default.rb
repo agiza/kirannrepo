@@ -21,6 +21,10 @@ yum_package "mod_security" do
   action :upgrade
 end
 
+yum_package "mod_ssl" do
+  action :upgrade
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action [:enable, :start]
@@ -48,6 +52,14 @@ end
 
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
+template "/etc/httpd/conf.d/ssl.conf" do
+  source "ssl.conf.erb"
   owner "root"
   group "root"
   mode "0644"
@@ -150,7 +162,7 @@ template "/etc/httpd/conf.d/vpn.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/ssl/certs/altisource.twiz.li.crt" do
+template "/etc/pki/tls/certs/altisource.twiz.li.crt" do
   source "altisource.twiz.li.crt.erb"
   owner  "root"
   group  "root"
