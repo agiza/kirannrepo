@@ -158,10 +158,17 @@ template "/etc/ssl/certs/altisource.twiz.li.crt" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/ssl/private/altisource.twiz.li.key" do
+template "/etc/pki/tls/private/altisource.twiz.li.key" do
   source "altisource.twiz.li.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
   notifies :reload, resources(:service => "httpd")
 end
+
+link "/etc/ssl/private" do
+  to "/etc/pki/tls/private"
+  owner "root"
+  group "root"
+end
+
