@@ -7,6 +7,34 @@
 # All rights reserved - Do Not Redistribute
 #
 
+template "/etc/init.d/confluence" do
+  source "confluence-start.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+template "/etc/init.d/crowd" do
+  source "crowd-start.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+template "/etc/init.d/fisheye" do
+  source "fisheye-start.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+template "/etc/init.d/jira" do
+  source "jira-start.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
 service "confluence" do
   supports :start => true, :stop => true, :restart => true, :status => true
   action [:enable, :start]
