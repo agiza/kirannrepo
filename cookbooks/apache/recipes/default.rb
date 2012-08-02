@@ -107,7 +107,7 @@ template "/etc/httpd/conf.d/datavision-demo.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "apache2")
+  notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/datavision-qa.conf" do
@@ -115,7 +115,7 @@ template "/etc/httpd/conf.d/datavision-qa.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "apache2")
+  notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-qa.conf" do
@@ -123,7 +123,7 @@ template "/etc/httpd/conf.d/corelogic-qa.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "apache2")
+  notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-demo.conf" do
@@ -131,7 +131,7 @@ template "/etc/httpd/conf.d/corelogic-demo.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "apache2")
+  notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-dev.conf" do
@@ -139,7 +139,7 @@ template "/etc/httpd/conf.d/corelogic-dev.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "apache2")
+  notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/vpn.conf" do
@@ -150,3 +150,18 @@ template "/etc/httpd/conf.d/vpn.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
+template "/etc/ssl/certs/altisource.twiz.li.crt" do
+  source "altisource.twiz.li.crt.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
+template "/etc/ssl/private/altisource.twiz.li.key" do
+  source "altisource.twiz.li.key.erb"
+  owner  "root"
+  group  "root"
+  mode   "0640"
+  notifies :reload, resources(:service => "httpd")
+end
