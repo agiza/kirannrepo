@@ -3,6 +3,10 @@
     ServerName altisource.twiz.li
     DocumentRoot "/var/www/html/dev"
 
-Include proxy.d/rtsslproxy.conf
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+    Include proxy.d/rtsslproxy.conf
 
 </VirtualHost>
