@@ -1,6 +1,6 @@
 Alias /vpn/ "/home/ubuntu/vpn/certificates/"
 <Directory "/home/ubuntu/vpn/certificates/">
-    Options Indexes FollowSymLinks Multiviews
+    Options Indexes Multiviews
     AllowOverride AuthConfig
     Order allow,deny
     Allow from 127.0.0.0/255.0.0.0 ::1/128
@@ -9,5 +9,4 @@ Alias /vpn/ "/home/ubuntu/vpn/certificates/"
     Allow from 24.126.242.183
     Allow from 111.93.137.1/26
     Allow from 10.
-    Deny from all
 </Directory>
