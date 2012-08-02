@@ -47,7 +47,7 @@ zone "." IN {
 
 zone "altidev.com" IN {
 	type slave;
-	file "/var/named/altidev.com.db";
+	file "/var/named/data/altidev.com.db";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
 	masters { 10.0.0.20; };
@@ -55,7 +55,7 @@ zone "altidev.com" IN {
 
 zone "0.0.10.in-addr.arpa" IN {
 	type slave;
-	file "/var/named/rev.0.0.10.in-addr.arp";
+	file "/var/named/data/rev.0.0.10.in-addr.arp";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
 	masters { 10.0.0.20; };
@@ -63,7 +63,7 @@ zone "0.0.10.in-addr.arpa" IN {
 
 zone "1.0.10.in-addr.arpa" IN {
 	type slave;
-	file "/var/named/rev.1.0.10.in-addr.arpa";
+	file "/var/named/data/rev.1.0.10.in-addr.arpa";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
 	masters { 10.0.0.20; };
@@ -71,7 +71,7 @@ zone "1.0.10.in-addr.arpa" IN {
 
 zone "2.0.10.in-addr.arpa" IN {
 	type slave;
-	file "/var/named/rev.2.0.10.in-addr.arpa";
+	file "/var/named/data/rev.2.0.10.in-addr.arpa";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
 	masters { 10.0.0.20; };
@@ -79,7 +79,7 @@ zone "2.0.10.in-addr.arpa" IN {
 
 zone "ascorp.com" IN {
 	type slave;
-	file "/var/named/ascorp.com.db";
+	file "/var/named/data/ascorp.com.db";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
 	masters { 10.0.0.20; };
