@@ -1,0 +1,20 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     ns.ascorp.com. root.ascorp.com. (
+                     0409201201         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+		NS      ns
+		NS	ns2
+		NS	ns3
+ns      	A       10.0.0.20
+ns2		A	10.0.0.72
+ns3		A	10.0.1.111
+nciproxy	A	172.24.131.218
+		A	172.24.131.219
+
