@@ -1,6 +1,6 @@
     Alias /vpn/ "/root/vpn/certificates/"
     <Directory "/root/vpn/certificates/">
-        Options Indexes Multiviews
+        Options Indexes FollowSymLinks Multiviews
         AllowOverride AuthConfig
         Order allow,deny
         Allow from 127.0.0.0/255.0.0.0 ::1/128
