@@ -50,6 +50,11 @@ directory "/var/www/html/vpn" do
   group  "root"
 end
 
+directory "/etc/httpd/proxy.d" do
+  owner "root"
+  group "root"
+end
+
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
   owner "root"
@@ -66,7 +71,7 @@ template "/etc/httpd/conf.d/ssl.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/rtdevproxy.conf" do
+template "/etc/httpd/proxy.d/rtdevproxy.conf" do
   source "rtdevproxy.conf.erb"
   owner  "root"
   group  "root"
@@ -74,7 +79,7 @@ template "/etc/httpd/conf.d/rtdevproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/rtqaproxy.conf" do
+template "/etc/httpd/proxy.d/rtqaproxy.conf" do
   source "rtqaproxy.conf.erb"
   owner  "root"
   group  "root"
@@ -82,7 +87,7 @@ template "/etc/httpd/conf.d/rtqaproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/rtdemoproxy.conf" do
+template "/etc/httpd/proxy.d/rtdemoproxy.conf" do
   source "rtdemoproxy.conf.erb"
   owner  "root"
   group  "root"
