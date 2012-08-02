@@ -71,6 +71,14 @@ template "/etc/httpd/conf.d/ssl.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
+template "/etc/httpd/proxy.d/rtsslproxy.conf" do
+  source "rtsslproxy.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
 template "/etc/httpd/proxy.d/rtdevproxy.conf" do
   source "rtdevproxy.conf.erb"
   owner  "root"
@@ -102,6 +110,15 @@ template "/etc/httpd/conf.d/demo-vhost.conf" do
   mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
+
+template "/etc/httpd/conf.d/twiz-vhost.conf" do
+  source "twiz-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
 
 template "/etc/httpd/conf.d/qa-vhost.conf" do
   source "qa-vhost.conf.erb"
