@@ -103,50 +103,50 @@ template "/etc/httpd/conf.d/dev-vhost.conf" do
 end
 
 template "/etc/httpd/conf.d/datavision-demo.conf" do
-  source "datavison-demo.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  source "datavision-demo.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/datavision-qa.conf" do
-  source "datavison-qa.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  source "datavision-qa.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-qa.conf" do
   source "corelogic-qa.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-demo.conf" do
   source "corelogic-demo.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/corelogic-dev.conf" do
   source "corelogic-dev.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
 template "/etc/httpd/conf.d/vpn.conf" do
   source "vpn.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
