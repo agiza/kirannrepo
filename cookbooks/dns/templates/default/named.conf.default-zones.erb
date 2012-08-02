@@ -1,7 +1,7 @@
 // prime the server with knowledge of the root servers
 zone "." {
         type hint;
-        file "/etc/bind/db.root";
+        file "/var/named/named.ca";
 };
 
 // be authoritative for the localhost forward and reverse zones, and for
@@ -9,21 +9,21 @@ zone "." {
 
 zone "localhost" {
         type master;
-        file "/etc/bind/db.local";
+        file "/var/named/named.localhost";
 };
 
 zone "127.in-addr.arpa" {
         type master;
-        file "/etc/bind/db.127";
+        file "/var/named/named.loopback";
 };
 
 zone "0.in-addr.arpa" {
         type master;
-        file "/etc/bind/db.0";
+        file "/var/named/named.empty";
 };
 
 zone "255.in-addr.arpa" {
         type master;
-        file "/etc/bind/db.255";
+        file "/var/named/named.localhost";
 };
 
