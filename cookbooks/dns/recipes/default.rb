@@ -28,7 +28,7 @@ template "/etc/named.conf" do
 end
 
 template "/etc/rndc.key" do
-  source "/etc/rndc.key.erb"
+  source "rndc.key.erb"
   owner  "root"
   group  "root"
   mode   "0644"

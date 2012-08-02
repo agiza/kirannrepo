@@ -39,11 +39,11 @@ zone "." IN {
 	file "/var/named/named.ca";
 };
 
-zone "localhost" IN {
-	type master;
-	file "localhost.zone";
-	allow-update { none; };
-};
+//zone "localhost" IN {
+//	type master;
+//	file "localhost.zone";
+//	allow-update { none; };
+//};
 
 zone "altidev.com" IN {
 	type slave;
