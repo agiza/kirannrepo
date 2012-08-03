@@ -48,3 +48,9 @@ template "/opt/tomcat/conf/Catalina/localhost/realdoc.xml" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+
+directory "/opt/tomcat/correspondence/input" do
+  owner "tomcat"
+  group "tomcat"
+end
+
