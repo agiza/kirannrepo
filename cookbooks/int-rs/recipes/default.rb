@@ -29,8 +29,8 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/int-realservicing.properties" do
-  source "int-rs.properties.erb"
+template "/opt/tomcat/conf/int-rs.properties" do
+  source "int-realservicing.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
