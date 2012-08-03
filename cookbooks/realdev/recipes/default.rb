@@ -20,11 +20,6 @@ execute "mountopt" do
   action  :run
 end
 
-service "altitomcat" do
-  supports :start => true, :stop => true, :restart => true, :status => true
-  action :nothing
-end
-
 template "/root/tomcat-clean.sh" do
   source "tomcat-clean.sh.erb"
   owner  "root"
@@ -42,13 +37,4 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkcdrGS4/amnRMtMjmxlSXLkN7Mtu5OPf8aGpkTcpz
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmrk3cYSITTOLLAwT9VLd1fRp6uIYhRGdweevgLKRLgK6v31Qq+sRR3eluUaHoRXqTcBDC6gwHfBIhk0RgyCBp5oJM7oMNoqxm59Z0m6uoqdt0N76ZBDNhIOUPZ7Bo3XuSWutIdcGZF4AJ8SNk+KAmn6qO8YFplE66ztf2w2QcLpLECRbK1BXLwEcvNkdIx6Z0K5eyGiqmaMA8q3jyZsyw2Kv2/H8N037ZOERKGNW7XcrPq/3hUxdLWc0JjgNH7d1ZUOqoy/u+Q+H+j5W+AL/azLKTOLOCYCaSDbD9Vxj8G6OsrfM52WcKf4mmPgFvuQpter2GGJ3nhFwAqs30Q9jh'
   action :create
 end
-
-#template "/opt/tomcat/conf/context.xml" do
-#  source "context.xml.erb"
-#  owner  "tomcat"
-#  group  "tomcat"
-#  mode   "0644"
-#  notifies :restart, resources(:service => "altitomcat")
-#end
-
 
