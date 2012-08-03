@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Crowd Linux service controller script
+cd "/opt/atlassian/crowd"
+
+case "$1" in
+    start)
+        ./start-crowd.sh
+        ;;
+    stop)
+        ./stop-crowd.sh
+        ;;
+    status)
+        pid_status=`ps -ef | grep java | grep crowd | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Crowd is running with pid $pid_status."
+        else
+          echo "Crowd is not running."
+        fi
+	;;
+    *)
+        echo "Usage: $0 {start|stop|status}"
+        exit 1
+        ;;
+esac
+
