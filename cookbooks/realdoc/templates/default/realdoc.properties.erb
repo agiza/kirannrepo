@@ -15,7 +15,7 @@ realdoc.printcertified.ftp.host=<%= node[:hostname] %>
 realdoc.printcertified.ftp.port=21
 realdoc.printcertified.ftp.username=ftptest
 realdoc.printcertified.ftp.password=ftppass
-realdoc.correspondence.directory=correspondence
+realdoc.correspondence.directory=${catalina.base}/correspondence
 
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
