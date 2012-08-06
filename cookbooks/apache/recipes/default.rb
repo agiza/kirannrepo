@@ -8,7 +8,7 @@
 #
 
 execute "epelinstall" do
-  command "rpm -Uvh --nosignature http://mirror.us.leaseweb.net/epel/6/i386/epel-release-6-7.noarch.rpm"
+  command "rpm -Uvh --nosignature http://<%= node[:yum_server] %>/yum/common/epel-release-6-7.noarch.rpm"
   creates "/etc/yum.repos.d/epel.repo"
   action  :run
 end
