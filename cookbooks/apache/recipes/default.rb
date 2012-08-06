@@ -207,13 +207,11 @@ link "/etc/ssl/private" do
 end
 
 ["Dev", "Intdev", "QA", "Demo"].each do |environ|
-  cenNames = []
   cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
   cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   cenNames = cenNames.gsub!("node[","")
   cenNames = cenNames.gsub!(".#{node[:domain]}]","")
   cenNames = cenNames.split(" ")
-  venNames = []
   venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
   venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   venNames = venNames.gsub!("node[","")
