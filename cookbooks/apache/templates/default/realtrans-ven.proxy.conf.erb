@@ -1,0 +1,34 @@
+ProxyRequests             Off
+ProxyPreserveHost         On
+
+<Proxy balancer://realtrans-ven>
+    Order allow,deny
+    Allow from 10.
+    Allow from 184.72.127.192
+    Allow from 65.214.21.1/24
+    Allow from 111.93.137.1/26
+    Allow from 127.0.0.0/255.0.0.0 ::1/128
+    <% @params[:vhostWorkers].each do |a| %>
+    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
+    <% end %>
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+<Location /realtrans-vp>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer://realtrans-ven/realtrans-vp stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /realtrans-reg>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer://realtrans-ven/realtrans-reg stickysession=JSESSIONID|jsessionid
+</Location>
+

@@ -206,3 +206,35 @@ link "/etc/ssl/private" do
   group "root"
 end
 
+["Dev", "Intdev", "QA", "Demo"].each do |environ|
+  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
+  template "/etc/httpd/proxy.d/realtrans-cen-#{environ}.proxy.conf" do
+    source "realtrans-cen.proxy.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    #notifies :reload, resources(:service => "httpd")
+    variables(:vhostWorkers => vhostNames)
+  end
+
+  template "/etc/httpd/proxy.d/realtrans-ven-#{environ}.proxy.conf" do
+    source "realtrans-ven.proxy.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    #notifies :reload, resources(:service => "httpd")
+    variables(:vhostWorkers => vhostNames)
+  end
+ 
+  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
+    source "vhost.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    #notifies :reload, resources(:service => "httpd")
+  end
+end
+
+
+
