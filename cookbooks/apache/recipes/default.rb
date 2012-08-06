@@ -208,6 +208,7 @@ end
 
 ["Dev", "Intdev", "QA", "Demo"].each do |environ|
   vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
   template "/etc/httpd/proxy.d/realtrans-cen-#{environ}.proxy.conf" do
     source "realtrans-cen.proxy.conf.erb"
