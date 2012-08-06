@@ -229,13 +229,30 @@ end
     #notifies :reload, resources(:service => "httpd")
     variables(:vhostWorkers => vhostNames)
   end
- 
+  
   template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
     source "vhost.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
     #notifies :reload, resources(:service => "httpd")
+    case "#{environ}"
+    when "Intdev"
+      variables(:vhostName = "Intdev",
+    		:serverName = "dev.kislinux.org"
+               )
+    when "QA"
+      variables(:vhostName = "QA",
+                :serverName = "qa.kislinux.org"
+               )
+    when "Demo"
+      variables(:vhostName = "#{environ}",
+                :serverName = "demo.kislinux.org"
+    else
+      variables(:vhostName = "#{environ}",
+                :serverName = "#{environ}"
+               ) 
+    end
   end
 end
 
