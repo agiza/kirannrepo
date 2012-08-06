@@ -238,20 +238,25 @@ end
     #notifies :reload, resources(:service => "httpd")
     case "#{environ}"
     when "Intdev"
-      variables(:vhostName = "Intdev",
-    		:serverName = "dev.kislinux.org"
-               )
+      variables(
+        :vhostName = "Intdev",
+        :serverName = "dev.kislinux.org"
+      )
     when "QA"
-      variables(:vhostName = "QA",
-                :serverName = "qa.kislinux.org"
-               )
+      variables(
+        :vhostName = "QA",
+        :serverName = "qa.kislinux.org"
+      )
     when "Demo"
-      variables(:vhostName = "#{environ}",
-                :serverName = "demo.kislinux.org"
+      variables(
+        :vhostName = "#{environ}",
+        :serverName = "demo.kislinux.org"
+      )
     else
-      variables(:vhostName = "#{environ}",
-                :serverName = "#{environ}"
-               ) 
+      variables(
+        :vhostName = "#{environ}",
+        :serverName = "#{environ}"
+      ) 
     end
   end
 end
