@@ -239,23 +239,23 @@ end
     case "#{environ}"
     when "Intdev"
       variables(
-        :vhostName = "Intdev",
-        :serverName = "dev.kislinux.org"
+        :vhostName => "Intdev",
+        :serverName => "dev.kislinux.org"
       )
     when "QA"
       variables(
-        :vhostName = "QA",
-        :serverName = "qa.kislinux.org"
+        :vhostName => "QA",
+        :serverName => "qa.kislinux.org"
       )
     when "Demo"
       variables(
-        :vhostName = "#{environ}",
-        :serverName = "demo.kislinux.org"
+        :vhostName => "#{environ}",
+        :serverName => "demo.kislinux.org"
       )
     else
       variables(
-        :vhostName = "#{environ}",
-        :serverName = "#{environ}"
+        :vhostName => "#{environ}",
+        :serverName => "#{environ}.kislinux.org"
       ) 
     end
   end
