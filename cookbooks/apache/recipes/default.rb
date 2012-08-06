@@ -211,14 +211,14 @@ end
   vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   vhostNames = vhostNames.gsub!("node[","")
   vhostNames = vhostNames.gsub!("]","")
-  vhostCenNames = vhostNames.gsub!(".#{node[:domain]}","")
-  vhostCenNames = vhostCenNames.split(" ")
+  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
+  vhostCenNames = vhostNames.split(" ")
   vhostNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
   vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   vhostNames = vhostNames.gsub!("node[","")
   vhostNames = vhostNames.gsub!("]","")
-  vhostVenNames = vhostNames.gsub!(".#{node[:domain]}","")
-  vhostVenNames = vhostVenNames.split(" ")
+  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
+  vhostVenNames = vhostNames.split(" ")
   template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
     source "realtrans.proxy.conf.erb"
     owner  "root"
