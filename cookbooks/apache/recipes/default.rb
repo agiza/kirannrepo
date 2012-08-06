@@ -30,20 +30,20 @@ service "httpd" do
   action [:enable, :start]
 end
 
-#directory "/var/www/html/demo" do
-#  owner  "root"
-#  group  "root"
-#end
+directory "/var/www/html/demo" do
+  owner  "root"
+  group  "root"
+end
 
-#directory "/var/www/html/qa" do
-#  owner  "root"
-#  group  "root"
-#end
+directory "/var/www/html/qa" do
+  owner  "root"
+  group  "root"
+end
 
-#directory "/var/www/html/dev" do
-#  owner  "root"
-#  group  "root"
-#end
+directory "/var/www/html/dev" do
+  owner  "root"
+  group  "root"
+end
 
 directory "/var/www/html/vpn" do
   owner  "root"
@@ -79,37 +79,37 @@ template "/etc/httpd/proxy.d/rtsslproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-#template "/etc/httpd/proxy.d/rtdevproxy.conf" do
-#  source "rtdevproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/proxy.d/rtdevproxy.conf" do
+  source "rtdevproxy.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
-#template "/etc/httpd/proxy.d/rtqaproxy.conf" do
-#  source "rtqaproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/proxy.d/rtqaproxy.conf" do
+  source "rtqaproxy.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
-#template "/etc/httpd/proxy.d/rtdemoproxy.conf" do
-#  source "rtdemoproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/proxy.d/rtdemoproxy.conf" do
+  source "rtdemoproxy.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
-#template "/etc/httpd/conf.d/demo-vhost.conf" do
-#  source "demo-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/conf.d/demo-vhost.conf" do
+  source "demo-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
 template "/etc/httpd/conf.d/twiz-vhost.conf" do
   source "twiz-vhost.conf.erb"
@@ -120,21 +120,21 @@ template "/etc/httpd/conf.d/twiz-vhost.conf" do
 end
 
 
-#template "/etc/httpd/conf.d/qa-vhost.conf" do
-#  source "qa-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/conf.d/qa-vhost.conf" do
+  source "qa-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
-#template "/etc/httpd/conf.d/dev-vhost.conf" do
-#  source "dev-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
+template "/etc/httpd/conf.d/dev-vhost.conf" do
+  source "dev-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
 
 template "/etc/httpd/conf.d/datavision-demo.conf" do
   source "datavision-demo.conf.erb"
@@ -206,65 +206,65 @@ link "/etc/ssl/private" do
   group "root"
 end
 
-["Dev", "Intdev", "QA", "Demo"].each do |environ|
-  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-  vhostNames = vhostNames.gsub!("node[","")
-  vhostNames = vhostNames.gsub!("]","")
-  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
-  template "/etc/httpd/proxy.d/realtrans-cen-#{environ}.proxy.conf" do
-    source "realtrans-cen.proxy.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    variables(:vhostWorkers => vhostNames)
-  end
+#["Dev", "Intdev", "QA", "Demo"].each do |environ|
+#  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+#  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+#  vhostNames = vhostNames.gsub!("node[","")
+#  vhostNames = vhostNames.gsub!("]","")
+#  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
+#  template "/etc/httpd/proxy.d/realtrans-cen-#{environ}.proxy.conf" do
+#    source "realtrans-cen.proxy.conf.erb"
+#    owner  "root"
+#    group  "root"
+#    mode   "0644"
+#    notifies :reload, resources(:service => "httpd")
+#    variables(:vhostWorkers => vhostNames)
+#  end
+#
+#  template "/etc/httpd/proxy.d/realtrans-ven-#{environ}.proxy.conf" do
+#    source "realtrans-ven.proxy.conf.erb"
+#    owner  "root"
+#    group  "root"
+#    mode   "0644"
+#    notifies :reload, resources(:service => "httpd")
+#    variables(:vhostWorkers => vhostNames)
+#  end
+#  
+#  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
+#    source "vhost.conf.erb"
+#    owner  "root"
+#    group  "root"
+#    mode   "0644"
+#    notifies :reload, resources(:service => "httpd")
+#    case "#{environ}"
+#    when "Intdev"
+#      variables(
+#        :vhostName => "Intdev",
+#        :serverName => "dev.kislinux.org"
+#      )
+#    when "QA"
+#      variables(
+#        :vhostName => "QA",
+#        :serverName => "qa.kislinux.org"
+#      )
+#    when "Demo"
+#      variables(
+#        :vhostName => "#{environ}",
+#        :serverName => "demo.kislinux.org"
+#      )
+#    else
+#      variables(
+#        :vhostName => "#{environ}",
+#        :serverName => "#{environ}.kislinux.org"
+#      ) 
+#    end
+#  end
+#  
+#  directory "/var/www/html/#{environ}" do
+#    owner "root"
+#    group "root"
+#  end
+#end
 
-  template "/etc/httpd/proxy.d/realtrans-ven-#{environ}.proxy.conf" do
-    source "realtrans-ven.proxy.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    variables(:vhostWorkers => vhostNames)
-  end
-  
-  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
-    source "vhost.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    case "#{environ}"
-    when "Intdev"
-      variables(
-        :vhostName => "Intdev",
-        :serverName => "dev.kislinux.org"
-      )
-    when "QA"
-      variables(
-        :vhostName => "QA",
-        :serverName => "qa.kislinux.org"
-      )
-    when "Demo"
-      variables(
-        :vhostName => "#{environ}",
-        :serverName => "demo.kislinux.org"
-      )
-    else
-      variables(
-        :vhostName => "#{environ}",
-        :serverName => "#{environ}.kislinux.org"
-      ) 
-    end
-  end
-  
-  directory "/var/www/html/#{environ}" do
-    owner "root"
-    group "root"
-  end
-end
 
-
-
+#
