@@ -259,6 +259,11 @@ end
       ) 
     end
   end
+  
+  directory "/var/www/html/#{environ}" do
+    owner "root"
+    group "root"
+  end
 end
 
 
