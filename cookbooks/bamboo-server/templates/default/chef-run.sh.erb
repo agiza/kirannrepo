@@ -1,16 +1,4 @@
 #!/bin/sh
 hostname=$1
-environment=$2
-
-if [ "$environment" == "dev" ]; then
-  ssh -q -o StrictHostKeyChecking=no ubuntu@$hostname "sudo chef-client"
-elif [ "$environment" == "int-dev" ]; then
   ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-elif [ "$environment" == "qa" ]; then
-  ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-elif [ "$environment" == "demo" ]; then
-  ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-else
-   echo "Command is $0 hostname {dev|int-dev|qa|demo}. Please try again."; exit 1
-fi
-
+   echo "Command is $0 hostname  Please try again."; exit 1
