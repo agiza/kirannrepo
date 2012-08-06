@@ -206,21 +206,31 @@ link "/etc/ssl/private" do
   group "root"
 end
 
-#["Dev", "Intdev", "QA", "Demo"].each do |environ|
-#  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-#  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-#  vhostNames = vhostNames.gsub!("node[","")
-#  vhostNames = vhostNames.gsub!("]","")
-#  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
-#  template "/etc/httpd/proxy.d/realtrans-cen-#{environ}.proxy.conf" do
-#    source "realtrans-cen.proxy.conf.erb"
-#    owner  "root"
-#    group  "root"
-#    mode   "0644"
-#    notifies :reload, resources(:service => "httpd")
-#    variables(:vhostWorkers => vhostNames)
-#  end
-#
+["Dev", "Intdev", "QA", "Demo"].each do |environ|
+  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+  vhostNames = vhostNames.gsub!("node[","")
+  vhostNames = vhostNames.gsub!("]","")
+  vhostCenNames = vhostNames.gsub!(".#{node[:domain]}","")
+  vhostCenNames = vhostCenNames.split(" ")
+  vhostNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
+  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+  vhostNames = vhostNames.gsub!("node[","")
+  vhostNames = vhostNames.gsub!("]","")
+  vhostVenNames = vhostNames.gsub!(".#{node[:domain]}","")
+  vhostVenNames = vhostVenNames.split(" ")
+  template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
+    source "realtrans.proxy.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    #notifies :reload, resources(:service => "httpd")
+    variables(
+      :vhostCenWorkers => vhostCenNames,
+      :vhostVenWorkers => vhostVenNames
+    )
+  end
+
 #  template "/etc/httpd/proxy.d/realtrans-ven-#{environ}.proxy.conf" do
 #    source "realtrans-ven.proxy.conf.erb"
 #    owner  "root"
@@ -229,42 +239,41 @@ end
 #    notifies :reload, resources(:service => "httpd")
 #    variables(:vhostWorkers => vhostNames)
 #  end
-#  
-#  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
-#    source "vhost.conf.erb"
-#    owner  "root"
-#    group  "root"
-#    mode   "0644"
-#    notifies :reload, resources(:service => "httpd")
-#    case "#{environ}"
-#    when "Intdev"
-#      variables(
-#        :vhostName => "Intdev",
-#        :serverName => "dev.kislinux.org"
-#      )
-#    when "QA"
-#      variables(
-#        :vhostName => "QA",
-#        :serverName => "qa.kislinux.org"
-#      )
-#    when "Demo"
-#      variables(
-#        :vhostName => "#{environ}",
-#        :serverName => "demo.kislinux.org"
-#      )
-#    else
-#      variables(
-#        :vhostName => "#{environ}",
-#        :serverName => "#{environ}.kislinux.org"
-#      ) 
-#    end
-#  end
-#  
-#  directory "/var/www/html/#{environ}" do
-#    owner "root"
-#    group "root"
-#  end
-#end
+  
+  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
+     source "vhost.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    #notifies :reload, resources(:service => "httpd")
+    case "#{environ}"
+    when "Intdev"
+      variables(
+        :vhostName => "Intdev",
+        :serverName => "dev.kislinux.org"
+      )
+    when "QA"
+      variables(
+        :vhostName => "QA",
+        :serverName => "qa.kislinux.org"
+      )
+    when "Demo"
+      variables(
+        :vhostName => "#{environ}",
+        :serverName => "demo.kislinux.org"
+      )
+    else
+      variables(
+        :vhostName => "#{environ}",
+        :serverName => "#{environ}.kislinux.org"
+      ) 
+    end
+  end
+  
+  directory "/var/www/html/#{environ}" do
+    owner "root"
+    group "root"
+  end
+end
 
 
-#
