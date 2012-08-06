@@ -207,18 +207,18 @@ link "/etc/ssl/private" do
 end
 
 ["Dev", "Intdev", "QA", "Demo"].each do |environ|
-  vhostNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-  vhostNames = vhostNames.gsub!("node[","")
-  vhostNames = vhostNames.gsub!("]","")
-  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
-  vhostCenNames = vhostNames.split(" ")
-  vhostNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
-  vhostNames = vhostNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-  vhostNames = vhostNames.gsub!("node[","")
-  vhostNames = vhostNames.gsub!("]","")
-  vhostNames = vhostNames.gsub!(".#{node[:domain]}","")
-  vhostVenNames = vhostNames.split(" ")
+  cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+  cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+  cenNames = cenNames.gsub!("node[","")
+  cenNames = cenNames.gsub!("]","")
+  cenNames = cenNames.gsub!(".#{node[:domain]}","")
+  cenNames = cenNames.split(" ")
+  venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
+  venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+  venNames = venNames.gsub!("node[","")
+  venNames = venNames.gsub!("]","")
+  venNames = venNames.gsub!(".#{node[:domain]}","")
+  venVenNames = venNames.split(" ")
   template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
     source "realtrans.proxy.conf.erb"
     owner  "root"
@@ -226,8 +226,8 @@ end
     mode   "0644"
     #notifies :reload, resources(:service => "httpd")
     variables(
-      :vhostCenWorkers => vhostCenNames,
-      :vhostVenWorkers => vhostVenNames
+      :vhostCenWorkers => cenNames,
+      :vhostVenWorkers => venNames
     )
   end
 
