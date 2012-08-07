@@ -1,7 +1,7 @@
 ProxyRequests             Off
 ProxyPreserveHost         On
 
-<Proxy balancer://realtrans-cen-<%= @environ %>>
+<Proxy balancer://rtcen-<%= @environ %>>
     Order allow,deny
     Allow from 10.
     Allow from 184.72.127.192
@@ -14,7 +14,7 @@ ProxyPreserveHost         On
     ProxySet stickysession=JSESSIONID
 </Proxy>
 
-<Proxy balancer://realtrans-ven-<%= @environ %>>
+<Proxy balancer://rtven-<%= @environ %>>
     Order allow,deny
     Allow from 10.
     Allow from 184.72.127.192
@@ -33,7 +33,7 @@ ProxyPreserveHost         On
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://realtrans-cen-<%= @environ %>/realtrans-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtcen-<%= @environ %>/realtrans-rp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /realtrans-fp>
@@ -42,7 +42,7 @@ ProxyPass               balancer://realtrans-cen-<%= @environ %>/realtrans-rp st
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://realtrans-cen-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtcen-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /realtrans-reg>
@@ -51,7 +51,7 @@ ProxyPass               balancer://realtrans-cen-<%= @environ %>/realtrans-fp st
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://realtrans-ven-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtven-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /realtrans-vp>
@@ -60,7 +60,7 @@ ProxyPass               balancer://realtrans-ven-<%= @environ %>/realtrans-fp st
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://realtrans-ven-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtven-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
 
