@@ -79,38 +79,6 @@ template "/etc/httpd/proxy.d/rtsslproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-#template "/etc/httpd/proxy.d/rtdevproxy.conf" do
-#  source "rtdevproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
-
-#template "/etc/httpd/proxy.d/rtqaproxy.conf" do
-#  source "rtqaproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
-
-#template "/etc/httpd/proxy.d/rtdemoproxy.conf" do
-#  source "rtdemoproxy.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
-
-#template "/etc/httpd/conf.d/demo-vhost.conf" do
-#  source "demo-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
-
 template "/etc/httpd/conf.d/twiz-vhost.conf" do
   source "twiz-vhost.conf.erb"
   owner  "root"
@@ -118,23 +86,6 @@ template "/etc/httpd/conf.d/twiz-vhost.conf" do
   mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
-
-
-#template "/etc/httpd/conf.d/qa-vhost.conf" do
-#  source "qa-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
-
-#template "/etc/httpd/conf.d/dev-vhost.conf" do
-#  source "dev-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
 
 template "/etc/httpd/conf.d/datavision-demo.conf" do
   source "datavision-demo.conf.erb"
@@ -230,15 +181,6 @@ end
     )
   end
 
-#  template "/etc/httpd/proxy.d/realtrans-ven-#{environ}.proxy.conf" do
-#    source "realtrans-ven.proxy.conf.erb"
-#    owner  "root"
-#    group  "root"
-#    mode   "0644"
-#    notifies :reload, resources(:service => "httpd")
-#    variables(:vhostWorkers => vhostNames)
-#  end
-  
   template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
      source "vhost.conf.erb"
     owner  "root"
@@ -248,28 +190,28 @@ end
     case "#{environ}"
     when "Intdev"
       variables(
-        :vhostName => "Intdev",
-        :serverName => "dev.kislinux.org"
+        :vhostName => "#{environ}",
+        :serverName => "dev"
       )
     when "QA"
       variables(
-        :vhostName => "QA",
-        :serverName => "qa.kislinux.org"
+        :vhostName => "#{environ}",
+        :serverName => "qa"
       )
     when "Demo"
       variables(
         :vhostName => "#{environ}",
-        :serverName => "demo.kislinux.org"
+        :serverName => "demo"
       )
     when "Dev"
       variables(
         :vhostName => "#{environ}",
-        :serverName => "development.kislinux.org"
+        :serverName => "development"
       )
     else
       variables(
         :vhostName => "#{environ}",
-        :serverName => "#{environ}.kislinux.org"
+        :serverName => "#{environ}"
       ) 
     end
   end
