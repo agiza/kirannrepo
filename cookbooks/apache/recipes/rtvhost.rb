@@ -32,7 +32,7 @@
   end
 
   template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
-     source "vhost.conf.erb"
+     source "rtvhost.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
