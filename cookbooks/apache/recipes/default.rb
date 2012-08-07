@@ -225,7 +225,8 @@ end
     notifies :reload, resources(:service => "httpd")
     variables(
       :vhostCenWorkers => cenNames,
-      :vhostVenWorkers => venNames
+      :vhostVenWorkers => venNames,
+      :environ => "#{environ}"
     )
   end
 
