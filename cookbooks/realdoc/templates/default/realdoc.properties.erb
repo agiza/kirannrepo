@@ -6,15 +6,15 @@ mongo.database=<%= node[:mongodb_database] %>
 realdoc.email.fromAddress=ubuntu@altidev.com
 realdoc.fax.toAddress=robert.hudson@altisource.com
 
-realdoc.printstandard.ftp.host=<%= node[:hostname] %>
-realdoc.printstandard.ftp.port=21
-realdoc.printstandard.ftp.username=ftptest
-realdoc.printstandard.ftp.password=ftppass
+realdoc.printstandard.ftp.host=<%= node[:rd_ftphost] %>
+realdoc.printstandard.ftp.port=<%= node[:rd_ftpport] %>
+realdoc.printstandard.ftp.username=<%= node[:rd_ftpuser] %>
+realdoc.printstandard.ftp.password=<%= node[:rd_ftppass] %>
 
-realdoc.printcertified.ftp.host=<%= node[:hostname] %>
-realdoc.printcertified.ftp.port=21
-realdoc.printcertified.ftp.username=ftptest
-realdoc.printcertified.ftp.password=ftppass
+realdoc.printcertified.ftp.host=<%= node[:rd_ftphost] %>
+realdoc.printcertified.ftp.port=<%= node[:rd_ftpport] %>
+realdoc.printcertified.ftp.username=<%= node[:rd_ftpuser] %>
+realdoc.printcertified.ftp.password=<%= node[:rd_ftppass] %>
 realdoc.correspondence.directory=${catalina.base}/correspondence
 
 amqp.host=<%= node[:amqp_host] %>
@@ -116,3 +116,6 @@ realsearch.elasticsearch.url=localhost:9200/realsearch/entity
 internalDomains=none
 
 rf.app.context.path=http://<%= node[:web_server_hostname] %>/realdoc
+
+rd.documentservice.tempPath=/tmp/
+
