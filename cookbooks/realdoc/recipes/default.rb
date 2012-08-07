@@ -59,3 +59,10 @@ directory "/opt/tomcat/correspondence/input" do
   group "tomcat"
 end
 
+template "/opt/tomcat/conf/realdoc.key" do
+  source "realdoc.key.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0600"
+end
+
