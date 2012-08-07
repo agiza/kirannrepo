@@ -261,6 +261,11 @@ end
         :vhostName => "#{environ}",
         :serverName => "demo.kislinux.org"
       )
+    when "Dev"
+      variables(
+        :vhostName => "#{environ}",
+        :serverName => "development.kislinux.org"
+      )
     else
       variables(
         :vhostName => "#{environ}",
