@@ -5,7 +5,4 @@ if [ "$hostname" == "" ]; then
 fi
 
 ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-if [ "$?" -gt "0" ]; then
-	echo "Command appears to have had a failure."; exit 1
-fi
 
