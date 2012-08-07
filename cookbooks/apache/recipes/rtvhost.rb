@@ -31,8 +31,8 @@
     )
   end
 
-  template "/etc/httpd/conf.d/#{environ}.vhost.conf" do
-     source "rtvhost.conf.erb"
+  template "/etc/httpd/conf.d/rt#{environ}.vhost.conf" do
+    source "rtvhost.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
