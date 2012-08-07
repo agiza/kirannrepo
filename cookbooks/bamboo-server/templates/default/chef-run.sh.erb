@@ -1,4 +1,11 @@
 #!/bin/sh
 hostname=$1
-  ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-   echo "Command is $0 hostname  Please try again."; exit 1
+if [ "$hostname" == "" ]; then
+	echo "This command requires a hostname to be provided."; exit 1
+fi
+
+ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
+if [ "$?" -gt "0" ]; then
+	echo "Command appears to have had a failure."; exit 1
+fi
+
