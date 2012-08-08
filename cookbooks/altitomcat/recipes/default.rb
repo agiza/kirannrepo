@@ -12,7 +12,7 @@ end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action :enable
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
