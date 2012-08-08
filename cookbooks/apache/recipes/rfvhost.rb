@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 rfEnviron = data_bag_item("apache", "realfound")
-rfEnv = rfEnviron['environ']
+rfEnv = "#{rfEnviron['environ']}"
 rfEnv = rfEnv.collect { |environ| "#{environ}" }.split(" ")
 rfEnv.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
