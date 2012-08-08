@@ -6,10 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-rfEnviron = data_bag_item("apache", "realfound")
-rfEnv = rfEnviron['environ']
-rfEnv = rfEnviron.collect { |environ| "#{environ}" }.split(" ")
-rfEnv.each do |environ|
+
+["Dev", "QA"].each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
