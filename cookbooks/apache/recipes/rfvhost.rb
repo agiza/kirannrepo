@@ -8,7 +8,7 @@
 #
 
 search(:node, "role:realfoundationapp").each do |node|
-  environ = node[:chef_environment].collect { |environ| "#{environ}" }
+  environ = node[:chef_environment]
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
