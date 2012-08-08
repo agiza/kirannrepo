@@ -124,9 +124,9 @@ rm -rf deployment
 # Now we pull the java binary file
 get_binary(){
 cd $rpm_working_dir
-bamboo_url_test=`echo $bin_url | grep 'bamboo'`
+bamboo_url_test=`echo $bin_url | grep 'opt/atlassian'`
 if [ "$bamboo_url_test" != "" ]; then
-  find $bin_url/ -name $application_bin.war -type f -exec cp "{}" $rpm_working_dir \;
+  find $bin_url/build-*$build -name $application_bin.war -type f -exec cp "{}" $rpm_working_dir \;
   echo "Renaming java binary $application_bin.war for bundling."
   mv $application_bin.war $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
 elif [ "$bin_url" != "" ]; then
