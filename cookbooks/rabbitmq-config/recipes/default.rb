@@ -33,9 +33,6 @@ rabbitnodes = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'
 rabbitnodes = rabbitnodes.gsub!("node\[", "")
 rabbitnodes = rabbitnodes.gsub!("\]", "")
 rabbitnodes = rabbitnodes.gsub!(".#{node[:domain]}","")
-clusternodes = rabbitservers.collect { |rabbitserver| "rabbit@#{rabbitserver}" }.join(" ")
-clusternodes = clusternodes.gsub!("node\[", "")
-clusternodes = clusternodes.gsub!("\]", "")
 
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("queue_names", "realtrans")
@@ -77,7 +74,7 @@ template "/etc/rabbitmq/rabbit-common.sh" do
   owner  "root"
   mode   "0755"
   variables(
-    :clusternodes => clusternodes,
+    :rabbitnodes => rabbitnodes,
     :vhost_names => vhost_names
   )
   notifies :run, 'execute[rabbit-config]', :immediate
