@@ -16,7 +16,7 @@ admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin | grep -v guest`
 if [ "$guest_check" != ""   ]; then
 # Setup cluster here
 full_domin=`hostname -d`
-rabbitnodes=`echo "<%= @clusternodes %>" | sed -e s/\."$full_domain"//g`
+rabbitnodes=`echo "<%= @rabbitnodes %>"`
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 elif [ "$admin_check"!= "" ]; then
