@@ -6,8 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
-["Dev", "QA"].each do |environ|
+rfEnviron = search(:node, "role:realfoundationapp")
+rfEnv = rfEnviron['chef_environment']
+rfEnv.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
