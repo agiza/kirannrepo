@@ -7,9 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-search(:node, "role:realfoundationapp").each do |node|
-  environ = node[:chef_environment]
-  environ = environ.collect { |environ| "#{environ}" }
+["Dev", "QA"].each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
@@ -52,7 +50,4 @@ search(:node, "role:realfoundationapp").each do |node|
     group "root"
   end
 end
-
-
-  
 
