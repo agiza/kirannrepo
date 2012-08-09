@@ -7,24 +7,19 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# Create a hash of all environments with realfoundationapp installed
 rfenvirons = {}
 search(:node, "role:realfoundationapp") do |n|
   rfenvirons[n.chef_environment] = {}
 end
 
+# Convert the hash list of environments into a string, unique values, then split
 rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.join(" ")
 rfenvirons = rfenvirons.split.uniq.join(" ")
 rfenvirons = rfenvirons.split(" ")
 
-template "/etc/httpd/conf.d/test-environment.txt" do
-  source "test-environment.erb"
-  owner  "root"
-  group  "root"
-  mode   "0664"
-  variables(:environs => rfenvirons)
-end
-
-["Dev", "QA"].each do |environ|
+# Loop through list of environments to build workers and pass to the vhost/proxy templates
+rfenvirons.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
@@ -59,7 +54,11 @@ end
         :vhostName => "#{environ}",
         :serverName => "rfqa"
       )
-    end
+    else
+      variables(
+      :vhostName => "#{environ}",
+      :serverName => "#{environ}"
+    )
   end
 
   directory "/var/www/html/#{environ}" do

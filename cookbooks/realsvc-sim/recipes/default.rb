@@ -19,7 +19,7 @@ end
 yum_package "#{app_name}" do
   version "#{app_version}"
   case node.chef_environment
-  when "Dev","Intdev"
+  when "Dev","Intdev","QA"
     action :nothing
   else
     action :install
