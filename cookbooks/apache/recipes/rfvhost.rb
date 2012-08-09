@@ -49,17 +49,20 @@ rfenvirons.each do |environ|
     when "Dev"
       variables(
         :vhostName => "#{environ}",
-        :serverName => rfVhostName
+        :testvhostName => rfVhostName,
+        :serverName => "rfdev.kislinux.org"
       )
     when "QA"
       variables(
         :vhostName => "#{environ}",
-        :serverName => rfVhostName
+        :testvhostName => rfVhostName,
+        :serverName => "rfqa.kislinux.org"
       )
     else
       variables(
-      :vhostName => "#{environ}",
-      :serverName => rfVhostName
+        :vhostName => "#{environ}",
+        :testvhostName => rfVhostName,
+        :serverName => "#{environ}.kislinux.org"
     )
     end
   end
