@@ -3,6 +3,7 @@
     ServerName <%= @serverName %>.<%= node[:primaryDomain] %>
     DocumentRoot "/var/www/html/<%= @environ %>"
 
-Include proxy.d/realtrans-<%= @vhostName %>.proxy.conf
+Include proxy.d/realtrans-<%= @environ %>-cen.proxy.conf
+Include proxy.d/realtrans-<%= @environ %>-ven.proxy.conf
 
 </VirtualHost>

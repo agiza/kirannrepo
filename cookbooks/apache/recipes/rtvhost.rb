@@ -48,7 +48,7 @@ rtcenenvirons.each do |environ|
     )
   end
 
-  template "/etc/httpd/conf.d/rt-#{environ}-cen.vhost.conf" do
+  template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do
     source "rtvhost.conf.erb"
     owner  "root"
     group  "root"
@@ -57,27 +57,27 @@ rtcenenvirons.each do |environ|
     case "#{environ}"
     when "Intdev"
       variables(
-        :vhostName => "#{environ}-cen",
+        :vhostName => "#{environ}",
         :serverName => "dev"
       )
     when "QA"
       variables(
-        :vhostName => "#{environ}-cen",
+        :vhostName => "#{environ}",
         :serverName => "qa"
       )
     when "Demo"
       variables(
-        :vhostName => "#{environ}-cen",
+        :vhostName => "#{environ}",
         :serverName => "demo"
       )
     when "Dev"
       variables(
-        :vhostName => "#{environ}-cen",
+        :vhostName => "#{environ}",
         :serverName => "development"
       )
     else
       variables(
-        :vhostName => "#{environ}-cen",
+        :vhostName => "#{environ}",
         :serverName => "#{environ}"
       )
     end
@@ -107,41 +107,6 @@ rtvenenvirons.each do |environ|
       :vhostName => "#{environ}-ven",
       :environ => "#{environ}"
     )
-  end
-
-  template "/etc/httpd/conf.d/rt#{environ}-ven.vhost.conf" do
-    source "rtvhost.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    case "#{environ}"
-    when "Intdev"
-      variables(
-        :vhostName => "#{environ}-ven",
-        :serverName => "dev"
-      )
-    when "QA"
-      variables(
-        :vhostName => "#{environ}-ven",
-        :serverName => "qa"
-      )
-    when "Demo"
-      variables(
-        :vhostName => "#{environ}-ven",
-        :serverName => "demo"
-      )
-    when "Dev"
-      variables(
-        :vhostName => "#{environ}-ven",
-        :serverName => "development"
-      )
-    else
-      variables(
-        :vhostName => "#{environ}-ven",
-        :serverName => "#{environ}"
-      )
-    end
   end
 
   directory "/var/www/html/#{environ}" do
