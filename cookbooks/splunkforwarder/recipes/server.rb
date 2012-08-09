@@ -20,7 +20,7 @@ end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true, :restart => true
-  action [:enable, :start]
+  action :nothing
 end
 
 splunkindexes = data_bag_item("splunk_index", "indexes")
@@ -68,4 +68,7 @@ template "/opt/splunk/etc/system/local/inputs.conf" do
   notifies :restart, resources(:service => "splunk")
 end
 
+service "splunk" do
+  action [:enable, :start]
+end
 

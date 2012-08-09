@@ -34,7 +34,7 @@ end
 
 service "splunk" do
   supports :stop => true, :start => true, :reload => true
-  action [:enable, :start]
+  action :nothing
 end
 
 directory "/opt/splunkforwarder/etc/apps/search/local" do
@@ -64,5 +64,9 @@ template "/opt/splunkforwarder/etc/apps/search/local/inputs.conf" do
   group  "splunk"
   mode   "0644"
   notifies :restart, resources(:service => "splunk")
+end
+
+service "splunk" do
+  action [:enable, :start]
 end
 
