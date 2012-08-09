@@ -35,19 +35,20 @@ rtcenenvirons.each do |environ|
   cenNames = cenNames.gsub!("node[","")
   cenNames = cenNames.gsub!(".#{node[:domain]}]","")
   cenNames = cenNames.split(" ")
-  template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
-    source "realtrans.proxy.conf.erb"
+  template "/etc/httpd/proxy.d/realtrans-#{environ}-cen.proxy.conf" do
+    source "rt-cen.proxy.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
     notifies :reload, resources(:service => "httpd")
     variables(
       :vhostCenWorkers => cenNames,
+      :vhostName => "#{environ}-cen"
       :environ => "#{environ}"
     )
   end
 
-  template "/etc/httpd/conf.d/rt#{environ}.vhost.conf" do
+  template "/etc/httpd/conf.d/rt-#{environ}-cen.vhost.conf" do
     source "rtvhost.conf.erb"
     owner  "root"
     group  "root"
@@ -56,27 +57,27 @@ rtcenenvirons.each do |environ|
     case "#{environ}"
     when "Intdev"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-cen",
         :serverName => "dev"
       )
     when "QA"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-cen",
         :serverName => "qa"
       )
     when "Demo"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-cen",
         :serverName => "demo"
       )
     when "Dev"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-cen",
         :serverName => "development"
       )
     else
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-cen",
         :serverName => "#{environ}"
       )
     end
@@ -95,8 +96,8 @@ rtvenenvirons.each do |environ|
   venNames = venNames.gsub!("node[","")
   venNames = venNames.gsub!(".#{node[:domain]}]","")
   venVenNames = venNames.split(" ")
-  template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
-    source "realtrans.proxy.conf.erb"
+  template "/etc/httpd/proxy.d/realtrans-#{environ}-ven.proxy.conf" do
+    source "rt-ven.proxy.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
@@ -107,7 +108,7 @@ rtvenenvirons.each do |environ|
     )
   end
 
-  template "/etc/httpd/conf.d/rt#{environ}.vhost.conf" do
+  template "/etc/httpd/conf.d/rt#{environ}-ven.vhost.conf" do
     source "rtvhost.conf.erb"
     owner  "root"
     group  "root"
@@ -116,27 +117,27 @@ rtvenenvirons.each do |environ|
     case "#{environ}"
     when "Intdev"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-ven",
         :serverName => "dev"
       )
     when "QA"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-ven",
         :serverName => "qa"
       )
     when "Demo"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-ven",
         :serverName => "demo"
       )
     when "Dev"
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-ven",
         :serverName => "development"
       )
     else
       variables(
-        :vhostName => "#{environ}",
+        :vhostName => "#{environ}-ven",
         :serverName => "#{environ}"
       )
     end
