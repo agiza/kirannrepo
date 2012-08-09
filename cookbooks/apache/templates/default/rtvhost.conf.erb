@@ -1,9 +1,9 @@
 <VirtualHost *:80>
     ServerAdmin webmaster@altidev.com
     ServerName <%= @serverName %>.<%= node[:primaryDomain] %>
-    DocumentRoot "/var/www/html/<%= @environ %>"
+    DocumentRoot "/var/www/html/<%= @vhostName %>"
 
-Include proxy.d/realtrans-<%= @environ %>-cen.proxy.conf
-Include proxy.d/realtrans-<%= @environ %>-ven.proxy.conf
+Include proxy.d/realtrans-<%= @vhostName %>-cen.proxy.conf
+Include proxy.d/realtrans-<%= @vhostName %>-ven.proxy.conf
 
 </VirtualHost>
