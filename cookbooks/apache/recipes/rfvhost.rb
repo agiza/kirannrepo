@@ -25,6 +25,7 @@ rfenvirons.each do |environ|
   rfNames = rfNames.gsub!("node[","")
   rfNames = rfNames.gsub!(".#{node[:domain]}]","")
   rfNames = rfNames.split(" ")
+  rfVhostName = "#{node[:web_server_hostname]}"
   template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
     source "rf.proxy.conf.erb"
     owner "root"
@@ -36,7 +37,7 @@ rfenvirons.each do |environ|
       :environ => "#{environ}"
     )
   end
-
+  vhostName = data_bag_item
   template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
     source "rfvhost.conf.erb"
     owner  "root"
@@ -47,17 +48,17 @@ rfenvirons.each do |environ|
     when "Dev"
       variables(
         :vhostName => "#{environ}",
-        :serverName => "rfdev"
+        :serverName => rfVhostName
       )
     when "QA"
       variables(
         :vhostName => "#{environ}",
-        :serverName => "rfqa"
+        :serverName => rfVhostName
       )
     else
       variables(
       :vhostName => "#{environ}",
-      :serverName => "#{environ}"
+      :serverName => rfVhostName
     )
     end
   end
