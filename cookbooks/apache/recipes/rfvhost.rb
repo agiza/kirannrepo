@@ -7,6 +7,19 @@
 # All rights reserved - Do Not Redistribute
 #
 
+environs = {}
+search(:node, "role:realfoundationapp") do |n|
+  environs[n.chef_environment] = {}
+end
+
+template "/etc/httpd/conf.d/test-environment.txt" do
+  source "test-environment.erb"
+  owner  "root"
+  group  "root"
+  mode   "0664"
+  variables(:environs => environs)
+end
+
 ["Dev", "QA"].each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")

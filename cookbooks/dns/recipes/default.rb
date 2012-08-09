@@ -35,3 +35,8 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
+service "named" do
+  action [:enable, :start]
+end
+
+

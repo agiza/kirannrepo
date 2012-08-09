@@ -26,7 +26,7 @@ end
 
 service "elasticsearch" do
   supports :start => true, :stop => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action :nothing
 end
 
 template "/etc/elasticsearch/elasticsearch.yml" do
@@ -43,4 +43,7 @@ template "/etc/sysconfig/sysconfig-elasticsearch" do
   notifies :restart, resources(:service => "elasticsearch")
 end
 
+service "elasticsearch" do
+  action [:enable, :start]
+end
 

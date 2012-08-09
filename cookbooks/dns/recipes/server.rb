@@ -99,4 +99,7 @@ template "/etc/named/rev.2.0.10.in-addr.arpa.erb" do
   notifies :reload, resources(:service => "named")
 end
 
+service "named" do
+  action [:enable, :start]
+end
 
