@@ -27,8 +27,8 @@ rfenvirons.each do |environ|
   rfNames = rfNames.split(" ")
   rfVhostName = {}
   rfVhostName = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
-  rfVhostName = rfVhostName[n.web_server_hostname]
-  rfVhostName = rfVhostName.collect { |name| "#{name}"}.split.uniq()
+  rfVhostName = rfVhostName.first[n.web_server_hostname]
+  rfVhostName = "#{rfVhostName}"
   template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
     source "rf.proxy.conf.erb"
     owner "root"
