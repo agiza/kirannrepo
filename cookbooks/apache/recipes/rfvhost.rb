@@ -21,7 +21,8 @@ rfenvirons = rfenvirons.split(" ")
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rfenvirons.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
-  rfVhostName = rfNames.first[n.web_server_hostname]
+  rfVhostName = rfNames.first
+  rfVhostName = rfVhostName[n.web_server_hostname]
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
   rfNames = rfNames.gsub!(".#{node[:domain]}]","")
