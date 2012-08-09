@@ -1,6 +1,6 @@
 <VirtualHost *:80>
     ServerAdmin webmaster@altidev.com
-    ServerName <%= @serverName %>.<%= node[:primaryDomain] %>
+    ServerName <%= @serverName %>
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
 Include proxy.d/rf-<%= @vhostName %>.proxy.conf

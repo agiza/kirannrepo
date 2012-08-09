@@ -1,6 +1,6 @@
 <VirtualHost *:80>
     ServerAdmin webmaster@altidev.com
-    ServerName <%= @serverName %>.<%= node[:primaryDomain] %>
+    ServerName <%= @serverName %>.kislinux.org
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
 Include proxy.d/realtrans-<%= @vhostName %>-cen.proxy.conf
