@@ -14,6 +14,7 @@ end
 
 rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.join(" ")
 rfenvirons = rfenvirons.split.uniq.join(" ")
+rfenvirons = rfenvirons.split(" ")
 
 template "/etc/httpd/conf.d/test-environment.txt" do
   source "test-environment.erb"
