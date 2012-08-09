@@ -14,7 +14,7 @@ end
 
 service "haproxy" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action :nothing
 end
 
 clusternodes = {}
@@ -30,5 +30,9 @@ template "/etc/haproxy/haproxy.cfg" do
   mode "0644"
   variables(:clusternodes => clusternodes)
   notifies :restart, resources(:service => "haproxy")
+end
+
+service "haproxy" do
+  action [:enable, :start]
 end
 
