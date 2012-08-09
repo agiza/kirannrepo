@@ -43,7 +43,7 @@ rtcenenvirons.each do |environ|
     notifies :reload, resources(:service => "httpd")
     variables(
       :vhostCenWorkers => cenNames,
-      :vhostName => "#{environ}-cen"
+      :vhostName => "#{environ}-cen",
       :environ => "#{environ}"
     )
   end
@@ -104,6 +104,7 @@ rtvenenvirons.each do |environ|
     notifies :reload, resources(:service => "httpd")
     variables(
       :vhostVenWorkers => venNames,
+      :vhostName => "#{environ}-ven",
       :environ => "#{environ}"
     )
   end
