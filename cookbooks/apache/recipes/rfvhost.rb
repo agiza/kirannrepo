@@ -7,9 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-environs = {}
+rfenvirons = {}
 search(:node, "role:realfoundationapp") do |n|
-  environs[n.chef_environment] = {}
+  rfenvirons[n.chef_environment] = {}
+  rfenvirons = rfenvirons.split(" ")
 end
 
 template "/etc/httpd/conf.d/test-environment.txt" do
