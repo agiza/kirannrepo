@@ -12,12 +12,15 @@ search(:node, "role:realfoundationapp") do |n|
   rfenvirons[n.chef_environment] = {}
 end
 
+rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.join(" ")
+rfenvirons = rfenvirons.split.uniq(" ")
+
 template "/etc/httpd/conf.d/test-environment.txt" do
   source "test-environment.erb"
   owner  "root"
   group  "root"
   mode   "0664"
-  variables(:environs => environs)
+  variables(:environs => rfenvirons)
 end
 
 ["Dev", "QA"].each do |environ|
