@@ -23,7 +23,8 @@ rfenvirons.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
   rfVhostName = "#{rfNames.first}"
   rfVhostName = rfVhostName.gsub!("node[","").gsub("]","")
-  #(node[:web_server_hostname])
+  rfWebName = search(node:, "name:rfVhostname")
+  rfWebName = "#{rfWebname[:web_server_hostname]}"
   #rfVhostName = rfVhostName[n.web_server_hostname]
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
   rfNames = rfNames.gsub!("node[","")
@@ -51,7 +52,7 @@ rfenvirons.each do |environ|
     when "Dev"
       variables(
         :vhostName => "#{environ}",
-        :testvhostName => rfVhostName,
+        :testvhostName => rfWebName,
         :serverName => "rfdev.kislinux.org"
       )
     when "QA"
