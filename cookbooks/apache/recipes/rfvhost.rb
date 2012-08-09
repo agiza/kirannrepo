@@ -10,7 +10,6 @@
 rfenvirons = {}
 search(:node, "role:realfoundationapp") do |n|
   rfenvirons[n.chef_environment] = {}
-  rfenvirons = rfenvirons.split(" ")
 end
 
 template "/etc/httpd/conf.d/test-environment.txt" do

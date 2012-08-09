@@ -1,5 +1,6 @@
 # This is a text file to test environment detection.
-
-Environments = <%= @environs %>
+<% @environs.each do |environ| %>
+Environments = <%= environ %>
+<% end %>
 
 
