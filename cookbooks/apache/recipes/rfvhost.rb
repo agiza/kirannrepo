@@ -37,7 +37,6 @@ rfenvirons.each do |environ|
       :environ => "#{environ}"
     )
   end
-  vhostName = data_bag_item
   template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
     source "rfvhost.conf.erb"
     owner  "root"
