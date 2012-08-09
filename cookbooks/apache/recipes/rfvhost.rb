@@ -60,6 +60,7 @@ rfenvirons.each do |environ|
       :serverName => "#{environ}"
     )
     end
+  end
 
   directory "/var/www/html/#{environ}" do
     owner "root"
