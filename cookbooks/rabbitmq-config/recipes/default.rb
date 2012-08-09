@@ -12,20 +12,18 @@ app_name = "rabbitmq-server-config"
 app_version = node[:rabbitmqconfig_version]
 
 package "rabbitmq-server" do
-  version "2.8.2-1"
   provider Chef::Provider::Package::Yum
-  action :install
+  action :upgrade
 end
 
 package "#{app_name}" do
-  version "#{app_version}"
   provider Chef::Provider::Package::Yum
-  action :install
+  action :upgrade
 end
 
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
+  action :nothing
 end
 
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")  
@@ -108,3 +106,7 @@ template "/etc/rabbitmq/realdoc-rabbit.sh" do
   notifies :run, 'execute[realdoc-config]', :immediately
 end
 
+service "rabbitmq-server" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action [:enable, :start]
+end
