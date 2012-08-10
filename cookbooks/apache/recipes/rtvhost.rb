@@ -17,6 +17,9 @@ search(:node, "role:realtrans-ven") do |n|
   rtvenenvirons[n.chef_environment] = {}
 end
 
+# Databag item for webserver hostname
+webName = data_bag_item("apache-server", "webhost")
+
 # Convert the hash list of environments into a string, unique values, then split
 rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 #rtcenenvirons = rtcenenvirons.split.uniq.join(" ")

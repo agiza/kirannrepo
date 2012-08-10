@@ -45,26 +45,26 @@ rfenvirons.each do |environ|
     group  "root"
     mode   "0644"
     notifies :reload, resources(:service => "httpd")
-    case "#{environ}"
-    when "Dev"
-      variables(
-        :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
-        :serverName => "rfdev.kislinux.org"
-      )
-    when "QA"
-      variables(
-        :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
-        :serverName => "rfqa.kislinux.org"
-      )
-    else
-      variables(
-        :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
-        :serverName => "#{environ}.kislinux.org"
+    #case "#{environ}"
+    #when "Dev"
+    variables(
+      :vhostName => "#{environ}",
+      :testvhostName => webName["rf#{environ}"],
+      :serverName => webName["rf#{environ}"]
     )
-    end
+    #when "QA"
+    #  variables(
+    #    :vhostName => "#{environ}",
+    #    :testvhostName => webName["rf#{environ}"],
+    #    :serverName => "rfqa.kislinux.org"
+    #  )
+    #else
+    #  variables(
+    #    :vhostName => "#{environ}",
+    #    :testvhostName => webName["rf#{environ}"],
+    #    :serverName => "#{environ}.kislinux.org"
+    #)
+    #end
   end
 
   directory "/var/www/html/#{environ}" do
