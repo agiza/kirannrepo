@@ -18,19 +18,15 @@ rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.join(" ")
 rfenvirons = rfenvirons.split.uniq.join(" ")
 rfenvirons = rfenvirons.split(" ")
 
+# Databag item for webserver hostname
+webName = data_bag_item("apache-server", "webhost")
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rfenvirons.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
-  rfVhostName = "#{rfNames.first}"
-  rfVhostName = rfVhostName.gsub!("node[","").gsub("]","")
-  rfWebName = "#{rfVhostName}"
-  rfWebName = search(:node, "name:rfVhostname")[n.web_server_hostname]
-  #rfWebName = "#{rfWebname[:web_server_hostname]}"
-  #rfVhostName = rfVhostName[n.web_server_hostname]
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-  rfNames = rfNames.gsub!("node[","")
-  rfNames = rfNames.gsub!(".#{node[:domain]}]","")
-  rfNames = rfNames.split(" ")
+  rfNames = rfNames.gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+  #rfNames = rfNames.gsub!(".#{node[:domain]}]","")
+  #rfNames = rfNames.split(" ")
   #rfVhostName = "#{rfVhostName}"
   template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
     source "rf.proxy.conf.erb"
@@ -53,7 +49,7 @@ rfenvirons.each do |environ|
     when "Dev"
       variables(
         :vhostName => "#{environ}",
-        :testvhostName => rfWebName,
+        :testvhostName => webName["rf#{environ}],
         :serverName => "rfdev.kislinux.org"
       )
     when "QA"
