@@ -35,8 +35,7 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :testwebHostname => webHost["rf#{node.chef_environment}"],
-    :webHostname => "rfqa.kislinux.org"
+    :webHostname => webHost["rf#{node.chef_environment}"]
   )
 end
 

@@ -29,12 +29,16 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/realtrans-rp.properties" do
   source "realtrans-rp.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
+  variables(
+    :webHostname => webHost["rt#{node.chef_environment}"]
+  )
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/realtrans-rp.xml" do

@@ -33,12 +33,16 @@ package "msttcorefonts" do
   action :upgrade
 end
 
-template "/opt/tomcat/conf/realdoc.properties" do
-  source "realdoc.properties.erb"
+webHost = data_bag_item("apache-server", "webhost")
+template "/opt/tomcat/conf/#{app_name}.properties" do
+  source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
+  variables(
+    :webHostname => webHost["rd#{node.chef_environment}"]
+  )
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/realdoc.xml" do
