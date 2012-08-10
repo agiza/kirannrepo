@@ -28,7 +28,6 @@ rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(
 
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rtcenenvirons.each do |environ|
-#["Dev", "Intdev", "QA", "Demo"].each do |environ|
   cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
   venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
   cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
@@ -53,33 +52,10 @@ rtcenenvirons.each do |environ|
     group  "root"
     mode   "0644"
     notifies :reload, resources(:service => "httpd")
-    #case "#{environ}"
-    #when "Intdev"
     variables(
       :vhostName => "#{environ}",
       :serverName => webName["rt#{environ}"]
     )
-    #when "QA"
-    #  variables(
-    #    :vhostName => "#{environ}",
-    #    :serverName => "qa"
-    #  )
-    #when "Demo"
-    #  variables(
-    #    :vhostName => "#{environ}",
-    #    :serverName => "demo"
-    #  )
-    #when "Dev"
-    #  variables(
-    #    :vhostName => "#{environ}",
-    #    :serverName => "development"
-    #  )
-    #else
-    #  variables(
-    #    :vhostName => "#{environ}",
-    #    :serverName => "#{environ}"
-    #  )
-    #end
   end
 
   directory "/var/www/html/#{environ}" do
