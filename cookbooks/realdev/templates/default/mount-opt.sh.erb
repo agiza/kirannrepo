@@ -1,7 +1,8 @@
 #!/bin/bash
 opt_check=`grep opt /etc/fstab`
+disk_find=`fdisk -l | grep 107.4 | cut -d " " -f2 | sed -e s/://g`
 if [ "$opt_check" ==  "" ]; then
-  echo "/dev/xvdj	/opt	ext4	defaults	0 0" >> /etc/fstab
+  echo "$disk_find	/opt	ext4	defaults	0 0" >> /etc/fstab
 fi
 mount -a
 

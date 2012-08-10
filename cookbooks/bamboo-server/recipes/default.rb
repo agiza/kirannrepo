@@ -9,7 +9,7 @@
 
 service "bamboo" do
   supports :stop => true, :start => true, :restart => true, :statue => true
-  action [:enable, :start]
+  action :nothing
 end
 
 directory "/home/bamboo/.ssh" do
@@ -216,5 +216,10 @@ link "/home/bamboo/.chef" do
   to "/opt/bamboo/.chef"
   owner "bamboo"
   group "bamboo"
+end
+
+service "bamboo" do
+  supports :stop => true, :start => true, :restart => true, :statue => true
+  action [:enable, :start]
 end
 
