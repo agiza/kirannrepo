@@ -3,7 +3,6 @@
     ServerName <%= @serverName %>.kislinux.org
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
-Include proxy.d/realtrans-<%= @vhostName %>-cen.proxy.conf
-Include proxy.d/realtrans-<%= @vhostName %>-ven.proxy.conf
+Include proxy.d/realtrans-<%= @vhostName %>.proxy.conf
 
 </VirtualHost>

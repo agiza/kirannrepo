@@ -37,7 +37,7 @@ rtcenenvirons.each do |environ|
   #cenNames = cenNames.gsub!("node[","")
   #cenNames = cenNames.gsub!(".#{node[:domain]}]","")
   #cenNames = cenNames.split(" ")
-  template "/etc/httpd/proxy.d/realtrans-#{environ}-cen.proxy.conf" do
+  template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
     source "rt.proxy.conf.erb"
     owner  "root"
     group  "root"
