@@ -26,15 +26,18 @@ yum_package "#{app_name}" do
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
+
 webHost = data_bag_item("apache-server", "webhost")
-environ = node[:chef_environment]
+env = node[:chef_environment]
 template "/opt/tomcat/conf/realfoundationapp.properties" do
   source "realfoundationapp.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
-  variables( :web_server_hostname => webHost["rf#{environ}"] )
+  variables( 
+    :webHostname => webHost["rf#{env}"]
+  )
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/realfoundationapp.xml" do
