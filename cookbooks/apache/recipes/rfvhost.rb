@@ -24,7 +24,7 @@ rfenvirons.each do |environ|
   rfVhostName = "#{rfNames.first}"
   rfVhostName = rfVhostName.gsub!("node[","").gsub("]","")
   rfWebName = "#{rfVhostName}"
-  #rfWebName = search(node:,"name:#{rfVhostname}")
+  rfWebName = search(:node, "name:rfVhostname")[n.web_server_hostname]
   #rfWebName = "#{rfWebname[:web_server_hostname]}"
   #rfVhostName = rfVhostName[n.web_server_hostname]
   rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
