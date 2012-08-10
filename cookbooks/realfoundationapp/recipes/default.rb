@@ -34,7 +34,7 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
-  variables( :web_server_hostname => webHost[":rf#{environ}"] )
+  variables( :web_server_hostname => webHost["rf#{environ}"] )
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/realfoundationapp.xml" do
