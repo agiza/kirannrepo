@@ -61,6 +61,6 @@ ProxyPass               balancer://rtven-<%= @environ %>/realtrans-vp stickysess
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://rtven-<%= @environ %>/realtrans-vp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtven-<%= @environ %>/realtrans-reg stickysession=JSESSIONID|jsessionid
 </Location>
 
