@@ -28,7 +28,6 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
-env = node[:chef_environment]
 template "/opt/tomcat/conf/realfoundationapp.properties" do
   source "realfoundationapp.properties.erb"
   group 'tomcat'
@@ -36,7 +35,7 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["rf#{env}"]
+    :webHostname => webHost["rf#{node[:chef_environment]}"]
   )
 end
 
