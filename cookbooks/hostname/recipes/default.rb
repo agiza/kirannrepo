@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-host_name=node[:name]
+host_name=node[:fqdn]
 execute "hostname" do
   case node[:platform]
   when "centos", "redhat", "fedora", "suse"
