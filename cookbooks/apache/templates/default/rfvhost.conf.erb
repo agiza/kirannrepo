@@ -3,8 +3,6 @@
     ServerName <%= @serverName %>
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
-   #TestServerName <%= @testvhostName %>
-
 Include proxy.d/rf-<%= @vhostName %>.proxy.conf
 
 </VirtualHost>
