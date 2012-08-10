@@ -19,8 +19,8 @@ rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
 rt.vendor.certification.candidateGroup=Credential Review Team
 
 rt.amqp.exchange.avm.request=rt.avm.request
-rt.vendor.portal.url=http://<%= node[:web_server_hostname] %>/realtrans-vp
-rt.registration.portal.url=<%=node[:web_server_hostname] %>/realtrans-reg
+rt.vendor.portal.url=http://<%= @webHostname %>/realtrans-vp
+rt.registration.portal.url=<%= @webHostname %>/realtrans-reg
 
 rt.vendor.valuation.facilitator.candidateGroup=FACILITATORS
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
