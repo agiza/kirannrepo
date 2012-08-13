@@ -2,8 +2,9 @@
 // Do any local configuration here
 //
 acl slaves {
-	10.0.0.72;	//github
-	10.0.1.111;	//webserver
+<% @dnsslaves.each do |slave| -%>
+         <%= slave %>;
+<% end -%>
 };
 
 # This is the zone definition. replace example.com with your domain name

@@ -19,6 +19,7 @@ service "named" do
   action :nothing
 end
 
+zones = data_bag_item("dns" "zones")
 template "/etc/named.conf" do
   source "named.conf.server.erb"
   owner  "root"
@@ -41,6 +42,7 @@ template "/etc/named/named.conf.local" do
   group  "root"
   mode   "0644"
   notifies :restart, resources(:service => "named")
+  variables( :dnsslaves => zones['dnsslaves'] )
 end
 
 template "/etc/named/named.conf.default-zones" do
@@ -59,7 +61,6 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
-zones = data_bag_item("dns" "zones")
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db"
   owner  "root"

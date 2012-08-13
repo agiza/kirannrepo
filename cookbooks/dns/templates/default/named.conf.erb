@@ -50,7 +50,7 @@ zone "altidev.com" IN {
 	file "/var/named/data/altidev.com.db";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
-	masters { 10.0.0.20; };
+	masters { <%= @dnsmaster %>; };
 };
 
 zone "0.0.10.in-addr.arpa" IN {
@@ -58,7 +58,7 @@ zone "0.0.10.in-addr.arpa" IN {
 	file "/var/named/data/rev.0.0.10.in-addr.arp";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
-	masters { 10.0.0.20; };
+	masters { <%= @dnsmaster %>; };
 };
 
 zone "1.0.10.in-addr.arpa" IN {
@@ -66,7 +66,7 @@ zone "1.0.10.in-addr.arpa" IN {
 	file "/var/named/data/rev.1.0.10.in-addr.arpa";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
-	masters { 10.0.0.20; };
+	masters { <%= @dnsmaster %>; };
 };
 
 zone "2.0.10.in-addr.arpa" IN {
@@ -74,7 +74,7 @@ zone "2.0.10.in-addr.arpa" IN {
 	file "/var/named/data/rev.2.0.10.in-addr.arpa";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
-	masters { 10.0.0.20; };
+	masters { <%= @dnsmaster %>; };
 };
 
 zone "ascorp.com" IN {
@@ -82,7 +82,7 @@ zone "ascorp.com" IN {
 	file "/var/named/data/ascorp.com.db";
 	// allow-update { none; };
 	allow-transfer { 10.0.0.0/8; };
-	masters { 10.0.0.20; };
+	masters { <%= @dnsmaster %>; };
 };
 
 include "/etc/named.rfc1912.zones";

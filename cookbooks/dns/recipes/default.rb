@@ -19,12 +19,14 @@ service "named" do
   action :nothing
 end
 
+zones = data_bag_item("dns", "zones")
 template "/etc/named.conf" do
   source "named.conf.erb"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :restart, resources(:service => "named")
+  variables( :dnsmaster => zones['dnsmaster'] )
 end
 
 template "/etc/rndc.key" do
