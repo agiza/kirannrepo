@@ -29,14 +29,14 @@ end
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")  
 
 #Build list of queues names for configuration
-realtrans_queue = data_bag_item("queue_names", "realtrans")
-realdoc_queue = data_bag_item("queue_names", "realdoc")
+realtrans_queue = data_bag_item("rabbitmq", "realtrans")
+realdoc_queue = data_bag_item("rabbitmq", "realdoc")
 vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names = vhost_names + [realdoc_queue['vhosts']]
 
 #Pull cookie value from databag
-cookie = data_bag_item("queue_names", "rabbitmq")
+cookie = data_bag_item("rabbitmq", "rabbitmq")
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
