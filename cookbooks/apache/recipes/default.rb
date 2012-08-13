@@ -74,6 +74,7 @@ template "/etc/httpd/conf.d/twiz-vhost.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
+  variables( :servername => "#{servername}" )
   notifies :reload, resources(:service => "httpd")
 end
 
