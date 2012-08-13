@@ -35,6 +35,9 @@ vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names = vhost_names + [realdoc_queue['vhosts']]
 
+#Pull cookie value from databag
+cookie = data_bag_item("queue_names", "rabbitmq")
+
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -100,6 +103,15 @@ template "/etc/rabbitmq/realdoc-rabbit.sh" do
     :vhost_names => realdoc_queue['vhosts']
   )
   notifies :run, 'execute[realdoc-config]', :immediately
+end
+
+template "/var/lib/rabbitmq/.erlang.cookie" do
+  source "erlang.cookie.erb"
+  owner  "rabbitmq"
+  group  "rabbitmq"
+  mode   "0600"
+  variables( :cookie => cookie['rabbit_cookie'] )
+  notifies :restart, resources(:service => "rabbitmq-server")
 end
 
 service "rabbitmq-server" do
