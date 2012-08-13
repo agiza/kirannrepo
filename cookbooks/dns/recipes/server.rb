@@ -60,7 +60,6 @@ template "/etc/rndc.key" do
 end
 
 zones = data_bag_item("dns" "zones")
-
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db"
   owner  "root"
