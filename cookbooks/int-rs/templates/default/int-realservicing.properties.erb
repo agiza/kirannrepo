@@ -41,7 +41,7 @@ rt.int.rs.password=<%= node[:rsPassword] %>
 
 rt.int.poller.retry=4
 rt.int.poller.poolSize=10
-rt.int.realservicing.poller.delay=120
+rt.int.realservicing.poller.delay=<%= node[:rs_poller_delay] %>
 
 rt.int.schema.path=/ava/schemas/
 rt.int.json.schema=realServicing.json
