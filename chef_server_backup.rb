@@ -28,6 +28,7 @@ class Opscode
     def backup
       nodes
       roles
+      envs
       data_bags
     end
 
@@ -37,6 +38,10 @@ class Opscode
 
     def roles
       backup_standard("roles", Chef::Role)
+    end
+
+    def envs
+      backup_standard("roles", Chef::Environment)
     end
 
     def data_bags
