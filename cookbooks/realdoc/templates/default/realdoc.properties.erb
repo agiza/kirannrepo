@@ -116,5 +116,9 @@ internalDomains=none
 
 rf.app.context.path=http://<%= @webHostname %>/realdoc
 
+rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
+rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
+rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+
 rd.documentservice.tempPath=/tmp/
 

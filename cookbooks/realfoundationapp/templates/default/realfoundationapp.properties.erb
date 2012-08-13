@@ -54,5 +54,9 @@ rf.email.password=whatever
 
 rf.app.context.path=http://<%= @webHostname %>/realfoundationapp
 
+rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
+rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
+rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+
 internalDomains=
 
