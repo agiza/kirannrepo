@@ -3,7 +3,7 @@
 ;
 $TTL    604800
 @       IN      SOA     ns.altidev.com. root.altidev.com. (
-                     0801201200         ; Serial
+                        <%= @serial %>  ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
@@ -12,68 +12,7 @@ $TTL    604800
 		NS      ns
 		NS	ns2
 		NS	ns3
-ns      	A       10.0.0.20
-ns2		A	10.0.0.72
-ns3		A	10.0.1.111
-altidev.com.	MX	10 	mail
-nexus		A	10.0.1.211
-vpn		CNAME	nexus
-atlas		A	10.0.0.20
-bamboo		A	10.0.0.79
-jira		CNAME	atlas
-fisheye		CNAME	atlas
-confluence	CNAME	atlas
-ldap		CNAME	atlas
-prototype	CNAME	atlas
-realtrans-dev	A	10.0.0.127
-realdevdbprim	A	10.0.0.199
-realqadbprim	A	10.0.0.209
-mysql-dev	CNAME	realdevdbprim
-mysql-qa	CNAME	realqadbprim
-mysql-test	A	10.0.0.197
-rabbit1-qa	A	10.0.0.176
-rabbit2-qa	A	10.0.0.27
-mysqladmdbprim	CNAME	mysql-test
-ldap-dev	CNAME	ldap
-ldap-qa		CNAME	rabbit1-qa
-ldap-demo	CNAME	rabbit1-qa
-github		A	10.0.0.72
-git		CNAME	github
-mail		A	10.0.1.211
-appdynamix	A	10.0.0.84
-webserver	A	10.0.1.111
-rf-sang-dev	CNAME	mysql-test
-atlasdbprim	A	10.0.0.11
-atlassiandbprim	CNAME	atlasdbprim
-realtrans-demo	A	10.0.0.113
-rs-rabbit1	A	10.0.0.78
-chef		A	10.0.0.8
-rsng-host	A	10.0.0.81
-rsng-sonicmq 	A	10.0.0.76
-realtrans-qa	A	10.0.0.140
-mongodb-dev	A	10.0.0.231
-hazelcast1	A	10.0.0.232
-hazelcast2	A	10.0.0.233
-rf-qa		A	10.0.0.90
-realfoundation-qa	CNAME	rf-qa
-realtrans-intdev	A	10.0.0.185
-realtrans-intdev2	A	10.0.0.100
-rabbit-proxy	A	10.0.0.27
-		A	10.0.0.176
-realdoc-dev	A	10.0.0.162
-realdoc-demo	A	10.0.0.196
-mongodb-demo	A	10.0.0.190
-strongmail	A	10.0.0.218
-realtrans-dev1	A	10.0.0.43
-realtrans-dev2	A	10.0.0.251
-splunkserver	A	10.0.0.117
-splunk-qa	CNAME	splunkserver
-splunk-dev	CNAME	splunkserver
-splunk-demo	CNAME	splunkserver
-ops1		A	10.0.2.98
-ops2		A	10.0.2.97
-ops3		A	10.0.2.96
-ops4		A	10.0.2.95
-realdoc-dev1	A	10.0.0.201
-*		A	10.0.0.20
+<% @altidev.each do |altidev| -%>
+<%= altidev %>
+<% end -%>
 

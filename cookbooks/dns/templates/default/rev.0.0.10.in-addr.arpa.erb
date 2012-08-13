@@ -3,41 +3,14 @@
 ;
 $TTL    604800
 @       IN      SOA     ns.altidev.com. root.altidev.com. (
-                     0725201200         ; Serial
+                     <%= @serial %>     ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      ns.
-72	IN	PTR	github.altidev.com.
-197	IN	PTR	mysql-test.altidev.com.
-199	IN	PTR	realdevdbprim.altidev.com.
-127	IN	PTR	realtrans-dev.altidev.com.
-20	IN	PTR	atlas.altidev.com.
-79	IN	PTR	bamboo.altidev.com.
-84	IN	PTR	appdynamix.altidev.com.
-176	IN	PTR	rabbit1-qa.altidev.com.
-27	IN	PTR	rabbit2-qa.altidev.com.
-209	IN	PTR	realqadbprim.altidev.com.
-78	IN	PTR	rs-rabbit1.altidev.com.
-8	IN	PTR	chef.altidev.com.
-81	IN	PTR	rsng-host.altidev.com.
-76	IN	PTR	rsng-sonicmq.altidev.com.
-113	IN	PTR	realtrans-demo.altidev.com.
-140	IN	PTR	realtrans-qa.altidev.com.
-231	IN	PTR	mongodb-dev.altidev.com.
-232	IN	PTR	hazelcast1.altidev.com.
-233	IN	PTR	hazelcast2.altidev.com.
-90	IN	PTR	realfoundation-qa.altidev.com.
-185	IN	PTR	realtrans-intdev.altidev.com.
-100	IN	PTR	realtrans-intdev2.altidev.com.
-162	IN	PTR	realdoc-dev.altidev.com.
-196	IN	PTR	realdoc-demo.altidev.com.
-190	IN	PTR	mongodb-demo.altidev.com.
-218	IN	PTR	strongmail.altidev.com.
-43	IN	PTR	realtrans-dev1.altidev.com.
-251	IN	PTR	realtrans-dev2.altidev.com.
-117	IN	PTR	splunkserver.altidev.com.
+<% @rev0010.each do |rev| -%>
+<%= rev %>
+<% end -%>
 *	IN	PTR	host.altidev.com.
-

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: dns
-# Recipe:: default
+# Recipe:: server
 #
 # Copyright 2012, Altisource
 #
@@ -59,12 +59,18 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
+zones = data_bag_item("dns" "zones")
+
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :altidev => zones['altidev.com.db']
+  )
 end
 
 template "/etc/named/ascorp.com.db" do
@@ -73,6 +79,10 @@ template "/etc/named/ascorp.com.db" do
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :ascorp => zones['ascorp.com.db']
+  )
 end
 
 template "/etc/named/rev.0.0.10.in-addr.arpa.erb" do
@@ -81,6 +91,10 @@ template "/etc/named/rev.0.0.10.in-addr.arpa.erb" do
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :rev0010 => zones['rev.0.0.10']
+  )
 end
 
 template "/etc/named/rev.1.0.10.in-addr.arpa.erb" do
@@ -89,6 +103,10 @@ template "/etc/named/rev.1.0.10.in-addr.arpa.erb" do
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :rev1010 => zones['rev.1.0.10']
+  )
 end
 
 template "/etc/named/rev.2.0.10.in-addr.arpa.erb" do
@@ -97,6 +115,10 @@ template "/etc/named/rev.2.0.10.in-addr.arpa.erb" do
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :rev2010 => zones['rev.2.0.10']
+  )
 end
 
 service "named" do

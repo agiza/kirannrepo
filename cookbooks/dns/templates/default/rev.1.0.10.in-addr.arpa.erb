@@ -3,13 +3,14 @@
 ;
 $TTL    604800
 @       IN      SOA     ns.altidev.com. root.altidev.com. (
-                     0316201200         ; Serial
+                     <%= @serial %>     ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      ns.
-211     IN      PTR     ns.altidev.com.
-111	IN	PTR	webserver.altidev.com.
+<% rev1010.each do |rev| -%>
+<%= rev %>
+<% end -%>
 *	IN	PTR	host.altidev.com.
