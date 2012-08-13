@@ -43,7 +43,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   group 'root'
   owner 'root'
   mode '0644'
-  variables(:rabbitnodes => rabbitnodes)
+  variables( :rabbitnodes => rabbitservers )
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
@@ -71,7 +71,7 @@ template "/etc/rabbitmq/rabbit-common.sh" do
   owner  "root"
   mode   "0755"
   variables(
-    :rabbitnodes => rabbitnodes,
+    :rabbitnodes => rabbitservers,
     :vhost_names => vhost_names
   )
   notifies :run, 'execute[rabbit-config]', :immediate
