@@ -10,12 +10,14 @@ realdoc.printstandard.ftp.host=<%= node[:rd_ftphost] %>
 realdoc.printstandard.ftp.port=<%= node[:rd_ftpport] %>
 realdoc.printstandard.ftp.username=<%= node[:rd_ftpuser] %>
 realdoc.printstandard.ftp.password=<%= node[:rd_ftppass] %>
+realdoc.printstandard.privateKey=file:/opt/tomcat/conf/realdoc.key
 
 realdoc.printcertified.ftp.host=<%= node[:rd_ftphost] %>
 realdoc.printcertified.ftp.port=<%= node[:rd_ftpport] %>
 realdoc.printcertified.ftp.username=<%= node[:rd_ftpuser] %>
 realdoc.printcertified.ftp.password=<%= node[:rd_ftppass] %>
 realdoc.correspondence.directory=${catalina.base}/correspondence
+realdoc.printcertified.privateKey=file:/opt/tomcat/conf/realdoc.key
 
 amqp.host=<%= node[:amqp_host] %>
 amqp.port=<%= node[:amqp_port] %>
@@ -50,10 +52,6 @@ rf.db.dialect=org.hibernate.dialect.MySQLDialect
 rf.db.generateDdl=false
 rf.db.showSql=false
 
-auditdb.driver=com.mysql.jdbc.Driver
-auditdb.url=jdbc:mysql://localhost:3306/realsuite
-auditdb.username=realsuite
-auditdb.password=realsuite
 ## the following properties will be gone once security is fully built
 appKey=REALTRANS
 rf.tenantCode=Tenant1
@@ -87,6 +85,7 @@ logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
 rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
 brandName=default
+devMode=true
 
 rf.security.maxBadLoginsDefault=3
 rf.security.lockoutWindowMinsDefault=60
