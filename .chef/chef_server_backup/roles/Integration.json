@@ -1,1 +1,1 @@
-{"json_class":"Chef::Role","run_list":["recipe[int-datavision]","recipe[int-interthinx]","recipe[int-etrac]","recipe[int-corelogic]"],"default_attributes":{},"chef_type":"role","env_run_lists":{},"description":"Integration Components Role","override_attributes":{},"name":"Integration"}
+{"run_list":["recipe[int-datavision]","recipe[int-interthinx]","recipe[int-etrac]","recipe[int-corelogic]"],"json_class":"Chef::Role","default_attributes":{},"description":"Integration Components Role","name":"Integration","env_run_lists":{},"chef_type":"role","override_attributes":{}}

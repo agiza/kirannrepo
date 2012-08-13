@@ -1,0 +1,1 @@
+{"run_list":["role[All]","recipe[apache]","recipe[apache::rfvhost]","recipe[apache::rtvhost]","recipe[apache::rdvhost]"],"json_class":"Chef::Role","default_attributes":{},"description":"Role for Public webserver","name":"apache-server","env_run_lists":{},"chef_type":"role","override_attributes":{}}
