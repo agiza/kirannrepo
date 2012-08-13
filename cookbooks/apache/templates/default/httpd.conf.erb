@@ -321,6 +321,9 @@ DocumentRoot "/var/www/html"
 # This should be changed to whatever you set DocumentRoot to.
 #
 <Directory "/var/www/html">
+#RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
 #
 # Possible values for the Options directive are "None", "All",
@@ -589,7 +592,7 @@ ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"
     AllowOverride None
     Options None
     Order allow,deny
-    Allow from all
+    Deny from all
 </Directory>
 
 #
@@ -976,7 +979,6 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 #</IfModule>
 # End of proxy directives.
 
-Include conf.d/*.conf
 
 ### Section 3: Virtual Hosts
 #
@@ -1015,4 +1017,17 @@ NameVirtualHost *:80
 #    ErrorLog logs/dummy-host.example.com-error_log
 #    CustomLog logs/dummy-host.example.com-access_log common
 #</VirtualHost>
+
+Header set Cache-control "no-cache"
+
+TraceEnable off
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} ^TRACK
+RewriteRule .* - [F]
+RewriteCond %{REQUEST_METHOD} ^TRACE
+RewriteRule .* - [F]
+RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+RewriteRule .* - [F]
+
+Include conf.d/*.conf
 

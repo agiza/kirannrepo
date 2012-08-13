@@ -27,7 +27,7 @@ end
 
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action :nothing
 end
 
 directory "/var/www/html/vpn" do
@@ -39,6 +39,10 @@ directory "/etc/httpd/proxy.d" do
   owner "root"
   group "root"
 end
+
+# Look up ssl server name from data bag.
+servername = data_bag_item("apache-server", "webhost")
+servername = servername['servername']
 
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
@@ -53,6 +57,7 @@ template "/etc/httpd/conf.d/ssl.conf" do
   owner "root"
   group "root"
   mode "0644"
+  variables( :servername => "#{servername}" )
   notifies :reload, resources(:service => "httpd")
 end
 
@@ -120,16 +125,16 @@ template "/etc/httpd/conf.d/vpn.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/certs/altisource.twiz.li.crt" do
-  source "altisource.twiz.li.crt.erb"
+template "/etc/pki/tls/certs/#{servername}.crt" do
+  source "#{servername}.crt.erb"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/private/altisource.twiz.li.key" do
-  source "altisource.twiz.li.key.erb"
+template "/etc/pki/tls/private/#{servername}.key" do
+  source "#{servername}.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
@@ -140,5 +145,10 @@ link "/etc/ssl/private" do
   to "/etc/pki/tls/private"
   owner "root"
   group "root"
+end
+
+service "httpd" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action [:enable, :start]
 end
 
