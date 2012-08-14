@@ -18,10 +18,6 @@ template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
   mode "0644"
   notifies :run, resources(:execute => "yum")
-  variables(
-    :app_names => realapps['appnames'],
-    :common_names => realapps['common_names']
-  )
 end
 
 template "/etc/sysconfig/network" do
@@ -36,9 +32,5 @@ template "/etc/yum.conf" do
   mode "0644"
   owner "root"
   group "root"
-  variables(
-    :app_names => realapps['appnames'],
-    :common_names => realapps['common_names']
-  )
 end
 
