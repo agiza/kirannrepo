@@ -56,3 +56,10 @@ execute "addown" do
   action :run
 end
 
+template "/etc/cron.daily/appdynamics" do
+  source "appdynamics.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
