@@ -79,6 +79,7 @@ end
 
 appdynamics = data_bag_item("appdynamics", "appdynamics")
 template "/opt/appdynamics/license.lic" do
+  source "license.lic.erb"
   owner  "appdynamics"
   group "appdynamics"
   mode  "0644"
