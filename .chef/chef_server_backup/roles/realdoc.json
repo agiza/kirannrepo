@@ -1,1 +1,1 @@
-{"run_list":["role[Common]","recipe[realdoc]","recipe[splunkforwarder]"],"json_class":"Chef::Role","default_attributes":{"log4j_index":"realdoc","access_index":"realdoc"},"description":"","name":"realdoc","env_run_lists":{},"chef_type":"role","override_attributes":{}}
+{"env_run_lists":{},"override_attributes":{},"description":"","name":"realdoc","json_class":"Chef::Role","run_list":["role[Common]","recipe[realdoc]","recipe[splunkforwarder]"],"chef_type":"role","default_attributes":{"access_index":"realdoc","log4j_index":"realdoc"}}

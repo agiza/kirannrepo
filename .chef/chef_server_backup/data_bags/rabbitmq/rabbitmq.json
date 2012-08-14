@@ -1,0 +1,1 @@
+{"data_bag":"rabbitmq","name":"data_bag_item_rabbitmq_rabbitmq","json_class":"Chef::DataBagItem","chef_type":"data_bag_item","raw_data":{"rabbit_cookie":"rabbitmqaltidev","id":"rabbitmq"}}

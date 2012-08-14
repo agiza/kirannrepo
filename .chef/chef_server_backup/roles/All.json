@@ -1,1 +1,1 @@
-{"run_list":["recipe[hostname]"],"json_class":"Chef::Role","default_attributes":{},"description":"Recipes that are run on all servers by default","name":"All","env_run_lists":{},"chef_type":"role","override_attributes":{}}
+{"env_run_lists":{},"override_attributes":{},"description":"Recipes that are run on all servers by default","name":"All","json_class":"Chef::Role","run_list":["recipe[hostname]"],"chef_type":"role","default_attributes":{}}
