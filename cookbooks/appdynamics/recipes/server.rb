@@ -77,3 +77,16 @@ execute "app-init" do
   action :run
 end
 
+appdynamics = data_bag_item("appdynamics", "appdynamics")
+template "/opt/appdynamics/license.lic" do
+  user  "appdynamics"
+  group "appdynamics"
+  mode  "0644"
+  variables(
+    :appdyn_expireDate => appdynamics[appdyn_expireDate],
+    :appdyn_macaddress => appdynamics[appdyn_macaddress],
+    :appdyn_license => appdynamics[appdyn_license], 
+    :appdyn_startDate => appdynamics[appdyn_startDate]
+  )
+end
+
