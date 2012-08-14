@@ -1,0 +1,11 @@
+#!/bin/bash
+limits_check=`grep 'ulimit -n 65535' /etc/profile`
+if [ "$limits_check" == "" ]; then
+  echo 'ulimit -n 65535' >> /etc/profile
+fi
+
+swap_check=`grep 'vm.swappiness = 0' /etc/sysctl.conf`
+if [ "$swap_check" == "" ]; then
+  echo 'vm.swappiness = 0' >> /etc/sysctl.conf
+fi
+
