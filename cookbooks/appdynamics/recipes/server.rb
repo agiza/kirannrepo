@@ -52,7 +52,7 @@ execute "addown" do
   user "root"
   cwd  "/tmp"
   command "wget -O /tmp/controller_64bit_linux.sh http://10.0.0.20/yum/common/controller_64bit_linux.sh; cd /tmp; chmod +x controller_64bit_linux.sh"
-  creates "/tmp/controller_64bit_linux.sh"
+  creates "/opt/appdynamics/bin/controller.sh"
   action :run
 end
 
