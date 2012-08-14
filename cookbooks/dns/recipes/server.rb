@@ -6,17 +6,40 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-yum_package "bind" do
+package "bind" do
+  case node[:platform]
+  when "ubuntu"
+    package_name "bind9"
+  when "centos", "redhat"
+    package_name "bind"
+  end
   action :upgrade
 end
 
-yum_package "bind-utils" do
+package "bind-utils" do
+  case node[:platform]
+  when "centos", "redhat"
+    package_name "bind-utils"
+  when "ubuntu"
+    package_name "bind9-utils"
+  end
   action :upgrade
+end
+
+directory "/etc/named" do
+  owner "root"
+  group "root"
 end
 
 service "named" do
-  supports :stop => true, :start => true, :restart => true, :reload => true
-  action :nothing
+case node[:platform]
+when "centos", "redhat"
+  service_name "named"
+when "ubuntu"
+  service_name "bind9"
+end
+supports :stop => true, :start => true, :restart => true, :reload => true
+action :nothing
 end
 
 zones = data_bag_item("dns" "zones")
@@ -119,6 +142,14 @@ template "/etc/named/rev.2.0.10.in-addr.arpa.erb" do
     :serial => zones['serial'],
     :rev2010 => zones['rev.2.0.10'].split("\n")
   )
+end
+
+template "/etc/defaults/bind9" do
+  source "bind9.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "named")
 end
 
 service "named" do
