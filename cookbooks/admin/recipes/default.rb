@@ -105,4 +105,9 @@ template "/home/ubuntu/bin/update.sh" do
   mode   "0755"
 end
 
-
+template "/home/ubuntu/bin/drop-files" do
+  source "drop-files.erb"
+  owner  "ubuntu"
+  group  "ubuntu"
+  mode   "0755"
+end
