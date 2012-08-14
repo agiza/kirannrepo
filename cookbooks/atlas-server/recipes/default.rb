@@ -298,3 +298,95 @@ link  "/etc/apache2/sites-enabled/crowd-mod_proxy" do
   group "root"
 end
 
+template "/etc/ssl/certs/altisource.twiz.li.crt" do
+  source "altisource.twiz.li.crt.erb"
+  owner  "root"
+  group  "root"
+  mode   "644"
+end
+
+template "/etc/ssl/private/altisource.twiz.li.key" do
+  source "altisource.twiz.li.key.erb"
+  owner  "root"
+  group  "root"
+  mode   "0640"
+end
+
+template "/etc/apache2/sites-available/appdyn-mod_proxy" do
+  source "appdyn-mod_proxy.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/etc/apache2/sites-available/default" do
+  source "default.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/etc/apache2/sites-available/default-ssl" do
+  source "default-ssl.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/etc/apache2/sites-available/prototype-vhost.conf" do
+  source "prototype-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/etc/apache2/sites-available/ux-vhost.conf" do
+  source "ux-vhost.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+template "/etc/apache2/sites-available/yum-mod_proxy" do
+  source "yum-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
+link  "/etc/apache2/sites-enabled/000-default" do
+  to "../sites-available/default"
+  owner "root"
+  group "root"
+end
+
+link  "/etc/apache2/sites-enabled/000-default-ssl" do
+  to "../sites-available/default-ssl"
+  owner "root"
+  group "root"
+end
+
+link  "/etc/apache2/sites-enabled/appdyn-mod_proxy" do
+  to "../sites-available/appdyn-mod_proxy"
+  owner "root"
+  group "root"
+end
+
+link  "/etc/apache2/sites-enabled/prototype-vhost.conf" do
+  to "../sites-available/prototype-vhost.conf"
+  owner "root"
+  group "root"
+end
+
+link  "/etc/apache2/sites-enabled/ux-vhost.conf" do
+  to "../sites-available/ux-vhost.conf"
+  owner "root"
+  group "root"
+end
+
+link  "/etc/apache2/sites-enabled/yum-mod_proxy" do
+  to "../sites-available/yum-mod_proxy"
+  owner "root"
+  group "root"
+end
+
