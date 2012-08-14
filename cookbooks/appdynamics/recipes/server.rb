@@ -13,7 +13,6 @@ end
 
 group "appdynamics" do
   gid 1001
-  members ['appdynamics']
 end
 
 user "appdynamics" do
@@ -22,6 +21,11 @@ user "appdynamics" do
   gid  "appdynamics"
   home "/opt/appdynamics"
   shell "/bin/bash"
+end
+
+group "appdynamics" do
+  gid 1001
+  members ["appdynamics"]
 end
 
 directory "/opt/appdynamics" do
