@@ -63,3 +63,17 @@ template "/etc/cron.daily/appdynamics" do
   mode   "0755"
 end
 
+template "/etc/init.d/appdynamics" do
+  source "appdynamics-init.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+execute "app-init" do
+  user  "root"
+  command "chkconfig --add appdynamics"
+  creates "/etc/rc3.d/S90appdynamics"
+  action :run
+end
+
