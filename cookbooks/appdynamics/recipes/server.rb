@@ -20,7 +20,7 @@ user "appdynamics" do
 end
 
 group "appdynamics" do
-  gid "1001"
+  gid 1001
   members ['appdynamics']
 end
 
