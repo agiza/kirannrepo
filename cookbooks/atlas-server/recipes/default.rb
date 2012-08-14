@@ -313,7 +313,7 @@ template "/etc/ssl/private/altisource.twiz.li.key" do
 end
 
 template "/etc/apache2/sites-available/appdyn-mod_proxy" do
-  source "appdyn-mod_proxy.conf.erb"
+  source "appdyn-mod_proxy.erb"
   owner  "root"
   group  "root"
   mode   "0644"
