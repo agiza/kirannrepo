@@ -1,0 +1,26 @@
+#!/bin/bash
+if [ "$1" == "" -o "$2" == "" -o "$3" == "" ]; then
+        echo "Enter userid"
+        read userid
+        echo "Enter Email address"
+        read email_address
+        echo "Enter Full Name"
+        read full_name
+        echo "Create VPN certificates and Crowd accounts for $userid and send to $email_address.  Is this correct? (Y or N)"
+        read answer
+else
+        userid=$1
+        email_address=$3
+        full_name=`echo $2 | sed ' s/_/\ /g'`
+        answer="Y"
+fi
+if [ "$answer" == "Y" ]; then
+        ssh ubuntu@nexus "bin/openvpn-client.sh $userid $email_address"
+        echo "$userid|$full_name|$email_address" > /tmp/$userid.txt
+        scp /tmp/$userid.txt ubuntu@atlas:/tmp/$userid.txt
+        ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-add.sh /tmp/$userid.txt"
+        rm -rf /tmp/$userid.txt
+else
+        echo "Please try again."; exit 1
+fi
+

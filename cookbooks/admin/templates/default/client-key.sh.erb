@@ -1,0 +1,50 @@
+#!/bin/bash
+# Change to working directory
+cd /etc/openvpn/easy-rsa
+
+# Set Userid
+userid=$1
+
+# If there is no userid, we can't work, so throw an error.
+if [ "$userid" == "" ]; then
+        echo "No client name entered, exiting"; exit 1
+fi
+
+if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
+        echo "Certs have already been created. Skipping creation."; exit 1
+else
+# Source the config file for certificate generation
+source ./vars
+
+# Issue command to create certificates
+/etc/openvpn/easy-rsa/pkitool $userid
+
+# Create a working directory for packaging.
+working_dir=$userid-`date +%y%m%d%h%m`
+mkdir -p /tmp/$working_dir
+# Copy certificates and key files into working directory.
+cd /etc/openvpn/easy-rsa/keys; cp $userid.key /tmp/$working_dir/ ; cp ca.crt /tmp/$working_dir/ ; cp $userid.crt /tmp/$working_dir/
+cd /tmp/$working_dir 
+
+# Update openvpn client configuration file and put a copy in temporary directory for packaging
+cat /home/ubuntu/vpn-text/openvpn-client.ovpn | sed -e s/userid/$userid/g > $userid-client.ovpn
+
+# Package certificates and configuration file into a package.
+tar -czvf /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz $userid.key ca.crt $userid.crt $userid-client.ovpn
+
+# Files are packaged, get rid of working directory.
+rm -rf /tmp/$working_dir
+
+# Change ownership so that ubuntu user owns the files
+chown ubuntu.ubuntu /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz
+
+fi
+
+# Finished with activities, check for completion and issue some feeback.
+if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
+        echo "Cert and keys have been packaged for delivery."
+else
+        echo "Certificate creation and packaging has failed. Please check for issues."; exit 1
+
+fi
+
