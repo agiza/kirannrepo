@@ -29,7 +29,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
-  notifies :restart, resources(:service => "bamboo")
+  #notifies :restart, resources(:service => "bamboo")
 end
 
 template "/opt/atlassian/bamboo/bamboo.cfg.xml.new" do
