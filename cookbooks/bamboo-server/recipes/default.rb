@@ -8,7 +8,7 @@
 #
 
 service "bamboo" do
-  supports :stop => true, :start => true, :restart => true, :statue => true
+  supports :stop => true, :start => true, :restart => true, :status => true
   action :nothing
 end
 
@@ -214,7 +214,6 @@ link "/home/bamboo/.chef" do
 end
 
 service "bamboo" do
-  supports :stop => true, :start => true, :restart => true, :statue => true
   action [:enable, :start]
 end
 
