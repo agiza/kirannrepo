@@ -24,8 +24,6 @@ directory "/home/bamboo/bin" do
   action :create
 end
 
-bamboo_keys = data_bag_item("atlassian_keys", "bamboo")
-
 template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   source "bamboo.cfg.xml.erb"
   owner  "bamboo"
@@ -39,9 +37,6 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml.new" do
   owner  "bamboo"
   group  "bamboo"
   mode   "0644"
-  variables(
-    :bamboo_key => bamboo_keys['bamboo_key']
-  )
 end
 
 template "/opt/atlassian/bamboo/bamboo-mail.cfg.xml" do
