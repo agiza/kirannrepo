@@ -24,7 +24,7 @@
     <property name="hibernate.connection.username"><%= node[:bamboo_dbuser] %></property>
     <property name="hibernate.dialect">com.atlassian.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.setup">true</property>
-    <property name="license.string">AAABVw0ODAoPeNpdkMtqwzAURPf6CkHXNo4dpxAQ1K8Wp86DOCGbbm7sm1RgSUGSTfP3dZy6DQVpN czMufN0wJouWkm9GfXCeRjOpz5N0h31vYlPUjSV5hfLlWQxiKNStLQga9D1x5wmSgjUFYeGlqg71 GTViiPq9WlvUBs2IYlGuJlTsMhuiY436x9JlLRQ2RUIZK8aZMVNpegWr2hGLVsCb1jDK5QGBUg4o 0BpX6Cx3KhWV+hWSpCsg6YdOtgJGoPkOGC6fQLvkFndIumTpEXZ12D2deH6OuIEjhc6k9noKe5lW c2HvHIXrdJom5K1PoPk5t4S/fbTuDVcojG0VE17Ew3ddNalha1dUmYr1n/H95+nQRCQ+0J5yuK3Q +S8l6Hn7KcL38n9uPwHsLtecJgmWS+X2TbJo4L8SL2/yNPH3BH677BWNlxwizXZ9JifYPBh/uHeb xsgp7IwLAIUDQT/vC8wLRNP+i5J2wEyfhFbTtUCFHn4yXa4KCiDmkyZuTYqo8/NOriNX02gs</property>
+    <property name="license.string"><%= node[:bamboo_license] %></property>
     <property name="lucene.index.dir">${bambooHome}/index</property>
     <property name="serverId"><%= node[:bamboo_serverid] %></property>
     <property name="webwork.multipart.saveDir">${bambooHome}/temp</property>
