@@ -144,13 +144,13 @@ template "/etc/named/rev.2.0.10.in-addr.arpa" do
   )
 end
 
-template "/etc/defaults/bind9" do
-  source "bind9.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :restart, resources(:service => "named")
-end
+#template "/etc/defaults/bind9" do
+#  source "bind9.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0644"
+#  notifies :restart, resources(:service => "named")
+#end
 
 service "named" do
   action [:enable, :start]
