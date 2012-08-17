@@ -24,7 +24,7 @@ template "/etc/named.conf" do
   source "named.conf.erb"
   owner  "named"
   group  "named"
-  mode   "0754"
+  mode   "0644"
   notifies :restart, resources(:service => "named")
   variables( :dnsmaster => zones['dnsmaster'] )
 end
