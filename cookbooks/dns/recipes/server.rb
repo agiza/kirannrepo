@@ -42,7 +42,7 @@ supports :stop => true, :start => true, :restart => true, :reload => true
 action :nothing
 end
 
-zones = data_bag_item("dns" "zones")
+zones = data_bag_item("dns", "zones")
 template "/etc/named.conf" do
   source "named.conf.server.erb"
   owner  "root"
