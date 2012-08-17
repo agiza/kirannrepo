@@ -6,11 +6,12 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-yum_package "bind" do
+
+package "bind" do
   action :upgrade
 end
 
-yum_package "bind-utils" do
+package "bind-utils" do
   action :upgrade
 end
 
