@@ -27,8 +27,8 @@ package "bind-utils" do
 end
 
 directory "/etc/named" do
-  owner "root"
-  group "root"
+  owner "named"
+  group "named"
 end
 
 service "named" do
@@ -45,24 +45,24 @@ end
 zones = data_bag_item("dns", "zones")
 template "/etc/named.conf" do
   source "named.conf.server.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
 end
 
 template "/etc/named/named.conf.options" do
   source "named.conf.options.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
 end
 
 template "/etc/named/named.conf.local" do
   source "named.conf.local.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
   variables( :dnsslaves => zones['dnsslaves'] )
@@ -70,24 +70,24 @@ end
 
 template "/etc/named/named.conf.default-zones" do
   source "named.conf.default-zones.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
 end
 
 template "/etc/rndc.key" do
   source "rndc.key.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
 end
 
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :reload, resources(:service => "named")
   variables(
@@ -98,8 +98,8 @@ end
 
 template "/etc/named/ascorp.com.db" do
   source "ascorp.com.db.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :reload, resources(:service => "named")
   variables(
@@ -110,8 +110,8 @@ end
 
 template "/etc/named/rev.0.0.10.in-addr.arpa" do
   source "rev.0.0.10.in-addr.arpa.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :reload, resources(:service => "named")
   variables(
@@ -122,8 +122,8 @@ end
 
 template "/etc/named/rev.1.0.10.in-addr.arpa" do
   source "rev.1.0.10.in-addr.arpa.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :reload, resources(:service => "named")
   variables(
@@ -134,8 +134,8 @@ end
 
 template "/etc/named/rev.2.0.10.in-addr.arpa" do
   source "rev.2.0.10.in-addr.arpa.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :reload, resources(:service => "named")
   variables(
