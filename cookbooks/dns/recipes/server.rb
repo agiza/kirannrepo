@@ -92,7 +92,7 @@ template "/etc/named/altidev.com.db" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :altidev => zones['altidev.com.db'].split("\n")
+    :altidev => zones['altidev.com.db'].split("\\")
   )
 end
 
@@ -104,7 +104,7 @@ template "/etc/named/ascorp.com.db" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :ascorp => zones['ascorp.com.db'].split("\n")
+    :ascorp => zones['ascorp.com.db'].split("\\")
   )
 end
 
@@ -116,7 +116,7 @@ template "/etc/named/rev.0.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev0010 => zones['rev.0.0.10'].split("\n")
+    :rev0010 => zones['rev.0.0.10'].split("\\")
   )
 end
 
@@ -128,7 +128,7 @@ template "/etc/named/rev.1.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev1010 => zones['rev.1.0.10'].split("\n")
+    :rev1010 => zones['rev.1.0.10'].split("\\")
   )
 end
 
@@ -140,7 +140,7 @@ template "/etc/named/rev.2.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev2010 => zones['rev.2.0.10'].split("\n")
+    :rev2010 => zones['rev.2.0.10'].split("\\")
   )
 end
 
