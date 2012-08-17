@@ -22,8 +22,8 @@ end
 zones = data_bag_item("dns", "zones")
 template "/etc/named.conf" do
   source "named.conf.erb"
-  owner  "root"
-  group  "root"
+  owner  "named"
+  group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
   variables( :dnsmaster => zones['dnsmaster'] )
