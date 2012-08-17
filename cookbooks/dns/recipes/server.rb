@@ -85,7 +85,7 @@ template "/etc/rndc.key" do
 end
 
 template "/etc/named/altidev.com.db" do
-  source "altidev.com.db"
+  source "altidev.com.db.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -97,7 +97,7 @@ template "/etc/named/altidev.com.db" do
 end
 
 template "/etc/named/ascorp.com.db" do
-  source "ascorp.com.db"
+  source "ascorp.com.db.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -108,8 +108,8 @@ template "/etc/named/ascorp.com.db" do
   )
 end
 
-template "/etc/named/rev.0.0.10.in-addr.arpa.erb" do
-  source "rev.0.0.10.in-addr.arpa"
+template "/etc/named/rev.0.0.10.in-addr.arpa" do
+  source "rev.0.0.10.in-addr.arpa.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -120,8 +120,8 @@ template "/etc/named/rev.0.0.10.in-addr.arpa.erb" do
   )
 end
 
-template "/etc/named/rev.1.0.10.in-addr.arpa.erb" do
-  source "rev.1.0.10.in-addr.arpa"
+template "/etc/named/rev.1.0.10.in-addr.arpa" do
+  source "rev.1.0.10.in-addr.arpa.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -132,8 +132,8 @@ template "/etc/named/rev.1.0.10.in-addr.arpa.erb" do
   )
 end
 
-template "/etc/named/rev.2.0.10.in-addr.arpa.erb" do
-  source "rev.2.0.10.in-addr.arpa"
+template "/etc/named/rev.2.0.10.in-addr.arpa" do
+  source "rev.2.0.10.in-addr.arpa.erb"
   owner  "root"
   group  "root"
   mode   "0644"
