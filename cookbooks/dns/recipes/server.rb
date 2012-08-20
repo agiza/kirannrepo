@@ -97,9 +97,10 @@ template "/etc/named/altidev.com.db" do
   )
 end
 
-records = []
+records = {}
 search(:node, "*:*").each do |n|
-  records << "#{n.fqdn}    A    #{n.ipaddress}\\"
+  records[n.fqdn] = {}
+  records[n.ipaddress] = {}
 end
 #records = records.collect { |record| "#{record}" }.join("\\")
 template "/etc/named/altidev.com.db.new" do
