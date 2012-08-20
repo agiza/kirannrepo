@@ -96,6 +96,18 @@ template "/etc/named/altidev.com.db" do
   )
 end
 
+template "/etc/named/altidev.com.db.new" do
+  source "altidev.com.db.new.erb"
+  owner  "named"
+  group  "named"
+  mode   "0644"
+  notifies :reload, resources(:service => "named")
+  variables(
+    :serial => zones['serial'],
+    :altidev => zones['altidev.com.db'].split("\\")
+  )
+end
+
 template "/etc/named/ascorp.com.db" do
   source "ascorp.com.db.erb"
   owner  "named"
