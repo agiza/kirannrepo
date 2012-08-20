@@ -97,6 +97,10 @@ template "/etc/named/altidev.com.db" do
   )
 end
 
+records = []
+search(:node, "*:*").each do
+  records << "#{n.fqdn}    A    #{n.ipaddress}\\"
+end
 template "/etc/named/altidev.com.db.new" do
   source "altidev.com.db.new.erb"
   owner  "named"
@@ -105,7 +109,7 @@ template "/etc/named/altidev.com.db.new" do
   #notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :altidev => zones['altidev.com.db'].split("\\"),
+    :altidev => @records.split("\\"),
     :cname => zones['CNAME'].split("\\")
   )
 end
