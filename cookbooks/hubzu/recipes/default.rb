@@ -35,7 +35,7 @@ template "/opt/tomcat/conf/hubzu.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["hubzu#{node.chef_environment}"]
+    :webHostname => webHost["hz#{node.chef_environment}"]
   )
 end
 
