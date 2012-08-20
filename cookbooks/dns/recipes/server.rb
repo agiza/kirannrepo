@@ -98,11 +98,11 @@ template "/etc/named/altidev.com.db" do
 end
 
 records = {}
+address = {}
 search(:node, "*:*").each do |n|
-  records[n.fqdn] = {}
-  records[n.ipaddress] = {}
+  records[n.fqdn][n.ipaddress] = {}
 end
-#records = records.collect { |record| "#{record}" }.join("\\")
+records = records.collect { |record| "#{record}" }.join(" ")
 template "/etc/named/altidev.com.db.new" do
   source "altidev.com.db.new.erb"
   owner  "named"
