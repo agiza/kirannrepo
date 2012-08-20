@@ -17,6 +17,6 @@ ns2	A	10.0.0.27
 ns3	A	10.0.1.111
 altidev.com.	MX	10	mail
 <% search(:node, "*:*").each do |n| -%>
-<%= #{n['fqdn']}	A	#{n['ipaddress']} %>
+<%= "#{n['fqdn']}"	A	"#{n['ipaddress']}" %>
 <% end -%>
 *	A	10.0.1.111
