@@ -65,7 +65,7 @@ template "/etc/named/named.conf.local" do
   group  "named"
   mode   "0644"
   notifies :restart, resources(:service => "named")
-  variables( :dnsslaves => zones['dnsslaves'] )
+  variables( :dnsslaves => zones['dnsslaves'].split("\\") )
 end
 
 template "/etc/named/named.conf.default-zones" do
