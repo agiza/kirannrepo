@@ -4,6 +4,7 @@
 #
 
 #include_recipe "java"
+include_recipe "appdynamics"
 app_name = "altitomcat"
 
 package "#{app_name}" do
