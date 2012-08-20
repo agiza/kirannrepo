@@ -98,7 +98,7 @@ template "/etc/named/altidev.com.db" do
 end
 
 records = []
-search(:node, "*:*").each do
+search(:node, "*:*").each do |n|
   records << "#{n.fqdn}    A    #{n.ipaddress}\\"
 end
 template "/etc/named/altidev.com.db.new" do
