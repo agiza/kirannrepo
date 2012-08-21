@@ -1,1 +1,1 @@
-{"data_bag":"splunk_index","name":"data_bag_item_splunk_index_indexes","json_class":"Chef::DataBagItem","chef_type":"data_bag_item","raw_data":{"indexes":"realtrans,realdoc,realfound,realsearch,realdemo","id":"indexes"}}
+{"data_bag":"splunk_index","name":"data_bag_item_splunk_index_indexes","raw_data":{"id":"indexes","indexes":"realtrans,realdoc,realfound,realsearch,realdemo,realservice"},"json_class":"Chef::DataBagItem","chef_type":"data_bag_item"}

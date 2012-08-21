@@ -1,1 +1,1 @@
-{"env_run_lists":{},"override_attributes":{},"description":"Elasticsearch server provider","name":"elasticsearch","json_class":"Chef::Role","run_list":["recipe[elasticsearch]"],"chef_type":"role","default_attributes":{}}
+{"default_attributes":{},"name":"elasticsearch","env_run_lists":{},"run_list":["recipe[elasticsearch]"],"description":"Elasticsearch server provider","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}

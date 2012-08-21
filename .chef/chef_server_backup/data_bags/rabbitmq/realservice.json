@@ -1,0 +1,1 @@
+{"data_bag":"rabbitmq","name":"data_bag_item_rabbitmq_realservice","raw_data":{"vhosts":"/realservicedev /realservicedemo","id":"realservice","binding":"search.indexing|queue|search.indexing.create|realservice.data.insert.#","queues":"search.indexing.create","exchange":"search.indexing"},"json_class":"Chef::DataBagItem","chef_type":"data_bag_item"}
