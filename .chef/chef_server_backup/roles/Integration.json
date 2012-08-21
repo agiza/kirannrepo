@@ -1,0 +1,1 @@
+{"default_attributes":{},"name":"Integration","env_run_lists":{},"run_list":["recipe[int-datavision]","recipe[int-interthinx]","recipe[int-etrac]","recipe[int-corelogic]"],"description":"Integration Components Role","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}
