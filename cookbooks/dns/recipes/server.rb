@@ -108,7 +108,8 @@ template "/etc/named/ascorp.com.db" do
   variables(
     :serial => zones['serial'],
     :ascorp => zones['ascorp.com.db'].split("\\"),
-    :dnsmaster => zones['dnsmaster']
+    :dnsmaster => zones['dnsmaster'],
+    :dnsslaves => zones['dnsslaves'].split("\\")
   )
 end
 
