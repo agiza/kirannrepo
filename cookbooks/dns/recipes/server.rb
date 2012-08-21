@@ -93,7 +93,8 @@ template "/etc/named/altidev.com.db" do
   variables(
     :serial => zones['serial'],
     :altidev => zones['altidev.com.db'].split("\\"),
-    :cname => zones['CNAME'].split("\\")
+    :cname => zones['CNAME'].split("\\"),
+    :dnsmaster => zones['dnsmaster']
   )
 end
 
@@ -105,7 +106,8 @@ template "/etc/named/ascorp.com.db" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :ascorp => zones['ascorp.com.db'].split("\\")
+    :ascorp => zones['ascorp.com.db'].split("\\"),
+    :dnsmaster => zones['dnsmaster']
   )
 end
 
