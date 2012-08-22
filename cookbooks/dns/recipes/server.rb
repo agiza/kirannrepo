@@ -105,10 +105,10 @@ template "/etc/named/altidev.com.db.new" do
   owner  "named"
   group  "named"
   mode   "0644"
-  notifies :reload, resources(:service => "named")
+  #notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :altidev => @hosts,
+    :altidev => hosts,
     :cname => zones['CNAME'].split("\\"),
     :dnsmaster => zones['dnsmaster'],
     :dnsslaves => zones['dnsslaves'].split("\\")
