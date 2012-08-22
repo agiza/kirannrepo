@@ -100,6 +100,8 @@ template "/etc/named/altidev.com.db" do
 end
 
 hosts = search(:node, "*:*")
+master = search(:node, "role:dnsmaster")
+slaves = search(:node, "role:dnsslaves")
 template "/etc/named/altidev.com.db.new" do
   source "altidev.com.db.new.erb"
   owner  "named"
@@ -110,8 +112,8 @@ template "/etc/named/altidev.com.db.new" do
     :serial => zones['serial'],
     :altidev => hosts,
     :cname => zones['CNAME'].split("\\"),
-    :dnsmaster => zones['dnsmaster'],
-    :dnsslaves => zones['dnsslaves'].split("\\")
+    :dnsmaster => master,
+    :dnsslaves => slaves
   )
 end
 
