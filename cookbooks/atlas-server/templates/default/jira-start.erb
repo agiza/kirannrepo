@@ -10,6 +10,10 @@ case "$1" in
     stop)
         ./stop-jira.sh
         ;;
+    restart)
+	stop
+	start
+	;;
     status)
         pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
         if [ "$pid_status" != "" ]; then
@@ -19,7 +23,7 @@ case "$1" in
         fi
         ;;
     *)
-        echo "Usage: $0 {start|stop|status}"
+        echo "Usage: $0 {start|stop|restart|status}"
         exit 1
         ;;
 esac
