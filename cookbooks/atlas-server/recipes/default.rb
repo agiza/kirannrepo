@@ -8,28 +8,28 @@
 #
 
 template "/etc/init.d/confluence" do
-  source "confluence-start.erb"
+  source "confluence-init.erb"
   owner  "root"
   group  "root"
   mode   "0755"
 end
 
 template "/etc/init.d/crowd" do
-  source "crowd-start.erb"
+  source "crowd-init.erb"
   owner  "root"
   group  "root"
   mode   "0755"
 end
 
 template "/etc/init.d/fisheye" do
-  source "fisheye-start.erb"
+  source "fisheye-init.erb"
   owner  "root"
   group  "root"
   mode   "0755"
 end
 
 template "/etc/init.d/jira" do
-  source "jira-start.erb"
+  source "jira-init.erb"
   owner  "root"
   group  "root"
   mode   "0755"
@@ -128,27 +128,6 @@ template "/opt/atlassian/cli/user-remove.sh" do
   owner "root"
   group "root"
   mode  "0755"
-end
-
-template "/etc/init.d/confluence" do
-  source "confluence.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-end
-
-template "/etc/init.d/jira" do
-  source "jira.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-end
-
-template "/etc/init.d/fisheye" do
-  source "fisheye.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
 end
 
 template "/etc/cron.daily/atlassian-backup" do
