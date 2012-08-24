@@ -54,15 +54,15 @@ package "apache2" do
   action :upgrade
 end
 
-link "/storage/gitolite" do
-  to "/var/lib/gitolite"
+link "/var/lib/gitolite" do
+  to "/storage/gitolite" 
 end
 
 group "gitolite" do
   gid "111"
 end
 
-user "gitolite" do
+user "git" do
   comment"git repository hosting"
   uid "105"
   gid "111"
@@ -78,12 +78,12 @@ user "gitolite" do
   shell "/bin/bash"
 end
 
-link "/storage/sonatype-work" do
-  to "/usr/local/sonatype-work"
+link "/usr/local/sonatype-work" do
+  to "/storage/sonatype-work"
 end
 
-link "/storage/nexus" do
-  to "/usr/local/nexus"
+link "/usr/local/nexus" do
+  to "/storage/nexus"
 end
 
 template "/etc/init.d/nexus" do
