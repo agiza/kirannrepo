@@ -59,21 +59,21 @@ link "/var/lib/gitolite" do
 end
 
 group "gitolite" do
-  gid "111"
+  gid 111
 end
 
 user "git" do
   comment"git repository hosting"
-  uid "105"
-  gid "111"
+  uid 105
+  gid 111
   home "/var/lib/gitolite"
   shell "/bin/bash"
 end
 
 user "gitolite" do
   comment"git repository hosting"
-  uid "105"
-  gid "111"
+  uid 105
+  gid 111
   home "/var/lib/gitolite"
   shell "/bin/bash"
 end
