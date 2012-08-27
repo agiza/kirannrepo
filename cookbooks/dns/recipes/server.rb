@@ -93,7 +93,7 @@ template "/etc/named/altidev.com.db" do
   variables(
     :serial => zones['serial'],
     :altidev => zones['altidev.com.db'].split("\\"),
-    :cname => zones['CNAME'].split("\\"),
+    :cname => zones['altidev_cname'].split("\\"),
     :dnsmaster => zones['dnsmaster'],
     :dnsslaves => zones['dnsslaves'].split("\\")
   )
