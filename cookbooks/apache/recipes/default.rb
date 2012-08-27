@@ -25,6 +25,14 @@ yum_package "mod_ssl" do
   action :upgrade
 end
 
+yum_package "mod_bw" do
+  action :upgrade
+end
+
+yum_package "mod_limitipconn" do
+  action :upgrade
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
