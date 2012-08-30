@@ -214,7 +214,7 @@ fi
 
 execute_tag(){
 # Execute chef client to perform an update on the server.
-$ssh_command root@$target_host "yum clean all; sleep 30; service altitomcat stop; chef-client"
+$ssh_command root@$target_host "yum clean all; chef-client"
 
 } 
 
