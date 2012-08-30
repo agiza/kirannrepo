@@ -49,8 +49,9 @@ directory "/etc/httpd/proxy.d" do
 end
 
 # Look up ssl server name from data bag.
-servername = data_bag_item("apache-server", "webhost")
+servername = data_bag_item("apache-server", "ssl")
 servername = servername['servername']
+keycert = data_bag_item("apache-server", "ssl")
 
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
@@ -139,6 +140,7 @@ template "/etc/pki/tls/certs/#{servername}.crt" do
   owner  "root"
   group  "root"
   mode   "0644"
+  variables( :certificate => keycert['cert'] )
   notifies :reload, resources(:service => "httpd")
 end
 
@@ -147,6 +149,7 @@ template "/etc/pki/tls/private/#{servername}.key" do
   owner  "root"
   group  "root"
   mode   "0640"
+  variables( :key => keycert['key'] )
   notifies :reload, resources(:service => "httpd")
 end
 
