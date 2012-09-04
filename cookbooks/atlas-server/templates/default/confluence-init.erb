@@ -5,14 +5,14 @@ cd "/opt/atlassian/confluence/bin"
 
 case "$1" in
     start)
-        /opt/atlassian/confluence/bin/start-confluence.sh
+        su -c "/opt/atlassian/confluence/bin/start-confluence.sh" confluence
         ;;
     stop)
-        /opt/atlassian/confluence/bin/stop-confluence.sh
+        su -c "/opt/atlassian/confluence/bin/stop-confluence.sh" confluence
         ;;
     restart)
-        /opt/atlassian/confluence/bin/stop-confluence.sh
-        /opt/atlassian/confluence/bin/start-confluence.sh
+        su -c "/opt/atlassian/confluence/bin/stop-confluence.sh"
+        su -c "/opt/atlassian/confluence/bin/start-confluence.sh"
         ;;
     status)
         pid_status=`ps -ef | grep java | grep confluence | awk '{print $2}'`
