@@ -5,14 +5,14 @@ cd "/opt/atlassian/crowd"
 
 case "$1" in
     start)
-        ./start-crowd.sh
+        ./start_crowd.sh
         ;;
     stop)
-        ./stop-crowd.sh
+        ./stop_crowd.sh
         ;;
     restart)
-	stop
-	start
+	./stop_crowd.sh
+	./start_crowd.sh
 	;;
     status)
         pid_status=`ps -ef | grep java | grep crowd | awk '{print $2}'`

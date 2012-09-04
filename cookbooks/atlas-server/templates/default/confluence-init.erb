@@ -11,8 +11,8 @@ case "$1" in
         /opt/atlassian/confluence/bin/stop-confluence.sh
         ;;
     restart)
-        stop
-        start
+        /opt/atlassian/confluence/bin/stop-confluence.sh
+        /opt/atlassian/confluence/bin/start-confluence.sh
         ;;
     status)
         pid_status=`ps -ef | grep java | grep confluence | awk '{print $2}'`
