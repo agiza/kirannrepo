@@ -94,7 +94,7 @@ template "/etc/init.d/nexus" do
 end
 
 cron "yum-update" do
-  minute "*/5"
+  minute "*/30"
   user "root"
   command "/storage/yum-update"
 end
