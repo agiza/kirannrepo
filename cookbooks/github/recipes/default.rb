@@ -78,21 +78,6 @@ user "gitolite" do
   shell "/bin/bash"
 end
 
-link "/usr/local/sonatype-work" do
-  to "/storage/sonatype-work"
-end
-
-link "/usr/local/nexus" do
-  to "/storage/nexus"
-end
-
-template "/etc/init.d/nexus" do
-  source "nexus-init.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-end
-
 cron "yum-update" do
   minute "*/30"
   user "root"
