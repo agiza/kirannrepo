@@ -89,7 +89,8 @@ template "/opt/appdynamics/license.lic" do
     :appdyn_signature => appdynamics["appdyn_signature"], 
     :appdyn_startDate => appdynamics["appdyn_startDate"],
     :appdyn_custName => appdynamics["appdyn_custName"],
-    :appdyn_createDate => appdynamics["appdyn_createDate"]
+    :appdyn_createDate => appdynamics["appdyn_createDate"],
+    :appdyn_agents => appdynamics["appdyn_agents"]
   )
 end
 
