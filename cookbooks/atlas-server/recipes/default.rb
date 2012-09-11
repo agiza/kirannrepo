@@ -37,22 +37,22 @@ end
 
 service "confluence" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable, :start]
+  action :enable
 end
 
 service "jira" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable, :start]
+  action :enable
 end
 
 service "fisheye" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable, :start]
+  action :enable
 end
 
 service "crowd" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable, :start]
+  action :enable
 end
 
 service "apache2" do
@@ -367,5 +367,25 @@ link  "/etc/apache2/sites-enabled/yum-mod_proxy" do
   to "../sites-available/yum-mod_proxy"
   owner "root"
   group "root"
+end
+
+service "confluence" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :start
+end
+
+service "jira" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :start
+end
+
+service "fisheye" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :start
+end
+
+service "crowd" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :start
 end
 
