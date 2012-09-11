@@ -21,6 +21,11 @@ package "#{app_name}" do
   action :upgrade
 end
 
+execute "guest-remove" do
+  command "/etc/rabbitmq/rabbit-guest.sh"
+  action :nothing
+end
+
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -104,6 +109,14 @@ if node.attribute?('rabbitmq-master')
       :vhost_names => realdoc_queue['vhosts']
     )
     notifies :run, 'execute[realdoc-config]', :immediately
+  end
+else
+  template "/etc/rabbitmq/rabbit-guest.sh" do
+    source "rabbit_guest.erb"
+    group  "root"
+    owner  "root"
+    mode   "0755"
+    notifies :run, 'execute[guest-remove]', :immediately
   end
 end
 
