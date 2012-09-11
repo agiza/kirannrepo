@@ -1,0 +1,38 @@
+rt.int.ca.url=http://avmbeta.collateralanalytics.com/RequestHandler.aspx
+rt.int.ca.username=altixmluser
+rt.int.ca.password=altixml-0605
+rt.int.ca.retry.interval=60000
+rt.int.amqp.ca.avm.request=rt.ca.request
+rt.int.amqp.ca.avm.response=rt.ca.response
+rt.int.amqp.ca.avm.request.external=rt.avm.request
+rt.int.amqp.ca.avm.retry=rt.avm.retry
+rt.int.amqp.ca.retry=rt.ca.retry
+
+rt.int.monitoring.taskExecutor.poolSize=10
+
+rt.int.amqp.username=<%= node[:rt_amqp_user] %>
+rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
+rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.int.amqp.host=<%= node[:amqp_host] %>
+rt.int.amqp.port=<%= node[:amqp_port] %>
+
+rt.int.amqp.core.deadmessage=rt.core.deadmessage
+rt.int.amqp.exchange.monitoring=rt.monitoring
+
+rt.int.monitoring.realtransInboundChannel=avmRequestChannel
+rt.int.monitoring.realtransOutboundChannel=avmResponseChannel
+rt.int.monitoring.vendorOutboundChannel=caRequestChannel
+rt.int.monitoring.vendorInboundChannel=caResponseChannel
+
+rt.int.monitoring.realtrans.inbound.source=Trans-Central
+rt.int.monitoring.realtrans.inbound.target=Int-CollateralAnalytics
+
+rt.int.monitoring.vendor.outbound.source=Int-CollateralAnalytics
+rt.int.monitoring.vendor.outbound.target=CollateralAnalytics
+
+rt.int.monitoring.vendor.inbound.source=CollateralAnalytics
+rt.int.monitoring.vendor.inbound.target=Int-CollateralAnalytics
+
+rt.int.monitoring.realtrans.outbound.source=Trans-Central
+rt.int.monitoring.realtrans.outbound.target=Int-CollateralAnalytics
+
