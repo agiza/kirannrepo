@@ -43,6 +43,7 @@ template "/etc/mongod.conf" do
   mode "0644"
   notifies :reload, resources(:service => "mongod")
 end
+
 mongodbnames = data_bag_item("mongodb", "names")
 template "/etc/mongo/mongo-seed.sh" do
   source "mongo-seed.sh.erb"
