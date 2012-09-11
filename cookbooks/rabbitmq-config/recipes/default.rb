@@ -47,62 +47,64 @@ template "/etc/rabbitmq/rabbitmq.config" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
-execute "rabbit-config" do
-  command "/etc/rabbitmq/rabbit-common.sh"
-  action :nothing
-  environment ({'HOME' => '/etc/rabbitmq'})
-end
+if node.attribute?('rabbitmq-master')
+  execute "rabbit-config" do
+    command "/etc/rabbitmq/rabbit-common.sh"
+    action :nothing
+    environment ({'HOME' => '/etc/rabbitmq'})
+  end
 
-execute "realtrans-config" do
-  command "/etc/rabbitmq/realtrans-rabbit.sh"
-  action :nothing
-  environment ({'HOME' => '/etc/rabbitmq'})
-end
+  execute "realtrans-config" do
+    command "/etc/rabbitmq/realtrans-rabbit.sh"
+    action :nothing
+    environment ({'HOME' => '/etc/rabbitmq'})
+  end
 
-execute "realdoc-config" do
-  command "/etc/rabbitmq/realdoc-rabbit.sh"
-  action :nothing
-  environment ({'HOME' => '/etc/rabbitmq'})
-end
+  execute "realdoc-config" do
+    command "/etc/rabbitmq/realdoc-rabbit.sh"
+    action :nothing
+    environment ({'HOME' => '/etc/rabbitmq'})
+  end
 
-template "/etc/rabbitmq/rabbit-common.sh" do
-  source "rabbit_common.erb"
-  group  "root"
-  owner  "root"
-  mode   "0755"
-  variables(
-    :rabbitnodes => rabbitservers,
-    :vhost_names => vhost_names
-  )
-  notifies :run, 'execute[rabbit-config]', :immediately
-end
+  template "/etc/rabbitmq/rabbit-common.sh" do
+    source "rabbit_common.erb"
+    group  "root"
+    owner  "root"
+    mode   "0755"
+    variables(
+      :rabbitnodes => rabbitservers,
+      :vhost_names => vhost_names
+    )
+    notifies :run, 'execute[rabbit-config]', :immediately
+  end
 
-template "/etc/rabbitmq/realtrans-rabbit.sh" do
-  source "realtrans_rabbit.erb"
-  group "root"
-  owner "root"
-  mode '0755'
-  variables(
-    :queue_names  => realtrans_queue['queues'],
-    :exchange_names => realtrans_queue['exchange'],
-    :binding_names => realtrans_queue['binding'],
-    :vhost_names => realtrans_queue['vhosts']
-  )
-  notifies :run, 'execute[realtrans-config]', :immediately
-end
+  template "/etc/rabbitmq/realtrans-rabbit.sh" do
+    source "realtrans_rabbit.erb"
+    group "root"
+    owner "root"
+    mode '0755'
+    variables(
+      :queue_names  => realtrans_queue['queues'],
+      :exchange_names => realtrans_queue['exchange'],
+      :binding_names => realtrans_queue['binding'],
+      :vhost_names => realtrans_queue['vhosts']
+    )
+    notifies :run, 'execute[realtrans-config]', :immediately
+  end
 
-template "/etc/rabbitmq/realdoc-rabbit.sh" do
-  source "realdoc_rabbit.erb"
-  group "root"
-  owner "root"
-  mode "0755"
-  variables(
-    :queue_names => realdoc_queue['queues'],
-    :exchange_names => realdoc_queue['exchange'],
-    :binding_names => realdoc_queue['binding'],
-    :vhost_names => realdoc_queue['vhosts']
-  )
-  notifies :run, 'execute[realdoc-config]', :immediately
+  template "/etc/rabbitmq/realdoc-rabbit.sh" do
+    source "realdoc_rabbit.erb"
+    group "root"
+    owner "root"
+    mode "0755"
+    variables(
+      :queue_names => realdoc_queue['queues'],
+      :exchange_names => realdoc_queue['exchange'],
+      :binding_names => realdoc_queue['binding'],
+      :vhost_names => realdoc_queue['vhosts']
+    )
+    notifies :run, 'execute[realdoc-config]', :immediately
+  end
 end
 
 template "/var/lib/rabbitmq/.erlang.cookie" do
