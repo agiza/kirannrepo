@@ -74,7 +74,7 @@ template "/etc/rabbitmq/rabbit-common.sh" do
     :rabbitnodes => rabbitservers,
     :vhost_names => vhost_names
   )
-  notifies :run, 'execute[rabbit-config]', :immediate
+  notifies :run, 'execute[rabbit-config]', :immediately
 end
 
 template "/etc/rabbitmq/realtrans-rabbit.sh" do
