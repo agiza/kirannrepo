@@ -49,7 +49,7 @@ template "/etc/mongo/mongo-seed.sh" do
   owner  "mongod"
   group  "mongod"
   mode   "0755"
-  variables( :mongodb_names => mongodb_names)
+  variables( :mongodb_names => mongodbnames['dbnames'])
 end
 
 template "/etc/mongo/seedData.js" do
