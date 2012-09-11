@@ -21,7 +21,7 @@ template "/opt/tomcat/bin/catalina.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
-  notifies :restart, resources(:service => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
 template "/opt/tomcat/conf/server.xml" do
@@ -29,7 +29,7 @@ template "/opt/tomcat/conf/server.xml" do
   group  "tomcat"
   owner  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:service => "altitomcat")
+  notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
 service "altitomcat" do
