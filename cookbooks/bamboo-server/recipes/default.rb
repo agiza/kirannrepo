@@ -28,7 +28,7 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   source "bamboo.cfg.xml.erb"
   owner  "bamboo"
   group  "bamboo"
-  mode   "0644"
+  mode   "0664"
   notifies :restart, resources(:service => "bamboo")
 end
 
