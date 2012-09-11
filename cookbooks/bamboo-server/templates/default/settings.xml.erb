@@ -207,7 +207,7 @@ under the License.
       <id>nexus</id>
       <!--Enable snapshots for the built in central repo to direct -->
       <!--all requests to nexus via the mirror -->
-      <repositories>
+      <!--repositories>
         <repository>
           <id>public</id>
           <url>http://<%= node[:atlassian_server] %>/nexus/content/groups/public</url>
@@ -234,7 +234,7 @@ under the License.
           <releases><enabled>true</enabled></releases>
           <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>       
-      </pluginRepositories>
+      </pluginRepositories-->
     </profile>
     <!--profile>
       <id>jdk-1.4</id>
