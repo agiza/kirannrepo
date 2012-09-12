@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "strongmail-adapter"
-app_version = node[:strongmailadapter_version]
+app_version = node[:smadapter_version]
 
 include_recipe "altitomcat"
 
