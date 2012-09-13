@@ -1,4 +1,26 @@
-<!-- frequency (in millisecs) to check for new strongmail activity -->
+-------------------------------------- 
+# adapter settings
+rd.adapter.scan.freq=60000
 
-<rd.adapter.scan.freq>60000</rd.adapter.scan.freq>
+# mongo
+mongo.host=<%= node[:mongodb_server] %>
+mongo.server=<%= node[:mongodb_server] %>
+mongo.database=<%= node[:mongodb_database] %>
+
+# strongmail db
+rf.db.driver=com.mysql.jdbc.Driver
+rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:smadap_dbname] %>
+rf.db.username=<%= node[:smadapdb_user] %>
+rf.db.password=<%= node[:smadapdb_pass] %>
+
+# rabbit
+realdoc.correspondence.amqp.host=<%= node[:amqp_host] %>
+realdoc.correspondence.amqp.port=<%= node[:amqp_port] %>
+realdoc.correspondence.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
+realdoc.correspondence.amqp.username=<%= node[:rd_amqp_user] %>
+realdoc.correspondence.amqp.password=<%= node[:rd_amqp_pass] %>
+realdoc.correspondence.amqp.recon.inbound=rd.correspondence.recon
+realdoc.correspondence.amqp.requests=rd.correspondence.recon
+realdoc.correspondence.amqp.generate=rd.correspondence.generate
+realdoc.correspondence.amqp.delivery=rd.correspondence.delivery
 
