@@ -874,6 +874,8 @@ Alias /error/ "/var/www/error/"
         Allow from all
         LanguagePriority en es de fr
         ForceLanguagePriority Prefer Fallback
+        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
     </Directory>
 
 #    ErrorDocument 400 /error/HTTP_BAD_REQUEST.html.var
