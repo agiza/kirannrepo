@@ -45,7 +45,7 @@ for i in `echo "$vhosts"`; do
 done
 
 guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
-if [ "$guest_check" == "" ]; then
+if [ "$guest_check" != "" ]; then
   /usr/sbin/rabbitmqctl delete_user guest
 fi
 
