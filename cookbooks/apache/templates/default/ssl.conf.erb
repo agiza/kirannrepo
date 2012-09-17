@@ -78,34 +78,34 @@ SSLCryptoDevice builtin
 #ServerAdmin webmaster@altidev.com
 #ServerName <%= @servername %>:443
 
-<Directory />
-    Options FollowSymLinks
-    AllowOverride None
-    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-</Directory>
-<Directory /var/www/html>
-    Options Indexes FollowSymLinks MultiViews
-    AllowOverride None
-    Order allow,deny
-    Deny from all
-</Directory>
-
-ScriptAlias /cgi-bin/ /var/www/cgi-bin/
-<Directory "/var/www/cgi-bin">
-    AllowOverride None
-    Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-    Order allow,deny
-    Deny from all
-</Directory>
-Alias /doc/ "/var/www/doc/"
-<Directory "/var/www/doc/">
-    Options Indexes MultiViews FollowSymLinks
-    AllowOverride None
-    Order deny,allow
-    Deny from all
-    Allow from 127.0.0.0/255.0.0.0 ::1/128
-</Directory>
+#<Directory />
+#    Options FollowSymLinks
+#    AllowOverride None
+#    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#    Header set Pragma "no-cache"
+#</Directory>
+#<Directory /var/www/html>
+#    Options Indexes FollowSymLinks MultiViews
+#    AllowOverride None
+#    Order allow,deny
+#    Deny from all
+#</Directory>
+#
+#ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+#<Directory "/var/www/cgi-bin">
+#    AllowOverride None
+#    Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+#    Order allow,deny
+#    Deny from all
+#</Directory>
+#Alias /doc/ "/var/www/doc/"
+#<Directory "/var/www/doc/">
+#    Options Indexes MultiViews FollowSymLinks
+#    AllowOverride None
+#    Order deny,allow
+   # Deny from all
+#    Allow from 127.0.0.0/255.0.0.0 ::1/128
+#</Directory>
 
 # Use separate log files for the SSL virtual host; note that LogLevel
 # is not inherited from httpd.conf.
