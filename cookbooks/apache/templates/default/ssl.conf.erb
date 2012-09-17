@@ -71,11 +71,11 @@ SSLCryptoDevice builtin
 ##
 
 <IfModule mod_ssl.c>
-<VirtualHost _default_:443>
+#<VirtualHost _default_:443>
 
 # General setup for the virtual host, inherited from global configuration
-DocumentRoot "/var/www/html"
-ServerAdmin webmaster@altidev.com
+#DocumentRoot "/var/www/html"
+#ServerAdmin webmaster@altidev.com
 #ServerName <%= @servername %>:443
 
 <Directory />
@@ -252,5 +252,5 @@ CustomLog logs/ssl_request_log \
 
 #Include proxy.d/<%= @proxyname %>.proxy.conf
 
-</VirtualHost>
+#</VirtualHost>
 </IfModule>
