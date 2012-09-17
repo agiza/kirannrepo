@@ -138,7 +138,7 @@ template "/etc/httpd/conf.d/vpn.conf" do
 end
 
 template "/etc/pki/tls/certs/#{servername[0]}.crt" do
-  source "#{servername}.crt.erb"
+  source "#{servername[0]}.crt.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -146,7 +146,7 @@ template "/etc/pki/tls/certs/#{servername[0]}.crt" do
 end
 
 template "/etc/pki/tls/private/#{servername[0]}.key" do
-  source "#{servername}.key.erb"
+  source "#{servername[0]}.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
