@@ -72,14 +72,14 @@ template "/etc/httpd/conf.d/ssl.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/proxy.d/#{servername[0]}.conf" do
-  source "#{servername[0]}.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( :proxyname => "#{servername[1]}" )
-  notifies :reload, resources(:service => "httpd")
-end
+#template "/etc/httpd/proxy.d/#{servername[0]}.conf" do
+#  source "#{servername[0]}.conf.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0644"
+#  variables( :proxyname => "#{servername[1]}" )
+#  notifies :reload, resources(:service => "httpd")
+#end
 
 template "/etc/pki/tls/certs/#{servername[0]}.crt" do
   source "#{servername[0]}.crt.erb"
@@ -102,7 +102,10 @@ template "/etc/httpd/conf.d/#{servername[0]}-vhost.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
-  variables( :servername => "#{servername[0]}" )
+  variables( 
+    :servername => "#{servername[0]}",
+    :proxyname => "#{servername[1]}"
+  )
   notifies :reload, resources(:service => "httpd")
 end
 

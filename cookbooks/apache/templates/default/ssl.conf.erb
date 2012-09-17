@@ -76,7 +76,7 @@ SSLCryptoDevice builtin
 # General setup for the virtual host, inherited from global configuration
 DocumentRoot "/var/www/html"
 ServerAdmin webmaster@altidev.com
-ServerName <%= @servername %>:443
+#ServerName <%= @servername %>:443
 
 <Directory />
     Options FollowSymLinks
@@ -132,14 +132,14 @@ SSLEngine on
 # the certificate is encrypted, then you will be prompted for a
 # pass phrase.  Note that a kill -HUP will prompt again.  A new
 # certificate can be generated using the genkey(1) command.
-SSLCertificateFile /etc/pki/tls/certs/<%= @servername %>.crt
+#SSLCertificateFile /etc/pki/tls/certs/<%= @servername %>.crt
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
 #   directive to point at the key file.  Keep in mind that if
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
-SSLCertificateKeyFile /etc/pki/tls/private/<%= @servername %>.key
+#SSLCertificateKeyFile /etc/pki/tls/private/<%= @servername %>.key
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the
@@ -250,7 +250,7 @@ SetEnvIf User-Agent ".*MSIE.*" \
 CustomLog logs/ssl_request_log \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
-Include proxy.d/<%= @proxyname %>.proxy.conf
+#Include proxy.d/<%= @proxyname %>.proxy.conf
 
 </VirtualHost>
 </IfModule>
