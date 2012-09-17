@@ -50,7 +50,7 @@ end
 
 # Look up ssl server name from data bag.
 servername = data_bag_item("apache-server", "webhost")
-servername = servername['servername']
+servername = servername['servername'].split("|")
 
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
@@ -65,7 +65,10 @@ template "/etc/httpd/conf.d/ssl.conf" do
   owner "root"
   group "root"
   mode "0644"
-  variables( :servername => "#{servername}" )
+  variables( 
+	:servername => "#{servername[0]}",
+	:proxyname => "#{servername[1]}"
+        )
   notifies :reload, resources(:service => "httpd")
 end
 
@@ -82,7 +85,7 @@ template "/etc/httpd/conf.d/twiz-vhost.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
-  variables( :servername => "#{servername}" )
+  variables( :servername => "#{servername[0]}" )
   notifies :reload, resources(:service => "httpd")
 end
 
@@ -134,7 +137,7 @@ template "/etc/httpd/conf.d/vpn.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/certs/#{servername}.crt" do
+template "/etc/pki/tls/certs/#{servername[0]}.crt" do
   source "#{servername}.crt.erb"
   owner  "root"
   group  "root"
@@ -142,7 +145,7 @@ template "/etc/pki/tls/certs/#{servername}.crt" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/private/#{servername}.key" do
+template "/etc/pki/tls/private/#{servername[0]}.key" do
   source "#{servername}.key.erb"
   owner  "root"
   group  "root"
