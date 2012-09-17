@@ -66,6 +66,7 @@ end
 
 # Look up ssl server name from data bag.
 servernames = data_bag_item("apache-server", "webhost")
+servernames = servernames['servername']
 servernames.each do |servername|
   servername = servername['servername'].split(",")
 
@@ -86,7 +87,7 @@ servernames.each do |servername|
     owner  "root"
     group  "root"
     mode   "0644"
-    variables( :proxyname => servername[1] )
+    variables( :proxyname => "#{servername[1]}" )
     notifies :reload, resources(:service => "httpd")
   end
 
