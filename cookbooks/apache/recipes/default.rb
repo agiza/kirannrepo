@@ -97,17 +97,17 @@ template "/etc/pki/tls/private/#{servername[0]}.key" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/#{servername[0]}-vhost.conf" do
-  source "#{servername[0]}-vhost.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( 
-    :servername => "#{servername[0]}",
-    :proxyname => "#{servername[1]}"
-  )
-  notifies :reload, resources(:service => "httpd")
-end
+#template "/etc/httpd/conf.d/#{servername[0]}-vhost.conf" do
+#  source "#{servername[0]}-vhost.conf.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0644"
+#  variables( 
+#    :servername => "#{servername[0]}",
+#    :proxyname => "#{servername[1]}"
+#  )
+#  notifies :reload, resources(:service => "httpd")
+#end
 
 template "/etc/httpd/conf.d/datavision-demo.conf" do
   source "datavision-demo.conf.erb"
