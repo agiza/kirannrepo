@@ -1,7 +1,10 @@
-<VirtualHost *:80>
+<VirtualHost *:443>
     ServerAdmin webmaster@altidev.com
     ServerName <%= @servername %>
     DocumentRoot "/var/www/html/dev"
+
+    SSLCertificateFile /etc/pki/tls/certs/<%= @servername %>.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/<%= @servername %>.key
 
     Header set Cache-control "no-cache"
     RewriteEngine On
