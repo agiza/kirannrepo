@@ -56,14 +56,6 @@ template "/etc/httpd/conf/httpd.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/proxy.d/rtsslproxy.conf" do
-  source "rtsslproxy.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
 # Look up ssl server name from data bag.
 servername = data_bag_item("apache-server", "webhost")
 servername = servername['servername'].split(",")
@@ -74,8 +66,8 @@ template "/etc/httpd/conf.d/ssl.conf" do
   group "root"
   mode "0644"
   variables( 
-	:servername => "#{servername[0]}",
-	:proxyname => "#{servername[1]}"
+    :servername => "#{servername[0]}",
+    :proxyname => "#{servername[1]}"
   )
   notifies :reload, resources(:service => "httpd")
 end
