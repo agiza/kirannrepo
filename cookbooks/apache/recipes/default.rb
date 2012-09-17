@@ -66,8 +66,8 @@ end
 
 # Look up ssl server name from data bag.
 servernames = data_bag_item("apache-server", "webhost")
-serversnames.each do |servername|
-  servername = servername['servername'].split("|")
+servernames.each do |servername|
+  servername = servername['servername'].split(",")
 
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
