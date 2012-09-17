@@ -48,27 +48,11 @@ directory "/etc/httpd/proxy.d" do
   group "root"
 end
 
-# Look up ssl server name from data bag.
-servername = data_bag_item("apache-server", "webhost")
-servername = servername['servername'].split("|")
-
 template "/etc/httpd/conf/httpd.conf" do
   source "httpd.conf.erb"
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/ssl.conf" do
-  source "ssl.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables( 
-	:servername => "#{servername[0]}",
-	:proxyname => "#{servername[1]}"
-        )
   notifies :reload, resources(:service => "httpd")
 end
 
@@ -80,13 +64,56 @@ template "/etc/httpd/proxy.d/rtsslproxy.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/twiz-vhost.conf" do
-  source "twiz-vhost.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( :servername => "#{servername[0]}" )
-  notifies :reload, resources(:service => "httpd")
+# Look up ssl server name from data bag.
+servernames = data_bag_item("apache-server", "webhost")
+serversnames.each do |servername|
+  servername = servername['servername'].split("|")
+
+  template "/etc/httpd/conf.d/ssl.conf" do
+    source "ssl.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables( 
+	:servername => "#{servername[0]}",
+	:proxyname => "#{servername[1]}"
+    )
+    notifies :reload, resources(:service => "httpd")
+  end
+
+  template "/etc/httpd/proxy.d/#{servername[0]}.conf" do
+    source "#{servername[0]}.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    variables( :proxyname => servername[1] )
+    notifies :reload, resources(:service => "httpd")
+  end
+
+  template "/etc/pki/tls/certs/#{servername[0]}.crt" do
+    source "#{servername[0]}.crt.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    notifies :reload, resources(:service => "httpd")
+  end
+
+  template "/etc/pki/tls/private/#{servername[0]}.key" do
+    source "#{servername[0]}.key.erb"
+    owner  "root"
+    group  "root"
+    mode   "0640"
+    notifies :reload, resources(:service => "httpd")
+  end
+
+  template "/etc/httpd/conf.d/#{servername[0]}-vhost.conf" do
+    source "#{servername[0]}-vhost.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    variables( :servername => "#{servername[0]}" )
+    notifies :reload, resources(:service => "httpd")
+  end
 end
 
 template "/etc/httpd/conf.d/datavision-demo.conf" do
@@ -134,22 +161,6 @@ template "/etc/httpd/conf.d/vpn.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/pki/tls/certs/#{servername[0]}.crt" do
-  source "#{servername[0]}.crt.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/pki/tls/private/#{servername[0]}.key" do
-  source "#{servername[0]}.key.erb"
-  owner  "root"
-  group  "root"
-  mode   "0640"
   notifies :reload, resources(:service => "httpd")
 end
 
