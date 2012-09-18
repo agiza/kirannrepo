@@ -29,8 +29,11 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+rdochost = {}
+search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+  rdochost[n.hostname] = {}
+end
 webHost = data_bag_item("apache-server", "webhost")
-rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}").collect { |hostname| "#{hostname}"}
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -39,7 +42,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost[0]}"
+    :realdoc_hostname => "#{rdochost}"
   )
 end
 
