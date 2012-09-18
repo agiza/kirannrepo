@@ -30,7 +30,7 @@ yum_package "#{app_name}" do
 end
 
 rdochost = {}
-search(:node, "role:realdoc and chef_environment:#{node.chef_environment}") do |n|
+search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
   rdochost[n.hostname] = {}
 end
 #rdochostname = rdochost[0]
