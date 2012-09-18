@@ -30,7 +30,7 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
-rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}".collect { |hostname| "#{hostname}"}
+rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}").collect { |hostname| "#{hostname}"}
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
