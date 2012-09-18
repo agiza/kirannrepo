@@ -40,16 +40,16 @@ template "/etc/mongod.conf" do
 end
 
 mongodbnames = data_bag_item("mongodb", "names")
-template "/etc/mongo/mongo-seed.sh" do
-  source "mongo-seed.sh.erb"
+template "/etc/mongo/mongod-seed.sh" do
+  source "mongod-seed.sh.erb"
   owner  "mongod"
   group  "mongod"
   mode   "0755"
   variables( :mongodb_names => mongodbnames['dbnames'])
 end
 
-execute "mongo-seed" do
-  command "/etc/mongo/mongo-seed.sh"
+execute "mongod-seed" do
+  command "/etc/mongo/mongod-seed.sh"
   action :nothing
 end
 
@@ -58,7 +58,7 @@ template "/etc/mongo/seedData.js" do
   owner  "mongod"
   group  "mongod"
   mode   "0644"
-  notifies :run, resources(:execute => "mongo-seed")
+  notifies :run, resources(:execute => "mongod-seed")
 end
 
 template "/etc/mongo/addrData.addIndexes.js" do
@@ -66,7 +66,7 @@ template "/etc/mongo/addrData.addIndexes.js" do
   owner  "mongod"
   group  "mongod"
   mode   "0644"
-  notifies :run, resources(:execute => "mongo-seed")
+  notifies :run, resources(:execute => "mongod-seed")
 end
 
 
