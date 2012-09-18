@@ -33,6 +33,14 @@ package "msttcorefonts" do
   action :upgrade
 end
 
+mongoHost = {}
+search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
+  mongoHost[n.hostname] = {}
+end
+elasticHost = {}
+search(:node, "role:elasticsearch AND chef_environment:#{node.chef_environment}") do |n|
+  elasticHost[n.hostname] = {}
+end
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
@@ -41,7 +49,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
-    :webHostname => webHost["rd#{node.chef_environment}"]
+    :webHostname => webHost["rd#{node.chef_environment}"],
+    :mongo_host => "#{mongoHost}",
+    :elastic_host => "#{elasticHost}"
   )
 end
 

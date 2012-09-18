@@ -1,6 +1,6 @@
-realdoc.mongo.server=<%= node[:mongodb_server] %>
+realdoc.mongo.server=<%= @mongo_host %>
 realdoc.mongo.database=<%= node[:mongodb_database] %>
-mongo.server=<%= node[:mongodb_server] %>
+mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
 realdoc.email.fromAddress=ubuntu@altidev.com
@@ -77,13 +77,13 @@ rf.melissadata.customerId=102942719
 rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
 
 template.mongo.database=realdoc
-realdoc.mongo.host=<%= node[:mongodb_server] %>
-template.mongo.host=<%= node[:mongodb_server] %>
-mongo.host=<%= node[:mongodb_server] %>
-correspondence.mongo.host=<%= node[:mongodb_server] %>
-correspondence.mongo.database=realdoc
-viewer.mongo.host=<%= node[:mongodb_server] %>
-viewer.mongo.database=realdoc
+realdoc.mongo.host=<%= @mongo_host %>
+template.mongo.host=<%= @mongo_host %>
+mongo.host=<%= @mongo_host %>
+correspondence.mongo.host=<%= @mongo_host %>
+correspondence.mongo.database=<%= node[:mongodb_database] %>
+viewer.mongo.host=<%= @mongo_host %>
+viewer.mongo.database=<%= node[:mongodb_database %>
 
 logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
@@ -114,7 +114,6 @@ rf.newUserTemplate=classpath:/newUserTemplate.html
 rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
 rf.userNotificationFromAddress=noreply@altisource.com
-realsearch.elasticsearch.url=localhost:9200/realsearch/entity
 
 internalDomains=none
 
@@ -127,5 +126,5 @@ rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 rd.documentservice.tempPath=/tmp/
 realdoc.correspondence.amqp.requests=rd.correspondence.requests
 
-realsearch.elasticsearch.url=http://localhost:9200/realsearch/entity
+realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 
