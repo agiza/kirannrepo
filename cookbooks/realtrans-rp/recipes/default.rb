@@ -43,7 +43,7 @@ template "/opt/tomcat/conf/realtrans-rp.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochostname}"
+    :realdoc_hostname => "#{rdochost}"
   )
 end
 
