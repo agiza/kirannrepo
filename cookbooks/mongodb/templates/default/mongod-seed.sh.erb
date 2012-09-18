@@ -1,5 +1,5 @@
 #!/bin/bash
-db_names="<%= @mongodbnames %>"
+db_names="<%= @mongodb_names %>"
 for i in `echo $db_names`; do
 	db_check=`ls -ltra /data/db/$i.ns`
 	if [ "$db_check" == "" ]; then
