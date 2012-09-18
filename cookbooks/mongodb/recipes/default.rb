@@ -66,7 +66,7 @@ template "/etc/mongo/addrData.addIndexes.js" do
   owner  "mongod"
   group  "mongod"
   mode   "0644"
-  notifies :run, resources(:execute => "mongod-seed")
+  notifies :run, resources(:execute => "mongo-seed")
 end
 
 
