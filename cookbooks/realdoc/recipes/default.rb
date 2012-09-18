@@ -35,11 +35,11 @@ end
 
 mongoHost = {}
 search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
-  mongoHost[n.hostname] = {}
+  mongoHost[n.fqdn] = {}
 end
 elasticHost = {}
 search(:node, "role:elasticsearch AND chef_environment:#{node.chef_environment}") do |n|
-  elasticHost[n.hostname] = {}
+  elasticHost[n.fqdn] = {}
 end
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
