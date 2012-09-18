@@ -40,13 +40,12 @@ template "/etc/mongod.conf" do
 end
 
 mongodbnames = data_bag_item("mongodb", "names")
-mongodbnames = mongodbnames['dbnames']
 template "/etc/mongo/mongod-seed.sh" do
   source "mongod-seed.sh.erb"
   owner  "mongod"
   group  "mongod"
   mode   "0755"
-  variables( :mongodb_names => "#{mongodbnames}" )
+  variables( :mongodb_names => mongodbnames["dbnames"] )
 end
 
 execute "mongod-seed" do
