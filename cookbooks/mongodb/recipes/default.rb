@@ -40,8 +40,7 @@ template "/etc/mongod.conf" do
 end
 
 mongodbnames = data_bag_item("mongodb", "names")
-mongodbnames = mongodbnames['dbnames'].join(" ")
-
+mongodbnames = mongodbnames['dbnames']
 template "/etc/mongo/mongod-seed.sh" do
   source "mongod-seed.sh.erb"
   owner  "mongod"
