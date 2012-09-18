@@ -29,9 +29,12 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+rdochost = {}
+search(:node, "role:realdoc and chef_environment:#{node.chef_environment}") do |n|
+  rdochost[n.hostname] = {}
+end
+rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")
-rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}")
-rdochost = rdochost[hostname]
 #rdochost = rdochost[0]
 template "/opt/tomcat/conf/realtrans-rp.properties" do
   source "realtrans-rp.properties.erb"
@@ -41,7 +44,7 @@ template "/opt/tomcat/conf/realtrans-rp.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost}"
+    :realdoc_hostname => "#{rdochostname}"
   )
 end
 
