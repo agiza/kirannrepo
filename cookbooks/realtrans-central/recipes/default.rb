@@ -27,11 +27,16 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+rtcenhost = {}
+search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
+  rtcenhost[n.hostname] = {}
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables( :rt_cen_host => "#{rtcenhost}")
   notifies :restart, resources(:service => "altitomcat")
 end
 
