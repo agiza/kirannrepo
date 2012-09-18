@@ -31,11 +31,6 @@ service "mongod" do
   action :nothing
 end
 
-execute "mongo-seed" do
-  command "/etc/mongo/mongo-seed.sh" 
-  action :nothing
-end
-
 template "/etc/mongod.conf" do
   source "mongod.conf.erb"
   group "root"
@@ -51,6 +46,11 @@ template "/etc/mongo/mongo-seed.sh" do
   group  "mongod"
   mode   "0755"
   variables( :mongodb_names => mongodbnames['dbnames'])
+end
+
+execute "mongo-seed" do
+  command "/etc/mongo/mongo-seed.sh"
+  action :nothing
 end
 
 template "/etc/mongo/seedData.js" do
