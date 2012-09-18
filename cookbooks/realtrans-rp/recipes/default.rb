@@ -30,8 +30,9 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
-rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}").collect { |hostname| "#{hostname}"}
-rdochost = rdochost[0]{n.hostname}
+rdochost = search(:node, "role:realdoc and chef_environment:#{node.chef_environment}") do |n|
+  rdochost = rdochost[n.hostname]
+end
 template "/opt/tomcat/conf/realtrans-rp.properties" do
   source "realtrans-rp.properties.erb"
   group 'tomcat'
