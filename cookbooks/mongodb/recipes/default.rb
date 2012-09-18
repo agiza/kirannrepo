@@ -58,7 +58,7 @@ template "/etc/mongo/seedData.js" do
   owner  "mongod"
   group  "mongod"
   mode   "0644"
-  notifies :run, execute[mongo-seed]
+  notifies :run, resources(:execute => "mongo-seed")
 end
 
 template "/etc/mongo/addrData.addIndexes.js" do
@@ -66,7 +66,7 @@ template "/etc/mongo/addrData.addIndexes.js" do
   owner  "mongod"
   group  "mongod"
   mode   "0644"
-  notifies :run, execute[mongod-seed]
+  notifies :run, resources(:execute => "mongod-seed")
 end
 
 
