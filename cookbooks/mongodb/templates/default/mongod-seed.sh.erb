@@ -3,7 +3,7 @@ db_names="<%= @mongodb_names %>"
 for i in `echo $db_names`; do
 	db_check=`ls -ltra /data/db/$i.ns`
 	if [ "$db_check" == "" ]; then
-     		/usr/bin/mongo localhost:27017/$i --quiet /etc/mongo/seedData.js; /usr/bin/mongo localhost:27017/$i --quiet /etc/mongo/addIndexes.js
+     		/usr/bin/mongo localhost:27017/$i --quiet /etc/mongo/seedData.js; /usr/bin/mongo localhost:27017/$i --quiet /etc/mongo/addrData.addIndexes.js
 	else
      		echo "Database is already created."
 	fi
