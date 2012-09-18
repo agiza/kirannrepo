@@ -33,7 +33,7 @@ rdochost = {}
 search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
   rdochost[n.hostname] = {}
 end
-#rdochostname = rdochost[0]
+rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/realtrans-rp.properties" do
   source "realtrans-rp.properties.erb"
@@ -43,7 +43,7 @@ template "/opt/tomcat/conf/realtrans-rp.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost}"
+    :realdoc_hostname => "#{rdochostname}"
   )
 end
 
