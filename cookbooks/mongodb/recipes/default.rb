@@ -45,7 +45,7 @@ template "/etc/mongo/mongod-seed.sh" do
   owner  "mongod"
   group  "mongod"
   mode   "0755"
-  variables( :mongodb_names => mongodbnames['dbnames'])
+  variables( :mongodb_names => "#{mongodbnames['dbnames']}" )
 end
 
 execute "mongod-seed" do
