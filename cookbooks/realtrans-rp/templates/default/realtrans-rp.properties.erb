@@ -19,6 +19,11 @@ rt.vendor.certification.app.config.name=certification
 rt.vendor.certification.app.config.version=1.0
 rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
 
+#Settings for realdoc integration
+rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
+rd.remote.defaultUsername=correspondence
+rd.remote.singleUserMode=true
+
 rt.central.webServiceUrl=<%= node[:rt_central_notif] %>
 
 rf.db.showSql=false
