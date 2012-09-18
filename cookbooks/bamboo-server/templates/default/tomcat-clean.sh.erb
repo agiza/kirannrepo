@@ -2,7 +2,7 @@
 
 hostname=$1
 
-ssh -q -o StrictHostKeyChecking=no ubuntu@$hostname "/home/ubuntu/tomcat-clean.sh"
+ssh -q -o StrictHostKeyChecking=no root@$hostname "/root/tomcat-clean.sh"
 
 
 

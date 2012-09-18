@@ -1,4 +1,4 @@
 #!/bin/sh
 hostname=$1
 command=$2
-ssh -q -o StrictHostKeyChecking=no tomcat@$hostname "sudo service tomcat $command"
+ssh -q -o StrictHostKeyChecking=no root@$hostname "service altitomcat $command"
