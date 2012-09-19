@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "int-rs"
+app_name = "int-realservicing"
 app_version = node[:intrs_version]
 
 include_recipe "altitomcat"
@@ -19,7 +19,7 @@ end
 yum_package "#{app_name}" do
   version "#{app_version}"
   case node.chef_environment
-  when "Dev","Intdev","QA"
+  when "Dev","Intdev"
     action :nothing
   else
     action :install
@@ -29,7 +29,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/int-rs.properties" do
+template "/opt/tomcat/conf/int-realservicing.properties" do
   source "int-realservicing.properties.erb"
   group 'tomcat'
   owner 'tomcat'
