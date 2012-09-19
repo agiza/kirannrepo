@@ -7,7 +7,7 @@ repo="http://atlas"
 altitomcat="http://atlas/yum/common/altitomcat-1.0.0-8.noarch.rpm"
 splunk_forward="http://atlas/yum/common/splunkforwarder-1.0.0-2.noarch.rpm"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-rs \n"
+application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n"
 data_check(){
 
 if [ "$version" == "" -o "$application_name" == "" ]; then
@@ -71,7 +71,7 @@ echo "Version is $branch-$build"
 		application_bin=$application_name
 		application_target=$application_name
 		app_attribute="intinterthinx_version"
-        elif [ "$application_name" == "int-rs" ]; then
+        elif [ "$application_name" == "int-realservicing" ]; then
                 application_bin=$application_name
                 application_target=$application_name
                 app_attribute="intrs_version"
