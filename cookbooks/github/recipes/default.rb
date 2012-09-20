@@ -79,13 +79,13 @@ user "gitolite" do
 end
 
 cron "yum-update" do
-  minute "*/30"
+  minute "5"
   user "root"
   command "/storage/yum-update"
 end
 
 cron "backups" do
-  minute "*/30"
+  minute "20"
   user "root"
   command "rsync -av --delete /var/lib/gitolite/ /storage/backups/gitolite/"
 end
