@@ -1,0 +1,15 @@
+#!/bin/bash
+yum_dir="/storage/yum-repo"
+race_check=`ps -ef | grep createrepo | grep -v grep`
+if [ -f $yum_dir/../yumwork ] || [ "$race_check" != "" ]; then
+  echo "Yum repo already being updated."
+else
+  touch $yum_dir/../yumwork
+  for i in `ls /$yum_dir/`; do cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log; done
+  rm -f $yum_dir/../yumwork
+fi
+error_check=`grep "Traceback" $yum_dir/../yum-update.log`
+if [ "$error_check" != "" ]; then
+  echo "Error occurred in yum-update script" | mailx -s "Yum Repo Error" bryan.phinney@altisource.com
+fi
+

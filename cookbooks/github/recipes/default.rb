@@ -46,14 +46,6 @@ package "git" do
   action :upgrade
 end
 
-package "yum" do
-  action :upgrade
-end
-
-package "apache2" do
-  action :upgrade
-end
-
 link "/var/lib/gitolite" do
   to "/storage/gitolite" 
 end
@@ -78,26 +70,9 @@ user "gitolite" do
   shell "/bin/bash"
 end
 
-cron "yum-update" do
-  minute "5"
-  user "root"
-  command "/storage/yum-update"
-end
-
 cron "backups" do
   minute "20"
   user "root"
   command "rsync -av --delete /var/lib/gitolite/ /storage/backups/gitolite/"
-end
-
-template "/etc/apache2/sites-available/default" do
-  source "default.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-end
-
-link "/etc/apache2/sites-enabled/000-default" do
-  to "../sites-available/default"
 end
 
