@@ -181,10 +181,10 @@ rpmbuild -bb --clean --rmsource --quiet SPECS/$application_name.spec; if [ "$?" 
 
 # After the RPM is built, move it over to the yum repo
 echo "Moving the RPM to the yum repository."
-rsync -q -e ssh -av /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package <%= node[:yum_user] %>@<%= node[:yum-repo_host] %>:<%= node[:yum_dir] %>/testing/$application_package; if [ "$?" -gt "0" ]; then echo "Error occurred pushing to yum repo."; clean; exit 1; fi
+rsync -q -e ssh -av /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package <%= node[:yum_user] %>@<%= node[:yumrepo_host] %>:<%= node[:yum_dir] %>/testing/$application_package; if [ "$?" -gt "0" ]; then echo "Error occurred pushing to yum repo."; clean; exit 1; fi
 
 # Now run the updaterepo process to update yum repository information
-$ssh_command <%= node[:yum_user] %>@<%= node[:yum-repo_host] %> "sudo yum-update > /dev/null 2>&1"; sleep 60
+$ssh_command <%= node[:yum_user] %>@<%= node[:yumrepo_host] %> "sudo yum-update > /dev/null 2>&1"; sleep 60
 
 # Clean up the files used by RPM during packaging, just to be clean
 echo "Cleaning up our working directories."
@@ -242,7 +242,7 @@ promote(){
 # This will promote a build from the QA (Testing) repository to the Certified Software (Release) repository.
 app_target="$application_name"
 app_version="$version"
-$ssh_command <%= node[:yum_user] %>@<%= node[:yum-repo_host] %> "rsync -av <%= node[:yum_dir] %>/testing/$application_target-$version.noarch.rpm <%= node[:yum_dir] %>/release/$application_target-$version.noarch.rpm; sudo yum-update"
+$ssh_command <%= node[:yum_user] %>@<%= node[:yumrepo_host] %> "rsync -av <%= node[:yum_dir] %>/testing/$application_target-$version.noarch.rpm <%= node[:yum_dir] %>/release/$application_target-$version.noarch.rpm; sudo yum-update"
 echo "Version has been promoted."
 }
 
