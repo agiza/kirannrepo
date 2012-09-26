@@ -20,8 +20,8 @@ rd.adapter.amqp.generate=rd.correspondence.generate
 rd.adapter.amqp.delivery=rd.correspondence.delivery
 
 # strongmail db
-rf.adapter.db.driver=com.mysql.jdbc.Driver
-rf.adapter.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:smadap_dbname] %>
-rf.adapter.db.username=<%= node[:smadapdb_user] %>
-rf.adapter.db.password=<%= node[:smadapdb_pass] %>
+rd.adapter.db.driver=com.mysql.jdbc.Driver
+rd.adapter.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:smadap_dbname] %>
+rd.adapter.db.username=<%= node[:smadapdb_user] %>
+rd.adapter.db.password=<%= node[:smadapdb_pass] %>
 
