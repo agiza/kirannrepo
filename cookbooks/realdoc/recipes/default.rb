@@ -44,9 +44,9 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
-  group 'tomcat'
-  owner 'tomcat'
-  mode '0644'
+  group  'tomcat'
+  owner  'tomcat'
+  mode   '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rd#{node.chef_environment}"],
@@ -57,9 +57,18 @@ end
 
 template "/opt/tomcat/conf/Catalina/localhost/realdoc.xml" do
   source "realdoc.xml.erb"
-  group 'tomcat'
-  owner 'tomcat'
-  mode '0644'
+  group  'tomcat'
+  owner  'tomcat'
+  mode   '0644'
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+template "/opt/tomcat/conf/jdbc-data-provider.properties" do
+  source "jdbc-data-provider.properties.erb"
+  owner  'tomcat'
+  group  'tomcat'
+  mode   '0644'
+  variables( :mongo_host => "#{mongoHost}")
   notifies :restart, resources(:service => "altitomcat")
 end
 
