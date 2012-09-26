@@ -5,7 +5,7 @@
 #Static variables
 repo="http://atlas"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n"
+application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n correspondence-legacy-output \n realsvc-recon-adapter"
 data_check(){
 
 if [ "$version" == "" -o "$application_name" == "" ]; then
@@ -97,6 +97,14 @@ echo "Version is $branch-$build"
                 application_bin=$application_name
                 application_target=$application_name
                 app_attribute="smadapter_version"
+        elif [ "$application_name" == "correspondence-legacy-output" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="corlegout_version"
+        elif [ "$application_name" == "realsvc-recon-adapter" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="reconadapter_version"
 	else
 		echo -e "$application_name is not a valid application.  Valid application names are: \n  $application_names  \n  Please try again."; exit 1
 	fi
