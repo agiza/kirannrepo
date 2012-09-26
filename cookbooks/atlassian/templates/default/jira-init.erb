@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# JIRA Linux service controller script
+cd "/opt/atlassian/jira/bin"
+
+case "$1" in
+    start)
+        ./start-jira.sh
+        ;;
+    stop)
+        ./stop-jira.sh
+        ;;
+    restart)
+	./stop-jira.sh
+	./start-jira.sh
+	;;
+    status)
+        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Jira is running with pid $pid_status."
+        else
+          echo "Jira is not running."
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+

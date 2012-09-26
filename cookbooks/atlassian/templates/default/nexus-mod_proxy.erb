@@ -1,0 +1,11 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /nexus  http://<%= node[:nexus_server] %>:<%= node[:nexus_port] %>/nexus
+ProxyPassReverse                                /nexus  http://<%= node[:nexus_server] %>:<%= node[:nexus_port] %>/nexus
+
+

@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# nexus
+# chkconfig: 2345 90 20
+# description: Nexus is a repository system for binaries.
+#
+# processname: java
+
+# nexus Linux service controller script
+cd "/storage/nexus/bin"
+export RUN_AS_USER=root
+case "$1" in
+    start)
+        ./nexus start
+        ;;
+    stop)
+        ./nexus stop
+        ;;
+    status)
+        ./nexus status
+        ;;
+    restart)
+        ./nexus restart
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+

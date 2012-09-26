@@ -1,0 +1,331 @@
+#!/bin/bash
+# This script is used to build a RPM package and then deploy that package onto 
+# a target server.
+# Requirements to follow
+#Static variables
+repo="http://atlas"
+ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n correspondence-legacy-output \n realsvc-recon-adapter"
+data_check(){
+
+if [ "$version" == "" -o "$application_name" == "" ]; then
+	echo "This command requires application name, version."; exit 1
+elif [ "$command_function" == "deploy" -o "$command_function" == "all" ] && [ "$target_host" == "" ]; then
+	echo "To deploy an application, you need to provide a target host option to execute this command."; exit 1 
+fi
+
+
+# Version check and confirm echo.
+version_check=`echo $version | grep "-"`
+	if [ "$version_check" == "" ]; then
+		echo "Version must be in the form of branch-build, i.e. 0.7.2.RC1-12, please try again."; exit 1
+	fi
+branch=`echo $version | cut -d "-" -f1`
+build=`echo $version | cut -d "-" -f2`
+echo "Version is $branch-$build"
+
+# Application Name check and echo
+	if [ "$application_name" == "realfoundation" ]; then
+		application_bin="realfoundationapp"
+		application_target="realfoundationapp"
+		app_attribute="realfoundationapp_version"
+	elif [ "$application_name" == "realtrans-central" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="realtranscentral_version"
+	elif [ "$application_name" == "realtrans-vi" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="realtransvi_version"
+	elif [ "$application_name" == "realtrans-rp" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="realtransrp_version"
+	elif [ "$application_name" == "realtrans-fp" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="realtransfp_version"
+        elif [ "$application_name" == "realtrans-vp" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="realtransvp_version"
+        elif [ "$application_name" == "realtrans-reg" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="realtransreg_version"
+	elif [ "$application_name" == "int-corelogic" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="intcorelogic_version"
+	elif [ "$application_name" == "int-datavision" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="intdatavision_version"
+	elif [ "$application_name" == "int-etrac" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="intetrac_version"
+	elif [ "$application_name" == "int-interthinx" ]; then
+		application_bin=$application_name
+		application_target=$application_name
+		app_attribute="intinterthinx_version"
+        elif [ "$application_name" == "int-realservicing" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="intrs_version"
+        elif [ "$application_name" == "implementer" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+		app_attribute="implementer_version"
+        elif [ "$application_name" == "realdoc" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="realdoc_version"
+        elif [ "$application_name" == "mysql-ddl" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="mysqlddl_version"
+        elif [ "$application_name" == "trans-ddl" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="transddl_version"
+        elif [ "$application_name" == "altisource-ddl" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="altisourceddl_version"
+        elif [ "$application_name" == "strongmail-adapter" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="smadapter_version"
+        elif [ "$application_name" == "correspondence-legacy-output" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="corlegout_version"
+        elif [ "$application_name" == "realsvc-recon-adapter" ]; then
+                application_bin=$application_name
+                application_target=$application_name
+                app_attribute="reconadapter_version"
+	else
+		echo -e "$application_name is not a valid application.  Valid application names are: \n  $application_names  \n  Please try again."; exit 1
+	fi
+application_package="$application_target-$branch-$build.noarch.rpm"
+	
+}
+
+# Function to create the working directory for grabbing files
+create_target_dir(){
+#application_binary="$branch-release/$application_target-$branch-$build.war"
+nexus_repo="$repo/nexus/content/repositories/$application_name-release/$application_name/$application_target/"
+repo_server="$repo/yum/$application_name/"
+application_package="$application_target-$branch-$build.noarch.rpm"
+echo "RPM package will be $application_target-$branch-$build.noarch.rpm"
+
+working_dir="/tmp/`date +%F`/$application_name-$version"
+mkdir -p $working_dir
+cd $working_dir; mkdir -p build/rpmbuild/RPMS
+mkdir -p build/rpmbuild/SOURCES
+mkdir -p build/rpmbuild/SPECS
+mkdir -p build/rpmbuild/BUILD
+mkdir -p build/rpmbuild/SRPMS
+mkdir -p build/rpmbuild/BUILD
+mkdir -p build/rpmbuild/BUILDROOT
+rpm_build_dir="$working_dir/build"
+rpm_working_dir="$working_dir/build/rpmbuild"
+}
+
+# Function to create the structures for RPM packaging
+create_control(){
+cd $working_dir
+# Grabs the spec file and startup script from GIT
+git clone --quiet git@<%=node[:git_repo] %>:deployment.git; if [ "$?" -gt "0" ]; then echo "Error occurred with GIT repository."; clean; exit 1; fi
+# This will parse the spec file and replace branch and build with the correct numbers
+if [ -f deployment/$application_name.spec ]; then
+	cat deployment/$application_name.spec | sed -e s/{branch}/$branch/g | sed -e s/{build}/$build/g > $application_name.spec.tmp; mv $application_name.spec.tmp $rpm_working_dir/SPECS/$application_name.spec
+else
+	echo "There is no spec file present for $application_name, please check your entry."; clean; exit 1
+fi
+rm -rf deployment
+
+}
+
+# Now we pull the java binary file
+get_binary(){
+cd $rpm_working_dir
+bamboo_url_test=`echo $bin_url | grep 'opt/atlassian'`
+if [ "$bamboo_url_test" != "" ]; then
+  find $bin_url/build-*$build -name $application_bin.war -type f -exec cp "{}" $rpm_working_dir \;
+  echo "Renaming java binary $application_bin.war for bundling."
+  mv $application_bin.war $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
+elif [ "$bin_url" != "" ]; then
+  echo -e "Downloading java binary \n $bin_url \n ...."
+  wget --quiet "$bin_url"; if [ "$?" -gt "0" ]; then echo "Error occurred with pulling java binary."; clean; exit 1; fi
+  count=`echo $bin_url | grep -o '/' | wc -l`
+  field=$(( $count + 1 ))
+  java_filename=`echo $bin_url | cut -d '/' -f$field`
+  newfile="$java_filename"
+  echo "Renaming java binary $newfile for bundling."
+  mv $newfile $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
+else
+  nexus_repo="$repo/nexus/content/repositories/$application_name-release/$application_name/$application_bin/"
+  echo "Trying to pull java binary based on version and application name. Target is $branch-RELEASE/$application_bin-$branch-RELEASE.war"
+  wget --quiet $nexus_repo/$branch-RELEASE/$application_bin-$branch-RELEASE.war; if [ "$?" -gt "0" ]; then echo "Error occurred with Java Binary."; clean; exit 1; fi
+fi
+}
+
+# Function to build the actual RPM package
+build_package(){
+cd $rpm_working_dir
+# Tar up the java binary files and configuration files to provide the sources to RPM
+  echo "Bundling java binary and source for packaging."
+  tar -czf $application_target-$branch-$build.tar.gz $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred with bundling the files."; clean; exit 1; fi
+
+	echo "Moving bundle to tmp directory."
+	mv $application_target-$branch-$build.tar.gz /tmp/; if [ "$?" -gt "0" ]; then echo "Error occurred with moving bundle to temporary directory."; clean; exit 1; fi
+
+# Issue the RPM build command against the altered spec file
+cd $rpm_working_dir
+echo "Building the RPM package...."
+rpmbuild -bb --clean --rmsource --quiet SPECS/$application_name.spec; if [ "$?" -gt "0" ]; then echo "Error occurred with RPM Build."; clean; exit 1; fi
+
+# After the RPM is built, move it over to the yum repo
+echo "Moving the RPM to the yum repository."
+rsync -q -e ssh -av /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package <%= node[:yum_user] %>@<%= node[:yumrepo_host] %>:<%= node[:yum_dir] %>/testing/$application_package; if [ "$?" -gt "0" ]; then echo "Error occurred pushing to yum repo."; clean; exit 1; fi
+
+# Now run the updaterepo process to update yum repository information
+$ssh_command <%= node[:yum_user] %>@<%= node[:yumrepo_host] %> "sudo yum-update > /dev/null 2>&1"; sleep 60
+
+# Clean up the files used by RPM during packaging, just to be clean
+echo "Cleaning up our working directories."
+if [ -f /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package ]; then
+  rm -f /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package
+fi
+rm -f /tmp/$application_name-$branch-$build.tar.gz
+rm -rf $working_dir
+rm -rf /tmp/`date +%F`
+
+echo "Build completed and package has been moved to the repo."
+}
+
+# Function to deploy the package to a target server
+deploy_package(){
+# Deploy the package
+echo "$application_package will be deployed."
+# Tag chef with updated version number
+tag_package
+
+# Execute chef client on target
+execute_tag
+
+}
+tag_package(){
+# Update node attribute for version
+node_name="$target_host.altidev.com"
+app_version="$version"
+if [ "$node_name" == "" -o "$app_attribute" == "" -o "$version" == "" ]; then
+echo "This command requires a server, application name and version number. i.e. $0 realtrans-demo realtrans_central_version 1.0.0-14.  Please try again."; exit 1
+
+# Check that target_host is a valid node name
+node_check=`knife node list | grep $node_name`
+if [ "$node_check" == "" ]; then
+	echo "$target_host.altidev.com is not a valid chef node name, please check your target as a chef node update is not possible with this target."; exit 1
+fi
+
+else
+
+update_command="nodes.find(:name => "\'"$node_name"\'") {|n| n.set["\'"$app_attribute"\'"] = "\'"$app_version"\'"; n.save }"
+	knife exec -E "$update_command"; if [ "$?" -gt "0" ]; then echo "Update version command failed."; exit 1; fi
+	#update_version.sh $node_name $app_attribute $app_version ; if [ "$?" -gt "0" ]; then echo "Update version command failed."; exit 1; fi
+fi
+}
+
+execute_tag(){
+# Execute chef client to perform an update on the server.
+$ssh_command root@$target_host "yum clean all; chef-client"
+
+} 
+
+
+promote(){
+
+# This will promote a build from the QA (Testing) repository to the Certified Software (Release) repository.
+app_target="$application_name"
+app_version="$version"
+$ssh_command <%= node[:yum_user] %>@<%= node[:yumrepo_host] %> "rsync -av <%= node[:yum_dir] %>/testing/$application_target-$version.noarch.rpm <%= node[:yum_dir] %>/release/$application_target-$version.noarch.rpm; sudo yum-update"
+echo "Version has been promoted."
+}
+
+clean(){
+if [ -f /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package ]; then 
+   rm -f /opt/atlassian/bamboo/rpmbuild/RPMS/noarch/$application_package
+fi
+if [ -f /tmp/$application_name-$branch-$build.tar.gz ]; then
+   rm -f /tmp/$application_name-$branch-$build.tar.gz
+fi
+rm -rf $working_dir
+rm -rf /tmp/`date +%F`
+}
+
+command_line(){
+if [ "$command_function" == "package" ]; then
+  	data_check
+  	create_target_dir
+       	create_control
+       	get_binary
+       	build_package
+       	clean
+       elif [ "$command_function" == "deploy" ]; then
+       	data_check
+       	deploy_package
+	clean
+       elif [ "$command_function" == "tag" ]; then
+	data_check
+	tag_package
+	clean
+       elif [ "$command_function" == "execute" ]; then
+	data_check
+	execute_tag
+	clean
+       elif [ "$command_function" == "all" ]; then
+	data_check
+	create_target_dir
+	create_control
+	get_binary
+	build_package
+	deploy_package
+	clean
+       elif [ "$command_function" == "promote" ]; then
+	data_check
+	promote
+	clean
+       elif [ "$command_function" == "" ]; then
+   	echo "Need to provide a function and options, i.e. $0 -f package|deploy|tag|execute|all -a application_name -v version [ -t target_host ] [ -j java_binary_url ]."
+fi
+}
+
+while getopts "f:a:v:t:j:" opt; do
+	case $opt in
+		f) command_function="$OPTARG"
+			echo "$command_function"
+			;;
+		a)	#application_name=$2
+			application_name="$OPTARG"
+			;;
+		v)
+	   		version="$OPTARG"
+	 		#version=$3
+  			;;
+		t)
+			# Used for Deployments
+			target_host="$OPTARG"
+  			echo "If Deployment is requested, it will occur on $target_host"
+			;;
+		j)
+			bin_url="$OPTARG"
+			;;
+	esac
+done
+
+command_line
+
+		
+  

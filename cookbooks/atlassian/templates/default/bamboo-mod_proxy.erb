@@ -1,0 +1,11 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+ProxyPass                                       /bamboo http://<%= node[:bamboo_server] %>:<%= node[:bamboo_port] %>/bamboo
+ProxyPassReverse                                /bamboo http://<%= node[:bamboo_server] %>:<%= node[:bamboo_port] %>/bamboo
+
+

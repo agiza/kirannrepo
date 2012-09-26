@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Confluence Linux service controller script
+export CONF_USER="confluence"
+cd "/opt/atlassian/confluence/bin"
+
+case "$1" in
+    start)
+        su -c "/opt/atlassian/confluence/bin/start-confluence.sh" confluence
+        ;;
+    stop)
+        su -c "/opt/atlassian/confluence/bin/stop-confluence.sh" confluence
+        ;;
+    restart)
+        su -c "/opt/atlassian/confluence/bin/stop-confluence.sh"
+        su -c "/opt/atlassian/confluence/bin/start-confluence.sh"
+        ;;
+    status)
+        pid_status=`ps -ef | grep java | grep confluence | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Confluence is running with pid $pid_status."
+        else
+          echo "Confluence is not running."
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+

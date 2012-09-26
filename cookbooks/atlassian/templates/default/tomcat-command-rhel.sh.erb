@@ -1,0 +1,4 @@
+#!/bin/sh
+hostname=$1
+command=$2
+ssh -q -o StrictHostKeyChecking=no root@$hostname "chown -R tomcat.tomcat /opt/tomcat; service altitomcat $command"
