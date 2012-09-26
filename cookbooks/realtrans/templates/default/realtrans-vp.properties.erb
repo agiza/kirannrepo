@@ -1,0 +1,93 @@
+rt.amqp.exchange.monitoring=rt.monitoring
+rt.amqp.exchange.outgoing=rt.core.internal
+rt.amqp.host=<%= node[:amqp_host] %>
+rt.amqp.port=<%= node[:amqp_port] %>
+rt.amqp.username=<%= node[:rt_amqp_user] %>
+rt.amqp.password=<%= node[:rt_amqp_pass] %>
+rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rf.ldap.port=<%= node[:ldap_port] %>
+rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
+rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+
+#vendor order app config related.
+rt.vendor.order.app.config.name=valuation
+rt.vendor.order.app.config.version=1.0
+rt.vendor.order.process.definition.key=VendorOrderMainProcess
+
+#Vendor Certification app config related.
+rt.vendor.certification.app.config.name=certification
+rt.vendor.certification.app.config.version=1.0
+rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
+rt.vendor.certification.group=certificationGroup
+rt.vendor.certification.candidateGroup=Credential Review Team
+rt.amqp.exchange.avm.request=rt.avm.request
+
+rt.vendor.valuation.facilitator.candidateGroup=FACILITATORS
+rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
+rt.vendor.exposure.cycle.profile.code=TEST
+
+#Settings for realdoc integration
+rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
+rd.remote.defaultUsername=correspondence
+rd.remote.singleUserMode=true
+
+rt.central.webServiceUrl=http://<%= @rt_cen_host %>:8080/realtrans-central/
+
+rf.db.showSql=false
+rf.db.generateDdl=false
+rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
+rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-vp/WEB-INF/classes/templates
+rf.tenantCode=<%= node[:tenantid] %>
+
+rf.multipartResolver.maxUploadSize=10485760
+
+rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
+rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
+rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.customerId=102942719
+rf.melissadata.defaultMaxConnectionsPerHost=1
+rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
+rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
+
+rf.email.host=<%= node[:mailhost] %>
+rf.email.port=<%= node[:mailport] %>
+rf.email.username=none
+rf.email.password=none
+
+internalDomains=
+
+rf.ui.config.logoLink=http://www.altisource11.com/
+rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
+rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
+brandName=wide
+
+rf.startupFileLocation=${catalina.base}/startup.xml
+
+rf.activiti.databaseSchemaUpdate=false
+
+rf.security.lockoutWindowMinsDefault=60
+rf.security.maxBadLoginsDefault=3
+rf.security.password.alphaMinDefault=1
+rf.security.password.lengthDefault=6
+rf.security.password.lowerCaseMinDefault=1
+rf.security.password.nonAlphaMinDefault=0
+rf.security.password.numericMinDefault=1
+rf.security.password.upperCaseMinDefault=1
+rf.security.passwordTokenExpiryMinsDefault=600
+
+rf.newUserTemplate=classpath:/rt_vrp_newUserTemplate.html
+rf.newUserSubject=Welcome!
+rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
+rf.passwordResetSubject=Password Reset
+rf.userNotificationFromAddress=<%= node[:mail_from] %>
+
+rf.defaultPlugin=taskplanner
+
+rf.app.context.path=<%= @webHostname %>/realtrans-vp
+
+rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
+rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
+rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+
+
