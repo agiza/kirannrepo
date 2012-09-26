@@ -1,8 +1,0 @@
-#!/bin/sh
-hostname=$1
-if [ "$hostname" == "" ]; then
-	echo "This command requires a hostname to be provided."; exit 1
-fi
-
-ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
-
