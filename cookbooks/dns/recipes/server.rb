@@ -27,7 +27,7 @@ package "bind-utils" do
 end
 
 directory "/etc/named" do
-  owner "named"
+  owner "root"
   group "named"
 end
 
