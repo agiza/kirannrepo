@@ -8,7 +8,7 @@ rd.adapter.amqp.port=<%= node[:amqp_port] %>
 rd.adapter.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
 rd.adapter.amqp.username=<%= node[:rd_amqp_user] %>
 rd.adapter.amqp.password=<%= node[:rd_amqp_pass] %>
-rd.adapter.amqp.legacy=rd.legacy.adapter
+rd.adapter.amqp.legacy.adapter.queue=rd.legacy.adapter
 
 # file output settings
 rd.adapter.output.text.directory=/tmp
