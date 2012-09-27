@@ -1,6 +1,6 @@
 -------------------------------------- 
 # adapter settings
-rd.adapter.recon.write.cron=* * * * *
+rd.adapter.recon.write.cron=*/15 * * * * MON-FRI
 
 # rabbit
 rd.adapter.amqp.host=<%= node[:amqp_host] %>
@@ -11,7 +11,7 @@ rd.adapter.amqp.password=<%= node[:rd_amqp_pass] %>
 rd.adapter.amqp.legacy=rd.legacy.adapter
 
 # file output settings
-rd.adapter.output.text.directory=target
+rd.adapter.output.text.directory=/tmp
 rd.adapter.output.text.filename=realdoc-reconfile.txt
 rd.adapter.output.blacklist.filename=realdoc-blacklist.txt
 
