@@ -16,7 +16,8 @@ for i in `echo "$app_names"`; do
 	app_version=`echo $i | cut -d "|" -f2`
 	echo "$app_name|$app_version" >> /tmp/rpm-versions.txt
 done
-
+applications=`cat /tmp/rpm-appnames.txt`
+application_names=`echo -e "$applications"`
 
 data_check(){
 
