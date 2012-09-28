@@ -29,11 +29,18 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+mongoHost = {}
+search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
+  mongoHost[n.fqdn] = {}
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(
+    :mongo_host => "#{mongoHost}",
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
