@@ -21,7 +21,7 @@ rd.adapter.amqp.delivery=rd.correspondence.delivery
 
 # strongmail db
 rd.adapter.db.sm.driver=com.mysql.jdbc.Driver
-rd.adapter.db.sm.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:smadap_dbname] %>
+rd.adapter.db.sm.url=jdbc:mysql://<%= node[:smadap_dbhost] %>:<%= node[:db_port] %>/<%= node[:smadap_dbname] %>
 rd.adapter.db.sm.username=<%= node[:smadapdb_user] %>
 rd.adapter.db.sm.password=<%= node[:smadapdb_pass] %>
 
