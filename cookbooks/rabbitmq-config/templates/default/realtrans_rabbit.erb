@@ -38,7 +38,7 @@ done
 
 # Use the standard python script to add all other elements and bindings
 for i in `echo "$vhosts"`; do
-check=`echo $i | grep trans`
+check=`echo $i`
 if [ "$check" != "" ]; then
   for h in `echo "$exchanges"`; do
     /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=$h auto_delete=false durable=true type=topic
