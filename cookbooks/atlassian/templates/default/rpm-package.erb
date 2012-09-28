@@ -26,17 +26,13 @@ echo "Version is $branch-$build"
 
 # Application Name check and echo
 	if [ "$application_name" == "realfoundation" ]; then
-		application_bin="realfoundationapp"
-		application_target="realfoundationapp"
-		app_attribute="realfoundationapp_version"
+		application_bin="realfoundation"
+		application_target="realfoundation"
+		app_attribute="realfoundation_version"
 	elif [ "$application_name" == "realtrans-central" ]; then
 		application_bin=$application_name
 		application_target=$application_name
 		app_attribute="realtranscentral_version"
-	elif [ "$application_name" == "realtrans-vi" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="realtransvi_version"
 	elif [ "$application_name" == "realtrans-rp" ]; then
 		application_bin=$application_name
 		application_target=$application_name
