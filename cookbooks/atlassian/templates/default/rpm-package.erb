@@ -10,11 +10,11 @@ ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
 if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
 app_names="<%= @application_names %>"
-for i in `echo $app_names; do
+for i in `echo "$app_names"`; do
 	echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
-	name=`echo $i | cut -d "|" -f1`
-	version=`echo $i | cut -d "|" -f2`
-	echo "$name|$version" >> /tmp/rpm-versions.txt
+	app_name=`echo $i | cut -d "|" -f1`
+	app_version=`echo $i | cut -d "|" -f2`
+	echo "$app_name|$app_version" >> /tmp/rpm-versions.txt
 done
 
 
