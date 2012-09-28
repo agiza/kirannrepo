@@ -6,6 +6,16 @@
 repo="http://atlas"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n correspondence-legacy-output \n realsvc-recon-adapter \n int-collateralanalytics \n jdbc-data-provider \n"
+
+if [ -f /tmp/rpm-appnames.txt ]; rm -f /tmp/rpm-appnames.txt; fi
+if [ -f /tmp/rpm-versions.txt ]; rm -f /tmp/rpm-versions.txt; fi
+#app_names="<%= @application_names %>"
+#for i in `echo $app_names; do
+#	name=`echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
+#	version=`echo $i | cut -d "|" -f2
+#	echo "$name|$version" >> /tmp/rpm-versions.txt
+#done
+
 data_check(){
 
 if [ "$version" == "" -o "$application_name" == "" ]; then

@@ -143,11 +143,13 @@ template "/home/bamboo/bin/tomcat-clean-rhel.sh" do
   mode   "0755"
 end
 
+app_names = data_bag_item("infrastructure", "applications")
 template "/home/bamboo/bin/rpm-package" do
   source "rpm-package.erb"
   owner  "bamboo"
   group  "bamboo"
   mode   "0755"
+  variables( :application_names => app_names['names'] )
 end
 
 link "/usr/lib/apache-maven-2.2.1" do
