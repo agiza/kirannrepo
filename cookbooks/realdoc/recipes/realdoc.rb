@@ -63,15 +63,6 @@ template "/opt/tomcat/conf/Catalina/localhost/realdoc.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-template "/opt/tomcat/conf/jdbc-data-provider.properties" do
-  source "jdbc-data-provider.properties.erb"
-  owner  'tomcat'
-  group  'tomcat'
-  mode   '0644'
-  variables( :mongo_host => "#{mongoHost}")
-  notifies :restart, resources(:service => "altitomcat")
-end
-
 directory "/opt/tomcat/correspondence" do
   owner "tomcat"
   group "tomcat"
