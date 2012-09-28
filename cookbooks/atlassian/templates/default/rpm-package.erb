@@ -5,7 +5,6 @@
 #Static variables
 repo="http://atlas"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-#application_names="realfoundation \n  realtrans-central \n  realtrans-vp \n  realtrans-rp \n  realtrans-fp \n  realtrans-reg \n int-corelogic \n  int-datavision \n  int-etrac \n  int-interthinx \n  implementer \n realdoc \n trans-ddl \n altisource-ddl \n mysql-ddl \n strongmail-adapter \n int-realservicing \n correspondence-legacy-output \n realsvc-recon-adapter \n int-collateralanalytics \n jdbc-data-provider \n"
 
 if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
 if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
@@ -39,94 +38,6 @@ echo "Version is $branch-$build"
 
 app_name_check
 }
-data_deferred(){
-# Application Name check and echo
-	if [ "$application_name" == "realfoundation" ]; then
-		application_bin="realfoundation"
-		application_target="realfoundation"
-		app_attribute="realfoundation_version"
-	elif [ "$application_name" == "realtrans-central" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="realtranscentral_version"
-	elif [ "$application_name" == "realtrans-rp" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="realtransrp_version"
-	elif [ "$application_name" == "realtrans-fp" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="realtransfp_version"
-        elif [ "$application_name" == "realtrans-vp" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="realtransvp_version"
-        elif [ "$application_name" == "realtrans-reg" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="realtransreg_version"
-	elif [ "$application_name" == "int-corelogic" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="intcorelogic_version"
-	elif [ "$application_name" == "int-datavision" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="intdatavision_version"
-	elif [ "$application_name" == "int-etrac" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="intetrac_version"
-	elif [ "$application_name" == "int-interthinx" ]; then
-		application_bin=$application_name
-		application_target=$application_name
-		app_attribute="intinterthinx_version"
-        elif [ "$application_name" == "int-realservicing" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="intrs_version"
-        elif [ "$application_name" == "implementer" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-		app_attribute="implementer_version"
-        elif [ "$application_name" == "realdoc" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="realdoc_version"
-        elif [ "$application_name" == "mysql-ddl" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="mysqlddl_version"
-        elif [ "$application_name" == "trans-ddl" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="transddl_version"
-        elif [ "$application_name" == "altisource-ddl" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="altisourceddl_version"
-        elif [ "$application_name" == "strongmail-adapter" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="smadapter_version"
-        elif [ "$application_name" == "jdbc-data-provider" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="jdbcprov_version"
-        elif [ "$application_name" == "realsvc-recon-adapter" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="reconadapter_version"
-        elif [ "$application_name" == "int-collateralanalytics" ]; then
-                application_bin=$application_name
-                application_target=$application_name
-                app_attribute="intca_version"
-	else
-		echo -e "$application_name is not a valid application.  Valid application names are: \n  $application_names  \n  Please try again."; exit 1
-	fi
-application_package="$application_target-$branch-$build.noarch.rpm"
-	
-}
 
 #Function to grab the name and attribute from the changing data file.
 app_name_check(){
@@ -138,7 +49,7 @@ app_attribute=`echo $name_version | cut -d "|" -f2`
 
 # $application_name $application_bin $application_target $app_attribute
 if [ "$name_version" == "" -o "$app_attribute" == "" ]; then
-        echo -e "$application_name is not a valid application.  Valid application names are: \n  $application_names  \n  Please try again."; exit 1
+        echo -e "$application_name is not a valid application.  Valid application names are: \n$application_names  \n  Please try again."; exit 1
 fi
 
 application_package="$application_target-$branch-$build.noarch.rpm"
