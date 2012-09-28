@@ -38,9 +38,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(
-    :mongo_host => "#{mongoHost}",
-  )
+  variables( :mongo_host => "#{mongoHost}" )
   notifies :restart, resources(:service => "altitomcat")
 end
 
