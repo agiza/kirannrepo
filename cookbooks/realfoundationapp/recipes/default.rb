@@ -6,8 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "realfoundationapp"
-app_version = node[:realfoundationapp_version]
+app_name = "realfoundation"
+app_version = node[:realfoundation_version]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -28,8 +28,8 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
-template "/opt/tomcat/conf/realfoundationapp.properties" do
-  source "realfoundationapp.properties.erb"
+template "/opt/tomcat/conf/realfoundation.properties" do
+  source "realfoundation.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
@@ -39,10 +39,11 @@ template "/opt/tomcat/conf/realfoundationapp.properties" do
   )
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/realfoundationapp.xml" do
-  source "realfoundationapp.xml.erb"
+template "/opt/tomcat/conf/Catalina/localhost/realfoundation.xml" do
+  source "realfoundation.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+
