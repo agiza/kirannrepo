@@ -1,9 +1,10 @@
 #!/bin/bash
 cd /tmp
 plugins="hung-build-killer-2.1.4.jar"
+
 for i in `echo $plugins`; do
 if [ ! -f /tmp/$i ]; then
-  wget http://10.0.0.20/yum/common/$i
+  wget http://<%= node[:yumrepo_host] %>/yum/common/$i
 fi
 
 if [ ! -f /opt/atlassian/bamboo/webapp/WEB-INF/lib/$i ]; then
