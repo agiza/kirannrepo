@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "altirepo"
+include_recipe "altisource::altirepo"
 
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
