@@ -4,7 +4,7 @@
 #
 
 #include_recipe "java"
-include_recipe "appdynamics"
+include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
 package "#{app_name}" do
