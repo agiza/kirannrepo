@@ -12,6 +12,11 @@ service "bamboo" do
   action :nothing
 end
 
+execute "bamboo-plugins" do
+  command "/home/bamboo/bin/bamboo-plugins.sh"
+  action :nothing
+end
+
 directory "/home/bamboo/.ssh" do
   owner "bamboo"
   group "bamboo"
@@ -150,6 +155,14 @@ template "/home/bamboo/bin/rpm-package" do
   group  "bamboo"
   mode   "0755"
   variables( :application_names => app_names['names'] )
+end
+
+template "/home/bamboo/bin/bamboo-plugins.sh" do
+  source "bamboo-plugins.sh.erb"
+  owner  "bamboo"
+  group  "bamboo"
+  mode   "0755"
+  notifies :run, 'execute[bamboo-plugins]', :immediately
 end
 
 link "/usr/lib/apache-maven-2.2.1" do
