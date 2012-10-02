@@ -1,7 +1,0 @@
-[tcpout]
-defaultGroup = splunk_8101
-
-[tcpout:splunk_8101]
-server = <%= node[:splunk_host] %>:<%= node[:splunk_port] %>
-
-[tcpout-server://<%= node[:splunk_host] %>:<%= node[:splunk_port] %>]
