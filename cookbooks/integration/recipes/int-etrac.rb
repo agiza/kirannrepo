@@ -9,7 +9,7 @@
 app_name = "int-etrac"
 app_version = node[:intetrac_version]
 
-include_recipe "altitomcat"
+include_recipe "altisource::altitomcat"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
