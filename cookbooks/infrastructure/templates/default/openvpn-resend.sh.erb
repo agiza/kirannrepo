@@ -1,0 +1,22 @@
+#!/bin/bash
+EMAIL="bryan.phinney@altisource.com"
+
+# This checks for the required command line parameters.
+if [ "$1" == "" ] || [ "$2" == "" ]; then
+        echo "You must include a username and email address for this script."; exit 1
+fi
+
+# This line sets the variables we need to grab the stored certs and send to the email address.
+USER_NAME=$1
+EMAIL_ADDRESS=$2
+
+# This line pipes the static text into an email with the certificates attached to the email address provided.
+cat vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a /home/ubuntu/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
+
+# This line checks for success and gives us feedback.
+if [ "$?" -gt "1" ]; then
+        echo "There was an error in sending the certificates, please check the logs for errors."; exit 1
+else
+        echo "Certficates created and mail sent, certificates have been stored.  Backup certificates are stored in the vpn/certificates directory."
+fi
+

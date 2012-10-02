@@ -1,0 +1,18 @@
+#!/bin/bash
+if [ "$1" == "" ]; then
+        echo "Enter userid"
+        read userid
+        echo "Revoke VPN certificates and Crowd accounts for $userid.  Is this correct? (Y or N)"
+        read answer
+else
+        userid=$1
+        answer="Y"
+fi
+if [ "$answer" == "Y" ]; then
+        ssh ubuntu@nexus "bin/openvpn-revoke.sh $userid"
+        ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-remove.sh $userid"
+else
+        echo "Please try again."; exit 1
+fi
+
+

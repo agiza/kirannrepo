@@ -1,0 +1,54 @@
+//
+// Do any local configuration here
+//
+acl slaves {
+<% @dnsslaves.each do |slave| -%>
+         <%= slave %>;
+<% end -%>
+};
+
+# This is the zone definition. replace example.com with your domain name
+zone "altidev.com" {
+        type master;
+        allow-query { any; };
+	allow-transfer { slaves; };
+        file "/etc/named/altidev.com.db";
+        };
+
+# This is zone definition for ascorp.com.
+zone "ascorp.com" {
+	type master;
+	allow-query { any; }; 
+	allow-transfer { slaves; };
+	file "/etc/named/ascorp.com.db";
+	};
+
+# This is the zone definition for reverse DNS. replace 0.168.192 with your network address in reverse notation - e.g my network address is 192.168.0
+zone "0.0.10.in-addr.arpa" {
+     type master;
+     allow-query { any; };
+     allow-transfer { slaves; };
+     file "/etc/named/rev.0.0.10.in-addr.arpa";
+};
+
+zone "1.0.10.in-addr.arpa" {
+     type master;
+     allow-query { any; };
+     allow-transfer { slaves; };
+     file "/etc/named/rev.1.0.10.in-addr.arpa";
+};
+
+zone "2.0.10.in-addr.arpa" {
+     type master;
+     allow-query { any; };
+     allow-transfer { slaves; };
+     file "/etc/named/rev.2.0.10.in-addr.arpa";
+};
+
+include "/etc/rndc.key";
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/named/bind.zones.rfc1918";
+
+

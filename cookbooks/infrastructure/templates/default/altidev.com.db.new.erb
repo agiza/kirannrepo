@@ -1,0 +1,25 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     ns.altidev.com. root.altidev.com. (
+                        <%= @serial %>  ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+		NS      ns
+		NS	ns2
+		NS	ns3
+ns	A	<%= @dnsmaster[:ipaddress] %>
+ns2	A	<%= @dnsslaves[0][:ipaddress] %> 
+ns3	A	<%= @dnsslaves[1][:ipaddress] %> 
+altidev.com.	MX	10	mail
+<% @altidev.each do |altidev| -%>
+<%= altidev[:hostname] %>    A    <%= altidev[:ipaddress] %>
+<% end -%>
+<% @cname.each do |cname| -%>
+<%= cname %>
+<% end -%>
+*	A	10.0.1.111

@@ -1,0 +1,160 @@
+<?php
+///////////////////////////////////////////////////////////////
+// PHP script to create Openvpn client and accounts
+// SEE following URL mor more info:
+// Distributed under GNU/GPL v2.0+
+///////////////////////////////////////////////////////////////
+
+
+// change .. me! - shell script name
+$shellscript = "sudo /root/bin/vpn-client.sh";
+
+// Make sure form is submitted by user
+if(!(isset($_POST['pwdchange']))) {
+ // if not display them form
+ writeHead("Altisource VPN Account Creator");
+ writeForm();
+ writeFoot();
+}
+else {
+ // try to create the account
+ $callshell=true;
+ // get username and email
+ $_POST['userid'] = stripslashes(trim($_POST['userid']));
+ $_POST['name'] = Str_replace(" ","_", $_POST['name']);
+ $_POST['email'] = stripslashes(trim($_POST['email']));
+
+// if user skip our javascript ...
+// make sure we can only create the account if we have both username and email
+ if(empty($_POST['userid'])) {
+   $callshell=false;
+ }
+ if(empty($_POST['name'])) {
+   $callshell=false;
+ }
+ if(empty($_POST['email'])) {
+        $callshell=false;
+        }
+ if ( $callshell == true ) { 
+  // command to create the account
+  $cmd="$shellscript " . $_POST['userid'] . " " . $_POST['name'] . " " . $_POST['email'];
+  // call command
+  // $cmd - command, $output - output of $cmd, $status - useful to find if command failed or not
+   exec($cmd,$output,$status); 
+   if ( $status == 0 ) { // Success - account created
+   writeHead("Account created");
+   echo '<h3>Account Created</h3>Setup a <a href='. $_SERVER['PHP_SELF'] . '>new account</a>';
+   writeFoot();
+   }
+   else { // Password failed 
+      writeHead("Account creation failed");
+      echo '<h3>Account creation failed</h3>';
+      echo '<p>System returned following information:</p><pre>';
+      print_r($output);
+      echo '</pre>';
+      echo '<p><em>Please contact tech-support for more info! Or try <a href='.$_SERVER['PHP_SELF'].'again</a></em></p>';
+      writeFoot();
+   }
+ }
+ else {
+   writeHead("Something was wrong -- Please try again");
+   echo 'Error - Please enter User ID, Full Name,  and Email Address';
+   writeForm();
+   writeFoot();
+ }
+}
+
+// display html head
+function writeHead($title) {
+echo '
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> ' .$title. '</title>
+<style type="text/css" media="screen">
+.passwdform {
+        position: static;
+        overflow: hidden;
+}
+
+.passwdleft {
+        width: 25%;
+        text-align: left;
+        clear: both;
+        float: left;
+        display: inline;
+        padding: 4px;
+        margin: 5px 0;
+}
+
+.passwdright {
+        width: 25%;
+        text-align: left;
+        float: left;
+        display: inline;
+        padding: 4px;
+        margin: 5px 0;
+}
+
+.passwderror {
+        border: 1px solid #ff0000;
+}
+
+
+.passwdsubmit {
+        float: bottom;
+}
+</style>
+
+</head>
+
+<body>';
+
+}
+// display html form
+function writeForm() {
+echo '
+<img src="/images/global.logo.png" width="273" height="92" alt="" />
+<h3>Altisource Dev VPN Account Creator:</h3>
+
+<script>
+function checkForm() {
+if (document.forms.changepassword.elements[\'userid\'].value.length == 0) {
+    alert(\'Please enter a value for the "User name" field\');
+    return false;
+}
+if (document.forms.changepassword.elements[\'name\'].value.length == 0) {
+    alert(\'Please enter a value for the "Full Name" field\');
+    return false;
+}
+if (document.forms.changepassword.elements[\'email\'].value.length == 0) {
+    alert(\'Please enter a value for the "Email Address" field\');
+    return false;
+}
+  return true;
+}
+</script>
+
+<div class="contactform">
+<form action="' . $_SERVER[PHP_SELF]. '" method="post" onSubmit="return checkForm()" name="changepassword">
+<div class="passwdleft"><label for="lblusername">User ID: </label></div>
+<div class="passwdright"><input type="text" name="userid" id="lblusername" size="30" maxlength="50" value="" /> (required)</div>
+<div class="passwdleft"><label for="lblpasswd">Full Name: </label></div>
+<div class="passwdright"><input type="text" name="name" id="lblpasswd" size="30" maxlength="50" value="" /> (required)</div>
+<div class="passwdleft"><label for="lblemail">Email Address: </label></div>
+<div class="passwdright"><input type="text" name="email" id="lblemail" size="30" maxlength="50" value="" /> (required)</div>
+<div class="passwdleft"><input type="submit" name="Submit" value="Create VPN Account" id="passwdsubmit" />
+<input type="hidden" name="pwdchange" value="process" /></div>
+</form>
+</div>
+';
+
+}
+// display footer 
+function writeFoot(){
+echo '</body>
+</html>
+';
+}
+?>
+
