@@ -158,7 +158,7 @@ template "/home/bamboo/bin/rpm-package" do
 end
 
 template "/home/bamboo/bin/bamboo-plugins.sh" do
-  source "bamboo-plugins.sh.erb"
+  source "bamboo-plugin.sh.erb"
   owner  "bamboo"
   group  "bamboo"
   mode   "0755"
