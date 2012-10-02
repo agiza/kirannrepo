@@ -9,7 +9,7 @@
 app_name = "jdbc-data-provider"
 app_version = node[:jdbcprov_version]
 
-include_recipe "altitomcat"
+include_recipe "altisource::altitomcat"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true

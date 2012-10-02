@@ -9,7 +9,7 @@
 app_name = "realsvc-recon-adapter"
 app_version = node[:reconadapter_version]
 
-include_recipe "altitomcat"
+include_recipe "altisource::altitomcat"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true

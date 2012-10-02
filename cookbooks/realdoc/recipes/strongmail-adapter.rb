@@ -9,7 +9,7 @@
 app_name = "strongmail-adapter"
 app_version = node[:smadapter_version]
 
-include_recipe "altitomcat"
+include_recipe "altisource::altitomcat"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
