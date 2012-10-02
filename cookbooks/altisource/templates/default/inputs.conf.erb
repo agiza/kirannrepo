@@ -1,0 +1,11 @@
+[monitor:///opt/tomcat/logs/*access*txt]
+disabled = false
+sourcetype = access_combined
+ignoreOlderThan = 7d
+index = <%= node[:access_index ] %>
+
+[monitor:///opt/tomcat/logs/*.log]
+disabled = false
+sourcetype = log4j
+ignoreOlderThan = 7d
+index = <%= node[:log4j_index ] %>

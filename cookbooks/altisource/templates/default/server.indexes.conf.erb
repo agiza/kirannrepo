@@ -1,0 +1,7 @@
+<% @splunk_indexes.each do |index| -%>
+[<%= index %>]
+coldPath = $SPLUNK_DB/<%= index %>/colddb
+homePath = $SPLUNK_DB/<%= index %>/db
+thawedPath = $SPLUNK_DB/<%= index %>/thaweddb
+
+<% end -%>
