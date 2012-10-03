@@ -59,6 +59,7 @@ end
 # Look up ssl server name from data bag.
 servername = data_bag_item("apache-server", "webhost")
 servername = servername['servername'].split(",")
+bodylimit = servername("bodylimit")
 
 template "/etc/httpd/conf.d/ssl.conf" do
   source "ssl.conf.erb"
@@ -69,6 +70,15 @@ template "/etc/httpd/conf.d/ssl.conf" do
     :servername => "#{servername[0]}",
     :proxyname => "#{servername[1]}"
   )
+  notifies :reload, resources(:service => "httpd")
+end
+
+template "/etc/httpd/modsecurity.d/activated_rules/body.conf" do
+  source "modsecurity.body.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  variables( :bodylimit => "bodylimit" )
   notifies :reload, resources(:service => "httpd")
 end
 
