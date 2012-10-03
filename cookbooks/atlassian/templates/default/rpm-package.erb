@@ -58,7 +58,7 @@ application_package="$application_target-$branch-$build.noarch.rpm"
 # Function to create the working directory for grabbing files
 create_target_dir(){
 #application_binary="$branch-release/$application_target-$branch-$build.war"
-nexus_repo="$repo/nexus/content/repositories/$application_name-release/$application_name/$application_target/"
+nexus_repo="$repo/artifactory/repo/$application_name-release/$application_name/$application_target/"
 repo_server="$repo/yum/$application_name/"
 application_package="$application_target-$branch-$build.noarch.rpm"
 echo "RPM package will be $application_target-$branch-$build.noarch.rpm"
@@ -109,7 +109,7 @@ elif [ "$bin_url" != "" ]; then
   echo "Renaming java binary $newfile for bundling."
   mv $newfile $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
 else
-  nexus_repo="$repo/nexus/content/repositories/$application_name-release/$application_name/$application_bin/"
+  nexus_repo="$repo/artifactory/repo/$application_name-release/$application_name/$application_bin/"
   echo "Trying to pull java binary based on version and application name. Target is $branch-RELEASE/$application_bin-$branch-RELEASE.war"
   wget --quiet $nexus_repo/$branch-RELEASE/$application_bin-$branch-RELEASE.war; if [ "$?" -gt "0" ]; then echo "Error occurred with Java Binary."; clean; exit 1; fi
 fi
