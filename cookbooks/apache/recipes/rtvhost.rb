@@ -32,7 +32,7 @@ rtcenenvirons.each do |environ|
   venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
   cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
   venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-  template "/etc/httpd/proxy.d/realtrans-#{environ}.proxy.conf" do
+  template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
     source "rt.proxy.conf.erb"
     owner  "root"
     group  "root"

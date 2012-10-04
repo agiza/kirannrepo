@@ -61,7 +61,8 @@ servername = data_bag_item("apache-server", "webhost")
 servername = servername['servername'].split(",")
 bodylimit = data_bag_item("apache-server", "webhost")
 bodylimit = bodylimit['bodylimit']
-
+admin = data_bag_item("apache-server", "webhost")
+admin = admin['serveradmin']
 template "/etc/httpd/conf.d/ssl.conf" do
   source "ssl.conf.erb"
   owner "root"
@@ -69,7 +70,8 @@ template "/etc/httpd/conf.d/ssl.conf" do
   mode "0644"
   variables( 
     :servername => "#{servername[0]}",
-    :proxyname => "#{servername[1]}"
+    :proxyname => "#{servername[1]}",
+    :serveradmin => "#{admin}"
   )
   notifies :reload, resources(:service => "httpd")
 end
@@ -120,48 +122,10 @@ end
 #  notifies :reload, resources(:service => "httpd")
 #end
 
-template "/etc/httpd/conf.d/datavision-demo.conf" do
-  source "datavision-demo.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/datavision-qa.conf" do
-  source "datavision-qa.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/corelogic-qa.conf" do
-  source "corelogic-qa.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/corelogic-demo.conf" do
-  source "corelogic-demo.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/corelogic-dev.conf" do
-  source "corelogic-dev.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "httpd")
-end
-
-template "/etc/httpd/conf.d/vpn.conf" do
-  source "vpn.conf.erb"
+sitesinclude = data_bag_item("apache-server", "webhost")
+sitesinclude = sitesinclude['serversites'].split(" ").each do |site|
+template "/etc/httpd/conf.d/#{@site}.conf" do
+  source "#{@site}.conf.erb"
   owner  "root"
   group  "root"
   mode   "0644"

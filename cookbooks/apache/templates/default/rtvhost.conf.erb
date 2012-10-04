@@ -3,6 +3,6 @@
     ServerName <%= @serverName %>
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
-Include proxy.d/realtrans-<%= @vhostName %>.proxy.conf
+Include proxy.d/rt-<%= @vhostName %>.proxy.conf
 
 </VirtualHost>
