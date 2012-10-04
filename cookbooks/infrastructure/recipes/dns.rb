@@ -7,10 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-execute "permissive" do
-  command "echo 0 >/selinux/enforce" 
-  :nothing
-end
+include_recipe "infrastructure::selinux"
 
 package "bind" do
   action :upgrade
@@ -24,13 +21,6 @@ end
 service "named" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
-end
-
-template "/etc/sysconfig/selinux" do
-  source "selinux.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
 end
 
 zones = data_bag_item("dns", "zones")
