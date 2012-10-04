@@ -19,7 +19,7 @@ rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.join(" ").split.u
 # Databag item for webserver hostname
 webName = data_bag_item("apache-server", "webhost")
 sslflag = webName['sslflag']
-if "sslflag" == "true" do
+if "sslflag" == "true" then
   ssl = ".ssl"
 else
   ssl = ""
