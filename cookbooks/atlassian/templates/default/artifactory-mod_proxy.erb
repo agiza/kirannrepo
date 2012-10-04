@@ -1,0 +1,12 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+<Location /artifactory>
+ProxyPass   http://<%= node[:artifactory_server] %>:<%= node[:artifactory_port] %>/artifactory
+</Location>
+
+
