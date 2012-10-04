@@ -21,10 +21,10 @@ rfenvirons = rfenvirons.split(" ")
 # Databag item for webserver hostname
 webName = data_bag_item("apache-server", "webhost")
 sslflag = webName['sslflag']
-if "sslflag" == "true" then
-  ssl = ".ssl"
+if "#{sslflag}" == "true"
+  do ssl = ".ssl"
 else
-  ssl = ""
+  do ssl = ""
 end
 
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
