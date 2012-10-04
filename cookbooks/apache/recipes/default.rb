@@ -76,6 +76,14 @@ template "/etc/httpd/conf.d/ssl.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
+template "/etc/httpd/conf.d/mod_security.conf" do
+  source "mod-security_rhel.conf"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
 template "/etc/httpd/modsecurity.d/activated_rules/body.conf" do
   source "modsecurity.body.conf.erb"
   owner  "root"
