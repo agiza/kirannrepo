@@ -99,22 +99,6 @@ template "/etc/named/altidev.com.db" do
   )
 end
 
-#hosts = search(:node, "*:*")
-#template "/etc/named/altidev.com.db.new" do
-#  source "altidev.com.db.new.erb"
-#  owner  "named"
-#  group  "named"
-#  mode   "0644"
-#  notifies :reload, resources(:service => "named")
-#  variables(
-#    :serial => zones['serial'],
-#    :altidev => hosts,
-#    :cname => zones['CNAME'].split("\\"),
-#    :dnsmaster => zones['dnsmaster'],
-#    :dnsslaves => zones['dnsslaves'].split("\\")
-#  )
-#end
-
 template "/etc/named/ascorp.com.db" do
   source "ascorp.com.db.erb"
   owner  "named"
@@ -164,14 +148,6 @@ template "/etc/named/rev.2.0.10.in-addr.arpa" do
     :rev2010 => zones['rev.2.0.10'].split("\\")
   )
 end
-
-#template "/etc/defaults/bind9" do
-#  source "bind9.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  notifies :restart, resources(:service => "named")
-#end
 
 service "named" do
   action [:enable, :start]

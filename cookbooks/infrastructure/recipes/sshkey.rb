@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: infrastructure
-# Recipe:: key
+# Recipe:: sshkey
 #
 # Copyright 2012, Altisource
 #
