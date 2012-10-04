@@ -18,6 +18,12 @@ rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.join(" ").split.u
 
 # Databag item for webserver hostname
 webName = data_bag_item("apache-server", "webhost")
+sslflag = webName['sslflag']
+if "sslflag" == "true" do
+  ssl = ".ssl"
+else
+  ssl = ""
+end
 
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rdenvirons.each do |environ|
@@ -35,7 +41,7 @@ rdenvirons.each do |environ|
     )
   end
   template "/etc/httpd/conf.d/rd-#{environ}.vhost.conf" do
-    source "rdvhost.conf.erb"
+    source "rdvhost#{ssl}.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"

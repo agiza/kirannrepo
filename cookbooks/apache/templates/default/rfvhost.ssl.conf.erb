@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@altidev.com
+    ServerName <%= @serverName %>
+    DocumentRoot "/var/www/html/<%= @vhostName %>"
+
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
+    Include proxy.d/rf-<%= @vhostName %>.proxy.conf
+
+</VirtualHost>

@@ -19,6 +19,12 @@ end
 
 # Databag item for webserver hostname
 webName = data_bag_item("apache-server", "webhost")
+sslflag = webName['sslflag']
+if "sslflag" == "true" do
+  ssl = ".ssl"
+else
+  ssl = ""
+end
 
 # Convert the hash list of environments into a string, unique values, then split
 rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
@@ -47,7 +53,7 @@ rtcenenvirons.each do |environ|
   end
 
   template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do
-    source "rtvhost.conf.erb"
+    source "rtvhost#{ssl}.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"

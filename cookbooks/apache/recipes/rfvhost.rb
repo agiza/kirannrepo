@@ -20,6 +20,13 @@ rfenvirons = rfenvirons.split(" ")
 
 # Databag item for webserver hostname
 webName = data_bag_item("apache-server", "webhost")
+sslflag = webName['sslflag']
+if "sslflag" == "true" do
+  ssl = ".ssl"
+else
+  ssl = ""
+end
+
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rfenvirons.each do |environ|
   rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
@@ -37,7 +44,7 @@ rfenvirons.each do |environ|
     )
   end
   template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
-    source "rfvhost.conf.erb"
+    source "rfvhost#{ssl}.conf.erb"
     owner  "root"
     group  "root"
     mode   "0644"
