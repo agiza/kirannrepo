@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: altisource
-# Recipe:: appdynamcis
+# Recipe:: appdynamics
 #
 # Copyright 2012, Altisource
 #
