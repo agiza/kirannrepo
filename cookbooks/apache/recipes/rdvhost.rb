@@ -25,6 +25,7 @@ when "true"
 when "false", "nil"
   ssl = ""
 end
+serveripallow = webName['serveripallow'].split("|")
 
 # Loop through list of environments to build workers and pass to the vhost/proxy templates
 rdenvirons.each do |environ|
@@ -38,7 +39,8 @@ rdenvirons.each do |environ|
     notifies :reload, resources(:service => "httpd")
     variables(
       :vhostRdWorkers => rdNames,
-      :environ => "#{environ}"
+      :environ => "#{environ}",
+      :serveripallow => serveripallow
     )
   end
   template "/etc/httpd/conf.d/rd-#{environ}.vhost.conf" do

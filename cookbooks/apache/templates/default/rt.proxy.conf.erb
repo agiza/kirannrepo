@@ -3,11 +3,10 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtcen-<%= @environ %>>
     Order allow,deny
-    Allow from 10.
-    Allow from 184.72.127.192
-    Allow from 65.214.21.1/24
-    Allow from 111.93.137.1/26
-    Allow from 127.0.0.0/255.0.0.0 ::1/128
+    <% @serveripallow.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+    
     <% @vhostCenWorkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>
@@ -17,11 +16,10 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtven-<%= @environ %>>
     Order allow,deny
-    Allow from 10.
-    Allow from 184.72.127.192
-    Allow from 65.214.21.1/24
-    Allow from 111.93.137.1/26
-    Allow from 127.0.0.0/255.0.0.0 ::1/128
+    <% @serveripallow.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
     <% @vhostVenWorkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>

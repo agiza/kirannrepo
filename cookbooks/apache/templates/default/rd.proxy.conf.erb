@@ -3,11 +3,10 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rd-<%= @environ %>>
     Order allow,deny
-    Allow from 10.
-    Allow from 184.72.127.192
-    Allow from 65.214.21.1/24
-    Allow from 111.93.137.1/26
-    Allow from 127.0.0.0/255.0.0.0 ::1/128
+    <% @serveripallow.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
     <% @vhostRdWorkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>

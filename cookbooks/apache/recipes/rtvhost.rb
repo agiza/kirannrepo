@@ -26,6 +26,7 @@ when "true"
 when "false", "nil"
   ssl = ""
 end
+serveripallow = webName['serveripallow'].split("|")
 
 # Convert the hash list of environments into a string, unique values, then split
 rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
@@ -49,7 +50,8 @@ rtcenenvirons.each do |environ|
       :vhostCenWorkers => cenNames,
       :vhostVenWorkers => venNames,
       :vhostName => "#{environ}",
-      :environ => "#{environ}"
+      :environ => "#{environ}",
+      :serveripallow => serveripallow
     )
   end
 
