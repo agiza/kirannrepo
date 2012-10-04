@@ -123,16 +123,14 @@ end
 #end
 
 sitesinclude = data_bag_item("apache-server", "webhost")
-if sitesinclude != nil then
-  sitesinclude = sitesinclude['serversites'].split("|")
-  sitesinclude.each do |site|
-    template "/etc/httpd/conf.d/#{site}.conf" do
-      source "#{site}.conf.erb"
-      owner  "root"
-      group  "root"
-      mode   "0644"
-      notifies :reload, resources(:service => "httpd")
-    end
+sitesinclude = sitesinclude['serversites'].split("|")
+sitesinclude.each do |site|
+  template "/etc/httpd/conf.d/#{site}.conf" do
+    source "#{site}.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    notifies :reload, resources(:service => "httpd")
   end
 end
 
