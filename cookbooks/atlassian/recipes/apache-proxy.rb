@@ -72,19 +72,19 @@ link "/etc/apache2/sites-enabled/bamboo-mod_proxy" do
   group "root"
 end
 
-template "/etc/apache2/sites-available/nexus-mod_proxy" do
-  source "nexus-mod_proxy.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :reload, resources(:service => "apache2")
-end
+#template "/etc/apache2/sites-available/nexus-mod_proxy" do
+#  source "nexus-mod_proxy.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0644"
+#  notifies :reload, resources(:service => "apache2")
+#end
 
-link "/etc/apache2/sites-enabled/nexus-mod_proxy" do
-  to "../sites-available/nexus-mod_proxy"
-  owner "root"
-  group "root"
-end
+#link "/etc/apache2/sites-enabled/nexus-mod_proxy" do
+#  to "../sites-available/nexus-mod_proxy"
+#  owner "root"
+#  group "root"
+#end
 
 template "/etc/apache2/sites-available/vpn-mod_proxy" do
   source "vpn-mod_proxy.erb"
