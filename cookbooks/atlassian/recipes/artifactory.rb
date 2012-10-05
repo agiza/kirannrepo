@@ -7,6 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
+package "haproxy" do
+  action :upgrade
+end
+
+service "haproxy" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :enable
+end
+
 template "/root/mount-storage.sh" do
   source "mount-storage-nexus.sh.erb"
   owner  "root"
@@ -39,6 +48,19 @@ template "/etc/artifactory/jetty.xml" do
   owner  "artifactory"
   group  "root"
   mode   "0755"
+end
+
+template "/etc/haproxy/haproxy.cfg" do
+  source "haproxy.cfg.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "haproxy")
+end
+
+service "haproxy" do
+  supports :start => true, :stop => true, :restart => true, :status => true
+  action :start
 end
 
 service "artifactory" do
