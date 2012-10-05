@@ -60,6 +60,6 @@ defaults
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
-listen webfarm <%=node[:ipaddress] %>:80
-server	WWW1	<%=node[:artifactory_server] %>:<%= node[:artifactory_port] %>	check
+listen httpd <%=node[:ipaddress] %>:80
+server	artifactory	<%=node[:artifactory_server] %>:<%= node[:artifactory_port] %>	check
 
