@@ -17,7 +17,7 @@ service "httpd" do
   action  :enable
 end
 
-template "/etc/httpd/conf.d/logs" do
+template "/etc/httpd/conf.d/logs.conf" do
   source "logs.erb"
   owner  "root"
   group  "root"
