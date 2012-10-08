@@ -12,6 +12,19 @@ package "httpd" do
   action :upgrade
 end
 
+template "/usr/local/bin/iptables-httpd.sh" do
+  source "iptables-httpd.sh.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+execute "iptables_httpd" do
+  command "/usr/local/bin/iptables-httpd.sh"
+  creates "/usr/local/bin/iptables-httpd.log"
+  action :run
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action  :enable

@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "`grep 'port 80 -' /etc/sysconfig/iptables`" == "" ]; then
+        iptables -I INPUT 5 -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+        iptables-save > /etc/sysconfig/iptables
+	touch /usr/local/bin/iptables-httpd.log
+fi
+
+
