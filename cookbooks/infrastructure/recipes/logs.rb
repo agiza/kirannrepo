@@ -18,7 +18,7 @@ service "httpd" do
 end
 
 template "/etc/httpd/conf.d/logs.conf" do
-  source "logs.erb"
+  source "logs.conf.erb"
   owner  "root"
   group  "root"
   mode   "0644"
