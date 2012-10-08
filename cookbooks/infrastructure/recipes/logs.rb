@@ -22,7 +22,7 @@ template "/etc/httpd/conf.d/logs" do
   owner  "root"
   group  "root"
   mode   "0644"
-  notifies :restart, resources(:service => "altitomcat")
+  notifies :restart, resources(:service => "httpd")
 end
 
 service "httpd" do
