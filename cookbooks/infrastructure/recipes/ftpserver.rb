@@ -25,12 +25,22 @@ template "/etc/vsftpd/vsftpd.conf" do
   notifies :restart, resources(:service => "vsftpd")
 end
 
-template "/etc/vsftpd.email_passwords" do
+template "/etc/vsftpd/email_passwords" do
   source "vsftpd.email_passwords.erb"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :restart, resources(:service => "vsftpd")
+end
+
+directory "/var/ftp/public/input" do
+  owner "ftp"
+  group "ftp"
+end
+
+directory "/var/ftp/public/output" do
+  owner "ftp"
+  group "ftp"
 end
 
 service "vsftpd" do
