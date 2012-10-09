@@ -27,9 +27,9 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-rtcenhost = {}
+l1cenhost = {}
 search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
+  l1cenhost[n.hostname] = {}
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
