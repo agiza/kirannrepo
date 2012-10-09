@@ -1,11 +1,13 @@
 #
-# Cookbook Name:: realtrans
-# Recipe:: l1-central
+# Cookbook Name:: ava
+# Recipe:: ava-vp
 #
-
-#include_recipe "java"
-app_name = "l1-central"
-app_version = node[:l1central_version]
+# Copyright 2012, Altisource
+#
+# All rights reserved - Do Not Redistribute
+#
+app_name = "ava-vp"
+app_version = node[:avavp_version]
 
 include_recipe "altisource::altitomcat"
 
@@ -27,17 +29,26 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-rtcenhost = {}
-search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
+rdochost = {}
+search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+  rdochost[n.hostname] = {}
 end
+avacenhost = {}
+search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
+  avacenhost[n.hostname] = {}
+end
+webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :l1_cen_host => "#{l1cenhost}")
   notifies :restart, resources(:service => "altitomcat")
+  variables(
+    :webHostname => webHost["ava#{node.chef_environment}"],
+    :realdoc_hostname => "#{rdochost}",
+    :ava_cen_host => "#{avacenhost}"
+  )
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
@@ -47,3 +58,4 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+
