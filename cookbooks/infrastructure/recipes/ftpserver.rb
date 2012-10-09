@@ -17,18 +17,6 @@ service "vsftpd" do
   action  :enable
 end
 
-group "rtftpuser" do
-  gid 1001
-end
-
-user  "rtftpuser" do
-  comment "RT FTP User"
-  uid "1001"
-  gid "rtftpuser"
-  home "/opt/tomcat/temp"
-  shell "/bin/bash"
-end
-
 template "/etc/vsftpd/vsftpd.conf" do
   source "vsftpd.conf.erb"
   owner  "root"
@@ -37,8 +25,8 @@ template "/etc/vsftpd/vsftpd.conf" do
   notifies :restart, resources(:service => "vsftpd")
 end
 
-template "/etc/vsftpd/ftpusers" do
-  source "ftpusers.erb"
+template "/etc/vsftpd.email_passwords" do
+  source "vsftpd.email_passwords.erb"
   owner  "root"
   group  "root"
   mode   "0644"
