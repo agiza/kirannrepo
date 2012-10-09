@@ -1,5 +1,8 @@
 rt.amqp.exchange.monitoring=rt.monitoring
-rt.amqp.exchange.outgoing=rt.core.internal
+rt.amqp.exchange.error=rt.core.deadmessage
+rt.amqp.exchange.outbound=rt.core.outgoing
+rt.amqp.queue.internal.inbound=rt.core.interapp.messages
+rt.amqp.queue.orders.response=rt.core.orders.response
 rt.amqp.host=<%= node[:amqp_host] %>
 rt.amqp.port=<%= node[:amqp_port] %>
 rt.amqp.username=<%= node[:rt_amqp_user] %>
@@ -12,29 +15,43 @@ rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 #vendor order app config related.
 rt.vendor.order.app.config.name=valuation
 rt.vendor.order.app.config.version=1.0
-rt.vendor.order.process.definition.key=VendorAssignmentMainProcess
+rt.vendor.order.process.definition.key=VendorOrderMainProcess
 
 #Vendor Certification app config related.
 rt.vendor.certification.app.config.name=certification
 rt.vendor.certification.app.config.version=1.0
 rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
 
-#Settings for realdoc integration
-rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
-rd.remote.defaultUsername=correspondence
-rd.remote.singleUserMode=true
+rt.vendor.valuation.facilitator.candidateGroup=FACILITATORS
+rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
+rt.vendor.exposure.cycle.profile.code=TEST
 
-rt.central.webServiceUrl=http://<%= @rt_cen_host %>:8080/realtrans-central/
+rt.central.webServiceUrl=http://<%= @ava_cen_host %>:8080/ava-central/
+
+# New property per Konstantin
+rt.amqp.queue.orders.create=rt.core.orders.create
+rt.amqp.exchange.avm.request=rt.avm.request
+rt.amqp.queue.avm.response=rt.avm.response
 
 rf.db.showSql=false
 rf.db.generateDdl=false
 rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
-rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-rp/WEB-INF/classes/templates
-rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/realtrans-vp/WEB-INF/classes/templates
-rf.tenantCode=<%= node[:tenantid] %>
+rf.documentService.baseTemplatePath=/opt/tomcat/webapps/ava-central/WEB-INF/classes/templates
+rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/ava-central/WEB-INF/classes/templates
 
-rf.multipartResolver.maxUploadSize=10485760
+rt.email.host=mail
+rt.email.port=25
+rt.email.userName=do_not_reply@altidev.com
+rt.email.password=password
+rt.email.smtp.auth=false
+rt.email.smtp.starttls.enable=false
+
+rt.email.from=<%= node[:mail_from] %>
+rt.email.recipients=ava@myprivacy.org
+rt.email.replyTo=<%= node[:mail_from] %>
+
+rt.daysToCloseOrders=90
 
 rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
 rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
@@ -44,13 +61,16 @@ rf.melissadata.defaultMaxConnectionsPerHost=1
 rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
 rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
 
+rf.multipartResolver.maxUploadSize=10485760
+
 rf.email.host=<%= node[:mailhost] %>
 rf.email.port=<%= node[:mailport] %>
 rf.email.username=none
 rf.email.password=none
 
-internalDomains=
+rf.tenantCode=TENANT1
 
+internalDomains=
 
 rf.ui.config.logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
@@ -79,10 +99,7 @@ rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.defaultPlugin=
 
-rf.app.context.path=<%= @webHostname %>/realtrans-rp
-
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
-
 

@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: realtrans
-# Recipe:: realtrans-rp
+# Recipe:: ava-vp
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "realtrans-rp"
-app_version = node[:realtransrp_version]
+app_name = "ava-vp"
+app_version = node[:avavp_version]
 
 include_recipe "altisource::altitomcat"
 
@@ -33,30 +33,29 @@ rdochost = {}
 search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
   rdochost[n.hostname] = {}
 end
-rtcenhost = {}
-search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
+avacenhost = {}
+search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
+  avacenhost[n.hostname] = {}
 end
-
-#rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")
-template "/opt/tomcat/conf/#{appname}.properties" do
-  source "#{appname}.properties.erb"
+template "/opt/tomcat/conf/#{app_name}.properties" do
+  source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
-    :webHostname => webHost["rt#{node.chef_environment}"],
+    :webHostname => webHost["ava#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}",
-    :rt_cen_host => "#{rtcenhost}"
+    :ava_cen_host => "#{avacenhost}"
   )
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/#{appname}.xml" do
-  source "#{appname}.xml.erb"
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+

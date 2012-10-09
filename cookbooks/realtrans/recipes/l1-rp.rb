@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: realtrans
-# Recipe:: realtrans-rp
+# Recipe:: l1-rp
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "realtrans-rp"
-app_version = node[:realtransrp_version]
+app_name = "l1-rp"
+app_version = node[:l1rp_version]
 
 include_recipe "altisource::altitomcat"
 
@@ -33,9 +33,9 @@ rdochost = {}
 search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
   rdochost[n.hostname] = {}
 end
-rtcenhost = {}
-search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
+l1cenhost = {}
+search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
+  l1cenhost[n.hostname] = {}
 end
 
 #rdochostname = rdochost[0]
@@ -49,7 +49,7 @@ template "/opt/tomcat/conf/#{appname}.properties" do
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}",
-    :rt_cen_host => "#{rtcenhost}"
+    :l1_cen_host => "#{l1cenhost}"
   )
 end
 
@@ -60,3 +60,4 @@ template "/opt/tomcat/conf/Catalina/localhost/#{appname}.xml" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+

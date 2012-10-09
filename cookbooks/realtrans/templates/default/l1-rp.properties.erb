@@ -2,9 +2,9 @@ rt.amqp.exchange.monitoring=rt.monitoring
 rt.amqp.exchange.outgoing=rt.core.internal
 rt.amqp.host=<%= node[:amqp_host] %>
 rt.amqp.port=<%= node[:amqp_port] %>
-rt.amqp.username=<%= node[:rt_amqp_user] %>
-rt.amqp.password=<%= node[:rt_amqp_pass] %>
-rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.amqp.username=<%= node[:l1_amqp_user] %>
+rt.amqp.password=<%= node[:l1_amqp_pass] %>
+rt.amqp.virtual-host=<%= node[:l1_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
@@ -24,13 +24,13 @@ rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
 rd.remote.defaultUsername=correspondence
 rd.remote.singleUserMode=true
 
-rt.central.webServiceUrl=http://<%= @rt_cen_host %>:8080/realtrans-central/
+rt.central.webServiceUrl=http://<%= @l1_cen_host %>:8080/l1-central/
 
 rf.db.showSql=false
 rf.db.generateDdl=false
 rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
-rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-rp/WEB-INF/classes/templates
+rf.documentService.baseTemplatePath=/opt/tomcat/webapps/l1-rp/WEB-INF/classes/templates
 rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/realtrans-vp/WEB-INF/classes/templates
 rf.tenantCode=<%= node[:tenantid] %>
 
@@ -71,7 +71,7 @@ rf.security.password.numericMinDefault=1
 rf.security.password.upperCaseMinDefault=1
 rf.security.passwordTokenExpiryMinsDefault=600
 
-rf.newUserTemplate=classpath:/rt_vrp_newUserTemplate.html
+rf.newUserTemplate=classpath:/l1_vrp_newUserTemplate.html
 rf.newUserSubject=Welcome!
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.passwordResetSubject=Password Reset
@@ -79,7 +79,7 @@ rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.defaultPlugin=
 
-rf.app.context.path=<%= @webHostname %>/realtrans-rp
+rf.app.context.path=<%= @webHostname %>/l1-rp
 
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
