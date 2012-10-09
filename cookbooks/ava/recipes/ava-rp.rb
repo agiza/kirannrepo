@@ -40,8 +40,8 @@ end
 
 #rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")
-template "/opt/tomcat/conf/#{appname}.properties" do
-  source "#{appname}.properties.erb"
+template "/opt/tomcat/conf/#{app_name}.properties" do
+  source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
@@ -53,8 +53,8 @@ template "/opt/tomcat/conf/#{appname}.properties" do
   )
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/#{appname}.xml" do
-  source "#{appname}.xml.erb"
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
