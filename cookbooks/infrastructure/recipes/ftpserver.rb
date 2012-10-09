@@ -33,12 +33,12 @@ template "/etc/vsftpd/email_passwords" do
   notifies :restart, resources(:service => "vsftpd")
 end
 
-directory "/var/ftp/public/input" do
+directory "/var/ftp/pub/input" do
   owner "ftp"
   group "ftp"
 end
 
-directory "/var/ftp/public/output" do
+directory "/var/ftp/pub/output" do
   owner "ftp"
   group "ftp"
 end
