@@ -12,11 +12,6 @@ search(:node, "role:l1-cen") do |n|
   l1cenenvirons[n.chef_environment] = {}
 end
 
-l1venenvirons = {}
-search(:node, "role:l1-ven") do |n|
-  l1venenvirons[n.chef_environment] = {}
-end
-
 unless l1cenenvirons == "nil"
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
@@ -32,15 +27,10 @@ unless l1cenenvirons == "nil"
   # Convert the hash list of environments into a string, unique values, then split
   l1cenenvirons = l1cenenvirons.collect { |l1cenenviron| "#{l1cenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
-  # Convert the hash list of environments into a string, unique values, then split
-  l1venenvirons = l1venenvirons.collect { |l1venenviron| "#{l1venenviron}" }.join(" ").split.uniq.join(" ").split(" ")
-
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1cenenvirons.each do |environ|
     cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
-    #venNames = search(:node, "role:l1-ven AND chef_environment:#{environ}")
     cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-    #venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"
@@ -49,7 +39,6 @@ unless l1cenenvirons == "nil"
       notifies :reload, resources(:service => "httpd")
       variables(
         :vhostCenWorkers => cenNames,
-        #:vhostVenWorkers => venNames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
