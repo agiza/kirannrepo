@@ -28,48 +28,52 @@ when "false", "nil"
 end
 serveripallow = webName['serveripallow'].split("|")
 
-# Convert the hash list of environments into a string, unique values, then split
-rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+if rtcenenvirons != "nil"
+  
+else
+  # Convert the hash list of environments into a string, unique values, then split
+  rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  
+  # Convert the hash list of environments into a string, unique values, then split
+  rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  
+  # Loop through list of environments to build workers and pass to the vhost/proxy templates
+  rtcenenvirons.each do |environ|
+    cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+    venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
+    cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
+      source "rt.proxy.conf.erb"
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      notifies :reload, resources(:service => "httpd")
+      variables(
+        :vhostCenWorkers => cenNames,
+        :vhostVenWorkers => venNames,
+        :vhostName => "#{environ}",
+        :environ => "#{environ}",
+        :serveripallow => serveripallow
+      )
+    end
 
-# Convert the hash list of environments into a string, unique values, then split
-rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+    template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do
+      source "rtvhost#{ssl}.conf.erb"
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      notifies :reload, resources(:service => "httpd")
+      variables(
+        :vhostName => "#{environ}",
+        :serverName => webName["rt#{environ}"]
+      )
+    end
 
-# Loop through list of environments to build workers and pass to the vhost/proxy templates
-rtcenenvirons.each do |environ|
-  cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-  venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
-  cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-  venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-  template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
-    source "rt.proxy.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    variables(
-      :vhostCenWorkers => cenNames,
-      :vhostVenWorkers => venNames,
-      :vhostName => "#{environ}",
-      :environ => "#{environ}",
-      :serveripallow => serveripallow
-    )
-  end
-
-  template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do
-    source "rtvhost#{ssl}.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
-    variables(
-      :vhostName => "#{environ}",
-      :serverName => webName["rt#{environ}"]
-    )
-  end
-
-  directory "/var/www/html/#{environ}" do
-    owner "root"
-    group "root"
+    directory "/var/www/html/#{environ}" do
+      owner "root"
+      group "root"
+    end
   end
 end
 
