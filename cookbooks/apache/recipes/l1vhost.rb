@@ -34,7 +34,7 @@ l1cenenvirons = l1cenenvirons.collect { |l1cenenviron| "#{l1cenenviron}" }.join(
 # Convert the hash list of environments into a string, unique values, then split
 l1venenvirons = l1venenvirons.collect { |l1venenviron| "#{l1venenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
-if l1cenenvirons?(nil)
+if l1cenenvirons != "nil"
   
 else 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
