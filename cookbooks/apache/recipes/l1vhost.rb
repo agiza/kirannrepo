@@ -35,7 +35,7 @@ l1cenenvirons = l1cenenvirons.collect { |l1cenenviron| "#{l1cenenviron}" }.join(
 l1venenvirons = l1venenvirons.collect { |l1venenviron| "#{l1venenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
 if l1cenenvirons == "nil"
-  
+  l1cenenvirons = "" 
 else 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1cenenvirons.each do |environ|
