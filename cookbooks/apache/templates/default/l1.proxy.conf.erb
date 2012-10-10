@@ -14,17 +14,17 @@ ProxyPreserveHost         On
 </Proxy>
 
 
-<Proxy balancer://l1ven-<%= @environ %>>
-    Order allow,deny
-    <% @serveripallow.each do |ip| -%>
-    Allow from <%= ip %>
-    <% end -%>
-
-    <% @vhostVenWorkers.each do |a| -%>
-    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
-    <% end -%>
-    ProxySet stickysession=JSESSIONID
-</Proxy>
+#<Proxy balancer://l1ven-<%= @environ %>>
+#    Order allow,deny
+#    <% @serveripallow.each do |ip| -%>
+#    Allow from <%= ip %>
+#    <% end -%>
+#
+#    <% @vhostVenWorkers.each do |a| -%>
+#    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
+#    <% end -%>
+#    ProxySet stickysession=JSESSIONID
+#</Proxy>
 
 <Location /l1-rp>
 <LimitExcept POST GET>
@@ -41,24 +41,24 @@ ProxyPass               balancer://l1cen-<%= @environ %>/l1-rp stickysession=JSE
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://rtcen-<%= @environ %>/l1-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://l1cen-<%= @environ %>/l1-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
-<Location /l1-vp>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtven-<%= @environ %>/l1-vp stickysession=JSESSIONID|jsessionid
-</Location>
-
-<Location /l1-reg>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtven-<%= @environ %>/l1-reg stickysession=JSESSIONID|jsessionid
-</Location>
-
+#<Location /l1-vp>
+#<LimitExcept POST GET>
+#  Order allow,deny
+#  Deny from all
+#</LimitExcept>
+#
+#ProxyPass               balancer://l1ven-<%= @environ %>/l1-vp stickysession=JSESSIONID|jsessionid
+#</Location>
+#
+#<Location /l1-reg>
+#<LimitExcept POST GET>
+#  Order allow,deny
+#  Deny from all
+#</LimitExcept>
+#
+#ProxyPass               balancer://l1ven-<%= @environ %>/l1-reg stickysession=JSESSIONID|jsessionid
+#</Location>
+#
