@@ -29,43 +29,39 @@ when "false", "nil"
 end
 serveripallow = webName['serveripallow'].split("|")
 
-if rfenvirons == "nil"
-  
-else
-  # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  rfenvirons.each do |environ|
-    rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
-    rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-    rfNames = rfNames.gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-    template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
-      source "rf.proxy.conf.erb"
-      owner "root"
-      group  "root"
-      mode   "0644"
-      notifies :reload, resources(:service => "httpd")
-      variables(
-        :vhostRfWorkers => rfNames,
-        :environ => "#{environ}",
-        :serveripallow => serveripallow
-      )
-    end
-    template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
-      source "rfvhost#{ssl}.conf.erb"
-      owner  "root"
-      group  "root"
-      mode   "0644"
-      notifies :reload, resources(:service => "httpd")
-      variables(
-        :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
-        :serverName => webName["rf#{environ}"]
-      )
-    end
-
-    directory "/var/www/html/#{environ}" do
-      owner "root"
-      group "root"
-    end
+# Loop through list of environments to build workers and pass to the vhost/proxy templates
+rfenvirons.each do |environ|
+  rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
+  rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
+  rfNames = rfNames.gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+  template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
+    source "rf.proxy.conf.erb"
+    owner "root"
+    group  "root"
+    mode   "0644"
+    notifies :reload, resources(:service => "httpd")
+    variables(
+      :vhostRfWorkers => rfNames,
+      :environ => "#{environ}",
+      :serveripallow => serveripallow
+    )
+  end
+  template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
+    source "rfvhost#{ssl}.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    notifies :reload, resources(:service => "httpd")
+    variables(
+      :vhostName => "#{environ}",
+      :testvhostName => webName["rf#{environ}"],
+      :serverName => webName["rf#{environ}"]
+    )
+  end
+   directory "/var/www/html/#{environ}" do
+    owner "root"
+    group "root"
   end
 end
+
 
