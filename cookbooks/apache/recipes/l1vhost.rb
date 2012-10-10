@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-# Create a hash of all environments with realtrans installed
+# Create a hash of all environments with lendersone installed
 l1cenenvirons = {}
 search(:node, "role:l1-cen") do |n|
   l1cenenvirons[n.chef_environment] = {}

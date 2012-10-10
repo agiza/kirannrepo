@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: realfoundationapp
+# Cookbook Name:: realfoundation
 # Recipe:: default
 #
 # Copyright 2012, Altisource

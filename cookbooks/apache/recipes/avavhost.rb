@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-# Create a hash of all environments with realtrans installed
+# Create a hash of all environments with ava installed
 avacenenvirons = {}
 search(:node, "role:ava-cen") do |n|
   avacenenvirons[n.chef_environment] = {}
