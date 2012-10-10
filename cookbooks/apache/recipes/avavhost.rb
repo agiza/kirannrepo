@@ -34,7 +34,7 @@ avacenenvirons = avacenenvirons.collect { |avacenenviron| "#{avacenenviron}" }.j
 # Convert the hash list of environments into a string, unique values, then split
 avavenenvirons = avavenenvirons.collect { |avavenenviron| "#{avavenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
-if @avacenenvirons?(nil)
+if avacenenvirons != "nil"
   
 else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
