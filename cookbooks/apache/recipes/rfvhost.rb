@@ -29,7 +29,7 @@ when "false", "nil"
 end
 serveripallow = webName['serveripallow'].split("|")
 
-if rfenvirons != "nil"
+if rfenvirons == "nil"
   
 else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates

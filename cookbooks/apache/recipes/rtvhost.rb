@@ -28,7 +28,7 @@ when "false", "nil"
 end
 serveripallow = webName['serveripallow'].split("|")
 
-if rtcenenvirons != "nil"
+if rtcenenvirons == "nil"
   
 else
   # Convert the hash list of environments into a string, unique values, then split
