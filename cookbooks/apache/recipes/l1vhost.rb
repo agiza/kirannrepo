@@ -34,8 +34,9 @@ l1cenenvirons = l1cenenvirons.collect { |l1cenenviron| "#{l1cenenviron}" }.join(
 # Convert the hash list of environments into a string, unique values, then split
 l1venenvirons = l1venenvirons.collect { |l1venenviron| "#{l1venenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
-unless l1cenenvirons == ""
-  do  
+if l1cenenvirons?(nil)
+  
+else 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1cenenvirons.each do |environ|
     cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
