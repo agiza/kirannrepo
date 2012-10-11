@@ -44,6 +44,11 @@ template "/etc/mongod.conf" do
   notifies :reload, resources(:service => "mongod")
 end
 
+execute "mongod-seed" do
+  command "/etc/mongo/mongod-seed.sh"
+  action :nothing
+end
+
 mongodbnames = data_bag_item("mongodb", "names")
 template "/etc/mongo/mongod-seed.sh" do
   source "mongod-seed.sh.erb"
@@ -52,11 +57,6 @@ template "/etc/mongo/mongod-seed.sh" do
   mode   "0755"
   notifies :run, resources(:execute => "mongod-seed")
   variables( :mongodb_names => mongodbnames["dbnames"] )
-end
-
-execute "mongod-seed" do
-  command "/etc/mongo/mongod-seed.sh"
-  action :nothing
 end
 
 template "/etc/mongo/seedData.js" do
