@@ -16,6 +16,11 @@ package "mongo-10gen-server" do
   action :upgrade
 end
 
+directory "/data" do
+  owner "mongod"
+  group "mongod"
+end
+
 directory "/data/db" do
   owner "mongod"
   group "mongod"
