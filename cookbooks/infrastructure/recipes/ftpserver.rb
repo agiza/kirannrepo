@@ -43,6 +43,15 @@ directory "/var/ftp/pub/output" do
   group "ftp"
 end
 
+targetdirs = data_bag_item("infrastructure", "applications")
+targetdirs = targetdirs['ftptarget'].collect { |ftptarget| "#{ftptarget}" }.join(" ").split.uniq.join(" ").split(" ")
+targetdirs.each do |target|
+  directory "/var/ftp/pub/input/#{target}" do
+    owner "ftp"
+    group "ftp"
+  end
+end
+   
 service "vsftpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :start
