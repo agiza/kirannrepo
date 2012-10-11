@@ -40,8 +40,8 @@ rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
 rf.documentService.baseTemplatePath=/opt/tomcat/webapps/l1-central/WEB-INF/classes/templates
 rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/l1-central/WEB-INF/classes/templates
 
-rt.email.host=mail
-rt.email.port=25
+rt.email.host=<%= node[:mailhost] %>
+rt.email.port=<%= node[:mailport] %>
 rt.email.userName=do_not_reply@altidev.com
 rt.email.password=password
 rt.email.smtp.auth=false
