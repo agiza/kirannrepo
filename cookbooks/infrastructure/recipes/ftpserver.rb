@@ -45,15 +45,15 @@ targetdirs.each do |target|
     owner "ftp"
     group "ftp"
   end
-    directory "/var/ftp/pub/#{target}/input" do
+  directory "/var/ftp/pub/#{target}/input" do
     owner "ftp"
     group "ftp"
   end
-  directory "/var/ftp/pub/archive/#{target}/archive" do
+  directory "/var/ftp/pub/#{target}/archive" do
     owner "ftp"
     group "ftp"
   end
-  directory "/var/ftp/pub/error/#{target}/error" do
+  directory "/var/ftp/pub/#{target}/error" do
     owner "ftp"
     group "ftp"
   end
