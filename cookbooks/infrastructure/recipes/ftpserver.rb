@@ -33,22 +33,7 @@ template "/etc/vsftpd/email_passwords" do
   notifies :restart, resources(:service => "vsftpd")
 end
 
-directory "/var/ftp/pub/input" do
-  owner "ftp"
-  group "ftp"
-end
-
-directory "/var/ftp/pub/output" do
-  owner "ftp"
-  group "ftp"
-end
-
-directory "/var/ftp/pub/archive" do
-  owner "ftp"
-  group "ftp"
-end
-
-directory "/var/ftp/pub/error" do
+directory "/var/ftp/pub" do
   owner "ftp"
   group "ftp"
 end
@@ -56,19 +41,19 @@ end
 targetdirs = data_bag_item("infrastructure", "applications")
 targetdirs = targetdirs['ftptarget'].collect { |ftptarget| "#{ftptarget}" }.join(" ").split.uniq.join(" ").split(" ")
 targetdirs.each do |target|
-  directory "/var/ftp/pub/input/#{target}" do
+  directory "/var/ftp/pub/#{target}" do
     owner "ftp"
     group "ftp"
   end
-    directory "/var/ftp/pub/output/#{target}" do
+    directory "/var/ftp/pub/#{target}/input" do
     owner "ftp"
     group "ftp"
   end
-  directory "/var/ftp/pub/archive/#{target}" do
+  directory "/var/ftp/pub/archive/#{target}/archive" do
     owner "ftp"
     group "ftp"
   end
-  directory "/var/ftp/pub/error/#{target}" do
+  directory "/var/ftp/pub/error/#{target}/error" do
     owner "ftp"
     group "ftp"
   end
