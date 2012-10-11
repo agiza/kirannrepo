@@ -43,10 +43,32 @@ directory "/var/ftp/pub/output" do
   group "ftp"
 end
 
+directory "/var/ftp/pub/archive" do
+  owner "ftp"
+  group "ftp"
+end
+
+directory "/var/ftp/pub/error" do
+  owner "ftp"
+  group "ftp"
+end
+
 targetdirs = data_bag_item("infrastructure", "applications")
 targetdirs = targetdirs['ftptarget'].collect { |ftptarget| "#{ftptarget}" }.join(" ").split.uniq.join(" ").split(" ")
 targetdirs.each do |target|
   directory "/var/ftp/pub/input/#{target}" do
+    owner "ftp"
+    group "ftp"
+  end
+    directory "/var/ftp/pub/output/#{target}" do
+    owner "ftp"
+    group "ftp"
+  end
+  directory "/var/ftp/pub/archive/#{target}" do
+    owner "ftp"
+    group "ftp"
+  end
+  directory "/var/ftp/pub/error/#{target}" do
     owner "ftp"
     group "ftp"
   end
