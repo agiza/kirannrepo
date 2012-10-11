@@ -3,12 +3,12 @@ rres.ftp.port=<%= node[:rres_ftp_port] %>
 rres.ftp.user=<%= node[:rres_ftp_user] %>
 rres.ftp.pwd=<%= node[:rres_ftp_pass] %>
 rres.filename.pattern=*.xml
-rres.remote.in.directory=/input/<%= node[:chef_environment] %>
+rres.remote.in.directory=/<%= node[:chef_environment] %>/input
 rres.local.directory=/tmp
 rres.ftp.poller.delay=120000
 
-rres.remote.archive.directory=/archive/<%= node[:chef_environment] %>
-rres.remote.error.directory=/error/<%= node[:chef_environment] %>
+rres.remote.archive.directory=/<%= node[:chef_environment] %>/archive
+rres.remote.error.directory=/<%= node[:chef_environment] %>/error
 
 monitoring.taskExecutor.poolSize=10
 
