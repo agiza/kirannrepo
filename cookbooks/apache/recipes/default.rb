@@ -60,6 +60,15 @@ template "/etc/httpd/conf/httpd.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
+template "/etc/httpd/conf.d/pagespeed.conf" do
+  source "pagespeed.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :reload, resources(:service => "httpd")
+end
+
+
 # Look up ssl server name from data bag.
 servername = data_bag_item("apache-server", "webhost")
 servername = servername['servername'].split(",")
@@ -89,15 +98,6 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-#template "/etc/httpd/proxy.d/#{servername[0]}.conf" do
-#  source "#{servername[0]}.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  variables( :proxyname => "#{servername[1]}" )
-#  notifies :reload, resources(:service => "httpd")
-#end
-
 template "/etc/pki/tls/certs/#{servername[0]}.crt" do
   source "#{servername[0]}.crt.erb"
   owner  "root"
@@ -113,18 +113,6 @@ template "/etc/pki/tls/private/#{servername[0]}.key" do
   mode   "0640"
   notifies :reload, resources(:service => "httpd")
 end
-
-#template "/etc/httpd/conf.d/#{servername[0]}-vhost.conf" do
-#  source "#{servername[0]}-vhost.conf.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0644"
-#  variables( 
-#    :servername => "#{servername[0]}",
-#    :proxyname => "#{servername[1]}"
-#  )
-#  notifies :reload, resources(:service => "httpd")
-#end
 
 sitesinclude = data_bag_item("apache-server", "webhost")
 sitesinclude = sitesinclude['serversites'].split("|")
