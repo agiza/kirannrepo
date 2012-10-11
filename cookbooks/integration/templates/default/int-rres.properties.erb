@@ -1,0 +1,48 @@
+rres.ftp.host=<%= node[:rres_ftp_host] %>
+rres.ftp.port=<%= node[:rres_ftp_port] %>
+rres.ftp.user=<%= node[:rres_ftp_user] %>
+rres.ftp.pwd=<%= node[:rres_ftp_pass] %>
+rres.filename.pattern=*.xml
+rres.remote.in.directory=/input/<%= node[:chef_environment] %>
+rres.local.directory=/tmp
+rres.ftp.poller.delay=120000
+
+rres.remote.archive.directory=/archive/<%= node[:chef_environment] %>
+rres.remote.error.directory=/error/<%= node[:chef_environment] %>
+
+monitoring.taskExecutor.poolSize=10
+
+amqp.username=<%= node[:rt_amqp_user] %>
+amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.host=<%= node[:amqp_host] %>
+amqp.port=<%= node[:amqp_port] %>
+amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+
+amqp.exchange.messages.inbound=rt.core.incoming
+amqp.queue.inbound=realresolution.order.response
+amqp.rt.core.deadmessage=rt.core.deadmessage
+amqp.exchange.monitoring=rt.monitoring
+
+monitoring.vendorOutboundChannel=
+monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
+monitoring.realtransOutboundChannel=avaOrderResponseChannel
+monitoring.vendorInboundChannel=
+
+monitoring.realtrans.inbound.source=Trans-Central
+monitoring.realtrans.inbound.target=Int-RealResolution
+
+monitoring.vendor.outbound.source=Int-RealResolution
+monitoring.vendor.outbound.target=RealResolution
+
+#No communication from RealServicing to our integration
+monitoring.vendor.inbound.source=RealResolution
+monitoring.vendor.inbound.target=Int-RealResolution
+
+monitoring.realtrans.outbound.source=Trans-Central
+monitoring.realtrans.outbound.target=Int-RealResolution
+
+
+rt.int.monitoring.taskExecutor.poolSize=10
+rt.int.schema.path=/ava/schemas/
+rt.int.json.schema=realServicing.json
+rt.int.header.schema=realServicingHeader.json
