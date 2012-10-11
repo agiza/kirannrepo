@@ -33,7 +33,7 @@ yum_package "mod_limitipconn" do
   action :upgrade
 end
 
-yum_package "mod-pagespeed-stable_current" do
+yum_package "mod-pagespeed" do
   action :upgrade
 end
 
