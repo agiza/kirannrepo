@@ -34,7 +34,7 @@ template "/etc/vsftpd/email_passwords" do
 end
 
 directory "/var/ftp/pub" do
-  owner "ftp"
+  owner "root"
   group "ftp"
 end
 
