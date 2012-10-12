@@ -39,8 +39,8 @@ realdoc_queue = data_bag_item("rabbitmq", "realdoc")
 realservice_queue = data_bag_item("rabbitmq", "realservice")
 vhost_names = []
 vhost_names << realtrans_queue['vhosts']
-vhost_names = vhost_names + [realdoc_queue['vhosts']]
-vhost_names = vhost_names + [realservice_queue['vhosts']]
+vhost_names << realdoc_queue['vhosts']
+vhost_names << realservice_queue['vhosts']
 
 #Pull cookie value from databag
 cookie = data_bag_item("rabbitmq", "rabbitmq")
