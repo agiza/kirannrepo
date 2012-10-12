@@ -27,7 +27,15 @@ else
   end
   l1cenhost = l1cenhost.first
 end
-
+if node.attribute?('ampqproxy')
+  ampqhost = node[:ampqproxy]
+else
+  ampqhost = {}
+  search(:node, "role:rabbitserver") do |n|
+    ampqhost[n.hostname] = {}
+  end
+  ampqhost = ampqhost.first
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -52,7 +60,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :l1_cen_host => "#{l1cenhost}")
+  variables( :l1_cen_host => "#{l1cenhost}",
+             :ampqhost => "#{ampqhost}"
+           )
   notifies :restart, resources(:service => "altitomcat")
 end
 

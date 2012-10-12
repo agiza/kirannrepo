@@ -29,6 +29,15 @@ else
   end
   l1cenhost = l1cenhost.first
 end
+if node.attribute?('ampqproxy')
+  ampqhost = node[:ampqproxy]
+else
+  ampqhost = {}
+  search(:node, "role:rabbitserver") do |n|
+    ampqhost[n.hostname] = {}
+  end
+  ampqhost = ampqhost.first
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -58,7 +67,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   variables(
     :webHostname => webHost["l1#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}",
-    :l1_cen_host => "#{l1cenhost}"
+    :l1_cen_host => "#{l1cenhost}",
+    :ampqhost => "#{ampqhost}"
   )
 end
 
