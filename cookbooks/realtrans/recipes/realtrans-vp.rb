@@ -14,15 +14,8 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy]
 else
   rdochost = {}
-  case node.chef_environment
-  when "Intdev"
-    search(:node, "role:realdoc AND chef_environment:Dev") do |n|
+  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.hostname] = {}
-    end
-  else
-    search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.hostname] = {}
-    end
   end
   rdochost = rdochost.first
 end
