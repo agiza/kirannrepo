@@ -1,12 +1,12 @@
 #
 # Cookbook Name:: integration
-# Recipe:: int-rres
+# Recipe:: int-realresolution
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "int-rres"
+app_name = "int-realresolution"
 app_version = node[:intrres_version]
 
 include_recipe "altisource::altitomcat"
