@@ -14,7 +14,7 @@ monitoring.taskExecutor.poolSize=10
 
 amqp.username=<%= node[:rt_amqp_user] %>
 amqp.password=<%= node[:rt_amqp_pass] %>
-amqp.host=<%= node[:amqp_host] %>
+amqp.host=<%= @amqphost %>
 amqp.port=<%= node[:amqp_port] %>
 amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
