@@ -8,6 +8,6 @@
 #
 
 package "appdynamic-agent" do
-  :upgrade
+  action :upgrade
 end
 

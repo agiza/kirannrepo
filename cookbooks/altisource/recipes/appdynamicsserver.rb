@@ -8,7 +8,7 @@
 #
 
 package "libaio" do
-  :upgrade
+  action :upgrade
 end
 
 group "appdynamics" do
