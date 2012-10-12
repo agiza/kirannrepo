@@ -8,7 +8,7 @@ include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
 appdynhost = {}
-search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
+search(:node, "role:appdynamics-server") do |n|
 appdynhost[n.hostname] = {}
 end
 appdynhost = appdynhost.first
