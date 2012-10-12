@@ -1,0 +1,64 @@
+#!/bin/bash
+vhosts="<%= @vhost_names %>"
+html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
+
+host=`hostname -s`
+
+# Set variables for admin account
+admin_user="admin"
+admin_pass="5P3cial"
+
+/etc/rabbitmq/rabbitmqadmin -u admin -p 5P3cial list users > /dev/null
+admin_check=$?
+if [ "$admin_check" -lt "1" ]; then
+
+# Add all queue names here
+queue_names="<%= @queue_names %>"
+
+# Add all exchange names here
+exchanges="<%= @exchange_names %>"
+
+# Add all binding elements here
+bindings="<%= @binding_names %>"
+
+# Move to working directory
+cd /etc/rabbitmq/
+
+# Loop to add each queue with mirror turned on.
+for vhost in `echo "$html_vhosts"`; do
+  for queue in `echo "$queue_names"`; do
+    check=`echo $vhost `
+    if [ "$check" != "" ]; then
+       echo "Create $queue on $vhost..."
+       curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" http://$host:55672/api/queues/%2f$vhost/$queue
+    fi
+  done
+done
+
+# Use the standard python script to add all other elements and bindings
+for i in `echo "$vhosts"`; do
+  check=`echo $vhost`
+    if [ "$check" != "" ]; then
+      for h in `echo "$exchanges"`; do
+      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare exchange name=$h auto_delete=false durable=true type=topic
+      done
+      # Binding elements
+       for j in `echo "$bindings"`; do
+         source=`echo $j | cut -d "|" -f1`
+         type=`echo $j | cut -d "|" -f2`
+         dest=`echo $j | cut -d "|" -f3`
+         key=`echo $j | cut -d "|" -f4`
+         /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$i" -u $admin_user -p $admin_pass declare binding source=$source destination_type=$type destination=$dest routing_key=$key
+       done
+
+    # Monitoring queues and exchanges
+
+    fi
+done
+
+echo "Done."
+
+else
+	echo "Admin accounts not working, something is wrong."; exit 1
+fi
+

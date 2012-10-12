@@ -72,6 +72,12 @@ if node.attribute?('rabbitmq-master')
     action :nothing
     environment ({'HOME' => '/etc/rabbitmq'})
   end
+  
+  execute "realservice-config" do
+    command "/etc/rabbitmq/realservice-rabbit.sh"
+    action :nothing
+    environment ({'HOME' => '/etc/rabbitmq'})
+  end
 
   template "/etc/rabbitmq/rabbit-common.sh" do
     source "rabbit_common.erb"
@@ -112,6 +118,21 @@ if node.attribute?('rabbitmq-master')
     )
     notifies :run, 'execute[realdoc-config]', :immediately
   end
+
+  template "/etc/rabbitmq/realservice-rabbit.sh" do
+    source "realservice_rabbit.erb"
+    group "root"
+    owner "root"
+    mode "0755"
+    variables(
+      :queue_names => realservice_queue['queues'],
+      :exchange_names => realservice_queue['exchange'],
+      :binding_names => realservice_queue['binding'],
+      :vhost_names => realservice_queue['vhosts']
+    )
+    notifies :run, 'execute[realservice-config]', :immediately
+  end
+
 else
   template "/etc/rabbitmq/rabbit-guest.sh" do
     source "rabbit_guest.erb"
