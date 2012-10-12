@@ -7,13 +7,14 @@
 include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
-appdynhost = {}
-search(:node, "role:appdynamics-server") do |n|
-appdynhost[n.hostname] = {}
-end
-appdynhost = appdynhost.first
-
-unless appdynhost == "nil"
+unless node.attribute?(appdyn_forbid)
+  include_recipe "altisource::appdynamics"
+  appdynhost = {}
+  search(:node, "role:appdynamics-server") do |n|
+  appdynhost[n.hostname] = {}
+  end
+  appdynhost = appdynhost.first
+  appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
 end
 
@@ -31,7 +32,7 @@ template "/opt/tomcat/bin/catalina.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
-  variables(:appdynhost => "#{appdynhost}",
+  variables(:appdynstring => "#{appdynstring}",
             :appdynagent => "#{appdynagent}"
            )
   notifies :restart, resources(:service => "altitomcat"), :delayed
