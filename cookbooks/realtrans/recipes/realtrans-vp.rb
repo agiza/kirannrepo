@@ -10,6 +10,7 @@ app_name = "realtrans-vp"
 app_version = node[:realtransvp_version]
 
 include_recipe "altisource::altitomcat"
+include_recipe "realtrans::default"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -28,22 +29,7 @@ yum_package "#{app_name}" do
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
-rdochost = {}
-case node.chef_environment
-when "Intdev"
-  search(:node, "role:realdoc AND chef_environment:Dev") do |n|
-  rdochost[n.hostname] = {}
-  end
-else
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-  rdochost[n.hostname] = {}
-  end
-end
 
-rtcenhost = {}
-search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
-end
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"

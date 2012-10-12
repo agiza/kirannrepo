@@ -8,6 +8,7 @@ app_name = "realtrans-central"
 app_version = node[:realtranscentral_version]
 
 include_recipe "altisource::altitomcat"
+include_recipe "realtrans::default"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -27,10 +28,6 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-rtcenhost = {}
-search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
-end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
