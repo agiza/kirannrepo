@@ -18,7 +18,7 @@ service "haproxy" do
 end
 
 clusternodes = {}
-search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+search(:node, "role:rabbitserver") do |n|
   clusternodes[n.hostname] = {}
 end
 
