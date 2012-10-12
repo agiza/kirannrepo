@@ -7,7 +7,7 @@
 include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
-unless node.attribute?(appdyn_forbid)
+unless node.attribute?('appdyn_forbid')
   include_recipe "altisource::appdynamics"
   appdynhost = {}
   search(:node, "role:appdynamics-server") do |n|

@@ -9,23 +9,31 @@ app_version = node[:realtranscentral_version]
 
 include_recipe "altisource::altitomcat"
 
-rdochost = {}
-case node.chef_environment
-when "Intdev"
-  search(:node, "role:realdoc AND chef_environment:Dev") do |n|
-  rdochost[n.hostname] = {}
-  end
+if node.attribute?('realdocproxy')
+  rdochost = node[:realdocproxy]
 else
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-  rdochost[n.hostname] = {}
+  rdochost = {}
+  case node.chef_environment
+  when "Intdev"
+    search(:node, "role:realdoc AND chef_environment:Dev") do |n|
+    rdochost[n.hostname] = {}
+    end
+  else
+    search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+    rdochost[n.hostname] = {}
+    end
   end
+  rdochost = rdochost.first
 end
-rdochost = rdochost.first
-rtcenhost = {}
-search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-  rtcenhost[n.hostname] = {}
+if node.attribute?('rtcenproxy')
+  rtcenhost = node[:rtcenproxy]
+else
+  rtcenhost = {}
+  search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
+    rtcenhost[n.hostname] = {}
+  end
+  rtcenhost = rtcenhost.first
 end
-rtcenhost = rtcenhost.first
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
