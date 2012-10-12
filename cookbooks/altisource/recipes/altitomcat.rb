@@ -13,6 +13,10 @@ appdynhost[n.hostname] = {}
 end
 appdynhost = appdynhost.first
 
+unless appdynhost == "nil"
+  appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
+end
+
 package "#{app_name}" do
   action :upgrade
 end
@@ -27,7 +31,9 @@ template "/opt/tomcat/bin/catalina.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
-  variables(:appdynhost => "#{appdynhost}")
+  variables(:appdynhost => "#{appdynhost}",
+            :appdynagent => "#{appdynagent}"
+           )
   notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
