@@ -33,10 +33,12 @@ rdochost = {}
 search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
   rdochost[n.hostname] = {}
 end
+rdochost = rdochost[0]
 l1cenhost = {}
 search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
   l1cenhost[n.hostname] = {}
 end
+l1cenhost = l1cenhost[0]
 
 #rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")

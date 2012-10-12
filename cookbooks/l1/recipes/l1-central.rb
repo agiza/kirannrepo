@@ -31,6 +31,7 @@ l1cenhost = {}
 search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
   l1cenhost[n.hostname] = {}
 end
+l1cenhost = l1cenhost[0]
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
