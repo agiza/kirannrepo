@@ -27,6 +27,15 @@ else
   end
   avacenhost = avacenhost.first
 end
+if node.attribute?('ampqproxy')
+  ampqhost = node[:ampqproxy]
+else
+  ampqhost = {}
+  search(:node, "role:rabbitserver") do |n|
+    ampqhost[n.hostname] = {}
+  end
+  ampqhost = ampqhost.first
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -51,7 +60,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :ava_cen_host => "#{avacenhost}")
+  variables( :ava_cen_host => "#{avacenhost}",
+             :ampqhost => "#{ampqhost}"
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
