@@ -7,6 +7,12 @@
 include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
+appdynhost = {}
+search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
+appdynhost[n.hostname] = {}
+end
+appdynhost = appdynhost.first
+
 package "#{app_name}" do
   action :upgrade
 end
@@ -21,6 +27,7 @@ template "/opt/tomcat/bin/catalina.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
+  variables(:appdynhost => "#{appdynhost}")
   notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
