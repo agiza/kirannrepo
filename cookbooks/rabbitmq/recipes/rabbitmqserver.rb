@@ -36,9 +36,11 @@ rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.che
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
 realdoc_queue = data_bag_item("rabbitmq", "realdoc")
+realservice_queue = data_bag_item("rabbitmq", "realservice")
 vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names = vhost_names + [realdoc_queue['vhosts']]
+vhost_names = vhost_names + [realservice_queue['vhosts']]
 
 #Pull cookie value from databag
 cookie = data_bag_item("rabbitmq", "rabbitmq")
