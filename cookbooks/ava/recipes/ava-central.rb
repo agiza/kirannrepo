@@ -9,23 +9,24 @@ app_version = node[:avacentral_version]
 
 include_recipe "altisource::altitomcat"
 
-rdochost = {}
-case node.chef_environment
-when "Intdev"
-  search(:node, "role:realdoc AND chef_environment:Dev") do |n|
-  rdochost[n.hostname] = {}
-  end
+if node.attribute?('realdocproxy')
+  rdochost = node[:realdocproxy]
 else
+  rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-  rdochost[n.hostname] = {}
+    rdochost[n.hostname] = {}
   end
+  rdochost = rdochost.first
 end
-rdochost = rdochost.first
-avacenhost = {}
-search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
-  avacenhost[n.hostname] = {}
+if node.attribute?('avacenproxy')
+  avacenhost = node[:avacenproxy]
+else
+  avacenhost = {}
+  search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
+    avacenhost[n.hostname] = {}
+  end
+  avacenhost = avacenhost.first
 end
-avacenhost = avacenhost.first
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
