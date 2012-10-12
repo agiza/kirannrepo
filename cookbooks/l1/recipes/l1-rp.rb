@@ -10,6 +10,24 @@ app_name = "l1-rp"
 app_version = node[:l1rp_version]
 
 include_recipe "altisource::altitomcat"
+if node.attribute?('realdocproxy')
+  rdochost = node[:realdocproxy]
+else
+  rdochost = {}
+  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+    rdochost[n.hostname] = {}
+  end
+  rdochost = rdochost.first
+end
+if node.attribute?('l1cenproxy')
+  l1cenhost = node[:l1cenproxy]
+else
+  l1cenhost = {}
+  search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
+    l1cenhost[n.hostname] = {}
+  end
+  l1cenhost = l1cenhost.first
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -29,18 +47,6 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-rdochost = {}
-search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-  rdochost[n.hostname] = {}
-end
-rdochost = rdochost.first
-l1cenhost = {}
-search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
-  l1cenhost[n.hostname] = {}
-end
-l1cenhost = l1cenhost.first
-
-#rdochostname = rdochost[0]
 webHost = data_bag_item("apache-server", "webhost")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
