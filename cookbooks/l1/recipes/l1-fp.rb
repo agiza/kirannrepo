@@ -70,7 +70,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :webHostname => webHost["l1#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}",
     :l1_cen_host => "#{l1cenhost}",
-    :amqphost => "#{amqphost}"
+    :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}"
   )
 end
