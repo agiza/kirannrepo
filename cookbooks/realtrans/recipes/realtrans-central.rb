@@ -27,14 +27,16 @@ else
   end
   rtcenhost = rtcenhost.first
 end
-if node.attribute?('ampqproxy')
-  ampqhost = node[:ampqproxy]
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
 else
-  ampqhost = {}
+  amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    ampqhost[n.hostname] = {}
+    amqphost[n.hostname] = {}
   end
-  ampqhost = ampqhost.first
+  amqphost = amqphost.first
+  amqpport = "5672"
 end
 
 
@@ -62,7 +64,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( :rt_cen_host => "#{rtcenhost}",
-             :ampqhost => "#{ampqhost}"
+             :amqphost => "#{amqphost}",
+             :amqpport => "#{amqpport}"
+
            )
   notifies :restart, resources(:service => "altitomcat")
 end

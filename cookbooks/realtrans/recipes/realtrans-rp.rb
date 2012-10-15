@@ -28,14 +28,16 @@ else
   end
   rtcenhost = rtcenhost.first
 end
-if node.attribute?('ampqproxy')
-  ampqhost = node[:ampqproxy]
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
 else
-  ampqhost = {}
+  amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    ampqhost[n.hostname] = {}
+    amqphost[n.hostname] = {}
   end
-  ampqhost = ampqhost.first
+  amqphost = amqphost.first
+  amqpport = "5672"
 end
 
 
@@ -68,7 +70,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :webHostname => webHost["rt#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}",
     :rt_cen_host => "#{rtcenhost}",
-    :ampqhost => "#{ampqhost}"
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}"
   )
 end
 
