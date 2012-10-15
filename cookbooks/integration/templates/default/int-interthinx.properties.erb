@@ -3,7 +3,7 @@ rt.int.amqp.queue.inbound=interthinx.orders.new
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
 rt.int.amqp.exchange.monitoring=rt.monitoring
 rt.int.amqp.host=<%= @amqphost %>
-rt.int.amqp.port=<%= node[:amqp_port] %>
+rt.int.amqp.port=<%= @amqpport %>
 rt.int.amqp.username=<%= node[:rt_amqp_user] %>
 rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
 rt.int.interthinx.ws.orders.uri=https://fgws1.interthinx.com/SOAP/ProcessRequest.asmx

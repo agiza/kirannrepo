@@ -10,14 +10,16 @@ app_name = "int-realservicing"
 app_version = node[:intrs_version]
 
 include_recipe "altisource::altitomcat"
-if node.attribute?('ampqproxy')
-  ampqhost = node[:ampqproxy]
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
 else
-  ampqhost = {}
+  amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    ampqhost[n.hostname] = {}
+    amqphost[n.hostname] = {}
   end
-  ampqhost = ampqhost.first
+  amqphost = amqphost.first
+  amqpport = "5672"
 end
 
 service "altitomcat" do
@@ -43,7 +45,10 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :amqphost => "#{ampqhost}")
+  variables( 
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}"
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
