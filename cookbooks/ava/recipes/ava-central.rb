@@ -63,7 +63,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( :ava_cen_host => "#{avacenhost}",
-             :amqphost => "#{amqphost}"
+             :amqphost => "#{amqphost}",
+             :realdoc_hostname => "#{rdochost}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end
