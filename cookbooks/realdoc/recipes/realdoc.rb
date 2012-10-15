@@ -21,7 +21,15 @@ else
   amqphost = amqphost.first
   amqpport = "5672"
 end
-
+if node.attribute?('realdocproxy')
+  rdochost = node[:realdocproxy]
+else
+  rdochost = {}
+  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+    rdochost[n.hostname] = {}
+  end
+  rdochost = rdochost.first
+end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -73,7 +81,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :mongo_host => "#{mongoHost}",
     :elastic_host => "#{elasticHost}",
     :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}"
+    :amqpport => "#{amqpport}",
+    :rdochost => "#{rdochost}"
   )
 end
 
