@@ -9,8 +9,8 @@ rd.adapter.mongo.database=<%= node[:mongodb_database] %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
 
 # rabbit
-rd.adapter.amqp.host=<%= node[:amqp_host] %>
-rd.adapter.amqp.port=<%= node[:amqp_port] %>
+rd.adapter.amqp.host=<%= @amqphost %>
+rd.adapter.amqp.port=<%= @amqpport %>
 rd.adapter.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
 rd.adapter.amqp.username=<%= node[:rd_amqp_user] %>
 rd.adapter.amqp.password=<%= node[:rd_amqp_pass] %>

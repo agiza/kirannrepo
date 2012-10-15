@@ -10,6 +10,18 @@ app_name = "realdoc"
 app_version = node[:realdoc_version]
 
 include_recipe "altisource::altitomcat"
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
+else
+  amqphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    amqphost[n.hostname] = {}
+  end
+  amqphost = amqphost.first
+  amqpport = "5672"
+end
+
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -59,7 +71,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   variables(
     :webHostname => webHost["rd#{node.chef_environment}"],
     :mongo_host => "#{mongoHost}",
-    :elastic_host => "#{elasticHost}"
+    :elastic_host => "#{elasticHost}",
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}"
   )
 end
 

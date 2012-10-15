@@ -22,8 +22,8 @@ realdoc.printcertified.ftp.password=<%= node[:rd_ftppass] %>
 realdoc.correspondence.directory=${catalina.base}/correspondence
 realdoc.printcertified.privateKey=file:/opt/tomcat/conf/realdoc.key
 
-amqp.host=<%= node[:amqp_host] %>
-amqp.port=<%= node[:amqp_port] %>
+amqp.host=<%= @amqphost %>
+amqp.port=<%= @amqpport %>
 amqp.username=<%= node[:rd_amqp_user] %>
 amqp.password=<%= node[:rd_amqp_pass] %>
 amqp.virtual-host=/<%= node[:rd_amqp_vhost] %>

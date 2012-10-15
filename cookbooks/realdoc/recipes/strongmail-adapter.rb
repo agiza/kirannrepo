@@ -10,6 +10,18 @@ app_name = "strongmail-adapter"
 app_version = node[:smadapter_version]
 
 include_recipe "altisource::altitomcat"
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
+else
+  amqphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    amqphost[n.hostname] = {}
+  end
+  amqphost = amqphost.first
+  amqpport = "5672"
+end
+
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -34,6 +46,10 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}"
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
