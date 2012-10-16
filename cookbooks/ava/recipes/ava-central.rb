@@ -14,7 +14,7 @@ if node.attribute?('realdocproxy')
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.hostname] = {}
+    rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
 end
@@ -23,7 +23,7 @@ if node.attribute?('avacenproxy')
 else
   avacenhost = {}
   search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
-    avacenhost[n.hostname] = {}
+    avacenhost[n.ipaddress] = {}
   end
   avacenhost = avacenhost.first
 end
@@ -33,7 +33,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    amqphost[n.hostname] = {}
+    amqphost[n.ipaddress] = {}
   end
   amqphost = amqphost.first
   amqpport = "5672"

@@ -16,7 +16,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    amqphost[n.hostname] = {}
+    amqphost[n.ipaddress] = {}
   end
   amqphost = amqphost.first
   amqpport = "5672"
@@ -26,7 +26,7 @@ if node.attribute?('realdocproxy')
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.hostname] = {}
+    rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
 end

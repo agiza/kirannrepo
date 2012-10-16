@@ -61,7 +61,7 @@ defaults
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 
-listen rabbitmq 0.0.0.0:<%= node[:amqp_port] %>
+listen rabbitmq <%= node[:ipaddress] %>:<%= @amqpport %>
 	mode    tcp
 	balance roundrobin
 	option  tcpka

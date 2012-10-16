@@ -7,6 +7,17 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "haproxy"
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
+else
+  amqphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    amqphost[n.ipaddress] = {}
+  end
+  amqphost = amqphost.first
+  amqpport = "5672"
+end
 
 package "haproxy" do
   action :upgrade
@@ -28,7 +39,10 @@ template "/etc/haproxy/haproxy.cfg" do
   group "haproxy"
   owner "haproxy"
   mode "0644"
-  variables(:clusternodes => clusternodes)
+  variables(
+    :clusternodes => clusternodes,
+    :amqpport => "#{amqpport}"
+  )
   notifies :restart, resources(:service => "haproxy")
 end
 
