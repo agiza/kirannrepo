@@ -16,7 +16,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = {}
   search(:node, "role:rabbitserver") do |n|
-    amqphost[n.hostname] = {}
+    amqphost[n.ipaddress] = {}
   end
   amqphost = amqphost.first
   amqpport = "5672"
