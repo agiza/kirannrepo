@@ -6,7 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "haproxy"
+include_recipe "infrastructure::haproxy"
+
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy]
   amqpport = node[:amqpport]
@@ -32,21 +33,19 @@ clusternodes = {}
 search(:node, "role:rabbitserver") do |n|
   clusternodes[n.ipaddress] = {}
 end
-
-
-template "/etc/haproxy/haproxy.cfg" do
-  source "rabbitproxy.cfg.erb"
-  group "haproxy"
-  owner "haproxy"
-  mode "0644"
-  variables(
-    :clusternodes => clusternodes,
-    :amqpport => "#{amqpport}"
-  )
-  notifies :restart, resources(:service => "haproxy")
-end
-
-service "haproxy" do
-  action [:enable, :start]
+if clusternodes.nil? || clusternodes.empty?
+  Chef::Log.info("No services returned from search.")
+else
+  template "/etc/haproxy/haproxy.cfg" do
+    source "rabbitproxy.cfg.erb"
+    group "haproxy"
+    owner "haproxy"
+    mode "0644"
+    variables(
+      :clusternodes => clusternodes,
+      :amqpport => "#{amqpport}"
+    )
+    notifies :restart, resources(:service => "haproxy")
+  end
 end
 
