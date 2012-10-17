@@ -16,7 +16,9 @@ avavenenvirons = {}
 search(:node, "role:ava-ven") do |n|
   avavenenvirons[n.chef_environment] = {}
 end
-if avacenenvirons != ""
+if avacenenvirons.nil? || avacenenvirons.empty?
+  Chef::Log.info("No services returned from search.")
+else
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
   sslflag = webName['sslflag']
