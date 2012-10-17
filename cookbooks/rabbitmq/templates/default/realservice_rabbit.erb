@@ -21,8 +21,22 @@ exchanges="<%= @exchange_names %>"
 # Add all binding elements here
 bindings="<%= @binding_names %>"
 
+# Add application username here
+username=`echo "<%= @userstring %>" -d "|" -f1`
+userpass=`echo "<%= @userstring %>" -d "|" -f2`
+
+user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username"`
+if [ "$user_check" == "" ]; then
+  /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
+  /usr/sbin/rabbitmqctl set_user_tags "$username" prodcon
+fi
+
 # Move to working directory
 cd /etc/rabbitmq/
+
+for i in `echo "$vhosts"`; do
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
+done
 
 # Loop to add each queue with mirror turned on.
 for vhost in `echo "$html_vhosts"`; do

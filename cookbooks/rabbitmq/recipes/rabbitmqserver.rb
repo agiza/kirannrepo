@@ -100,7 +100,8 @@ if node.attribute?('rabbitmq-master')
       :queue_names  => realtrans_queue['queues'],
       :exchange_names => realtrans_queue['exchange'],
       :binding_names => realtrans_queue['binding'],
-      :vhost_names => realtrans_queue['vhosts']
+      :vhost_names => realtrans_queue['vhosts'],
+      :userstring => realtrans_queue['user']
     )
     notifies :run, 'execute[realtrans-config]', :immediately
   end
@@ -114,7 +115,8 @@ if node.attribute?('rabbitmq-master')
       :queue_names => realdoc_queue['queues'],
       :exchange_names => realdoc_queue['exchange'],
       :binding_names => realdoc_queue['binding'],
-      :vhost_names => realdoc_queue['vhosts']
+      :vhost_names => realdoc_queue['vhosts'],
+      :userstring => realdoc_queue['user']
     )
     notifies :run, 'execute[realdoc-config]', :immediately
   end
@@ -129,6 +131,7 @@ if node.attribute?('rabbitmq-master')
       :exchange_names => realservice_queue['exchange'],
       :binding_names => realservice_queue['binding'],
       :vhost_names => realservice_queue['vhosts']
+      :userstring => realservice_queue['user']
     )
     notifies :run, 'execute[realservice-config]', :immediately
   end
