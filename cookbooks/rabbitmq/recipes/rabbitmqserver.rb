@@ -130,7 +130,7 @@ if node.attribute?('rabbitmq-master')
       :queue_names => realservice_queue['queues'],
       :exchange_names => realservice_queue['exchange'],
       :binding_names => realservice_queue['binding'],
-      :vhost_names => realservice_queue['vhosts']
+      :vhost_names => realservice_queue['vhosts'],
       :userstring => realservice_queue['user']
     )
     notifies :run, 'execute[realservice-config]', :immediately
