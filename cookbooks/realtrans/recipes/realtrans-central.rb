@@ -83,8 +83,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rt_cen_host => "#{rtcenhost}:8080",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
-    :amqpuser => "#{amqpuser}",
-    :amqppass => "#{amqppass}",
     :realdoc_hostname => "#{rdochost}:8080"
   )
   notifies :restart, resources(:service => "altitomcat")
