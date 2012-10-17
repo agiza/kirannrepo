@@ -61,11 +61,3 @@ defaults
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 
-listen rabbitmq <%= node[:ipaddress] %>:<%= @amqpport %>
-	mode    tcp
-	balance roundrobin
-	option  tcpka
-<% @clusternodes.each do |clusternode| -%>
-	server <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500    
-<% end -%>
-
