@@ -82,7 +82,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :elastic_host => "#{elasticHost}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
-    :rdochost => "#{rdochost}"
+    :rdochost => "#{rdochost}:8080"
   )
 end
 
