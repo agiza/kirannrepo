@@ -12,7 +12,9 @@ search(:node, "role:l1-cen") do |n|
   l1cenenvirons[n.chef_environment] = {}
 end
 
-unless l1cenenvirons == "nil"
+if l1cenenvirons.nil? || l1cenenvirons.empty?
+  Chef::Log.info("No services returned from search.")
+else
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
   sslflag = webName['sslflag']
@@ -29,8 +31,16 @@ unless l1cenenvirons == "nil"
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1cenenvirons.each do |environ|
-    cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
-    cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    cenNames = {}
+    search(:node, "role:l1-cen AND chef_environment:#{environ}") do |n|
+      cenNames[n.ipaddress] = {}
+    end
+    venNames = {}
+    search(:node, "role:l1-ven AND chef_environment:#{environ}") do |n|
+      venNames[n.ipaddress] = {}
+    end
+    #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
+    #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"

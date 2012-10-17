@@ -13,7 +13,9 @@ search(:node, "role:realdoc") do |n|
   rdenvirons[n.chef_environment] = {}
 end
 
-unless rdenvirons == "nil"
+if rdenvirons.nil? || rdenvirons.empty?
+  Chef::Log.info("No services returned from search.")
+else
   # Convert the hash list of environments into a string, unique values, then split
   rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
@@ -30,8 +32,12 @@ unless rdenvirons == "nil"
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rdenvirons.each do |environ|
-    rdNames = search(:node, "role:realdoc AND chef_environment:#{environ}")
-    rdNames = rdNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    rdNames = {}
+    search(:node, "role:realdoc AND chef_environment:#{environ}") do |n|
+      rdNames[n.ipaddress] = {}
+    end
+    #rdNames = search(:node, "role:realdoc AND chef_environment:#{environ}")
+    #rdNames = rdNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"
