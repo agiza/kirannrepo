@@ -58,7 +58,7 @@ if node.attribute?('mongomasterproxy')
 else
   mongoHost = {}
   search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
-    mongoHost[n.fqdn] = {}
+    mongoHost[n.ipaddress] = {}
   end
 end
 if node.attribute?('elasticsearchproxy')
@@ -66,7 +66,7 @@ if node.attribute?('elasticsearchproxy')
 else
   elasticHost = {}
   search(:node, "role:elasticsearch AND chef_environment:#{node.chef_environment}") do |n|
-    elasticHost[n.fqdn] = {}
+    elasticHost[n.ipaddress] = {}
   end
 end
 webHost = data_bag_item("apache-server", "webhost")
