@@ -62,11 +62,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :l1_cen_host => "#{l1cenhost}",
-             :amqphost => "#{amqphost}",
-	     :amqpport => "#{amqpport}",
-             :realdoc_hostname => "#{rdochost}"
-           )
+  variables( 
+    :l1_cen_host => "#{l1cenhost}:8080",
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}",
+    :realdoc_hostname => "#{rdochost}:8080"
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 

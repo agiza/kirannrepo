@@ -21,7 +21,7 @@ rt.vendor.certification.candidateGroup=Credential Review Team
 rt.amqp.exchange.avm.request=rt.avm.request
 rt.vendor.portal.url=http://<%= @webHostname %>/l1-vp
 rt.vendor.permission.category.name=VENDOR_PERMISSION_CATEGORY
-rt.registration.portal.url=<%= @webHostname %>/l1-reg
+rt.registration.portal.url=http://<%= @webHostname %>/l1-reg
 
 #Settings for realdoc integration
 rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
@@ -33,7 +33,7 @@ rt.vendor.valuation.facilitator.candidateGroup=FACILITATOR GROUP
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 rt.vendor.exposure.cycle.profile.code=TEST
 
-rt.central.webServiceUrl=http://<%= @l1_cen_host %>:8080/l1-central
+rt.central.webServiceUrl=http://<%= @l1_cen_host %>/l1-central
 
 rt.credential.expiration.monitor.cron.expression=0 0 1 * * ?
 rt.credential.expiration.monitor.app.config.name=certification
@@ -93,7 +93,7 @@ rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.defaultPlugin=taskplanner
 
-rf.app.context.path=<%= @webHostname %>/l1-fp
+rf.app.context.path=http://<%= @webHostname %>/l1-fp
 
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>

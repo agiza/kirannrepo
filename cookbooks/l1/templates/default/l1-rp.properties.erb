@@ -20,11 +20,11 @@ rt.vendor.certification.app.config.version=1.0
 rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
 
 #Settings for realdoc integration
-rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
+rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
 rd.remote.defaultUsername=correspondence
 rd.remote.singleUserMode=true
 
-rt.central.webServiceUrl=http://<%= @l1_cen_host %>:8080/l1-central/
+rt.central.webServiceUrl=http://<%= @l1_cen_host %>/l1-central/
 
 rf.db.showSql=false
 rf.db.generateDdl=false
@@ -79,7 +79,7 @@ rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.defaultPlugin=
 
-rf.app.context.path=<%= @webHostname %>/l1-rp
+rf.app.context.path=http://<%= @webHostname %>/l1-rp
 
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>

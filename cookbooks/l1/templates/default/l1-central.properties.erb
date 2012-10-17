@@ -26,7 +26,7 @@ rt.vendor.valuation.facilitator.candidateGroup=FACILITATOR GROUP
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 rt.vendor.exposure.cycle.profile.code=TEST
 
-rt.central.webServiceUrl=http://<%= @l1_cen_host %>:8080/l1-central/
+rt.central.webServiceUrl=http://<%= @l1_cen_host %>/l1-central/
 
 # New property per Konstantin
 rt.amqp.queue.orders.create=rt.core.orders.create
@@ -104,7 +104,7 @@ rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
 #Settings for realdoc integration
-rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
+rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
 rd.remote.defaultUsername=correspondence
 rd.remote.singleUserMode=true
 
