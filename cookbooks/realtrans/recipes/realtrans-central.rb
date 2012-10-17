@@ -74,7 +74,7 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
 amqpuser = realtrans_queue['user'].split("|").first
-amqppass = realtrans_queue['user'].split("|").second
+amqppass = realtrans_queue['user'].split("|").2
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
