@@ -27,6 +27,15 @@ else
   end
   rtcenhost = rtcenhost.first
 end
+if node.attribute?('rtvenproxy')
+  rtvenhost = node[:rtvenproxy]
+else
+  rtvenhost = {}
+  search(:node, "role:realtrans-ven AND chef_environment:#{node.chef_environment}") do |n|
+    rtvenhost[n.ipaddress] = {}
+  end
+  rvcenhost = rtvenhost.first
+end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy]
   amqpport = node[:amqpport]
@@ -65,7 +74,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :webHostname => webHost["rt#{node.chef_environment}"],
+    :rt_ven_host => "#{rtvenhost}",
     :rt_cen_host => "#{rtcenhost}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",

@@ -27,6 +27,15 @@ else
   end
   avacenhost = avacenhost.first
 end
+if node.attribute?('avavenproxy')
+  avavenhost = node[:avavenproxy]
+else
+  avavenhost = {}
+  search(:node, "role:ava-ven AND chef_environment:#{node.chef_environment}") do |n|
+    avavenhost[n.ipaddress] = {}
+  end
+  avavenhost = avavenhost.first
+end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy]
   amqpport = node[:amqpport]
@@ -64,7 +73,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :webHostname => webHost["ava#{node.chef_environment}"],
+    :ava_ven_host => "#{avavenhost}",
     :ava_cen_host => "#{avacenhost}",
     :amqphost => "#{amqphost}",
     :realdoc_hostname => "#{rdochost}"
