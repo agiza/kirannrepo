@@ -11,7 +11,7 @@ search(:node, "role:appdynamics-server") do |n|
   appdynhost[n.ipaddress] = {}
 end
 appdynhost = appdynhost.first
-if appdynhost.nil? || appdynhost?empty
+if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No services returned from search.")
 else
   include_recipe "altisource::appdynamics"
