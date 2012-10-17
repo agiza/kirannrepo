@@ -7,8 +7,10 @@
 app_name = "realtrans-central"
 app_version = node[:realtranscentral_version]
 
+# Include tomcat recipe to get tomcat installed
 include_recipe "altisource::altitomcat"
 
+# This looks for realdoc proxy attribute and allows override of realdoc server or finds the first server itself
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy]
 else
@@ -18,6 +20,7 @@ else
   end
   rdochost = rdochost.first
 end
+# This looks for rt central proxy attribute or finds the first server itself.
 if node.attribute?('rtcenproxy')
   rtcenhost = node[:rtcenproxy]
 else
@@ -27,6 +30,7 @@ else
   end
   rtcenhost = rtcenhost.first
 end
+# This looks for rt vendor proxy attribute or finds the first server itself.
 if node.attribute?('rtvenproxy')
   rtvenhost = node[:rtvenproxy]
 else
@@ -36,6 +40,7 @@ else
   end
   rvcenhost = rtvenhost.first
 end
+# This looks for rabbitmq proxy attribute or finds the first server itself.
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy]
   amqpport = node[:amqpport]
@@ -48,16 +53,15 @@ else
   amqpport = "5672"
 end
 
-
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
 end
 
+# Install the application package.
 yum_package "#{app_name}" do
   version "#{app_version}"
-  case node.chef_environment
-  when "Dev","Intdev"
+  if node.attribute?('package_noinstall')
     action :nothing
   else
     action :install
