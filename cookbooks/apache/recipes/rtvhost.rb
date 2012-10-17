@@ -17,7 +17,9 @@ search(:node, "role:realtrans-ven") do |n|
   rtvenenvirons[n.chef_environment] = {}
 end
 
-unless rtcenenvirons == "nil"
+if rtcenenvirons.nil? || rtcenenvirons.empty?
+  Chef::Log.info("No services returned from search.")
+else
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
   sslflag = webName['sslflag']
@@ -38,11 +40,11 @@ unless rtcenenvirons == "nil"
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtcenenvirons.each do |environ|
     cenNames = {}
-    search(:node, "role:ava-cen AND chef_environment:#{environ}") do |n|
+    search(:node, "role:realtrans-cen AND chef_environment:#{environ}") do |n|
       cenNames[n.ipaddress] = {}
     end
     venNames = {}
-    search(:node, "role:ava-ven AND chef_environment:#{environ}") do |n|
+    search(:node, "role:realtrans-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end 
     #cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
