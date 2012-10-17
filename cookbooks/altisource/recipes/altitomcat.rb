@@ -4,16 +4,17 @@
 #
 
 #include_recipe "java"
-include_recipe "altisource::appdynamics"
 app_name = "altitomcat"
 
-unless node.attribute?('appdyn_forbid')
+appdynhost = {}
+search(:node, "role:appdynamics-server") do |n|
+  appdynhost[n.ipaddress] = {}
+end
+appdynhost = appdynhost.first
+if appdynhost.nil? || appdynhost?empty
+  Chef::Log.info("No services returned from search.")
+else
   include_recipe "altisource::appdynamics"
-  appdynhost = {}
-  search(:node, "role:appdynamics-server") do |n|
-  appdynhost[n.hostname] = {}
-  end
-  appdynhost = appdynhost.first
   appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
 end
