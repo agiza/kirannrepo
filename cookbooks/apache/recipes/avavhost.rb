@@ -16,7 +16,7 @@ avavenenvirons = {}
 search(:node, "role:ava-ven") do |n|
   avavenenvirons[n.chef_environment] = {}
 end
-unless avacenenvirons == ""
+if avacenenvirons != ""
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
   sslflag = webName['sslflag']
