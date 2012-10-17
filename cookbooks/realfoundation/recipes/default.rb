@@ -45,7 +45,7 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :rfhost => "#{rfhost}"]
+    :rfhost => "#{rfhost}"
   )
 end
 
