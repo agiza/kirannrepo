@@ -54,7 +54,7 @@ rf.email.port=25
 rf.email.username=altisource
 rf.email.password=whatever
 
-rf.app.context.path=http://<%= @webHostname %>/realfoundationapp
+rf.app.context.path=http://<%= @rfhost %>/realfoundation
 
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>

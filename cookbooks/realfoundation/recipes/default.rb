@@ -9,6 +9,16 @@
 app_name = "realfoundation"
 app_version = node[:realfoundation_version]
 
+if node.attribute?('rfproxy')
+  rfhost = node[:rfproxy]
+else
+  rfhost = {}
+  search(:node, "role:realfoundation AND chef_environment:#{node.chef_environment}") do |n|
+    rfhost[n.ipaddress] = {}
+  end
+  rfhost = "#{rfhost.first}:8080"
+end
+
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -35,7 +45,7 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["rf#{node.chef_environment}"]
+    :rfhost => "#{rfhost}"]
   )
 end
 
