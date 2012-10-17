@@ -37,10 +37,18 @@ unless rtcenenvirons == "nil"
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtcenenvirons.each do |environ|
-    cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-    venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
-    cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-    venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    cenNames = {}
+    search(:node, "role:ava-cen AND chef_environment:#{environ}") do |n|
+      cenNames[n.ipaddress] = {}
+    end
+    venNames = {}
+    search(:node, "role:ava-ven AND chef_environment:#{environ}") do |n|
+      venNames[n.ipaddress] = {}
+    end 
+    #cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
+    #venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
+    #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+    #venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"

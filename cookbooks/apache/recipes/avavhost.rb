@@ -35,11 +35,19 @@ unless avacenenvirons == "nil"
   avavenenvirons = avavenenvirons.collect { |avavenenviron| "#{avavenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  avacenenvirons.each do |environ|
-    cenNames = search(:node, "role:ava-cen AND chef_environment:#{environ}")
-    venNames = search(:node, "role:ava-ven AND chef_environment:#{environ}")
-    cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-    venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+  avacenvirons.each do |environ|
+    cenNames = {}
+    search(:node, "role:ava-cen AND chef_environment:#{environ}") do |n|
+      cenNames[n.ipaddress] = {}
+    end
+    venNames = {}
+    search(:node, "role:ava-ven AND chef_environment:#{environ}") do |n|
+      venNames[n.ipaddress] = {}
+    end
+  #  cenNames = search(:node, "role:ava-cen AND chef_environment:#{environ}")
+  #  venNames = search(:node, "role:ava-ven AND chef_environment:#{environ}")
+  #  cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
+  #  venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/ava-#{environ}.proxy.conf" do
       source "ava.proxy.conf.erb"
       owner  "root"
