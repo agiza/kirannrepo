@@ -21,10 +21,10 @@ rt.vendor.certification.candidateGroup=Credential Review Team
 rt.amqp.exchange.avm.request=rt.avm.request
 rt.vendor.portal.url=http://<%= @webHostname %>/ava-vp
 rt.vendor.permission.category.name=VENDOR_PERMISSION_CATEGORY
-rt.registration.portal.url=<%= @webHostname %>/ava-reg
+rt.registration.portal.url=http://<%= @webHostname %>/ava-reg
 
 #Settings for realdoc integration
-rd.remote.url=http://<%= @realdoc_hostname %>:8080/realdoc/api
+rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
 rd.remote.defaultUsername=correspondence
 rd.remote.singleUserMode=true
 
@@ -33,7 +33,7 @@ rt.vendor.valuation.facilitator.candidateGroup=FACILITATOR GROUP
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 rt.vendor.exposure.cycle.profile.code=TEST
 
-rt.central.webServiceUrl=http://<%= @ava_cen_host %>:8080/ava-central
+rt.central.webServiceUrl=http://<%= @ava_cen_host %>/ava-central
 
 rt.credential.expiration.monitor.cron.expression=0 0 1 * * ?
 rt.credential.expiration.monitor.app.config.name=certification

@@ -26,7 +26,12 @@ else
   search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
     avacenhost[n.ipaddress] = {}
   end
+  avavenhost ={}
+  search(:node, "role:ava-ven AND chef_environment:#{node.chef_environment}") do |n|
+    avavenhost[n.ipaddress] = {}
+  end
   avacenhost = avacenhost.first
+  avavenhost = avavenhost.first
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy]
@@ -67,8 +72,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["ava#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost}",
-    :ava_cen_host => "#{avacenhost}",
+    :realdoc_hostname => "#{rdochost}:8080",
+    :ava_cen_host => "#{avacenhost}:8080",
+    :ava_ven_host => "#{avavenhost}:8080",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}"
   )
