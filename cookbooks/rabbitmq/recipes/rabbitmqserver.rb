@@ -31,9 +31,9 @@ service "rabbitmq-server" do
   action :nothing
 end
 
-hostentries = {}
+hostentries = []
 search(:node, "role:rabbitserver") do |n|
-  hostentries[n.hostname] = hostentries[n.ipaddress]
+  hostentries << "#{[n.hostname]}|#{[n.ipaddress]}"
 end
 
 #hostentries = hostentries.collect { |entry| "#{entry} "}.join("|")
