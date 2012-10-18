@@ -10,10 +10,12 @@ html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 
 #host=${1-$HOSTNAME}
 host=`hostname -s`
+
 # Check to see if the user accounts configuration has been run yet.
 guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
 admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin | grep -v guest`
 if [ "$guest_check" != ""   ]; then
+
 # Setup cluster here
 full_domin=`hostname -d`
 rabbitnodes=`echo "<%= @rabbitnodes %>"`
@@ -22,6 +24,9 @@ rabbitnodes=`echo "<%= @rabbitnodes %>"`
 elif [ "$admin_check" != "" ]; then
    echo "Admin accounts working."
 fi
+
+# Edit Hosts file to add hostnames if DNS is missing
+host_entries="<%= @hostentries %>"
 
 # Change user accounts for better security
 for i in `echo "$vhosts"`; do
