@@ -10,10 +10,6 @@ app_name = "implementer"
 
 #include_recipe "altitomcat"
 
-yum_package "#{app_name}" do
-  action :upgrade
-end
-
 template "/opt/tomcat/startup.xml" do
   source "startup.xml.erb"
   owner  "tomcat"
