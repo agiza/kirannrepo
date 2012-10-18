@@ -35,8 +35,8 @@ hostentries = []
 search(:node, "role:rabbitserver") do |n|
   hostentries << "#{[n.hostname]}|#{[n.ipaddress]}"
 end
+hostentries = hostentries.collect { |entry| "#{entry} "}.join(" ")
 
-#hostentries = hostentries.collect { |entry| "#{entry} "}.join("|")
 #rabbitservers = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")  
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
 
