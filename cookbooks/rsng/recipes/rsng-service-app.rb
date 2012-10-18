@@ -50,6 +50,8 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
+rsngamqp = data_bag_item("rabbitmq", "realservice")
+rsngcred = rsngamqp['user'].split("|")
 template "/opt/tomcat/conf/rsng-service-app.properties" do
   source "rsng-service-app.properties.erb"
   group 'tomcat'
@@ -60,6 +62,8 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
     :webHostname => webHost["rsng#{node.chef_environment}"],
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
+    :amqpuser => "#{rsngcred[0]}",
+    :amqppass => "#{rsngcred[1]}",
     :rsnghost => "#{rsnghost}:8080"
   )
 end
