@@ -7,18 +7,24 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "implementer"
-app_version = node[:implementer_version]
 
-include_recipe "altitomcat"
+#include_recipe "altitomcat"
 
-package "#{app_name}" do
-  version "#{app_version}"
-  action :install
+yum_package "#{app_name}" do
+  action :upgrade
+end
+
+template "/opt/tomcat/startup.xml" do
+  source "startup.xml.erb"
+  owner  "tomcat"
+  group  "tomcat"
+  mode   "0644"
 end
 
 ruby_block "remove implementer from run list" do
   block do
     node.run_list.remove("recipe[implementer]")
+    node.roles.remove['implementer']
   end
 end
 
