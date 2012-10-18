@@ -9,6 +9,19 @@
 app_name = "rsng-service-app"
 app_version = node[:rsng_version]
 
+include_recipe "altisource::altitomcat"
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
+else
+  amqphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    amqphost[n.ipaddress] = {}
+  end
+  amqphost = amqphost.first
+  amqpport = "5672"
+end
+
 if node.attribute?('rsngproxy')
   rsnghost = node[:rsngproxy]
 else
@@ -44,7 +57,10 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["rsng#{node.chef_environment}"]
+    :webHostname => webHost["rsng#{node.chef_environment}"],
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}",
+    :rsnghost => "#{rsnghost}:8080"
   )
 end
 
