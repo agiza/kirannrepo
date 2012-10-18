@@ -33,9 +33,10 @@ end
 
 hostentries = {}
 search(:node, "role:rabbitserver") do |n|
-  hostentries << "#{hostentries[n.ipaddress]}|#{hostentries[n.ipaddress]}"
+  hostentries[n.hostname] = hostentries[n.ipaddress]
 end
-hostentries = hostentries.collect { |entry| "#{entry} "}.join(" ")
+
+#hostentries = hostentries.collect { |entry| "#{entry} "}.join("|")
 #rabbitservers = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")  
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
 
@@ -58,7 +59,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   mode '0644'
   variables(
      :rabbitnodes => rabbitservers,
-     :hostentries => hostentries
+     :hostentries =>"#{hostentries}"
   )
   notifies :restart, resources(:service => "rabbitmq-server")
 end
