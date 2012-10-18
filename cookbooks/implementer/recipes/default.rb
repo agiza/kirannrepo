@@ -23,7 +23,7 @@ end
 
 ruby_block "remove implementer from run list" do
   block do
-    node.run_list.remove['implementer']
+    node.run_list.remove("role[implementer]")
   end
 end
 
