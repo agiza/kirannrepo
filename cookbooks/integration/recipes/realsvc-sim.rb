@@ -16,17 +16,17 @@ service "altitomcat" do
   action :nothing
 end
 
-yum_package "#{app_name}" do
-  version "#{app_version}"
-  if node.attribute?('package_noinstall')
-    action :nothing
-  else
-    action :install
-  end
-  flush_cache [ :before ]
-  allow_downgrade true
-  notifies :restart, resources(:service => "altitomcat")
-end
+#yum_package "#{app_name}" do
+#  version "#{app_version}"
+#  if node.attribute?('package_noinstall')
+#    action :nothing
+#  else
+#    action :install
+#  end
+#  flush_cache [ :before ]
+#  allow_downgrade true
+#  notifies :restart, resources(:service => "altitomcat")
+#end
 
 template "/opt/tomcat/conf/realservicing.simulator.properties" do
   source "realservicing.simulator.properties.erb"
