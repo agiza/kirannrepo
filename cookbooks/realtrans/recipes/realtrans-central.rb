@@ -72,6 +72,8 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
+rtrabbit = data_bag_item("rabbitmq", "realtrans")
+rtrabbit = rtrabbit['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -83,6 +85,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rt_cen_host => "#{rtcenhost}:8080",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
+    :amqpuser => "#{rtrabbit[0]}",
+    :amqppass => "#{rtrabbit[1]}",
     :realdoc_hostname => "#{rdochost}:8080"
   )
   notifies :restart, resources(:service => "altitomcat")

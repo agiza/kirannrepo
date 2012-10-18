@@ -2,8 +2,8 @@ rt.amqp.exchange.monitoring=rt.monitoring
 rt.amqp.exchange.outgoing=rt.core.internal
 rt.amqp.host=<%= @amqphost %>
 rt.amqp.port=<%= @amqpport %>
-rt.amqp.username=<%= node[:rt_amqp_user] %>
-rt.amqp.password=<%= node[:rt_amqp_pass] %>
+rt.amqp.username=<%= @amqpuser %>
+rt.amqp.password=<%= @amqppass %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
