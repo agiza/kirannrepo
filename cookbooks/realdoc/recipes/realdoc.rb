@@ -69,6 +69,8 @@ else
   end
 end
 webHost = data_bag_item("apache-server", "webhost")
+rdrabbit = data_bag_item("rabbitmq", "realdoc")
+rdrabbit = rdrabbit['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -81,6 +83,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :elastic_host => "#{elasticHost}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
+    :amqpuser => "#{rdrabbit[0]}",
+    :amqppass => "#{rdrabbit[1]}",
     :rdochost => "#{rdochost}:8080"
   )
 end

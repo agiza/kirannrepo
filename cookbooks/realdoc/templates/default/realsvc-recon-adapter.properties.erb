@@ -6,8 +6,8 @@ rd.adapter.recon.write.cron=*/15 * * * * MON-FRI
 rd.adapter.amqp.host=<%= @amqphost %>
 rd.adapter.amqp.port=<%= @amqpport %>
 rd.adapter.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
-rd.adapter.amqp.username=<%= node[:rd_amqp_user] %>
-rd.adapter.amqp.password=<%= node[:rd_amqp_pass] %>
+rd.adapter.amqp.username=<%= @amqpuser %>
+rd.adapter.amqp.password=<%= @amqppass %>
 rd.adapter.amqp.legacy=rd.legacy.adapter
 
 # file output settings

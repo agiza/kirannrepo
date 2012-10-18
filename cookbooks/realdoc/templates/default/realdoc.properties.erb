@@ -24,15 +24,15 @@ realdoc.printcertified.privateKey=file:/opt/tomcat/conf/realdoc.key
 
 amqp.host=<%= @amqphost %>
 amqp.port=<%= @amqpport %>
-amqp.username=<%= node[:rd_amqp_user] %>
-amqp.password=<%= node[:rd_amqp_pass] %>
+amqp.username=<%= @amqpuser %>
+amqp.password=<%= @amqppass %>
 amqp.virtual-host=/<%= node[:rd_amqp_vhost] %>
 amqp.queue.inbound=realdoc
 
 realdoc.correspondence.amqp.host=<%= @amqphost %>
 realdoc.correspondence.amqp.port=<%= @amqpport %>
-realdoc.correspondence.amqp.username=<%= node[:rd_amqp_user] %>
-realdoc.correspondence.amqp.password=<%= node[:rd_amqp_pass] %>
+realdoc.correspondence.amqp.username=<%= @amqpuser %>
+realdoc.correspondence.amqp.password=<%= @amqppass %>
 realdoc.correspondence.amqp.vhost=/<%= node[:rd_amqp_vhost] %>
 realdoc.correspondence.amqp.recon.inbound=rd.correspondence.recon
 realdoc.correspondence.amqp.delivery=rd.correspondence.requests

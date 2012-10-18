@@ -40,6 +40,8 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+rdrabbit = data_bag_item("rabbitmq", "realdoc")
+rdrabbit = rdrabbit['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -47,7 +49,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   variables(
     :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}"
+    :amqpport => "#{amqpport}",
+    :amqpuser => "#{rdrabbit[0]}",
+    :amqppass => "#{rdrabbit[1]}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end
