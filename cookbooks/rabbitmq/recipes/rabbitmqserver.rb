@@ -33,7 +33,7 @@ end
 
 hostentries = []
 search(:node, "role:rabbitserver") do |n|
-  hostentries << "#{[n.hostname]}|#{[n.ipaddress]}"
+  hostentries << "#{n.hostname}|#{n.ipaddress}"
 end
 hostentries = hostentries.collect { |entry| "#{entry} "}.join(" ")
 
