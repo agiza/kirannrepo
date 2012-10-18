@@ -23,7 +23,6 @@ end
 
 ruby_block "remove implementer from run list" do
   block do
-    node.run_list.remove("recipe[implementer]")
     node.roles.remove['implementer']
   end
 end
