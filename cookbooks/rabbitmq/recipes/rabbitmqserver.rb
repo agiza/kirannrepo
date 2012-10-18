@@ -31,13 +31,6 @@ service "rabbitmq-server" do
   action :nothing
 end
 
-hostentries = []
-search(:node, "role:rabbitserver") do |n|
-  hostentries << "#{n.hostname}|#{n.ipaddress}"
-end
-hostentries = hostentries.collect { |entry| "#{entry} "}.join(" ")
-
-#rabbitservers = rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")  
 rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
 
 #Build list of queues names for configuration
@@ -58,8 +51,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   owner 'root'
   mode '0644'
   variables(
-     :rabbitnodes => rabbitservers,
-     :hostentries =>hostentries
+     :rabbitnodes => rabbitservers
   )
   notifies :restart, resources(:service => "rabbitmq-server")
 end

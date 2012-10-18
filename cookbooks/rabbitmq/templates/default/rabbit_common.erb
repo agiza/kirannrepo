@@ -25,9 +25,6 @@ elif [ "$admin_check" != "" ]; then
    echo "Admin accounts working."
 fi
 
-# Edit Hosts file to add hostnames if DNS is missing
-host_entries="<%= @hostentries %>"
-
 # Change user accounts for better security
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl add_vhost "$i"
