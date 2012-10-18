@@ -31,12 +31,12 @@ service "rabbitmq-server" do
   action :nothing
 end
 
-#rabbitservers = {}
-#search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
-#  rabbitservers[n.ipaddress] = {}
-#end
-#rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")  
-rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")  
+rabbitservers = {}
+search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+  rabbitservers[n.ipaddress] = {}
+end
+rabbitservers.collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ")  
+#rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")  
 
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
