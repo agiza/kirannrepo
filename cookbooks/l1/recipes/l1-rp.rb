@@ -58,6 +58,8 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
+l1rabbit = data_bag_item("rabbitmq", "realtrans")
+l1rabbit = l1rabbit['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -70,6 +72,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :l1_cen_host => "#{l1cenhost}:8080",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}"
+    :amqpuser => "#{l1rabbit[0]}",
+    :amqppass => "#{l1rabbit[1]}"
   )
 end
 

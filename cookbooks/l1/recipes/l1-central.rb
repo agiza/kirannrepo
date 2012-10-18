@@ -58,8 +58,6 @@ end
 
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
-amqpuser = "#{l1rabbit[0]}"
-amqppass = "#{l1rabbit[1]}"
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -69,6 +67,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :l1_cen_host => "#{l1cenhost}:8080",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
+    :amqpuser => "#{l1rabbit[0]}",
+    :amqppass => "#{l1rabbit[1]}",
     :realdoc_hostname => "#{rdochost}:8080"
   )
   notifies :restart, resources(:service => "altitomcat")
