@@ -1,64 +1,52 @@
-rf.db.dialect=org.hibernate.dialect.MySQLDialect
-rf.db.generateDdl=false
-rf.db.showSql=false
+rabbit.server.host=<%= @amqphost %>
+rabbit.server.port=<%= @amqpport %>
+rabbit.server.username=<%= node[:rsng_amqp_user] %>
+rabbit.server.password=<%= node[:rsng_amqp_pass] %>
 
-rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+journal.replication.consumers=5
+journal.replication.jsonJournalTOTransformer.type=com.altisource.rsng.replication.domain.JournalTO
+#journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.poc.domain.JournalResponse
+journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.domain.JournalResponse
 
-rf.multipartResolver.maxUploadSize=100000
-rf.activiti.databaseSchemaUpdate=false
+resequencer.period=60000
 
-rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
-rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
-rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
-rf.melissadata.customerId=102942719
+watchdog.maxRecords=100
+watchdog.watchdogDelay=300000
+watchdog.poller.autoStartup=true
+watchdog.poller.period=30000
 
-rf.ui.config.logoLink=http://www.altisource11.com/
-rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
-rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
-brandName=wide
+jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
+jdbc.url.progress.amos=jdbc:datadirect:openedge://<%= node[:proamosdb_server] %>:<%= node[:prodamosb_port] %>;databaseName=amos
+jdbc.username.progress.amos=<%= node[:proamosdb_user] %>
+jdbc.password.progress.amos=<%= node[:proamosdb_pass] %>
+jdbc.initial-size.progress.amos=2
+jdbc.min-idle.progress.amos=2
+jdbc.max-idle.progress.amos=2
+jdbc.maxActive.progress.amos=3
 
-## the following properties will be gone once security is fully built
+jdbc.url.progress.journal=jdbc:datadirect:openedge://<%= node[:projourdb_server] %>:<%= node[:projourdb_port] %>;databaseName=journal.db
+jdbc.username.progress.journal=<%= node[:projourdb_user] %>
+jdbc.password.progress.journal=<%= node[:projourdb_pass] %>
+jdbc.initial-size.progress.journal=2
+jdbc.min-idle.progress.journal=2
+jdbc.max-idle.progress.journal=2
+jdbc.maxActive.progress.journal=3
 
-appKey=<%= node[:realfound_appkey] %>
-rf.tenantCode=<%= node[:tenantid] %>
-rf.storageLocation=${catalina.base}/storage
-rf.archiveLocation=${catalina.base}/archive
-rf.documentService.baseDirectoryPath=/usr/demo/documents
-rf.documentService.baseTemplatePath=/usr/demo/templates
-rf.templateService.baseDirectoryPath=/usr/demo/templates
+jdbc.url.progress.mss=jdbc:datadirect:openedge://<%= node[:promssdb_server] %>:<%= node[:promssdb_port] %>;databaseName=mss
+jdbc.username.progress.mss=<%= node[:promssdb_user] %>
+jdbc.password.progress.mss=<%= node[:promssdb_pass] %>
+jdbc.initial-size.progress.mss=2
+jdbc.min-idle.progress.mss=2
+jdbc.max-idle.progress.mss=2
+jdbc.maxActive.progress.mss=3
 
-rf.security.maxBadLoginsDefault=3
-rf.security.lockoutWindowMinsDefault=60
-rf.security.password.lengthDefault=6
-rf.security.password.numericMinDefault=1
-rf.security.password.alphaMinDefault=1
-rf.security.password.nonAlphaMinDefault=0
-rf.security.password.lowerCaseMinDefault=1
-rf.security.password.upperCaseMinDefault=1
-rf.security.passwordTokenExpiryMinsDefault=30
-
-rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
-rf.newUserTemplate=classpath:/newUserTemplate.html
-rf.passwordResetSubject=Password Reset
-rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=noreply@altisource.com
-
-rf.startupFileLocation=file:${catalina.base}/startup.xml
-rf.ldapAuthenticationProvider.enabled=false
-
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=25
-rf.email.username=altisource
-rf.email.password=whatever
-
-rf.app.context.path=http://<%= @webHostname %>/realfoundation
-
-rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
-rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
-rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
-
-internalDomains=
+jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
+jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>
+#jdbc.url.mysql.rsng=jdbc:mysql://172.24.129.230:3306/realservice ?zeroDateTimeBehavior=convertToNull
+jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
+jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
+jdbc.initial-size.mysql.rsng=<%= node[:db_initsize] %>
+jdbc.min-idle.mysql.rsng=0
+jdbc.max-idle.mysql.rsng=<%= node[:db_maxidle] %>
+jdbc.maxActive.mysql.rsng=<%= node[:db_maxactive] %>
 
