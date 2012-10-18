@@ -105,13 +105,13 @@ rf.security.password.lowerCaseMinDefault=1
 rf.security.password.upperCaseMinDefault=1
 rf.security.passwordTokenExpiryMinsDefault=30
 
-rf.startupFileLocation=${catalina.base}/startup.xml
+rf.startupFileLocation=file:${catalina.base}/startup.xml
 rf.ldapAuthenticationProvider.enabled=false
 
 rf.email.host=<%= node[:mailhost] %>
 rf.email.port=25
-rf.email.username=
-rf.email.password=
+rf.email.username=<%= node[:mailuser] %>
+rf.email.password=<%= node[:mailpass]%>
 
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html
