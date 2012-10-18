@@ -59,7 +59,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   mode '0644'
   variables(
      :rabbitnodes => rabbitservers,
-     :hostentries =>"#{hostentries}"
+     :hostentries =>hostentries
   )
   notifies :restart, resources(:service => "rabbitmq-server")
 end
