@@ -22,8 +22,8 @@ exchanges="<%= @exchange_names %>"
 bindings="<%= @binding_names %>"
 
 # Add application username here
-username=`echo "<%= @userstring %>" -d "|" -f1`
-userpass=`echo "<%= @userstring %>" -d "|" -f2`
+username=`echo "<%= @userstring %>" | cut -d "|" -f1`
+userpass=`echo "<%= @userstring %>" | cut -d "|" -f2`
 
 user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username"`
 if [ "$user_check" == "" ]; then
