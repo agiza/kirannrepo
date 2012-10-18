@@ -71,7 +71,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :realdoc_hostname => "#{rdochost}:8080",
     :l1_cen_host => "#{l1cenhost}:8080",
     :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}"
+    :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}"
   )
