@@ -1,0 +1,58 @@
+#
+# Cookbook Name:: rsng
+# Recipe:: rsng-service-app
+#
+# Copyright 2012, Altisource
+#
+# All rights reserved - Do Not Redistribute
+#
+app_name = "rsng-service-app"
+app_version = node[:rsng_version]
+
+if node.attribute?('rsngproxy')
+  rsnghost = node[:rsngproxy]
+else
+  rsnghost = {}
+  search(:node, "role:rsng AND chef_environment:#{node.chef_environment}") do |n|
+    rsnghost[n.ipaddress] = {}
+  end
+  rsnghost = "#{rsnghost.first}:8080"
+end
+
+service "altitomcat" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :nothing
+end
+
+yum_package "#{app_name}" do
+  version "#{app_version}"
+  if node.attribute?('package_noinstall')
+    action :nothing
+  else
+    action :install
+  end
+  flush_cache [ :before ]
+  allow_downgrade true
+  notifies :restart, resources(:service => "altitomcat")
+end
+
+webHost = data_bag_item("apache-server", "webhost")
+template "/opt/tomcat/conf/rsng-service-app.properties" do
+  source "rsng-service-app.properties.erb"
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
+  notifies :restart, resources(:service => "altitomcat")
+  variables( 
+    :webHostname => webHost["rsng#{node.chef_environment}"]
+  )
+end
+
+template "/opt/tomcat/conf/Catalina/localhost/rsng-service-app.xml" do
+  source "rsng-service-app.xml.erb"
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
+  notifies :restart, resources(:service => "altitomcat")
+end
+

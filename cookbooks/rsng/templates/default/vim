@@ -1,0 +1,52 @@
+rabbit.server.host=<%= @amqphost %>
+rabbit.server.port=<%= @amqpport %>
+rabbit.server.username=<%= node[:rsng_amqp_user] %>
+rabbit.server.password=<%= node[:rsng_amqp_pass] %>
+
+journal.replication.consumers=5
+journal.replication.jsonJournalTOTransformer.type=com.altisource.rsng.replication.domain.JournalTO
+#journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.poc.domain.JournalResponse
+journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.domain.JournalResponse
+
+resequencer.period=60000
+watchdog.maxRecords=100
+watchdog.watchdogDelay=300000
+watchdog.poller.autoStartup=true
+watchdog.poller.period=30000
+
+jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
+jdbc.url.progress.amos=jdbc:datadirect:openedge://192.168.41.26:16101;databaseName=amos
+jdbc.username.progress.amos=sysprogress
+jdbc.password.progress.amos=sysprogress
+jdbc.initial-size.progress.amos=2
+jdbc.min-idle.progress.amos=2
+jdbc.max-idle.progress.amos=2
+jdbc.maxActive.progress.amos=3
+
+jdbc.url.progress.journal=jdbc:datadirect:openedge://192.168.41.26:16107;databaseName=journal.db
+jdbc.username.progress.journal=sysprogress
+jdbc.password.progress.journal=sysprogress
+jdbc.initial-size.progress.journal=2
+jdbc.min-idle.progress.journal=2
+jdbc.max-idle.progress.journal=2
+jdbc.maxActive.progress.journal=3
+
+jdbc.url.progress.mss=jdbc:datadirect:openedge://192.168.41.26:16103;databaseName=mss
+jdbc.username.progress.mss=sysprogress
+jdbc.password.progress.mss=sysprogress
+jdbc.initial-size.progress.mss=2
+jdbc.min-idle.progress.mss=2
+jdbc.max-idle.progress.mss=2
+jdbc.maxActive.progress.mss=3
+
+jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
+jdbc.url.mysql.rsng=jdbc:mysql:/<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>
+#jdbc.url.mysql.rsng=jdbc:mysql://172.24.129.230:3306/realservice ?zeroDateTimeBehavior=convertToNull
+jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
+jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
+jdbc.initial-size.mysql.rsng=<%= node[:db_initsize] %>
+jdbc.min-idle.mysql.rsng=0
+jdbc.max-idle.mysql.rsng=<%= node[:db_maxidle] %>
+jdbc.maxActive.mysql.rsng=<%= node[:db_maxactive] %>
+
+ 
