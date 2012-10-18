@@ -73,7 +73,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rtrabbit[0]}",
-    :amqppass => "#{rtrabbit[1]}",
+    :amqppass => "#{rtrabbit[1]}"
   )
 end
 
