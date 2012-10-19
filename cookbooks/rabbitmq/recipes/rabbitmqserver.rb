@@ -56,8 +56,8 @@ template "/etc/rabbitmq/rabbitmq.config" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
-template "/etc/rabbitmq/rabbit-hosts.sh" do
-  source "rabbit-hosts.sh.erb"
+template "/etc/rabbitmq/rabbit-host.sh" do
+  source "rabbit-host.sh.erb"
   group 'root'
   owner 'root'
   mode '0644'
