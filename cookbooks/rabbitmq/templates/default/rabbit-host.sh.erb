@@ -1,5 +1,7 @@
 #!/bin/bash
 <%- @hostentries.each do |entry| %>
-hosts="<%= entry[:hostname] %> <%= entry[:ipaddress] %>
+hosts="
+<%= entry[:ipaddress] %> <%= entry[:fqdn] %> 
+"
 <%- end %>
 
