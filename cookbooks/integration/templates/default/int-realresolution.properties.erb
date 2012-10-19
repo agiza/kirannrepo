@@ -12,8 +12,8 @@ rres.remote.error.directory=/<%= node[:chef_environment] %>/error
 
 monitoring.taskExecutor.poolSize=10
 
-amqp.username=<%= node[:rt_amqp_user] %>
-amqp.password=<%= node[:rt_amqp_pass] %>
+amqp.username=<%= @amqpuser %>
+amqp.password=<%= @amqppass %>
 amqp.host=<%= @amqphost %>
 amqp.port=<%= @amqpport %>
 amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
