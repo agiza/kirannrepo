@@ -31,7 +31,8 @@ service "rabbitmq-server" do
   action :nothing
 end
 
-rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
+rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
+hostentries = search(:node, "role:rabbitserver")
 
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
@@ -44,7 +45,6 @@ vhost_names << realservice_queue['vhosts']
 
 #Pull cookie value from databag
 cookie = data_bag_item("rabbitmq", "rabbitmq")
-
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -54,6 +54,16 @@ template "/etc/rabbitmq/rabbitmq.config" do
      :rabbitnodes => rabbitservers
   )
   notifies :restart, resources(:service => "rabbitmq-server")
+end
+
+template "/etc/rabbitmq/rabbit-hosts.sh" do
+  source "rabbit-hosts.sh.erb"
+  group 'root'
+  owner 'root'
+  mode '0644'
+  variables(
+     :hostentries => hostentries
+  )
 end
 
 if node.attribute?('rabbitmq-master')
