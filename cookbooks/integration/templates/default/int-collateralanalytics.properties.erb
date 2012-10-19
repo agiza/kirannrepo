@@ -10,8 +10,8 @@ rt.int.amqp.ca.retry=rt.ca.retry
 
 rt.int.monitoring.taskExecutor.poolSize=10
 
-rt.int.amqp.username=<%= node[:rt_amqp_user] %>
-rt.int.amqp.password=<%= node[:rt_amqp_pass] %>
+rt.int.amqp.username=<%= @amqpuser %>
+rt.int.amqp.password=<%= @amqpuser %>
 rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rt.int.amqp.host=<%= @amqphost %>
 rt.int.amqp.port=<%= @amqpport %>
