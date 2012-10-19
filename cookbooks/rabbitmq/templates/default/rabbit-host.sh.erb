@@ -1,7 +1,15 @@
 #!/bin/bash
-<%- @hostentries.each do |entry| %>
 hosts="
+<%- @hostentries.each do |entry| %>
 <%= entry[:ipaddress] %> <%= entry[:fqdn] %> 
-"
 <%- end %>
+"
+
+for i in `echo $hosts`; do 
+  check=`grep $i /etc/hosts`
+  if [ "$check" == "" ]; then
+    echo $i >> /etc/hosts
+  fi
+done
+
 
