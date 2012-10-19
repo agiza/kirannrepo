@@ -70,7 +70,7 @@ template "/etc/rabbitmq/rabbit-host.sh" do
 end
 
 template "/etc/rabbitmq/hosts.txt" do
-  source "/etc/rabbitmq/hosts.txt.erb"
+  source "hosts.txt.erb"
   group  "root"
   owner  "root"
   mode   "0644"
