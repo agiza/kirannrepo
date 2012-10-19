@@ -66,10 +66,15 @@ template "/etc/rabbitmq/rabbit-host.sh" do
   group 'root'
   owner 'root'
   mode '0755'
-  variables(
-     :hostentries => hostentries
-  )
-    #notifies :run, 'execute[rabbit-host]', :immediately
+  #notifies :run, 'execute[rabbit-host]', :immediately
+end
+
+template "/etc/rabbitmq/hosts.txt" do
+  source "/etc/rabbitmq/hosts.txt.erb"
+  group  "root"
+  owner  "root"
+  mode   "0644"
+  notifies :run, 'execute[rabbit-host]', :immediately
 end
 
 if node.attribute?('rabbitmq-master')

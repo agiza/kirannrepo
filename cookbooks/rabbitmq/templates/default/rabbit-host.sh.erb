@@ -1,15 +1,9 @@
 #!/bin/bash
-hosts="
-<%- @hostentries.each do |entry| %>
-<%= entry[:ipaddress] %>  <%= entry[:fqdn] %>  <%= entry[:hostname] %>  # rabbitmq-host 
-<%- end %>
-"
 
-for i in `echo $hosts`; do 
+for i in `cat /etc/rabbitmq/hosts.txt`; do 
   check=`grep $i /etc/hosts`
   if [ "$check" == "" ]; then
     echo $i >> /etc/hosts
   fi
 done
-
 
