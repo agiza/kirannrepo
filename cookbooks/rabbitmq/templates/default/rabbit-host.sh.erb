@@ -3,7 +3,7 @@
 for i in `cat /etc/rabbitmq/hosts.txt`; do 
   check=`grep $i /etc/hosts`
   if [ "$check" == "" ]; then
-    echo $i >> /etc/hosts
+    echo -e $i >> /etc/hosts
   fi
 done
 
