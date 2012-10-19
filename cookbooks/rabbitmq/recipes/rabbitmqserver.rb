@@ -26,6 +26,11 @@ execute "guest-remove" do
   action :nothing
 end
 
+execute "rabbit-host" do
+  command "/etc/rabbitmq/rabbit-host.sh"
+  action :nothing
+end
+
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -60,10 +65,11 @@ template "/etc/rabbitmq/rabbit-host.sh" do
   source "rabbit-host.sh.erb"
   group 'root'
   owner 'root'
-  mode '0644'
+  mode '0755'
   variables(
      :hostentries => hostentries
   )
+    #notifies :run, 'execute[rabbit-host]', :immediately
 end
 
 if node.attribute?('rabbitmq-master')
