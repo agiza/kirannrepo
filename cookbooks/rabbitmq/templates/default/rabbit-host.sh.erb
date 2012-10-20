@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for i in `cat /etc/rabbitmq/hosts.txt`; do
+  word=`echo -e "$i" | cut -f2`
+  check=`egrep $word /etc/hosts`
+  if [ "$check" == "" ]; then
+    echo -e $i >> /etc/hosts
+  fi
+done
+

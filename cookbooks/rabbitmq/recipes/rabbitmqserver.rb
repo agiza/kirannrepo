@@ -26,12 +26,18 @@ execute "guest-remove" do
   action :nothing
 end
 
+execute "rabbit-host" do
+  command "/etc/rabbitmq/rabbit-host.sh"
+  action :nothing
+end
+
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
 end
 
-rabbitservers = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
+rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
+hostentries = search(:node, "role:rabbitserver")
 
 #Build list of queues names for configuration
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
@@ -44,7 +50,6 @@ vhost_names << realservice_queue['vhosts']
 
 #Pull cookie value from databag
 cookie = data_bag_item("rabbitmq", "rabbitmq")
-
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -54,6 +59,23 @@ template "/etc/rabbitmq/rabbitmq.config" do
      :rabbitnodes => rabbitservers
   )
   notifies :restart, resources(:service => "rabbitmq-server")
+end
+
+template "/etc/rabbitmq/rabbit-host.sh" do
+  source "rabbit-host.sh.erb"
+  group 'root'
+  owner 'root'
+  mode '0755'
+  #notifies :run, 'execute[rabbit-host]', :immediately
+end
+
+template "/etc/rabbitmq/hosts.txt" do
+  source "hosts.txt.erb"
+  group  "root"
+  owner  "root"
+  mode   "0644"
+  variables(:hostentries => hostentries)
+  notifies :run, 'execute[rabbit-host]', :immediately
 end
 
 if node.attribute?('rabbitmq-master')

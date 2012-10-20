@@ -2,8 +2,8 @@ rt.amqp.exchange.monitoring=rt.monitoring
 rt.amqp.exchange.outgoing=rt.core.internal
 rt.amqp.host=<%= @amqphost %>
 rt.amqp.port=<%= @amqpport %>
-rt.amqp.username=<%= node[:ava_amqp_user] %>
-rt.amqp.password=<%= node[:ava_amqp_pass] %>
+rt.amqp.username=<%= @amqpuser %>
+rt.amqp.password=<%= @amqppass %>
 rt.amqp.virtual-host=<%= node[:ava_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
@@ -13,7 +13,7 @@ rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 rt.vendor.order.app.config.name=valuation
 rt.vendor.order.app.config.version=1.0
 rt.vendor.order.process.definition.key=VendorAssignmentMainProcess
-rt.vendor.certification.candidateGroup=Credential Review Team
+rt.vendor.certification.candidateGroup=CREDENTIAL_REVIEW_GROUP
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 
 #Vendor Certification app config related.

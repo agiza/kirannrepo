@@ -43,10 +43,8 @@ rt.int.json.schema=flood.json
 rt.int.header.schema=floodHeader.json
 
 #edit the following for DEV/QA
-rt.int.amqp.username=<%= node[:l1_amqp_user] %>
-#rt.int.amqp.username=<%= @amqpuser %>
-rt.int.amqp.password=<%= node[:l1_amqp_pass] %>
-#rt.int.amqp.password=<%= @amqppass %>
+rt.int.amqp.username=<%= @amqpuser %>
+rt.int.amqp.password=<%= @amqppass %>
 rt.int.amqp.host=<%= @amqphost %>
 rt.int.amqp.port=<%= @amqpport %>
 rt.int.amqp.virtual-host=<%= node[:l1_amqp_vhost] %>

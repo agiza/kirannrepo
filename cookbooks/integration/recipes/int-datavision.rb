@@ -39,6 +39,8 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+amqpcred = data_bag_item("rabbitmq", "realtrans")
+amqpcred = amqpcred['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -46,7 +48,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   variables(
     :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}"
+    :amqpport => "#{amqpport}",
+    :amqpuser => "#{amqpcred[0]}",
+    :amqppass => "#{amqpcred[1]}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end
