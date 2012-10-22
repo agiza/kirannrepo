@@ -43,13 +43,13 @@ rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/realtrans-central/WEB-I
 
 rt.email.host=<%= node[:mailhost] %>
 rt.email.port=<%= node[:mailport] %>
-rt.email.userName=do_not_reply@altidev.com
-rt.email.password=password
+rt.email.userName=<%= node[:mailuser] %>
+rt.email.password=<%= node[:mailpass] %>
 rt.email.smtp.auth=false
 rt.email.smtp.starttls.enable=false
 
 rt.email.from=<%= node[:mail_from] %>
-rt.email.recipients=realtrans@myprivacy.org
+rt.email.recipients=realtrans@altisource.com
 rt.email.replyTo=<%= node[:mail_from] %>
 
 rt.daysToCloseOrders=90
@@ -66,8 +66,8 @@ rf.multipartResolver.maxUploadSize=10485760
 
 rf.email.host=<%= node[:mailhost] %>
 rf.email.port=<%= node[:mailport] %>
-rf.email.username=none
-rf.email.password=none
+rf.email.username=<%= node[:mailuser] %>
+rf.email.password=<%= node[:mailpass] %>
 
 rf.tenantCode=<%= node[:tenantid] %>
 
