@@ -75,7 +75,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}",
-    :melissadata => melissadata[:melissadata]
+    :melissadata => melissadata['melissadata']
   )
 end
 

@@ -71,7 +71,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}",
     :realdoc_hostname => "#{rdochost}:8080",
-    :melissadata => melissadata[:melissadata]
+    :melissadata => melissadata['melissadata']
   )
   notifies :restart, resources(:service => "altitomcat")
 end
