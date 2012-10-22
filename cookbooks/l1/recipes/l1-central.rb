@@ -58,7 +58,7 @@ end
 
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
-melissadata = data_bag_item("melissadata", "applications")
+melissadata = data_bag_item("infrastructure", "applications")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
