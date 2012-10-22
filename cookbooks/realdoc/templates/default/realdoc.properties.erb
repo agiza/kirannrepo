@@ -5,9 +5,9 @@ realdoc.mongo.database=<%= node[:mongodb_database] %>
 mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
-realdoc.email.fromAddress=ubuntu@altidev.com
-realdoc.email.fromAddress.personal=Ocwen Financial
-realdoc.fax.toAddress=robert.hudson@altisource.com
+realdoc.email.fromAddress=<%= node[:mail_from] %>
+realdoc.email.fromAddress.personal=<%= node[:mail_from] %>
+realdoc.fax.toAddress=<%= node[:mail_from] %>
 
 realdoc.printstandard.ftp.host=<%= node[:rd_ftphost] %>
 realdoc.printstandard.ftp.port=<%= node[:rd_ftpport] %>
@@ -106,11 +106,8 @@ rf.security.password.lowerCaseMinDefault=1
 rf.security.password.upperCaseMinDefault=1
 rf.security.passwordTokenExpiryMinsDefault=30
 
-rf.startupFileLocation=file:${catalina.base}/startup.xml
-rf.ldapAuthenticationProvider.enabled=false
-
 rf.email.host=<%= node[:mailhost] %>
-rf.email.port=25
+rf.email.port=<%= node[:mailport] %>
 rf.email.username=<%= node[:mailuser] %>
 rf.email.password=<%= node[:mailpass]%>
 
@@ -118,7 +115,7 @@ rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html
 rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=noreply@altisource.com
+rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 internalDomains=none
 
@@ -127,6 +124,7 @@ rf.app.context.path=http://<%= @webHostname %>/realdoc
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+rf.startupFileLocation=file:${catalina.base}/startup.xml
 
 rd.documentservice.tempPath=/tmp/
 realdoc.correspondence.amqp.requests=rd.correspondence.requests
