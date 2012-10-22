@@ -58,6 +58,9 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
+avarabbit = data_bag_item("rabbitmq", "realtrans")
+avarabbit = avarabbit['user'].split("|")
+melissadata = data_bag_item("infrastructure", "applications")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -69,7 +72,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :realdoc_hostname => "#{rdochost}:8080",
     :ava_cen_host => "#{avacenhost}:8080",
     :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}"
+    :amqpport => "#{amqpport}",
+    :amqpuser => "#{avarabbit[0]}",
+    :amqppass => "#{avarabbit[1]}",
+    :realdoc_hostname => "#{rdochost}:8080",
+    :melissadata => melissadata['melissadata']
   )
 end
 
