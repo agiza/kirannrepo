@@ -58,6 +58,7 @@ end
 
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
+melissadata = data_bag_item("infrastructure", "applications")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -69,7 +70,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}",
-    :realdoc_hostname => "#{rdochost}:8080"
+    :realdoc_hostname => "#{rdochost}:8080",
+    :melissadata => melissadata[:melissadata]
   )
   notifies :restart, resources(:service => "altitomcat")
 end

@@ -60,6 +60,7 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
+melissadata = data_bag_item("infrastructure", "applications")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -73,7 +74,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
-    :amqppass => "#{l1rabbit[1]}"
+    :amqppass => "#{l1rabbit[1]}",
+    :melissadata => melissadata[:melissadata]
   )
 end
 
