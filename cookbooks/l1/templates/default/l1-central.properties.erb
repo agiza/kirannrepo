@@ -53,13 +53,13 @@ rt.email.replyTo=<%= node[:mail_from] %>
 
 rt.daysToCloseOrders=90
 
-rf.melissadata.address.webhost=<%= melissadata['addressurl'] %>
-rf.melissadata.phone.webhost=<%= melissadata['phoneurl'] %>
-rf.melissadata.email.webhost=<%= melissadata['emailurl'] %>
+rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
+rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
+rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
 rf.melissadata.customerId=102942719
 rf.melissadata.defaultMaxConnectionsPerHost=1
-rf.melissadata.geocode.webhost=<%= melissadata['geocodeurl'] %>
-rf.melissadata.name.webhost=<%= melissadata['nameurl'] %>
+rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
+rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
 rf.multipartResolver.maxUploadSize=10485760
 
