@@ -43,13 +43,13 @@ rf.tenantCode=<%= node[:tenantid] %>
 
 rf.multipartResolver.maxUploadSize=10485760
 
-rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.address.webhost=<%= melissadata[:address] %>
+rf.melissadata.phone.webhost=<%= melissadata[:phonecheck] %>
+rf.melissadata.email.webhost=<%= melissadata[:email] %>
 rf.melissadata.customerId=102942719
 rf.melissadata.defaultMaxConnectionsPerHost=1
-rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
-rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
+rf.melissadata.geocode.webhost=<%= melissadata[:geocoder] %>
+rf.melissadata.name.webhost=<%= melissadata[:name] %>
 
 rf.email.host=<%= node[:mailhost] %>
 rf.email.port=<%= node[:mailport] %>
