@@ -75,11 +75,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}",
-    :address => melissadata['melissadata']['address'],
-    :phonecheck => melissadata['melissadata']['phonecheck'],
-    :email => melissadata['melissadata']['email'],
-    :geocoder => melissadata['melissadata']['geocoder'],
-    :name => melissadata['melissadata']['name']
+    :address => "#{melissadata['addressurl']}",
+    :phonecheck => "#{melissadata['phoneurl']}",
+    :email => "#{melissadata['emailurl']}",
+    :geocoder => "#{melissadata['geocodeurl']}",
+    :name => "#{melissadata['nameurl']}"
   )
 end
 
