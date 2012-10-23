@@ -39,9 +39,9 @@ else
     search(:node, "role:l1-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end
-    l1intservers = {}
+    l1intNames = {}
     search(:node, "role:l1-integration AND chef_environment:#{environ}") do |n|
-      l1intservers[n.ipaddress] = {}
+      l1intNames[n.ipaddress] = {}
     end
     #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
     #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
@@ -53,6 +53,7 @@ else
       notifies :reload, resources(:service => "httpd")
       variables(
         :vhostCenWorkers => cenNames,
+        :l1intWorkers => l1intNames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
@@ -78,7 +79,7 @@ else
       group  "root"
       mode   "0644"
       variables(
-        :l1intservers => l1intservers
+        :l1intservers => l1intNames
       )
       notifies :reload, resources(:service => "httpd")
     end
@@ -87,7 +88,7 @@ else
       group  "root"
       mode   "0644"
       variables(
-        :l1intservers => l1intservers
+        :l1intservers => l1intNames
       )
       notifies :reload, resources(:service => "httpd")
     end
