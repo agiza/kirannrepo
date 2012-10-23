@@ -19,6 +19,26 @@ else
   rfhost = "#{rfhost.first}:8080"
 end
 
+if node.attribute?('realdocproxy')
+  rdochost = node[:realdocproxy]
+else
+  rdochost = {}
+  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
+    rdochost[n.ipaddress] = {}
+  end
+  rdochost = rdochost.first
+end
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy]
+  amqpport = node[:amqpport]
+else
+  amqphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    amqphost[n.ipaddress] = {}
+  end
+  amqphost = amqphost.first
+  amqpport = "5672"
+end
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -37,6 +57,9 @@ yum_package "#{app_name}" do
 end
 
 webHost = data_bag_item("apache-server", "webhost")
+rfrabbit = data_bag_item("rabbitmq", "realtrans")
+rfrabbit = rfrabbit['user'].split("|")
+melissadata = data_bag_item("infrastructure", "applications")
 template "/opt/tomcat/conf/realfoundation.properties" do
   source "realfoundation.properties.erb"
   group 'tomcat'
@@ -44,7 +67,13 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["rf#{node.chef_environment}"]
+    :webHostname => webHost["rf#{node.chef_environment}"],
+    :amqphost => "#{amqphost}",
+    :amqpport => "#{amqpport}",
+    :amqpuser => "#{rfrabbit[0]}",
+    :amqppass => "#{rfrabbit[1]}",
+    :realdoc_hostname => "#{rdochost}:8080",
+    :melissadata => melissadata['melissadata']
   )
 end
 

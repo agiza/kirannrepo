@@ -8,12 +8,13 @@ rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false
 
-rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
-rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
-rf.melissadata.name.webhost=name.<%= node[:melissa_server] %>
+rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
+rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
+rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
 rf.melissadata.customerId=102942719
+rf.melissadata.defaultMaxConnectionsPerHost=1
+rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
+rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
 rf.ui.config.logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
