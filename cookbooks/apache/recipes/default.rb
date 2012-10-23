@@ -114,7 +114,6 @@ template "/etc/pki/tls/private/#{servername[0]}.key" do
   notifies :reload, resources(:service => "httpd")
 end
 
-corelogicdev = search(:node, "role:l1-integration AND chef_environment:Dev")
 sitesinclude = data_bag_item("apache-server", "webhost")
 sitesinclude = sitesinclude['serversites'].split("|")
 sitesinclude.each do |site|
@@ -123,7 +122,6 @@ sitesinclude.each do |site|
     owner  "root"
     group  "root"
     mode   "0644"
-    variables( :corelogicdev => corelogicdev )
     notifies :reload, resources(:service => "httpd")
   end
 end
