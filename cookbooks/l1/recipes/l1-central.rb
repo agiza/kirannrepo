@@ -4,7 +4,7 @@
 #
 
 class Chef::Recipe
-  include l1commonLibrary
+  include L1CommonLibrary
 end
 
 #include_recipe "java"
