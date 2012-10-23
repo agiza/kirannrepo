@@ -68,9 +68,6 @@ template "/etc/httpd/conf.d/pagespeed.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-corelogicdev = search(:node, "role:l1-integration AND chef_environment:Dev")
-datavisiondev = search(:node, "role:l1-integration AND chef_environment:Dev")
-
 # Look up ssl server name from data bag.
 servername = data_bag_item("apache-server", "webhost")
 servername = servername['servername'].split(",")
@@ -124,10 +121,6 @@ sitesinclude.each do |site|
     owner  "root"
     group  "root"
     mode   "0644"
-    variables( 
-      :corelogicserver => corelogicdev,
-      :datavisionserver => datavisiondev
-    )
     notifies :reload, resources(:service => "httpd")
   end
 end
