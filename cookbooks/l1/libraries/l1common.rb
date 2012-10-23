@@ -1,5 +1,5 @@
 # define a module to mix into Chef::Recipe
-module l1int
+module l1commonLibrary
   def rdochost() 
     if node.attribute?('realdocproxy')
       rdochost = node[:realdocproxy]
