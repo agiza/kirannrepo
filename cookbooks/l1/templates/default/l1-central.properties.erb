@@ -7,7 +7,7 @@ rt.amqp.host=<%= @amqphost %>
 rt.amqp.port=<%= @amqpport %>
 rt.amqp.username=<%= @amqpuser %>
 rt.amqp.password=<%= @amqppass %>
-rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.amqp.virtual-host=<%= node[:l1_amqp_vhost] %>
 rf.ldap.port=<%= node[:ldap_port] %>
 rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
 rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
@@ -42,7 +42,7 @@ rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/l1-central/WEB-INF/clas
 
 rt.email.host=<%= node[:mailhost] %>
 rt.email.port=<%= node[:mailport] %>
-rt.email.userName=<%= node[:mailiser] %>
+rt.email.userName=<%= node[:mailuser] %>
 rt.email.password=<%= node[:mailpass] %>
 rt.email.smtp.auth=false
 rt.email.smtp.starttls.enable=false
