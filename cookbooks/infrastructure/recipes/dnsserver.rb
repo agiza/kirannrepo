@@ -114,7 +114,7 @@ template "/etc/named/ascorp.com.db" do
     :dnsslaves => zones['dnsslaves'].split("\\")
   )
 end
-
+rev0010 = search(:node, "ipaddress:10.0.0*")
 template "/etc/named/rev.0.0.10.in-addr.arpa" do
   source "rev.0.0.10.in-addr.arpa.erb"
   owner  "named"
@@ -123,7 +123,8 @@ template "/etc/named/rev.0.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev0010 => zones['rev.0.0.10'].split("\\")
+    :rev0010 => rev0010,
+    :rev0010ex => zones['rev.0.0.10'].split("\\")
   )
 end
 
