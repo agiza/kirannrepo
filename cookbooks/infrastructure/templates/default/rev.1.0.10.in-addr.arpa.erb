@@ -11,6 +11,9 @@ $TTL    604800
 ;
 @       IN      NS      ns.
 <% @rev1010.each do |rev| -%>
-<%= rev %>
+<%= "#{rev[:ipaddress]}".gsub!("10.0.1.", "") %>    IN    PTR   <%= rev[:fqdn] %>
 <% end -%>
-*	IN	PTR	host.altidev.com.
+<% @rev1010ex.each do |revex| -%>
+<%= revex %>
+<% end -%>
+;*	IN	PTR	host.altidev.com.

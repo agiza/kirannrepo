@@ -128,6 +128,7 @@ template "/etc/named/rev.0.0.10.in-addr.arpa" do
   )
 end
 
+rev1010 = search(:node, "ipaddress:10.0.1*")
 template "/etc/named/rev.1.0.10.in-addr.arpa" do
   source "rev.1.0.10.in-addr.arpa.erb"
   owner  "named"
@@ -136,7 +137,8 @@ template "/etc/named/rev.1.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev1010 => zones['rev.1.0.10'].split("\\")
+    :rev1010 => rev1010,
+    :rev1010ex => zones['rev.1.0.10'].split("\\")
   )
 end
 
