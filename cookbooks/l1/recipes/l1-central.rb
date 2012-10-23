@@ -3,10 +3,6 @@
 # Recipe:: l1-central
 #
 
-class Chef::Recipe
-  include L1CommonLibrary
-end
-
 #include_recipe "java"
 
 app_name = "l1-central"
