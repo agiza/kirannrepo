@@ -40,7 +40,7 @@ else
       venNames[n.ipaddress] = {}
     end
     l1intservers = {}
-    search(:node, "role:l1-integration and chef_environment:#{environ}") do |n|
+    search(:node, "role:l1-integration AND chef_environment:#{environ}") do |n|
       l1intservers[n.ipaddress] = {}
     end
     #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
