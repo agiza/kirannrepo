@@ -41,6 +41,7 @@ end
 
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
+caurl = data_bag_item("integration", "CA")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -50,7 +51,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}"
+    :amqppass => "#{amqpcred[1]}",
+    :caurl => "#{caurl['caURL']}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end
