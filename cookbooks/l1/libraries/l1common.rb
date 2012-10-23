@@ -1,6 +1,6 @@
 # define a module to mix into Chef::Recipe
-module L1CommonLibrary
-  def rdochost() 
+class Chef::Recipe::L1Common
+  def self.rdochost 
     if node.attribute?('realdocproxy')
       rdochost = node[:realdocproxy]
     else
@@ -10,8 +10,9 @@ module L1CommonLibrary
       end
       rdochost = rdochost.first
     end
+    push(rdochost)
   end
-  def l1cenhost()
+  def self.l1cenhost
     if node.attribute?('l1cenproxy')
       l1cenhost = node[:l1cenproxy]
     else
@@ -21,8 +22,9 @@ module L1CommonLibrary
       end
     l1cenhost = l1cenhost.first
     end
+    push(l1cenhost)
   end
-  def amqphost()
+  def self.amqphost
     if node.attribute?('amqpproxy')
       amqphost = node[:amqpproxy]
       amqpport = node[:amqpport]
@@ -34,6 +36,8 @@ module L1CommonLibrary
       amqphost = amqphost.first
       amqpport = "5672"
     end
+    push(amqphost)
+    push(amqpport)
   end
 end
 

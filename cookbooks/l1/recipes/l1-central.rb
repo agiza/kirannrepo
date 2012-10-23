@@ -14,9 +14,9 @@ app_version = node[:l1central_version]
 
 include_recipe "altisource::altitomcat"
 
-rdochost()
-l1cenhost()
-amqphost()
+L1Common.rdochost
+L1Common.l1cenhost
+L1Common.amqphost
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
