@@ -39,6 +39,7 @@ else
     search(:node, "role:l1-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end
+    l1intservers = search(:node, "role:l1-integration and chef_environment:#{environ}")
     #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
     #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
@@ -54,7 +55,7 @@ else
         :serveripallow => serveripallow
     )
     end
-     template "/etc/httpd/conf.d/l1-#{environ}.vhost.conf" do
+    template "/etc/httpd/conf.d/l1-#{environ}.vhost.conf" do
       source "l1vhost#{ssl}.conf.erb"
       owner  "root"
       group  "root"
@@ -65,9 +66,27 @@ else
         :serverName => webName["l1#{environ}"]
       )
     end
-     directory "/var/www/html/#{environ}" do
+    directory "/var/www/html/#{environ}" do
       owner "root"
       group "root"
+    end
+    template "/etc/httpd/conf.d/corelogic-#{environ}.conf" do
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      variables(
+        :l1intservers => l1intservers
+      )
+      notifies :reload, resources(:service => "httpd")
+    end
+    template "/etc/httpd/conf.d/datavision-#{environ}.conf" do
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      variables(
+        :l1intservers => l1intservers
+      )
+      notifies :reload, resources(:service => "httpd")
     end
   end
 end

@@ -12,7 +12,7 @@ ProxyRequests             Off
 ProxyPreserveHost         On
 #ProxyPassReverse  /int-corelogic/dev/        http://realtrans-dev:8080/int-corelogic/
 <Location /int-corelogic/dev/>
-<% @corelogicserver.each do |server| -%>
+<% @l1intservers.each do |server| -%>
 ProxyPass                 http://<%= server[:ipaddress] %>:8080/int-corelogic/
 <% end  -%>
 Allow from 69.87.90.251

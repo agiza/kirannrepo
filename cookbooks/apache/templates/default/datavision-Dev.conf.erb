@@ -6,7 +6,7 @@ Deny from all
 ProxyRequests             Off
 ProxyPreserveHost         On
 <Location /int-datavision/dev>
-<% @datavisionserver.each do |server| -%>
+<% @l1intservers.each do |server| -%>
 ProxyPass  http://<%= server[:ipaddress] %>:8080/int-datavision
 <% end =%>
 Order allow,deny
