@@ -59,7 +59,7 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 rfrabbit = data_bag_item("rabbitmq", "realtrans")
 rfrabbit = rfrabbit['user'].split("|")
-melissadata = data_bag_item("infrastructure", "applications")
+melissadata = data_bag_item("integration", "melissadata")
 template "/opt/tomcat/conf/realfoundation.properties" do
   source "realfoundation.properties.erb"
   group 'tomcat'

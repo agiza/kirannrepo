@@ -68,7 +68,7 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 avarabbit = data_bag_item("rabbitmq", "realtrans")
 avarabbit = avarabbit['user'].split("|")
-melissadata = data_bag_item("infrastructure", "applications")
+melissadata = data_bag_item("integration", "melissadata")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
