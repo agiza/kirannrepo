@@ -39,7 +39,10 @@ else
     search(:node, "role:l1-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end
-    l1intservers = search(:node, "role:l1-integration and chef_environment:#{environ}")
+    l1intservers = {}
+    search(:node, "role:l1-integration and chef_environment:#{environ}") do |n|
+      l1intservers[n.ipaddress] = {}
+    end
     #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
     #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
