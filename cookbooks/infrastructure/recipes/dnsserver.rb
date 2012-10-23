@@ -84,6 +84,7 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
+altidev = search(:node, "name:*")
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
   owner  "named"
@@ -92,7 +93,8 @@ template "/etc/named/altidev.com.db" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :altidev => zones['altidev.com.db'].split("\\"),
+    :altidev => altidev,
+    #:altidev => zones['altidev.com.db'].split("\\"),
     :cname => zones['altidev_cname'].split("\\"),
     :dnsmaster => zones['dnsmaster'],
     :dnsslaves => zones['dnsslaves'].split("\\")

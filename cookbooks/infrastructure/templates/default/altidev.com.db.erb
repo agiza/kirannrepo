@@ -17,9 +17,10 @@ ns2	A	<%= @dnsslaves[0] %>
 ns3	A	<%= @dnsslaves[1] %> 
 altidev.com.	MX	10	mail
 <% @altidev.each do |altidev| -%>
-<%= altidev %>
+<%= altidev[:hostname] %>   A   <%= altidev[:ipaddress] %>
 <% end -%>
 <% @cname.each do |cname| -%>
 <%= cname %>
 <% end -%>
-*	A	10.0.1.111
+
+;*	A	10.0.1.111
