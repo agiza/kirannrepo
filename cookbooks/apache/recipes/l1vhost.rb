@@ -74,24 +74,6 @@ else
       owner "root"
       group "root"
     end
-    template "/etc/httpd/conf.d/corelogic-#{environ}.conf" do
-      owner  "root"
-      group  "root"
-      mode   "0644"
-      variables(
-        :l1intservers => l1intNames
-      )
-      notifies :reload, resources(:service => "httpd")
-    end
-    template "/etc/httpd/conf.d/datavision-#{environ}.conf" do
-      owner  "root"
-      group  "root"
-      mode   "0644"
-      variables(
-        :l1intservers => l1intNames
-      )
-      notifies :reload, resources(:service => "httpd")
-    end
   end
 end
 
