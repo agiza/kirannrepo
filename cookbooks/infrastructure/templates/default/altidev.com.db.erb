@@ -19,6 +19,9 @@ altidev.com.	MX	10	mail
 <% @altidev.each do |altidev| -%>
 <%= altidev[:hostname] %>   A   <%= altidev[:ipaddress] %>
 <% end -%>
+<% @altidevex.each do |altidev| -%>
+<%= altidev %>
+<% end -%>
 <% @cname.each do |cname| -%>
 <%= cname %>
 <% end -%>
