@@ -22,13 +22,15 @@ else
   amqpport = "5672"
 end
 if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy]
+  rdochost = node[:realdocproxy].split(":")[0]
+  rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
+  rdocport = "8080"
 end
 
 service "altitomcat" do
@@ -87,7 +89,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
     :amqppass => "#{rdrabbit[1]}",
-    :rdochost => "#{rdochost}:8080",
+    :rdochost => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata']
   )
 end

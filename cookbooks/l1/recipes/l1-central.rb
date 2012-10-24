@@ -10,22 +10,26 @@ app_version = node[:l1central_version]
 include_recipe "altisource::altitomcat"
 
 if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy]
+  rdochost = node[:realdocproxy].split(":")[0]
+  rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
+  rdocport = "8080"
 end
 if node.attribute?('l1cenproxy')
-  l1cenhost = node[:l1cenproxy]
+  l1cenhost = node[:l1cenproxy].split(":")[0]
+  l1cenport = node[:l1cenproxy].split(":")[1]
 else
   l1cenhost = {}
   search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
     l1cenhost[n.ipaddress] = {}
   end
   l1cenhost = l1cenhost.first
+  l1cenport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
@@ -65,12 +69,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :l1_cen_host => "#{l1cenhost}:8080",
+    :l1_cen_host => "#{l1cenhost}:#{l1cenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{l1rabbit[0]}",
     :amqppass => "#{l1rabbit[1]}",
-    :realdoc_hostname => "#{rdochost}:8080",
+    :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata']
   )
   notifies :restart, resources(:service => "altitomcat")
@@ -83,3 +87,4 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
 end
+
