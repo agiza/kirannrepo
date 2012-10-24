@@ -40,10 +40,10 @@ rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
 rf.documentService.baseTemplatePath=/opt/tomcat/webapps/l1-central/WEB-INF/classes/templates
 rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/l1-central/WEB-INF/classes/templates
 
-rt.email.host=<%= node[:mailhost] %>
-rt.email.port=<%= node[:mailport] %>
-rt.email.userName=<%= node[:mailuser] %>
-rt.email.password=<%= node[:mailpass] %>
+rt.email.host=<%= @mailserver['host'].split(":")[0] %>
+rt.email.port=<%= @mailserver['host'].split(":")[1] %>
+rt.email.userName=<%= @mailserver['user'] %>
+rt.email.password=<%= @mailserver['pass'] %>
 rt.email.smtp.auth=false
 rt.email.smtp.starttls.enable=false
 
@@ -63,10 +63,10 @@ rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
 rf.multipartResolver.maxUploadSize=10485760
 
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=<%= node[:mailport] %>
-rf.email.username=<%= node[:mailuser] %>
-rf.email.password=<%= node[:mailpass] %>
+rf.email.host=<%= @mailserver['host'].split(":")[0] %>
+rf.email.port=<%= @mailserver['host'].split(":")[1] %>
+rf.email.username=<%= @mailserver['user'] %>
+rf.email.password=<%= @mailserver['pass'] %>
 
 rf.tenantCode=<%= node[:tenantid] %>
 

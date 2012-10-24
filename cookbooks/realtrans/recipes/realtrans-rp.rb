@@ -82,7 +82,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{rtrabbit[0]}",
     :amqppass => "#{rtrabbit[1]}",
     :melissadata => melissadata['melissadata'],
-    :mailsever => mailserver
+    :mailserver => mailserver
   )
 end
 

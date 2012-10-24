@@ -77,6 +77,7 @@ webHost = data_bag_item("apache-server", "webhost")
 avarabbit = data_bag_item("rabbitmq", "realtrans")
 avarabbit = avarabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
+mailserver = data_bag_item("integration", "mail")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -92,7 +93,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{avarabbit[0]}",
     :amqppass => "#{avarabbit[1]}",
-    :melissadata => melissadata['melissadata']
+    :melissadata => melissadata['melissadata'],
+    :mailserver => mailserver
   )
 end
 

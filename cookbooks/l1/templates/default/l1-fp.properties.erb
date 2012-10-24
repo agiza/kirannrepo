@@ -59,10 +59,10 @@ rf.melissadata.defaultMaxConnectionsPerHost=1
 rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
 rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=<%= node[:mailport] %>
-rf.email.username=<%= node[:mailuser] %>
-rf.email.password=<%= node[:mailpass] %>
+rf.email.host=<%= @mailserver['host'].split(":")[0] %>
+rf.email.port=<%= @mailserver['host'].split(":")[1] %>
+rf.email.username=<%= @mailserver['user'] %>
+rf.email.password=<%= @mailserver['pass'] %>
 
 internalDomains=
 
