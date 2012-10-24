@@ -11,8 +11,8 @@ app_version = node[:realdoc_version]
 
 include_recipe "altisource::altitomcat"
 if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy]
-  amqpport = node[:amqpport]
+  amqphost = node[:amqpproxy].split(":")[0]
+  amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = {}
   search(:node, "role:rabbitserver") do |n|
