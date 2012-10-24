@@ -9,8 +9,8 @@
 include_recipe "infrastructure::haproxy"
 
 if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy]
-  amqpport = node[:amqpport]
+  amqphost = node[:amqpproxy].split(":")[0]
+  amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = {}
   search(:node, "role:rabbitserver") do |n|
