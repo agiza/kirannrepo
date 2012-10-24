@@ -50,10 +50,11 @@ rf.userNotificationFromAddress=noreply@altisource.com
 rf.startupFileLocation=file:${catalina.base}/startup.xml
 rf.ldapAuthenticationProvider.enabled=false
 
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=25
-rf.email.username=altisource
-rf.email.password=whatever
+rf.email.host=<%= @mailserver['host'].split(":")[0] %>
+rf.email.port=<%= @mailserver['host'].split(":")[1] %>
+rf.email.username=<%= @mailserver['user'] %>
+rf.email.password=<%= @mailserver['pass']%>
+rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.app.context.path=http://<%= @webHostname %>/realfoundation
 
