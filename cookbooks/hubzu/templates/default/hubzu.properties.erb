@@ -8,11 +8,13 @@ rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false
 
-rf.melissadata.address.webhost=addresscheck.<%= node[:melissa_server] %>
-rf.melissadata.geocode.webhost=geocoder.<%= node[:melissa_server] %>
-rf.melissadata.phone.webhost=phonecheck.<%= node[:melissa_server] %>
-rf.melissadata.email.webhost=email.<%= node[:melissa_server] %>
+rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
+rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
+rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
 rf.melissadata.customerId=102942719
+rf.melissadata.defaultMaxConnectionsPerHost=1
+rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
+rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
 rf.ui.config.logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
@@ -25,8 +27,8 @@ appKey=<%= node[:realfound_appkey] %>
 rf.tenantCode=<%= node[:tenantid] %>
 rf.storageLocation=${catalina.base}/storage
 rf.archiveLocation=${catalina.base}/archive
-rf.documentService.baseDirectoryPath=/usr/demo/documents
-rf.documentService.baseTemplatePath=/usr/demo/templates
+rf.documentService.baseDirectoryPath=${catalina.base}/work
+rf.documentService.baseTemplatePath=${catalina.base}/work
 
 rf.security.maxBadLoginsDefault=3
 rf.security.lockoutWindowMinsDefault=60
@@ -42,17 +44,17 @@ rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html
 rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=noreply@altisource.com
+rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
 rf.startupFileLocation=${catalina.base}/startup.xml
 rf.ldapAuthenticationProvider.enabled=false
 
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=25
-rf.email.username=altisource
-rf.email.password=whatever
+rf.email.host=<%= @mailserver['host'].split(":")[0] %>
+rf.email.port=<%= @mailserver['host'].split(":")[1] %>
+rf.email.username=<%= @mailserver['host'] %>
+rf.email.password=<%= @mailserver['host'] %>
 
-rf.app.context.path=http://<%= @webHostname %>/hubzu
+rf.app.context.path=<%= @webHostname %>/hubzu
 
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
