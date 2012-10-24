@@ -21,6 +21,11 @@ package "#{app_name}" do
   action :upgrade
 end
 
+execute "rabbit-plugins" do
+  command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbimq_management"
+  action :run
+end
+
 execute "guest-remove" do
   command "/etc/rabbitmq/rabbit-guest.sh"
   action :nothing
