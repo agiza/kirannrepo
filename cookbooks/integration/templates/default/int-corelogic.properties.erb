@@ -1,8 +1,8 @@
 #URL will change for prod instance
-rt.int.corelogic.newOrderUrl=https://betaasync.floodcert.com/async/receiver
-rt.int.corelogic.authToken=Basic VEVTVC1BTFRJUzo1NFRFMjY5
-rt.int.corelogic.username=<%= node[:corelogic_user] %>
-rt.int.corelogic.password=<%= node[:corelogic_pass] %>
+rt.int.corelogic.newOrderUrl=<%= @coreurl %>
+rt.int.corelogic.authToken=Basic <%= @coretoken %>
+rt.int.corelogic.username=<%= @coreuser %>
+rt.int.corelogic.password=<%= @corepass %>
 
 rt.int.header.source.name=CORELOGIC
 rt.int.header.target.name=TRANS-CENTRAL

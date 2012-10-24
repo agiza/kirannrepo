@@ -41,6 +41,7 @@ end
 
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
+realservicing = data_bag_item("integration", "realservicing")
 template "/opt/tomcat/conf/int-realservicing.properties" do
   source "int-realservicing.properties.erb"
   group 'tomcat'
@@ -50,7 +51,11 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}"
+    :amqppass => "#{amqpcred[1]}",
+    :rsrequest => "#{realservicing['responseurl']}",
+    :rsresponse => "#{realservicing['requesturl']}",
+    :rsuser => "#{realservicing['username']}",
+    :rspass => "#{realservicing['password']}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end

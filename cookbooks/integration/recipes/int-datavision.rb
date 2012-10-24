@@ -41,6 +41,7 @@ end
 
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
+datavision = data_bag_item("integration", "datavision")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -50,7 +51,10 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}"
+    :amqppass => "#{amqpcred[1]}",
+    :datauser => "#{datavision['user']}",
+    :datapass => "#{datavision['pass']}",
+    :dataclientid => "#{datavision['clientid']}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end

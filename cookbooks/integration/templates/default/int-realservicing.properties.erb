@@ -11,8 +11,8 @@ rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
 rt.int.amqp.exchange.monitoring=rt.monitoring
 
-rt.int.realservicing.retrieveOrdersRequestUrl=<%= node[:realServicingRequestURL] %>
-rt.int.realservicing.createOrderResponseUrl=<%= node[:realServicingResponseURL] %>
+rt.int.realservicing.retrieveOrdersRequestUrl=<%= @rsrequest %>
+rt.int.realservicing.createOrderResponseUrl=<%= @rsresponse %>
 
 rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,cancelOrderRequestChannel,modifyOrderRequestChannel
 rt.int.monitoring.vendorOutboundChannel=newOrderRequestHttpChannel,cancelOrderRequestHttpChannel,modifyOrderRequestHttpChannel
@@ -36,8 +36,8 @@ rt.int.monitoring.taskExecutor.poolSize=10
 rt.int.header.source.name=Int-RealServicing
 rt.int.header.target.name=RealServicing
 
-rt.int.rs.username=<%= node[:rsUsername] %>
-rt.int.rs.password=<%= node[:rsPassword] %>
+rt.int.rs.username=<%= @rsuser %>
+rt.int.rs.password=<%= @rspass %>
 
 rt.int.poller.retry=4
 rt.int.poller.poolSize=10
