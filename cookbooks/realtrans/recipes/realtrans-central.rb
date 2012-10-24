@@ -85,6 +85,8 @@ rtrabbit = data_bag_item("rabbitmq", "realtrans")
 rtrabbit = rtrabbit['user'].split("|")
 # Obtain melissadata URL's to be passed to the property files from the data bag.
 melissadata = data_bag_item("integration", "melissadata")
+# Obtain mail server information to be passed to property file from the data bag.
+mailserver = data_bag_item("integration", "mail")
 # Template resource that creates the property file.
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
@@ -100,6 +102,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{rtrabbit[0]}",
     :amqppass => "#{rtrabbit[1]}",
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
+    :mailserver => mailserver,
     :melissadata => melissadata['melissadata']
   )
   notifies :restart, resources(:service => "altitomcat")
