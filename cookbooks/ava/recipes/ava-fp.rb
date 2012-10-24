@@ -11,22 +11,26 @@ app_version = node[:avafp_version]
 
 include_recipe "altisource::altitomcat"
 if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy]
+  rdochost = node[:realdocproxy].split(":")[0]
+  rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
+  rdocport = "8080"
 end
 if node.attribute?('avacenproxy')
-  avacenhost = node[:avacenproxy]
+  avacenhost = node[:avacenproxy].split(":")[0]
+  avacenport = node[:avacenproxy].split(":")[1]
 else
   avacenhost = {}
   search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
     avacenhost[n.ipaddress] = {}
   end
   avacenhost = avacenhost.first
+  avacenport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
@@ -69,13 +73,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["ava#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost}:8080",
-    :ava_cen_host => "#{avacenhost}:8080",
+    :realdoc_hostname => "#{rdochost}:#{rdocport}",
+    :ava_cen_host => "#{avacenhost}:#{avacenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{avarabbit[0]}",
     :amqppass => "#{avarabbit[1]}",
-    :realdoc_hostname => "#{rdochost}:8080",
     :melissadata => melissadata['melissadata']
   )
 end

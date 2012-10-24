@@ -10,31 +10,37 @@ app_version = node[:avacentral_version]
 include_recipe "altisource::altitomcat"
 
 if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy]
+  rdochost = node[:realdocproxy].split(":")[0]
+  rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
+  rdocport = "8080"
 end
 if node.attribute?('avacenproxy')
-  avacenhost = node[:avacenproxy]
+  avacenhost = node[:avacenproxy].split(":")[0]
+  avacenport = node[:avacenproxy].split(":")[1]
 else
   avacenhost = {}
   search(:node, "role:ava-cen AND chef_environment:#{node.chef_environment}") do |n|
     avacenhost[n.ipaddress] = {}
   end
   avacenhost = avacenhost.first
+  avacenport = "8080"
 end
 if node.attribute?('avavenproxy')
-  avavenhost = node[:avavenproxy]
+  avavenhost = node[:avavenproxy].split(":")[0]
+  avavenport = node[:avavenproxy].split(":")[1]
 else
   avavenhost = {}
   search(:node, "role:ava-ven AND chef_environment:#{node.chef_environment}") do |n|
     avavenhost[n.ipaddress] = {}
   end
   avavenhost = avavenhost.first
+  avavenport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
@@ -75,8 +81,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :ava_ven_host => "#{avavenhost}:8080",
-    :ava_cen_host => "#{avacenhost}:8080",
+    :ava_ven_host => "#{avavenhost}:#{avavenport}",
+    :ava_cen_host => "#{avacenhost}:#{avacenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{avarabbit[0]}",
