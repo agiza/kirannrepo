@@ -108,10 +108,10 @@ rf.security.password.lowerCaseMinDefault=1
 rf.security.password.upperCaseMinDefault=1
 rf.security.passwordTokenExpiryMinsDefault=30
 
-rf.email.host=<%= node[:mailhost] %>
-rf.email.port=<%= node[:mailport] %>
-rf.email.username=<%= node[:mailuser] %>
-rf.email.password=<%= node[:mailpass]%>
+rf.email.host=<%= @mailserver['host'].split(":")[0] %>
+rf.email.port=<%= @mailserver['host'].split(":")[1] %>
+rf.email.username=<%= @mailserver['user'] %>
+rf.email.password=<%= @mailserver['pass']%>
 
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html

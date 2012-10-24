@@ -42,6 +42,7 @@ end
 
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split("|")
+mailserver = data_bag_item("integration", "mail")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -51,7 +52,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}"
+    :amqppass => "#{rdrabbit[1]}",
+    :mailserver => mailserver
   )
   notifies :restart, resources(:service => "altitomcat")
 end
