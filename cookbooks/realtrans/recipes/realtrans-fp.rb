@@ -11,22 +11,26 @@ app_version = node[:realtransfp_version]
 
 include_recipe "altisource::altitomcat"
 if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy]
+  rdochost = node[:realdocproxy].split(":")[0]
+  rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = {}
   search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
     rdochost[n.ipaddress] = {}
   end
   rdochost = rdochost.first
+  rdocport = "8080"
 end
 if node.attribute?('rtcenproxy')
-  rtcenhost = node[:rtcenproxy]
+  rtcenhost = node[:rtcenproxy].split(":")[0]
+  rtcenport = node[:rtcenproxy].split(":")[1]
 else
   rtcenhost = {}
   search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
     rtcenhost[n.ipaddress] = {}
   end
   rtcenhost = rtcenhost.first
+  rtcenport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
@@ -69,8 +73,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :realdoc_hostname => "#{rdochost}:8080",
-    :rt_cen_host => "#{rtcenhost}:8080",
+    :realdoc_hostname => "#{rdochost}:#{rdocport}",
+    :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rtrabbit[0]}",
