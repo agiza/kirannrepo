@@ -22,7 +22,7 @@ package "#{app_name}" do
 end
 
 execute "rabbit-plugins" do
-  command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbimq_management"
+  command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbitmq_management"
   action :run
 end
 
