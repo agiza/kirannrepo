@@ -52,8 +52,8 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
-    :rsrequest => "#{realservicing['responseurl']}",
-    :rsresponse => "#{realservicing['requesturl']}",
+    :rsrequest => "#{realservicing['requesturl']}",
+    :rsresponse => "#{realservicing['responseurl']}",
     :rsuser => "#{realservicing['username']}",
     :rspass => "#{realservicing['password']}"
   )
