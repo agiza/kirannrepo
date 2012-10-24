@@ -80,7 +80,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rtrabbit[0]}",
     :amqppass => "#{rtrabbit[1]}",
-    :melissadata => melissadata['melissadata']
+    :melissadata => melissadata['melissadata'],
     :mailserver => mailserver
   )
 end
