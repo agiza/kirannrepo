@@ -100,6 +100,7 @@ rf.app.context.path=<%= @webHostname %>/realtrans-fp
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+rf.overwriteAppConfigArtifacts=<%= node[:rf_app_config_flag] %>
 
 rf.automaticTaskAssignment=true
 #rf.defaultNumberOfTasksPerGroup=5
