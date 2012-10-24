@@ -90,7 +90,8 @@ rf.app.context.path=<%= @webHostname %>/ava-vp
 rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
+<% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=<%= node[:rf_app_config_flag] %>
-
+<% end -%>
 rf.persistence.filters=vendorUserFilter
 
