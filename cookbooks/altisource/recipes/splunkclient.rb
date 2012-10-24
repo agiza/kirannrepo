@@ -50,11 +50,27 @@ template "/opt/splunkforwarder/etc/system/local/server.conf" do
   notifies :restart, resources(:service => "splunk")
 end
 
+if node.attribute?('splunkproxy')
+  splunkhost = node[:splunkproxy].split(":")[0]
+  splunkport = node[:splunkproxy].split(":")[1]
+else
+  splunkhost = {}
+  search(:node, "role:splunkserver") do |n|
+    splunkhost[n.ipaddress] = {}
+  end
+  splunkhost = splunkhost.first
+  splunkport = "8101"
+end
+
 template "/opt/splunkforwarder/etc/system/local/outputs.conf" do
   source "outputs.conf.erb"
   owner  "splunk"
   group  "splunk"
   mode   "0644"
+  variables( 
+    :splunkhost => "#{splunkhost}",
+    :splunkport => "#{splunkport}"
+  )
   notifies :restart, resources(:service => "splunk")
 end
 
