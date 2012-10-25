@@ -23,11 +23,9 @@ else
 
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
-  sslflag = webName['sslflag']
-  case "#{sslflag}"
-  when "true"
+  if node.attribute?('ssl_force')
     ssl = ".ssl"
-  when "false", "nil"
+  else
     ssl = ""
   end
   serveripallow = webName['serveripallow'].split("|")

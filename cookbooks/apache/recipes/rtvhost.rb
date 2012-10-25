@@ -22,7 +22,7 @@ if rtcenenvirons.nil? || rtcenenvirons.empty?
 else
   # Databag item for webserver hostname
   webName = data_bag_item("apache-server", "webhost")
-  if node.attribute?['ssl_force']
+  if node.attribute?('ssl_force')
     ssl = ".ssl"
   else
     ssl = ""
