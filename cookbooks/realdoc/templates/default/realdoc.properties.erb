@@ -68,8 +68,9 @@ rf.templateService.baseDirectoryPath=/opt/tomcat/temp
 rf.documentService.baseDirectoryPath=/opt/tomcat/temp
 rf.documentService.baseTemplatePath=/opt/tomcat/temp
 
-rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
 
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false

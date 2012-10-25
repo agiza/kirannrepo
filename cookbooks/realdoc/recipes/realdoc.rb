@@ -71,11 +71,13 @@ else
   end
 end
 
+# Integration components
 webHost = data_bag_item("apache-server", "webhost")
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -92,7 +94,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{rdrabbit[1]}",
     :rdochost => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :ldapserver => ldapserver
   )
 end
 

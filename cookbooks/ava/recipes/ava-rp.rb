@@ -73,11 +73,13 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration components
 webHost = data_bag_item("apache-server", "webhost")
 avarabbit = data_bag_item("rabbitmq", "realtrans")
 avarabbit = avarabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -94,7 +96,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{avarabbit[0]}",
     :amqppass => "#{avarabbit[1]}",
     :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :ldapserver => ldapserver
   )
 end
 

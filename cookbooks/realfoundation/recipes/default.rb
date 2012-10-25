@@ -65,6 +65,7 @@ rfrabbit = data_bag_item("rabbitmq", "realtrans")
 rfrabbit = rfrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/realfoundation.properties" do
   source "realfoundation.properties.erb"
   group 'tomcat'
@@ -79,7 +80,8 @@ template "/opt/tomcat/conf/realfoundation.properties" do
     :amqppass => "#{rfrabbit[1]}",
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :ldapserver => ldapserver
   )
 end
 

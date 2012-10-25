@@ -2,8 +2,9 @@ rf.db.dialect=org.hibernate.dialect.MySQLDialect
 rf.db.generateDdl=false
 rf.db.showSql=false
 
-rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
 
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false

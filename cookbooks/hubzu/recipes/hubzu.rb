@@ -30,6 +30,7 @@ end
 webHost = data_bag_item("apache-server", "webhost")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/hubzu.properties" do
   source "hubzu.properties.erb"
   group 'tomcat'
@@ -39,7 +40,8 @@ template "/opt/tomcat/conf/hubzu.properties" do
   variables( 
     :webHostname => webHost["hz#{node.chef_environment}"],
     :mailserver => mailserver,
-    :melissadata => melissadata['melissadata']
+    :melissadata => melissadata['melissadata'],
+    :ldapserver => ldapserver
   )
 end
 
