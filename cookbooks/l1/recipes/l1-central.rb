@@ -60,10 +60,12 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration components
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -77,7 +79,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{l1rabbit[1]}",
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :ldapserver => ldapserver
   )
   notifies :restart, resources(:service => "altitomcat")
 end
