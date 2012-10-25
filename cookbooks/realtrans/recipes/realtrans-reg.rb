@@ -67,6 +67,7 @@ rtrabbit = data_bag_item("rabbitmq", "realtrans")
 rtrabbit = rtrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
+ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
