@@ -39,8 +39,10 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration elements pulled from data bag.
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
+realres = data_bag_item("integration", "realresolution")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -50,7 +52,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}"
+    :amqppass => "#{amqpcred[1]}",
+    :realres => realres
   )
   notifies :restart, resources(:service => "altitomcat")
 end

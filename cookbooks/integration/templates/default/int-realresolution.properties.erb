@@ -1,7 +1,7 @@
-rres.ftp.host=<%= node[:rres_ftp_host] %>
-rres.ftp.port=<%= node[:rres_ftp_port] %>
-rres.ftp.user=<%= node[:rres_ftp_user] %>
-rres.ftp.pwd=<%= node[:rres_ftp_pass] %>
+rres.ftp.host=<%= @realres['ftphost'].split(":")[0] %>
+rres.ftp.port=<%= @realres['ftphost'].split(":")[1] %>
+rres.ftp.user=<%= @realres['user'] %>
+rres.ftp.pwd=<%= @realres['pass'] %>
 rres.filename.pattern=*.xml
 rres.remote.in.directory=/<%= node[:chef_environment] %>/input
 rres.local.directory=/tmp

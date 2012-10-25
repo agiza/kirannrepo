@@ -39,6 +39,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration elements.
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
 realservicing = data_bag_item("integration", "realservicing")
@@ -52,10 +53,7 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
-    :rsrequest => "#{realservicing['requesturl']}",
-    :rsresponse => "#{realservicing['responseurl']}",
-    :rsuser => "#{realservicing['username']}",
-    :rspass => "#{realservicing['password']}"
+    :realsvc => realservicing
   )
   notifies :restart, resources(:service => "altitomcat")
 end

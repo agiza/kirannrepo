@@ -11,8 +11,8 @@ rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
 rt.int.amqp.exchange.monitoring=rt.monitoring
 
-rt.int.realservicing.retrieveOrdersRequestUrl=<%= @rsrequest %>
-rt.int.realservicing.createOrderResponseUrl=<%= @rsresponse %>
+rt.int.realservicing.retrieveOrdersRequestUrl=<%= @realsvc['requesturl'] %>
+rt.int.realservicing.createOrderResponseUrl=<%= @realsvc['responseurl'] %>
 
 rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,cancelOrderRequestChannel,modifyOrderRequestChannel
 rt.int.monitoring.vendorOutboundChannel=newOrderRequestHttpChannel,cancelOrderRequestHttpChannel,modifyOrderRequestHttpChannel
@@ -36,12 +36,12 @@ rt.int.monitoring.taskExecutor.poolSize=10
 rt.int.header.source.name=Int-RealServicing
 rt.int.header.target.name=RealServicing
 
-rt.int.rs.username=<%= @rsuser %>
-rt.int.rs.password=<%= @rspass %>
+rt.int.rs.username=<%= @realsvc['username'] %>
+rt.int.rs.password=<%= @realsvc['password'] %>
 
 rt.int.poller.retry=4
 rt.int.poller.poolSize=10
-rt.int.realservicing.poller.delay=<%= node[:rs_poller_delay] %>
+rt.int.realservicing.poller.delay=<%= @realsvc['rspollerdelay']] %>
 
 rt.int.schema.path=/ava/schemas/
 rt.int.json.schema=realServicing.json
