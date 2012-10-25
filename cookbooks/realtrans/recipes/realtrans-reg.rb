@@ -61,6 +61,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration Components
 webHost = data_bag_item("apache-server", "webhost")
 rtrabbit = data_bag_item("rabbitmq", "realtrans")
 rtrabbit = rtrabbit['user'].split("|")
@@ -81,7 +82,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{rtrabbit[0]}",
     :amqppass => "#{rtrabbit[1]}",
     :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :ldapserver => ldapserver
   )
 end
 

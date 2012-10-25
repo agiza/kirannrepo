@@ -3,9 +3,10 @@ rt.amqp.port=<%= @amqpport %>
 rt.amqp.username=<%= @amqpuser %>
 rt.amqp.password=<%= @amqppass %>
 rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
-rf.ldap.port=<%= node[:ldap_port] %>
-rf.ldap.url=ldap://<%= node[:ldap_server] %>:<%= node[:ldap_port] %>
-rf.ldap.searchBase=<%= node[:ldap_searchbase] %>
+
+rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
+rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
 
 #vendor order app config related.
 rt.vendor.order.app.config.name=valuation

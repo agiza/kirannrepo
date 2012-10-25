@@ -78,6 +78,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration Elements here
 # Obtain apache vhost server name for installation into the property files for URL advertisement
 webHost = data_bag_item("apache-server", "webhost")
 # Obtain rabbitmq user credentials from the rabbitmq data bag.
@@ -87,6 +88,8 @@ rtrabbit = rtrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 # Obtain mail server information to be passed to property file from the data bag.
 mailserver = data_bag_item("integration", "mail")
+# Obtain ldap server information to be passed to property file from the data bag.
+ldapserver = data_bag_item("integration", ("ldap")
 # Template resource that creates the property file.
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
@@ -103,7 +106,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{rtrabbit[1]}",
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :mailserver => mailserver,
-    :melissadata => melissadata['melissadata']
+    :melissadata => melissadata['melissadata'],
+    :ldapserver => ldapserver
   )
   notifies :restart, resources(:service => "altitomcat")
 end
