@@ -89,7 +89,7 @@ melissadata = data_bag_item("integration", "melissadata")
 # Obtain mail server information to be passed to property file from the data bag.
 mailserver = data_bag_item("integration", "mail")
 # Obtain ldap server information to be passed to property file from the data bag.
-ldapserver = data_bag_item("integration", ("ldap")
+ldapserver = data_bag_item("integration", "ldap")
 # Template resource that creates the property file.
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
