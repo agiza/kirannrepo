@@ -16,12 +16,10 @@ if l1cenenvirons.nil? || l1cenenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
   # Databag item for webserver hostname
-  webName = data_bag_item("apache-server", "webhost")
-  sslflag = webName['sslflag']
-  case "#{sslflag}"
-  when "true"
+  #webName = data_bag_item("apache-server", "webhost")
+  if node.attribute?['ssl_force']
     ssl = ".ssl"
-  when "false", "nil"
+  else 
     ssl = ""
   end
   serveripallow = webName['serveripallow'].split("|")

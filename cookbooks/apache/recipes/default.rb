@@ -113,6 +113,7 @@ template "/etc/pki/tls/private/#{servername[0]}.key" do
   notifies :reload, resources(:service => "httpd")
 end
 
+# Provides a mechanism to include optional configurations by adding them to a data bag item.
 sitesinclude = data_bag_item("apache-server", "webhost")
 sitesinclude = sitesinclude['serversites'].split("|")
 sitesinclude.each do |site|
