@@ -20,7 +20,7 @@ if avacenenvirons.nil? || avacenenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
   # Databag item for webserver hostname
-  webName = data_bag_item("apache-server", "webhost")
+  webName = data_bag_item("infrastructure", "apache")
   if node.attribute?('ssl_force')
   then
     ssl = ".ssl"
@@ -45,10 +45,6 @@ else
     search(:node, "role:ava-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end
-  #  cenNames = search(:node, "role:ava-cen AND chef_environment:#{environ}")
-  #  venNames = search(:node, "role:ava-ven AND chef_environment:#{environ}")
-  #  cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-  #  venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/ava-#{environ}.proxy.conf" do
       source "ava.proxy.conf.erb"
       owner  "root"

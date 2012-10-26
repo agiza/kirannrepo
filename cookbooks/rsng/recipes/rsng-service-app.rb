@@ -23,13 +23,15 @@ else
 end
 
 if node.attribute?('rsngproxy')
-  rsnghost = node[:rsngproxy]
+  rsnghost = node[:rsngproxy].split(":")[0]
+  rsngport = node[:rsngproxy].split(":")[1]
 else
   rsnghost = {}
   search(:node, "role:rsng AND chef_environment:#{node.chef_environment}") do |n|
     rsnghost[n.ipaddress] = {}
   end
-  rsnghost = "#{rsnghost.first}:8080"
+  rsnghost = "#{rsnghost.first}"
+  rsngport = "8080"
 end
 
 service "altitomcat" do
@@ -49,7 +51,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-webHost = data_bag_item("apache-server", "webhost")
+webHost = data_bag_item("infrastructure", "apache")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
 template "/opt/tomcat/conf/rsng-service-app.properties" do
@@ -64,7 +66,7 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rsngcred[0]}",
     :amqppass => "#{rsngcred[1]}",
-    :rsnghost => "#{rsnghost}:8080"
+    :rsnghost => "#{rsnghost}:#{rsngport}"
   )
 end
 

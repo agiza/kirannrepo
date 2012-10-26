@@ -80,7 +80,7 @@ end
 
 # Integration Elements here
 # Obtain apache vhost server name for installation into the property files for URL advertisement
-webHost = data_bag_item("apache-server", "webhost")
+webHost = data_bag_item("infrastructure", "apache")
 # Obtain rabbitmq user credentials from the rabbitmq data bag.
 rtrabbit = data_bag_item("rabbitmq", "realtrans")
 rtrabbit = rtrabbit['user'].split("|")

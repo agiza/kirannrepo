@@ -60,9 +60,9 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-webHost = data_bag_item("apache-server", "webhost")
-rfrabbit = data_bag_item("rabbitmq", "realtrans")
-rfrabbit = rfrabbit['user'].split("|")
+webHost = data_bag_item("infrastructure", "apache")
+#rfrabbit = data_bag_item("rabbitmq", "realfoundation")
+#rfrabbit = rfrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
@@ -74,10 +74,10 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables( 
     :webHostname => webHost["rf#{node.chef_environment}"],
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rfrabbit[0]}",
-    :amqppass => "#{rfrabbit[1]}",
+    #:amqphost => "#{amqphost}",
+    #:amqpport => "#{amqpport}",
+    #:amqpuser => "#{rfrabbit[0]}",
+    #:amqppass => "#{rfrabbit[1]}",
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,

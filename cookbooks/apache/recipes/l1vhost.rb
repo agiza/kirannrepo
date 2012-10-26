@@ -16,7 +16,7 @@ if l1cenenvirons.nil? || l1cenenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
   # Databag item for webserver hostname
-  webName = data_bag_item("apache-server", "webhost")
+  webName = data_bag_item("infrastructure", "apache")
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else 
@@ -41,8 +41,6 @@ else
     search(:node, "role:l1-integration AND chef_environment:#{environ}") do |n|
       l1intNames[n.ipaddress] = {}
     end
-    #cenNames = search(:node, "role:l1-cen AND chef_environment:#{environ}")
-    #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"

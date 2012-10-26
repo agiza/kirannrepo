@@ -22,7 +22,7 @@ else
   rfenvirons = rfenvirons.split(" ")
 
   # Databag item for webserver hostname
-  webName = data_bag_item("apache-server", "webhost")
+  webName = data_bag_item("infrastructure", "apache")
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else

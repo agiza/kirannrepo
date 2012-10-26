@@ -72,7 +72,7 @@ else
 end
 
 # Integration components
-webHost = data_bag_item("apache-server", "webhost")
+webHost = data_bag_item("infrastructure", "apache")
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")

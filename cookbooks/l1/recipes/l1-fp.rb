@@ -63,7 +63,7 @@ yum_package "#{app_name}" do
 end
 
 # Integration components
-webHost = data_bag_item("apache-server", "webhost")
+webHost = data_bag_item("infrastructure", "apache")
 l1rabbit = data_bag_item("rabbitmq", "realtrans")
 l1rabbit = l1rabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")

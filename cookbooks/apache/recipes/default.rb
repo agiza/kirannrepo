@@ -69,21 +69,16 @@ template "/etc/httpd/conf.d/pagespeed.conf" do
 end
 
 # Look up ssl server name from data bag.
-servername = data_bag_item("apache-server", "webhost")
-servername = servername['servername'].split(",")
-bodylimit = data_bag_item("apache-server", "webhost")
-bodylimit = bodylimit['bodylimit']
-admin = data_bag_item("apache-server", "webhost")
-admin = admin['serveradmin']
+servername = data_bag_item("infrastructure", "apache")
 template "/etc/httpd/conf.d/ssl.conf" do
   source "ssl.conf.erb"
   owner "root"
   group "root"
   mode "0644"
   variables( 
-    :servername => "#{servername[0]}",
-    :proxyname => "#{servername[1]}",
-    :serveradmin => "#{admin}"
+    :servername => "#{servername('servername').split(",")[0]}",
+    :proxyname => "#{servername('servername').split(",")[1]}",
+    :serveradmin => "#{servername('serveradmin')}"
   )
   notifies :reload, resources(:service => "httpd")
 end
@@ -97,16 +92,16 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/certs/#{servername[0]}.crt" do
-  source "#{servername[0]}.crt.erb"
+template "/etc/pki/tls/certs/#{servername('servername').split(",")[0]}.crt" do
+  source "#{servername('servername').split(",")[0]}.crt.erb"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/private/#{servername[0]}.key" do
-  source "#{servername[0]}.key.erb"
+template "/etc/pki/tls/private/#{servername('servername').split(",")[0]}.key" do
+  source "#{servername('servername').split(",")[0]}.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
@@ -114,7 +109,7 @@ template "/etc/pki/tls/private/#{servername[0]}.key" do
 end
 
 # Provides a mechanism to include optional configurations by adding them to a data bag item.
-sitesinclude = data_bag_item("apache-server", "webhost")
+sitesinclude = data_bag_item("infrastructure", "apache")
 sitesinclude = sitesinclude['serversites'].split("|")
 sitesinclude.each do |site|
   template "/etc/httpd/conf.d/#{site}.conf" do

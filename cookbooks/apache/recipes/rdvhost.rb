@@ -20,7 +20,7 @@ else
   rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
   # Databag item for webserver hostname
-  webName = data_bag_item("apache-server", "webhost")
+  webName = data_bag_item("infrastructure", "apache")
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else
@@ -34,8 +34,6 @@ else
     search(:node, "role:realdoc AND chef_environment:#{environ}") do |n|
       rdNames[n.ipaddress] = {}
     end
-    #rdNames = search(:node, "role:realdoc AND chef_environment:#{environ}")
-    #rdNames = rdNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"
