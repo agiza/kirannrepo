@@ -76,9 +76,9 @@ template "/etc/httpd/conf.d/ssl.conf" do
   group "root"
   mode "0644"
   variables( 
-    :servername => servername('servername').split(",")[0],
-    :proxyname => servername('servername').split(",")[1],
-    :serveradmin => servername('serveradmin')
+    :servername => "#{servername['servername'].split(",")[0]}",
+    :proxyname => "#{servername['servername'].split(",")[1]}",
+    :serveradmin => "#{servername['serveradmin']}"
   )
   notifies :reload, resources(:service => "httpd")
 end
@@ -92,16 +92,16 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/certs/#{servername('servername').split(",")[0]}.crt" do
-  source "#{servername('servername').split(",")[0]}.crt.erb"
+template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
+  source "#{servername['servername'].split(",")[0]}.crt.erb"
   owner  "root"
   group  "root"
   mode   "0644"
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/pki/tls/private/#{servername('servername').split(",")[0]}.key" do
-  source "#{servername('servername').split(",")[0]}.key.erb"
+template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
+  source "#{servername['servername'].split(",")[0]}.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
