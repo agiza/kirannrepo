@@ -77,7 +77,7 @@ execute "app-init" do
   action :run
 end
 
-appdynamics = data_bag_item("appdynamics", "appdynamics")
+appdynamics = data_bag_item("infrastructure", "appdynamics")
 template "/opt/appdynamics/license.lic" do
   source "license.lic.erb"
   owner  "appdynamics"

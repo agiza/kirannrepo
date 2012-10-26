@@ -23,7 +23,7 @@ service "named" do
   action :nothing
 end
 
-zones = data_bag_item("dns", "zones")
+zones = data_bag_item("infrastructure", "dns")
 template "/etc/named.conf" do
   source "named.conf.erb"
   owner  "root"

@@ -49,7 +49,7 @@ execute "mongod-seed" do
   action :nothing
 end
 
-mongodbnames = data_bag_item("mongodb", "names")
+mongodbnames = data_bag_item("infrastructure", "mongodb")
 template "/etc/mongo/mongod-seed.sh" do
   source "mongod-seed.sh.erb"
   owner  "mongod"
