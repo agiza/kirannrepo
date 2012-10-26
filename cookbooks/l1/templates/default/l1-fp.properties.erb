@@ -99,7 +99,9 @@ rf.defaultPlugin=taskplanner
 rf.app.context.path=<%= @webHostname %>/l1-fp
 
 <% if node.run_list?('role[implementer]') -%>
-rf.startupAuthenticationProvider.enabled=<%= node[:rf_startup_flag] %>
+rf.startupAuthenticationProvider.enabled=true 
+<% else -%>
+rf.startupAuthenticationProvider.enabled=false
 <% end -%>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
