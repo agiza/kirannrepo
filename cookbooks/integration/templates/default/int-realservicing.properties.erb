@@ -11,8 +11,8 @@ rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 rt.int.amqp.exchange.messages.inbound=rt.core.incoming
 rt.int.amqp.exchange.monitoring=rt.monitoring
 
-rt.int.realservicing.retrieveOrdersRequestUrl=<%= @realsvc['requesturl'] %>
-rt.int.realservicing.createOrderResponseUrl=<%= @realsvc['responseurl'] %>
+rt.int.realservicing.retrieveOrdersRequestUrl=<%= @realsvc["requesturl#{node.chef_environment}"] %>
+rt.int.realservicing.createOrderResponseUrl=<%= @realsvc["responseurl#{node.chef_environment}"] %>
 
 rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,cancelOrderRequestChannel,modifyOrderRequestChannel
 rt.int.monitoring.vendorOutboundChannel=newOrderRequestHttpChannel,cancelOrderRequestHttpChannel,modifyOrderRequestHttpChannel
