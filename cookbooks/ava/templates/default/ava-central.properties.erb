@@ -112,4 +112,6 @@ rd.remote.singleUserMode=true
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=<%= node[:rf_app_config_flag] %>
 <% end -%>
-
+<% if node.attribute?('activiti_execute') -%>
+rf.activiti.jobExecutorActivate=true
+<% end -%>
