@@ -36,3 +36,11 @@ template "/opt/tomcat/conf/realservicing.simulator.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+template "/opt/tomcat/conf/Catalina/localhost/int-realservicing-simulator.xml" do
+  source "int-realservicing-simulator.xml.erb"
+  group  "tomcat"
+  owner  "tomcat"
+  mode   "0644"
+  notifies :restart, resources(:service => "altitomcat")
+end
+
