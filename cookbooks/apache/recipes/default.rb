@@ -76,9 +76,9 @@ template "/etc/httpd/conf.d/ssl.conf" do
   group "root"
   mode "0644"
   variables( 
-    :servername => "#{servername('servername').split(",")[0]}",
-    :proxyname => "#{servername('servername').split(",")[1]}",
-    :serveradmin => "#{servername('serveradmin')}"
+    :servername => servername('servername').split(",")[0],
+    :proxyname => servername('servername').split(",")[1],
+    :serveradmin => servername('serveradmin')
   )
   notifies :reload, resources(:service => "httpd")
 end
