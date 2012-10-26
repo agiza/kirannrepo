@@ -88,7 +88,7 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   owner  "root"
   group  "root"
   mode   "0644"
-  variables( :bodylimit => bodylimit )
+  variables( :bodylimit => servername['bodylimit'])
   notifies :reload, resources(:service => "httpd")
 end
 
