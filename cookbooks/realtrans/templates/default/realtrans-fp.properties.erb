@@ -110,7 +110,7 @@ rf.automaticTaskAssignment=true
 #rf.defaultNumberOfTasksPerGroup=5
 
 <% if node.attribute?('rf_app_config_flag') -%>
-rf.overwriteAppConfigArtifacts=<%= node[:rf_app_config_flag] %>
+rf.overwriteAppConfigArtifacts=true
 <% end -%>
 <% if node.attribute?('activiti_execute') -%>
 rf.activiti.jobExecutorActivate=true

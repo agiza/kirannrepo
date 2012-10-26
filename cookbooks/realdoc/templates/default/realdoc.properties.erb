@@ -120,6 +120,9 @@ rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
 rf.userNotificationFromAddress=<%= node[:mail_from] %>
 
+rf.taskManager.customColumns=approved,rejected,total,BATCH_ID
+rf.automaticTaskAssignment.enabled=true
+
 internalDomains=none
 
 rf.app.context.path=http://<%= @webHostname %>/realdoc
@@ -143,3 +146,8 @@ rd.remote.singleUserMode=true
 <% if node.attribute?('activiti_execute') -%>
 rf.activiti.jobExecutorActivate=true
 <% end -%>
+
+<% if node.attribute?('rf_app_config_flag') -%>
+rf.overwriteAppConfigArtifacts=true
+<% end -%>
+
