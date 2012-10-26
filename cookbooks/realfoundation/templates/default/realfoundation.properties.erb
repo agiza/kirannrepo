@@ -64,4 +64,6 @@ rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
 internalDomains=
-
+<% if node.attribute?('activiti_execute') -%>
+rf.activiti.jobExecutorActivate=true
+<% end -%>

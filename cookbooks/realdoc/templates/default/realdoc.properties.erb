@@ -136,4 +136,6 @@ realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 rd.remote.url=http://<%= @rdochost %>/realdoc/api
 rd.remote.defaultUsername=correspondence
 rd.remote.singleUserMode=true
-
+<% if node.attribute?('activiti_execute') -%>
+rf.activiti.jobExecutorActivate=true
+<% end -%>
