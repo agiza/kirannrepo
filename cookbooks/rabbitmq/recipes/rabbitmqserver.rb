@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "altisource::altirepo"
+include_recipe "infrastucture::selinux"
 
 app_name = "rabbitmq-server-config"
 app_version = node[:rabbitmqconfig_version]
