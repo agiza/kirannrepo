@@ -106,7 +106,7 @@ rf.startupAuthenticationProvider.enabled=false
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
-rf.automaticTaskAssignment=true
+rf.automaticTaskAssignment.enabled=true
 #rf.defaultNumberOfTasksPerGroup=5
 
 <% if node.attribute?('rf_app_config_flag') -%>
