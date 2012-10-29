@@ -41,11 +41,13 @@ end
 
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
-# Finde environment specific settings if they exist.
-if data_bag_item?("integration", "corelogic#{node.chef_environment}")
-  corelogic = data_bag_item("integration", "corelogic#{node.chef_environment}")
+# Find environment specific settings if they exist.
+corelogicenv = data_bag_item("integration", "corelogic#{node.chef_environment}")
+corelogicraw = data_bag_item("integration", "corelogic")
+if corelogicenv.nil? || corelogicenv.empty?
+  corelogic = corelogicraw
 else
-  corelogic = data_bag_item("integration", "corelogic")
+  corelogic = corelogicenv
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
