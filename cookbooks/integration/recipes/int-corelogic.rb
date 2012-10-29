@@ -41,7 +41,7 @@ end
 
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
-# Find environment specific settings if they exist.
+# Find environment specific data bag settings if they exist, if not roll back to simple data bag.
 corelogicenv = data_bag_item("integration", "corelogic#{node.chef_environment}")
 corelogicraw = data_bag_item("integration", "corelogic")
 if corelogicenv.nil? || corelogicenv.empty?
