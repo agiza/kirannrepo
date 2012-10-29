@@ -43,7 +43,7 @@ end
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
 realservicing = data_bag_item("integration", "realservicing")
-realsvcsim = search(:node, "run_list:recipe\[integration\:\:realsvc-sim\] AND chef_environment:#{node.chef_environment}").ipaddress
+realsvcsim = search(:node, %Q{run_list:recipe[integration::realsvc-sim] AND chef_environment:#{node.chef_environment}}).ipaddress
 if realsvcsim.nil? || realsvcsim.empty?
   realsvcrequrl = "http://#{realsvcsim}:8080/int-realservicing-simulator/order/create/"
   realsvcresurl = "http://#{realsvcsim}:8080/int-realservicing-simulator/order/response/ack/"
