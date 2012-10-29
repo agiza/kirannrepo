@@ -43,14 +43,6 @@ end
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
 realservicing = data_bag_item("integration", "realservicing")
-realsvcsim = search(:node, %Q{run_list:recipe[integration::realsvc-sim] AND chef_environment:#{node.chef_environment}}).ipaddress
-if realsvcsim.nil? || realsvcsim.empty?
-  realsvcrequrl = "http://#{realsvcsim}:8080/int-realservicing-simulator/order/create/"
-  realsvcresurl = "http://#{realsvcsim}:8080/int-realservicing-simulator/order/response/ack/"
-else
-  realsvcrequrl = realservicing['requesturl']
-  realsvcresurl = realservicing['responseurl']
-end
 template "/opt/tomcat/conf/int-realservicing.properties" do
   source "int-realservicing.properties.erb"
   group 'tomcat'
@@ -61,9 +53,7 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
-    :realsvc => realservicing,
-    :realsvcrequrl => realsvcrequrl,
-    :realsvcresurl => realsvcresurl
+    :realsvc => realservicing
   )
   notifies :restart, resources(:service => "altitomcat")
 end
