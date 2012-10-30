@@ -4,5 +4,5 @@ if [ "$hostname" == "" ]; then
 	echo "This command requires a hostname to be provided."; exit 1
 fi
 
-ssh -q -o StrictHostKeyChecking=no root@$hostname "chef-client"
+ssh -q -o StrictHostKeyChecking=no root@$hostname "yum clean all; chef-client"
 
