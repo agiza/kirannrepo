@@ -6,6 +6,6 @@ Allow from all
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
 <Location /yum>
-ProxyPass  http://<%= node[:yumrepo_host] %>/yum/
+ProxyPass  http://<%= node[:yumrepo_host] %>/yum
 </Location>
 
