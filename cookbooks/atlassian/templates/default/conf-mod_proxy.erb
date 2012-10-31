@@ -5,5 +5,7 @@ Allow from all
 
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
-ProxyPass                                       /confluence     http://<%= node[:confluence_server] %>:<%= node[:confluence_port] %>/confluence
-ProxyPassReverse                                /confluence     http://<%= node[:confluence_server] %>:<%= node[:confluence_port] %>/confluence
+<Location /confluence>
+ProxyPass  http://<%= node[:confluence_server] %>:<%= node[:confluence_port] %>/confluence
+
+</Location>

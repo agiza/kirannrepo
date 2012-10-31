@@ -5,8 +5,10 @@ Allow from all
 
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
-ProxyPass               /crowd          http://atlas:8095/crowd
-ProxyPassReverse        /crowd          http://atlas:8095/crowd
-ProxyPass               /openidserver   http://atlas:8095/openidserver
-ProxyPassReverse        /openidserver   http://atlas:8095/openidserver
+<Location /crowd>
+ProxyPass   http://atlas:8095/crowd
+</Location>
+<Location /openidserver>
+ProxyPass   http://atlas:8095/openidserver
+</Location>
 

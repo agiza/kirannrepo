@@ -5,7 +5,7 @@ Allow from all
 
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
-ProxyPass                                       /jira   http://<%= node[:jira_server] %>:<%= node[:jira_port] %>/jira
-ProxyPassReverse                                /jira   http://<%= node[:jira_server] %>:<%= node[:jira_port] %>/jira
-
+<Location /jira>
+ProxyPass   http://<%= node[:jira_server] %>:<%= node[:jira_port] %>/jira
+</Location>
 
