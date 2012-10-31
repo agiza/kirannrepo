@@ -5,7 +5,8 @@ Allow from all
 
 ProxyRequests                Off
 ProxyPreserveHost            On
-ProxyPass                    /fisheye        http://<%= node[:fisheye_server] %>:<%= node[:fisheye_port] %>/fisheye
-ProxyPassReverse             /fisheye        http://<%= node[:fisheye_server] %>:<%= node[:fisheye_port] %>/fisheye
+<Location /fisheye>
+ProxyPass   http://<%= node[:fisheye_server] %>:<%= node[:fisheye_port] %>/fisheye
+</Location>
 
 
