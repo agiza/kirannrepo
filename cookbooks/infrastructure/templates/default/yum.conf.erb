@@ -1,0 +1,7 @@
+    Alias /yum/ "/var/www/html/yum-repo/"
+    <Directory "/var/www/html/yum-repo/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
