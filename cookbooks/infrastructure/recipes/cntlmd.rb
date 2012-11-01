@@ -16,11 +16,15 @@ service "cntlmd" do
   action :nothing
 end
 
+proxyinfo = data_bag_item("infrastructure", "proxy")
 template "/etc/cntlm.conf" do
   source "cntlm.conf.erb"
   owner  "root"
   group  "root"
   mode   "0755"
+  variables(
+    :proxyinfo => proxyinfo
+  )
   notifies :restart, resources(:service => "cntlmd")
 end
 
