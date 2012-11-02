@@ -42,6 +42,7 @@ end
 # Integration elements pulled from data bag.
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
+realsvc = data_bag_item("integration", "realservicing")
 realres = data_bag_item("integration", "realresolution")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
@@ -53,7 +54,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
-    :realres => realres
+    :realres => realres,
+    :realsvc => realsvc
   )
   notifies :restart, resources(:service => "altitomcat")
 end

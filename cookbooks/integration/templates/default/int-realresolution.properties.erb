@@ -10,39 +10,39 @@ rres.ftp.poller.delay=120000
 rres.remote.archive.directory=/<%= node[:chef_environment] %>/archive
 rres.remote.error.directory=/<%= node[:chef_environment] %>/error
 
-monitoring.taskExecutor.poolSize=10
+rt.int.amqp.username=<%= @amqpuser %>
+rt.int.amqp.password=<%= @amqppass %>
+rt.int.amqp.host=<%= @amqphost %>
+rt.int.amqp.port=<%= @amqpport %>
+rt.int.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
 
-amqp.username=<%= @amqpuser %>
-amqp.password=<%= @amqppass %>
-amqp.host=<%= @amqphost %>
-amqp.port=<%= @amqpport %>
-amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.int.amqp.exchange.messages.inbound=rt.core.incoming
+rt.int.amqp.queue.inbound=realresolution.order.response
+rt.int.amqp.rt.core.deadmessage=rt.core.deadmessage
+rt.int.amqp.exchange.monitoring=rt.monitoring
 
-amqp.exchange.messages.inbound=rt.core.incoming
-amqp.queue.inbound=realresolution.order.response
-amqp.rt.core.deadmessage=rt.core.deadmessage
-amqp.exchange.monitoring=rt.monitoring
+rt.int.monitoring.vendorOutboundChannel=
+rt.int.monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
+rt.int.monitoring.realtransOutboundChannel=avaOrderResponseChannel
+rt.int.monitoring.vendorInboundChannel=
 
-monitoring.vendorOutboundChannel=
-monitoring.realtransInboundChannel=amqpCreateOrdersRequestChannel
-monitoring.realtransOutboundChannel=avaOrderResponseChannel
-monitoring.vendorInboundChannel=
+rt.int.monitoring.realtrans.inbound.source=Trans-Central
+rt.int.monitoring.realtrans.inbound.target=Int-RealResolution
 
-monitoring.realtrans.inbound.source=Trans-Central
-monitoring.realtrans.inbound.target=Int-RealResolution
+rt.int.monitoring.vendor.outbound.source=Int-RealResolution
+rt.int.monitoring.vendor.outbound.target=RealResolution
 
-monitoring.vendor.outbound.source=Int-RealResolution
-monitoring.vendor.outbound.target=RealResolution
+rt.int.monitoring.vendor.inbound.source=RealResolution
+rt.int.monitoring.vendor.inbound.target=Int-RealResolution
 
-#No communication from RealServicing to our integration
-monitoring.vendor.inbound.source=RealResolution
-monitoring.vendor.inbound.target=Int-RealResolution
-
-monitoring.realtrans.outbound.source=Trans-Central
-monitoring.realtrans.outbound.target=Int-RealResolution
-
+rt.int.monitoring.realtrans.outbound.source=Trans-Central
+rt.int.monitoring.realtrans.outbound.target=Int-RealResolution
 
 rt.int.monitoring.taskExecutor.poolSize=10
 rt.int.schema.path=/ava/schemas/
 rt.int.json.schema=realServicing.json
 rt.int.header.schema=realServicingHeader.json
+
+rt.int.rres.local.directory=/tmp
+rt.int.rres.poller.delay=<%= @realsvc['rspollerdelay'] %>
+
