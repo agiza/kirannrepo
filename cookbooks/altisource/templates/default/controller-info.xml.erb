@@ -31,7 +31,7 @@
     to the same as ${server.tier} This can be overridden with the system property '-Dappdynamics.agent.tierName'
     You may also use expressions as ${server.tier}_${some.property}.MyTier to define the tier name.
     -->
-    <tier-name><%= node[:chef_environment] %></tier-name>
+    <tier-name><%= "#{node.chef_environment}" %></tier-name>
 
     <!-- Specify a unique name for this jvm node. The name must be unique within the business application. e.g. weblogicinstance23 or
     hweb24. If your JVM / AppServer start up script already has a system property that can be used as a node name, e.g. -Dserver.name
