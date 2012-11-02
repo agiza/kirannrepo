@@ -4,8 +4,6 @@ rres.ftp.user=<%= @realres['user'] %>
 rres.ftp.pwd=<%= @realres['pass'] %>
 rres.filename.pattern=*.xml
 rres.remote.in.directory=/<%= "#{node.chef_environment}" %>/input
-rres.local.directory=/tmp
-rres.ftp.poller.delay=120000
 
 rres.remote.archive.directory=/<%= "#{node.chef_environment}" %>/archive
 rres.remote.error.directory=/<%= "#{node.chef_environment}" %>/error
