@@ -1,6 +1,6 @@
 #!/bin/bash
 opt_check=`grep storage /etc/fstab`
-disk_find=`sudo fdisk -l | grep 214.7 | cut -d " " -f2 | sed -e s/://g`
+disk_find=`sudo fdisk -l | grep 429.5 | cut -d " " -f2 | sed -e s/://g`
 if [ "$opt_check" ==  "" ]; then
   sudo echo "$disk_find /storage        ext4    defaults        1 1" >> /etc/fstab
 fi
