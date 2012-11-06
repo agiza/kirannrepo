@@ -15,7 +15,7 @@ rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
 
 #vendor order app config related.
 rt.vendor.order.app.config.name=valuation
-rt.vendor.order.app.config.version=1.0
+rt.vendor.order.app.config.version=<%= node[:vendor_app_config_version] %>
 rt.vendor.order.process.definition.key=VendorOrderMainProcess
 
 #Vendor Certification app config related.
@@ -123,4 +123,5 @@ rf.overwriteAppConfigArtifacts=true
 <% if node.attribute?('activiti_execute') -%>
 rf.activiti.jobExecutorActivate=true
 <% end -%>
+
 
