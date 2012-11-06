@@ -10,17 +10,9 @@ rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
 
-#vendor order app config related.
-rt.vendor.order.app.config.name=valuation
-rt.vendor.order.app.config.version=1.0
-rt.vendor.order.process.definition.key=VendorAssignmentMainProcess
 rt.vendor.certification.candidateGroup=CREDENTIAL_REVIEW_GROUP
 rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 
-#Vendor Certification app config related.
-rt.vendor.certification.app.config.name=certification
-rt.vendor.certification.app.config.version=1.0
-rt.vendor.certification.process.definition.key=VendorCertificationMainProcess
 rt.vendor.permission.category.name=VENDOR_PERMISSION_CATEGORY
 
 #Settings for realdoc integration
