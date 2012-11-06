@@ -9,7 +9,7 @@ gpgcheck=1
 plugins=1
 installonly_limit=3
 <% if node.attribute?('yum_proxy') -%>
-proxy=http://<%= node[:yum_proxy] %>
+proxy=http://<%= node[:yum_proxy] %>/
 no_proxy=127.0.0.1,localhost,172.*,192.*,*.ascorp.com
 <% end -%>
 
