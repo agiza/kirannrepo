@@ -92,8 +92,7 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-servercert = servername['servername'].split(",")[0]
-servercert = "#{servercert}.crt"
+servercert = "#{servername['servername'].split(",")[0]}.crt"
 template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
   source "servername.crt.erb"
   owner  "root"
@@ -104,8 +103,8 @@ template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
   )
   notifies :reload, resources(:service => "httpd")
 end
-serverkey = servername['servername'].split(",")[0]
-serverkey = "#{serverkey}.key"
+
+serverkey = "#{servername['servername'].split(",")[0]}.key"
 template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
   source "servername.key.erb"
   owner  "root"
