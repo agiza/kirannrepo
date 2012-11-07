@@ -97,6 +97,9 @@ template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
   owner  "root"
   group  "root"
   mode   "0644"
+  variables(
+    :servername => servername
+  )
   notifies :reload, resources(:service => "httpd")
 end
 
