@@ -93,7 +93,7 @@ template "/etc/httpd/conf.d/mod_security.conf" do
 end
 
 template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
-  source "#{servername['servername'].split(",")[0]}.crt.erb"
+  source "servername.crt.erb"
   owner  "root"
   group  "root"
   mode   "0644"
@@ -104,7 +104,7 @@ template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
 end
 
 template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
-  source "#{servername['servername'].split(",")[0]}.key.erb"
+  source "servername.key.erb"
   owner  "root"
   group  "root"
   mode   "0640"
