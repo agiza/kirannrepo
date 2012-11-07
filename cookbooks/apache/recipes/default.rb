@@ -99,7 +99,8 @@ template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
   group  "root"
   mode   "0644"
   variables(
-    :servercert => servername["servercert"]
+    :servercert => servercert,
+    :servername => servername
   )
   notifies :reload, resources(:service => "httpd")
 end
@@ -111,7 +112,8 @@ template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
   group  "root"
   mode   "0640"
   variables(
-    :serverkey => servername["serverkey"]
+    :serverkey => serverkey,
+    :servername => servername
   )
   notifies :reload, resources(:service => "httpd")
 end
