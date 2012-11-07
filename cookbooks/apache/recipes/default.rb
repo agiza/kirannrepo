@@ -92,30 +92,35 @@ template "/etc/httpd/conf.d/mod_security.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-servercert = "#{servername['servername'].split(",")[0]}.crt"
-template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
-  source "servername.crt.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables(
-    :servercert => servercert,
-    :servername => servername
-  )
-  notifies :reload, resources(:service => "httpd")
-end
+# Checks to see if there is a servername to correspond with SSL certificates.
+if servername['servername'].nil? || servername['servername'].empty?
+  Chef::Log.info("No services returned from search.")
+else
+  servercert = "#{servername['servername'].split(",")[0]}.crt"
+  template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
+    source "servername.crt.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    variables(
+      :servercert => servercert,
+      :servername => servername
+    )
+    notifies :reload, resources(:service => "httpd")
+  end
 
-serverkey = "#{servername['servername'].split(",")[0]}.key"
-template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
-  source "servername.key.erb"
-  owner  "root"
-  group  "root"
-  mode   "0640"
-  variables(
-    :serverkey => serverkey,
-    :servername => servername
-  )
-  notifies :reload, resources(:service => "httpd")
+  serverkey = "#{servername['servername'].split(",")[0]}.key"
+  template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
+    source "servername.key.erb"
+    owner  "root"
+    group  "root"
+    mode   "0640"
+    variables(
+      :serverkey => serverkey,
+      :servername => servername
+    )
+    notifies :reload, resources(:service => "httpd")
+  end
 end
 
 # Provides a mechanism to include optional configurations by adding them to a data bag item.
