@@ -3,7 +3,9 @@
 # Recipe:: yumclient
 #
 
-proxyinfo = data_bag_item("infrastructure","proxy")
+if node.attribute?("yum_proxy")
+  proxyinfo = data_bag_item("infrastructure","proxy")
+end
 proxyserver = {}
 search(:node, 'recipes:infrastructure\:\:cntlmd') do |n|
   proxyserver[n.ipaddress] = {}
