@@ -18,8 +18,8 @@ else
     owner "root"
     group "root"
     variables(
-      :proxyinfo = proxyinfo,
-      :proxyserver = proxyserver
+      :proxyinfo => proxyinfo,
+      :proxyserver => proxyserver
     )
   end
 end
