@@ -4,6 +4,8 @@
 #
 
 #include_recipe "java"
+include_recipe "yumclient"
+
 app_name = "altitomcat"
 
 appdynhost = {}

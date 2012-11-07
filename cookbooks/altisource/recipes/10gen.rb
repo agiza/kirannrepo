@@ -4,6 +4,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "yumclient"
 
 execute "yum" do
   command "yum clean all"
