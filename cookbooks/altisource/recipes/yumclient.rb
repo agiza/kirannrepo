@@ -3,7 +3,7 @@
 # Recipe:: yumclient
 #
 
-if data_bag_item("infrastructure","proxy").nil? || data_bag_item("infrastructure","proxy").empty?
+if search(:infrastructure, "id:proxy").nil? || search(:infrastructure, "id:proxy").empty?
   Chef::Log.info("No services returned from search.")
 else
   proxyinfo = data_bag_item("infrastructure","proxy")
