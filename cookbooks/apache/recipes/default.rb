@@ -108,6 +108,9 @@ template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
   owner  "root"
   group  "root"
   mode   "0640"
+  variables(
+    :servername => servername
+  )
   notifies :reload, resources(:service => "httpd")
 end
 
