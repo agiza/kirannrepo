@@ -23,7 +23,7 @@ else
     group "root"
     variables(
       :proxyinfo => proxyinfo,
-      :proxyserver => proxyserver
+      :proxyserver => "#{proxyserver}:3128"
     )
   end
 end
