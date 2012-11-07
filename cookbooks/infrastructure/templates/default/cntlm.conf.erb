@@ -26,12 +26,12 @@ Password	<%= @proxyinfo['password'] %>
 # List of parent proxies to use. More proxies can be defined
 # one per line in format <proxy_ip>:<proxy_port>
 #
-Proxy		asusproxy.ascorp.com:80
+Proxy		<%= @proxyinfo['corp_proxy'] %>
 
 # List addresses you do not want to pass to parent proxies
 # * and ? wildcards can be used
 #
-NoProxy		localhost, 127.0.0.*, 10.*, 192.168.*, 172.*, *.ascorp.com
+NoProxy		<%= @proxyinfo['proxy_exclude'] %>
 
 # Specify the port cntlm will listen on
 # You can bind cntlm to specific interface by specifying

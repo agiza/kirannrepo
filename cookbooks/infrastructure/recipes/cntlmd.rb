@@ -17,15 +17,19 @@ service "cntlmd" do
 end
 
 proxyinfo = data_bag_item("infrastructure", "proxy")
-template "/etc/cntlm.conf" do
-  source "cntlm.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-  variables(
-    :proxyinfo => proxyinfo
-  )
-  notifies :restart, resources(:service => "cntlmd")
+if proxyinfo.nil? || proxyinfo.empty?
+  Chef::Log.info("No services returned from search.")
+else
+  template "/etc/cntlm.conf" do
+    source "cntlm.conf.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
+    variables(
+      :proxyinfo => proxyinfo
+    )
+    notifies :restart, resources(:service => "cntlmd")
+  end
 end
 
 service "cntlmd" do

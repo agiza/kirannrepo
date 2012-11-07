@@ -10,7 +10,7 @@ plugins=1
 installonly_limit=3
 <% if node.attribute?('yum_proxy') -%>
 proxy=http://<%= node[:yum_proxy] %>/
-no_proxy=127.0.0.1,localhost,172.*,192.*,*.ascorp.com
+no_proxy=127.0.0.1,localhost,172.*,192.*,10.*,*.ascorp.com
 <% end -%>
 
 #  This is the default, if you make this bigger yum won't see if the metadata
