@@ -61,6 +61,7 @@ else
   search(:node, "role:mongodb-master") do |n|
     mongoHost[n.ipaddress] = {}
   end
+mongoHost = mongoHost.first
 end
 if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]

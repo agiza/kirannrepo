@@ -30,8 +30,9 @@ end
 
 mongoHost = {}
 search(:node, "role:mongodb-master") do |n|
-  mongoHost[n.fqdn] = {}
+  mongoHost[n.ipaddress] = {}
 end
+mongoHost = mongoHost.first
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
