@@ -1,6 +1,4 @@
 //  to run: sudo $MONGO_HOME/bin/mongo localhost:27017/realdoc --quiet seedData.js
-db.real_permission.insert({"partyId":"1d4695c8-9771-4767-9f12-110f0df554cd", "isSuperUser":true})
-db.real_permission.insert({"partyId":"correspondence", "isSuperUser":true})
 
 //category
 db.real_menu_parent.insert({"code":"Loan", "fieldName":"parent"})

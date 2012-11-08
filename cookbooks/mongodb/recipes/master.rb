@@ -75,6 +75,13 @@ template "/etc/mongo/addrData.addIndexes.js" do
   notifies :run, resources(:execute => "mongod-seed")
 end
 
+template "/etc/mongo/demoData.js" do
+  source "demoData.js"
+  owner  "mongod"
+  group  "mongod"
+  mode   "0644"
+  notifies :run, resources(:execute => "mongod-seed")
+end
 
 service "mongod" do
   action [:enable, :start]
