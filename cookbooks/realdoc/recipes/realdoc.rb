@@ -58,7 +58,7 @@ if node.attribute?('mongomasterproxy')
   mongoHost = node[:mongomasterproxy]
 else
   mongoHost = {}
-  search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
+  search(:node, "role:mongodb-master") do |n|
     mongoHost[n.ipaddress] = {}
   end
 end

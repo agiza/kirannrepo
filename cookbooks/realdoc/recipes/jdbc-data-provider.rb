@@ -29,7 +29,7 @@ yum_package "#{app_name}" do
 end
 
 mongoHost = {}
-search(:node, "role:mongodb-master AND chef_environment:#{node.chef_environment}") do |n|
+search(:node, "role:mongodb-master") do |n|
   mongoHost[n.fqdn] = {}
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
