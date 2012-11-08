@@ -60,26 +60,35 @@ template "/etc/mongo/mongod-seed.sh" do
 end
 
 template "/etc/mongo/seedData.js" do
-  source "seedData.js"
+  source "seedData.js.erb"
   owner  "mongod"
   group  "mongod"
   mode   "0644"
+  variables(
+    :seeddata => mongodbnames['seedData.js']
+  )
   notifies :run, resources(:execute => "mongod-seed")
 end
 
-template "/etc/mongo/addrData.addIndexes.js" do
-  source "addIndexes.js"
+template "/etc/mongo/addIndexes.js" do
+  source "addIndexes.js.erb"
   owner  "mongod"
   group  "mongod"
   mode   "0644"
+  variables(
+    :addindexes => mongodbnames['addIndexes.js']
+  )
   notifies :run, resources(:execute => "mongod-seed")
 end
 
 template "/etc/mongo/demoData.js" do
-  source "demoData.js"
+  source "demoData.js.erb"
   owner  "mongod"
   group  "mongod"
   mode   "0644"
+  variables(
+    :demodata => mongodbnames['demoData.js']
+  )
   notifies :run, resources(:execute => "mongod-seed")
 end
 
