@@ -1,0 +1,8 @@
+#!/bin/bash
+# This script will periodically upload all cookbooks to the chef server.
+cd /home/rtnextgen/chef-repo
+for i in `ls cookbooks/ | grep -v README`; do
+        echo "Uploading $i cookbook"
+        knife cookbook upload $i
+done
+

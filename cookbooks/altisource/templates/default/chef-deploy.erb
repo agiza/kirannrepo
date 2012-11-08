@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# variable definition
+tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
+
+# functions
+environ_list(){
+env_list=`knife environment list | grep -v _default`
+}
+
+target_search(){
+target_list=`knife search node "$app_attribute:* AND chef_environment:$target_env" | grep "Node Name" | cut -d ":" -f2`
+}
+
+current_version(){
+curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
+}
+
+tag_instance(){
+if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
+  echo "Missing critical information, command can not be completed. Your command was $target_list, $app_name, $version."; exit 1
+fi
+for target_host in $target_list; do
+  $tag_cmd
+done
+}
+
