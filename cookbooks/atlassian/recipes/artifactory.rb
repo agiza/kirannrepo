@@ -65,7 +65,7 @@ end
 
 service "artifactory" do
   supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable, :start]
+  action :enable
 end
 
 cron "backups" do
