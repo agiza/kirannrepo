@@ -2,17 +2,31 @@
 
 # variable definition
 tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
-app_list="<%= @app_names %>"
-app_names=`for i in `echo $app_list`; do echo $i | cut -d "|" -f1"`
 
 # functions
+
+app_names(){
+if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
+if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
+app_list="<%= @app_names %>"
+for i in `echo "$app_list"`; do
+        echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
+        app_name=`echo $i | cut -d "|" -f1`
+        app_version=`echo $i | cut -d "|" -f2`
+        echo "$app_name|$app_version" >> /tmp/rpm-versions.txt
+done
+app_list=`cat /tmp/rpm-versions.txt`
+applications=`cat /tmp/rpm-appnames.txt`
+app_names=`echo -e "$applications"`
+}
+
 environ_list(){
 env_list=`knife environment list | grep -v _default`
 }
 
 attr_select(){
 for i in `echo $app_name`; do
-  app_attribute=`echo $app_list | grep $i | cut -d "|" -f2`
+  app_attribute=`grep $i /tmp/rpm-versions | cut -d "|" -f2`
 done
 }
 
@@ -83,13 +97,7 @@ env=`echo $env_list`
 }
 
 select_app(){
-if [ -f /tmp/app_name.txt ]; then
-  rm -rf /tmp/app_name.txt
-fi
-for i in `echo "$app_list"`; do
-echo $i | cut -d "|" -f1 >> /tmp/app_name.txt
-done
-app=`cat /tmp/app_name.txt`
+app=`echo $app_names`
    clear
    select func in $app; do
       case $func in
@@ -99,9 +107,6 @@ app=`cat /tmp/app_name.txt`
          ;;
       esac
    done
-if [ -f /tmp/app_name.txt ]; then
-  rm -rf /tmp/app_name.txt
-fi
 }
 
 enter_version(){
