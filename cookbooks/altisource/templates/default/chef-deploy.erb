@@ -149,6 +149,9 @@ version=$ver
 fi
 }
 
+read_me(){
+echo "This script is a simple interface to allow some automated actions against the current chef environment.  Basically, you can tag new versions of software to be deployed, execute those deployments, check for current versions per Chef, actual versions per RPM, start and stop the tomcat instance for scheduled upgrades, and perform test runs of chef client on the instances to see the effects of proposed changes.  Further functionality to stage full, multiple target/version implementations will be added later."
+}
 #This is the actual menu for the wrapper script.
 while :
         do
