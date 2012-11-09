@@ -83,7 +83,9 @@ env=`echo $env_list`
 }
 
 select_app(){
-app=`for i in `echo "$app_list"`; do echo $i | cut -d "|" -f1; done`
+for i in `echo "$app_list"`; do
+app=`echo $i | cut -d "|" -f1`
+done
    clear
    select func in $app; do
       case $func in
