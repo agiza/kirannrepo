@@ -3,7 +3,7 @@
 # Prep the filesystem with the application names.
 if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
 if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
-app_list="<%= @app_names %>"
+app_list="<%= @appnames %>"
 for i in `echo "$app_list"`; do
         echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
 	echo $i >> /tmp/rpm-versions.txt
