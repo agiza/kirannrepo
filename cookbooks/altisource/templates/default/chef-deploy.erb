@@ -83,9 +83,13 @@ env=`echo $env_list`
 }
 
 select_app(){
+if [ -f /tmp/app_name.txt ]; then
+  rm -rf /tmp/app_name.txt
+fi
 for i in `echo "$app_list"`; do
-app=`echo $i | cut -d "|" -f1`
+echo $i | cut -d "|" -f1 >> /tmp/app_name.txt
 done
+app=`cat /tmp/app_name.txt`
    clear
    select func in $app; do
       case $func in
@@ -95,6 +99,9 @@ done
          ;;
       esac
    done
+if [ -f /tmp/app_name.txt ]; then
+  rm -rf /tmp/app_name.txt
+fi
 }
 
 enter_version(){
