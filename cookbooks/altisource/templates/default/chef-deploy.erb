@@ -53,6 +53,7 @@ done
 chef_testrun(){
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
+echo "Please wait while test run is performed, this may take a few minutes...."
 $ssh_command root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt
 less -f /tmp/chef-testrun/chef-test.txt
 rm /tmp/chef-testrun/chef-test.txt
