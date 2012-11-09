@@ -1,25 +1,22 @@
 #!/bin/bash
 
-# variable definition
-tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
-app_names
-
-# functions
-
-app_names(){
+# Prep the filesystem with the application names.
 if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
 if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
 app_list="<%= @app_names %>"
 for i in `echo "$app_list"`; do
         echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
-        app_name=`echo $i | cut -d "|" -f1`
-        app_version=`echo $i | cut -d "|" -f2`
-        echo "$app_name|$app_version" >> /tmp/rpm-versions.txt
+	echo $i >> /tmp/rpm-versions.txt
 done
 app_list=`cat /tmp/rpm-versions.txt`
 applications=`cat /tmp/rpm-appnames.txt`
 app_names=`echo -e "$applications"`
-}
+
+# variable definition
+tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
+app_names
+
+# functions
 
 environ_list(){
 env_list=`knife environment list | grep -v _default`
