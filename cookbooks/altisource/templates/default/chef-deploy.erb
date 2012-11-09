@@ -3,7 +3,7 @@
 # variable definition
 tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
 app_list="<%= @application_names %>"
-app_names=`echo $app_list | cut -d "|" -f1"
+app_names=`echo $app_list | cut -d "|" -f1"`
 
 # functions
 environ_list(){
@@ -21,13 +21,13 @@ target_list=`knife search node "$app_attribute:* AND chef_environment:$target_en
 }
 
 chef_version(){
-for target_host in $target_list; do
+for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
 done
 }
 
 rpm_version(){
-for target_host in $target_list; do
+for target_host in `echo $target_list`; do
   rpm_version=`ssh root@$target_host "rpm -qa | grep $app_name"`
   echo "Version is $rpm_version."
 done
@@ -35,7 +35,7 @@ done
 
 chef_testrun(){
 mkdir -p /tmp/chef-testrun
-for target_host in $target_list; do
+for target_host in `echo $target_list`; do
 ssh root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt
 less -f /tmp/chef-testrun/chef-test.txt
 rm /tmp/chef-testrun/chef-test.txt
@@ -63,7 +63,7 @@ tag_instance(){
 if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
   echo "Missing critical information, command can not be completed. Your command was $target_list, $app_name, $version."; exit 1
 fi
-for target_host in $target_list; do
+for target_host in `echo $target_list`; do
   $tag_cmd
 done
 }
