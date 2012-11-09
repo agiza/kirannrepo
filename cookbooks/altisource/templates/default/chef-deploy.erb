@@ -18,18 +18,22 @@ app_names
 
 # functions
 
+pause(){
+echo "press any key to continue..."; read response
+}
+
 environ_list(){
 env_list=`knife environment list | grep -v _default`
 }
 
 attr_select(){
 for i in `echo $app_name`; do
-  app_attribute=`grep $i /tmp/rpm-versions | cut -d "|" -f2`
+  app_attribute=`grep $i /tmp/rpm-versions.txt | cut -d "|" -f2`
 done
 }
 
 target_search(){
-target_list=`knife search node "$app_attribute:* AND chef_environment:$target_env" | grep "Node Name" | cut -d ":" -f2`
+target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
 }
 
 chef_version(){
