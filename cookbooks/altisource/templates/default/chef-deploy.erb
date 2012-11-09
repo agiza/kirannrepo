@@ -39,6 +39,7 @@ target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ"
 chef_version(){
 for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
+  echo "Chef version is $cur_version"
 done
 }
 
