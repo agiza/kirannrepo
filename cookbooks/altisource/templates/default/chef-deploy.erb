@@ -70,6 +70,30 @@ echo "Software appears to be in the yum release repo."
 fi
 }
 
+start_tomcat(){
+echo "Are you sure you want to start tomcat on your hosts? (y or n)"
+read answer
+if [ "$answer" != "y" ]; then
+echo "You did not confirm, aborting."; exit 1
+fi
+for target_host in `echo $target_list`; do
+$ssh_command root@$target_host "service altitomcat start"
+echo "Tomcat started on $target_host."
+done
+}
+
+stop_tomcat(){
+echo "Are you sure you want to start tomcat on your hosts? (y or n)"
+read answer
+if [ "$answer" != "y" ]; then
+echo "You did not confirm, aborting."; exit 1
+fi
+for target_host in `echo $target_list`; do
+$ssh_command root@$target_host "service altitomcat stop"
+echo "Tomcat started on $target_host."
+done
+}
+
 data_check(){
 select_env
 select_app
