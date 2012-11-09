@@ -28,7 +28,7 @@ done
 
 rpm_version(){
 for target_host in $target_list; do
-  rpm_version=`ssh root@$target_host "rpm -qa | grep $app_name`
+  rpm_version=`ssh root@$target_host "rpm -qa | grep $app_name"`
   echo "Version is $rpm_version."
 done
 }
