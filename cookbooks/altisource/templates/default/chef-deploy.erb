@@ -2,18 +2,61 @@
 
 # variable definition
 tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
+app_list="<%= @application_names %>"
+app_names=`echo $app_list | cut -d "|" -f1"
 
 # functions
 environ_list(){
 env_list=`knife environment list | grep -v _default`
 }
 
+attr_select(){
+for i in `echo $app_list`; do
+  app_attribute=`echo $app_list | grep $app_name | cut -d "|" -f2
+done
+}
+
 target_search(){
 target_list=`knife search node "$app_attribute:* AND chef_environment:$target_env" | grep "Node Name" | cut -d ":" -f2`
 }
 
-current_version(){
-curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
+chef_version(){
+for target_host in $target_list; do
+  curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
+done
+}
+
+rpm_version(){
+for target_host in $target_list; do
+  rpm_version=`ssh root@$target_host "rpm -qa | grep $app_name`
+  echo "Version is $rpm_version."
+done
+}
+
+chef_testrun(){
+mkdir -p /tmp/chef-testrun
+for target_host in $target_list; do
+ssh root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt
+less -f /tmp/chef-testrun/chef-test.txt
+rm /tmp/chef-testrun/chef-test.txt
+rm -r /tmp/chef-testrun
+done
+}
+
+rpm_repo(){
+software_check=`find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm`
+if [ "$software_check" == "" ]; then
+echo "Software does not appear to be in the yum release repo."
+else
+echo "Software appears to be in the yum release repo."
+fi
+}
+
+data_check(){
+select_env
+select_app
+attr_select
+target_search
 }
 
 tag_instance(){
@@ -24,4 +67,97 @@ for target_host in $target_list; do
   $tag_cmd
 done
 }
+
+select_env(){
+environ_list
+env=`echo $env_list`
+   clear
+   select func in $env; do
+      case $func in
+      *)
+         env_targ="$func"
+         break
+         ;;
+      esac
+   done
+}
+
+select_app(){
+app=`echo $app_list`
+   clear
+   select func in $app; do
+      case $func in
+      *)
+         app_name="$func"
+         break
+         ;;
+      esac
+   done
+}
+
+enter_version(){
+echo "Enter version number for $app_name to be deployed to $env_list:"
+  read ver
+echo "Please confirm version is $ver. (y or no)?"
+  read answer
+if [ "$answer" != "y" ]; then
+  echo "Version not correct, please try again."; enter_version
+else
+version=$ver
+fi
+}
+
+#This is the actual menu for the wrapper script.
+while :
+        do
+                clear
+                echo "---------------------------------------------"
+                echo " Main Menu "
+                echo -e "---------------------------------------------\n"
+                echo -e "[\033[36ma\033[0m] \033[32mCheck Chef Version\033[0m \n "
+                echo -e "[\033[36mb\033[0m] \033[31mTag New Version\033[0m \n"
+                echo -e "[\033[36mc\033[0m] \033[32mRPM File check/copy\033[0m \n "
+                echo -e "[\033[36md\033[0m] \033[32mChef Test Run on Targets\033[0m \n "
+                echo -e "[\033[36me\033[0m] \033[32mCheck RPM version currently on Targets\033[0m \n "
+                echo -e "[\033[36mf\033[0m] \033[31mStop Tomcat on Targets\033[0m \n"
+                echo -e "[\033[36mg\033[0m] \033[31mStart Tomcat on Targets\033[0m \n"
+                echo -e "[\033[36mg\033[0m] \033[31mExecute Software deployment\033[0m \n"
+                echo -e "[\033[36mr\033[0m] \033[32mRead Me file with some instructions\033[0m \n"
+                echo -e "[\033[36mx\033[0m] Exit\n "
+                echo "==========================="
+                echo -n "Enter your menu choice [a-x]: "
+                read choice
+                case "$choice" in
+  a)
+                data_check; chef_version; pause
+                ;;
+  b)
+                data_check; select_version; tag_instance; pause 
+                ;;
+  c)
+                data_check; select_version; rpm_repo; pause 
+                ;;
+  d)
+                data_check; chef_testrun; pause
+                ;;
+  e)
+                data_check; rpm_version; pause
+                ;;
+  f)
+                data_check; stop_tomcat; pause
+                ;;
+  g)
+                data_check; start_tomcat; pause
+                ;;
+  r)
+                read_me; pause
+                ;;
+  x)
+                echo "Exiting..."; exit 0
+                ;;
+  *)
+                echo "Oops! Please select a choice [a-x]"; 
+                     echo "Press a key..."; read ;;
+                esac
+done
 
