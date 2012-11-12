@@ -60,6 +60,17 @@ rm -r /tmp/chef-testrun
 done
 }
 
+chef_execute(){
+mkdir -p /tmp/chef-run
+for target_host in `echo $target_list`; do
+echo "Please wait while test run is performed, this may take a few minutes...."
+$ssh_command root@$target_host "chef-client" >> /tmp/chef-run/chef-run.txt
+less -f /tmp/chef-run/chef-run.txt
+rm /tmp/chef-run/chef-run.txt
+rm -r /tmp/chef-run
+done
+}
+
 rpm_repo(){
 software_check=`find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm`
 if [ "$software_check" == "" ]; then
@@ -149,7 +160,17 @@ fi
 }
 
 read_me(){
-echo "This script is a simple interface to allow some automated actions against the current chef environment.  Basically, you can tag new versions of software to be deployed, execute those deployments, check for current versions per Chef, actual versions per RPM, start and stop the tomcat instance for scheduled upgrades, and perform test runs of chef client on the instances to see the effects of proposed changes.  Further functionality to stage full, multiple target/version implementations will be added later."
+echo "This script is a simple interface to allow some automated actions against the current chef environment.  Basically, you can tag new versions of software to be deployed, execute those deployments, check for current versions per Chef, actual versions per RPM, start and stop the tomcat instance for scheduled upgrades, and perform test runs of chef client on the instances to see the effects of proposed changes.  Further functionality to stage full, multiple target/version implementations will be added later. Short list of functions is:
+a: Check version of software that Chef reports is installed currently.
+b: Tag a new version of software for installation.
+c: Check to see if a specific version of RPM is in the yum repository.
+d: Perform a test run of chef-client to see if the changes are in line with expectations.
+e: Check to see what version of the RPM is actually installed on the target.
+f: Stop tomcat instance on the target.
+g: Start the tomcat instance on the target.
+h: Execute a software deployment by running Chef-client on the target.
+x: Exit the menu.
+"
 }
 #This is the actual menu for the wrapper script.
 while :
@@ -165,7 +186,7 @@ while :
                 echo -e "[\033[36me\033[0m] \033[32mCheck RPM version currently on Targets\033[0m \n "
                 echo -e "[\033[36mf\033[0m] \033[31mStop Tomcat on Targets\033[0m \n"
                 echo -e "[\033[36mg\033[0m] \033[31mStart Tomcat on Targets\033[0m \n"
-                echo -e "[\033[36mg\033[0m] \033[31mExecute Software deployment\033[0m \n"
+                echo -e "[\033[36mh\033[0m] \033[31mExecute Software deployment\033[0m \n"
                 echo -e "[\033[36mr\033[0m] \033[32mRead Me file with some instructions\033[0m \n"
                 echo -e "[\033[36mx\033[0m] Exit\n "
                 echo "==========================="
@@ -192,6 +213,9 @@ while :
                 ;;
   g)
                 data_check; start_tomcat; pause
+                ;;
+  h)
+                data_check; chef_execute; pause
                 ;;
   r)
                 read_me; pause
