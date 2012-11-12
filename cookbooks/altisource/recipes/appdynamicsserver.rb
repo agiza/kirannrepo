@@ -84,6 +84,7 @@ template "/opt/appdynamics/license.lic" do
   group "appdynamics"
   mode  "0644"
   variables(
+    :license => appdynamics["license"],
     :appdyn_expireDate => appdynamics["appdyn_expireDate"],
     :appdyn_macaddress => appdynamics["appdyn_macaddress"],
     :appdyn_signature => appdynamics["appdyn_signature"], 
