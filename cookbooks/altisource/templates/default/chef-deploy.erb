@@ -13,7 +13,6 @@ applications=`cat /tmp/rpm-appnames.txt`
 app_names=`echo -e "$applications"`
 
 # variable definition
-tag_cmd="deploy-software -f tag -a $app_name -v $version -t $target_host"
 ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 # functions
@@ -161,7 +160,7 @@ while :
                 echo -e "---------------------------------------------\n"
                 echo -e "[\033[36ma\033[0m] \033[32mCheck Chef Version\033[0m \n "
                 echo -e "[\033[36mb\033[0m] \033[31mTag New Version\033[0m \n"
-                echo -e "[\033[36mc\033[0m] \033[32mRPM File check/copy\033[0m \n "
+                echo -e "[\033[36mc\033[0m] \033[32mRPM File check in repository\033[0m \n "
                 echo -e "[\033[36md\033[0m] \033[32mChef Test Run on Targets\033[0m \n "
                 echo -e "[\033[36me\033[0m] \033[32mCheck RPM version currently on Targets\033[0m \n "
                 echo -e "[\033[36mf\033[0m] \033[31mStop Tomcat on Targets\033[0m \n"
