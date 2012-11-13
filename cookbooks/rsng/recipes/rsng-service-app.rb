@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "rsng-service-app"
-app_version = node[:rsng_version]
+app_version = node[:rsngapp_version]
 
 include_recipe "altisource::altitomcat"
 if node.attribute?('amqpproxy')
