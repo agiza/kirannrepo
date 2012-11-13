@@ -128,6 +128,7 @@ tag_instance(){
 if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
   echo "Missing critical information, command can not be completed. Your command was $target_list, $app_name, $version."; exit 1
 fi
+rpm_repo_check
 for target_host in `echo $target_list`; do
   deploy-software -f tag -a $app_name -v $version -t $target_host
   echo "Version $version for application $app_name has been tagged to $target_host."
@@ -211,7 +212,7 @@ while :
                 data_check; chef_version; pause
                 ;;
   b)
-                data_check; enter_version; rpm_repo_check; tag_instance; pause 
+                data_check; enter_version; tag_instance; pause 
                 ;;
   c)
                 data_check; enter_version; rpm_repo; pause 
