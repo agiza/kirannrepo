@@ -83,6 +83,16 @@ echo "Software appears to be in the yum release repo."
 fi
 }
 
+rpm_repo_check(){
+software_check=`find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm`
+if [ "$software_check" == "" ]; then
+echo "Software does not appear to be in the yum release repo."; exit 1
+else
+echo "Software appears to be in the yum release repo."
+fi
+}
+
+
 start_tomcat(){
 echo "Are you sure you want to start tomcat on your hosts? (y or n)"
 read answer
@@ -201,7 +211,7 @@ while :
                 data_check; chef_version; pause
                 ;;
   b)
-                data_check; enter_version; rpm_repo; tag_instance; pause 
+                data_check; enter_version; rpm_repo_check; tag_instance; pause 
                 ;;
   c)
                 data_check; enter_version; rpm_repo; pause 
