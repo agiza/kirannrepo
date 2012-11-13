@@ -33,19 +33,20 @@ done
 
 target_search(){
 target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
+echo "This change will affect $target_list."
 }
 
 chef_version(){
 for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
-  echo "Chef version is $curr_version"
+  echo "Chef version is $curr_version on $target_host"
 done
 }
 
 rpm_version(){
 for target_host in `echo $target_list`; do
   rpm_version=`$ssh_command root@$target_host "rpm -qa | grep $app_name"`
-  echo "Version is $rpm_version."
+  echo "Version is $rpm_version on $target_host."
 done
 }
 
@@ -53,6 +54,7 @@ chef_testrun(){
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
 echo "Please wait while test run is performed, this may take a few minutes...."
+echo "Target Host is $target_host" >> /tmp/chef-testrun/chef-test.txt
 $ssh_command root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt
 less -f /tmp/chef-testrun/chef-test.txt
 rm /tmp/chef-testrun/chef-test.txt
@@ -63,7 +65,8 @@ done
 chef_execute(){
 mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
-echo "Please wait while test run is performed, this may take a few minutes...."
+echo "Please wait while actual run is performed, this may take a few minutes...."
+echo "Target host is $target_host" >> /tmp/chef-run/chef-run.txt
 $ssh_command root@$target_host "chef-client" >> /tmp/chef-run/chef-run.txt
 less -f /tmp/chef-run/chef-run.txt
 rm /tmp/chef-run/chef-run.txt
@@ -93,14 +96,14 @@ done
 }
 
 stop_tomcat(){
-echo "Are you sure you want to start tomcat on your hosts? (y or n)"
+echo "Are you sure you want to stop tomcat on your hosts? (y or n)"
 read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 for target_host in `echo $target_list`; do
 $ssh_command root@$target_host "service altitomcat stop"
-echo "Tomcat started on $target_host."
+echo "Tomcat stopped on $target_host."
 done
 }
 
@@ -117,6 +120,7 @@ if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
 fi
 for target_host in `echo $target_list`; do
   deploy-software -f tag -a $app_name -v $version -t $target_host
+  echo "Version $version for application $app_name has been tagged to $target_host."
 done
 }
 
