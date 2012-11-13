@@ -70,17 +70,21 @@ end
 
 # Look up ssl server name from data bag.
 servername = data_bag_item("infrastructure", "apache")
-template "/etc/httpd/conf.d/ssl.conf" do
-  source "ssl.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables( 
-    :servername => "#{servername['servername'].split(",")[0]}",
-    :proxyname => "#{servername['servername'].split(",")[1]}",
-    :serveradmin => "#{servername['serveradmin']}"
-  )
-  notifies :reload, resources(:service => "httpd")
+if servername['servername'].nil? || servername['servername'].empty?
+  Chef::Log.info("No services returned from search.")
+else
+  template "/etc/httpd/conf.d/ssl.conf" do
+    source "ssl.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables( 
+      :servername => "#{servername['servername'].split(",")[0]}",
+      :proxyname => "#{servername['servername'].split(",")[1]}",
+      :serveradmin => "#{servername['serveradmin']}"
+    )
+    notifies :reload, resources(:service => "httpd")
+  end
 end
 
 template "/etc/httpd/conf.d/mod_security.conf" do
@@ -125,14 +129,18 @@ end
 
 # Provides a mechanism to include optional configurations by adding them to a data bag item.
 sitesinclude = data_bag_item("infrastructure", "apache")
-sitesinclude = sitesinclude['serversites'].split("|")
-sitesinclude.each do |site|
-  template "/etc/httpd/conf.d/#{site}.conf" do
-    source "#{site}.conf.erb"
-    owner  "root"
-    group  "root"
-    mode   "0644"
-    notifies :reload, resources(:service => "httpd")
+if sitesinclude['serversites'].nil? || sitesinclude['serversites'].empty?
+  Chef::Log.info("No services returned from search.")
+else
+  sitesinclude = sitesinclude['serversites'].split("|")
+  sitesinclude.each do |site|
+    template "/etc/httpd/conf.d/#{site}.conf" do
+      source "#{site}.conf.erb"
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      notifies :reload, resources(:service => "httpd")
+    end
   end
 end
 

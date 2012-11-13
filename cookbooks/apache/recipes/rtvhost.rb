@@ -45,10 +45,6 @@ else
     search(:node, "role:realtrans-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end 
-    #cenNames = search(:node, "role:realtrans-cen AND chef_environment:#{environ}")
-    #venNames = search(:node, "role:realtrans-ven AND chef_environment:#{environ}")
-    #cenNames = cenNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
-    #venNames = venNames.collect { |vhostName| "#{vhostName}" }.join(" ").gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"
