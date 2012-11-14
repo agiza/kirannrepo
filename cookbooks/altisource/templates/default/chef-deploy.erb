@@ -187,14 +187,14 @@ fi
 
 read_me(){
 echo "This script is a simple interface to allow some automated actions against the current chef environment.  Basically, you can tag new versions of software to be deployed, execute those deployments, check for current versions per Chef, actual versions per RPM, start and stop the tomcat instance for scheduled upgrades, and perform test runs of chef client on the instances to see the effects of proposed changes.  Further functionality to stage full, multiple target/version implementations will be added later. Short list of functions is:
-a: Check version of software that Chef reports is installed currently.
-b: Tag a new version of software for installation.
+a: Check version of software that Chef reports should be installed currently.
+b: Update Chef for new version of software package.
 c: Check to see if a specific version of RPM is in the yum repository.
 d: Perform a test run of chef-client to see if the changes are in line with expectations.
 e: Check to see what version of the RPM is actually installed on the target.
 f: Stop tomcat instance on the target.
 g: Start the tomcat instance on the target.
-h: Execute a software deployment by running Chef-client on the target.
+h: Execute a Chef-client run on the target, to install new software or update the configuration.
 x: Exit the menu.
 "
 }
@@ -205,14 +205,14 @@ while :
                 echo "---------------------------------------------"
                 echo " Main Menu "
                 echo -e "---------------------------------------------\n"
-                echo -e "[\033[36ma\033[0m] \033[32mCheck Chef Version\033[0m \n "
-                echo -e "[\033[36mb\033[0m] \033[31mTag New Version\033[0m \n"
-                echo -e "[\033[36mc\033[0m] \033[32mRPM File check in repository\033[0m \n "
-                echo -e "[\033[36md\033[0m] \033[32mChef Test Run on Targets\033[0m \n "
-                echo -e "[\033[36me\033[0m] \033[32mCheck RPM version currently on Targets\033[0m \n "
+                echo -e "[\033[36ma\033[0m] \033[32mCheck Version Chef reports on Instance\033[0m \n "
+                echo -e "[\033[36mb\033[0m] \033[31mChange Chef Version on Instance\033[0m \n"
+                echo -e "[\033[36mc\033[0m] \033[32mYUM Repository RPM check\033[0m \n "
+                echo -e "[\033[36md\033[0m] \033[32mPerform Chef Test Run on Instance\033[0m \n "
+                echo -e "[\033[36me\033[0m] \033[32mCheck RPM version installed on Instance\033[0m \n "
                 echo -e "[\033[36mf\033[0m] \033[31mStop Tomcat on Targets\033[0m \n"
                 echo -e "[\033[36mg\033[0m] \033[31mStart Tomcat on Targets\033[0m \n"
-                echo -e "[\033[36mh\033[0m] \033[31mExecute Software deployment\033[0m \n"
+                echo -e "[\033[36mh\033[0m] \033[31mExecute Chef Run on Instance\033[0m \n"
                 echo -e "[\033[36mr\033[0m] \033[32mRead Me file with some instructions\033[0m \n"
                 echo -e "[\033[36mx\033[0m] Exit\n "
                 echo "==========================="
