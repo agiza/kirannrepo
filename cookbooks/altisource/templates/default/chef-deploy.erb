@@ -33,7 +33,6 @@ done
 
 target_search(){
 target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
-echo "This change will affect $target_list."
 }
 
 chef_version(){
@@ -82,9 +81,9 @@ wget --spider -o /tmp/software_check --no-proxy http://<%= node[:yum_server] %>/
 software_yes=`grep 200 /tmp/software_check`
 software_no=`grep 404 /tmp/software_check`
 if [ "$software_yes" == "" ]; then
-   echo "$version of $app_name does not appear to be in the release repo."
+   echo -e "$version of $app_name \033[31mdoes NOT\033[0m appear to be in the release repo."
 elif [ "$software_no" == "" ]; then
-   echo "$version of $app_name does appear to be in the release repo."
+   echo -e "$version of $app_name\033[32m does\033[0m appear to be in the release repo."
 fi
 rm -f /tmp/software_check
 }
@@ -97,9 +96,9 @@ wget --spider -o /tmp/software_check --no-proxy http://<%= node[:yum_server] %>/
 software_yes=`grep 200 /tmp/software_check`
 software_no=`grep 404 /tmp/software_check`
 if [ "$software_yes" == "" ]; then
-   echo "$version of $app_name does not appear to be in the release repo."; exit 1
+   echo -e "$version of $app_name \033[31mdoes NOT\033[0m appear to be in the release repo."; exit 1
 elif [ "$software_no" == "" ]; then
-   echo "$version of $app_name does appear to be in the release repo."
+   echo -e "$version of $app_name \033[32mdoes\033[0m appear to be in the release repo."
 fi
 rm -f /tmp/software_check 
 }
