@@ -75,7 +75,7 @@ done
 }
 
 rpm_repo(){
-software_check=`find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm`
+software_check=`ssh root@<%=node[:yum_server] %> "find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm"`
 if [ "$software_check" == "" ]; then
 echo "Software does not appear to be in the yum release repo."
 else
@@ -84,7 +84,7 @@ fi
 }
 
 rpm_repo_check(){
-software_check=`find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm`
+software_check=`ssh root@<%=node[:yum_server] %> "find /var/www/html/yum-repo/release -type f -name $app_name-$version.noarch.rpm"`
 if [ "$software_check" == "" ]; then
 echo "Software does not appear to be in the yum release repo."; exit 1
 else
