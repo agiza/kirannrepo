@@ -2,6 +2,98 @@ rabbit.server.host=<%= @amqphost %>
 rabbit.server.port=<%= @amqpport %>
 rabbit.server.username=<%= @amqpuser %>
 rabbit.server.password=<%= @amqppass %>
-rabbit.server.vhost=<%= node[:rsng_amqp_vhost] %>
+rabbit.server.vhost=<%= node[:rsng_vhost] %>
+rabbit.sever.channelCacheSize=100
+
 service.consumers=5
 
+jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
+
+jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull
+jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
+jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
+jdbc.initial-size.mysql.rsng=10
+jdbc.min-idle.mysql.rsng=0
+jdbc.max-idle.mysql.rsng=10
+jdbc.maxActive.mysql.rsng=50
+
+rfTenant.code=TENANT1
+
+
+#############################################################
+#######  Melissa Settings  ##################################
+#############################################################
+
+rf.melissadata.name.webhost=<%= @melissadata[:nameurl] %>
+rf.melissadata.address.webhost=<%= @melissadata[:addressurl] %>
+rf.melissadata.geocode.webhost=<%= @melissadata[:geocodeurl] %>
+rf.melissadata.phone.webhost=<%= @melissadata[:phoneurl] %>
+rf.melissadata.email.webhost=<%= @melissadata[:emailurl] %>
+
+#Set our melissa customerId used to identify us to melissa's services
+rf.melissadata.customerId=102942719
+
+#Set the socket connection timeout for the underlying HttpClient in milliseconds.
+#0 is never timeout.
+#Default is 0 - no timeout
+rf.dataquality.connectTimeout=30000
+
+#Set the socket read timeout for the underlying HttpClient in milliseconds.
+#0 is never timeout.
+#Default is 0 - no timeout
+rf.dataquality.readTimeout=30000
+
+#Set the max threads for the call outs to melissa services
+#Default is 20
+rf.dataquality.httpPool.maxTotal=20
+
+#?
+#Default is 2
+rf.dataquality.httpPool.defaultMaxPerRoute=2
+
+#melissa.callOutForNameParses=true/false
+#Default is false
+melissa.callOutForNameParses=false
+
+#melissa.callOutForAddressCorrections=ALWAYS|ON_ERRORS|NEVER
+#Default is ON_ERRORS
+#See below for details
+melissa.callOutForAddressCorrections=ON_ERRORS
+
+#ALWAYS
+#=========
+#Call melissa
+#If found
+#  Correct address & references
+#  Save
+#Else
+#  null the city, state, zip, and fips
+#  Write to the raw table
+#  Save
+
+#ON_ERRORS
+#=========
+#Db lookup for melissa references
+#If found
+#  Correct address & references
+#  Save
+#Else
+#  Call melissa
+#  If found
+#    Correct address & references
+#    Save
+#  Else
+#    null the city, state, zip, and fips
+#    Write to the raw table
+#    Save
+
+#NEVER
+#=========
+#Db lookup for melissa references
+#If found
+#  Correct address & references
+#  Save
+#Else
+#  null the city, state, zip, and fips
+#  Write to the raw table
+#  Save

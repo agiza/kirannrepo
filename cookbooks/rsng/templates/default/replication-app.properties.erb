@@ -2,53 +2,42 @@ rabbit.server.host=<%= @amqphost %>
 rabbit.server.port=<%= @amqpport %>
 rabbit.server.username=<%= @amqpuser %>
 rabbit.server.password=<%= @amqppass %>
+rabbit.server.vhost=<%= node[:rsng_vhost] %>
+rabbit.server.channelCacheSize=100
 
-journal.replication.consumers=5
+journal.replication.consumers=40
 journal.replication.jsonJournalTOTransformer.type=com.altisource.rsng.replication.domain.JournalTO
 #journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.poc.domain.JournalResponse
 journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.domain.JournalResponse
 
-resequencer.period=60000
+resequencer.period=30000
 
-watchdog.maxRecords=100
+watchdog.maxRecords=250
 watchdog.watchdogDelay=300000
 watchdog.poller.autoStartup=true
 watchdog.poller.period=30000
+watchdog.reprocessingThreshold=2
+watchdog.reprocessingQuietPeriod=5
+watchdog.hardLimitThreshold=12
 
+jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
 jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
-jdbc.url.progress.amos=jdbc:datadirect:openedge://<%= node[:proamosdb_server] %>:<%= node[:prodamosb_port] %>;databaseName=amos
-jdbc.username.progress.amos=<%= node[:proamosdb_user] %>
-jdbc.password.progress.amos=<%= node[:proamosdb_pass] %>
-jdbc.initial-size.progress.amos=2
-jdbc.min-idle.progress.amos=2
-jdbc.max-idle.progress.amos=2
-jdbc.maxActive.progress.amos=3
 
 jdbc.url.progress.journal=jdbc:datadirect:openedge://<%= node[:projourdb_server] %>:<%= node[:projourdb_port] %>;databaseName=journal.db
 jdbc.username.progress.journal=<%= node[:projourdb_user] %>
 jdbc.password.progress.journal=<%= node[:projourdb_pass] %>
-jdbc.initial-size.progress.journal=2
-jdbc.min-idle.progress.journal=2
-jdbc.max-idle.progress.journal=2
-jdbc.maxActive.progress.journal=3
+jdbc.initial-size.progress.journal=10
+jdbc.min-idle.progress.journal=0
+jdbc.max-idle.progress.journal=10
+jdbc.maxActive.progress.journal=20
 
-jdbc.url.progress.mss=jdbc:datadirect:openedge://<%= node[:promssdb_server] %>:<%= node[:promssdb_port] %>;databaseName=mss
-jdbc.username.progress.mss=<%= node[:promssdb_user] %>
-jdbc.password.progress.mss=<%= node[:promssdb_pass] %>
-jdbc.initial-size.progress.mss=2
-jdbc.min-idle.progress.mss=2
-jdbc.max-idle.progress.mss=2
-jdbc.maxActive.progress.mss=3
-
-jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
-jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>
-#jdbc.url.mysql.rsng=jdbc:mysql://172.24.129.230:3306/realservice ?zeroDateTimeBehavior=convertToNull
+jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull
 jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
 jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
 jdbc.initial-size.mysql.rsng=<%= node[:db_initsize] %>
 jdbc.min-idle.mysql.rsng=0
-jdbc.max-idle.mysql.rsng=<%= node[:db_maxidle] %>
-jdbc.maxActive.mysql.rsng=<%= node[:db_maxactive] %>
+jdbc.max-idle.mysql.rsng=10
+jdbc.maxActive.mysql.rsng=50
 
 #############################################################
 #######  Melissa Settings  ##################################
