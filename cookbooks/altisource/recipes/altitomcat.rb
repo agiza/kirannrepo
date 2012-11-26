@@ -8,19 +8,6 @@ include_recipe "altisource::yumclient"
 
 app_name = "altitomcat"
 
-appdynhost = {}
-search(:node, "role:appdynamics-server") do |n|
-  appdynhost[n.ipaddress] = {}
-end
-appdynhost = appdynhost.first
-if appdynhost.nil? || appdynhost.empty?
-  Chef::Log.info("No services returned from search.")
-else
-  include_recipe "altisource::appdynamics"
-  appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
-  appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
-end
-
 package "#{app_name}" do
   action :upgrade
 end
@@ -51,4 +38,17 @@ end
 
 service "altitomcat" do
   action [:enable, :start]
+end
+
+appdynhost = {}
+search(:node, "role:appdynamics-server") do |n|
+  appdynhost[n.ipaddress] = {}
+end
+appdynhost = appdynhost.first
+if appdynhost.nil? || appdynhost.empty?
+  Chef::Log.info("No services returned from search.")
+else
+  include_recipe "altisource::appdynamics"
+  appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
+  appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
 end
