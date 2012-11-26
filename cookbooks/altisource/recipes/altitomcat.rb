@@ -17,6 +17,20 @@ service "altitomcat" do
   action :nothing
 end
 
+# configure appdynamics agent after altitomcat rpm installation but before configuration.
+appdynhost = {}
+search(:node, "role:appdynamics-server") do |n|
+  appdynhost[n.ipaddress] = {}
+end
+appdynhost = appdynhost.first
+if appdynhost.nil? || appdynhost.empty?
+  Chef::Log.info("No services returned from search.")
+else
+  include_recipe "altisource::appdynamics"
+  appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
+  appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
+end
+
 template "/opt/tomcat/bin/catalina.sh" do
   source "catalina_sh.erb"
   group "tomcat"
@@ -40,15 +54,3 @@ service "altitomcat" do
   action [:enable, :start]
 end
 
-appdynhost = {}
-search(:node, "role:appdynamics-server") do |n|
-  appdynhost[n.ipaddress] = {}
-end
-appdynhost = appdynhost.first
-if appdynhost.nil? || appdynhost.empty?
-  Chef::Log.info("No services returned from search.")
-else
-  include_recipe "altisource::appdynamics"
-  appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
-  appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
-end
