@@ -53,7 +53,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
     :amqppass => "#{rdrabbit[1]}",
-    :mailserver => mailserver
+    :mailserver => mailserver,
+    :mongo_host => "#{mongoHost}"
   )
   notifies :restart, resources(:service => "altitomcat")
 end
