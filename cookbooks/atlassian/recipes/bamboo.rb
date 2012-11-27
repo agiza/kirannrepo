@@ -183,8 +183,8 @@ link "/usr/lib/jdk1.6.0_25" do
   group "root"
 end
 
-link "/usr/lib/jdk1.7.0_03" do
-  to "/opt/jdk1.7.0_03"
+link "/usr/lib/jdk1.7.0_147" do
+  to "/opt/jdk1.7.0_147"
   owner "root"
   group "root"
 end
@@ -195,8 +195,8 @@ link "/usr/lib/jvm/jdk1.6.0_25" do
   group "root"
 end
 
-link "/usr/lib/jvm/jdk1.7.0_03" do
-  to "/usr/lib/jdk1.7.0_03"
+link "/usr/lib/jvm/jdk1.7.0_147" do
+  to "/usr/lib/jdk1.7.0_147"
   owner "root"
   group "root"
 end
