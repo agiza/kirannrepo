@@ -10,7 +10,6 @@ include_recipe "altisource::altirepo"
 include_recipe "infrastructure::selinux"
 
 app_name = "rabbitmq-server-config"
-app_version = node[:rabbitmqconfig_version]
 
 package "rabbitmq-server" do
   provider Chef::Provider::Package::Yum
@@ -129,64 +128,80 @@ if node.attribute?('rabbitmq-master')
     notifies :run, 'execute[rabbit-config]', :immediately
   end
 
-  template "/etc/rabbitmq/realtrans-rabbit.sh" do
-    source "realtrans_rabbit.erb"
-    group "root"
-    owner "root"
-    mode '0755'
-    variables(
-      :queue_names  => realtrans_queue['queues'],
-      :exchange_names => realtrans_queue['exchange'],
-      :binding_names => realtrans_queue['binding'],
-      :vhost_names => realtrans_queue['vhosts'],
-      :userstring => realtrans_queue['user']
-    )
-    notifies :run, 'execute[realtrans-config]', :immediately
+  if realtrans_queue.nil? || realtrans_queue.empty?
+      Chef::Log.info("No services returned from search.")
+  else
+    template "/etc/rabbitmq/realtrans-rabbit.sh" do
+      source "realtrans_rabbit.erb"
+      group "root"
+      owner "root"
+      mode '0755'
+      variables(
+        :queue_names  => realtrans_queue['queues'],
+        :exchange_names => realtrans_queue['exchange'],
+        :binding_names => realtrans_queue['binding'],
+        :vhost_names => realtrans_queue['vhosts'],
+        :userstring => realtrans_queue['user']
+      )
+      notifies :run, 'execute[realtrans-config]', :immediately
+    end
   end
 
-  template "/etc/rabbitmq/realdoc-rabbit.sh" do
-    source "realdoc_rabbit.erb"
-    group "root"
-    owner "root"
-    mode "0755"
-    variables(
-      :queue_names => realdoc_queue['queues'],
-      :exchange_names => realdoc_queue['exchange'],
-      :binding_names => realdoc_queue['binding'],
-      :vhost_names => realdoc_queue['vhosts'],
-      :userstring => realdoc_queue['user']
-    )
-    notifies :run, 'execute[realdoc-config]', :immediately
+  if realdoc_queue.nil? || realdoc_queue.empty?
+      Chef::Log.info("No services returned from search.")
+  else
+    template "/etc/rabbitmq/realdoc-rabbit.sh" do
+      source "realdoc_rabbit.erb"
+      group "root"
+      owner "root"
+      mode "0755"
+      variables(
+        :queue_names => realdoc_queue['queues'],
+        :exchange_names => realdoc_queue['exchange'],
+        :binding_names => realdoc_queue['binding'],
+        :vhost_names => realdoc_queue['vhosts'],
+        :userstring => realdoc_queue['user']
+      )
+      notifies :run, 'execute[realdoc-config]', :immediately
+    end
   end
 
-  template "/etc/rabbitmq/realservice-rabbit.sh" do
-    source "realservice_rabbit.erb"
-    group "root"
-    owner "root"
-    mode "0755"
-    variables(
-      :queue_names => realservice_queue['queues'],
-      :exchange_names => realservice_queue['exchange'],
-      :binding_names => realservice_queue['binding'],
-      :vhost_names => realservice_queue['vhosts'],
-      :userstring => realservice_queue['user']
-    )
-    notifies :run, 'execute[realservice-config]', :immediately
+  if realservice_queue.nil? || realservice_queue.empty?
+      Chef::Log.info("No services returned from search.")
+  else
+    template "/etc/rabbitmq/realservice-rabbit.sh" do
+      source "realservice_rabbit.erb"
+      group "root"
+      owner "root"
+      mode "0755"
+      variables(
+        :queue_names => realservice_queue['queues'],
+        :exchange_names => realservice_queue['exchange'],
+        :binding_names => realservice_queue['binding'],
+        :vhost_names => realservice_queue['vhosts'],
+        :userstring => realservice_queue['user']
+      )
+      notifies :run, 'execute[realservice-config]', :immediately
+    end
   end
 
-  template "/etc/rabbitmq/hubzu-rabbit.sh" do
-    source "hubzu_rabbit.erb"
-    group "root"
-    owner "root"
-    mode "0755"
-    variables(
-      :queue_names => hubuz_queue['queues'],
-      :exchange_names => hubzu_queue['exchange'],
-      :binding_names => hubzu_queue['binding'],
-      :vhost_names => hubzu_queue['vhosts'],
-      :userstring => hubzu_queue['user']
-    )
-    notifies :run, 'execute[hubzu-config]', :immediately
+  if hubzu_queue.nil? || hubzu_queue.empty?
+      Chef::Log.info("No services returned from search.")
+  else
+    template "/etc/rabbitmq/hubzu-rabbit.sh" do
+      source "hubzu_rabbit.erb"
+      group "root"
+      owner "root"
+      mode "0755"
+      variables(
+        :queue_names => hubzu_queue['queues'],
+        :exchange_names => hubzu_queue['exchange'],
+        :binding_names => hubzu_queue['binding'],
+        :vhost_names => hubzu_queue['vhosts'],
+        :userstring => hubzu_queue['user']
+      )
+      notifies :run, 'execute[hubzu-config]', :immediately
+    end
   end
 
 else
