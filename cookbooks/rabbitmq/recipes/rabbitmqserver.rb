@@ -45,22 +45,22 @@ rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'r
 hostentries = search(:node, "role:rabbitserver")
 
 #Build list of queues names for configuration
-if data_bag_item("rabbitmq", "realtrans")?("nil", "empty")
+if data_bag_item("rabbitmq", "realtrans").nil?
   Chef::Log.info("No services returned from search.")
 else
   realtrans_queue = data_bag_item("rabbitmq", "realtrans")
 end
-if data_bag_item("rabbitmq", "realdoc")?("nil", "empty")
+if data_bag_item("rabbitmq", "realdoc").nil?
   Chef::Log.info("No services returned from search.")
 else
   realdoc_queue = data_bag_item("rabbitmq", "realdoc")
 end
-if data_bag_item("rabbitmq", "realservice")?("nil", "empty")
+if data_bag_item("rabbitmq", "realservice").nil?
   Chef::Log.info("No services returned from search.")
 else
   realservice_queue = data_bag_item("rabbitmq", "realservice")
 end
-if data_bag_item("rabbitmq", "hubzu")?("nil", "empty")
+if data_bag_item("rabbitmq", "hubzu").nil?
   Chef::Log.info("No services returned from search.")
 else
   hubzu_queue = data_bag_item("rabbitmq", "hubzu")
