@@ -45,10 +45,28 @@ rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'r
 hostentries = search(:node, "role:rabbitserver")
 
 #Build list of queues names for configuration
-realtrans_queue = data_bag_item("rabbitmq", "realtrans")
-realdoc_queue = data_bag_item("rabbitmq", "realdoc")
-realservice_queue = data_bag_item("rabbitmq", "realservice")
-hubzu_queue = data_bag_item("rabbitmq", "hubzu")
+if data_bag_item("rabbitmq", "realtrans").nil? || data_bag_item("rabbitmq", "realtrans").empty?
+  Chef::Log.info("No services returned from search.")
+else
+  realtrans_queue = data_bag_item("rabbitmq", "realtrans")
+end
+if data_bag_item("rabbitmq", "realdoc").nil? || data_bag_item("rabbitmq", "realdoc").empty?
+  Chef::Log.info("No services returned from search.")
+else
+  realdoc_queue = data_bag_item("rabbitmq", "realdoc")
+end
+if data_bag_item("rabbitmq", "realservice").nil? || data_bag_item("rabbitmq", "realservice").empty?
+  Chef::Log.info("No services returned from search.")
+else
+  realservice_queue = data_bag_item("rabbitmq", "realservice")
+end
+if data_bag_item("rabbitmq", "hubzu").nil? || data_bag_item("rabbitmq", "hubzu").empty?
+  Chef::Log.info("No services returned from search.")
+else
+  hubzu_queue = data_bag_item("rabbitmq", "hubzu")
+end
+
+# Gather all available vhosts into a single variable.
 vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names << realdoc_queue['vhosts']
