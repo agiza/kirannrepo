@@ -37,14 +37,6 @@ fi
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
 done
-#bugs_check=`/usr/sbin/rabbitmqctl list_users | grep bugsbunny`
-#if [ "$bugs_check" == "" ]; then
-#  /usr/sbin/rabbitmqctl add_user bugsbunny wH4t5Up
-#  /usr/sbin/rabbitmqctl set_user_tags bugsbunny prodcon
-#fi
-#for i in `echo "$vhosts"`; do
-#  /usr/sbin/rabbitmqctl set_permissions -p "$i" bugsbunny " " ".*" ".*"
-#done
 
 guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
 if [ "$guest_check" != "" ]; then

@@ -49,10 +49,12 @@ hostentries = search(:node, "role:rabbitserver")
 realtrans_queue = data_bag_item("rabbitmq", "realtrans")
 realdoc_queue = data_bag_item("rabbitmq", "realdoc")
 realservice_queue = data_bag_item("rabbitmq", "realservice")
+hubzu_queue = data_bag_item("rabbitmq", "hubzu")
 vhost_names = []
 vhost_names << realtrans_queue['vhosts']
 vhost_names << realdoc_queue['vhosts']
 vhost_names << realservice_queue['vhosts']
+vhost_names << hubzu_queue['vhosts']
 
 #Pull cookie value from databag
 cookie = data_bag_item("rabbitmq", "rabbitmq")
@@ -105,6 +107,12 @@ if node.attribute?('rabbitmq-master')
   
   execute "realservice-config" do
     command "/etc/rabbitmq/realservice-rabbit.sh"
+    action :nothing
+    environment ({'HOME' => '/etc/rabbitmq'})
+  end
+
+  execute "hubzu-config" do
+    command "/etc/rabbitmq/hubzu-rabbit.sh"
     action :nothing
     environment ({'HOME' => '/etc/rabbitmq'})
   end
@@ -164,6 +172,21 @@ if node.attribute?('rabbitmq-master')
       :userstring => realservice_queue['user']
     )
     notifies :run, 'execute[realservice-config]', :immediately
+  end
+
+  template "/etc/rabbitmq/hubzu-rabbit.sh" do
+    source "hubzu_rabbit.erb"
+    group "root"
+    owner "root"
+    mode "0755"
+    variables(
+      :queue_names => hubuz_queue['queues'],
+      :exchange_names => hubzu_queue['exchange'],
+      :binding_names => hubzu_queue['binding'],
+      :vhost_names => hubzu_queue['vhosts'],
+      :userstring => hubzu_queue['user']
+    )
+    notifies :run, 'execute[hubzu-config]', :immediately
   end
 
 else
