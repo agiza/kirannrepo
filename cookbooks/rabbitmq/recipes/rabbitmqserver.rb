@@ -50,8 +50,8 @@ vhost_names = []
 rabbitapps = data_bag("rabbitmq")
 rabbitapps.each do |app_name|
   unless "#{app_name}" == "rabbitmq"
-#    app_name_queue = data_bag_item("rabbitmq", app_name)
-    vhost_names << app_name_queue["vhosts"]
+    name_queue = data_bag_item("rabbitmq", app_name)
+    vhost_names << name_queue["vhosts"]
   end
 end
 
