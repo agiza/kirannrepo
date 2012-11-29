@@ -55,12 +55,15 @@ rabbitapps.each do |app_name|
   end
 end
 
-chef_environments = search(:environment, ":").collect { |environ| "#{environ}" }.join(" ").gsub!("_default", "")
-# Search all environments for rabbit vhosts and add them to the list
+appvhosts = {}
 rabbitapps.each do |app_name|
-  chef_environments.each do |environ|
-    vhost_names <<  environ[:"#{app_name}_amqp_vhost"]
+  search(:node, "chef_environment:*") do |n|
+    appvhosts[n."#{app_name}_amqp_vhost"] = {}
   end
+end
+appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.uniq.split(" ")
+appvhosts.each do |vhost|
+  vhost_names << vhost
 end
 
 #Pull Core rabbit from databag
