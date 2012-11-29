@@ -58,7 +58,7 @@ end
 appvhosts = {}
 rabbitapps.each do |app_name|
   search(:node, "chef_environment:*") do |n|
-    appvhosts[n."#{app_name}_amqp_vhost"] = {}
+    appvhosts[n.app_name_amqp_vhost] = {}
   end
 end
 appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.uniq.split(" ")
