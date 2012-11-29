@@ -11,9 +11,12 @@ html_vhosts=`echo "$vhosts" | sed -e 's/\///g'`
 #host=${1-$HOSTNAME}
 host=`hostname -s`
 
+adminuser=`echo "<%= @adminuser %> | cut -d "|" -f1`
+adminpass=`echo "<%= @adminuser %> | cut -d "|" -f2`
+
 # Check to see if the user accounts configuration has been run yet.
 guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`
-admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin | grep -v guest`
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep $adminuser | grep -v guest`
 if [ "$guest_check" != ""   ]; then
 
 # Setup cluster here
@@ -29,13 +32,13 @@ fi
 for i in `echo "$vhosts"`; do
   /usr/sbin/rabbitmqctl add_vhost "$i"
 done
-admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin | grep -v guest`
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep $adminuser | grep -v guest`
 if [ "$admin_check" == "" ]; then
-  /usr/sbin/rabbitmqctl add_user admin 5P3cial
-  /usr/sbin/rabbitmqctl set_user_tags admin administrator
+  /usr/sbin/rabbitmqctl add_user $adminuser $adminpass
+  /usr/sbin/rabbitmqctl set_user_tags $adminuser administrator
 fi
 for i in `echo "$vhosts"`; do
-  /usr/sbin/rabbitmqctl set_permissions -p "$i" admin ".*" ".*" ".*"
+  /usr/sbin/rabbitmqctl set_permissions -p "$i" $adminuser ".*" ".*" ".*"
 done
 
 guest_check=`/usr/sbin/rabbitmqctl list_users | grep guest`

@@ -44,37 +44,19 @@ end
 rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
 hostentries = search(:node, "role:rabbitserver")
 
-#Build list of queues names for configuration
-if data_bag_item("rabbitmq", "realtrans").nil?
-  Chef::Log.info("No services returned from search.")
-else
-  realtrans_queue = data_bag_item("rabbitmq", "realtrans")
-end
-if data_bag_item("rabbitmq", "realdoc").nil?
-  Chef::Log.info("No services returned from search.")
-else
-  realdoc_queue = data_bag_item("rabbitmq", "realdoc")
-end
-if data_bag_item("rabbitmq", "realservice").nil?
-  Chef::Log.info("No services returned from search.")
-else
-  realservice_queue = data_bag_item("rabbitmq", "realservice")
-end
-if data_bag_item("rabbitmq", "hubzu").nil?
-  Chef::Log.info("No services returned from search.")
-else
-  hubzu_queue = data_bag_item("rabbitmq", "hubzu")
-end
-
-# Gather all available vhosts into a single variable.
+# Setup empty array for comprehensive list of vhosts
 vhost_names = []
-vhost_names << realtrans_queue['vhosts']
-vhost_names << realdoc_queue['vhosts']
-vhost_names << realservice_queue['vhosts']
-vhost_names << hubzu_queue['vhosts']
+# Find all items in rabbitmq data bag and loop over them to build application data and vhosts
+rabbitapps = data_bag("rabbitmq")
+rabbitapps.each do |app|
+  unless "#{app}" == "rabbitmq"
+    "#{app}"_queue = data_bag_item("rabbitmq", "#{app}")
+    vhost_names << "#{app}"_queue["vhosts"]
+  end
+end
 
-#Pull cookie value from databag
-cookie = data_bag_item("rabbitmq", "rabbitmq")
+#Pull Core rabbit from databag
+rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -103,6 +85,7 @@ template "/etc/rabbitmq/hosts.txt" do
   notifies :run, 'execute[rabbit-host]', :immediately
 end
 
+# If this is the master rabbitmq server, we need to setup all vhosts/queues/exchanges and bindings.
 if node.attribute?('rabbitmq-master')
   execute "rabbit-config" do
     command "/etc/rabbitmq/rabbit-common.sh"
@@ -110,30 +93,18 @@ if node.attribute?('rabbitmq-master')
     environment ({'HOME' => '/etc/rabbitmq'})
   end
 
-  execute "realtrans-config" do
-    command "/etc/rabbitmq/realtrans-rabbit.sh"
-    action :nothing
-    environment ({'HOME' => '/etc/rabbitmq'})
+# This loops through all apps and defines a service to execute setup
+  rabbitapps.each do |app|
+    unless "#{app}" == "rabbitmq"
+      execute "#{app}-config" do
+        command "/etc/rabbitmq/#{app}-rabbit.sh"
+        action :nothing
+        environment ({'HOME' => '/etc/rabbitmq'})
+      end
+    end
   end
 
-  execute "realdoc-config" do
-    command "/etc/rabbitmq/realdoc-rabbit.sh"
-    action :nothing
-    environment ({'HOME' => '/etc/rabbitmq'})
-  end
-  
-  execute "realservice-config" do
-    command "/etc/rabbitmq/realservice-rabbit.sh"
-    action :nothing
-    environment ({'HOME' => '/etc/rabbitmq'})
-  end
-
-  execute "hubzu-config" do
-    command "/etc/rabbitmq/hubzu-rabbit.sh"
-    action :nothing
-    environment ({'HOME' => '/etc/rabbitmq'})
-  end
-
+# Setup the core vhost entries first as these are common elements
   template "/etc/rabbitmq/rabbit-common.sh" do
     source "rabbit_common.erb"
     group  "root"
@@ -141,87 +112,34 @@ if node.attribute?('rabbitmq-master')
     mode   "0755"
     variables(
       :rabbitnodes => rabbitservers,
-      :vhost_names => vhost_names
+      :vhost_names => vhost_names,
+      :adminuser => rabbitcore['adminuser']
     )
     notifies :run, 'execute[rabbit-config]', :immediately
   end
 
-  if realtrans_queue.nil? || realtrans_queue.empty?
-      Chef::Log.info("No services returned from search.")
-  else
-    template "/etc/rabbitmq/realtrans-rabbit.sh" do
-      source "realtrans_rabbit.erb"
-      group "root"
-      owner "root"
-      mode '0755'
-      variables(
-        :queue_names  => realtrans_queue['queues'],
-        :exchange_names => realtrans_queue['exchange'],
-        :binding_names => realtrans_queue['binding'],
-        :vhost_names => realtrans_queue['vhosts'],
-        :userstring => realtrans_queue['user']
-      )
-      notifies :run, 'execute[realtrans-config]', :immediately
+# This loops through all application entries to create the actual script to setup application entries
+  rabbitapps.each do |app|
+    unless "#{app}" == "rabbitmq"
+      template "/etc/rabbitmq/#{app}-rabbit.sh" do
+        source "app_rabbit.erb"
+        group "root"
+        owner "root"
+        mode '0755'
+        variables(
+          :queue_names  => "#{app}"_queue['queues'],
+          :exchange_names => "#{app}"_queue['exchange'],
+          :binding_names => "#{app}"_queue['binding'],
+          :vhost_names => "#{app}"_queue['vhosts'],
+          :userstring => "#{app}"_queue['user'],
+          :adminuser => rabbitcore['adminuser']
+        )
+        notifies :run, "execute[#{app}-config]", :immediately
+      end
     end
   end
 
-  if realdoc_queue.nil? || realdoc_queue.empty?
-      Chef::Log.info("No services returned from search.")
-  else
-    template "/etc/rabbitmq/realdoc-rabbit.sh" do
-      source "realdoc_rabbit.erb"
-      group "root"
-      owner "root"
-      mode "0755"
-      variables(
-        :queue_names => realdoc_queue['queues'],
-        :exchange_names => realdoc_queue['exchange'],
-        :binding_names => realdoc_queue['binding'],
-        :vhost_names => realdoc_queue['vhosts'],
-        :userstring => realdoc_queue['user']
-      )
-      notifies :run, 'execute[realdoc-config]', :immediately
-    end
-  end
-
-  if realservice_queue.nil? || realservice_queue.empty?
-      Chef::Log.info("No services returned from search.")
-  else
-    template "/etc/rabbitmq/realservice-rabbit.sh" do
-      source "realservice_rabbit.erb"
-      group "root"
-      owner "root"
-      mode "0755"
-      variables(
-        :queue_names => realservice_queue['queues'],
-        :exchange_names => realservice_queue['exchange'],
-        :binding_names => realservice_queue['binding'],
-        :vhost_names => realservice_queue['vhosts'],
-        :userstring => realservice_queue['user']
-      )
-      notifies :run, 'execute[realservice-config]', :immediately
-    end
-  end
-
-  if hubzu_queue.nil? || hubzu_queue.empty?
-      Chef::Log.info("No services returned from search.")
-  else
-    template "/etc/rabbitmq/hubzu-rabbit.sh" do
-      source "hubzu_rabbit.erb"
-      group "root"
-      owner "root"
-      mode "0755"
-      variables(
-        :queue_names => hubzu_queue['queues'],
-        :exchange_names => hubzu_queue['exchange'],
-        :binding_names => hubzu_queue['binding'],
-        :vhost_names => hubzu_queue['vhosts'],
-        :userstring => hubzu_queue['user']
-      )
-      notifies :run, 'execute[hubzu-config]', :immediately
-    end
-  end
-
+# This is for the slave entries that only need to be added to the cluster.
 else
   template "/etc/rabbitmq/rabbit-guest.sh" do
     source "rabbit_guest.erb"
@@ -237,7 +155,7 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   owner  "rabbitmq"
   group  "rabbitmq"
   mode   "0600"
-  variables( :cookie => cookie['rabbit_cookie'] )
+  variables( :cookie => rabbitcore['rabbit_cookie'] )
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
