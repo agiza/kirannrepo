@@ -52,8 +52,13 @@ rabbitapps.each do |app_name|
   unless "#{app_name}" == "rabbitmq"
     name_queue = data_bag_item("rabbitmq", app_name)
     vhost_names << name_queue["vhosts"]
-    app_vhost = search(:node, "chef_environment:*").attribute?("#{app_name}_amqp_vhost")
-    vhost_names << app_vhost
+  end
+end
+
+# Search all environments for rabbit vhosts and add them to the list
+rabbitapps.each do |app_name|
+  chef_environments.each do |environ|
+    vhost_names <<  environ[:"#{app_name}_amqp_vhost"]
   end
 end
 
