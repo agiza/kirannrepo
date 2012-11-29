@@ -9,7 +9,7 @@ host=`hostname -s`
 admin_user=`echo "<%= @adminuser %>" | cut -d "|" -f1`
 admin_pass=`echo "<%= @adminuser %>" | cut -d "|" -f2`
 
-admin_check=`/usr/sbin/rabbitmqctl list_users | grep admin`
+admin_check=`/usr/sbin/rabbitmqctl list_users | grep $admin_user | grep -v guest`
 if [ "$admin_check" != "" ]; then
 
 # Add all queue names here
@@ -25,7 +25,7 @@ bindings="<%= @binding_names %>"
 username=`echo "<%= @userstring %>" | cut -d "|" -f1`
 userpass=`echo "<%= @userstring %>" | cut -d "|" -f2`
 
-user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username"`
+user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
 if [ "$user_check" == "" ]; then
   /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
   /usr/sbin/rabbitmqctl set_user_tags "$username" prodcon
