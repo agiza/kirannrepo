@@ -48,10 +48,10 @@ hostentries = search(:node, "role:rabbitserver")
 vhost_names = []
 # Find all items in rabbitmq data bag and loop over them to build application data and vhosts
 rabbitapps = data_bag("rabbitmq")
-rabbitapps.each do |app|
-  unless "#{app}" == "rabbitmq"
-    "#{app}"_queue = data_bag_item("rabbitmq", "#{app}")
-    vhost_names << "#{app}"_queue["vhosts"]
+rabbitapps.each do |app_name|
+  unless "#{app_name}" == "rabbitmq"
+#    app_name_queue = data_bag_item("rabbitmq", app_name)
+    vhost_names << app_name_queue["vhosts"]
   end
 end
 
@@ -94,10 +94,10 @@ if node.attribute?('rabbitmq-master')
   end
 
 # This loops through all apps and defines a service to execute setup
-  rabbitapps.each do |app|
-    unless "#{app}" == "rabbitmq"
-      execute "#{app}-config" do
-        command "/etc/rabbitmq/#{app}-rabbit.sh"
+  rabbitapps.each do |app_name|
+    unless "#{app_name}" == "rabbitmq"
+      execute "#{app_name}-config" do
+        command "/etc/rabbitmq/#{app_name}-rabbit.sh"
         action :nothing
         environment ({'HOME' => '/etc/rabbitmq'})
       end
@@ -119,22 +119,23 @@ if node.attribute?('rabbitmq-master')
   end
 
 # This loops through all application entries to create the actual script to setup application entries
-  rabbitapps.each do |app|
-    unless "#{app}" == "rabbitmq"
-      template "/etc/rabbitmq/#{app}-rabbit.sh" do
+  rabbitapps.each do |app_name|
+    unless "#{app_name}" == "rabbitmq"
+      name_queue = data_bag_item("rabbitmq", app_name)
+      template "/etc/rabbitmq/#{app_name}-rabbit.sh" do
         source "app_rabbit.erb"
         group "root"
         owner "root"
         mode '0755'
         variables(
-          :queue_names  => "#{app}"_queue['queues'],
-          :exchange_names => "#{app}"_queue['exchange'],
-          :binding_names => "#{app}"_queue['binding'],
-          :vhost_names => "#{app}"_queue['vhosts'],
-          :userstring => "#{app}"_queue['user'],
+          :queue_names  => name_queue['queues'],
+          :exchange_names => name_queue['exchange'],
+          :binding_names => name_queue['binding'],
+          :vhost_names => name_queue['vhosts'],
+          :userstring => name_queue['user'],
           :adminuser => rabbitcore['adminuser']
         )
-        notifies :run, "execute[#{app}-config]", :immediately
+        notifies :run, "execute[#{app_name}-config]", :immediately
       end
     end
   end
