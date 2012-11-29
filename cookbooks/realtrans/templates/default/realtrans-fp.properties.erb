@@ -2,7 +2,7 @@ rt.amqp.host=<%= @amqphost %>
 rt.amqp.port=<%= @amqpport %>
 rt.amqp.username=<%= @amqpuser %>
 rt.amqp.password=<%= @amqppass %>
-rt.amqp.virtual-host=<%= node[:rt_amqp_vhost] %>
+rt.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
 
 rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>

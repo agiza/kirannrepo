@@ -26,21 +26,21 @@ amqp.host=<%= @amqphost %>
 amqp.port=<%= @amqpport %>
 amqp.username=<%= @amqpuser %>
 amqp.password=<%= @amqppass %>
-amqp.virtual-host=<%= node[:rd_amqp_vhost] %>
+amqp.virtual-host=<%= node[:realdoc_amqp_vhost] %>
 amqp.queue.inbound=realdoc
 
 rd.amqp.host=<%= @amqphost %>
 rd.amqp.port=<%= @amqpport %>
 rd.amqp.username=<%= @amqpuser %>
 rd.amqp.password=<%= @amqppass %>
-rd.amqp.vhost=<%= node[:rd_amqp_vhost] %>
+rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.amqp.requests.import=rd.import.standard
 
 realdoc.correspondence.amqp.host=<%= @amqphost %>
 realdoc.correspondence.amqp.port=<%= @amqpport %>
 realdoc.correspondence.amqp.username=<%= @amqpuser %>
 realdoc.correspondence.amqp.password=<%= @amqppass %>
-realdoc.correspondence.amqp.vhost=<%= node[:rd_amqp_vhost] %>
+realdoc.correspondence.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 realdoc.correspondence.amqp.recon.inbound=rd.correspondence.recon
 realdoc.correspondence.amqp.delivery=rd.correspondence.requests
 realdoc.correspondence.amqp.generate=rd.correspondence.generate

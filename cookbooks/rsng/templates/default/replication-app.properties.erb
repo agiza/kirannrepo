@@ -2,7 +2,7 @@ rabbit.server.host=<%= @amqphost %>
 rabbit.server.port=<%= @amqpport %>
 rabbit.server.username=<%= @amqpuser %>
 rabbit.server.password=<%= @amqppass %>
-rabbit.server.vhost=<%= node[:rsng_vhost] %>
+rabbit.server.vhost=<%= node[:realservice_amqp_vhost] %>
 rabbit.server.channelCacheSize=100
 
 journal.replication.consumers=40

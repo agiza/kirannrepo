@@ -11,7 +11,7 @@ rd.adapter.mongo.db=<%= node[:mongodb_database] %>
 # rabbit
 rd.adapter.amqp.host=<%= @amqphost %>
 rd.adapter.amqp.port=<%= @amqpport %>
-rd.adapter.amqp.vhost=<%= node[:rd_amqp_vhost] %>
+rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.adapter.amqp.username=<%= @amqpuser %>
 rd.adapter.amqp.password=<%= @amqppass %>
 rd.adapter.amqp.recon.inbound=rd.correspondence.recon
