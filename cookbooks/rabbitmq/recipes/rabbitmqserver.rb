@@ -55,6 +55,7 @@ rabbitapps.each do |app_name|
   end
 end
 
+chef_environments = search(:environment, ":").collect { |environ| "#{environ}" }.join(" ").gsub!("_default", "")
 # Search all environments for rabbit vhosts and add them to the list
 rabbitapps.each do |app_name|
   chef_environments.each do |environ|
