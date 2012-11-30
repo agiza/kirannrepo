@@ -98,10 +98,10 @@ if node.attribute?('rabbitmq-master')
   end
 
 # This loops through all apps and defines a service to execute setup
-  rabbitapps.each do |app_name|
-    unless "#{app_name}" == "rabbitmq"
-      execute "#{app_name}-config" do
-        command "/etc/rabbitmq/#{app_name}-rabbit.sh"
+  rabbitapps.each do |application_name|
+    unless "#{application_name}" == "rabbitmq"
+      execute "#{application_name}-config" do
+        command "/etc/rabbitmq/#{application_name}-rabbit.sh"
         action :nothing
         environment ({'HOME' => '/etc/rabbitmq'})
       end
@@ -123,10 +123,12 @@ if node.attribute?('rabbitmq-master')
   end
 
 # This loops through all application entries to create the actual script to setup application entries
-  rabbitapps.each do |app_name|
-    unless "#{app_name}" == "rabbitmq"
+  rabbitapps.each do |application_name|
+    unless "#{application_name}" == "rabbitmq"
       name_queue = data_bag_item("rabbitmq", app_name)
-      template "/etc/rabbitmq/#{app_name}-rabbit.sh" do
+      appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
+      appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
+      template "/etc/rabbitmq/#{application_name}-rabbit.sh" do
         source "app_rabbit.erb"
         group "root"
         owner "root"
@@ -135,11 +137,12 @@ if node.attribute?('rabbitmq-master')
           :queue_names  => name_queue['queues'],
           :exchange_names => name_queue['exchange'],
           :binding_names => name_queue['binding'],
-          :vhost_names => name_queue['vhosts'],
+          #:vhost_names => name_queue['vhosts'],
+          :vhost_names => appvhosts,
           :userstring => name_queue['user'],
           :adminuser => rabbitcore['adminuser']
         )
-        notifies :run, "execute[#{app_name}-config]", :immediately
+        notifies :run, "execute[#{application_name}-config]", :immediately
       end
     end
   end
