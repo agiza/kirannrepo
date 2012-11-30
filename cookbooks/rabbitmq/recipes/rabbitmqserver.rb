@@ -53,11 +53,11 @@ rabbitapps.each do |application_name|
     name_queue = data_bag_item("rabbitmq", application_name)
     appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
     appvhosts << name_queue["vhosts"]
-    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.join(" ").split("/ ").sort.uniq
+    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq
     vhost_names << appvhosts
   end
 end
-vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join("/ ").split("/ ").sort.uniq
+vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join("/").split("/").sort.uniq
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
