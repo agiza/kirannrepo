@@ -52,6 +52,12 @@ rabbitapps.each do |app_name|
   unless "#{app_name}" == "rabbitmq"
     name_queue = data_bag_item("rabbitmq", app_name)
     vhost_names << name_queue["vhosts"]
+    appvhosts = {}
+    search(:node, "#{app_name}_amqp_vhost:*") do |n|
+      appvhosts(n."#{app_name}_amqp_vhost") = {}
+    end
+    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.gsub!("/", "").sort.uniq.split(" ")
+    vhost_names << appvhosts
   end
 end
 
