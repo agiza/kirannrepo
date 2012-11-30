@@ -53,7 +53,7 @@ rabbitapps.each do |application_name|
     name_queue = data_bag_item("rabbitmq", application_name)
     applicationvhost = "#{application_name}_amqp_vhost"
     vhost_names << name_queue["vhosts"]
-    appvhosts = search(:node, %Q{"#{application_name}_amqp_vhost:*"}).map {|n| n["applicationvhost"]}
+    appvhosts = search(:node, "applicationvhost:*").map {|n| n["applicationvhost"]}
     vhost_names << appvhosts
   end
 end
