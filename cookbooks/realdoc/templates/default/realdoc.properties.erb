@@ -132,7 +132,7 @@ rf.automaticTaskAssignment.enabled=true
 
 internalDomains=none
 
-rf.app.context.path=http://<%= @webHostname %>/realdoc
+rf.app.context.path=<%= @webHostname %>/realdoc
 
 <% if node.run_list?('role[implementer]') -%>
 rf.startupAuthenticationProvider.enabled=true 
