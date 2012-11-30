@@ -57,7 +57,7 @@ rabbitapps.each do |application_name|
     vhost_names << appvhosts
   end
 end
-vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join("/").split("/").sort.uniq
+vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
