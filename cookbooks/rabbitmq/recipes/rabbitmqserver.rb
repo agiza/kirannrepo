@@ -48,13 +48,14 @@ hostentries = search(:node, "role:rabbitserver")
 vhost_names = []
 # Find all items in rabbitmq data bag and loop over them to build application data and vhosts
 rabbitapps = data_bag("rabbitmq")
-rabbitapps.each do |app_name|
+rabbitapps.each do |application_name|
   unless "#{app_name}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", app_name)
+    name_queue = data_bag_item("rabbitmq", application_name)
+    applicationvhost = "#{application_name}_amqp_vhost"
     vhost_names << name_queue["vhosts"]
     appvhosts = {}
-    search(:node, "#{app_name}_amqp_vhost:*") do |n|
-      appvhosts(n."#{app_name}_amqp_vhost") = {}
+    search(:node, "applicationvhost:*") do |n|
+      appvhosts(n.applicationvhost) = {}
     end
     appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.gsub!("/", "").sort.uniq.split(" ")
     vhost_names << appvhosts
