@@ -55,7 +55,8 @@ rabbitapps.each do |application_name|
     vhost_names << name_queue["vhosts"]
     appvhosts = {}
     search(:node, "applicationvhost:*") do |n|
-      appvhosts << n[:applicationvhost]
+      target = "#{n[:applicationvhost]}"
+      appvhosts << target
     end
     appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.join(" ").gsub!("/", "").sort.uniq.split(" ")
     vhost_names << appvhosts
