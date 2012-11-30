@@ -49,7 +49,7 @@ vhost_names = []
 # Find all items in rabbitmq data bag and loop over them to build application data and vhosts
 rabbitapps = data_bag("rabbitmq")
 rabbitapps.each do |application_name|
-  unless "#{app_name}" == "rabbitmq"
+  unless "#{application_name}" == "rabbitmq"
     name_queue = data_bag_item("rabbitmq", application_name)
     applicationvhost = "#{application_name}_amqp_vhost"
     vhost_names << name_queue["vhosts"]
@@ -125,7 +125,7 @@ if node.attribute?('rabbitmq-master')
 # This loops through all application entries to create the actual script to setup application entries
   rabbitapps.each do |application_name|
     unless "#{application_name}" == "rabbitmq"
-      name_queue = data_bag_item("rabbitmq", app_name)
+      name_queue = data_bag_item("rabbitmq", application_name)
       appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
       appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
       template "/etc/rabbitmq/#{application_name}-rabbit.sh" do
