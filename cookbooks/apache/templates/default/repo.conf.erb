@@ -1,0 +1,24 @@
+ProxyRequests             Off
+ProxyPreserveHost         On
+
+<Proxy balancer://repo>
+    Order allow,deny
+    Allow from 172.19
+    Allow from 10
+    Allow from 127.0.0.1
+    Allow from 184.72.127.192
+
+    BalancerMember http://github.altidev.com:80
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+
+<Location /yum>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer://repo/yum stickysession=JSESSIONID|jsessionid
+</Location>
+
