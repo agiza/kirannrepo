@@ -10,8 +10,8 @@ if [ "$1" == "" -o "$2" == "" -o "$3" == "" ]; then
         read answer
 else
         userid=$1
-        email_address=$3
-        full_name=`echo $2 | sed ' s/_/\ /g'`
+        email_address=$2
+        full_name=`echo $3 | sed ' s/_/\ /g'`
         answer="Y"
 fi
 if [ "$answer" == "Y" ]; then
