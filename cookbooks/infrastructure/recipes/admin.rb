@@ -74,13 +74,13 @@ rhel_hosts = {}
 search(:node, "platform:redhat OR platform:centos") do |n|
   rhel_hosts[n.hostname] = {}
 end
-rhel_hosts = rhel_hosts.collect { |host| "#{host}" }.join(" ").split.uniq.split(" ")
+rhel_hosts = rhel_hosts.collect { |host| "#{host}" }.join(" ").split(" ").uniq.split(" ")
 
 ubuntu_hosts = {}
 search(:node, "platform:ubuntu") do |n|
   ubuntu_hosts[n.hostname] = {}
 end
-ubuntu_hosts = ubuntu_hosts.collect { |host| "#{host}" }.join(" ").split.uniq.split(" ")
+ubuntu_hosts = ubuntu_hosts.collect { |host| "#{host}" }.join(" ").split(" ").uniq.split(" ")
 
 template "/home/ubuntu/bin/rhel_host" do
   source "rhel_host.erb"
