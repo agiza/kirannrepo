@@ -22,6 +22,7 @@ if [ "$guest_check" != ""   ]; then
 # Setup cluster here
 full_domin=`hostname -d`
 rabbitnodes=`echo "<%= @rabbitnodes %>"`
+#/usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl join_cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 /usr/sbin/rabbitmqctl stop_app; /usr/sbin/rabbitmqctl reset; /usr/sbin/rabbitmqctl cluster "$rabbitnodes"; /usr/sbin/rabbitmqctl start_app
 
 elif [ "$admin_check" != "" ]; then
