@@ -6,8 +6,10 @@ mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
 realdoc.email.fromAddress=<%= node[:mail_from] %>
+rd.email.fromAddress=<%= node[:mail_from] %>
 realdoc.email.fromAddress.personal=<%= node[:mail_from] %>
 realdoc.fax.toAddress=<%= node[:mail_from] %>
+rd.fax.toAddress=robert.hudson@altisource.com
 
 realdoc.printstandard.ftp.host=<%= node[:rd_ftphost] %>
 realdoc.printstandard.ftp.port=<%= node[:rd_ftpport] %>
