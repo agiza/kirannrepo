@@ -72,11 +72,11 @@ end
 
 rhel_hosts = {}
 search(:node, "platform:redhat OR platform:centos") do |n|
-  rhel_hosts[n.hostname] = {}
+  rhel_hosts[n.fqdn] = {}
 end
 ubuntu_hosts = {}
 search(:node, "platform:ubuntu") do |n|
-  ubuntu_hosts[n.hostname] = {}
+  ubuntu_hosts[n.fqdn] = {}
 end
 
 template "/home/ubuntu/bin/rhel_host" do
