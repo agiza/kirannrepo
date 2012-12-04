@@ -89,6 +89,15 @@ template "/etc/rabbitmq/hosts.txt" do
   notifies :run, 'execute[rabbit-host]', :immediately
 end
 
+template "/var/lib/rabbitmq/.erlang.cookie" do
+  source "erlang.cookie.erb"
+  owner  "rabbitmq"
+  group  "rabbitmq"
+  mode   "0600"
+  variables( :cookie => rabbitcore['rabbit_cookie'] )
+  notifies :restart, resources(:service => "rabbitmq-server")
+end
+
 # If this is the master rabbitmq server, we need to setup all vhosts/queues/exchanges and bindings.
 if node.attribute?('rabbitmq-master')
   execute "rabbit-config" do
@@ -157,15 +166,6 @@ else
     mode   "0755"
     notifies :run, 'execute[guest-remove]', :immediately
   end
-end
-
-template "/var/lib/rabbitmq/.erlang.cookie" do
-  source "erlang.cookie.erb"
-  owner  "rabbitmq"
-  group  "rabbitmq"
-  mode   "0600"
-  variables( :cookie => rabbitcore['rabbit_cookie'] )
-  notifies :restart, resources(:service => "rabbitmq-server")
 end
 
 service "rabbitmq-server" do
