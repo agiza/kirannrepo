@@ -70,8 +70,8 @@ template "/home/ubuntu/bin/openvpn-resend.sh" do
   mode   "0755"
 end
 
-rhel_hosts = search(:node, "platform:redhat OR platform:centos").collect { |host| "#{host}"}.join(" ").gsub!("\[", "").gsub!("\, \{\}\]","")
-ubuntu_hosts = search(:node, "platform:ubuntu").collect { |host| "#{host}"}.join(" ").gsub!("\[", "").gsub!("\, \{\}\]","")
+rhel_hosts = search(:node, "platform:redhat OR platform:centos").collect { |host| "#{host}"}.join(" ").gsub!("\[", "").gsub!("\, \{\}\]","").uniq.split(" ")
+ubuntu_hosts = search(:node, "platform:ubuntu").collect { |host| "#{host}"}.join(" ").gsub!("\[", "").gsub!("\, \{\}\]","").uniq.split(" ")
 
 template "/home/ubuntu/bin/rhel_host" do
   source "rhel_host.erb"
