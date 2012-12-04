@@ -70,8 +70,8 @@ template "/home/ubuntu/bin/openvpn-resend.sh" do
   mode   "0755"
 end
 
-rhel_hosts = search(:node, "platform:redhat OR platform:centos AND chef_environment:*")
-ubuntu_hosts = search(:node, "platform:ubuntu AND chef_environment:*")
+rhel_hosts = search(:node, "platform:redhat OR platform:centos")
+ubuntu_hosts = search(:node, "platform:ubuntu")
 
 template "/home/ubuntu/bin/rhel_host" do
   source "rhel_host.erb"
