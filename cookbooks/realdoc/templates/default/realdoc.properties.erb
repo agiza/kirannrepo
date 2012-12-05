@@ -11,16 +11,16 @@ realdoc.email.fromAddress.personal=<%= node[:mail_from] %>
 realdoc.fax.toAddress=<%= node[:mail_from] %>
 rd.fax.toAddress=robert.hudson@altisource.com
 
-realdoc.printstandard.ftp.host=<%= node[:rd_ftphost] %>
-realdoc.printstandard.ftp.port=<%= node[:rd_ftpport] %>
-realdoc.printstandard.ftp.username=<%= node[:rd_ftpuser] %>
-realdoc.printstandard.ftp.password=<%= node[:rd_ftppass] %>
+realdoc.printstandard.ftp.host=<%= node[:realdoc_ftphost] %>
+realdoc.printstandard.ftp.port=<%= node[:realdoc_ftpport] %>
+realdoc.printstandard.ftp.username=<%= node[:realdoc_ftpuser] %>
+realdoc.printstandard.ftp.password=<%= node[:realdoc_ftppass] %>
 realdoc.printstandard.privateKey=file:/opt/tomcat/conf/realdoc.key
 
-realdoc.printcertified.ftp.host=<%= node[:rd_ftphost] %>
-realdoc.printcertified.ftp.port=<%= node[:rd_ftpport] %>
-realdoc.printcertified.ftp.username=<%= node[:rd_ftpuser] %>
-realdoc.printcertified.ftp.password=<%= node[:rd_ftppass] %>
+realdoc.printcertified.ftp.host=<%= node[:realdoc_ftphost] %>
+realdoc.printcertified.ftp.port=<%= node[:realdoc_ftpport] %>
+realdoc.printcertified.ftp.username=<%= node[:realdoc_ftpuser] %>
+realdoc.printcertified.ftp.password=<%= node[:realdoc_ftppass] %>
 realdoc.correspondence.directory=${catalina.base}/correspondence
 realdoc.printcertified.privateKey=file:/opt/tomcat/conf/realdoc.key
 
