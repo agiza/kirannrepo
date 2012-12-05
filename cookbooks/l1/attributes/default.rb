@@ -17,6 +17,6 @@ default["java_mem_max"]         = "-Xmx1536m"
 default["java_mem_min"]         = "-Xms512m"
 default["java_perm_size"]       = "-XX:MaxPermSize=768M"
 # Realfoundation Default attributes
-default["tenantid"]             = "TENANT1"
+default["tenantid"]             = "L1_TENANT"
 default["rf_ldap_flag"]         = "false"
 default["rf_dao_flag"]          = "true"
