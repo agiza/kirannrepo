@@ -87,12 +87,13 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver
   )
 end
-
+qldb = data_bag_item("infrastructure", "mysqld#{chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(:mysqldb => mysqldb['realtrans'])
   notifies :restart, resources(:service => "altitomcat")
 end
 

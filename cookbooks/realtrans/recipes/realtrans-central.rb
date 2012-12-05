@@ -112,12 +112,15 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Obtain mysqldb information for context file.
+mysqldb = data_bag_item("infrastructure", "mysqld#{chef_environment}")
 # Template that creates the application context for database connection pooling.
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(:mysqldb => mysqldb['realtrans'])
   notifies :restart, resources(:service => "altitomcat")
 end
 
