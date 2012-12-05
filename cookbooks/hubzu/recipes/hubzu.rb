@@ -57,11 +57,13 @@ template "/opt/tomcat/conf/hubzu.properties" do
   )
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/hubzu.xml" do
-  source "hubzu.xml.erb"
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(:mysqldb => mysqldb["#{app_name}"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
