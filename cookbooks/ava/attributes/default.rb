@@ -8,10 +8,6 @@ default["db_server"]            = "mysqldbprim"
 default["db_port"]              = "3306"
 default["db_timeevict"]         = "60000"
 default["db_valquerytimeout"]   = "2"
-# Mysql realtrans app defaults
-default["ava_dbname"]          = "ava"
-default["avadb_user"]          = "real_app"
-default["avadb_pass"]          = "0ch3N'OK"
 # Java defaults for Tomcat
 default["java_mem_max"]         = "-Xmx1536m"
 default["java_mem_min"]         = "-Xms512m"
