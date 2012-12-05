@@ -36,11 +36,13 @@ template "/opt/tomcat/conf/realservicing.simulator.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/int-realservicing-simulator.xml" do
   source "int-realservicing-simulator.xml.erb"
   group  "tomcat"
   owner  "tomcat"
   mode   "0644"
+  variables(:mysqldb => mysqldb["realtrans"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
