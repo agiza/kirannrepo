@@ -87,7 +87,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver
   )
 end
-qldb = data_bag_item("infrastructure", "mysqld#{chef_environment}")
+mysqldb = data_bag_item("infrastructure", "mysqld#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'
