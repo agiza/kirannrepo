@@ -4,7 +4,7 @@
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://<%= node[:smadap_dbhost] %>:<%= node[:db_port] %>/<%= @mysqldb['smadap_dbname'] %>?autoReconnect=true"
+            url="jdbc:mysql://<%= @mysqldb['smadap_dbhost'] %>:<%= node[:db_port] %>/<%= @mysqldb['smadap_dbname'] %>?autoReconnect=true"
             username="<%= @mysqldb['smadap_dbuser'] %>" password="<%= @mysqldb['smadap_dbpass'] %>"
             maxActive="<%= node[:db_maxactive] %>" 
             minIdle="0"
