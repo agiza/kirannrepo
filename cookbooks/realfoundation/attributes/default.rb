@@ -9,10 +9,16 @@ default["db_port"]              = "3306"
 default["db_timeevict"]         = "60000"
 default["db_valquerytimeout"]   = "2"
 # Mysql realtrans app defaults
-default["rf_dbname"]          = "realtrans"
-default["rfdb_user"]          = "real_app"
-default["rfdb_pass"]          = "0ch3N'OK"
+default["rf_dbname"]         	= "realfound"
+default["rfdb_user"]        	= "real_app"
+default["rfdb_pass"]        	= "0ch3N'OK"
 # Java defaults for Tomcat
 default["java_mem_max"]         = "-Xmx1536m"
 default["java_mem_min"]         = "-Xms512m"
 default["java_perm_size"]       = "-XX:MaxPermSize=768M"
+# Defaults for realfoundation app
+default["realfound_appkey"]	= "REALFoundationApp"
+default["tenantid"]		= "TENANT1"
+default["rf_ldap_flag"]		= "false"
+default["rf_dao_flag"]		= "true"
+

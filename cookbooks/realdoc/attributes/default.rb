@@ -39,4 +39,7 @@ default["realdoc_ftpport"]	= "22"
 default["realdoc_ftpuser"]	= "realdoc"
 # Realdoc Rabbit default vhost
 default["realdoc_amqp_vhost"]	= "/realdoc"
-
+# Realfoundation Default attributes
+default["tenantid"]             = "TENANT1"
+default["rf_ldap_flag"]         = "false"
+default["rf_dao_flag"]          = "true"
