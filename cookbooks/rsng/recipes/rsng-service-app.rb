@@ -70,11 +70,13 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
   )
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/rsng-service-app.xml" do
-  source "rsng-service-app.xml.erb"
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(:mysqldb => mysqldb["realservice"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
