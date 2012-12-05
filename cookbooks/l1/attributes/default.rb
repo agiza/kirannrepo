@@ -15,4 +15,4 @@ default["l1db_pass"]          = "0ch3N'OK"
 # Java defaults for Tomcat
 default["java_mem_max"]         = "-Xmx1536m"
 default["java_mem_min"]         = "-Xms512m"
-default["java_perm_size"]       = "-XX:MaxPermSize=768m"
+default["java_perm_size"]       = "-XX:MaxPermSize=768M"
