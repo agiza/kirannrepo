@@ -85,11 +85,13 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   )
 end
 
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/realfoundation.xml" do
   source "realfoundation.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables(:mysqldb => mysqldb["realfound"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
