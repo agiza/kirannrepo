@@ -5,7 +5,7 @@
             type="javax.sql.DataSource"
             driverClassName="com.mysql.jdbc.Driver"
             url="jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rt_dbname'] %>?autoReconnect=true"
-            username="<%= @mysqldb['rtdb_user'] %>" password="<%= @mysqldb['rtdb_pass'] %>"
+            username="<%= @mysqldb['rt_dbuser'] %>" password="<%= @mysqldb['rt_dbpass'] %>"
             maxActive="<%= node[:db_maxactive] %>" 
             minIdle="0"
             maxIdle="<%= node[:db_maxidle] %>"
