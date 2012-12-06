@@ -39,7 +39,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-amqpcred = data_bag_item("rabbitmq", "realtrans")
+amqpcred = data_bag_item("rabbitmq", "l1")
 amqpcred = amqpcred['user'].split("|")
 datavision = data_bag_item("integration", "datavision")
 template "/opt/tomcat/conf/#{app_name}.properties" do

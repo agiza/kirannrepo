@@ -39,7 +39,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-amqpcred = data_bag_item("rabbitmq", "realtrans")
+amqpcred = data_bag_item("rabbitmq", "l1")
 amqpcred = amqpcred['user'].split("|")
 # Find environment specific data bag settings if they exist, if not roll back to simple data bag.
 corelogicenv = data_bag_item("integration", "corelogic#{node.chef_environment}")
