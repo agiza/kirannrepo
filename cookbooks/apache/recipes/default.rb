@@ -74,6 +74,7 @@ if apachedata['servername'].nil? || apachedata['servername'].empty?
   Chef::Log.info("No services returned from search.")
 else
   # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
+  servername = "#{apachedata['servername'].split(",")[0]}"
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
     owner "root"
@@ -87,28 +88,28 @@ else
     notifies :reload, resources(:service => "httpd")
   end
   # Uses servername to grab for the data element that contains the certificate.
-  servercert = "#{apachedata['servername'].split(",")[0]}.crt"
-  template "/etc/pki/tls/certs/#{apachedata['servername'].split(",")[0]}.crt" do
+  servercert = apachedata["#{servername}.crt"]
+  template "/etc/pki/tls/certs/#{servername}.crt" do
     source "servername.crt.erb"
     owner  "root"
     group  "root"
     mode   "0644"
     variables(
       :servercert => servercert,
-      :servername => "#{apachedata['servername'].split(",")[0]}"
+      :servername => "#{servername}"
     )
     notifies :reload, resources(:service => "httpd")
   end
   # This grabs private key to populate the server private key.
-  serverkey = "#{apachedata['servername'].split(",")[0]}.key"
-  template "/etc/pki/tls/private/#{apachedata['servername'].split(",")[0]}.key" do
+  serverkey = apachedata["#{servername}.key"]
+  template "/etc/pki/tls/private/#{servername}.key" do
     source "servername.key.erb"
     owner  "root"
     group  "root"
     mode   "0640"
     variables(
       :serverkey => serverkey,
-      :servername => "#{apachedata['servername'].split(",")[0]}"
+      :servername => "#{servername}"
     )
     notifies :reload, resources(:service => "httpd")
   end
