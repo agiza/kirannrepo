@@ -46,7 +46,7 @@ rabbitentries = search(:node, "role:rabbitserver")
 rabbitentries.each do |server|
   rabbitservers << server[:hostname]
 end
-rabbitservers = rabbitservers.collect { |entry| "rabbit@#{entry}"}.join(",")
+rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
 #rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
 hostentries = search(:node, "role:rabbitserver")
 
