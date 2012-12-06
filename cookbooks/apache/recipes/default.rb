@@ -17,23 +17,22 @@ yum_package "httpd" do
   action :upgrade
 end
 
-yum_package "mod_security" do
-  action :upgrade
-end
+include_recipe "apache::mod_security"
+#yum_package "mod_security" do
+#  action :upgrade
+#end
 
 yum_package "mod_ssl" do
   action :upgrade
 end
 
-yum_package "mod_bw" do
-  action :upgrade
-end
+include_recipe "apache::mod_bw"
+#yum_package "mod_bw" do
+#  action :upgrade
+#end
 
-yum_package "mod_limitipconn" do
-  action :upgrade
-end
-
-#yum_package "mod-pagespeed" do
+include_recipe "apache::mod_limitipconn"
+#yum_package "mod_limitipconn" do
 #  action :upgrade
 #end
 
@@ -59,14 +58,6 @@ template "/etc/httpd/conf/httpd.conf" do
   mode "0644"
   notifies :reload, resources(:service => "httpd")
 end
-
-#template "/etc/httpd/conf.d/pagespeed.conf" do
-#  source "pagespeed.conf.erb"
-#  owner "root"
-#  group "root"
-#  mode "0644"
-#  notifies :reload, resources(:service => "httpd")
-#end
 
 # Look up ssl server name from data bag.
 apachedata = data_bag_item("infrastructure", "apache")
