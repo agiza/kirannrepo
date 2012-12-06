@@ -95,7 +95,7 @@ else
     mode   "0644"
     variables(
       :servercert => servercert,
-      :servername => servername
+      :servername => "#{apachedata['servername'].split(",")[0]}"
     )
     notifies :reload, resources(:service => "httpd")
   end
@@ -108,7 +108,7 @@ else
     mode   "0640"
     variables(
       :serverkey => serverkey,
-      :servername => servername
+      :servername => "#{apachedata['servername'].split(",")[0]}"
     )
     notifies :reload, resources(:service => "httpd")
   end
