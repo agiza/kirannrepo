@@ -17,24 +17,13 @@ yum_package "httpd" do
   action :upgrade
 end
 
-include_recipe "apache::mod_security"
-#yum_package "mod_security" do
-#  action :upgrade
-#end
-
 yum_package "mod_ssl" do
   action :upgrade
 end
 
+include_recipe "apache::mod_security"
 include_recipe "apache::mod_bw"
-#yum_package "mod_bw" do
-#  action :upgrade
-#end
-
 include_recipe "apache::mod_limitipconn"
-#yum_package "mod_limitipconn" do
-#  action :upgrade
-#end
 
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -104,16 +93,6 @@ else
     )
     notifies :reload, resources(:service => "httpd")
   end
-end
-
-# Config file for mod_security.
-template "/etc/httpd/conf.d/mod_security.conf" do
-  source "mod_security.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( :bodylimit => apachedata['bodylimit'])
-  notifies :reload, resources(:service => "httpd")
 end
 
 # Provides a mechanism to include optional configurations by adding them to a data bag item, separated by pipe character.
