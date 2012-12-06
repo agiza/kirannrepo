@@ -33,9 +33,9 @@ yum_package "mod_limitipconn" do
   action :upgrade
 end
 
-yum_package "mod-pagespeed" do
-  action :upgrade
-end
+#yum_package "mod-pagespeed" do
+#  action :upgrade
+#end
 
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -60,13 +60,13 @@ template "/etc/httpd/conf/httpd.conf" do
   notifies :reload, resources(:service => "httpd")
 end
 
-template "/etc/httpd/conf.d/pagespeed.conf" do
-  source "pagespeed.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :reload, resources(:service => "httpd")
-end
+#template "/etc/httpd/conf.d/pagespeed.conf" do
+#  source "pagespeed.conf.erb"
+#  owner "root"
+#  group "root"
+#  mode "0644"
+#  notifies :reload, resources(:service => "httpd")
+#end
 
 # Look up ssl server name from data bag.
 apachedata = data_bag_item("infrastructure", "apache")
