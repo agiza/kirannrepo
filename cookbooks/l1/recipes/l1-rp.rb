@@ -63,7 +63,7 @@ end
 
 # Integration components
 webHost = data_bag_item("infrastructure", "apache")
-l1rabbit = data_bag_item("rabbitmq", "realtrans")
+l1rabbit = data_bag_item("rabbitmq", "l1")
 l1rabbit = l1rabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
