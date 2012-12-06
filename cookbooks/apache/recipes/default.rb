@@ -69,39 +69,26 @@ template "/etc/httpd/conf.d/pagespeed.conf" do
 end
 
 # Look up ssl server name from data bag.
-servername = data_bag_item("infrastructure", "apache")
-if servername['servername'].nil? || servername['servername'].empty?
+apachedata = data_bag_item("infrastructure", "apache")
+if apachedata['servername'].nil? || apachedata['servername'].empty?
   Chef::Log.info("No services returned from search.")
 else
+  # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
     owner "root"
     group "root"
     mode "0644"
     variables( 
-      :servername => "#{servername['servername'].split(",")[0]}",
-      :proxyname => "#{servername['servername'].split(",")[1]}",
-      :serveradmin => "#{servername['serveradmin']}"
+      :servername => "#{apachedata['servername'].split(",")[0]}",
+      :proxyname => "#{apachedata['servername'].split(",")[1]}",
+      :serveradmin => "#{apachedata['serveradmin']}"
     )
     notifies :reload, resources(:service => "httpd")
   end
-end
-
-template "/etc/httpd/conf.d/mod_security.conf" do
-  source "mod_security.conf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( :bodylimit => servername['bodylimit'])
-  notifies :reload, resources(:service => "httpd")
-end
-
-# Checks to see if there is a servername to correspond with SSL certificates.
-if servername['servername'].nil? || servername['servername'].empty?
-  Chef::Log.info("No services returned from search.")
-else
-  servercert = "#{servername['servername'].split(",")[0]}.crt"
-  template "/etc/pki/tls/certs/#{servername['servername'].split(",")[0]}.crt" do
+  # Uses servername to grab for the data element that contains the certificate.
+  servercert = "#{apachedata['servername'].split(",")[0]}.crt"
+  template "/etc/pki/tls/certs/#{apachedata['servername'].split(",")[0]}.crt" do
     source "servername.crt.erb"
     owner  "root"
     group  "root"
@@ -112,9 +99,9 @@ else
     )
     notifies :reload, resources(:service => "httpd")
   end
-
-  serverkey = "#{servername['servername'].split(",")[0]}.key"
-  template "/etc/pki/tls/private/#{servername['servername'].split(",")[0]}.key" do
+  # This grabs private key to populate the server private key.
+  serverkey = "#{apachedata['servername'].split(",")[0]}.key"
+  template "/etc/pki/tls/private/#{apachedata['servername'].split(",")[0]}.key" do
     source "servername.key.erb"
     owner  "root"
     group  "root"
@@ -127,12 +114,22 @@ else
   end
 end
 
-# Provides a mechanism to include optional configurations by adding them to a data bag item.
-sitesinclude = data_bag_item("infrastructure", "apache")
-if sitesinclude['serversites'].nil? || sitesinclude['serversites'].empty?
+# Config file for mod_security.
+template "/etc/httpd/conf.d/mod_security.conf" do
+  source "mod_security.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  variables( :bodylimit => apachedata['bodylimit'])
+  notifies :reload, resources(:service => "httpd")
+end
+
+# Provides a mechanism to include optional configurations by adding them to a data bag item, separated by pipe character.
+# For each site included, there must be a matching config file template.
+if apachedata['serversites'].nil? || apachedata['serversites'].empty?
   Chef::Log.info("No services returned from search.")
 else
-  sitesinclude = sitesinclude['serversites'].split("|")
+  sitesinclude = apachedata['serversites'].split("|")
   sitesinclude.each do |site|
     template "/etc/httpd/conf.d/#{site}.conf" do
       source "#{site}.conf.erb"
