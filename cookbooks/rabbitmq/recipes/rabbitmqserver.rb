@@ -41,29 +41,15 @@ service "rabbitmq-server" do
   action :nothing
 end
 
+# This creates an string collection of all rabbitmq servers for the cluster config file.
 rabbitservers = []
 rabbitentries = search(:node, "role:rabbitserver")
 rabbitentries.each do |server|
   rabbitservers << server[:hostname]
 end
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
-#rabbitservers = search(:node, "role:rabbitserver").collect { |rabbitserver| "\'rabbit@#{rabbitserver}\'" }.join(", ").gsub!("node\[", "").gsub!("\]", "").gsub!(".#{node[:domain]}","")
+# This grabs entries for the hosts file in case there is no local dns.
 hostentries = search(:node, "role:rabbitserver")
-
-# Setup empty array for comprehensive list of vhosts
-vhost_names = []
-# Find all items in rabbitmq data bag and loop over them to build application data and vhosts
-rabbitapps = data_bag("rabbitmq")
-rabbitapps.each do |application_name|
-  unless "#{application_name}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", application_name)
-    appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
-    appvhosts << name_queue["vhosts"]
-    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
-    vhost_names << appvhosts
-  end
-end
-vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
@@ -106,6 +92,23 @@ end
 
 # If this is the master rabbitmq server, we need to setup all vhosts/queues/exchanges and bindings.
 if node.attribute?('rabbitmq-master')
+
+# Setup empty array for comprehensive list of vhosts
+  vhost_names = []
+# Find all items in rabbitmq data bag and loop over them to build application data and vhosts
+  rabbitapps = data_bag("rabbitmq")
+  rabbitapps.each do |application_name|
+    unless "#{application_name}" == "rabbitmq"
+      name_queue = data_bag_item("rabbitmq", application_name)
+      appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
+      appvhosts << name_queue["vhosts"]
+      appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
+      vhost_names << appvhosts
+    end
+  end
+  vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
+
+# This defines the common service that creates the initial cluster.
   execute "rabbit-config" do
     command "/etc/rabbitmq/rabbit-common.sh"
     action :nothing
@@ -163,7 +166,7 @@ if node.attribute?('rabbitmq-master')
     end
   end
 
-# This is for the slave entries that only need to be added to the cluster.
+# This is for the slave entries that only need to remove the default guest account.
 else
   template "/etc/rabbitmq/rabbit-guest.sh" do
     source "rabbit_guest.erb"
