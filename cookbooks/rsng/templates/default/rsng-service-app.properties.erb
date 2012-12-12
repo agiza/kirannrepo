@@ -30,6 +30,10 @@ rf.melissadata.geocode.webhost=<%= @melissadata[:geocodeurl] %>
 rf.melissadata.phone.webhost=<%= @melissadata[:phoneurl] %>
 rf.melissadata.email.webhost=<%= @melissadata[:emailurl] %>
 
+addressStandardizer.batchRecordsSize=1000
+addressStandardizer.poller.autoStartup=false
+addressStandardizer.poller.period=3600000
+
 #Set our melissa customerId used to identify us to melissa's services
 rf.melissadata.customerId=102942719
 
@@ -58,7 +62,7 @@ melissa.callOutForNameParses=false
 #melissa.callOutForAddressCorrections=ALWAYS|ON_ERRORS|NEVER
 #Default is ON_ERRORS
 #See below for details
-melissa.callOutForAddressCorrections=ON_ERRORS
+melissa.callOutForAddressCorrections=ALWAYS
 
 #ALWAYS
 #=========
