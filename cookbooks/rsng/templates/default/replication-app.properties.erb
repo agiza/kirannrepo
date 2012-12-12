@@ -31,7 +31,7 @@ jdbc.min-idle.progress.journal=0
 jdbc.max-idle.progress.journal=10
 jdbc.maxActive.progress.journal=20
 
-jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull
+jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
 jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
 jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
 jdbc.initial-size.mysql.rsng=<%= node[:db_initsize] %>

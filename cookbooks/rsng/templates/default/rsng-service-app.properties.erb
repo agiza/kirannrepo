@@ -9,7 +9,7 @@ service.consumers=5
 
 jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
 
-jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull
+jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= node[:rsng_dbname] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
 jdbc.username.mysql.rsng=<%= node[:rsngdb_user] %>
 jdbc.password.mysql.rsng=<%= node[:rsngdb_pass] %>
 jdbc.initial-size.mysql.rsng=10
