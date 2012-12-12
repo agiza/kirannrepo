@@ -17,5 +17,7 @@
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
             testOnBorrow="true"
             testWhileIdle="false"
+            connectTimeout="180000"
+            socketTimeout="180000"
             initialSize="<%= node[:db_initsize] %>"/>
 </Context>
