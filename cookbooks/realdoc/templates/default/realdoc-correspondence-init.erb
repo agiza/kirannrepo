@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Realdoc Correspondence Linux service controller script
+export RDOCCORR_USER="javaapp"
+cd "/opt/realdoc-correspondence/bin"
+
+case "$1" in
+    start)
+        ./realdoc-correspondence
+        ;;
+    stop)
+        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
+        kill ${pid_status}
+        ./
+        ;;
+    restart)
+        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
+        kill ${pid_status}
+        ./realdoc-correspondence
+        ;;
+    status)
+        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Realdoc-correspondence is running with pid $pid_status."
+        else
+          echo "Realdoc-correspondence is not running."
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
