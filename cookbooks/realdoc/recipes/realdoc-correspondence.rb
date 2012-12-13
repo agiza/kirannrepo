@@ -33,13 +33,6 @@ else
   rdocport = "8080"
 end
 
-template "/etc/init.d/#{app_name}" do
-  source "#{app_name}-init.erb"
-  group  'root'
-  owner  'root'
-  mode   '0755'
-end
-
 service "realdoc-correspondence" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
