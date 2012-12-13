@@ -19,21 +19,24 @@ case "$1" in
         echo -n "Starting Realdoc-correspondence: "
 	status -p $PIDFILE $CMD > /dev/null && failure || (su -p -s /bin/sh $USER -c "/opt/realdoc-correspondence/bin/realdoc-correspondence" > /dev/null && (touch $LOCKFILE ; success))
 	echo
+	;;
     stop)
 	echo -n "Shutting down $CMD: "
 	PID=`cat $PIDFILE`; kill $PID
 	SLEEP=20
-	while [ $SLEEP -gt 0 ]
+	while [ $SLEEP -gt 0 ]; do
 	  stop_status=`ps -fu $USER|fgrep java|awk '{print $2}'`
 	  if [ "$stop_status" != "" ]; then
-            echo "Waiting for termination"
+            echo "."
           elif [ "$stop_status" == "" ]; then
-            echo "Program terminated"; success; exit 0
+            success; break
 	  fi
 	  SLEEP=$(( $SLEEP - 1 ))
 	done
         stop_status=`ps -fu $USER| fgrep java|awk '{print $2}'`
-        echo "Attempting to hard kill."; ps -fu $USER| fgrep java|awk '{print $2}' | xargs -r kill -9 && rm -f $LOCKFILE && rm -f $PIDFILE; success
+        if [ "$stop_status" != "" ]; then
+          echo "Attempting to hard kill."; ps -fu $USER| fgrep java|awk '{print $2}' | xargs -r kill -9 && rm -f $LOCKFILE && rm -f $PIDFILE; success
+	fi
         stop_status=`ps -fu $USER| fgrep java|awk '{print $2}'`
         if [ "$stop_status" == "" ]; then
                 success
