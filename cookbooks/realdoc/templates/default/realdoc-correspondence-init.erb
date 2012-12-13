@@ -1,30 +1,45 @@
-#!/bin/bash
+#!/bin/sh
+#
+# `basename $0`
+#
+# chkconfig: - 85 15
+# description: Realdoc-correspondence Java App
+# processname: java
+# pidfile: /var/run/realdoc-correspondence.pid
 
 # Realdoc Correspondence Linux service controller script
-export RDOCCORR_USER="javaapp"
-cd "/opt/realdoc-correspondence/bin"
+. /etc/rc.d/init.d/functions
+USER=javaapp
+CMD=`echo ${0##*/}`
+LOCKFILE=/var/lock/realdoc-correspondence
+PIDFILE=/var/run/realdoc-correspondence.pid
 
 case "$1" in
     start)
-        ./realdoc-correspondence
-        ;;
+        echo -n "Starting Realdoc-correspondence: "
+	status -p $PIDFILE $CMD > /dev/null && failure || (su -p -s /bin/sh $USER -c "/opt/realdoc-correspondence/bin/realdoc-correspondence" > /dev/null && (touch $LOCKFILE ; success))
+	echo
     stop)
-        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
-        kill ${pid_status}
-        ./
+	echo -n "Shutting down $CMD: "
+	PID=`cat $PIDFILE`; kill $PID
+	stop_status=`ps -fu $USER|fgrep java|awk '{print $2}'`
+	if [ "$stop_status" != "" ]; then
+          echo "Attempting to kill."; ps -fu $USER| fgrep java|awk '{print $2}' | xargs -r kill -9 && rm -f $LOCKFILE && rm -f $PIDFILE; success
+        fi
+        stop_status=`ps -fu $USER| fgrep java|awk '{print $2}'`
+        if [ "$stop_status" == "" ]; then
+                success
+        else
+                failure
+        fi
+        echo 
         ;;
     restart)
-        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
-        kill ${pid_status}
-        ./realdoc-correspondence
+        $0 stop
+	$0 start
         ;;
     status)
-        pid_status=`ps -ef | grep java | grep jira | awk '{print $2}'`
-        if [ "$pid_status" != "" ]; then
-          echo "Realdoc-correspondence is running with pid $pid_status."
-        else
-          echo "Realdoc-correspondence is not running."
-        fi
+        status -p $PIDFILE $CMD
         ;;
     *)
         echo "Usage: $0 {start|stop|restart|status}"
