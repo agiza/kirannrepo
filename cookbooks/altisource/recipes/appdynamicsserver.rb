@@ -40,6 +40,21 @@ execute "install_check" do
   action :nothing
 end
 
+execute "server_check" do
+  user "root"
+  cwd  "/usr/local/sbin"
+  command "/usr/local/sbin/appdyn-server-setup.sh"
+  action :nothing
+end
+
+template "/usr/local/sbin/appdyn-server-setup.sh" do
+  source "appdyn-server-setup.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  notifies :run, resources(:execute => "server_check")
+end
+
 template "/usr/local/sbin/appdyn-setup.sh" do
   source "appdyn-setup.sh.erb"
   owner  "root"

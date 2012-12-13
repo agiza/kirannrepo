@@ -1,0 +1,29 @@
+#!/bin/bash
+# Setup script for appdynamics controller
+
+# Swappiness settings
+swap_check=`cat /proc/sys/vm/swappiness`
+if [ "$swap_check" != "0" ]; then
+  echo 0 > /proc/sys/vm/swappiness
+fi
+
+sysctl_check=`grep vm.swappiness /etc/sysctl.conf | grep 0`
+if [ "$sysctl_check" == "" ]; then
+  echo "vm.swappiness = 0" >> /etc/sysctl.conf
+fi
+
+profile_check=`grep 'ulimit -n 65535' /etc/profile`
+if [ "$profile_check" == "" ]; then
+  echo 'ulimit -n 65535' >> /etc/profile
+fi
+
+security_check=`grep 'appdynamics' /etc/security/limits.conf`
+if [ "$security_check" == "" ]; then
+  echo -e "appdynamics\thard\tnofile\t65535\nappdynamics\tsoft\tnofile\t65535\n" >> /etc/security/limits.conf
+fi
+
+pam_check=`grep session /etc/pam.d/common-session`
+if [ "$pam_check" == "" ]; then
+  echo "session required pam_limits.so" >> /etc/pam.d/common-session
+fi
+
