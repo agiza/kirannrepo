@@ -68,7 +68,7 @@ else
     notifies :reload, resources(:service => "httpd")
   end
   # Uses servername to grab for the data element that contains the certificate.
-  servercert = apachedata["#{servername}.crt"]
+  servercert = apachedata["sslcert"]
   template "/etc/pki/tls/certs/#{servername}.crt" do
     source "servername.crt.erb"
     owner  "root"
@@ -81,7 +81,7 @@ else
     notifies :reload, resources(:service => "httpd")
   end
   # This grabs private key to populate the server private key.
-  serverkey = apachedata["#{servername}.key"]
+  serverkey = apachedata["sslkey"]
   template "/etc/pki/tls/private/#{servername}.key" do
     source "servername.key.erb"
     owner  "root"
