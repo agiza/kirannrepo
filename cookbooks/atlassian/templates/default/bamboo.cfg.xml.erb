@@ -3,7 +3,7 @@
 <application-configuration>
   <setupStep>complete</setupStep>
   <setupType>custom</setupType>
-  <buildNumber>3402</buildNumber>
+  <buildNumber><%= node[:bamboo_build_number] %></buildNumber>
   <properties>
     <property name="bamboo.artifacts.directory">${bambooHome}/artifacts</property>
     <property name="bamboo.config.directory">${bambooHome}/xml-data/configuration</property>
