@@ -57,16 +57,16 @@ end
 
 template "/opt/atlassian/confluence/confluence/WEB-INF/classes/confluence-init.properties" do
   source "confluence-init.properties.erb"
-  owner "root"
-  group "root"
+  owner "confluence"
+  group "confluence"
   mode  "0644"
   notifies :restart, resources(:service => "confluence")
 end
 
 template "/opt/atlassian/confluence/conf/server.xml" do
   source "confluence-server.xml.erb"
-  owner "root"
-  group "root"
+  owner "confluence"
+  group "confluence"
   mode  "0644"
   notifies :restart, resources(:service => "confluence")
 end
@@ -81,16 +81,16 @@ end
 
 template "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/jira-application.properties" do
   source "jira-application.properties.erb"
-  owner  "root"
-  group  "root"
+  owner  "jira"
+  group  "jira"
   mode   "0644"
   notifies :restart, resources(:service => "jira")
 end
 
 template "/opt/atlassian/jira/conf/server.xml" do
   source "jira-server.xml.erb"
-  owner  "root"
-  group  "root"
+  owner  "jira"
+  group  "jira"
   mode   "0644"
   notifies :restart, resources(:service => "jira")
 end
