@@ -117,5 +117,7 @@ rf.activiti.jobExecutorActivate=true
 
 <% if node.attribute?('realtrans_stacktrace') -%>
 rf.sendStacktrace=true
+<% else -%>
+rf.sendStacktrace=false
 <% end -%>
 

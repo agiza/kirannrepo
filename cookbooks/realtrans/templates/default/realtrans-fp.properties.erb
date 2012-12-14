@@ -106,5 +106,7 @@ rf.overwriteAppConfigArtifacts=true
 <% end -%>
 <% if node.attribute?('realtrans_stacktrace') -%>
 rf.sendStacktrace=true
+<% else -%>
+rf.sendStacktrace=false
 <% end -%>
 
