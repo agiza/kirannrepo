@@ -115,4 +115,7 @@ rf.overwriteAppConfigArtifacts=true
 rf.activiti.jobExecutorActivate=true
 <% end -%>
 
+<% if node.attribute?('realtrans_stacktrace') -%>
+rf.sendStacktrace=true
+<% end -%>
 

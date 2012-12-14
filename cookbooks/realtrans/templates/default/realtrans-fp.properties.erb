@@ -104,3 +104,7 @@ rf.automaticTaskAssignment.enabled=true
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
+<% if node.attribute?('realtrans_stacktrace') -%>
+rf.sendStacktrace=true
+<% end -%>
+
