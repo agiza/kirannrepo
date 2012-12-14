@@ -71,6 +71,14 @@ template "/opt/atlassian/confluence/conf/server.xml" do
   notifies :restart, resources(:service => "confluence")
 end
 
+remote_file "/opt/atlassian/confluence/confluence/WEB-INF/lib/mysql-connector-java-5.1.22-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+  mode  "0644"
+  owner "confluence"
+  group "confluence"
+  action :create_if_missing
+end
+
 template "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/jira-application.properties" do
   source "jira-application.properties.erb"
   owner  "root"
@@ -87,6 +95,15 @@ template "/opt/atlassian/jira/conf/server.xml" do
   notifies :restart, resources(:service => "jira")
 end
 
+remote_file "/opt/atlassian/jira/lib/mysql-connector-java-5.1.22-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+  mode  "0644"
+  owner "jira"
+  group "jira"
+  action :create_if_missing
+end
+
+
 template "/opt/atlassian/fisheye/bin/fisheyectl.sh" do
   source "fisheyectl.sh.erb"
   owner "root"
@@ -94,6 +111,15 @@ template "/opt/atlassian/fisheye/bin/fisheyectl.sh" do
   mode  "0755"
   notifies :restart, resources(:service => "fisheye")
 end
+
+remote_file "/opt/atlassian/fisheye/lib/dbdrivers/mysql/mysql-connector-java-5.1.22-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+  mode  "0644"
+  owner "root"
+  group "root"
+  action :create_if_missing
+end
+
 
 template "/opt/atlassian/crowd/crowd.cfg.xml" do
   source "crowd.cfg.xml.erb"
@@ -110,6 +136,15 @@ template "/opt/atlassian/crowd/crowd-openidserver-webapp/WEB-INF/classes/crowd.p
   mode   "0644"
   notifies :restart, resources(:service => "crowd")
 end
+
+remote_file "/opt/atlassian/crowd/crowd-webapp/WEB-INF/lib/mysql-connector-java-5.1.22-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+  mode  "0644"
+  owner "root"
+  group "root"
+  action :create_if_missing
+end
+
 
 template "/opt/atlassian/cli/user-add.sh" do
   source "user-add.sh.erb"

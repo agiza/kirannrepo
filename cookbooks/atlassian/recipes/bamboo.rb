@@ -37,6 +37,14 @@ template "/opt/atlassian/bamboo/bamboo.cfg.xml" do
   notifies :restart, resources(:service => "bamboo")
 end
 
+remote_file "/opt/atlassian/bamboo/webapp/WEB-INF/lib/mysql-connector-java-5.1.22-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+  mode  "0644"
+  owner "bamboo"
+  group "bamboo"
+  action :create_if_missing
+end
+
 template "/opt/atlassian/bamboo/bamboo-mail.cfg.xml" do
   source "bamboo-mail.cfg.xml.erb"
   owner  "bamboo"
