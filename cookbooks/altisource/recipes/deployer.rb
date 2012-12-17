@@ -19,10 +19,16 @@ user "rtnextgen" do
   shell "/bin/bash"
 end
 
+directory "/home/rtnextgen" do
+  owner "rtnextgen"
+  group "rtnextgen"
+  action :create_if_missing
+end
+
 directory "/home/rtnextgen/bin" do
   owner "rtnextgen"
   group "rtnextgen"
-  action :create
+  action :create_if_missing
 end
 
 app_names = data_bag_item("infrastructure", "applications")
