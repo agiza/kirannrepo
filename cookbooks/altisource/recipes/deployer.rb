@@ -22,13 +22,13 @@ end
 directory "/home/rtnextgen" do
   owner "rtnextgen"
   group "rtnextgen"
-  action :create_if_missing
+  action :create
 end
 
 directory "/home/rtnextgen/bin" do
   owner "rtnextgen"
   group "rtnextgen"
-  action :create_if_missing
+  action :create
 end
 
 app_names = data_bag_item("infrastructure", "applications")
