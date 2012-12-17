@@ -13,8 +13,8 @@ end
 
 user "rtnextgen" do
   comment "rtnextgen User"
-  uid "1001"
-  gid "1001"
+  uid 1001
+  gid 1001
   home "/home/rtnextgen"
   shell "/bin/bash"
 end
