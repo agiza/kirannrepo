@@ -11,6 +11,7 @@ journal.replication.jsonJournalTOTransformer.type=com.altisource.rsng.replicatio
 journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsng.replication.domain.JournalResponse
 
 resequencer.period=30000
+resequencer.recentlyProcessedFifoBufferSize=1000
 
 watchdog.maxRecords=250
 watchdog.watchdogDelay=300000
@@ -79,6 +80,11 @@ melissa.callOutForNameParses=false
 #Default is ON_ERRORS
 #See below for details
 melissa.callOutForAddressCorrections=ALWAYS
+
+addressStandardizer.batchRecordsSize=1000
+addressStandardizer.poller.autoStartup=false
+
+addressStandardizer.poller.period=3600000
 
 #ALWAYS
 #=========
