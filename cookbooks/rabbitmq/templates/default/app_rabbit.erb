@@ -38,7 +38,7 @@ for i in `echo "$vhosts"`; do
   # Set permissions for username on all vhosts.
   /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
   # Set HA Policy for all queues to mirrored.
-  /usr/sbin/rabbitmqctl set_policy -p "${vhost}" HA '.*' '{"ha-mode": "all"}'
+  /usr/sbin/rabbitmqctl set_policy -p "$i" HA '.*' '{"ha-mode": "all"}'
 done
 
 # Loop to add each queue with mirror turned on.
