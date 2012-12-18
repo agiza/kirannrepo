@@ -42,7 +42,7 @@ for i in `echo "$vhosts"`; do
 done
 
 # Loop to add each queue with mirror turned on.
-for vhost in `echo "$html_vhosts"`; do
+for vhost in `echo "$vhosts"`; do
   for queue in `echo "$queue_names"`; do
    check=`echo $vhost`
    if [ "$check" != "" ]; then
