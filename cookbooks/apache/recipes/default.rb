@@ -107,6 +107,9 @@ else
       owner  "root"
       group  "root"
       mode   "0644"
+      variables(
+        :serveripallow => apachedata['serveripallow'].split("|")
+      )
       notifies :reload, resources(:service => "httpd")
     end
   end
