@@ -18,7 +18,7 @@ ProxyPreserveHost         On
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer:/atlas/jira stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://atlas/jira stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /confluence>
@@ -27,7 +27,7 @@ ProxyPass               balancer:/atlas/jira stickysession=JSESSIONID|jsessionid
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer:/atlas/confluence stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://atlas/confluence stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /fisheye>
@@ -36,7 +36,7 @@ ProxyPass               balancer:/atlas/confluence stickysession=JSESSIONID|jses
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer:/atlas/fisheye stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://atlas/fisheye stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /crowd>
@@ -45,7 +45,7 @@ ProxyPass               balancer:/atlas/fisheye stickysession=JSESSIONID|jsessio
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer:/atlas/crowd stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://atlas/crowd stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /bamboo>
@@ -54,6 +54,6 @@ ProxyPass               balancer:/atlas/crowd stickysession=JSESSIONID|jsessioni
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer:/atlas/bamboo stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://atlas/bamboo stickysession=JSESSIONID|jsessionid
 </Location>
 
