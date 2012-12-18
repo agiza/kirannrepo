@@ -35,7 +35,10 @@ fi
 cd /etc/rabbitmq/
 
 for i in `echo "$vhosts"`; do
+  # Set permissions for username on all vhosts.
   /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
+  # Set HA Policy for all queues to mirrored.
+  /usr/sbin/rabbitmqctl set_policy -p "${vhost}" HA '.*' '{"ha-mode": "all"}'
 done
 
 # Loop to add each queue with mirror turned on.
@@ -44,9 +47,7 @@ for vhost in `echo "$html_vhosts"`; do
    check=`echo $vhost`
    if [ "$check" != "" ]; then
      echo "Create $queue on $vhost..."
-     # Set HA Policy for all queues to mirrored.
-      rabbitmqctl set_policy -p "${vhost}" HA '.*' '{"ha-mode": "all"}'
-      /etc/rabbitmq/rabbitmqadmin -H ${host} -V "${vhost}" -u ${admin_user} -p ${admin_pass} declare queue name="${queue}" durable=true
+     /etc/rabbitmq/rabbitmqadmin -H ${host} -V "${vhost}" -u ${admin_user} -p ${admin_pass} declare queue name="${queue}" durable=true
      #curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-ha-policy\":\"all\"},\"node\":\"rabbit@$host\"}" http://$host:55672/api/queues/%2f$vhost/$queue
    fi
   done
