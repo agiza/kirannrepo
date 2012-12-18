@@ -1,0 +1,52 @@
+# DB configuration
+db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['hubzu_dbname'] %>?autoReconnect=true
+db.username=<%= @mysqldb['hubzu_dbuser'] %>
+db.password=<%= @mysqldb['hubzu_dbpass'] %>
+db.showsql=true
+db.driver=com.mysql.jdbc.Driver
+
+# JMS configurations
+jms.amqp.endpoint=<%= @amqphost %>
+jms.amqp.endport=<%= @amqpport %>
+jms.amqp.username=<%= @amqpuser %>
+jms.amqp.password=<%= @amqppass %>
+jms.amqp.virtual-host=<%= node[:hubzu_amqp_vhost] %>
+
+jms.queue.name=property.listing.add
+jms.exchange.name=property.listing
+jms.queue.routing.key=backoffice.property.add
+
+# DocuSign configurations
+docusign.endpoint.url=https://demo.docusign.net/restapi/v2
+docusign.username=testpaperlessdocusign@gmail.com
+docusign.password=docusign
+docusign.integrator.key=XPAN-105ed2ca-b505-4001-8024-8aa5b9ad0508
+docusign.template.id=08967D35-B047-4065-808F-8364B8E38975
+docusign.assetmanager.role=Asset Manager
+docusign.selleragent.role=Seller Agent
+
+docusign.template.label.propertyId=propertyID
+docusign.template.label.propertyName=propertyName
+docusign.template.label.propertyAddress=propertyAddress
+
+# Application configuration
+
+# Cron expression significance
+# .---------------- minute (0 - 59)
+# |   .------------- hour (0 - 23)
+# |   |   .---------- day of month (1 - 31)
+# |   |   |   .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |   |   |   |  .----- day of week (0 - 7) (Sunday=0 or 7)  OR sun,mon,tue,wed,thu,fri,sat
+# |   |   |   |  |
+# *   *   *   *  *  command to be executed
+
+# Cron examples
+# 0 0 * * * *           = the top of every hour of every day.
+# */10 * * * * *        = every ten seconds.
+# 0 0 8-10 * * *        = 8, 9 and 10 o'clock of every day.
+# 0 0/30 8-10 * * *     = 8:00, 8:30, 9:00, 9:30 and 10 o'clock every day.
+# 0 0 9-17 * * MON-FRI  = on the hour nine-to-five weekdays
+# 0 0 0 25 12 ?         = every Christmas Day at midnight
+
+# 1 minute delay
+docusign.scheduler.delay=*/60 * * * * ?
