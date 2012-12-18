@@ -1,0 +1,59 @@
+ProxyRequests             Off
+ProxyPreserveHost         On
+
+<Proxy balancer://atlas>
+    Order allow,deny
+    <% @serveripallow.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
+    BalancerMember http://10.0.0.20:80
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+
+<Location /jira>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer:/atlas/jira stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /confluence>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer:/atlas/confluence stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /fisheye>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer:/atlas/fisheye stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /crowd>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer:/atlas/crowd stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /bamboo>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer:/atlas/bamboo stickysession=JSESSIONID|jsessionid
+</Location>
+
