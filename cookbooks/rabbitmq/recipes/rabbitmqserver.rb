@@ -90,6 +90,13 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
+template "/etc/rabbitmq/rabbitmqadmin" do
+  source "rabbitmqadmin.erb" 
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
 # If this is the master rabbitmq server, we need to setup all vhosts/queues/exchanges and bindings.
 if node.attribute?('rabbitmq-master')
 
