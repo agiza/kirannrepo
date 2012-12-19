@@ -96,9 +96,10 @@ get_binary(){
 cd $rpm_working_dir
 bamboo_url_test=`echo $bin_url | grep 'opt/atlassian'`
 if [ "$bamboo_url_test" != "" ]; then
-  find $bin_url/build-*$build -name $application_bin.war -type f -exec cp "{}" $rpm_working_dir \;
-  echo "Renaming java binary $application_bin.war for bundling."
-  mv $application_bin.war $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
+  newfiletype=war
+  find $bin_url/build-*$build -name $application_bin.$newfiletype -type f -exec cp "{}" $rpm_working_dir \;
+  echo "Renaming java binary $application_bin.$newfiletype for bundling."
+  mv $application_bin.$newfiletype $application_bin-$branch-$build.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
 elif [ "$bin_url" != "" ]; then
   echo -e "Downloading java binary \n $bin_url \n ...."
   wget --quiet "$bin_url"; if [ "$?" -gt "0" ]; then echo "Error occurred with pulling java binary."; clean; exit 1; fi
@@ -106,12 +107,14 @@ elif [ "$bin_url" != "" ]; then
   field=$(( $count + 1 ))
   java_filename=`echo $bin_url | cut -d '/' -f$field`
   newfile="$java_filename"
+  newfiletype=`echo $java_filename | cut -d "." -f2`
   echo "Renaming java binary $newfile for bundling."
-  mv $newfile $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
+  mv $newfile $application_bin-$branch-$build.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
 else
   nexus_repo="$repo/artifactory/repo/$application_name-release/$application_name/$application_bin/"
-  echo "Trying to pull java binary based on version and application name. Target is $branch-RELEASE/$application_bin-$branch-RELEASE.war"
-  wget --quiet $nexus_repo/$branch-RELEASE/$application_bin-$branch-RELEASE.war; if [ "$?" -gt "0" ]; then echo "Error occurred with Java Binary."; clean; exit 1; fi
+  newfiletype=war
+  echo "Trying to pull java binary based on version and application name. Target is $branch-RELEASE/$application_bin-$branch-RELEASE.$newfiletype"
+  wget --quiet $nexus_repo/$branch-RELEASE/$application_bin-$branch-RELEASE.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred with Java Binary."; clean; exit 1; fi
 fi
 }
 
@@ -120,7 +123,7 @@ build_package(){
 cd $rpm_working_dir
 # Tar up the java binary files and configuration files to provide the sources to RPM
   echo "Bundling java binary and source for packaging."
-  tar -czf $application_target-$branch-$build.tar.gz $application_bin-$branch-$build.war; if [ "$?" -gt "0" ]; then echo "Error occurred with bundling the files."; clean; exit 1; fi
+  tar -czf $application_target-$branch-$build.tar.gz $application_bin-$branch-$build.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred with bundling the files."; clean; exit 1; fi
 
 	echo "Moving bundle to tmp directory."
 	mv $application_target-$branch-$build.tar.gz /tmp/; if [ "$?" -gt "0" ]; then echo "Error occurred with moving bundle to temporary directory."; clean; exit 1; fi
