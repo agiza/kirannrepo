@@ -44,7 +44,6 @@ app_name_check(){
 
 name_version=`grep "$application_name" /tmp/rpm-versions.txt`
 application_bin="$application_name"
-application_type=`echo $bin_url | cut -d "." -f2` 
 application_target="$application_name"
 app_attribute=`echo $name_version | cut -d "|" -f2`
 
@@ -97,7 +96,11 @@ get_binary(){
 cd $rpm_working_dir
 bamboo_url_test=`echo $bin_url | grep 'opt/atlassian'`
 if [ "$bamboo_url_test" != "" ]; then
-  newfiletype=$application_type
+  count=`echo $bin_url | grep -o '/' | wc -l`
+  field=$(( $count + 1 ))
+  java_filename=`echo $bin_url | cut -d '/' -f$field`
+  newfile="$java_filename"
+  newfiletype=`echo $newfile | cut -d "." -f2`
   find $bin_url/build-*$build -name $application_bin.$newfiletype -type f -exec cp "{}" $rpm_working_dir \;
   echo "Renaming java binary $application_bin.$newfiletype for bundling."
   mv $application_bin.$newfiletype $application_bin-$branch-$build.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
@@ -108,7 +111,7 @@ elif [ "$bin_url" != "" ]; then
   field=$(( $count + 1 ))
   java_filename=`echo $bin_url | cut -d '/' -f$field`
   newfile="$java_filename"
-  newfiletype=`echo $java_filename | cut -d "." -f2`
+  newfiletype=`echo $newfile | cut -d "." -f2`
   echo "Renaming java binary $newfile for bundling."
   mv $newfile $application_bin-$branch-$build.$newfiletype; if [ "$?" -gt "0" ]; then echo "Error occurred moving java binary to target binary for packaging."; clean; exit 1; fi
 else
