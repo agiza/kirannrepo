@@ -19,8 +19,8 @@ case "$1" in
         su -c "/opt/appdynamics/bin/controller.sh stop" appdynamics
         ;;
     restart)
-        su -c "/opt/appdynamics/bin/controller.sh stop" appdynamics
-        su -c "/opt/appdynamics/bin/controller.sh start" appdynamics
+        $0 stop
+        $0 start
         ;;
     status)
         pid_status=`ps -ef | grep java | grep appdynamics | awk '{print $2}'`
