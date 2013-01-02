@@ -9,7 +9,7 @@ else
         answer="Y"
 fi
 if [ "$answer" == "Y" ]; then
-  if [ -f /home/ubuntu/vpn/$userid ]; then
+  if [ -f /home/ubuntu/vpn/$userid/$userid.tar.gz ]; then
         ssh ubuntu@nexus "bin/openvpn-revoke.sh $userid"
         ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-remove.sh $userid"
   else
