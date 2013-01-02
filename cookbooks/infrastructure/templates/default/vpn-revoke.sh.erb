@@ -13,7 +13,7 @@ if [ "$answer" == "Y" ]; then
         ssh ubuntu@nexus "bin/openvpn-revoke.sh $userid"
         ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-remove.sh $userid"
   else
-    echo "That userid does not exist." exit 1
+    echo "That userid does not exist."; exit 1
   fi
 else
         echo "Please try again."; exit 1
