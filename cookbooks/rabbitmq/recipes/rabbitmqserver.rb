@@ -16,10 +16,10 @@ package "rabbitmq-server" do
   action :upgrade
 end
 
-package "#{app_name}" do
-  provider Chef::Provider::Package::Yum
-  action :upgrade
-end
+#package "#{app_name}" do
+#  provider Chef::Provider::Package::Yum
+#  action :upgrade
+#end
 
 execute "rabbit-plugins" do
   command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbitmq_management"
