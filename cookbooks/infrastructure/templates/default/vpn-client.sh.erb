@@ -18,7 +18,7 @@ if [ "$answer" == "Y" ]; then
         ssh ubuntu@nexus "bin/openvpn-client.sh $userid $email_address"
         echo "$userid|$full_name|$email_address" > /tmp/$userid.txt
         scp /tmp/$userid.txt ubuntu@atlas:/tmp/$userid.txt
-        ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-add.sh /tmp/$userid.txt"
+        ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-add.sh /tmp/$userid.txt; rm -f /tmp/$userid.txt"
         rm -rf /tmp/$userid.txt
 else
         echo "Please try again."; exit 1

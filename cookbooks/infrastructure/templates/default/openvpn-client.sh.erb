@@ -60,13 +60,19 @@ else
 cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
 
 fi
+# This checks for success codes and if they are not there, let the user know.
+if [ "$?" -lt "1" ]; then
+        echo "Mail sent."
+else
+        echo "There might have been a problem with the email, please check the logs and resend if necessary."; exit 1
+fi
 
 # This section will automatically push changes to the webserver to serve them locally.
 rsync -e ssh -av --delete /home/ubuntu/vpn/certificates/ root@10.0.1.111:/home/ubuntu/vpn/certificates/
 # This checks for success codes and if they are not there, let the user know.
 if [ "$?" -lt "1" ]; then
-        echo "Certficates created and mail sent, certificates have been stored.  Backup certificates are stored in the vpn/certificates/username directories."
+        echo "Certficates created, certificates have been stored.  Backup certificates are stored in the vpn/certificates/username directories."
 else
-        echo "There might have been a problem with the email, please check the logs and resend if necessary."; exit 1
+        echo "There might have been a problem with certificate push to the webserver, please check the logs and resync if necessary."; exit 1
 fi
 
