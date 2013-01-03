@@ -28,7 +28,7 @@ userpass=`echo "<%= @userstring %>" | cut -d "|" -f2`
 user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
 if [ "$user_check" == "" ]; then
   /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
-  /usr/sbin/rabbitmqctl set_user_tags "$username" prodcon
+  /usr/sbin/rabbitmqctl set_user_tags "$username" management
 fi
 
 # Move to working directory
