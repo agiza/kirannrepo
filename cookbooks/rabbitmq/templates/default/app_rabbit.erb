@@ -66,7 +66,7 @@ for vhost in `echo "$vhosts"`; do
   check=`echo $vhost`
   if [ "$check" != "" ]; then
     for exchange in `echo "$exchanges"`; do
-      echo "$exchange created on $vhost"
+      echo "Create $exchange on $vhost"
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare exchange name=$exchange auto_delete=false durable=true type=topic
     done
 # Binding elements
