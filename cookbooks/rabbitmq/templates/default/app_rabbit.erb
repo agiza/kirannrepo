@@ -66,14 +66,17 @@ for vhost in `echo "$vhosts"`; do
   check=`echo $vhost`
   if [ "$check" != "" ]; then
     for exchange in `echo "$exchanges"`; do
+      echo "$exchange created on $vhost"
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare exchange name=$exchange auto_delete=false durable=true type=topic
     done
 # Binding elements
     for binding in `echo "$bindings"`; do
+      echo "Create $binding on $vhost"
       source=`echo $binding | cut -d "|" -f1`
       type=`echo $binding | cut -d "|" -f2`
       dest=`echo $binding | cut -d "|" -f3`
       key=`echo $binding | cut -d "|" -f4`
+      echo "Bind $source to $type $dest with routing key $key on $vhost"
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
     done
   fi
