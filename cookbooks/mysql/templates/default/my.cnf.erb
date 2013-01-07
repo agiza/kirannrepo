@@ -1,0 +1,170 @@
+# The MySQL database server configuration file.
+#
+# You can copy this to one of:
+# - "/etc/mysql/my.cnf" to set global options,
+# - "~/.my.cnf" to set user-specific options.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# This will be passed to all mysql clients
+# It has been reported that passwords should be enclosed with ticks/quotes
+# escpecially if they contain "#" chars...
+# Remember to edit /etc/mysql/debian.cnf when changing the socket location.
+
+[client]
+port            = 3306
+socket          = /mysql/mysqld.sock
+
+
+#
+#
+[mysqld_safe]
+socket          = /mysql/mysqld.sock
+nice            = 0
+
+#
+#
+[mysqld]
+
+user            = mysql
+socket          = /mysql/mysqld.sock
+port            = 3306
+basedir         = /usr
+datadir         = /mysql/data
+tmpdir          = /mysql/tmp
+skip-external-locking
+
+character_set_server    = utf8
+lower_case_table_names  = 1
+
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address            = 0.0.0.0
+
+max_allowed_packet              = 64M
+max_connections                 = 500
+max_connect_errors              = 100
+
+max_heap_table_size             = 256M
+tmp_table_size                  = 256M
+
+net_buffer_length               = 8K
+sort_buffer_size                = 20M
+read_buffer_size                = 1M
+
+read-rnd-buffer-size    = 2M
+
+table_cache                     = 1024
+table-definition-cache  = 512
+
+thread_stack                    = 256K
+thread_cache_size               = 256
+
+sql-mode                        = NO_AUTO_CREATE_USER
+query_cache_size                = 64M
+query_cache_limit               = 4M
+
+#
+# MyISAM Configuration
+#
+key_buffer_size                 = 512M
+myisam_sort_buffer_size         = 128M
+ft_min_word_len                 = 3
+myisam_recover_options          = BACKUP,FORCE
+myisam_repair_threads           = 6
+myisam_use_mmap                 = 1
+
+#
+# General Logging
+#
+log_error                       = /mysql/log/err/error.log
+
+long_query_time                 = 1
+slow_query_log                  = 1
+slow_query_log_file             = /mysql/log/slow/mysql_slow.log
+
+general_log                     = 0
+general_log_file                = /mysql/log/general/mysql_general.log
+
+#
+# Binary Log and Replication Configuration
+#
+#log_bin                        = /mysql/log/bin/mysql-bin.log
+# log-bin-index         = /mysql/log/bin/mysql_bin.index
+# binlog-cache-size     = 256K
+#binlog_do_db           = include_database_name
+#binlog_ignore_db       = include_database_name
+
+# relay-log               = /mysql/log/relay/mysql_bin.log
+# relay-log-index         = /mysql/log/relay/mysql_bin.index
+# expire-logs-days        = 4
+# max_binlog_size         = 100M
+# sync_binlog             = 0
+
+#
+# Replication
+#
+#server-id=
+#log-slave-updates
+#replicate-ignore-db = mysql
+#replicate-ignore-table=
+#slave_transaction_retries = 20
+#slave-skip-errors = 1062
+#auto_increment_increment = 3
+#auto_increment_offset = 3
+
+
+#
+# InnoDB Configuration
+#
+
+innodb_file_format                      = Barracuda
+innodb_file_format_max                  = Barracuda
+
+innodb_data_home_dir                    = /mysql/innodb
+innodb_log_group_home_dir               = /mysql/log/innodb
+innodb_file_per_table
+innodb_data_file_path                   = ibdata1:10M:autoextend
+
+transaction-isolation                   = READ-COMMITTED
+
+innodb_flush_log_at_trx_commit          = 0
+innodb_log_buffer_size                  = 8M
+innodb_log_file_size                    = 100M
+
+innodb_buffer_pool_size                 = 4G
+innodb_additional_mem_pool_size         = 128M
+
+innodb_flush_method                     = O_DSYNC
+innodb_thread_concurrency               = 0
+innodb_lock_wait_timeout                = 60
+innodb-open-files                       = 500
+innodb-support-xa                       = 0
+
+
+#
+#
+# For generating SSL certificates I recommend the OpenSSL GUI "tinyca".
+#
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 64M
+
+[mysql]
+#no-auto-rehash # faster start of mysql but no tab completition
+
+[isamchk]
+key_buffer              = 1G
+
+
