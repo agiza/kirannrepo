@@ -23,7 +23,7 @@ end
 
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action :enable
+  action :nothing
 end
 
 package "MySQL-client-advanced" do
@@ -47,4 +47,8 @@ directory "/mysql/data" do
   action :create
 end
 
+service "mysql" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action [:enable, :start]
+end
 
