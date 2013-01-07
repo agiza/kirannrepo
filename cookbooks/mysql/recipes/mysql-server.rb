@@ -65,6 +65,12 @@ package "sysstat" do
   action :upgrade
 end
 
+directory "/mysql" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
 directory "/mysql/data" do
   owner "mysql"
   group "mysql"
