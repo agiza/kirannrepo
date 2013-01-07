@@ -9,7 +9,15 @@
 
 include_recipe "altisource::altirepo"
 
-yum_package "mysql", "mysql-server", "mysql-devel" do
+yum_package "mysql" do
+  action :remove
+end
+
+yum_package "mysql-server" do
+  action :remove
+end
+
+yum_package "mysql-devel" do
   action :remove
 end
 
