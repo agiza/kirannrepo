@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "mongodb-arbiter"
+app_name = "mongod-arbiter"
 include_recipe "mongodb::default"
 
 directory "/data" do
