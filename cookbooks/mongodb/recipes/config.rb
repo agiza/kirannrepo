@@ -1,20 +1,13 @@
 #
 # Cookbook Name:: mongodb
-# Recipe:: slave
+# Recipe:: config
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
-
-package "mongo-10gen" do
-  action :upgrade
-end
-
-package "mongo-10gen-server" do
-  action :upgrade
-end
 
 directory "/data" do
   owner "mongod"
@@ -32,7 +25,7 @@ service "mongod" do
 end
 
 template "/etc/mongod.conf" do
-  source "mongod.slave.conf.erb"
+  source "mongod-config.conf.erb"
   group "root"
   owner "root"
   mode "0644"

@@ -1,0 +1,11 @@
+#!/bin/bash
+limits_check=`grep 'ulimit -n 64000' /etc/profile`
+if [ "$limits_check" == "" ]; then
+  echo 'ulimit -n 64000' >> /etc/profile
+fi
+
+proc_check=`grep 'ulimit -u 32000' /etc/profile`
+if [ "$proc_check" == "" ]; then
+  echo 'ulimit -u 32000' >> /etc/profile
+fi
+

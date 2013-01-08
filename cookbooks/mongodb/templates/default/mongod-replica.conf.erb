@@ -5,10 +5,17 @@ logpath=/var/log/mongo/mongod.log
 
 logappend=true
 
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
+
 # fork and run in background
 fork = true
 
-#port = 27017
+bind_ip = <%= node[:ipaddress] %>
+port = 27017
 
 dbpath=/data/db
 
@@ -70,10 +77,11 @@ dbpath=/data/db
 # Replication Options
 
 # in replicated mongo databases, specify here whether this is a slave or master
-#slave = true
+slave = true
+source = <%= node[:mongodb_master] %>
 #source = master.example.com
 # Slave only: specify a single database to replicate
 #only = master.example.com
 # or
-master = true
+#master = true
 #source = slave.example.com

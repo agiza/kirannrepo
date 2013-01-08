@@ -6,15 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
-
-package "mongo-10gen" do
-  action :upgrade
-end
-
-package "mongo-10gen-server" do
-  action :upgrade
-end
 
 directory "/data" do
   owner  "root"
@@ -37,7 +30,7 @@ service "mongod" do
 end
 
 template "/etc/mongod.conf" do
-  source "mongod.conf.erb"
+  source "mongod-master.conf.erb"
   group "root"
   owner "root"
   mode "0644"
