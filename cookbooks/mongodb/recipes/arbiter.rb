@@ -19,20 +19,28 @@ directory "/data/db" do
   group "mongod"
 end
 
-service "mongod" do
+service "mongod-arbiter" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
 end
 
-template "/etc/mongod.conf" do
+template "/etc/mongod-arbiter.conf" do
   source "mongod-arbiter.conf.erb"
   group "root"
   owner "root"
   mode "0644"
-  notifies :reload, resources(:service => "mongod")
+  notifies :reload, resources(:service => "mongod-arbiter")
 end
 
-service "mongod" do
+template "/etc/init.d/mongod-arbiter" do
+  source "mongod-arbiter-init.erb"
+  group  "root"
+  owner  "root"
+  mode   "0755"
+  notifies :reload, resource(:service => "mongod-arbiter")
+
+
+service "mongod-arbiter" do
   action [:enable, :start]
 end
 
