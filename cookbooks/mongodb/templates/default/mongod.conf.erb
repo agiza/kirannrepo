@@ -15,7 +15,7 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = <%= node[:ipaddress] %>
+bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 port = 27017
 
 slave = <%= @mongoreplica %>
@@ -42,7 +42,7 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = <%= node[:ipaddress] %>
+bind_ip = 127.0.01,<%= node[:ipaddress] %>
 port = 27018
 
 dbpath=/data/mongod-replica
@@ -68,7 +68,7 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = <%= node[:ipaddress] %>
+bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 port = 30000
 
 dbpath=/data/arb
@@ -101,8 +101,8 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = <%= node[:ipaddress] %>
-port = 27002
+bind_ip = 127.0.0.1, <%= node[:ipaddress] %>
+port = 27001
 
 dbpath=/data/mongod-config
 
