@@ -16,49 +16,38 @@
 # NOTE: if you change any OPTIONS here, you get what you pay for:
 # this script assumes all options are in the config file.
 CONFIGFILE="/etc/<%= @app_name %>.conf"
-OPTIONS=" -f $CONFIGFILE"
+PIDFILE="/var/run/mongo/<%= @app_name %>.pid
+LOCKFILE="/var/lock/subsys/<%= @app_name %>
+OPTIONS=" -f $CONFIGFILE --pidfilepath=$PIDFILE"
 SYSCONFIG="/etc/sysconfig/mongod"
 
 # FIXME: 1.9.x has a --shutdown flag that parses the config file and
 # shuts down the correct running pid, but that's unavailable in 1.8
 # for now.  This can go away when this script stops supporting 1.8.
 DBPATH=`awk -F= '/^dbpath=/{print $2}' "$CONFIGFILE"`
-PIDFILE=`awk -F= '/^dbpath\s=\s/{print $2}' "$CONFIGFILE"`
 mongod=${MONGOD-/usr/bin/mongod}
 
 MONGO_USER=mongod
 MONGO_GROUP=mongod
 
-if [ -f "$SYSCONFIG" ]; then
-    . "$SYSCONFIG"
-fi
-
-# Handle NUMA access to CPUs (SERVER-3574)
-# This verifies the existence of numactl as well as testing that the command works
-NUMACTL_ARGS="--interleave=all"
-if which numactl >/dev/null 2>/dev/null && numactl $NUMACTL_ARGS ls / >/dev/null 2>/dev/null
-then
-    NUMACTL="numactl $NUMACTL_ARGS"
-else
-    NUMACTL=""
-fi
+. "$SYSCONFIG" || true
 
 start()
 {
   echo -n $"Starting mongod: "
-  daemon --user "$MONGO_USER" $NUMACTL $mongod $OPTIONS
+  daemon --user "$MONGO_USER" $mongod $OPTIONS
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/<%= @app_name %>
+  [ $RETVAL -eq 0 ] && touch $LOCKFILE
 }
 
 stop()
 {
   echo -n $"Stopping mongod: "
-  killproc -p "$PIDFILE" -d 300 /usr/bin/mongod
+  killproc -p "$DBPATH"/mongod.lock -t30 -TERM /usr/bin/mongod
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/<%= @app_name %>
+  [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
 }
 
 restart () {
@@ -80,7 +69,7 @@ case "$1" in
     restart
     ;;
   condrestart)
-    [ -f /var/lock/subsys/<%= @app_name %> ] && restart || :
+    [ -f $LOCKFILE ] && restart || :
     ;;
   status)
     status $mongod

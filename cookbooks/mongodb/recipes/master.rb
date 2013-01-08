@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name="mongod-master"
+app_name="mongod"
 include_recipe "mongodb::default"
 
 directory "/data" do
@@ -24,18 +24,18 @@ directory "/etc/mongo" do
   group "mongod"
 end
 
-service "mongod" do
+service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
 end
 
-template "/etc/mongod.conf" do
-  source "mongod.conf.erb"
+template "/etc/#{app_name}.conf" do
+  source "#{app_name}.conf.erb"
   group "root"
   owner "root"
   mode "0644"
   variables(:app_name => "#{app_name}")
-  notifies :reload, resources(:service => "mongod")
+  notifies :reload, resources(:service => "#{app_name}")
 end
 
 execute "mongod-seed" do
@@ -86,7 +86,7 @@ template "/etc/mongo/demoData.js" do
   notifies :run, resources(:execute => "mongod-seed")
 end
 
-service "mongod" do
+service "#{app_name}" do
   action [:enable, :start]
 end
 

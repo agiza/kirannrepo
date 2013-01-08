@@ -30,7 +30,7 @@ template "/etc/#{app_name}.conf" do
 end
 
 template "/etc/init.d/#{app_name}" do
-  source "mongod-init.erb"
+  source "mongos-init.erb"
   group  "root"
   owner  "root"
   mode   "0755"
