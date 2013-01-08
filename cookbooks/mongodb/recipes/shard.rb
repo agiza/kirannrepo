@@ -20,7 +20,7 @@ configs = search(:node, "role:mongod-config")
 configs.each do |ipaddress|
   configserver << ipaddress[:ipaddress]
 end
-configserver = configserver.collect { |entry| "#{entry}:27002"}.join(",")
+configserver = configserver.collect { |entry| "#{entry}:27001"}.join(",")
 template "/etc/#{app_name}.conf" do
   source "#{app_name}.conf.erb"
   group "root"
