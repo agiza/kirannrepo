@@ -8,7 +8,6 @@
 #
 app_name = "mongod-shard"
 include_recipe "mongodb::default"
-include_recipe "altisource::altirepo"
 
 service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true

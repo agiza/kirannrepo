@@ -8,7 +8,6 @@
 #
 app_name="mongod-master"
 include_recipe "mongodb::default"
-include_recipe "altisource::altirepo"
 
 directory "/data" do
   owner  "root"
