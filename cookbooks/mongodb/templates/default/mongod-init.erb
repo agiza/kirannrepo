@@ -5,8 +5,8 @@
 # chkconfig: 35 85 15
 # description: Mongo is a scalable, document-oriented database.
 # processname: mongod
-# config: /etc/mongod-arbiter.conf
-# pidfile: /var/run/mongo/mongoarb.pid
+# config: /etc/<%= @app_name %>.conf
+# pidfile: /var/run/mongo/<%= @app_name %>.pid
 
 . /etc/rc.d/init.d/functions
 
@@ -15,7 +15,7 @@
 
 # NOTE: if you change any OPTIONS here, you get what you pay for:
 # this script assumes all options are in the config file.
-CONFIGFILE="/etc/mongod-arbiter.conf"
+CONFIGFILE="/etc/<%= @app_name %>.conf"
 OPTIONS=" -f $CONFIGFILE"
 SYSCONFIG="/etc/sysconfig/mongod"
 
@@ -49,7 +49,7 @@ start()
   daemon --user "$MONGO_USER" $NUMACTL $mongod $OPTIONS
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/mongoarb
+  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/<%= @app_name %>
 }
 
 stop()
@@ -58,7 +58,7 @@ stop()
   killproc -p "$PIDFILE" -d 300 /usr/bin/mongod
   RETVAL=$?
   echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/mongoarb
+  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/<%= @app_name %>
 }
 
 restart () {
@@ -80,7 +80,7 @@ case "$1" in
     restart
     ;;
   condrestart)
-    [ -f /var/lock/subsys/mongod ] && restart || :
+    [ -f /var/lock/subsys/<%= @app_name %> ] && restart || :
     ;;
   status)
     status $mongod

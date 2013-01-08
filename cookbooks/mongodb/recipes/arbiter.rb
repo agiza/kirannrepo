@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name = "mongodb-arbiter"
 include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
 
@@ -14,33 +15,35 @@ directory "/data" do
   group "mongod"
 end
 
-directory "/data/db" do
+directory "/data/arb" do
   owner "mongod"
   group "mongod"
 end
 
-service "mongod-arbiter" do
+service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
 end
 
-template "/etc/mongod-arbiter.conf" do
-  source "mongod-arbiter.conf.erb"
+template "/etc/#{app_name}.conf" do
+  source "#{app_name}.conf.erb"
   group "root"
   owner "root"
   mode "0644"
-  notifies :reload, resources(:service => "mongod-arbiter")
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
 end
 
-template "/etc/init.d/mongod-arbiter" do
-  source "mongod-arbiter-init.erb"
+template "/etc/init.d/#{app_name}" do
+  source "mongod-init.erb"
   group  "root"
   owner  "root"
   mode   "0755"
-  notifies :reload, resource(:service => "mongod-arbiter")
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
 end
 
-service "mongod-arbiter" do
+service "#{app_name}" do
   action [:enable, :start]
 end
 

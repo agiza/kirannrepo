@@ -1,0 +1,110 @@
+# mongo.conf
+
+# Mongod Master configuration
+<% if @app_name == "mongod-master" -%>
+logpath=/var/log/mongo/mongod.log
+
+logappend=true
+
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
+
+# fork and run in background
+fork = true
+
+bind_ip = <%= node[:ipaddress] %>
+port = 27017
+
+slave = <%= @mongoreplica %>
+
+dbpath=/data/db
+replSet = rdng
+
+master = true
+
+<% end -%>
+
+# Mongod replica configuration
+<% if @app_name == "mongod-replica" -%>
+logpath=/var/log/mongo/mongod-replica.log
+
+logappend=true
+
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
+
+# fork and run in background
+fork = true
+
+bind_ip = <%= node[:ipaddress] %>
+port = 27018
+
+dbpath=/data/mongod-replica
+slave = true
+source = <%= node[:mongodb_master] %>
+
+replSet = rdng
+<% end -%>
+
+# Mongod arbiter configuration
+<% if @app_name == "mongod-arbiter" -%>
+
+logpath=/var/log/mongo/mongodarb.log
+
+logappend=true
+
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
+
+# fork and run in background
+fork = true
+
+bind_ip = <%= node[:ipaddress] %>
+port = 30000
+
+dbpath=/data/arb
+replSet = rdng
+
+<% end -%>
+
+# Mongod shard configuration
+<% if @app_name == "mongod-shard" -%>
+
+configdb = <%= @mongodbconfig %>
+chunkSize = 64
+
+<% end -%>
+
+# Mongod config configuration
+<% if @app_name == "mongod-config" -%>
+configsvr = true
+#where to log
+logpath=/var/log/mongo/mongod-config.log
+
+logappend=true
+
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
+
+# fork and run in background
+fork = true
+
+bind_ip = <%= node[:ipaddress] %>
+port = 27002
+
+dbpath=/data/mongod-config
+
+<% end -%>
+

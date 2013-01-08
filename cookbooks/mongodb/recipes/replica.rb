@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name = "mongod-replica"
 include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
 
@@ -14,25 +15,34 @@ directory "/data" do
   group "mongod"
 end
 
-directory "/data/db" do
+directory "/data/#{app_name}" do
   owner "mongod"
   group "mongod"
 end
 
-service "mongod" do
+service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
 end
 
-template "/etc/mongod.conf" do
-  source "mongod-replica.conf.erb"
+template "/etc/#{app_name}.conf" do
+  source "mongod.conf.erb"
   group "root"
   owner "root"
   mode "0644"
-  notifies :reload, resources(:service => "mongod")
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
 end
 
-service "mongod" do
+template "/etc/init.d/#{app_name}" do
+  source "mongod-init.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
+
+service "#{app_name}" do
   action [:enable, :start]
 end
 

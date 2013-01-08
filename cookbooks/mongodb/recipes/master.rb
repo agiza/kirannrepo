@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name="mongod-master"
 include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
 
@@ -30,10 +31,11 @@ service "mongod" do
 end
 
 template "/etc/mongod.conf" do
-  source "mongod-master.conf.erb"
+  source "mongod.conf.erb"
   group "root"
   owner "root"
   mode "0644"
+  variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "mongod")
 end
 

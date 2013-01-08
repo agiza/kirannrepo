@@ -6,10 +6,11 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+app_name = "mongod-shard"
 include_recipe "mongodb::default"
 include_recipe "altisource::altirepo"
 
-service "mongod" do
+service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
 end
@@ -19,18 +20,26 @@ configs = search(:node, "role:mongod-config")
 configs.each do |ipaddress|
   configserver << ipaddress[:ipaddress]
 end
-configserver = configserver.collect { |entry| "#{entry}:27001"}.join(",")
-template "/etc/mongod.conf" do
-  source "mongod-shard.conf.erb"
+configserver = configserver.collect { |entry| "#{entry}:27002"}.join(",")
+template "/etc/#{app_name}.conf" do
+  source "#{app_name}.conf.erb"
   group "root"
   owner "root"
   mode "0644"
   variables(:mongodbconfig => configserver)
-  notifies :reload, resources(:service => "mongod")
+  notifies :reload, resources(:service => "#{app_name}")
 end
 
+template "/etc/init.d/#{app_name}" do
+  source "mongod-init.erb"
+  group  "root"
+  owner  "root"
+  mode   "0755"
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
+end
 
-service "mongod" do
+service "#{app_name}" do
   action [:enable, :start]
 end
 
