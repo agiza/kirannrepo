@@ -38,7 +38,7 @@ template "/etc/init.d/mongod-arbiter" do
   owner  "root"
   mode   "0755"
   notifies :reload, resource(:service => "mongod-arbiter")
-
+end
 
 service "mongod-arbiter" do
   action [:enable, :start]
