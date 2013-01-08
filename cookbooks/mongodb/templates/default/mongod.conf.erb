@@ -2,6 +2,7 @@
 
 <% if @app_name == "mongod-master" -%>
 # Mongod Master configuration
+pidfilepath = /var/run/mongo/mongod.pid
 logpath=/var/log/mongo/mongod.log
 
 logappend=true
@@ -29,6 +30,7 @@ master = true
 
 <% if @app_name == "mongod-replica" -%>
 # Mongod replica configuration
+pidfilepath = /var/run/mongo/mongod-replica.pid
 logpath=/var/log/mongo/mongod-replica.log
 
 logappend=true
@@ -54,7 +56,7 @@ replSet = rdng
 
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
-
+pidfilepath = /var/run/mongo/mongod-arbiter.pid
 logpath=/var/log/mongo/mongodarb.log
 
 logappend=true
@@ -78,7 +80,7 @@ replSet = rdng
 
 <% if @app_name == "mongod-shard" -%>
 # Mongod shard configuration
-
+pidfilepath = /var/run/mongo/mongod-arbiter.pid
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
 
@@ -86,6 +88,7 @@ chunkSize = 64
 
 <% if @app_name == "mongod-config" -%>
 # Mongod config configuration
+pidfilepath = /var/run/mongo/mongod-config.pid
 configsvr = true
 #where to log
 logpath=/var/log/mongo/mongod-config.log
