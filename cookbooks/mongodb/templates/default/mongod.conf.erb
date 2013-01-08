@@ -1,7 +1,7 @@
 # mongo.conf
 
-# Mongod Master configuration
 <% if @app_name == "mongod-master" -%>
+# Mongod Master configuration
 logpath=/var/log/mongo/mongod.log
 
 logappend=true
@@ -27,8 +27,8 @@ master = true
 
 <% end -%>
 
-# Mongod replica configuration
 <% if @app_name == "mongod-replica" -%>
+# Mongod replica configuration
 logpath=/var/log/mongo/mongod-replica.log
 
 logappend=true
@@ -52,8 +52,8 @@ source = <%= node[:mongodb_master] %>
 replSet = rdng
 <% end -%>
 
-# Mongod arbiter configuration
 <% if @app_name == "mongod-arbiter" -%>
+# Mongod arbiter configuration
 
 logpath=/var/log/mongo/mongodarb.log
 
@@ -76,16 +76,16 @@ replSet = rdng
 
 <% end -%>
 
-# Mongod shard configuration
 <% if @app_name == "mongod-shard" -%>
+# Mongod shard configuration
 
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
 
 <% end -%>
 
-# Mongod config configuration
 <% if @app_name == "mongod-config" -%>
+# Mongod config configuration
 configsvr = true
 #where to log
 logpath=/var/log/mongo/mongod-config.log
