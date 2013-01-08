@@ -41,6 +41,7 @@ template "/etc/init.d/#{app_name}" do
   mode   "0755"
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
+end
 
 service "#{app_name}" do
   action [:enable, :start]
