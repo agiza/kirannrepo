@@ -21,7 +21,7 @@ configs.each do |ipaddress|
 end
 configserver = configserver.collect { |entry| "#{entry}:27001"}.join(",")
 template "/etc/#{app_name}.conf" do
-  source "#{app_name}.conf.erb"
+  source "mongod.conf.erb"
   group "root"
   owner "root"
   mode "0644"
