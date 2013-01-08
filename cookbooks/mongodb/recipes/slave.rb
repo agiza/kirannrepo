@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "altisource::10gen"
+include_recipe "altisource::altirepo"
 
 package "mongo-10gen" do
   action :upgrade

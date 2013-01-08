@@ -32,16 +32,21 @@ end
 
 package "MySQL-client-advanced" do
   action :upgrade
-  notifies :restart, resources(:service => "mysql")
 end
 
 package "MySQL-server-advanced" do
   action :upgrade
-  notifies :restart, resources(:service => "mysql")
 end
 
 package "MySQL-shared-compat-advanced" do
   action :upgrade
+end
+
+template "/etc/my.cnf" do
+  source "my.cnf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
   notifies :restart, resources(:service => "mysql")
 end
 
