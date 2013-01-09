@@ -20,12 +20,8 @@ PIDFILE="/var/run/mongo/<%= @app_name %>.pid
 LOCKFILE="/var/lock/subsys/<%= @app_name %>
 OPTIONS=" -f $CONFIGFILE --pidfilepath=$PIDFILE"
 SYSCONFIG="/etc/sysconfig/mongod"
-
-# FIXME: 1.9.x has a --shutdown flag that parses the config file and
-# shuts down the correct running pid, but that's unavailable in 1.8
-# for now.  This can go away when this script stops supporting 1.8.
-DBPATH=`awk -F= '/^dbpath=/{print $2}' "$CONFIGFILE"`
-mongod=${MONGOD-/usr/bin/mongod}
+mongod=/usr/bin/mongod
+#mongod=${MONGOD-/usr/bin/mongod}
 prog=<%= @app_name %>
 
 MONGO_USER=mongod
@@ -45,7 +41,7 @@ start()
 stop()
 {
   echo -n $"Stopping $prog: "
-  killproc -p $PIDFILE -d 30 -TERM
+  killproc -p $PIDFILE -d 30 -TERM $mongod
   RETVAL=$?
   echo
   [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
