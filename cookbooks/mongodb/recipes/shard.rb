@@ -41,6 +41,24 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
+directory "/data" do
+  owner "mongod"
+  group "mongod"
+  action :create
+end
+
+directory "/data/db" do
+  owner "mongod"
+  group "mongod"
+  action :create
+end
+
+directory "/data/db/shard" do
+  owner "mongod"
+  group "mongod"
+  action :create
+end
+
 service "#{app_name}" do
   action [:enable, :start]
 end

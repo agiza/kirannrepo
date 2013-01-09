@@ -14,7 +14,7 @@ directory "/data" do
   group "mongod"
 end
 
-directory "/data/#{app_name}" do
+directory "/data/db/replica" do
   owner "mongod"
   group "mongod"
 end
