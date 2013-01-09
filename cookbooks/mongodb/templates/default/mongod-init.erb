@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# mongod - Startup script for mongod
+# <%= @app_name %> - Startup script for mongod
 
 # chkconfig: 35 85 15
 # description: Mongo is a scalable, document-oriented database.
@@ -20,8 +20,8 @@ PIDFILE="/var/run/mongo/<%= @app_name %>.pid"
 LOCKFILE="/var/lock/subsys/<%= @app_name %>"
 OPTIONS=" -f $CONFIGFILE --pidfilepath=$PIDFILE"
 SYSCONFIG="/etc/sysconfig/mongod"
-#mongod=/usr/bin/mongod
-mongod=${MONGOD-/usr/bin/mongod}
+mongod=/usr/bin/mongod
+#mongod=${MONGOD-/usr/bin/mongod}
 prog=<%= @app_name %>
 
 MONGO_USER=mongod
