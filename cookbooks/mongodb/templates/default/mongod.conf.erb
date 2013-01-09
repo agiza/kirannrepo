@@ -1,5 +1,4 @@
 # mongo.conf
-
 <% if @app_name == "mongod" -%>
 # Mongod Master configuration
 pidfilepath = /var/run/mongo/mongod.pid
@@ -27,7 +26,6 @@ replSet = rdng
 master = true
 
 <% end -%>
-
 <% if @app_name == "mongod-replica" -%>
 # Mongod replica configuration
 pidfilepath = /var/run/mongo/mongod-replica.pid
@@ -47,13 +45,12 @@ fork = true
 bind_ip = 127.0.01,<%= node[:ipaddress] %>
 port = 27018
 
-dbpath=/data/mongod-replica
+dbpath=/data/db/replica
 slave = true
 source = <%= node[:mongodb_master] %>
 
 replSet = rdng
 <% end -%>
-
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
 pidfilepath = /var/run/mongo/mongod-arbiter.pid
@@ -73,16 +70,16 @@ fork = true
 bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 port = 30000
 
-dbpath=/data/arb
+dbpath=/data/db/arbiter
 replSet = rdng
 
 <% end -%>
-
 <% if @app_name == "mongod-shard" -%>
 # Mongod shard configuration
 pidfilepath = /var/run/mongo/mongod-arbiter.pid
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
+dbpath=/data/db/shard
 
 <% end -%>
 
@@ -107,7 +104,7 @@ fork = true
 bind_ip = 127.0.0.1, <%= node[:ipaddress] %>
 port = 27001
 
-dbpath=/data/mongod-config
+dbpath=/data/db/config
 
 <% end -%>
 
