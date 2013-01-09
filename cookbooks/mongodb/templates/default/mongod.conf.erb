@@ -48,10 +48,10 @@ bind_ip = 127.0.01,<%= node[:ipaddress] %>
 port = 27027
 
 dbpath=/data/db/replica
-slave = true
+#slave = true
 source = <%= @mongodbmaster %>
 
-#replSet = rdng
+replSet = rdng
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
