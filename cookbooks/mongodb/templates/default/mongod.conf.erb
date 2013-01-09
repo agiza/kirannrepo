@@ -51,7 +51,7 @@ dbpath=/data/db/replica
 slave = true
 source = <%= @mongodbmaster %>
 
-replSet = rdng
+#replSet = rdng
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
