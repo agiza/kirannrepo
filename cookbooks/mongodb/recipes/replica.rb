@@ -27,7 +27,7 @@ end
 mongodbmaster = []
 masters = search(:node, "role:mongodb-master")
 masters.each do |master|
-  mongodmaster << master[:ipaddress]
+  mongodbmaster << master[:ipaddress]
 end
 mongodbmaster = mongodbmaster.collect { |entry| "#{entry}:27017"}.join(",")
 template "/etc/#{app_name}.conf" do
