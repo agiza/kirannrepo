@@ -18,7 +18,7 @@ fork = true
 bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 port = 27017
 
-slave = <%= @mongodbreplica %>
+# slave = <%= @mongodbreplica %>
 
 dbpath=/data/db
 replSet = rdng
