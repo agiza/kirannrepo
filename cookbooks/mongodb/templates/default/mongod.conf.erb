@@ -49,11 +49,11 @@ port = 27027
 
 dbpath=/data/db/replica
 #slave = true
-source = <%= @mongodbmaster %>
+#source = <%= @mongodbmaster %>
 
 replSet = rdng
 <% end -%>
-<% if @app_name == "mongod-replica" -%>
+<% if @app_name == "mongod-replica1" -%>
 # Mongod replica configuration
 pidfilepath = /var/run/mongo/mongod-replica.pid
 logpath=/var/log/mongo/mongod-replica.log
@@ -74,7 +74,7 @@ port = 27037
 
 dbpath=/data/db/replica1
 #slave = true
-source = <%= @mongodbmaster %>
+#source = <%= @mongodbmaster %>
 
 replSet = rdng
 <% end -%>
