@@ -16,8 +16,8 @@ end
 
 configserver = []
 configs = search(:node, "role:mongod-config")
-configs.each do |ipaddress|
-  configserver << ipaddress[:ipaddress]
+configs.each do |config|
+  configserver << config[:ipaddress]
 end
 configserver = configserver.collect { |entry| "#{entry}:27001"}.join(",")
 template "/etc/#{app_name}.conf" do
