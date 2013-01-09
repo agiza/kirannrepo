@@ -18,10 +18,12 @@ fork = true
 bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 port = 27017
 
-slave = <%= @mongoreplica %>
+slave = <%= @mongodbreplica %>
 
 dbpath=/data/db
 replSet = rdng
+
+shardsvr = true
 
 master = true
 
@@ -47,7 +49,7 @@ port = 27027
 
 dbpath=/data/db/replica
 slave = true
-source = <%= node[:mongodb_master] %>
+source = <%= @mongodbmaster %>
 
 replSet = rdng
 <% end -%>
@@ -67,7 +69,7 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
+bind_ip = <%= node[:ipaddress] %>
 port = 30000
 
 dbpath=/data/db/arbiter
@@ -79,7 +81,12 @@ replSet = rdng
 pidfilepath = /var/run/mongo/mongod-arbiter.pid
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
-dbpath=/data/db/shard
+
+<% if node.attribute?('mongodblog') -%>
+quiet = false
+<% else -%>
+quiet = true
+<% end -%>
 
 <% end -%>
 <% if @app_name == "mongod-config" -%>
@@ -100,7 +107,7 @@ quiet = true
 # fork and run in background
 fork = true
 
-bind_ip = 127.0.0.1, <%= node[:ipaddress] %>
+bind_ip = <%= node[:ipaddress] %>
 port = 27037
 
 dbpath=/data/db/config
