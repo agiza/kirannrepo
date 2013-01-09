@@ -44,7 +44,8 @@ start()
 stop()
 {
   echo -n $"Stopping mongod: "
-  killproc -p "$DBPATH"/mongod.lock -t30 -TERM /usr/bin/mongod
+  #killproc -p "$DBPATH"/mongod.lock -t30 -TERM /usr/bin/mongod
+  kill -0 `cat $PIDFILE` >/dev/null 2>&1
   RETVAL=$?
   echo
   [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
