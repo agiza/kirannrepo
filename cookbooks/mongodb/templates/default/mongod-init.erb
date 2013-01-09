@@ -17,7 +17,7 @@
 # this script assumes all options are in the config file.
 CONFIGFILE="/etc/<%= @app_name %>.conf"
 PIDFILE="/var/run/mongo/<%= @app_name %>.pid
-LOCKFILE="/var/lock/subsys/<%= @app_name %>
+LOCKFILE="/var/lock/subsys/<%= @app_name %>"
 OPTIONS=" -f $CONFIGFILE --pidfilepath=$PIDFILE"
 SYSCONFIG="/etc/sysconfig/mongod"
 mongod=/usr/bin/mongod
