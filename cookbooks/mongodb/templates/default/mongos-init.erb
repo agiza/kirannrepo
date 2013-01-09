@@ -16,7 +16,7 @@
 # this script assumes all options are in the config file.
 CONFIGFILE="/etc/<%= @app_name %>.conf"
 OPTIONS=" -f $CONFIGFILE"
-SYSCONFIG="/etc/sysconfig/mongos"
+SYSCONFIG="/etc/sysconfig/mongod"
 
 PID_PATH=/var/run/mongo
 PID_FILE=${PID_PATH}/<%= @app_name %>.pid
