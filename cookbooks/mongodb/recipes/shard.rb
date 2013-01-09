@@ -25,7 +25,10 @@ template "/etc/#{app_name}.conf" do
   group "root"
   owner "root"
   mode "0644"
-  variables(:mongodbconfig => configserver)
+  variables(
+    :mongodbconfig => configserver,
+    :app_name => "#{app_name}"
+    )
   notifies :reload, resources(:service => "#{app_name}")
 end
 
