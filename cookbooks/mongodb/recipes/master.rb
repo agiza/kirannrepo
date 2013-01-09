@@ -38,6 +38,15 @@ template "/etc/#{app_name}.conf" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
+template "/etc/init.d/#{app_name}" do
+  source "#{app_name}-init.erb"
+  group "root"
+  owner "root"
+  mode "0644"
+  variables(:app_name => "#{app_name}")
+  notifies :reload, resources(:service => "#{app_name}")
+end
+
 execute "mongod-seed" do
   command "/etc/mongo/mongod-seed.sh"
   action :nothing
