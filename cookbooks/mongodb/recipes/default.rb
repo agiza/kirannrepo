@@ -32,3 +32,10 @@ template "/usr/local/sbin/mongod-setup.sh" do
   notifies :run, resources(:execute => "install_check")
 end
 
+template "/usr/local/sbin/replset-setup.py" do
+  source "replset-setup.py.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
