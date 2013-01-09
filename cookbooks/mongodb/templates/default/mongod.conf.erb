@@ -43,7 +43,7 @@ quiet = true
 fork = true
 
 bind_ip = 127.0.01,<%= node[:ipaddress] %>
-port = 27018
+port = 27027
 
 dbpath=/data/db/replica
 slave = true
@@ -82,7 +82,6 @@ chunkSize = 64
 dbpath=/data/db/shard
 
 <% end -%>
-
 <% if @app_name == "mongod-config" -%>
 # Mongod config configuration
 pidfilepath = /var/run/mongo/mongod-config.pid
@@ -102,7 +101,7 @@ quiet = true
 fork = true
 
 bind_ip = 127.0.0.1, <%= node[:ipaddress] %>
-port = 27001
+port = 27037
 
 dbpath=/data/db/config
 
