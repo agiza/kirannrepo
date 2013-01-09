@@ -26,6 +26,7 @@ SYSCONFIG="/etc/sysconfig/mongod"
 # for now.  This can go away when this script stops supporting 1.8.
 DBPATH=`awk -F= '/^dbpath=/{print $2}' "$CONFIGFILE"`
 mongod=${MONGOD-/usr/bin/mongod}
+prog=<%= @app_name %>
 
 MONGO_USER=mongod
 MONGO_GROUP=mongod
@@ -34,7 +35,7 @@ MONGO_GROUP=mongod
 
 start()
 {
-  echo -n $"Starting mongod: "
+  echo -n $"Starting $prog: "
   daemon --user "$MONGO_USER" $mongod $OPTIONS
   RETVAL=$?
   echo
@@ -43,9 +44,8 @@ start()
 
 stop()
 {
-  echo -n $"Stopping mongod: "
-  #killproc -p "$DBPATH"/mongod.lock -t30 -TERM /usr/bin/mongod
-  kill -0 `cat $PIDFILE` >/dev/null 2>&1
+  echo -n $"Stopping $prog: "
+  killproc -p $PIDFILE -d 30 -TERM
   RETVAL=$?
   echo
   [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
@@ -73,7 +73,7 @@ case "$1" in
     [ -f $LOCKFILE ] && restart || :
     ;;
   status)
-    status $mongod
+    status -p $PIDFILE $mongod
     RETVAL=$?
     ;;
   *)
