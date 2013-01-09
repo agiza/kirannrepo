@@ -15,7 +15,7 @@ service "#{app_name}" do
 end
 
 configserver = []
-configs = search(:node, "role:mongodb-config")
+configs = search(:node, "role:mongod-config")
 configs.each do |ipaddress|
   configserver << ipaddress[:ipaddress]
 end
