@@ -24,20 +24,13 @@ service "#{app_name}" do
   action :nothing
 end
 
-mongodbmaster = []
-masters = search(:node, "role:mongodb-master")
-masters.each do |master|
-  mongodbmaster << master[:ipaddress]
-end
-mongodbmaster = mongodbmaster.collect { |entry| "#{entry}:27017"}.first
 template "/etc/#{app_name}.conf" do
   source "mongod.conf.erb"
   group "root"
   owner "root"
   mode "0644"
   variables(
-    :app_name => "#{app_name}",
-    :mongodbmaster => mongodbmaster
+    :app_name => "#{app_name}"
   )
   notifies :reload, resources(:service => "#{app_name}")
 end
