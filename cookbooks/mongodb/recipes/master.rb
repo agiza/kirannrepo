@@ -42,7 +42,7 @@ template "/etc/init.d/#{app_name}" do
   source "#{app_name}-init.erb"
   group "root"
   owner "root"
-  mode "0644"
+  mode "0755"
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
 end
