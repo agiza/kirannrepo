@@ -58,7 +58,7 @@ template "/etc/mongo/mongod-seed.sh" do
   owner  "mongod"
   group  "mongod"
   mode   "0755"
-  notifies :run, resources(:execute => "mongod-seed")
+  #notifies :run, resources(:execute => "mongod-seed")
   variables( :mongodb_names => mongodbnames["dbnames"] )
 end
 
@@ -70,7 +70,7 @@ template "/etc/mongo/seedData.js" do
   variables(
     :seeddata => mongodbnames['seedData.js']
   )
-  notifies :run, resources(:execute => "mongod-seed")
+  #notifies :run, resources(:execute => "mongod-seed")
 end
 
 template "/etc/mongo/addIndexes.js" do
@@ -81,7 +81,7 @@ template "/etc/mongo/addIndexes.js" do
   variables(
     :addindexes => mongodbnames['addIndexes.js']
   )
-  notifies :run, resources(:execute => "mongod-seed")
+  #notifies :run, resources(:execute => "mongod-seed")
 end
 
 template "/etc/mongo/demoData.js" do
@@ -92,7 +92,7 @@ template "/etc/mongo/demoData.js" do
   variables(
     :demodata => mongodbnames['demoData.js']
   )
-  notifies :run, resources(:execute => "mongod-seed")
+  #notifies :run, resources(:execute => "mongod-seed")
 end
 
 service "#{app_name}" do
