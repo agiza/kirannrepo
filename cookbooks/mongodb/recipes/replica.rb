@@ -29,7 +29,7 @@ masters = search(:node, "role:mongodb-master")
 masters.each do |master|
   mongodbmaster << master[:ipaddress]
 end
-mongodbmaster = mongodbmaster.collect { |entry| "#{entry}:27017"}.join(",")
+mongodbmaster = mongodbmaster.collect { |entry| "#{entry}:27017"}.first
 template "/etc/#{app_name}.conf" do
   source "mongod.conf.erb"
   group "root"
