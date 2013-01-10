@@ -23,7 +23,7 @@ altidev.com.	MX	10	mail
 <%= altidevex %>
 <% end -%>
 <% @rabbitproxy.each do |rabbit| -%>
-<%= rabbit[:hostname] %>    A    <%= rabbit[:ipaddress]%>
+rabbit-proxy    A    <%= rabbit[:ipaddress]%>
 <% end -%>
 <% @cname.each do |cname| -%>
 <%= cname %>
