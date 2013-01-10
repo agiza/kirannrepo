@@ -85,6 +85,10 @@ template "/etc/rndc.key" do
 end
 
 altidev = search(:node, "name:*")
+rabbitnodes = {}
+search(:node, "role:rabbitserver") do |n|
+  rabbitnodes = {}
+end
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
   owner  "named"
@@ -97,7 +101,8 @@ template "/etc/named/altidev.com.db" do
     :altidevex => zones['altidev.com.db'].split("\\"),
     :cname => zones['altidev_cname'].split("\\"),
     :dnsmaster => zones['dnsmaster'],
-    :dnsslaves => zones['dnsslaves'].split("\\")
+    :dnsslaves => zones['dnsslaves'].split("\\"),
+    :rabbitproxy => rabbitnodes
   )
 end
 
