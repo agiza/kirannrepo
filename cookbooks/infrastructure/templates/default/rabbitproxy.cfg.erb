@@ -78,3 +78,11 @@ listen rabbitmq <%= node[:ipaddress] %>:<%= @amqpport %>
 	server <%= clusternode %> <%= clusternode %>:5672 maxconn 800 check inter 5000 downinter 500    
 <% end -%>
 
+listen rabbitmq <%= node[:ipaddress] %>:<%= @stompport %>
+        mode    tcp
+        balance roundrobin
+        option  tcpka
+<% @clusternodes.each do |clusternode| -%>
+        server <%= clusternode %> <%= clusternode %>:61613 maxconn 800 check inter 5000 downinter 500
+<% end -%>
+

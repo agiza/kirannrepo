@@ -20,6 +20,18 @@ else
   amqpport = "5672"
 end
 
+if node.attribute?('stompproxy')
+  stomphost = node[:stompproxy].split(":")[0]
+  stompport = node[:stompproxy].split(":")[1]
+else
+  stomphost = {}
+  search(:node, "role:rabbitserver") do |n|
+    stomphost[n.ipaddress] = {}
+  end
+  stomphost = stomphost.first
+  stompport = "61613"
+end
+
 package "haproxy" do
   action :upgrade
 end
@@ -43,7 +55,8 @@ else
     mode "0644"
     variables(
       :clusternodes => clusternodes,
-      :amqpport => "#{amqpport}"
+      :amqpport => "#{amqpport}",
+      :stompport => "#{stompport}"
     )
     notifies :restart, resources(:service => "haproxy")
   end
