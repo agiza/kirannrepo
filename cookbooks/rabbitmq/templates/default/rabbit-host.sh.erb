@@ -10,6 +10,6 @@ done
 
 limit_check=`grep "rabbitmq" /etc/security/limits.conf`
 if [ "$limit_check" == "" ]; then
-  echo -e "rabbitmq\tsoft\tnofile\t12000\nrabbitmq\thard\tnofile\t\t12000" >> /etc/security/limits.conf
+  echo -e "rabbitmq\tsoft\tnofile\t\t12000\nrabbitmq\thard\tnofile\t\t12000" >> /etc/security/limits.conf
 fi
 
