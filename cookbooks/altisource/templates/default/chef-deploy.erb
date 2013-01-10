@@ -27,7 +27,7 @@ env_list=`knife environment list | grep -v _default`
 
 attr_select(){
 for i in `echo $app_name`; do
-  app_attribute=`grep $i /tmp/rpm-versions.txt | cut -d "|" -f2`
+  app_attribute=`grep $i\| /tmp/rpm-versions.txt | cut -d "|" -f2`
 done
 }
 
