@@ -58,6 +58,15 @@ defaults
     maxconn                 3000
 
 #---------------------------------------------------------------------
+# Setup stats page to check stats.
+#---------------------------------------------------------------------
+listen stats :9090
+	balance
+	mode http
+	stats enable
+	stats	auth	admin:altisource
+
+#---------------------------------------------------------------------
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 
@@ -66,6 +75,6 @@ listen rabbitmq <%= node[:ipaddress] %>:<%= @amqpport %>
 	balance roundrobin
 	option  tcpka
 <% @clusternodes.each do |clusternode| -%>
-	server <%= clusternode %> <%= clusternode %>:5672 check inter 5000 downinter 500    
+	server <%= clusternode %> <%= clusternode %>:5672 maxconn 800 check inter 5000 downinter 500    
 <% end -%>
 
