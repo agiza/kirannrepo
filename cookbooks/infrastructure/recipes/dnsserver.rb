@@ -85,9 +85,9 @@ template "/etc/rndc.key" do
 end
 
 altidev = search(:node, "name:*")
-rabbitnodes = {}
+rabbitnodes = []
 search(:node, "role:rabbitserver") do |n|
-  rabbitnodes = {}
+  rabbitnodes << n
 end
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
