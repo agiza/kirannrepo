@@ -87,7 +87,7 @@ end
 altidev = search(:node, "name:*")
 rabbitnodes = {}
 search(:node, "role:rabbitserver") do |n|
-  rabbitnodes(n.ipaddress) = {}
+  rabbitnodes[n.ipaddress] = {}
 end
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
