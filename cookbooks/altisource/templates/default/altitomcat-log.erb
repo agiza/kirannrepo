@@ -1,7 +1,8 @@
 /opt/tomcat/logs/catalina.out {
    missingok
    notifempty
-   size 200M
    daily
+   minsize 20M
+   rotate 4
    create 0644 tomcat tomcat
 }
