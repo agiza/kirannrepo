@@ -14,6 +14,11 @@ directory "/data" do
   group "mongod"
 end
 
+directory "/data/db" do
+  owner "mongod"
+  group "mongod"
+end
+
 directory "/data/db/replica" do
   owner "mongod"
   group "mongod"
