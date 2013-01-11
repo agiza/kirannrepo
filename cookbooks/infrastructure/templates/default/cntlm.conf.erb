@@ -38,7 +38,7 @@ NoProxy		<%= @proxyinfo['proxy_exclude'] %>
 # the appropriate IP address also in format <local_ip>:<local_port>
 # Cntlm listens on 127.0.0.1:3128 by default
 #
-Listen		<%= node[:ipaddress] %>:3128
+Listen		<%= node[:ipaddress] %>:8080
 
 # If you wish to use the SOCKS5 proxy feature as well, uncomment
 # the following option. It can be used several times
