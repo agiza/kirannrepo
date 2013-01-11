@@ -17,6 +17,11 @@ package "mongo-10gen-server" do
   action :upgrade
 end
 
+directory "/var/run/mongo" do
+  owner "mongod"
+  group "mongod"
+end
+
 execute "install_check" do
   user  "root"
   cwd   "/usr/local/sbin"

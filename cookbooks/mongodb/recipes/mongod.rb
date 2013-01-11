@@ -24,11 +24,6 @@ directory "/etc/mongo" do
   group "mongod"
 end
 
-directory "/var/run/mongo" do
-  owner "mongod"
-  group "mongod"
-end
-
 service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
