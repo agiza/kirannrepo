@@ -79,7 +79,7 @@ listen rabbitmq <%= node[:ipaddress] %>:<%= @amqpport %>
 	balance roundrobin
 	option  tcpka
 <% @clusternodes.each do |clusternode| -%>
-	server <%= clusternode %> <%= clusternode %>:5672 maxconn 800 check inter 5000 downinter 500    
+	server <%= clusternode %> <%= clusternode %>:5672 maxconn 2000 check inter 5000 downinter 500    
 <% end -%>
 
 listen stompmq <%= node[:ipaddress] %>:<%= @stompport %>
@@ -87,5 +87,5 @@ listen stompmq <%= node[:ipaddress] %>:<%= @stompport %>
         balance roundrobin
         option  tcpka
 <% @clusternodes.each do |clusternode| -%>
-        server <%= clusternode %> <%= clusternode %>:61613 maxconn 800 check inter 5000 downinter 500
+        server <%= clusternode %> <%= clusternode %>:61613 maxconn 2000 check inter 5000 downinter 500
 <% end -%>

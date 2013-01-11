@@ -1,8 +1,8 @@
 # mongo.conf
-<% if @app_name == "mongod" -%>
-# Mongod Master configuration
-pidfilepath = /var/run/mongo/mongod.pid
-logpath=/var/log/mongo/mongod.log
+<% if @app_name == "mongod" || @app_name == "mongod-replica" || @app_name == "mongod-replica1" -%>
+# Mongod replica configuration
+pidfilepath = /var/run/mongo/<%= @app_name.pid
+logpath=/var/log/mongo/mongod-<%= @app_name %>.log
 
 logappend=true
 
@@ -14,67 +14,19 @@ quiet = true
 
 # fork and run in background
 fork = true
-
-bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
-port = 27017
-
-# slave = <%= @mongodbreplica %>
-
-dbpath=/data/db
-replSet = rdng
-
 shardsvr = true
 
-# master = true
-
-<% end -%>
-<% if @app_name == "mongod-replica" -%>
-# Mongod replica configuration
-pidfilepath = /var/run/mongo/mongod-replica.pid
-logpath=/var/log/mongo/mongod-replica.log
-
-logappend=true
-
-<% if node.attribute?('mongodblog') -%>
-quiet = false
-<% else -%>
-quiet = true
-<% end -%>
-
-# fork and run in background
-fork = true
-
 bind_ip = 127.0.01,<%= node[:ipaddress] %>
+<% if @app_name == "mongod" -%>
+port = 27017
+dbpath=/data/db
+<% elsif @app_name == "mongod-replica" -%>
 port = 27027
-
 dbpath=/data/db/replica
-#slave = true
-#source = <%= @mongodbmaster %>
-
-replSet = rdng
-<% end -%>
-<% if @app_name == "mongod-replica1" -%>
-# Mongod replica configuration
-pidfilepath = /var/run/mongo/mongod-replica1.pid
-logpath=/var/log/mongo/mongod-replica1.log
-
-logappend=true
-
-<% if node.attribute?('mongodblog') -%>
-quiet = false
-<% else -%>
-quiet = true
-<% end -%>
-
-# fork and run in background
-fork = true
-
-bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
+<% elsif @app_name == "mongod-replica1" -%>
 port = 27037
-
-dbpath=/data/db/replica1
-#slave = true
-#source = <%= @mongodbmaster %>
+dbpath=/data/b/replica1
+<% end -%>
 
 replSet = rdng
 <% end -%>

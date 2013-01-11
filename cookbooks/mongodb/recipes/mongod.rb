@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mongodb
-# Recipe:: master
+# Recipe:: mongod
 #
 # Copyright 2012, Altisource
 #
