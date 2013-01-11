@@ -50,6 +50,13 @@ template "/opt/tomcat/conf/server.xml" do
   notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
+template "/etc/logrotate.d/altitomcat" do
+  source "altitomcat-log.erb"
+  group  "root"
+  owner  "root"
+  mode   "0644"
+end
+
 service "altitomcat" do
   action [:enable, :start]
 end
