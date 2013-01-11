@@ -35,6 +35,27 @@ directory "/var/www/html/yum-repo/testing" do
   group  "root"
 end
 
+directory "/var/www/html/yum-repo/redhat" do
+  owner  "root"
+  group  "root"
+end
+
+directory "/var/www/html/yum-repo/redhat/rhel-x86-server-6" do
+  owner  "root"
+  group  "root"
+end
+
+link "/var/www/html/yum-repo/redhat/rhel-x86-server-6/getPackage" do
+  source "/var/www/html/yum-repo/redhat"
+  owner  "root"
+  group  "root"
+end
+
+directory "/var/www/html/yum-repo/epel" do
+  owner  "root"
+  group  "root"
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -42,6 +63,13 @@ end
 
 template "/usr/local/bin/yum-update" do
   source "yum-update.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
+
+template "/usr/local/bin/local-repo-update" do
+  source "local-repo-update.erb"
   owner  "root"
   group  "root"
   mode   "0755"

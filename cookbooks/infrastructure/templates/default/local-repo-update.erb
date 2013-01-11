@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Update Rhel 6 local repo.
+echo "Updating RHEL 6 Repository for serving local files."
+reposync -p /var/www/html/yum-repo/redhat/ --repoid=rhel-x86_64-server-6 -l
+
+echo "Updating EPEL repository for serving local files."
+# Update epel repo
+reposync -p /var/www/html/yum-repo/ --repoid=epel -l
+
+echo " Done."
+
+
