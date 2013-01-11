@@ -63,10 +63,10 @@ defaults
 listen stats <%= node[:ipaddress] %>:9090
 	balance
 	mode http
-	timeout client	5000
-	timeout connect	4000
+	timeout	client	5000
+	timeout	connect	4000
 	timeout	server	30000
-	stats enable
+	stats	enable
 	stats	auth	admin:altisource
 	stats	uri	/stats
 
