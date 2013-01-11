@@ -1,7 +1,7 @@
 # mongo.conf
 <% if @app_name == "mongod" || @app_name == "mongod-replica" || @app_name == "mongod-replica1" -%>
 # Mongod replica configuration
-pidfilepath = /var/run/mongo/<%= @app_name.pid
+pidfilepath = /var/run/mongo/<%= @app_name %>.pid
 logpath=/var/log/mongo/mongod-<%= @app_name %>.log
 
 logappend=true
