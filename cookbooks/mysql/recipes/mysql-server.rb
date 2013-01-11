@@ -21,13 +21,13 @@ yum_package "mysql-devel" do
   action :remove
 end
 
-yum_package "mysql-libs" do
-  action :remove
-end
-
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
+end
+
+package "MySQL-shared-compat-advanced" do
+  action :upgrade
 end
 
 package "MySQL-client-advanced" do
@@ -35,10 +35,6 @@ package "MySQL-client-advanced" do
 end
 
 package "MySQL-server-advanced" do
-  action :upgrade
-end
-
-package "MySQL-shared-compat-advanced" do
   action :upgrade
 end
 
