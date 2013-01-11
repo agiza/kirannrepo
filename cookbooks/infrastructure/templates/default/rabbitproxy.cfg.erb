@@ -27,7 +27,7 @@ global
 
     chroot      /var/lib/haproxy
     pidfile     /var/run/haproxy.pid
-    maxconn     4000
+   # maxconn     4000
     user        haproxy
     group       haproxy
     daemon
@@ -60,11 +60,15 @@ defaults
 #---------------------------------------------------------------------
 # Setup stats page to check stats.
 #---------------------------------------------------------------------
-listen stats :9090
+listen stats <%= node[:ipaddress] %>:9090
 	balance
 	mode http
+	timeout client	5000
+	timeout connect	4000
+	timeout	server	30000
 	stats enable
 	stats	auth	admin:altisource
+	stats	uri	/stats
 
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
@@ -85,4 +89,3 @@ listen stompmq <%= node[:ipaddress] %>:<%= @stompport %>
 <% @clusternodes.each do |clusternode| -%>
         server <%= clusternode %> <%= clusternode %>:61613 maxconn 800 check inter 5000 downinter 500
 <% end -%>
-
