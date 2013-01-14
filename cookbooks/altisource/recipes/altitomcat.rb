@@ -12,6 +12,10 @@ package "#{app_name}" do
   action :upgrade
 end
 
+package "jre" do
+  action :upgrade
+end
+
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
