@@ -54,7 +54,7 @@ port = 27030
 <% if @app_name == "mongos" -%>
 # Mongos configuration
 port = 27017
-bind_ip = <%= node[:ipaddress] %>
+bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 maxConns = 50
 
 configdb = <%= @mongodbconfig %>
