@@ -1,12 +1,12 @@
 #
 # Cookbook Name:: mongodb
-# Recipe:: shard
+# Recipe:: mongos
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "mongod-shard"
+app_name = "mongos"
 include_recipe "mongodb::default"
 
 service "#{app_name}" do
@@ -41,19 +41,7 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
-directory "/data" do
-  owner "mongod"
-  group "mongod"
-  action :create
-end
-
-directory "/data/db" do
-  owner "mongod"
-  group "mongod"
-  action :create
-end
-
-directory "/data/db/shard" do
+directory "/var/run/mongo" do
   owner "mongod"
   group "mongod"
   action :create
