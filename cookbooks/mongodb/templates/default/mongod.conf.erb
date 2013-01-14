@@ -41,10 +41,14 @@ dbpath=/data/db/arbiter
 replSet = rdng
 
 <% end -%>
-<% if @app_name == "mongod-shard" -%>
+<% if @app_name == "mongos-mgr" -%>
 # Mongod shard configuration
+bind_ip = <%= node[:ipaddress] %>
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
+
+port = 27030
+
 
 <% end -%>
 <% if @app_name == "mongos" -%>
