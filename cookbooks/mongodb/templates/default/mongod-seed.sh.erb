@@ -4,11 +4,11 @@ for i in `echo $db_names`; do
 #        db_check=`ls -ltra /data/db/$i.ns`
 #        if [ "$db_check" == "" ]; then
         echo "Populating Indexes for $i database."
-        /usr/bin/mongo localhost:27017/?replicaSet=rdng/$i --quiet /etc/mongo/addIndexes.js
-	echo "Populating seed Data for $i database."
-     	/usr/bin/mongo localhost:27017/?replicaSet=rdng/$i --quiet /etc/mongo/seedData.js
-        echo "Populating Demo Data for $i database."
-        /usr/bin/mongo localhost:27017/?replicaSet=rdng/$i --quiet /etc/mongo/demoData.js
+        /usr/bin/mongo localhost:27030/?replicaSet=rdng/$i --quiet /etc/mongo/addIndexes.js
+	#echo "Populating seed Data for $i database."
+     	#/usr/bin/mongo localhost:27030/?replicaSet=rdng/$i --quiet /etc/mongo/seedData.js
+        #echo "Populating Demo Data for $i database."
+        #/usr/bin/mongo localhost:27030/?replicaSet=rdng/$i --quiet /etc/mongo/demoData.js
      	echo "Database $i populated."
 done
 

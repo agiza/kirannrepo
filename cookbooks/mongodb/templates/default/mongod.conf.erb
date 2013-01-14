@@ -43,7 +43,7 @@ replSet = rdng
 <% end -%>
 <% if @app_name == "mongos-mgr" -%>
 # Mongod shard configuration
-bind_ip = <%= node[:ipaddress] %>
+bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
 
