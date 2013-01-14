@@ -1,0 +1,8 @@
+[epel-local]
+name=Extra Packages for Enterprise Linux 6 - $basearch
+baseurl=http://<%= node[:yum_server] %>/yum/epel
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+proxy=_none_
+
