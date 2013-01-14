@@ -1,20 +1,21 @@
 # mongo.conf
-<% if @app_name == "mongod" || @app_name == "mongod-replica" || @app_name == "mongod-replica1" -%>
-# Mongod replica configuration
+# Set Pidfile for daemon processes
 pidfilepath = /var/run/mongo/<%= @app_name %>.pid
+# Log file location
 logpath=/var/log/mongo/<%= @app_name %>.log
-
+# Append log to prevent overwriting logs on restart
 logappend=true
-
+# Daemon mode
+fork = true
+# Check for log level and if not set, log quietly.
 <% if node.attribute?('mongodblog') -%>
 quiet = false
 <% else -%>
 quiet = true
 <% end -%>
-
-# fork and run in background
-fork = true
-#shardsvr = true
+# Begin type specific configuration.
+<% if @app_name == "mongod" || @app_name == "mongod-replica" || @app_name == "mongod-replica1" -%>
+# Mongod replica configuration
 
 bind_ip = 127.0.01,<%= node[:ipaddress] %>
 <% if @app_name == "mongod" -%>
@@ -32,19 +33,6 @@ replSet = rdng
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
-pidfilepath = /var/run/mongo/mongod-arbiter.pid
-logpath=/var/log/mongo/mongod-arbiter.log
-
-logappend=true
-
-<% if node.attribute?('mongodblog') -%>
-quiet = false
-<% else -%>
-quiet = true
-<% end -%>
-
-# fork and run in background
-fork = true
 
 bind_ip = <%= node[:ipaddress] %>
 port = 30000
@@ -55,34 +43,23 @@ replSet = rdng
 <% end -%>
 <% if @app_name == "mongod-shard" -%>
 # Mongod shard configuration
-pidfilepath = /var/run/mongo/mongod-arbiter.pid
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
 
-<% if node.attribute?('mongodblog') -%>
-quiet = false
-<% else -%>
-quiet = true
 <% end -%>
+<% if @app_name == "mongos" -%>
+# Mongos configuration
+port = 27017
+bind_ip = <%= node[:ipaddress] %>
+maxConns = 50
+
+configdb = <%= @mongodbconfig %>
+chunkSize = 64
 
 <% end -%>
 <% if @app_name == "mongod-config" -%>
 # Mongod config configuration
-pidfilepath = /var/run/mongo/mongod-config.pid
 configsvr = true
-#where to log
-logpath=/var/log/mongo/mongod-config.log
-
-logappend=true
-
-<% if node.attribute?('mongodblog') -%>
-quiet = false
-<% else -%>
-quiet = true
-<% end -%>
-
-# fork and run in background
-fork = true
 
 bind_ip = <%= node[:ipaddress] %>
 port = 27047
