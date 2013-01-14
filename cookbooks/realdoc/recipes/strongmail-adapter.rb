@@ -22,15 +22,16 @@ else
   amqpport = "5672"
 end
 
-if node.attribute?('mongomasterproxy')
-  mongoHost = node[:mongomasterproxy]
-else
-  mongoHost = {}
-  search(:node, "role:mongodb-master") do |n|
-    mongoHost[n.ipaddress] = {}
-  end
-mongoHost = mongoHost.first
-end
+#if node.attribute?('mongomasterproxy')
+#  mongoHost = node[:mongomasterproxy]
+#else
+#  mongoHost = {}
+#  search(:node, "role:mongodb-master") do |n|
+#    mongoHost[n.ipaddress] = {}
+#  end
+#mongoHost = mongoHost.first
+#end
+mongoHost = "127.0.0.1"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true

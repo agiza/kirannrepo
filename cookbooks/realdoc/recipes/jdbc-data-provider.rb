@@ -28,11 +28,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-mongoHost = {}
-search(:node, "role:mongodb-master") do |n|
-  mongoHost[n.ipaddress] = {}
-end
-mongoHost = mongoHost.first
+mongoHost = "127.0.0.1"
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'

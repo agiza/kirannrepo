@@ -54,15 +54,16 @@ package "msttcorefonts" do
   action :upgrade
 end
 
-if node.attribute?('mongomasterproxy')
-  mongoHost = node[:mongomasterproxy]
-else
-  mongoHost = {}
-  search(:node, "role:mongodb-master") do |n|
-    mongoHost[n.ipaddress] = {}
-  end
-mongoHost = mongoHost.first
-end
+#if node.attribute?('mongomasterproxy')
+#  mongoHost = node[:mongomasterproxy]
+#else
+#  mongoHost = {}
+#  search(:node, "role:mongodb-master") do |n|
+#    mongoHost[n.ipaddress] = {}
+#  end
+#mongoHost = mongoHost.first
+#end
+mongoHost = "127.0.0.1"
 if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
