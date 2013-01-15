@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# gemserver          Start up the Gemserver daemon
+#
+# chkconfig: 2345 90 10
+# description: Gemserver. \
+#
+# processname: ruby
+# pidfile: /var/run/gemserver.pid
+
+# GemServer Linux service controller script
+
+case "$1" in
+    start)
+	echo "Starting Gem Server."
+        "gem server --daemon -b <%= node[:ipaddress] %> -p 8000
+        ;;
+    stop)
+        pid_status=`ps -ef | grep ruby | grep "gem\ server" | awk '{print $2}'`
+	if [ "$pid_status" != "" ]; then
+	  kill -9 $pid_status
+	echo "Gemserver with pid $pid_status killed."
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    status)
+        pid_status=`ps -ef | grep ruby | grep "gem\ server" | awk '{print $2}'`
+        if [ "$pid_status" != "" ]; then
+          echo "Gem Server is running with pid $pid_status."
+        else
+          echo "Gem Server is not running."
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
