@@ -18,7 +18,8 @@ case "$1" in
     stop)
         pid_status=`ps -ef | grep ruby | grep "gem\ server" | awk '{print $2}'`
 	if [ "$pid_status" != "" ]; then
-	  kill -9 $pid_status
+	  kill $pid_status
+	fi
 	echo "Gemserver with pid $pid_status killed."
         ;;
     restart)
