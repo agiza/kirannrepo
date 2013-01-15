@@ -1,0 +1,90 @@
+bash -c '
+<%= "export http_proxy=\"#{knife_config[:bootstrap_proxy]}\"" if knife_config[:bootstrap_proxy] -%>
+<%= "export no_proxy=\"localhost,172.*, 127.0.0.1, *.ascorp.com, 192.168.*\" if knife_config[:bootstrap_proxy] -%>
+yum_proxy_check=`grep "<%= node[:yum_proxy] %>" /etc/yum.conf`
+if [ "$yum_proxy_check" == "" ]; then
+        echo -e "proxy=http://<%= node[:yum_proxy] %>/ \nno_proxy=172.*,192.168.*,localhost,127.0.0.1" >> /etc/yum.conf
+fi
+wget_proxy_check=`grep "<%= node[:yum_proxy] %>" /etc/wgetrc`
+if [ "$wget_proxy_check" =="" ]; then
+        echo -e "http_proxy = http://"<%= node[:yum_proxy] %>/" \nno_proxy =172.*, 192.168.*,localhost,127.0.0.1,*.ascorp.com \nuse_proxy = on" >> /etc/wgetrc
+fi
+
+if [ ! -f /usr/bin/chef-client ]; then
+  # Install rhel-local repository to allow for pulling redhat packages.
+  wget <%= "--proxy=on " if knife_config[:bootstrap_proxy] %>http://<%=node[:yum_server] %>yum/common/rhel-local-1.0.0-1.noarch.rpm
+  rpm -Uvh rhel-local-1.0.0-1.noarch.rpm
+  sed -e s/"\[yumserver\]"/"<%= node[:yum_server] %>"/ rhel.repo > /tmp/rhel-local.repo
+  cp /tmp/rhel-local.repo /etc/yum.repos.d/rhel-local.repo; rm /tmp/rhel-local.repo
+  # Install epel-local repository to allow for pulling epel packages.
+  #wget <%= "--proxy=on " if knife_config[:bootstrap_proxy] %>http://<%=node[:yum_server] %>yum/common/epel-local-1.0.0-1.noarch.rpm
+  #rpm -Uvh epel-local-1.0.0-1.noarch.rpm
+  #sed -e s/"\[yumserver\]"/"<%= node[:yum_server] %>"/ epel.repo > /tmp/epel-local.repo
+  #cp /tmp/epel-local.repo /etc/yum.repos.d/epel-local.repo; rm /tmp/epel-local.repo
+  yum clean all
+
+  yum install -y ruby ruby-devel gcc gcc-c++ automake autoconf make
+
+  cd /tmp
+  wget http://<%= node[:yum_server] %>/yum/common/rubygems-1.8.24.tgz
+  tar zxf rubygems-1.8.24.tgz
+  cd rubygems-1.8.24
+  ruby setup.rb --no-format-executable
+fi
+
+export http_proxy="http://<%= node[:yum_proxy] %>/"
+export no_proxy="172.*,localhost, 127.0.0.1, *.ascorp.com, 192.168.*"
+
+gem update --system
+gem update
+gem install ohai --no-rdoc --no-ri --verbose
+gem install moneta -v '~> 0.6.0'
+gem uninstall moneta -v '>= 0.7.0'
+gem install chef --no-rdoc --no-ri --verbose <%= bootstrap_version_string %>
+
+mkdir -p /etc/chef
+
+(
+cat <<'EOP'
+<%= validation_key %>
+EOP
+) > /tmp/validation.pem
+awk NF /tmp/validation.pem > /etc/chef/validation.pem
+rm /tmp/validation.pem
+
+<% if @chef_config[:encrypted_data_bag_secret] -%>
+(
+cat <<'EOP'
+<%= encrypted_data_bag_secret %>
+EOP
+) > /tmp/encrypted_data_bag_secret
+awk NF /tmp/encrypted_data_bag_secret > /etc/chef/encrypted_data_bag_secret
+rm /tmp/encrypted_data_bag_secret
+<% end -%>
+
+<%# Generate Ohai Hints -%>
+<% unless @chef_config[:knife][:hints].nil? || @chef_config[:knife][:hints].empty? -%>
+mkdir -p /etc/chef/ohai/hints
+
+<% @chef_config[:knife][:hints].each do |name, hash| -%>
+(
+cat <<'EOP'
+<%= hash.to_json %>
+EOP
+) > /etc/chef/ohai/hints/<%= name %>.json
+<% end -%>
+<% end -%>
+
+(
+cat <<'EOP'
+<%= config_content %>
+EOP
+) > /etc/chef/client.rb
+
+(
+cat <<'EOP'
+<%= first_boot.to_json %>
+EOP
+) > /etc/chef/first-boot.json
+
+<%= start_chef %>'
