@@ -1,0 +1,18 @@
+#!/bin/bash
+host=$1
+if [ "$host" == "" ]; then
+  echo "You must include a hostname for this script. $0 hostname."; exit 1
+fi
+hostcheck=`nslookup $1 | grep SERVFAIL`
+if [ "$hostcheck" != "" ]; then
+  echo "NSlookup of server failed, please check that the host is in DNS."; exit 1
+fi
+# Hostname was passed and nslookup succeeded, proceed with provisioning.
+knife bootstrap $1 --distro rhel6-gems && echo "Chef has been provisioned to the host." || echo "There was a problem with the bootstrap."; exit 1
+
+# Add role all automatically to the new node.
+knife node run_list add $1 role[all] && echo "Role all has been added to the node." || echo "There was a problem with adding the all role."; exit 1
+
+# SSH to the new node and run chef-client.
+ssh root@$1 "chef-client" && echo "Initial chef-client run has been completed." || echo "There was a problem with the chef client run, check the logs."; exit 1
+

@@ -59,4 +59,13 @@ template "/home/rtnextgen/bin/deploy-software" do
   )
 end
 
+template "/home/rtnextgen/bin/chef-provision" do
+  source "chef-provision.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0755"
+  variables(
+    :appnames => app_names['names']
+  )
+end
 
