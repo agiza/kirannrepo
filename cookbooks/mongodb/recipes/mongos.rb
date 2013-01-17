@@ -16,9 +16,10 @@ end
 
 configserver = []
 configs = search(:node, "role:mongodb-config")
-configs[0..3].each do |config|
-  configserver << config[:ipaddress]
-end
+#configs[0..3].each do |config|
+#  configserver << config[:ipaddress]
+#end
+configserver = configs[0..2]
 configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
 template "/etc/#{app_name}.conf" do
   source "mongod.conf.erb"
