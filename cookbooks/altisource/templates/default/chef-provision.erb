@@ -1,5 +1,55 @@
 #!/bin/bash
-host=$1
+
+enter_host(){
+echo "Enter the fully qualified hostname of the system to provision."
+read answer
+host=$answer
+}
+
+select_env(){
+environ_list
+env=`echo $env_list`
+   clear
+   select func in $env; do
+      case $func in
+      *)
+         env_targ="$func"
+         break
+         ;;
+      esac
+   done
+}
+
+select_role(){
+role=`echo generic realtrans-central realtrans-vendor realdoc `
+   clear
+   select func in $role; do
+      case $func in
+      *)
+         role_name="$func"
+         break
+         ;;
+      esac
+   done
+}
+
+attr_select(){
+
+if [ "$role_name" == "realtrans-central" ]; then
+  add_role="role[realtrans-cen]"
+elif [ "$role_name" == "realtrans-vendor" ]; then
+  add_role="role[realtrans-ven]"
+elif [ "$role_name" == "realdoc" ]; then
+  add_role="role[realdoc]"
+elif [ "$role_name" == "generic" ]; then
+  add_role="role[all]"
+else
+  echo "There are no attributes for that server type. Check with the Chef Administrator."; exit 1
+fi
+}
+
+provision_server(){
+#host=$1
 if [ "$host" == "" ]; then
   echo "You must include a hostname for this script. $0 hostname."; exit 1
 fi
@@ -13,6 +63,76 @@ knife bootstrap $1 --distro rhel6-gems && echo "Chef has been provisioned to the
 # Add role all automatically to the new node.
 knife node run_list add $1 role[all] && echo "Role all has been added to the node." || echo "There was a problem with adding the all role."; exit 1
 
+# Add any other roles that were selected.
+for i in `echo $add_role`; do
+  knife node run_list add $1 "$i" && echo "Role $i has been added to the node." || echo "There was a problem with adding $i role."; exit 1
+done
+
 # SSH to the new node and run chef-client.
 ssh root@$1 "chef-client" && echo "Initial chef-client run has been completed." || echo "There was a problem with the chef client run, check the logs."; exit 1
+}
+
+data_check(){
+enter_host
+select_env
+select_role
+attr_select
+#target_search
+}
+
+while :
+        do
+                clear
+                echo "---------------------------------------------"
+                echo " Main Menu "
+                echo -e "---------------------------------------------\n"
+                echo -e "[\033[36ma\033[0m] \033[32mCheck Server description\033[0m \n "
+                echo -e "[\033[36mb\033[0m] \033[31mBootstrap a new server\033[0m \n"
+                #echo -e "[\033[36mc\033[0m] \033[32mYUM Repository RPM check\033[0m \n "
+                #echo -e "[\033[36md\033[0m] \033[32mPerform Chef Test Run on Instance\033[0m \n "
+                #echo -e "[\033[36me\033[0m] \033[32mCheck RPM version installed on Instance\033[0m \n "
+                #echo -e "[\033[36mf\033[0m] \033[31mStop Tomcat on Targets\033[0m \n"
+                #echo -e "[\033[36mg\033[0m] \033[31mStart Tomcat on Targets\033[0m \n"
+                #echo -e "[\033[36mh\033[0m] \033[31mExecute Chef Run on Instance\033[0m \n"
+                echo -e "[\033[36mr\033[0m] \033[32mRead Me file with some instructions\033[0m \n"
+                echo -e "[\033[36mx\033[0m] Exit\n "
+                echo "==========================="
+                echo -n "Enter your menu choice [a-x]: "
+                read choice
+                case "$choice" in
+  a)
+                data_check; chef_version; pause
+                ;;
+  b)
+                data_check; provision_server; pause
+                ;;
+#  c)
+#                data_check; enter_version; rpm_repo; pause
+#                ;;
+#  d)
+#                data_check; chef_testrun; pause
+#                ;;
+#  e)
+#                data_check; rpm_version; pause
+#                ;;
+#  f)
+#                data_check; stop_tomcat; pause
+#                ;;
+#  g)
+#                data_check; start_tomcat; pause
+#                ;;
+#  h)
+#                data_check; chef_execute; pause
+#                ;;
+#  r)
+#                read_me; pause
+#                ;;
+  x)
+                echo "Exiting..."; exit 0
+                ;;
+  *)
+                echo "Oops! Please select a choice [a-x]";
+                     echo "Press a key..."; read ;;
+                esac
+done
 
