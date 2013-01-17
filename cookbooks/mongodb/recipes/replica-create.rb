@@ -16,15 +16,15 @@ end
 
 replicaset = node[:replicaset]
 replicalist = []
-replicas = search (:node, "role:mongodb-primary AND role:mongodb-#{replicaset}")
+replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset}")
 replicas.each do |replica|
   replicalist << "#{replica[:ipaddress]}:27017"
 end
-replicas = search (:node, "role:mongodb-replica AND role:mongodb-#{replicaset}")
+replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset}")
 replicas.each do |replica|
   replicalist << "#{replica[:ipaddress]}:27027"
 end
-replicas = search (:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset}")
+replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset}")
 replicas.each do |replica|
   replicalist << "#{replica[:ipaddress]}:27037"
 end
