@@ -28,7 +28,7 @@ dbpath=/data/db/replica
 port = 27037
 dbpath=/data/db/replica1
 <% end -%>
-
+rest = true
 replSet = <%= node[:replicaset] %>
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
