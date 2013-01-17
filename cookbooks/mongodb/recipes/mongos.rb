@@ -16,7 +16,7 @@ end
 
 configserver = []
 configs = search(:node, "role:mongodb-config")
-configs.each do |config|
+configs[0..3].each do |config|
   configserver << config[:ipaddress]
 end
 configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
