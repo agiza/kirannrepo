@@ -15,7 +15,7 @@ execute "replica-create" do
 end
 
 replicaset = node[:replicaset]
-replicalist = {}
+replicalist = []
 replicas = search (:node, "role:mongodb-primary AND role:mongodb-#{replicaset}")
 replicas.each do |replica|
   replicalist << "#{replica[:ipaddress]}:27017"
