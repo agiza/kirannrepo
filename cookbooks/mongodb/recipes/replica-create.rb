@@ -14,11 +14,28 @@ execute "replica-create" do
   action :nothing
 end
 
+replicaset = node[:replicaset]
+replicalist = {}
+replicas = search (:node, "role:mongodb-primary AND role:mongodb-#{replicaset}")
+replicas.each do |replica|
+  replicalist << "#{replica[:ipaddress]}:27017"
+end
+replicas = search (:node, "role:mongodb-replica AND role:mongodb-#{replicaset}")
+replicas.each do |replica|
+  replicalist << "#{replica[:ipaddress]}:27027"
+end
+replicas = search (:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset}")
+replicas.each do |replica|
+  replicalist << "#{replica[:ipaddress]}:27037"
+end
 template "/etc/mongo/rsadd.js" do
   source "rsadd.js.erb"
   owner  "root"
   group  "root"
   mode   "0644"
+  variables(
+    :replicas => replicalist
+  )
  # notifies :run, 'execute[replica-create]'
 end
 
