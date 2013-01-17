@@ -8,16 +8,18 @@
 #
 include_recipe "altisource::yumclient"
 
-if node.attribute?('rhelrepoproxy') 
-  execute "yum" do
-    command "yum clean all"
-    action :nothing
-  end
+package "epel-local" do
+  action :upgrade
+end
 
-  template "/etc/yum.repos.d/epel-local.repo" do
-    source "epel-local.repo.erb"
-    mode "0644"
-    notifies :run, resources(:execute => "yum")
-  end
+execute "yum" do
+  command "yum clean all"
+  action :nothing
+end
+
+template "/etc/yum.repos.d/epel-local.repo" do
+  source "epel-local.repo.erb"
+  mode "0644"
+  notifies :run, resources(:execute => "yum")
 end
 
