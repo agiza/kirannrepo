@@ -1,0 +1,4 @@
+// to run: sudo $MONGO_HOME/bin/mongo localhost:27030/realdoc --quiet rsadd.js
+<% replicas.each do |replica| -%>
+rs.add("<%= @replica %>");
+<% end -%>
