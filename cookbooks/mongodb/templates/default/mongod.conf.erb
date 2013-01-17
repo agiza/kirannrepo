@@ -29,7 +29,7 @@ port = 27037
 dbpath=/data/db/replica1
 <% end -%>
 
-replSet = rdng
+replSet = <%= node[:replicaset] %>
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
 # Mongod arbiter configuration
@@ -38,7 +38,7 @@ bind_ip = <%= node[:ipaddress] %>
 port = 30000
 
 dbpath=/data/db/arbiter
-replSet = rdng
+replSet = <%= node[:replicaset] %>
 
 <% end -%>
 <% if @app_name == "mongos-mgr" -%>
