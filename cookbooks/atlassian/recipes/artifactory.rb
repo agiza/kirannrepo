@@ -50,11 +50,11 @@ template "/etc/artifactory/jetty.xml" do
   mode   "0755"
 end
 
-artifactory = []
-search(:node, 'recipes:atlassian\:\:artifactory') do |server|
-  artifactory << server[:ipaddress]
+artifactory = {}
+search(:node, 'recipes:atlassian\:\:artifactory') do |n|
+  artifactory[n.ipaddress] = {}
 end
-#artifactory = "#{artifactory}"
+artifactory = artifactory.first
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
   owner  "root"
