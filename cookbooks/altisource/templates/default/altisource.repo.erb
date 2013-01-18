@@ -1,30 +1,21 @@
 [altisourcecommon]
 name=Packages from Altisource - noarch
 baseurl=http://<%= node[:yum_server] %>/yum/common
-#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
-#failovermethod=priority
 enabled=1
 gpgcheck=0
-#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
 proxy=_none_
 
 [altisourcetesting]
 name=Packages from Altisource - testing
 baseurl=http://<%= node[:yum_server] %>/yum/testing
-#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
-#failovermethod=priority
 enabled=<%= node[:yum_test_setting] %>
 gpgcheck=0
-#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
 proxy=_none_
 
 [altisourcerelease]
 name=Packages from Altisource - release
 baseurl=http://<%= node[:yum_server] %>/yum/release
-#mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
-#failovermethod=priority
 enabled=<%= node[:yum_release_setting] %>
 gpgcheck=0
-#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
 proxy=_none_
 
