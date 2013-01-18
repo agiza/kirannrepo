@@ -54,7 +54,7 @@ artifactory = []
 search(:node, 'recipes:atlassian\:\:artifactory') do |server|
   artifactory << server[:ipaddress]
 end
-artifactory = "#{artifactory}"
+#artifactory = "#{artifactory}"
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
   owner  "root"
