@@ -11,11 +11,19 @@ package "appdynamic-agent" do
   action :upgrade
 end
 
-appdynhost = {}
-search(:node, "role:appdynamics-server") do |n|
-  appdynhost[n.ipaddress] = {}
+if node.attribute?('performance')
+  appdynhost = {}
+    search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
+      appdynhost[n.ipaddress] = {}
+  end
+  appdynhost = appdynhost.first
+else
+  appdynhost = {}
+    search(:node, "role:appdynamics-server AND chef_environment:shared") do |n|
+    appdynhost[n.ipaddress] = {}
+  end
+  appdynhost = appdynhost.first
 end
-appdynhost = appdynhost.first
 
 template "/opt/appdynamic-agent/conf/controller-info.xml" do
   source "controller-info.xml.erb"

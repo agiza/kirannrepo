@@ -13,8 +13,14 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  if node.attribute?('performance')
+    search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+      amqphost[n.ipaddress] = {}
+    end
+  else
+    search(:node, "role:rabbitserver AND chef_environment:shared") do |n|
+      amqphost[n.ipaddress] = {}
+    end
   end
   amqphost = amqphost.first
   amqpport = "5672"
@@ -25,8 +31,14 @@ if node.attribute?('stompproxy')
   stompport = node[:stompproxy].split(":")[1]
 else
   stomphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    stomphost[n.ipaddress] = {}
+  if node.attribute?('performance')
+    search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+      stomphost[n.ipaddress] = {}
+    end
+  else
+    search(:node, "role:rabbitserver AND chef_environment:shared") do |n|
+      stomphost[n.ipaddress] = {}
+    end
   end
   stomphost = stomphost.first
   stompport = "61613"
@@ -42,8 +54,14 @@ service "haproxy" do
 end
 
 clusternodes = {}
-search(:node, "role:rabbitserver") do |n|
-  clusternodes[n.ipaddress] = {}
+if node.attribute?('performance')
+  search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}") do |n|
+    clusternodes[n.ipaddress] = {}
+  end
+else
+  search(:node, "role:rabbitserver AND chef_environment:shared") do |n|
+    clusternodes[n.ipaddress] = {}
+  end
 end
 if clusternodes.nil? || clusternodes.empty?
   Chef::Log.info("No services returned from search.")
