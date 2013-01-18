@@ -50,11 +50,20 @@ template "/etc/artifactory/jetty.xml" do
   mode   "0755"
 end
 
+artifactory = []
+search(:node, %Q{run_list:"recipe[atlassian::artifactory]"}) do |server|
+  artifactory << server[:ipaddress]
+end
+artifactory = "#{artifactory}"
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy.cfg.erb"
   owner  "root"
   group  "root"
   mode   "0644"
+  variables(
+    :artifactory_server => artifactory
+    :artifactory_port => "8081"
+  )
   notifies :restart, resources(:service => "haproxy")
 end
 
