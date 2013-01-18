@@ -12,14 +12,9 @@ include_recipe "infrastructure::selinux"
 app_name = "rabbitmq-server-config"
 
 package "rabbitmq-server" do
-  provider Chef::Provider::Package::Yum
+  #provider Chef::Provider::Package::Yum
   action :upgrade
 end
-
-#package "#{app_name}" do
-#  provider Chef::Provider::Package::Yum
-#  action :upgrade
-#end
 
 execute "rabbit-plugins" do
   command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbitmq_management"
@@ -43,10 +38,10 @@ end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
 rabbitservers = []
-if node.attribute('performance').nil? || node.attribute('performance').empty?
-  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:shared")
-else
+if node.attribute('performance')
   rabbitentries = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
+else
+  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:shared")
 end
 rabbitentries.each do |server|
   rabbitservers << server[:hostname]
