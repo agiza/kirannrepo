@@ -16,17 +16,32 @@ end
 
 replicaset = node[:replicaset]
 replicalist = []
-replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset}")
-replicas.each do |replica|
-  replicalist << "#{replica[:ipaddress]}:27017"
-end
-replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset}")
-replicas.each do |replica|
-  replicalist << "#{replica[:ipaddress]}:27027"
-end
-replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset}")
-replicas.each do |replica|
-  replicalist << "#{replica[:ipaddress]}:27037"
+if node.environment?('performance')
+  replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27017"
+  end
+  replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27027"
+  end
+  replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27037"
+  end
+else
+  replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27017"
+  end
+  replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27027"
+  end
+  replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas.each do |replica|
+    replicalist << "#{replica[:ipaddress]}:27037"
+  end
 end
 template "/etc/mongo/rsadd.js" do
   source "rsadd.js.erb"

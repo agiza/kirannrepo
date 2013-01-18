@@ -63,7 +63,11 @@ template "/etc/mongo/demoData.js" do
 end
 
 configserver = []
-configs = search(:node, "role:mongodb-config")
+if node.attribute?('performance')
+  configs = search(:node, "role:mongodb-config AND chef_environment:#{node.chef_environment}")
+else
+  configs = search(:node, "role:mongodb-config AND chef_environment:shared")
+end
 configs.each do |config|
   configserver << config[:ipaddress]
 end
