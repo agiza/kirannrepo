@@ -61,5 +61,5 @@ defaults
 # main frontend which proxys to the backends
 #---------------------------------------------------------------------
 listen httpd <%=node[:ipaddress] %>:80
-server	artifactory	<%=node[:artifactory_server] %>:<%= node[:artifactory_port] %>	check
+server	artifactory	<%= @server %>:<%= @port %>	check
 

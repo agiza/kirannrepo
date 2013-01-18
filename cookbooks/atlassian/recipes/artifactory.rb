@@ -61,8 +61,8 @@ template "/etc/haproxy/haproxy.cfg" do
   group  "root"
   mode   "0644"
   variables(
-    :artifactory_server => artifactory,
-    :artifactory_port => "8081"
+    :server => "#{artifactory}",
+    :port => "8081"
   )
   notifies :restart, resources(:service => "haproxy")
 end
