@@ -22,9 +22,16 @@ service "altitomcat" do
 end
 
 # configure appdynamics agent after altitomcat rpm installation but before configuration.
-appdynhost = {}
-search(:node, "role:appdynamics-server") do |n|
-  appdynhost[n.ipaddress] = {}
+if node.attribute?('performance')
+  appdynhost = {}
+  search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
+    appdynhost[n.ipaddress] = {}
+  end
+else
+  appdynhost = {}
+  search(:node, "role:appdynamics-server AND chef_environment:shared") do |n|
+    appdynhost[n.ipaddress] = {}
+  end
 end
 appdynhost = appdynhost.first
 if appdynhost.nil? || appdynhost.empty?
