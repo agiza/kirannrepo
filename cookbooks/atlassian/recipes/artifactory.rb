@@ -51,7 +51,7 @@ template "/etc/artifactory/jetty.xml" do
 end
 
 artifactory = []
-search(:node, %Q{run_list:"recipe[#{atlassian::artifactory}]"}) do |server|
+search(:node, 'run_list:recipe\[atlassian\:\:artifactory\]') do |server|
   artifactory << server[:ipaddress]
 end
 artifactory = "#{artifactory}"
