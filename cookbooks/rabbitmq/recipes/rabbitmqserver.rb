@@ -43,7 +43,11 @@ end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
 rabbitservers = []
-rabbitentries = search(:node, "role:rabbitserver")
+if node.attribute('performance').nil? || node.attribute('performance').empty?
+  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:shared")
+else
+  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
+end
 rabbitentries.each do |server|
   rabbitservers << server[:hostname]
 end
