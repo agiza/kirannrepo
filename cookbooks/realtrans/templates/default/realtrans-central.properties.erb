@@ -41,9 +41,9 @@ rt.email.password=<%= @mailserver['pass'] %>
 rt.email.smtp.auth=false
 rt.email.smtp.starttls.enable=false
 
-rt.email.from=<%= node[:mail_from] %>
+rt.email.from=<%= @mailserver['from'] %>
 rt.email.recipients=realtrans@altisource.com
-rt.email.replyTo=<%= node[:mail_from] %>
+rt.email.replyTo=<%= @mailserver['from'] %>
 
 rt.daysToCloseOrders=90
 
@@ -91,7 +91,7 @@ rf.newUserSubject=Welcome!
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.passwordResetTemplateCode=RegPChangePassword
 rf.passwordResetSubject=Password Reset
-rf.userNotificationFromAddress=<%= node[:mail_from] %>
+rf.userNotificationFromAddress=<%= @mailserver['from'] %>
 
 rf.defaultPlugin=
 

@@ -76,7 +76,7 @@ rf.newUserSubject=Welcome!
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.passwordResetTemplateCode=VPCHANGEPASSWORD
 rf.passwordResetSubject=Password Reset
-rf.userNotificationFromAddress=<%= node[:mail_from] %>
+rf.userNotificationFromAddress=<%= @mailserver['from'] %>
 
 rf.defaultPlugin=taskplanner
 
