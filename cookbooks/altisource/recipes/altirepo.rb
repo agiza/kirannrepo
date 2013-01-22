@@ -14,17 +14,17 @@ execute "yum" do
 end
 
 case node[:testing_setting]
-when "1" 
-  testing_setting = "1"
-else
+when "" 
   testing_setting = "0"
+else
+  testing_setting = node[:testing_setting]
 end
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
   mode "0644"
   variables(
     :testing_setting => testing_setting,
-    :release_setting => "0"
+    :release_setting => "1"
   )
   notifies :run, resources(:execute => "yum")
 end
