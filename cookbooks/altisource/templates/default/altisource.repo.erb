@@ -8,14 +8,14 @@ proxy=_none_
 [altisourcetesting]
 name=Packages from Altisource - testing
 baseurl=http://<%= node[:yum_server] %>/yum/testing
-enabled=<%= node[:yum_test_setting] %>
+enabled=<%= @testing_setting %>
 gpgcheck=0
 proxy=_none_
 
 [altisourcerelease]
 name=Packages from Altisource - release
 baseurl=http://<%= node[:yum_server] %>/yum/release
-enabled=<%= node[:yum_release_setting] %>
+enabled=<%= @release_setting %>
 gpgcheck=0
 proxy=_none_
 
