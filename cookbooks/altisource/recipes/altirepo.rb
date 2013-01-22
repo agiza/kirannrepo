@@ -13,10 +13,10 @@ execute "yum" do
   action :nothing
 end
 
-if node[:testing_setting].nil? || node[:testing_setting].empty?
-  testing_setting = "0"
-else
+if node.attribute?('testing_setting')
   testing_setting = node[:testing_setting]
+else
+  testing_setting = "0"
 end
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
