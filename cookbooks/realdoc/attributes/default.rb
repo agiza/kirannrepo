@@ -17,7 +17,7 @@ default["mongodb_database"]	= "realdoc"
 default["mongodb_pass"]		= "guest"
 default["mongodb_user"]		= "guest"
 # FTP Server defaults
-default["realdoc_ftphost"]	= "10.0.0.20"
+default["realdoc_ftphost"]	= "realdocftp"
 default["realdoc_ftppass"]	= "none"
 default["realdoc_ftpport"]	= "22"
 default["realdoc_ftpuser"]	= "realdoc"
