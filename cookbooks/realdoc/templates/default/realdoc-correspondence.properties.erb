@@ -5,10 +5,10 @@ realdoc.mongo.database=<%= node[:mongodb_database] %>
 mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
-realdoc.email.fromAddress=<%= node[:mail_from] %>
-rd.email.fromAddress=<%= node[:mail_from] %>
-realdoc.email.fromAddress.personal=<%= node[:mail_from] %>
-realdoc.fax.toAddress=<%= node[:mail_from] %>
+realdoc.email.fromAddress=<%= @mailserver['from'] %>
+rd.email.fromAddress=<%= @mailserver['from'] %>
+realdoc.email.fromAddress.personal=<%= @mailserver['from'] %>
+realdoc.fax.toAddress=<%= @mailserver['from'] %>
 rd.fax.toAddress=robert.hudson@altisource.com
 
 realdoc.printstandard.ftp.host=<%= node[:realdoc_ftphost] %>
@@ -133,7 +133,7 @@ rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html
 rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=<%= node[:mail_from] %>
+rf.userNotificationFromAddress=<%= @mailserver['from'] %>
 
 rf.taskManager.customColumns=approved,rejected,total,BATCH_ID
 rf.automaticTaskAssignment.enabled=true
