@@ -13,8 +13,7 @@ execute "yum" do
   action :nothing
 end
 
-case node[:testing_setting]
-when "" 
+if node[:testing_setting].nil? || node[:testing_setting].empty?
   testing_setting = "0"
 else
   testing_setting = node[:testing_setting]
