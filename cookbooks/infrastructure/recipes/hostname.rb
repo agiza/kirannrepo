@@ -12,10 +12,10 @@ execute "hostname" do
   case node[:platform]
   when "centos", "redhat", "fedora", "suse"
     command "hostname #{host_name} "
-    action :run
+    action :nothing
   when "debian", "ubuntu"
     command "sudo hostname #{host_name} "
-    action :run
+    action :nothing
   end
 end
 
@@ -24,6 +24,7 @@ template "/etc/init.d/host_command" do
   mode "0755"
   owner "root"
   group "root"
+  notifies :run, 'execute[hostname]', :immediately
 end
 
 case node[:platform]
