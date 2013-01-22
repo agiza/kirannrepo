@@ -11,10 +11,10 @@ host_name=node[:fqdn]
 execute "hostname" do
   case node[:platform]
   when "centos", "redhat", "fedora", "suse"
-    command "hostname #{host_name} "
+    command "hostname #{host_name}; chkconfig host_command on "
     action :nothing
   when "debian", "ubuntu"
-    command "sudo hostname #{host_name} "
+    command "sudo hostname #{host_name}; update-rc.d host_command defaults; update-rc.d host_command enable"
     action :nothing
   end
 end
@@ -25,18 +25,5 @@ template "/etc/init.d/host_command" do
   owner "root"
   group "root"
   notifies :run, 'execute[hostname]', :immediately
-end
-
-case node[:platform]
-when "centos", "redhat", "fedora", "suse"
-  execute "chkconfig" do
-    command " chkconfig host_command on"
-    action :run
-  end
-when "debian", "ubuntu"
-  execute "update-rc.d" do
-    command "update-rc.d host_command defaults; update-rc.d host_command enable"
-    action :run
-  end
 end
 
