@@ -55,7 +55,7 @@ rf.email.host=<%= @mailserver['host'].split(":")[0] %>
 rf.email.port=<%= @mailserver['host'].split(":")[1] %>
 rf.email.username=<%= @mailserver['user'] %>
 rf.email.password=<%= @mailserver['pass']%>
-rf.userNotificationFromAddress=<%= node[:mail_from] %>
+rf.userNotificationFromAddress=<%= @mailserver['from'] %>
 
 rf.app.context.path=http://<%= @webHostname %>/realfoundation
 
