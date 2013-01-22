@@ -44,7 +44,7 @@ rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.newUserTemplate=classpath:/newUserTemplate.html
 rf.passwordResetSubject=Password Reset
 rf.newUserSubject=Welcome!
-rf.userNotificationFromAddress=<%= node[:mail_from] %>
+rf.userNotificationFromAddress=<%= @mailserver['from'] %>
 
 rf.startupFileLocation=${catalina.base}/startup.xml
 rf.ldapAuthenticationProvider.enabled=false
