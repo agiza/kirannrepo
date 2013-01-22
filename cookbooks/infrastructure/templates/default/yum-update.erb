@@ -7,7 +7,7 @@ else
   touch $yum_dir/../yumwork
   for i in `echo common testing release`; do cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log; done
   # Update Gems index.
- cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby
+ cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby 2>&1 > $yum_dir/../yum-update.log
   rm -f $yum_dir/../yumwork
 fi
 error_check=`grep "Traceback" $yum_dir/../yum-update.log`
