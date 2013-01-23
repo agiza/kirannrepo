@@ -21,7 +21,7 @@ directory "/data/yum-repo" do
 end
 
 link "/var/www/html/yum-repo" do
-  source "/data/yum-repo"
+  target "/data/yum-repo"
   owner "root"
   group "root"
 end
