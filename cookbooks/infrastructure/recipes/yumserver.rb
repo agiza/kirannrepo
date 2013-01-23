@@ -15,43 +15,64 @@ yum_package "httpd" do
   action :upgrade
 end
 
-directory "/var/www/html/yum-repo" do
+directory "/data/yum-repo" do
   owner "root"
   group "root"
 end
 
-directory "/var/www/html/yum-repo/release" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/var/www/html/yum-repo/common" do
+link "/var/www/html/yum-repo" do
+  source "/data/yum-repo"
   owner "root"
   group "root"
 end
 
-directory "/var/www/html/yum-repo/testing" do
+directory "/data/yum-repo/release" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/yum-repo/redhat" do
+directory "/data/yum-repo/common" do
+  owner "root"
+  group "root"
+end
+
+directory "/data/yum-repo/testing" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/yum-repo/redhat/rhel-x86-server-6" do
+directory "/data/yum-repo/ruby" do
   owner  "root"
   group  "root"
 end
 
-link "/var/www/html/yum-repo/redhat/rhel-x86-server-6/getPackage" do
-  source "/var/www/html/yum-repo/redhat"
+directory "/data/yum-repo/ruby/gems" do
   owner  "root"
   group  "root"
 end
 
-directory "/var/www/html/yum-repo/epel" do
+directory "/data/yum-repo/rbel" do
+  owner  "root"
+  group  "root"
+end
+
+directory "/data/yum-repo/rhel-x86_64-server-6" do
+  owner  "root"
+  group  "root"
+end
+
+directory "/data/yum-repo/rhel-x86-server-6/getPackage" do
+  owner  "root"
+  group  "root"
+end
+
+link "/data/yum-repo/rhel-x86-server-6/getPackage" do
+  source "/data/yum-repo/redhat"
+  owner  "root"
+  group  "root"
+end
+
+directory "/data/yum-repo/epel" do
   owner  "root"
   group  "root"
 end
