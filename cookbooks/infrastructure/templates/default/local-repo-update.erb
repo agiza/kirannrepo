@@ -2,15 +2,15 @@
 
 # Update Rhel 6 local repo.
 echo "Updating RHEL 6 Repository for serving local files."
-reposync -p /var/www/html/yum-repo/ --repoid=rhel-x86_64-server-6 -l
+reposync -p /data/yum-repo/ --repoid=rhel-x86_64-server-6 -l
 
-if [ -d "/var/www/html/yum-repo/rhel-x86_64-server-6/getPackage" && ! -f "/var/www/html/yum-repo/redhat" ]; then
-  ln -s /var/www/html/yum-repo/rhel-x86_64-server-6/getPackage /var/www/html/yum-repo/redhat
+if [ -d "/data/yum-repo/rhel-x86_64-server-6/getPackage" && ! -f "/data/yum-repo/redhat" ]; then
+  ln -s /data/yum-repo/rhel-x86_64-server-6/getPackage /data/yum-repo/redhat
 fi
 
 echo "Updating EPEL repository for serving local files."
 # Update epel repo
-reposync -p /var/www/html/yum-repo/ --repoid=epel -l
+reposync -p /data/yum-repo/ --repoid=epel -l
 
 echo " Done."
 
