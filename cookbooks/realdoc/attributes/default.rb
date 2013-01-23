@@ -16,11 +16,6 @@ default["db_valquerytimeout"]	= "2"
 default["mongodb_database"]	= "realdoc"
 default["mongodb_pass"]		= "guest"
 default["mongodb_user"]		= "guest"
-# FTP Server defaults
-default["realdoc_ftphost"]	= "realdocftp"
-default["realdoc_ftppass"]	= "none"
-default["realdoc_ftpport"]	= "22"
-default["realdoc_ftpuser"]	= "realdoc"
 # Realfoundation Default attributes
 default["tenantid"]             = "TENANT1"
 default["rf_ldap_flag"]         = "false"
