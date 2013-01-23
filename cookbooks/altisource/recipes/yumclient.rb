@@ -9,7 +9,7 @@ else
   proxyinfo = data_bag_item("infrastructure","proxy")
 end
 proxyserver = {}
-search(:node, 'recipes:infrastructure\:\:cntlmd') do |n|
+search(:node, 'run_list:recipe\[infrastructure\:\:cntlmd\]') do |n|
   proxyserver[n.ipaddress] = {}
 end
 proxyserver = proxyserver.first

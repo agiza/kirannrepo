@@ -17,7 +17,7 @@ if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
   yumserver = {}
-  search(:node, 'recipes:infrastructure\:\:yumserver') do |n|
+  search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]') do |n|
     yumserver[n.ipaddress] = {}
   end
 end
