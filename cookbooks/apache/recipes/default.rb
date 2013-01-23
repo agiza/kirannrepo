@@ -7,12 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-execute "epelinstall" do
-  command "rpm -Uvh --nosignature http://<%= node[:yum_server] %>/yum/common/epel-release-6-7.noarch.rpm"
-  creates "/etc/yum.repos.d/epel.repo"
-  action  :run
-end
-
 yum_package "httpd" do
   action :upgrade
 end
