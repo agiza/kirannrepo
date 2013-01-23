@@ -66,8 +66,8 @@ directory "/data/yum-repo/rhel-x86_64-server-6/getPackage" do
   group  "root"
 end
 
-link "/data/yum-repo/rhel-x86_64-server-6/getPackage" do
-  to "/data/yum-repo/redhat"
+link "/data/yum-repo/redhat" do
+  to "/data/yum-repo/rhel-x86_64-server-6/getPackage"
   owner  "root"
   group  "root"
 end
