@@ -31,6 +31,15 @@ directory "/home/rtnextgen/bin" do
   action :create
 end
 
+if node.attribute?('yum_server')
+  yumserver = node[:yum_server]
+else
+  yumserver = {}
+  search(:node, 'recipes:infrastructure\:\:yumserver') do |n|
+    yumserver[n.ipaddress] = {}
+  end
+end
+yumserver = yumserver.first
 app_names = data_bag_item("infrastructure", "applications")
 template "/home/rtnextgen/bin/chef-deploy" do
   source "chef-deploy.erb"
@@ -38,7 +47,8 @@ template "/home/rtnextgen/bin/chef-deploy" do
   group  "rtnextgen"
   mode   "0755"
   variables(
-    :appnames => app_names['names']
+    :appnames => app_names['names'],
+    :yumserver => yumserver
   )
 end
 

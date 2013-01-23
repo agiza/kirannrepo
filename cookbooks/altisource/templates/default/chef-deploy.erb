@@ -77,7 +77,7 @@ rpm_repo(){
 if [ -f /tmp/software_check ]; then
 rm /tmp/software_check
 fi
-wget --spider -o /tmp/software_check --no-proxy http://<%= node[:yum_server] %>/yum/release/$app_name-$version.noarch.rpm
+wget --spider -o /tmp/software_check --no-proxy http://<%= @yumserver %>/yum/release/$app_name-$version.noarch.rpm
 software_yes=`grep 200 /tmp/software_check`
 software_no=`grep 404 /tmp/software_check`
 if [ "$software_yes" == "" ]; then
@@ -92,7 +92,7 @@ rpm_repo_check(){
 if [ -f /tmp/software_check ]; then
 rm /tmp/software_check
 fi
-wget --spider -o /tmp/software_check --no-proxy http://<%= node[:yum_server] %>/yum/release/$app_name-$version.noarch.rpm
+wget --spider -o /tmp/software_check --no-proxy http://<%= @yumserver %>/yum/release/$app_name-$version.noarch.rpm
 software_yes=`grep 200 /tmp/software_check`
 software_no=`grep 404 /tmp/software_check`
 if [ "$software_yes" == "" ]; then

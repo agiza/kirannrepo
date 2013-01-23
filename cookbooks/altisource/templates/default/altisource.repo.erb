@@ -1,20 +1,20 @@
 [altisourcecommon]
 name=Packages from Altisource - noarch
-baseurl=http://<%= node[:yum_server] %>/yum/common
+baseurl=http://<%= @yumserver %>/yum/common
 enabled=1
 gpgcheck=0
 proxy=_none_
 
 [altisourcetesting]
 name=Packages from Altisource - testing
-baseurl=http://<%= node[:yum_server] %>/yum/testing
+baseurl=http://<%= @yumserver %>/yum/testing
 enabled=<%= @testing_setting %>
 gpgcheck=0
 proxy=_none_
 
 [altisourcerelease]
 name=Packages from Altisource - release
-baseurl=http://<%= node[:yum_server] %>/yum/release
+baseurl=http://<%= @yumserver %>/yum/release
 enabled=<%= @release_setting %>
 gpgcheck=0
 proxy=_none_

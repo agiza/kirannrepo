@@ -1,6 +1,6 @@
 [rhel-local]
 name=Packages from RHEL Server Base - local
-baseurl=http://<%= node[:yum_server] %>/yum/redhat
+baseurl=http://<%= @yumserver %>/yum/redhat
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
