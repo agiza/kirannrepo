@@ -9,6 +9,12 @@ rt.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
 rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
+<% if @ldapserver['ldaphost'].empty? || @ldapserver['ldaphost'].nil? -%>
+rf.ldapAuthenticationProvider.enabled=false
+<% else -%>
+rf.ldapAuthenticationProvider.enabled=true
+<% end -%>
+#rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
 #Settings for realdoc integration
 rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
@@ -80,7 +86,6 @@ rf.startupAuthenticationProvider.enabled=true
 rf.startupAuthenticationProvider.enabled=false
 <% end -%>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
-rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true

@@ -12,6 +12,12 @@ rt.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
 rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
+<% if @ldapserver['ldaphost'].empty? || @ldapserver['ldaphost'].nil? -%>
+rf.ldapAuthenticationProvider.enabled=false
+<% else -%>
+rf.ldapAuthenticationProvider.enabled=true
+<% end -%>
+#rf.ldapAuthenticationProvider.enabled=<%= node[:rf_ldap_flag] %>
 
 rt.vendor.portal.url=http://<%= @webHostname %>/realtrans-vp
 
