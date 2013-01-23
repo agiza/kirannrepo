@@ -7,7 +7,7 @@ rt.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
 rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
 rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
-<% if @ldapserver['ldaphost'].empty? || @ldapserver['ldaphost'].nil? -%>
+<% if @ldapserver['ldaphost'].split(":")[1] == "dummy" -%>
 rf.ldapAuthenticationProvider.enabled=false
 <% else -%>
 rf.ldapAuthenticationProvider.enabled=true
