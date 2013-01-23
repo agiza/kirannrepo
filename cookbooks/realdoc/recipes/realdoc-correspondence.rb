@@ -50,15 +50,6 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "realdoc-correspondence")
 end
 
-#if node.attribute?('mongomasterproxy')
-#  mongoHost = node[:mongomasterproxy]
-#else
-#  mongoHost = {}
-#  search(:node, "role:mongodb-master") do |n|
-#    mongoHost[n.ipaddress] = {}
-#  end
-#mongoHost = mongoHost.first
-#end
 mongoHost = "127.0.0.1"
 
 if node.attribute?('elasticsearchproxy')
@@ -78,6 +69,7 @@ melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+ftpserver = data_bag_item("integration", "realdoc")
 template "/opt/#{app_name}/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'javaapp'
@@ -95,6 +87,7 @@ template "/opt/#{app_name}/conf/#{app_name}.properties" do
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
     :ldapserver => ldapserver,
+    :ftpserver => ftpserver,
     :mysqldb => mysqldb["realdoc"]
   )
 end
