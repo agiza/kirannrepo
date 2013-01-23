@@ -21,7 +21,7 @@ directory "/data/yum-repo" do
 end
 
 link "/var/www/html/yum-repo" do
-  target "/data/yum-repo"
+  to "/data/yum-repo"
   owner "root"
   group "root"
 end
@@ -61,13 +61,13 @@ directory "/data/yum-repo/rhel-x86_64-server-6" do
   group  "root"
 end
 
-directory "/data/yum-repo/rhel-x86-server-6/getPackage" do
+directory "/data/yum-repo/rhel-x86_64-server-6/getPackage" do
   owner  "root"
   group  "root"
 end
 
-link "/data/yum-repo/rhel-x86-server-6/getPackage" do
-  source "/data/yum-repo/redhat"
+link "/data/yum-repo/rhel-x86_64-server-6/getPackage" do
+  to "/data/yum-repo/redhat"
   owner  "root"
   group  "root"
 end
