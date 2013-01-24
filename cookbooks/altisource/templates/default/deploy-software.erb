@@ -40,7 +40,7 @@ app_name_check(){
 name_version=`grep "$application_name\|" /tmp/rpm-versions.txt`
 application_bin="$application_name"
 application_target="$application_name"
-app_attribute=`grep $name_version\| /tmp/rpm-versions.txt | cut -d "|" -f2`
+app_attribute=`grep "$application_name\|" /tmp/rpm-versions.txt | cut -d "|" -f2`
 
 # $application_name $application_bin $application_target $app_attribute
 if [ "$name_version" == "" -o "$app_attribute" == "" ]; then
