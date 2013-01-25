@@ -14,5 +14,5 @@ $TTL    604800
 <%= "#{rev[:ipaddress]}".gsub!("10.0.1.", "") %>    IN    PTR   <%= rev[:fqdn] %>
 <% end -%>
 <% @rev1010ex.each do |revex| -%>
-<%= revex %>
+<%= revex %>.
 <% end -%>
