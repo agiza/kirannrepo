@@ -19,29 +19,10 @@ rt.int.realservicing.retrieveOrdersRequestUrl=<%= @realsvc["requesturl#{node.che
 rt.int.realservicing.createOrderResponseUrl=<%= @realsvc["responseurl#{node.chef_environment}"] %>
 <% end -%>
 
-
-rt.int.monitoring.realtransInboundChannel=newOrderRequestChannel,cancelOrderRequestChannel,modifyOrderRequestChannel
-rt.int.monitoring.vendorOutboundChannel=newOrderRequestHttpChannel,cancelOrderRequestHttpChannel,modifyOrderRequestHttpChannel
-rt.int.monitoring.vendorInboundChannel=newOrderAckChannel,incomingOrderResponseChannel,cancelOrderAckChannel,modifyRouterResponseChannel
-rt.int.monitoring.realtransOutboundChannel=realtransOrderResponseChannel
-
 rt.int.monitoring.taskExecutor.poolSize=10
 
 rt.int.header.source.name=Int-RealServicing
 rt.int.header.target.name=RealServicing
-rt.int.monitoring.vendorOutboundChannel=retrieveOrdersRequestChannel
-
-rt.int.monitoring.vendorInboundChannel=retrieveOrdersResponseChannel
-rt.int.monitoring.vendor.outbound.source=Int-RealServicing
-rt.int.monitoring.vendor.outbound.target=RealServicing
-rt.int.monitoring.vendor.inbound.source=RealServicing
-rt.int.monitoring.vendor.inbound.target=Int-RealServicing
-rt.int.monitoring.realtransOutboundChannel=createOrderRequestChannel
-rt.int.monitoring.realtransInboundChannel=createOrderResponseChannel
-rt.int.monitoring.realtrans.outbound.source=Int-RealServicing
-rt.int.monitoring.realtrans.outbound.target=Trans-Central
-rt.int.monitoring.realtrans.inbound.source=Trans-Central
-rt.int.monitoring.realtrans.inbound.target=Int-RealServicing
 
 rt.int.rs.username=<%= @realsvc['username'] %>
 rt.int.rs.password=<%= @realsvc['password'] %>
@@ -49,8 +30,4 @@ rt.int.rs.password=<%= @realsvc['password'] %>
 rt.int.poller.retry=4
 rt.int.poller.poolSize=10
 rt.int.realservicing.poller.delay=<%= @realsvc['rspollerdelay'] %>
-
-rt.int.schema.path=/ava/schemas/
-rt.int.json.schema=realServicing.json
-rt.int.header.schema=realServicingHeader.json
 
