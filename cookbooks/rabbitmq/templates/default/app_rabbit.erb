@@ -57,8 +57,6 @@ for vhost in `echo "$vhosts"`; do
        else
          /etc/rabbitmq/rabbitmqadmin -H ${host} -V "${vhost}" -u ${admin_user} -p ${admin_pass} declare queue name="${queue}" durable=true
        fi
-     else
-	echo "$queue already exists."
      fi
    fi
   done
@@ -74,8 +72,6 @@ for vhost in `echo "$vhosts"`; do
     if [ "$exchcheck" == "" ]; then 
       echo "Create $exchange on $vhost"
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare exchange name=$exchange auto_delete=false durable=true type=topic
-    else
-      echo "$exchange is already present."
     fi
     done
 # Binding elements
@@ -88,8 +84,6 @@ for vhost in `echo "$vhosts"`; do
       if [ "$bindcheck" == "" ]; then
       echo "Bind $source to $type $dest with routing key $key on $vhost"
         /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
-      else
-	echo "Binding for $source to $type $dest already present."
       fi
     done
   fi
