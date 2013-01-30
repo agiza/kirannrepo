@@ -8,7 +8,7 @@ include_recipe "altisource::yumclient"
 
 app_name = "altitomcat"
 
-package "#{app_name}" do
+package "altitomcat" do
   action :upgrade
 end
 
