@@ -52,6 +52,24 @@ directory "/mysql/log" do
   action :create
 end
 
+directory "/mysql/log/err" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/log/slow" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/log/general" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
 directory "/mysql/tmp" do
   owner "mysql"
   group "mysql" 
@@ -63,6 +81,8 @@ directory "/mysql/innodb" do
   group "mysql"
   action :create
 end
+
+
 
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
