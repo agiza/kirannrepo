@@ -82,10 +82,8 @@ directory "/mysql/innodb" do
   action :create
 end
 
-
-
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action [:enable ]
 end
 
