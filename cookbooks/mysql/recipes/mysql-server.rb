@@ -46,6 +46,24 @@ directory "/mysql/data" do
   action :create
 end
 
+directory "/mysql/log" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/tmp" do
+  owner "mysql"
+  group "mysql" 
+  action :create 
+end
+
+directory "/mysql/innodb" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action [:enable, :start]
