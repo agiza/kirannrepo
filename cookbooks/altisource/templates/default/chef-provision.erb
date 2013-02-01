@@ -92,7 +92,8 @@ check_errs $? "There was a problem with the chef client run, check the logs."
 }
 
 chef_check(){
-knife node show $host | grep Role ; pause
+knife node show $host | grep Role 
+check_errs $? "There was a problem checking the role for this host."
 }
 
 pause(){
