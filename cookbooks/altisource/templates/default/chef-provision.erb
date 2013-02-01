@@ -21,7 +21,7 @@ env=`echo $env_list`
 }
 
 select_role(){
-role=`echo generic realtrans-central realtrans-vendor realdoc rabbitserver`
+role=`echo generic realtrans realdoc rabbitserver`
    clear
    select func in $role; do
       case $func in
@@ -35,10 +35,8 @@ role=`echo generic realtrans-central realtrans-vendor realdoc rabbitserver`
 
 attr_select(){
 
-if [ "$role_name" == "realtrans-central" ]; then
-  add_role="role[realtrans-cen]"
-elif [ "$role_name" == "realtrans-vendor" ]; then
-  add_role="role[realtrans-ven]"
+if [ "$role_name" == "realtrans" ]; then
+  add_role="role[realtrans-cen] role[realtrans-ven]"
 elif [ "$role_name" == "realdoc" ]; then
   add_role="role[realdoc]"
 elif [ "$role_name" == "rabbitserver" ]; then
