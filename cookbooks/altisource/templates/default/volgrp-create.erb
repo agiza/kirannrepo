@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Data section
 # This accepts the mount point for the volume group
 mount="<%= @mount %>"
 # convert the mount into a volume group
@@ -11,29 +12,32 @@ device=`fdisk -ll | grep "${size}" | grep sd | cut -d " " -f2 | sed -e s/://g | 
 # Makes the physical partition a product of the disk
 partition="${device}1"
 
-# Create the partition on the physical volume.
-pvcreate /dev/${partition}
-
-# Create the volume group with the physical volume.
-vgcreate ${vol_grp} /dev/${partition}
-
-# Create Logical volume from volume group.
-lvcreate -l 100%VG ${vol_grp}
-
-# Format the file system on the new Logical Volume.
-mkfs -t ext4 -m 1 /dev/mapper/${vol_grp} 
-
-# Create the mount point for mounting the volume.
-mkdir -p /${mount}
-
-# Check to see if the volume group has been added to fstab, add it if not.
+# Check to see if the volume group has been added to fstab, if so, do nothing.
 fstab_check=`grep /dev/mapper/${vol_grp}` /etc/fstab`
 if [ "$fstab_check" != "" ]; then
+
+  # Create the partition on the physical volume.
+  pvcreate /dev/${partition}
+
+  # Create the volume group with the physical volume.
+  vgcreate ${vol_grp} /dev/${partition}
+
+  # Create Logical volume from volume group.
+  lvcreate -l 100%VG ${vol_grp}
+
+  # Format the file system on the new Logical Volume.
+  mkfs -t ext4 -m 1 /dev/mapper/${vol_grp} 
+
+  # Create the mount point for mounting the volume.
+  mkdir -p /${mount}
+
   echo -e "/dev/mapper/${vol_grp}\t$mount\text4\tdefaults\t1 1" >> /etc/fstab
+
+  # Mount all volumes in fstab
+  mount -a
+
+  echo "All volumes mounted."
+else
+  echo "Volumes already mounted."
 fi
-
-# Mount all volumes in fstab
-mount -a
-
-echo "All volumes mounted."
 
