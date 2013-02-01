@@ -79,3 +79,23 @@ template "/home/rtnextgen/bin/chef-provision" do
   )
 end
 
+directory "/home/rtnextgen/.chef/plugins" do
+  owner "rtnextgen"
+  group "rtnextgen"
+  action :create
+end
+
+directory "/home/rtnextgen/.chef/plugins/knife" do
+  owner "rtnextgen"
+  group "rtnextgen"
+  action :create
+end
+
+template "/home/rtnextgen/.chef/plugins/knife/set_environment.rb" do
+  source "set_environment.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0644"
+end
+ 
+

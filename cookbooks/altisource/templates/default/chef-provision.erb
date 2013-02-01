@@ -60,18 +60,36 @@ if [ "$hostcheck" != "" ]; then
   echo "NSlookup of server failed, please check that the host is in DNS."; exit 1
 fi
 # Hostname was passed and nslookup succeeded, proceed with provisioning.
-knife bootstrap $host --distro rhel6-gems && echo "Chef has been provisioned to the host." || echo "There was a problem with the bootstrap."; exit 1
+knife bootstrap $host --distro rhel6-gems && echo "Chef has been provisioned to the host." 
+if [ $? -gt 0 ]; then
+ echo "There was a problem with the bootstrap."; exit 1
+fi
+
+# Add node to the new environment.
+knife node set_environment $host $env_targ
+if [ $? -gt 0 ]; then
+ echo "There was a problem with adding the node to the environment."; exit 1
+fi
 
 # Add role all automatically to the new node.
-knife node run_list add $host role[all] && echo "Role all has been added to the node." || echo "There was a problem with adding the all role."; exit 1
+knife node run_list add $host role[all] && echo "Role all has been added to the node." 
+if [ $? -gt 0 ]; then
+ echo "There was a problem with adding the all role."; exit 1
+fi
 
 # Add any other roles that were selected.
 for i in `echo $add_role`; do
-  knife node run_list add $host "$i" && echo "Role $i has been added to the node." || echo "There was a problem with adding $i role."; exit 1
+  knife node run_list add $host "$i" && echo "Role $i has been added to the node." 
+  if [ $? -gt 0 ]; then
+    echo "There was a problem with adding $i role."; exit 1
+  fi
 done
 
 # SSH to the new node and run chef-client.
-ssh root@$host "chef-client" && echo "Initial chef-client run has been completed." || echo "There was a problem with the chef client run, check the logs."; exit 1
+ssh root@$host "chef-client" && echo "Initial chef-client run has been completed." 
+if [ $? -gt 0 ]; then
+  echo "There was a problem with the chef client run, check the logs."; exit 1
+fi
 }
 
 chef_check(){
