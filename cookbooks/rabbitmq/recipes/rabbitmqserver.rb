@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "altisource::altirepo"
+include_recipe "altisource::epel-local"
 include_recipe "infrastructure::selinux"
 
 app_name = "rabbitmq-server-config"
