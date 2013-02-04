@@ -24,17 +24,16 @@ bindings="<%= @binding_names %>"
 # Add application usernames here
 userstring="<%= @userstring %>"
 
-user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
-if [ "$user_check" == "" ]; then
-  /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
-  /usr/sbin/rabbitmqctl set_user_tags "$username" management
-fi
-
 # Move to working directory
 cd /etc/rabbitmq/
 
 for i in `echo "$vhosts"`; do
   for h in `echo $userstring`; do
+    user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
+    if [ "$user_check" == "" ]; then
+      /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
+      /usr/sbin/rabbitmqctl set_user_tags "$username" management
+    fi
     username=`echo "$h" | cut -d "|" -f1`
     userpass=`echo "$h" | cut -d "|" -f2`
     # Set permissions for username on all vhosts.
