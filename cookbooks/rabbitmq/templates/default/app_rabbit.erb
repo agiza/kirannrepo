@@ -21,9 +21,8 @@ exchanges="<%= @exchange_names %>"
 # Add all binding names here
 bindings="<%= @binding_names %>"
 
-# Add application username here
-username=`echo "<%= @userstring %>" | cut -d "|" -f1`
-userpass=`echo "<%= @userstring %>" | cut -d "|" -f2`
+# Add application usernames here
+userstring="<%= @userstring %>"
 
 user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
 if [ "$user_check" == "" ]; then
@@ -35,10 +34,14 @@ fi
 cd /etc/rabbitmq/
 
 for i in `echo "$vhosts"`; do
-  # Set permissions for username on all vhosts.
-  /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
-  # Set HA Policy for all queues to mirrored.
-  /usr/sbin/rabbitmqctl set_policy -p "$i" HA '.*' '{"ha-mode": "all"}'
+  for h in `echo $userstring`; do
+    username=`echo "$h" | cut -d "|" -f1`
+    userpass=`echo "$h" | cut -d "|" -f2`
+    # Set permissions for username on all vhosts.
+    /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
+    # Set HA Policy for all queues to mirrored.
+    /usr/sbin/rabbitmqctl set_policy -p "$i" HA '.*' '{"ha-mode": "all"}'
+  done
 done
 
 # Loop to add each queue with mirror turned on.
