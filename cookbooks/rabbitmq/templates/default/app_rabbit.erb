@@ -82,10 +82,15 @@ for vhost in `echo "$vhosts"`; do
       type=`echo $binding | cut -d "|" -f2`
       dest=`echo $binding | cut -d "|" -f3`
       key=`echo $binding | cut -d "|" -f4`
+      option=`echo $binding | cut -d "|" -f4 | sed -e s/\"/'\"'/g`
       bindcheck=`rabbitmqctl list_bindings -p "${vhost}" | grep "${source}" | grep "${destination}" | grep "${key}"`
       if [ "$bindcheck" == "" ]; then
-      echo "Bind $source to $type $dest with routing key $key on $vhost"
-        /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
+        if [ "$option" == "" ]; then
+          echo "Bind $source to $type $dest with routing key $key on $vhost"
+          /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
+        else
+          echo "Bind $source to $type $dest with routing key $key on $vhost with $option"
+          curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPOST -d"{\"routing_key\":\"$key\",\"arguments\":{"$option"}}" http://"$host":15672/api/bindings/"$html_vhost"/e/"$source"/q/"$dest"
       fi
     done
   fi
