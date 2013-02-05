@@ -1,17 +1,19 @@
 #!/bin/bash
 yum_dir="/data/yum-repo"
 race_check=`ps -ef | grep createrepo | grep -v grep`
-if [ -f $yum_dir/../yumwork ] || [ "$race_check" != "" ]; then
+if [ -f $yum_dir/../yumwork ] || [ "$race_check" != "" ] || [ "$copy_check" != "" ]; then
   echo "Yum repo already being updated."
 else
   touch $yum_dir/../yumwork
-  for i in `echo common testing release`; do cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log; done
+  for i in `echo common testing release`; do 
+    cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log
+    error_check=`grep "Traceback" $yum_dir/../yum-update.log`
+    if [ "$error_check" != "" ]; then
+      rm -f $yum_dir/$i/repodata/*;  createrepo --update ./
+    fi
+  done
   # Update Gems index.
  cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby 2>&1 > $yum_dir/../yum-update.log
   rm -f $yum_dir/../yumwork
-fi
-error_check=`grep "Traceback" $yum_dir/../yum-update.log`
-if [ "$error_check" != "" ]; then
-  echo "Error occurred in yum-update script" | mailx -s "Yum Repo Error" bryan.phinney@altisource.com
 fi
 
