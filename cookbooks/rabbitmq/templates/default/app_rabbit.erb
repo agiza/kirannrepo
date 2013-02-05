@@ -51,7 +51,7 @@ for vhost in `echo "$vhosts"`; do
    if [ "$check" != "" ]; then
      moncheck=`echo $queue | grep monitoring`
      deadcheck=`echo $queue | grep deadmessage`
-     queuecheck=`rabbitmqctl list_queues -p "${vhost}" | grep "${queue}\ "`
+     queuecheck=`rabbitmqctl list_queues -p "${vhost}" | egrep "${queue}\s"`
      if [ "$queuecheck" == "" ]; then
        if [ "$deadcheck" != "" ] || [ "$moncheck" != "" ]; then
          echo "Create $queue on $vhost..."
@@ -70,7 +70,7 @@ for vhost in `echo "$vhosts"`; do
   check=`echo $vhost`
   if [ "$check" != "" ]; then
     for exchange in `echo "$exchanges"`; do
-    exchcheck=`rabbitmqctl list_exchanges -p "${vhost}" | grep "${exchange}"`
+    exchcheck=`rabbitmqctl list_exchanges -p "${vhost}" | egrep "${exchange}\s"`
     if [ "$exchcheck" == "" ]; then 
       echo "Create $exchange on $vhost"
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare exchange name=$exchange auto_delete=false durable=true type=topic
