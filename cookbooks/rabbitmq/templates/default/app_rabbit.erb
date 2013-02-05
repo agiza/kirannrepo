@@ -80,7 +80,13 @@ for vhost in `echo "$vhosts"`; do
       /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare exchange name=$exchange auto_delete=false durable=true type=topic
     fi
     done
+  fi
+done
+
 # Binding elements
+for vhost in `echo "$vhosts"`; do
+  check=`echo $vhost`
+  if [ "$check" != "" ]; then
     for binding in `echo "$bindings"`; do
       source=`echo $binding | cut -d "|" -f1`
       type=`echo $binding | cut -d "|" -f2`
@@ -90,18 +96,16 @@ for vhost in `echo "$vhosts"`; do
       if [ "$source" == "" ] || [ "$type" == "" ] || [ "$dest" == "" ] || [ "$key" == "" ]; then
         echo "There is an error with the binding data for $source to $dest."
       else
-        #bindcheck=`rabbitmqctl list_bindings -p "${vhost}" | grep "${source}" | grep "${destination}" | grep "${key}"`
-        #if [ "$bindcheck" == "" ]; then
           if [ "$option" == "" ]; then
             echo "Bind $source to $type $dest with routing key $key on $vhost"
             /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
           else
             option_key=`echo $option | cut -d ":" -f1`
             option_value=`echo $option | cut -d ":" -f2`
+            html_vhost=`echo $vhost | sed -e 's/\//\%2f/'`
             echo "Bind $source to $type $dest with routing key $key on $vhost with $option"
             curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPOST -d"{\"routing_key\":\"$key\",\"arguments\":{\""${option_key}"\":\""${option_value}"\"}}" http://"$host":15672/api/bindings/"$html_vhost"/e/"$source"/q/"$dest"
           fi
-        #fi
       fi
     done
   fi
