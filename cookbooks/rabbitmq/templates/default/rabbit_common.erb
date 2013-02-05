@@ -31,7 +31,10 @@ fi
 
 # Change user accounts for better security
 for i in `echo "$vhosts"`; do
-  /usr/sbin/rabbitmqctl add_vhost "$i"
+  vhost_check=`rabbitmqctl list_vhosts | grep -x "$i"`
+  if [ "$vhost_check" == "" ]; then
+    /usr/sbin/rabbitmqctl add_vhost "$i"
+  fi
 done
 admin_check=`/usr/sbin/rabbitmqctl list_users | grep "$admin_user" | grep -v guest`
 if [ "$admin_check" == "" ]; then
