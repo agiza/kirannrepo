@@ -65,7 +65,7 @@ template "/opt/tomcat/conf/replication-app.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :rsnghost => "#{rsnghost}:#{rsngport}",
-    :mysqldb => mysqldb["#{app_name}"]
+    :mysqldb => mysqldb["realservice"]
   )
 end
 
@@ -74,7 +74,7 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(:mysqldb => mysqldb["#{app_name}"])
+  variables(:mysqldb => mysqldb["realservice"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
