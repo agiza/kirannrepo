@@ -99,7 +99,7 @@ for vhost in `echo "$vhosts"`; do
           if [ "$option" == "" ]; then
             echo "Bind $source to $type $dest with routing key $key on $vhost"
             /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
-          else
+          elif [ "$option" != "" ]; then
             option_key=`echo $option | cut -d ":" -f1`
             option_value=`echo $option | cut -d ":" -f2`
             html_vhost=`echo $vhost | sed -e 's/\//\%2f/'`
