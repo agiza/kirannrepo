@@ -53,6 +53,8 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+rsngamqp = data_bag_item("rabbitmq", "realservice")
+rsngcred = rsngamqp['user'].split("|")
 template "/opt/tomcat/conf/replication-app.properties" do
   source "replication-app.properties.erb"
   group 'tomcat'
@@ -62,8 +64,8 @@ template "/opt/tomcat/conf/replication-app.properties" do
   variables( 
     :webHostname => webHost["rsng#{node.chef_environment}"],
     :melissadata => melissadata['melissadata'],
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
+    :amqphost => "#{rsngcred[0]}",
+    :amqpport => "#{rsngcred[1]}",
     :rsnghost => "#{rsnghost}:#{rsngport}",
     :mysqldb => mysqldb["realservice"]
   )
