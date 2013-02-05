@@ -54,6 +54,7 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/rsng-service-app.properties" do
   source "rsng-service-app.properties.erb"
   group 'tomcat'
@@ -66,11 +67,11 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rsngcred[0]}",
     :amqppass => "#{rsngcred[1]}",
-    :rsnghost => "#{rsnghost}:#{rsngport}"
+    :rsnghost => "#{rsnghost}:#{rsngport}",
+    :mysqldb => mysqldb["realservice"]
   )
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'

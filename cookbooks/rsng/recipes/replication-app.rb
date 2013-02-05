@@ -52,6 +52,7 @@ end
 
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/replication-app.properties" do
   source "replication-app.properties.erb"
   group 'tomcat'
@@ -63,11 +64,11 @@ template "/opt/tomcat/conf/replication-app.properties" do
     :melissadata => melissadata['melissadata'],
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
-    :rsnghost => "#{rsnghost}:#{rsngport}"
+    :rsnghost => "#{rsnghost}:#{rsngport}",
+    :mysqldb => mysqldb["#{app_name}"]
   )
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'
