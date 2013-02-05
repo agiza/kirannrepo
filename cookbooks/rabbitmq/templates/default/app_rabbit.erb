@@ -51,7 +51,7 @@ for vhost in `echo "$vhosts"`; do
    if [ "$check" != "" ]; then
      moncheck=`echo $queue | grep monitoring`
      deadcheck=`echo $queue | grep deadmessage`
-     queuecheck=`rabbitmqctl list_queues -p "${vhost}" | grep "${queue}"`
+     queuecheck=`rabbitmqctl list_queues -p "${vhost}" | grep "${queue}\ "`
      if [ "$queuecheck" == "" ]; then
        if [ "$deadcheck" != "" ] || [ "$moncheck" != "" ]; then
          echo "Create $queue on $vhost..."
