@@ -18,7 +18,7 @@ host=$answer
 }
 
 select_env(){
-environ_list
+env_list=`knife environment list | grep -v "_default"`
 env=`echo $env_list`
    clear
    select func in $env; do
