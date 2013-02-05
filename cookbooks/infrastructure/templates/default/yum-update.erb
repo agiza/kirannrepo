@@ -6,14 +6,14 @@ if [ -f $yum_dir/../yumwork ] || [ "$race_check" != "" ] || [ "$copy_check" != "
 else
   touch $yum_dir/../yumwork
   for i in `echo common testing release`; do 
-    cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log
-    error_check=`grep "Traceback" $yum_dir/../yum-update.log`
+    cd $yum_dir/$i/; createrepo --update ./ > $yum_dir/../yum-update-$i.log 2>&1
+    error_check=`grep "Traceback" $yum_dir/../yum-update-$i.log`
     if [ "$error_check" != "" ]; then
       rm -f $yum_dir/$i/repodata/*;  createrepo --update ./
     fi
   done
   # Update Gems index.
- cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby 2>&1 > $yum_dir/../yum-update.log
+ cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby > $yum_dir/../yum-update-gems.log 2>&1
   rm -f $yum_dir/../yumwork
 fi
 
