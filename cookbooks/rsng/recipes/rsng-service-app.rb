@@ -55,6 +55,7 @@ webHost = data_bag_item("infrastructure", "apache")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+melissadata = data_bag_item("integration", "melissadata")
 template "/opt/tomcat/conf/rsng-service-app.properties" do
   source "rsng-service-app.properties.erb"
   group 'tomcat'
@@ -68,6 +69,7 @@ template "/opt/tomcat/conf/rsng-service-app.properties" do
     :amqpuser => "#{rsngcred[0]}",
     :amqppass => "#{rsngcred[1]}",
     :rsnghost => "#{rsnghost}:#{rsngport}",
+    :melissadata => melissadata['melissadata'],
     :mysqldb => mysqldb["realservice"]
   )
 end
