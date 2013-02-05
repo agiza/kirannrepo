@@ -29,17 +29,21 @@ cd /etc/rabbitmq/
 
 for i in `echo "$vhosts"`; do
   for h in `echo $userstring`; do
-    user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
-    if [ "$user_check" == "" ]; then
-      /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
-      /usr/sbin/rabbitmqctl set_user_tags "$username" management
-    fi
     username=`echo "$h" | cut -d "|" -f1`
     userpass=`echo "$h" | cut -d "|" -f2`
-    # Set permissions for username on all vhosts.
-    /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
-    # Set HA Policy for all queues to mirrored.
-    /usr/sbin/rabbitmqctl set_policy -p "$i" HA '.*' '{"ha-mode": "all"}'
+    if [ "$username" == "" ] || [ "$userpass" == "" ]; then
+      echo "There is an error with this data for $username."
+    else
+      user_check=`/usr/sbin/rabbitmqctl list_users | grep "$username" | grep -v guest`
+      if [ "$user_check" == "" ]; then
+        /usr/sbin/rabbitmqctl add_user "$username" "$userpass"
+        /usr/sbin/rabbitmqctl set_user_tags "$username" management
+      fi
+      # Set permissions for username on all vhosts.
+      /usr/sbin/rabbitmqctl set_permissions -p "$i" "$username" " " ".*" ".*"
+      # Set HA Policy for all queues to mirrored.
+      /usr/sbin/rabbitmqctl set_policy -p "$i" HA '.*' '{"ha-mode": "all"}'
+    fi
   done
 done
 
@@ -83,16 +87,20 @@ for vhost in `echo "$vhosts"`; do
       dest=`echo $binding | cut -d "|" -f3`
       key=`echo $binding | cut -d "|" -f4`
       option=`echo $binding | cut -d "|" -f5`
-      bindcheck=`rabbitmqctl list_bindings -p "${vhost}" | grep "${source}" | grep "${destination}" | grep "${key}"`
-      if [ "$bindcheck" == "" ]; then
-        if [ "$option" == "" ]; then
-          echo "Bind $source to $type $dest with routing key $key on $vhost"
-          /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
-        else
-          option_key=`echo $option | cut -d ":" -f1`
-          option_value=`echo $option | cut -d ":" -f2`
-          echo "Bind $source to $type $dest with routing key $key on $vhost with $option"
-          curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPOST -d"{\"routing_key\":\"$key\",\"arguments\":{\"$option_key\":\"$option_value\"}}" http://"$host":15672/api/bindings/"$html_vhost"/e/"$source"/q/"$dest"
+      if [ "$source" == "" ] || [ "$type" == "" ] || [ "$dest" == "" ] || [ "$key" == "" ]; then
+        echo "There is an error with the binding data for $source to $dest."
+      else
+        bindcheck=`rabbitmqctl list_bindings -p "${vhost}" | grep "${source}" | grep "${destination}" | grep "${key}"`
+        if [ "$bindcheck" == "" ]; then
+          if [ "$option" == "" ]; then
+            echo "Bind $source to $type $dest with routing key $key on $vhost"
+            /etc/rabbitmq/rabbitmqadmin -H ${host} -V "$vhost" -u $admin_user -p $admin_pass declare binding source="$source" destination_type="$type" destination="$dest" routing_key="$key"
+          else
+            option_key=`echo $option | cut -d ":" -f1`
+            option_value=`echo $option | cut -d ":" -f2`
+            echo "Bind $source to $type $dest with routing key $key on $vhost with $option"
+            curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPOST -d"{\"routing_key\":\"$key\",\"arguments\":{\"$option_key\":\"$option_value\"}}" http://"$host":15672/api/bindings/"$html_vhost"/e/"$source"/q/"$dest"
+          fi
         fi
       fi
     done
