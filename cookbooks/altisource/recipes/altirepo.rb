@@ -25,7 +25,7 @@ else
   #search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]') do |n|
    # yumserver[n.ipaddress] = {}
   #end
-  yumserver = search(:node, :run_list:recipe\[infrastructure\:\:yumserver\])
+  yumserver = search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]')
   yumserver =yumserver.first
   yumserver = yumserver("ipaddress")
 end
