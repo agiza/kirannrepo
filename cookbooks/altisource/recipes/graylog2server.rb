@@ -50,12 +50,10 @@ end
 if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
-  yumserver = {}
-  search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]') do |n|
-    yumserver[n.ipaddress] = {}
-  end
+  yumserver = search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]' && 'run_list:recipe\[github\:\:yum-repo\]')
+  yumserver = yumserver.first
+  yumserver = yumserver["ipaddress"]
 end
-yumserver = yumserver.first
 execute "graylogdownload" do
   command "wget -O /tmp/graylog2-server-#{version}.tar.gz http://yumserver/common/graylog2-server-#{version}.tar.gz; wget -O /tmp/graylog2-web-interface-#{version}.tar.gz http://yumserver/common/graylog2-web-interface-#{version}.tar.gz"
   creates "/tmp/graylog2-server-#{version}.tar.gz"

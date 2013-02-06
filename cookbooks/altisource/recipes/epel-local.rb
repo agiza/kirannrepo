@@ -20,12 +20,10 @@ end
 if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
-  yumserver = {}
-  search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]') do |n|
-    yumserver[n.ipaddress] = {}
-  end
+  yumserver = search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]' && 'run_list:recipe\[github\:\:yum-repo\]')
+  yumserver = yumserver.first
+  yumserver = yumserver["ipaddress"]
 end
-yumserver = yumserver.first
 template "/etc/yum.repos.d/epel-local.repo" do
   source "epel-local.repo.erb"
   mode "0644"
