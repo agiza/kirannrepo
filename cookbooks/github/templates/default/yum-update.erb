@@ -5,13 +5,15 @@ if [ -f $yum_dir/../yumwork ] || [ "$race_check" != "" ]; then
   echo "Yum repo already being updated."
 else
   touch $yum_dir/../yumwork
-  for i in `echo common testing release`; do cd $yum_dir/$i/; createrepo --update ./ 2>&1 > $yum_dir/../yum-update.log; done
+  for i in `echo common testing release`; do 
+    cd $yum_dir/$i/; createrepo --update ./ > $yum_dir/../yum-update-$i.log 2>&1 
+    error_check=`grep "Traceback" $yum_dir/../yum-update.log`
+    if [ "$error_check" != "" ]; then
+      cd $yum_dir/$i/; rm -rf $yum_dir/$i/repodata/*xml*; createrepo --update ./ > $yum_dir/../yum-update-$i.log 2>&1
+    fi
+  done
   # Update Gems index
-  cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby 2>&1 > $yum_dir/../yum-update.log
+  cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby > $yum_dir/../yum-update-gems.log 2>&1
   rm -f $yum_dir/../yumwork
-fi
-error_check=`grep "Traceback" $yum_dir/../yum-update.log`
-if [ "$error_check" != "" ]; then
-  echo "Error occurred in yum-update script" | mailx -s "Yum Repo Error" bryan.phinney@altisource.com
 fi
 
