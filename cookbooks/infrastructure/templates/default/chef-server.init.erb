@@ -1,0 +1,22 @@
+#!/bin/bash
+
+case "$1" in
+    start)
+        chef-server-ctl start
+        ;;
+    stop)
+        chef-server-ctl stop
+        ;;
+    restart)
+	$0 stop
+	$0 start
+	;;
+    status)
+        chef-serverctl status
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
