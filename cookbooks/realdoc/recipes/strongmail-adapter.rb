@@ -51,7 +51,7 @@ yum_package "#{app_name}" do
 end
 
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
-rdrabbit = rdrabbit['user'].split("|")
+rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 mailserver = data_bag_item("integration", "mail")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/#{app_name}.properties" do

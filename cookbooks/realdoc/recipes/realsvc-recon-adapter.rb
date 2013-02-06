@@ -40,7 +40,7 @@ yum_package "#{app_name}" do
 end
 
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
-rdrabbit = rdrabbit['user'].split("|")
+rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 ftpserver = data_bag_item("integration", "realdoc")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
