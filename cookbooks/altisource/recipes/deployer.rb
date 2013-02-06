@@ -38,8 +38,11 @@ else
   search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]') do |n|
     yumserver[n.ipaddress] = {}
   end
-end
 yumserver = yumserver.first
+end
+if yumserver.nil? || yumserver.empty?
+  yumserver = "10.0.0.20"
+end
 app_names = data_bag_item("infrastructure", "applications")
 template "/home/rtnextgen/bin/chef-deploy" do
   source "chef-deploy.erb"
