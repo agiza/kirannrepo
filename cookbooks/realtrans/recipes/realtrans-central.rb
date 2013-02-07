@@ -30,7 +30,7 @@ if node.attribute?('rtcenproxy')
   rtcenport = node[:rtcenproxy].split(":")[1]
 else
   rtcenhost = search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{node.chef_environment}")
-  if rtcenthost.nil? || rtcenhost.empty?
+  if rtcenhost.nil? || rtcenhost.empty?
     Chef::Log.info("No services returned from search.")
   else
     rtcenhost = rtcenhost.first
