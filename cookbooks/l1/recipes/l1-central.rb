@@ -13,34 +13,40 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = {}
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.ipaddress] = {}
+  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
+  if rdochost.nil? || rdochost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    rdochost = rdochost.first
+    rdochost = rdochost["ipaddress"]
+    rdocport = "8080"
   end
-  rdochost = rdochost.first
-  rdocport = "8080"
 end
 if node.attribute?('l1cenproxy')
   l1cenhost = node[:l1cenproxy].split(":")[0]
   l1cenport = node[:l1cenproxy].split(":")[1]
 else
-  l1cenhost = {}
-  search(:node, "role:l1-cen AND chef_environment:#{node.chef_environment}") do |n|
-    l1cenhost[n.ipaddress] = {}
+  l1cenhost = search(:node, "recipes:l1\\:\\:l1-central OR role:l1-cen AND chef_environment:#{node.chef_environment}")
+  if l1cenhost.nil? || l1cenhost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    l1cenhost = l1cenhost.first
+    l1cenhost = l1cenhost["ipaddress"]
+    l1cenport = "8080"
   end
-  l1cenhost = l1cenhost.first
-  l1cenport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
   end
-  amqphost = amqphost.first
-  amqpport = "5672"
 end
 
 service "altitomcat" do
