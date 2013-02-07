@@ -17,28 +17,28 @@ end
 replicaset = node[:replicaset]
 replicalist = []
 if node.environment?('performance')
-  replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
   end
-  replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas = search(:node, "recipes:mongodb\\:\\:replica OR role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27027"
   end
-  replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+  replicas = search(:node, "recipes:mongodb\\:\\:replica1 OR role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27037"
   end
 else
-  replicas = search(:node, "role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
   end
-  replicas = search(:node, "role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas = search(:node, "recipes:mongodb\\:\\:replica OR role:mongodb-replica AND role:mongodb-#{replicaset} AND chef_environment:shared")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27027"
   end
-  replicas = search(:node, "role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:shared")
+  replicas = search(:node, "recipes:mongodb\\:\\:replica1 OR role:mongodb-replica1 AND role:mongodb-#{replicaset} AND chef_environment:shared")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27037"
   end

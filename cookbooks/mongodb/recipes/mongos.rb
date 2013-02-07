@@ -16,12 +16,16 @@ end
 
 configserver = []
 if node.attribute?('performance')
-  configs = search(:node, "role:mongodb-config AND chef_environment:#{node.chef_environment}")
+  configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{node.chef_environment}")
 else
-  configs = search(:node, "role:mongodb-config AND chef_environment:shared")
+  configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:shared")
 end
-configs[0..3].each do |config|
-  configserver << config[:ipaddress]
+if configs.nil? || configs.empty?
+  Chef::Log.info("No services returned from search.") && configserver << "127.0.0.1"
+else
+  configs[0..3].each do |config|
+    configserver << config["ipaddress"]
+  end
 end
 configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
 template "/etc/#{app_name}.conf" do
