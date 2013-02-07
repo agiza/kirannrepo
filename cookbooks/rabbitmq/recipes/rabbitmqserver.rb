@@ -38,7 +38,7 @@ service "rabbitmq-server" do
 end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
-#rabbitservers = []
+rabbitservers = []
 if node.attribute?('performance')
   rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:#{node.chef_environment}")
 else
