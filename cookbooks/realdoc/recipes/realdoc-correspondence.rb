@@ -52,8 +52,12 @@ if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
   elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
-  elasticHost = elasticHost.first
-  elasticHost = elasticHost["ipaddress"]
+  if elasticHost.nil? || elasticHost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    elasticHost = elasticHost.first
+    elasticHost = elasticHost["ipaddress"]
+  end
 end
 
 # Integration components
