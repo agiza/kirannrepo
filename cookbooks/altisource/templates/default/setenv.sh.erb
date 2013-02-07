@@ -1,2 +1,4 @@
+#!/bin/sh
+
 CATALINA_OPTS="<%= node[:java_debugger] %> <%= @appdynagent %> <%= @appdynstring %> <%= node[:java_mem_min] %> <%= node[:java_mem_max] %> <%= node[:java_perm_size] %> -XX:-UseSplitVerifier"
 JRE_HOME=/usr/java/default
