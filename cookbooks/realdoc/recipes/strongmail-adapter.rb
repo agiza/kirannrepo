@@ -15,9 +15,13 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:realdoc AND chef_environment:shared")
-  amqphost = amqphost[ipaddress]
-  amqphost = amqphost.first
-  amqpport = "5672"
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
+  end
 end
 
 mongoHost = "127.0.0.1"

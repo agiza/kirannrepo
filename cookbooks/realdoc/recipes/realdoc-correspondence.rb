@@ -15,18 +15,26 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitmqserver AND chef_enviroment:shared")
-  amqphost = amqphost.first
-  amqphost = amqphost["ipaddress"]
-  amqpport = "5672"
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
+  end
 end
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
-  rdochost = rdochost.first
-  rdochost = rdochost["ipaddress"]
-  rdocport = "8080"
+  if rdochost.nil? || rdochost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    rdochost = rdochost.first
+    rdochost = rdochost["ipaddress"]
+    rdocport = "8080"
+  end
 end
 
 service "realdoc-correspondence" do
