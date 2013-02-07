@@ -25,7 +25,6 @@ if node.attribute?('realdocproxy')
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{node.chef_environment}")
   rdochost = rdochost[ipaddress]
-  end
   rdochost = rdochost.first
   rdocport = "8080"
 end
