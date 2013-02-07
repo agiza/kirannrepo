@@ -22,7 +22,7 @@ if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
   #yumserver = search(:node, 'run_list:recipe\[infrastructure\:\:yumserver\]' AND 'run_list:recipe\[github\:\:yum-repo\]') 
-  yumserver = search(:node, 'recipes:infrastructure\:\:yumserver' AND 'recipes:github\:\:yum-repo') 
+  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo") 
   yumserver = yumserver.first
   yumserver = yumserver["ipaddress"]
 end
