@@ -14,12 +14,14 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
   end
-  amqphost = amqphost.first
-  amqpport = "5672"
 end
 
 service "altitomcat" do
