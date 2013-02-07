@@ -61,7 +61,7 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.info("No services returned from search.")
   else
-    amqphost = ampqhost.first
+    amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]
     amqpport = "5672"
   end
