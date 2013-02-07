@@ -39,7 +39,6 @@
 #                   only be used by Tomcat itself, not by the stop process,
 #                   the version command etc.
 #                   Examples are heap size, GC logging, JMX ports etc.
-CATALINA_OPTS="<%= node[:java_debugger] %> <%= @appdynagent %> <%= @appdynstring %> <%= node[:java_mem_min] %> <%= node[:java_mem_max] %> <%= node[:java_perm_size] %> -XX:-UseSplitVerifier"
 #
 #   CATALINA_TMPDIR (Optional) Directory path location of temporary directory
 #                   the JVM should use (java.io.tmpdir).  Defaults to
@@ -51,7 +50,6 @@ CATALINA_OPTS="<%= node[:java_debugger] %> <%= @appdynagent %> <%= @appdynstring
 #   JRE_HOME        Must point at your Java Runtime installation.
 #                   Defaults to JAVA_HOME if empty. If JRE_HOME and JAVA_HOME
 #                   are both set, JRE_HOME is used.
-JRE_HOME=/usr/java/default
 #
 #   JAVA_OPTS       (Optional) Java runtime options used when any command
 #                   is executed.

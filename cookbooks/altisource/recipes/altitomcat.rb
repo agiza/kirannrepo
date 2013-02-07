@@ -23,17 +23,22 @@ end
 
 # configure appdynamics agent after altitomcat rpm installation but before configuration.
 if node.attribute?('performance')
-  appdynhost = {}
-  search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
-    appdynhost[n.ipaddress] = {}
+  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:#{node.chef_environment}")
+  if appdynhost.nil? || appdynhost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    appdynhost = appdynhost.first
+    appdynhost = appdynhost["ipaddress"]
   end
 else
-  appdynhost = {}
-  search(:node, "role:appdynamics-server AND chef_environment:shared") do |n|
-    appdynhost[n.ipaddress] = {}
+  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:shared")
+  if appdynhost.nil? || appdynhost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    appdynhost = appdynhost.first
+    appdynhost = appdynhost["ipaddress"]
   end
 end
-appdynhost = appdynhost.first
 if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No services returned from search.")
 else
@@ -42,8 +47,8 @@ else
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
 end
 
-template "/opt/tomcat/bin/catalina.sh" do
-  source "catalina_sh.erb"
+template "/opt/tomcat/bin/setenv.sh" do
+  source "setenv.sh.erb"
   group "tomcat"
   owner "tomcat"
   mode "0755"
@@ -51,6 +56,14 @@ template "/opt/tomcat/bin/catalina.sh" do
             :appdynagent => "#{appdynagent}"
            )
   notifies :restart, resources(:service => "altitomcat"), :delayed
+end
+
+template "/opt/tomcat/bin/catalina.sh" do
+  source "catalina_sh.erb"
+  group "tomcat"
+  owner "tomcat"
+  mode "0755"
+  #notifies :restart, resources(:service => "altitomcat"), :delayed
 end
 
 template "/opt/tomcat/conf/server.xml" do
