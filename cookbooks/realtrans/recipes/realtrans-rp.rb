@@ -40,7 +40,7 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared") do
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
     Chef::Log.info("No services returned from search.")
   else
