@@ -16,7 +16,6 @@ if node.attribute?('realdocproxy')
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
-  rdochost = rdochost.first
     if rdochost.nil? || rdochost.empty?
     Chef::Log.info("No services returned from search.")
   else
