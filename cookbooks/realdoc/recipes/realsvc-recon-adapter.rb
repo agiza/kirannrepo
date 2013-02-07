@@ -14,7 +14,7 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:shared")
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:realdoc AND chef_environment:shared")
   amqphost = amqphost.first
   amqphost = amqphost["ipaddress"]
   amqpport = "5672"
