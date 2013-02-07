@@ -15,8 +15,8 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_enviroment:shared")
-  amqphost = amqphost[:ipaddress]
   amqphost = amqphost.first
+  amqphost = amqphost["ipaddress"]
   amqpport = "5672"
 end
 if node.attribute?('realdocproxy')
@@ -24,8 +24,8 @@ if node.attribute?('realdocproxy')
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
-  rdochost = rdochost[:ipaddress]
   rdochost = rdochost.first
+  rdochost = rdochost["ipaddress"]
   rdocport = "8080"
 end
 
@@ -52,7 +52,8 @@ if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
   elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
-  elasticHost = elasticHost[:ipaddress]
+  elasticHost = elasticHost.first
+  elasticHost = elasticHost["ipaddress"]
 end
 
 # Integration components
