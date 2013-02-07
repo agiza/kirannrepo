@@ -38,18 +38,18 @@ service "rabbitmq-server" do
 end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
-rabbitservers = []
+#rabbitservers = []
 if node.attribute?('performance')
-  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:#{node.chef_environment}")
+  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:#{node.chef_environment}")
 else
-  rabbitentries = search(:node, "role:rabbitserver AND chef_environment:shared")
+  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:shared")
 end
 rabbitentries.each do |server|
   rabbitservers << server[:hostname]
 end
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
-hostentries = search(:node, "role:rabbitserver")
+hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver")
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
