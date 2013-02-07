@@ -56,7 +56,6 @@ if node.attribute?('elasticsearchproxy')
 else
   elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
   elasticHost = elasticHost[ipaddress]
-  end
 end
 
 # Integration components
