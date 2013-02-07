@@ -14,9 +14,8 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:shared")
+  amqphost = amqphost[ipaddress]
   end
   amqphost = amqphost.first
   amqpport = "5672"

@@ -14,9 +14,8 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_enviroment:shared")
+  amqphost = amqphost[ipaddress]
   end
   amqphost = amqphost.first
   amqpport = "5672"
@@ -25,9 +24,8 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = {}
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.ipaddress] = {}
+  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{node.chef_environment}")
+  rdochost = rdochost[ipaddress]
   end
   rdochost = rdochost.first
   rdocport = "8080"
@@ -55,9 +53,8 @@ mongoHost = "127.0.0.1"
 if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
-  elasticHost = {}
-  search(:node, "role:elasticsearch AND chef_environment:#{node.chef_environment}") do |n|
-    elasticHost[n.ipaddress] = {}
+  elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
+  elasticHost = elasticHost[ipaddress]
   end
 end
 

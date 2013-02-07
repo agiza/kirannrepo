@@ -14,23 +14,13 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:shared")
+  amqphost = amqphost[ipaddress]
   end
   amqphost = amqphost.first
   amqpport = "5672"
 end
 
-#if node.attribute?('mongomasterproxy')
-#  mongoHost = node[:mongomasterproxy]
-#else
-#  mongoHost = {}
-#  search(:node, "role:mongodb-master") do |n|
-#    mongoHost[n.ipaddress] = {}
-#  end
-#mongoHost = mongoHost.first
-#end
 mongoHost = "127.0.0.1"
 
 service "altitomcat" do
