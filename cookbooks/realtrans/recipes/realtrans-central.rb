@@ -15,48 +15,57 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = {}
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.ipaddress] = {}
-  end
+  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
   rdochost = rdochost.first
-  rdocport = "8080"
+    if rdochost.nil? || rdochost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    rdochost = rdochost.first
+    rdochost = rdochost["ipaddress"]
+    rdocport = "8080"
+  end
 end
 # This looks for rt central proxy attribute or finds the first server itself.
 if node.attribute?('rtcenproxy')
   rtcenhost = node[:rtcenproxy].split(":")[0]
   rtcenport = node[:rtcenproxy].split(":")[1]
 else
-  rtcenhost = {}
-  search(:node, "role:realtrans-cen AND chef_environment:#{node.chef_environment}") do |n|
-    rtcenhost[n.ipaddress] = {}
+  rtcenhost = search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{node.chef_environment}")
+  if rtcenthost.nil? || rtcenhost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    rtcenhost = rtcenhost.first
+    rtcenhost = rtcenhost["ipaddress"]
+    rtcenport = "8080"
   end
-  rtcenhost = rtcenhost.first
-  rtcenport = "8080"
 end
 # This looks for rt vendor proxy attribute or finds the first server itself.
 if node.attribute?('rtvenproxy')
   rtvenhost = node[:rtvenproxy].split(":")[0]
   rtvenport = node[:rtvenproxy].split(":")[1]
 else
-  rtvenhost = {}
-  search(:node, "role:realtrans-ven AND chef_environment:#{node.chef_environment}") do |n|
-    rtvenhost[n.ipaddress] = {}
+  rtvenhost = search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven AND chef_environment:#{node.chef_environment}")
+  if rtvenhost.nil? || rtvenhost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    rtvenhost = rtvenhost.first
+    rtvenhost = rtvenhost["ipaddress"]
+    rtvenport = "8080"
   end
-  rtvenhost = rtvenhost.first
-  rtvenport = "8080"
 end
 # This looks for rabbitmq proxy attribute "ip/hostname:port" or finds the first instance itself.
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver and chef_environment:shared") do
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.info("No services returned from search.")
+  else
+    amqphost = ampqhost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
   end
-  amqphost = amqphost.first
-  amqpport = "5672"
 end
 
 # Defines the tomcat server to allow for restart/enabling the service
