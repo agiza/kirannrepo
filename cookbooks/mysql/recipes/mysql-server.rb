@@ -14,6 +14,11 @@ service "mysql" do
   action :nothing
 end
 
+execute "mysql-dbd" do
+  command "/usr/local/bin/mysql-dbd"
+  action :nothing
+end
+
 package "MySQL-shared-compat-advanced" do
   action :upgrade
 end
@@ -36,6 +41,26 @@ template "/etc/my.cnf" do
   group  "root"
   mode   "0644"
   notifies :restart, resources(:service => "mysql")
+end
+
+dbdapp = "DBD-mysql-4.022"
+yumserver = search(:node, "recipes:altisource\\:\\:yumserver OR recipes:\\:\\:github")
+if yumserver.nil? || yumserver.empty?
+  Chef::Log.warn("No yum repositories found.")
+else
+  yumserver = yumserver.first
+  yumserver = yumserver["hostname"]
+end
+template "/usr/local/bin/mysql-dbd" do
+  source "mysql-dbd.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  variables(
+    :dbdapp => dbdapp,
+    :yumserver => yumserver
+  )
+  notifies :run, resources(:execute => "mysql-dbd")
 end
 
 directory "/mysql" do
