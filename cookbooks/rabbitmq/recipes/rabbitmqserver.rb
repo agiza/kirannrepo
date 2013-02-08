@@ -60,7 +60,7 @@ end
 #rabbitentries.each do |server|
 #  rabbitservers << server[:hostname]
 #end
-rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
+rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
 
