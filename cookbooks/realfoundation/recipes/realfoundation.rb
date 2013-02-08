@@ -9,40 +9,63 @@
 app_name = "realfoundation"
 app_version = node[:realfoundation_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:realfoundation\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:realfoundation_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
 if node.attribute?('rfproxy')
   rfhost = node[:rfproxy].split(":")[0]
   rfport = node[:rfproxy].split(":")[1]
 else
-  rfhost = {}
-  search(:node, "role:realfoundation AND chef_environment:#{node.chef_environment}") do |n|
-    rfhost[n.ipaddress] = {}
+  rfhost = search(:node, "recipes:realfoundation\\:\\:#{app_name} OR role:realfoundation AND chef_environment:#{node.chef_environment}")
+  if rfhost.nil? || rfhost.empty?
+    Chef::Log.warn("No services found.") && rfhost = "No servers found."
+  else
+    rfhost = rfhost.first
+    rfhost = rfhost["ipaddress"]
+    rfport = "8080"
   end
-  rfhost = rfhost.first
-  rfport = "8080"
 end
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = {}
-  search(:node, "role:realdoc AND chef_environment:#{node.chef_environment}") do |n|
-    rdochost[n.ipaddress] = {}
+  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
+    if rdochost.nil? || rdochost.empty?
+    Chef::Log.warn("No services returned from search.") && rdochost = "No servers found."
+  else
+    rdochost = rdochost.first
+    rdochost = rdochost["ipaddress"]
+    rdocport = "8080"
   end
-  rdochost = rdochost.first
-  rdocport = "8080"
 end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = {}
-  search(:node, "role:rabbitserver") do |n|
-    amqphost[n.ipaddress] = {}
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
   end
-  amqphost = amqphost.first
-  amqpport = "5672"
 end
+
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
