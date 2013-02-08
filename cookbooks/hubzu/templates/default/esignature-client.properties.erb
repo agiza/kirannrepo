@@ -1,0 +1,21 @@
+# ESignature configurations
+esignature.endpoint.url=https://demo.docusign.net/restapi/v2
+esignature.username=testpaperlessdocusign@gmail.com
+esignature.password=docusign2
+esignature.integrator.key=XPAN-105ed2ca-b505-4001-8024-8aa5b9ad0508
+esignature.assetmanager.role=Asset Manager
+esignature.listingagent.role=Listing Agent
+esignature.listing.agreement.template.id=888A127A-E559-4AE7-B895-4BB5A7832E39
+esignature.listing.addendum.template.id=E7FDBCDC-AB23-4FD7-965E-7D5BB2475970
+
+# listing agreement esignature email contents
+esignature.listing.agreement.emailBody=Hi,\n\nThe Listing Agreement for {propertyAddress}, {propertyCity}, {propertyState} is ready for your review and signature.\n\n\
+Please complete your review and sign the agreement within 24 hours.\n\
+Once all parties have signed, we\u2019ll email you a final copy.
+esignature.listing.agreement.emailSubject=Listing Agreement for {propertyOccupied} Hubzu property ID {propertyId}
+
+# listing addendum esignature email contents
+esignature.listing.addendum.emailBody=Hi,\n\nThe Listing Agreement for {propertyAddress}, {propertyCity}, {propertyState} has been updated.\n\
+The {listing.addendum.documentName} reflects this change and is ready for review.\n\n\
+Please complete your review and sign the {addendum.documentName} within 24 hours. Once all parties have signed, we\u2019ll email you a final copy.
+esignature.listing.addendum.emailSubject=Change to Hubzu Listing Agreement for property ID {propertyId}
