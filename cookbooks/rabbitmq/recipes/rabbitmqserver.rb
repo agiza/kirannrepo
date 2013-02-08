@@ -10,8 +10,6 @@ include_recipe "altisource::altirepo"
 include_recipe "altisource::epel-local"
 include_recipe "infrastructure::selinux"
 
-app_name = "rabbitmq-server-config"
-
 package "rabbitmq-server" do
   #provider Chef::Provider::Package::Yum
   action :upgrade
@@ -38,18 +36,29 @@ service "rabbitmq-server" do
 end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
-rabbitservers = []
+#rabbitservers = []
 if node.attribute?('performance')
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:#{node.chef_environment}")
+  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{node.chef_environment}")
+  if rabbitentries.nil? || rabbitentries.empty?
+    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
+  else
+    rabbitentries = rabbitentries["hostname"]
+  end
 else
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver AND chef_environment:shared")
+  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  if rabbitentries.nil? || rabbitentries.empty?
+    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
+  else
+    rabbitentries = rabbitentries["hostname"]
+  end
 end
-rabbitentries.each do |server|
-  rabbitservers << server[:hostname]
-end
-rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
+
+#rabbitentries.each do |server|
+#  rabbitservers << server[:hostname]
+#end
+rabbitservers = rabbitentries.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
-hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver")
+hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
