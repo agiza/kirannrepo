@@ -26,6 +26,10 @@ package "MySQL-server-advanced" do
   action :upgrade
 end
 
+package "MySQL-devel-advanced" do
+  action :upgrade
+end
+
 template "/etc/my.cnf" do
   source "my.cnf.erb"
   owner  "root"
