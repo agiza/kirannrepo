@@ -36,24 +36,23 @@ service "rabbitmq-server" do
 end
 
 # This creates an string collection of all rabbitmq servers for the cluster config file.
-#rabbitservers = []
-rabbitarray = []
+rabbitservers = []
 if node.attribute?('performance')
   rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{node.chef_environment}")
   if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
+    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
   else
     rabbitentries.each do |rabbitentry|
-      rabbitarray << rabbitentry["hostname"]
+      rabbitservers << rabbitentry[:hostname]
     end
   end
 else
   rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
+    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
   else
     rabbitentries.each do |rabbitentry|
-      rabbitarray << rabbitentry["hostname"]
+      rabbitservers << rabbitentry[:hostname]
     end
   end
 end
@@ -61,7 +60,7 @@ end
 #rabbitentries.each do |server|
 #  rabbitservers << server[:hostname]
 #end
-rabbitservers = rabbitarray.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
+rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
 

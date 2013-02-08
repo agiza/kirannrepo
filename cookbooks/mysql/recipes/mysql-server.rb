@@ -86,6 +86,12 @@ directory "/mysql/innodb" do
   action :create
 end
 
+link "/usr/lib64/libmysqlclient.so.16.0.0" do
+  to "/usr/lib64/libmysqlclient.so" 
+  owner "root"
+  group "root"
+end
+
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action [:enable ]
