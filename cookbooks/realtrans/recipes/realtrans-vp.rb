@@ -9,6 +9,22 @@
 app_name = "realtrans-vp"
 app_version = node[:realtransvp_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:realtrans\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:realtransvp_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
 include_recipe "altisource::altitomcat"
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]

@@ -7,6 +7,22 @@
 app_name = "realtrans-central"
 app_version = node[:realtranscentral_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:realtrans\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:realtranscentral_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
 # Include tomcat recipe to get tomcat installed
 include_recipe "altisource::altitomcat"
 
