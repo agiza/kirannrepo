@@ -16,7 +16,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitmqserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
-    Chef::Log.info("No services returned from search.") && amqphost = "No amqp servers found on search."
+    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
   else
     amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]
@@ -29,7 +29,7 @@ if node.attribute?('realdocproxy')
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
     if rdochost.nil? || rdochost.empty?
-    Chef::Log.info("No services returned from search.") && rdochost = "No realdoc servers found on search."
+    Chef::Log.warn("No services returned from search.") && rdochost = "No servers found"
   else
     rdochost = rdochost.first
     rdochost = rdochost["ipaddress"]
@@ -64,7 +64,7 @@ if node.attribute?('elasticsearchproxy')
 else
   elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
   if elasticHost.nil? || elasticHost.empty?
-    Chef::Log.info("No services returned from search.") && elasticHost = "No elasticsearch servers found on search."
+    Chef::Log.warn("No services returned from search.") && elasticHost = "No servers found."
   else
     elasticHost = elasticHost.first
     elasticHost = elasticHost["ipaddress"]
