@@ -57,9 +57,7 @@ else
   end
 end
 
-#rabbitentries.each do |server|
-#  rabbitservers << server[:hostname]
-#end
+# This collects and converts the hostnames into the format for a cluster file.
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
