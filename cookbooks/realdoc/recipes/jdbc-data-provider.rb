@@ -9,6 +9,22 @@
 app_name = "jdbc-data-provider"
 app_version = node[:jdbcprov_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:realdoc\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:jdbcprov_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
 include_recipe "altisource::altitomcat"
 
 service "altitomcat" do

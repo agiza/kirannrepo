@@ -7,19 +7,21 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "realdoc"
+app_version = node[:realdoc_version]
+
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
-  if node[:realdoc_version].empty? || node[:realdoc_version].nil?
-    app_version = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{node.chef_environment}")
-    if app_version.nil? || app_version.empty?
-      Chef::Log.fatal("No version for realdoc software package found.")
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:realdoc\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
     else
-      app_version = app_version.first
-      app_version = app_version["realdoc_version"]
+      new_version = new_version.first
+      app_version = new_version[:realdoc_version]
     end
   else
-    app_version = node[:realdoc_version]
+    Chef::Log.info("Found version attribute.")
   end
 end
 
