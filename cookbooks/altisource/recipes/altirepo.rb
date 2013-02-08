@@ -22,8 +22,12 @@ if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
   yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo") 
-  yumserver = yumserver.first
-  yumserver = yumserver["ipaddress"]
+  if yumserver.nil? || yumserver.empty?
+    Chef::Log.info("No yum repositories found.") && yumserver = "127.0.0.1"
+  else
+    yumserver = yumserver.first
+    yumserver = yumserver["ipaddress"]
+  end
 end
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"

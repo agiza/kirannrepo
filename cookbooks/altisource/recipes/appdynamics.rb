@@ -12,17 +12,21 @@ package "appdynamic-agent" do
 end
 
 if node.attribute?('performance')
-  appdynhost = {}
-    search(:node, "role:appdynamics-server AND chef_environment:#{node.chef_environment}") do |n|
-      appdynhost[n.ipaddress] = {}
+  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:#{node.chef_environment}")
+  if appdynhost.nil? || appdynhost.empty?
+    Chef::Log.warn("No Appdynamics Controllers found.") && appdynhost = "127.0.0.1"
+  else
+    appdynhost = appdynhost.first
+    appdynhost = appdynhost["ipaddress"]
   end
-  appdynhost = appdynhost.first
 else
-  appdynhost = {}
-    search(:node, "role:appdynamics-server AND chef_environment:shared") do |n|
-    appdynhost[n.ipaddress] = {}
+  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:shared")
+  if appdynhost.nil? || appdynhost.empty?
+    Chef::Log.warn("No Appdynamics Controllers found.") && appdynhost = "127.0.0.1"
+  else
+    appdynhost = appdynhost.first
+    appdynhost = appdynhost["ipaddress"]
   end
-  appdynhost = appdynhost.first
 end
 
 template "/opt/appdynamic-agent/conf/controller-info.xml" do
