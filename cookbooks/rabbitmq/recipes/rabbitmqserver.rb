@@ -44,7 +44,8 @@ if node.attribute?('performance')
     Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
   else
     rabbitentries.each do |rabbitentry|
-    rabbitarray << rabbitentry["hostname"]
+      rabbitarray << rabbitentry["hostname"]
+    end
   end
 else
   rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
@@ -52,7 +53,8 @@ else
     Chef::Log.warn("No rabbitservers found.") && rabbitentries = node["hostname"]
   else
     rabbitentries.each do |rabbitentry|
-    rabbitarray << rabbitentry["hostname"]
+      rabbitarray << rabbitentry["hostname"]
+    end
   end
 end
 
