@@ -8,7 +8,7 @@
 #
 # Create a hash of all environments with lendersone installed
 l1cenenvirons = {}
-search(:node, "role:l1-cen") do |n|
+search(:node, "recipes:l1\\:\\:l1-central OR role:l1-cen") do |n|
   l1cenenvirons[n.chef_environment] = {}
 end
 
@@ -30,15 +30,15 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1cenenvirons.each do |environ|
     cenNames = {}
-    search(:node, "role:l1-cen AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:l1\\:\\:l1-central OR role:l1-cen AND chef_environment:#{environ}") do |n|
       cenNames[n.ipaddress] = {}
     end
     venNames = {}
-    search(:node, "role:l1-ven AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:l1\\:\\:l1-vp OR role:l1-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end
     l1intNames = {}
-    search(:node, "role:l1-integration AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:integration\\:\\:l1-corelogic OR role:l1-integration AND chef_environment:#{environ}") do |n|
       l1intNames[n.ipaddress] = {}
     end
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do

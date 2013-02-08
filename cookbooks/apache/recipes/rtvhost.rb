@@ -8,12 +8,12 @@
 #
 # Create a hash of all environments with realtrans installed
 rtcenenvirons = {}
-search(:node, "role:realtrans-cen") do |n|
+search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen") do |n|
   rtcenenvirons[n.chef_environment] = {}
 end
 
 rtvenenvirons = {}
-search(:node, "role:realtrans-ven") do |n|
+search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven") do |n|
   rtvenenvirons[n.chef_environment] = {}
 end
 
@@ -38,11 +38,11 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtcenenvirons.each do |environ|
     cenNames = {}
-    search(:node, "role:realtrans-cen AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{environ}") do |n|
       cenNames[n.ipaddress] = {}
     end
     venNames = {}
-    search(:node, "role:realtrans-ven AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven AND chef_environment:#{environ}") do |n|
       venNames[n.ipaddress] = {}
     end 
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do

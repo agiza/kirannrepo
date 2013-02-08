@@ -9,7 +9,7 @@
 
 # Create a hash of all environments with realfoundationapp installed
 rfenvirons = {}
-search(:node, "role:realfoundationapp") do |n|
+search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundationapp") do |n|
   rfenvirons[n.chef_environment] = {}
 end
 
@@ -33,7 +33,7 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
     rfNames = {}
-    search(:node, "role:realfoundation AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
       rfNames[n.ipaddress] = {}
     end
     #rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
