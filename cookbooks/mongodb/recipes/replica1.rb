@@ -54,9 +54,9 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
-service "mongod" do
-  action [:disable, :stop]
-end
+#service "mongod" do
+#  action [:disable, :stop]
+#end
 
 service "#{app_name}" do
   action [:enable, :start]
