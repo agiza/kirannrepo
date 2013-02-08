@@ -24,6 +24,11 @@ directory "/data/db/replica1" do
   group "mongod"
 end
 
+service "mongod" do
+  supports :stop => true, :start => true, :restart => true, :status => true, :reload => true, :disable => true
+  action :nothing
+end
+
 service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing
@@ -47,6 +52,10 @@ template "/etc/init.d/#{app_name}" do
   mode   "0755"
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
+end
+
+service "mongod" do
+  action [:disable, :stop]
 end
 
 service "#{app_name}" do

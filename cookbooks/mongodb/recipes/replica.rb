@@ -29,6 +29,11 @@ service "#{app_name}" do
   action :nothing
 end
 
+service "mongod" do
+  supports :stop => true, :start => true, :restart => true, :status => true, :reload => true, :disable => true
+  action :nothing
+end
+
 template "/etc/#{app_name}.conf" do
   source "mongod.conf.erb"
   group "root"
@@ -47,6 +52,10 @@ template "/etc/init.d/#{app_name}" do
   mode   "0755"
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
+end
+
+service "mongod" do
+  action [:disable, :stop]
 end
 
 service "#{app_name}" do
