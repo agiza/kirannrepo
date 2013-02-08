@@ -17,4 +17,5 @@ default["realfound_appkey"]	= "REALFoundationApp"
 default["tenantid"]		= "TENANT1"
 default["rf_ldap_flag"]		= "false"
 default["rf_dao_flag"]		= "true"
-
+default["access_index"]		= "realfoundation"
+default["log4j_index"]         = "realfoundation"
