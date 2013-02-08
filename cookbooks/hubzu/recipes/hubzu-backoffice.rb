@@ -9,16 +9,34 @@
 app_name = "hubzu-backoffice"
 app_version = node[:hubzubo_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:hubzu\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:hubzubo_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
 if node.attribute?('hzproxy')
   hzhost = node[:hzproxy].split(":")[0]
   hzport = node[:hzproxy].split(":")[1]
 else
-  hzhost = {}
-  search(:node, "role:hubzu AND chef_environment:#{node.chef_environment}") do |n|
-    hzhost[n.ipaddress] = {}
+  hzhost = search(:node, "recipes:hubzu\\:\\:#{app_name} OR role:hubzu AND chef_environment:#{node.chef_environment}")
+  if hzhost.nil? || hzhost.empty?
+    Chef::Log.warn("No services found.") && hzhost = "No servers found."
+  else
+    hzhost = hzhost.first
+    hzhost = hzhost["ipaddress"]
+    hzport = "8080"
   end
-  hzhost = hzhost.first
-  hzport = "8080"
 end
 
 service "altitomcat" do
