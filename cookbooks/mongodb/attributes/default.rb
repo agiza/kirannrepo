@@ -1,0 +1,1 @@
+defaults["volumes"] = "sdb|mongod"
