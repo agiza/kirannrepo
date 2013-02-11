@@ -1,0 +1,1 @@
+default["volumes"] = "sdb|opt"

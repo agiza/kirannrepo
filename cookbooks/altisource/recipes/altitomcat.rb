@@ -6,6 +6,7 @@
 #include_recipe "java"
 include_recipe "altisource::yumclient"
 include_recipe "altisource::altirepo"
+include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"
 
