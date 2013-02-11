@@ -80,7 +80,7 @@ template "/etc/rabbitmq/rabbit-host.sh" do
   group 'root'
   owner 'root'
   mode '0755'
-  notifies :run, 'execute[rabbit-host]', :immediately
+  notifies :run, 'execute[rabbit-host]', :delayed
 end
 
 template "/etc/rabbitmq/hosts.txt" do
@@ -89,7 +89,7 @@ template "/etc/rabbitmq/hosts.txt" do
   owner  "root"
   mode   "0644"
   variables(:hostentries => hostentries)
-  notifies :run, 'execute[rabbit-host]', :immediately
+  notifies :run, 'execute[rabbit-host]', :delayed
 end
 
 template "/var/lib/rabbitmq/.erlang.cookie" do
@@ -155,7 +155,7 @@ if node.attribute?('rabbitmq-master')
       :vhost_names => vhost_names,
       :adminuser => rabbitcore['adminuser']
     )
-    notifies :run, 'execute[rabbit-config]', :immediately
+    notifies :run, 'execute[rabbit-config]', :delayed
   end
 
 # This loops through all application entries to create the actual script to setup application entries
@@ -179,7 +179,7 @@ if node.attribute?('rabbitmq-master')
           :userstring => name_queue['user'],
           :adminuser => rabbitcore['adminuser']
         )
-        notifies :run, "execute[#{application_name}-config]", :immediately
+        notifies :run, "execute[#{application_name}-config]", :delayed
       end
     end
   end
@@ -191,7 +191,7 @@ else
     group  "root"
     owner  "root"
     mode   "0755"
-    notifies :run, 'execute[guest-remove]', :immediately
+    notifies :run, 'execute[guest-remove]', :delayed
   end
 end
 
