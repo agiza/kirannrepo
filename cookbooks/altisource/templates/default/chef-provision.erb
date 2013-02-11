@@ -69,7 +69,7 @@ if [ "$hostcheck" != "" ]; then
   echo "NSlookup of server failed, please check that the host is in DNS."; exit 1
 fi
 # Hostname was passed and nslookup succeeded, proceed with provisioning.
-knife bootstrap $host --distro rhel6-rpm && echo "Chef has been provisioned to the host." 
+knife bootstrap $host --distro rhel6-rpms && echo "Chef has been provisioned to the host." 
 check_errs $? "There was a problem with the bootstrap."
 
 # Add node to the new environment.
