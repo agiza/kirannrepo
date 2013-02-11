@@ -5,9 +5,27 @@
 
 #include_recipe "java"
 app_name = "l1-central"
+app_attr = "l1central_version"
 app_version = node[:l1central_version]
 
-include_recipe "altisource::altitomcat"
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:l1\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version["#{app_attr}"]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
+include_recipe "l1::default"
+#include_recipe "altisource::altitomcat"
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
@@ -22,6 +40,7 @@ else
     rdocport = "8080"
   end
 end
+
 if node.attribute?('l1cenproxy')
   l1cenhost = node[:l1cenproxy].split(":")[0]
   l1cenport = node[:l1cenproxy].split(":")[1]
@@ -35,19 +54,19 @@ else
     l1cenport = "8080"
   end
 end
-if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy].split(":")[0]
-  amqpport = node[:amqpproxy].split(":")[1]
-else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
-  if amqphost.nil? || amqphost.empty?
-    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
-  else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
-    amqpport = "5672"
-  end
-end
+#if node.attribute?('amqpproxy')
+#  amqphost = node[:amqpproxy].split(":")[0]
+#  amqpport = node[:amqpproxy].split(":")[1]
+#else
+#  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+#  if amqphost.nil? || amqphost.empty?
+#    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
+#  else
+#    amqphost = amqphost.first
+#    amqphost = amqphost["ipaddress"]
+#    amqpport = "5672"
+#  end
+#end
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
