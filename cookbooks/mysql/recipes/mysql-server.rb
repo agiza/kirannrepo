@@ -49,7 +49,7 @@ if yumserver.nil? || yumserver.empty?
   Chef::Log.warn("No yum repositories found.")
 else
   yumserver = yumserver.first
-  yumserver = yumserver["hostname"]
+  yumserver = yumserver["ipaddress"]
 end
 template "/usr/local/bin/mysql-dbd" do
   source "mysql-dbd.erb"
