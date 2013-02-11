@@ -54,13 +54,13 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
-if node.attribute?('recipes:mongodb::mongod')
-  Chef::Log.info("This is also a mongodb-primary server.")
-else
-  service "mongod" do
-    action [:disable, :stop]
-  end
-end
+#if node.attribute?('recipes:mongodb::mongod')
+#  Chef::Log.info("This is also a mongodb-primary server.")
+#else
+#  service "mongod" do
+#    action [:disable, :stop]
+#  end
+#end
 
 service "#{app_name}" do
   action [:enable, :start]
