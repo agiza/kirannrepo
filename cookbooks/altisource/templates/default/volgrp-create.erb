@@ -2,13 +2,12 @@
 
 # Data section
 # This accepts the mount point for the volume group
-mount="<%= @mount %>"
+mount="<%= @volume["mount"] %>"
 # convert the mount into a volume group
 vol_grp="${mount}_vg"
 # disk size should be a full number and size such as "107.4 GB"
-disk_size="<%= @size %>"
-# This queries all disks, greps for the specific size, greps for sd then grabs the sd device, removes all but the disk.
-device=`fdisk -ll | grep "${size}" | grep sd | cut -d " " -f2 | sed -e s/://g | cut -d "/" -f3`
+disk="<%= @volume["device"] %>"
+device=/dev/$disk`
 # Makes the physical partition a product of the disk
 partition="${device}"
 
@@ -17,10 +16,10 @@ fstab_check=`grep /dev/mapper/${vol_grp}-lvol0` /etc/fstab`
 if [ "$fstab_check" != "" ]; then
 
   # Create the partition on the physical volume.
-  pvcreate /dev/${partition}
+  pvcreate $device
 
   # Create the volume group with the physical volume.
-  vgcreate ${vol_grp} /dev/${partition}
+  vgcreate ${vol_grp} $device
 
   # Create Logical volume from volume group.
   lvcreate -l 100%VG ${vol_grp}
@@ -35,12 +34,12 @@ if [ "$fstab_check" != "" ]; then
     mkdir -p /${mount}
   fi
 
-  echo -e "/dev/mapper/${vol_grp}-lvol0\t$mount\text4\tdefaults\t1 1" >> /etc/fstab
+  echo -e "/dev/mapper/${vol_grp}-lvol0\t/$mount\text4\tdefaults\t1 1" >> /etc/fstab
 
   # Mount all volumes in fstab
   mount -a
 
-  echo "All volumes mounted." && touch /etc/sysconfig/mount_complete
+  echo "All volumes mounted."
 else
   echo "Volumes already mounted."
 fi
