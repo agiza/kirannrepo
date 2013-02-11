@@ -7,7 +7,24 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "l1-fp"
+app_attr = "l1fp_version"
 app_version = node[:l1fp_version]
+
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.empty? || app_version.nil?
+    new_version = search(:node, "recipes:l1\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version["#{app_attr}"]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
 
 include_recipe "altisource::altitomcat"
 
