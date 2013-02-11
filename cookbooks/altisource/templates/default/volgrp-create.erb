@@ -2,11 +2,11 @@
 
 # Data section
 # This accepts the mount point for the volume group
-mount="<%= @volume["mount"] %>"
+mount="<%= @mount %>"
 # convert the mount into a volume group
 vol_grp="${mount}_vg"
 # disk size should be a full number and size such as "107.4 GB"
-disk="<%= @volume["device"] %>"
+disk="<%= @device %>"
 device=/dev/$disk`
 # Makes the physical partition a product of the disk
 partition="${device}"

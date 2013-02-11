@@ -11,7 +11,7 @@ else
     Chef::Log.info("No volumes found to mount.")
   else
     volumes.each do |volume|
-
+      voldata = volume["#{volume}"].split("|")
       execute "#{volume}-mount" do
         command "/usr/local/bin/#{volume}-mount.sh"
         action :nothing
@@ -22,7 +22,8 @@ else
         owner  "root"
         mode   "0755"
         variables(
-          :volume => volume
+          :mount => voldata[0],
+          :device => voldata[1]
         )
        # notifies :run, "execute[#{volume}-mount]", :delayed
       end
