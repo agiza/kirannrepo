@@ -8,6 +8,7 @@
 #
 
 include_recipe "altisource::altirepo"
+include_recipe "mysql::default"
 
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
