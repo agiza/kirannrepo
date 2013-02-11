@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+vol_name = "mysql"
 
 include_recipe "altisource::volgrp"
 
