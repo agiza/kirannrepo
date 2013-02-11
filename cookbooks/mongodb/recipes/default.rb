@@ -9,12 +9,18 @@
 
 include_recipe "altisource::altirepo"
 
+service "mongod" do
+  supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
+  action :nothing
+end
+
 package "mongo-10gen" do
   action :upgrade
 end
 
 package "mongo-10gen-server" do
   action :upgrade
+  notifies :stop, resources(:service => "mongod")
 end
 
 directory "/var/run/mongo" do
