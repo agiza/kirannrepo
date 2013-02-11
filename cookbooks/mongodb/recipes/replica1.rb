@@ -54,8 +54,8 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
-if run_list?("recipe[mongodb::mongod]")
-  Chef::Log.info("This server is a mongodb-primary node.")
+if node.run_list?("recipes[mongodb::mongod]")
+  Chef::Log.info("This is also a mongodb-primary server.")
 else
   service "mongod" do
     action [:disable, :stop]
