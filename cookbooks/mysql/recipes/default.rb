@@ -7,5 +7,5 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "alitsource::volgrp"
+include_recipe "altisource::volgrp"
 
