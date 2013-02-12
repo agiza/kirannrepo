@@ -112,8 +112,8 @@ directory "/mysql/innodb" do
   action :create
 end
 
-link "/usr/lib64/libmysqlclient.so.16.0.0" do
-  to "/usr/lib64/libmysqlclient.so" 
+link "/usr/lib64/libmysqlclient.so" do
+  to "/usr/lib64/libmysqlclient.so.16.0.0" 
   owner "root"
   group "root"
 end
