@@ -1,1 +1,1 @@
-default["volumes"] = "sdb|mongod"
+default["volumes"] = "sdb|mongod|mongod"
