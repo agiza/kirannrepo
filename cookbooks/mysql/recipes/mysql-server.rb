@@ -36,6 +36,14 @@ package "MySQL-devel-advanced" do
   action :upgrade
 end
 
+package "MySQL-test-advanced" do
+  action :upgrade
+end
+
+link "/usr/lib64/libmysqlclient.so" do
+  to "/usr/lib64/libmysqlclient.so.16.0.0"
+end
+
 template "/etc/my.cnf" do
   source "my.cnf.erb"
   owner  "root"
@@ -61,7 +69,7 @@ template "/usr/local/bin/mysql-dbd" do
     :dbdapp => dbdapp,
     :yumserver => yumserver
   )
-  notifies :run, resources(:execute => "mysql-dbd")
+  notifies :run, resources(:execute => "mysql-dbd"), :delayed
 end
 
 directory "/mysql" do
@@ -110,12 +118,6 @@ directory "/mysql/innodb" do
   owner "mysql"
   group "mysql"
   action :create
-end
-
-link "/usr/lib64/libmysqlclient.so" do
-  to "/usr/lib64/libmysqlclient.so.16.0.0" 
-  owner "root"
-  group "root"
 end
 
 service "mysql" do
