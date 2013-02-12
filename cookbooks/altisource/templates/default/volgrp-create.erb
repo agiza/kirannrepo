@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Data section
-voldata="<%= @voldata %>
-for i in `echo "${voldata}`; do
+voldata="<%= @voldata %>"
+for i in `echo "${voldata}"`; do
 
   # This accepts the mount point for the volume group
   mount=`echo "$i" | cut -d "|" -f2`
@@ -15,26 +15,26 @@ for i in `echo "${voldata}`; do
   partition="${device}"
 
   # Check to see if the volume group has been added to fstab, if so, do nothing.
-  fstab_check=`grep /dev/mapper/${vol_grp}-lvol0` /etc/fstab`
+  fstab_check=`grep "/dev/mapper/${vol_grp}-lvol0" /etc/fstab`
   if [ "$fstab_check" != "" ]; then
 
     # Create the partition on the physical volume.
-    pvcreate $device
+    pvcreate "$device"
 
     # Create the volume group with the physical volume.
-    vgcreate ${vol_grp} $device
+    vgcreate "${vol_grp}" "$device"
 
     # Create Logical volume from volume group.
-    lvcreate -l 100%VG ${vol_grp}
+    lvcreate -l 100%VG "${vol_grp}"
 
     # Format the file system on the new Logical Volume.
-    mkfs -t ext4 -m 1 /dev/mapper/${vol_grp}-lvol0
+    mkfs -t ext4 -m 1 "/dev/mapper/${vol_grp}-lvol0"
 
     # Create the mount point for mounting the volume.
     if [ -d "/${mount}" ]; then
       echo "Mount already present"
     else
-      mkdir -p /${mount}
+      mkdir -p "/${mount}"
     fi
 
     echo -e "/dev/mapper/${vol_grp}-lvol0\t/$mount\text4\tdefaults\t1 1" >> /etc/fstab
