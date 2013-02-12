@@ -22,7 +22,7 @@ else
       variables(
         :voldata => volumes
       )
-     # notifies :run, "execute[volgrp-mount]", :delayed
+      notifies :run, "execute[volgrp-mount]", :immediately
     end
   end
 end
