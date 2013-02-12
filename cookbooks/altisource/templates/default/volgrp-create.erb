@@ -16,7 +16,7 @@ for i in `echo "${voldata}"`; do
 
   # Check to see if the volume group has been added to fstab, if so, do nothing.
   fstab_check=`grep "/dev/mapper/${vol_grp}-lvol0" /etc/fstab`
-  if [ "$fstab_check" != "" ]; then
+  if [ "$fstab_check" == "" ]; then
 
     # Create the partition on the physical volume.
     pvcreate "$device"
