@@ -10,8 +10,7 @@
 if node.attribute?("novolume")
   Chef::Log.info("No volume mount attribute is set.")
 else
-  node.default.corrmount = ""
-  corrmount = node[:corrmount]
+  corrmount = data_bag_item("infrastructure", "correspondence")
   if corrmount.nil? || corrmount.empty?
     Chef::Log.info("No correspondence mounts found to mount.")
   else
@@ -25,7 +24,7 @@ else
       owner  "root"
       mode   "0755"
       variables(
-        :corrmount => corrmount
+        :corrmount => corrmount["mount"]
       )
       notifies :run, "execute[correspondence-mount]", :immediately
     end
