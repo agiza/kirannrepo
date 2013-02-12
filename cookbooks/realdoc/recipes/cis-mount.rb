@@ -40,7 +40,7 @@ else
         owner  "root"
         mode   "0755"
         variables(
-          :cismount => cismount
+          :corrount => cismount
         )
         notifies :run, "execute[cis-mount]", :immediately
       end
