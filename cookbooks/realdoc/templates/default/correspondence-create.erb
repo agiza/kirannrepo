@@ -24,7 +24,7 @@ for i in `echo "${voldata}"`; do
       mkdir -p "/${mount}"
     fi
 
-    echo -e "${device}\t/${mount}\t${type}\t${options}" >> /etc/fstab
+    echo -e "${device}\t${mount}\t${type}\t${options}" >> /etc/fstab
 
     # Mount all volumes in fstab
     mount -a
