@@ -1,1 +1,1 @@
-default["volumes"] = "sdb|opt"
+default["volumes"] = "sdb|opt|opt"

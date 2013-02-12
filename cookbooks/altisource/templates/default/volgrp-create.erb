@@ -5,9 +5,9 @@ voldata="<%= @voldata %>"
 for i in `echo "${voldata}"`; do
 
   # This accepts the mount point for the volume group
-  mount=`echo "$i" | cut -d "|" -f2`
+  mount=`echo "$i" | cut -d "|" -f3`
   # convert the mount into a volume group
-  vol_grp="${mount}_vg"
+  vol_grp=`echo "$i" | cut -d "|" -f2`
   # disk size should be a full number and size such as "107.4 GB"
   disk=`echo "$i" | cut -d "|" -f1`
   device=/dev/$disk
