@@ -52,25 +52,27 @@ done
 chef_testrun(){
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
-echo "Please wait while test run is performed, this may take a few minutes...."
-echo "Target Host is $target_host" >> /tmp/chef-testrun/chef-test.txt
-$ssh_command root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt
-less -f /tmp/chef-testrun/chef-test.txt
-rm /tmp/chef-testrun/chef-test.txt
-rm -r /tmp/chef-testrun
+  echo "Please wait while test run is performed, this may take a few minutes...."
+  echo "Target Host is $target_host" >> /tmp/chef-testrun/chef-test.txt 2>&1
+  $ssh_command root@$target_host "chef-client -W" >> /tmp/chef-testrun/chef-test.txt 2>&1
 done
+less -f -R /tmp/chef-testrun/chef-test.txt
+rm -f /tmp/chef-testrun/chef-test.txt
+rm -r /tmp/chef-testrun
+
 }
 
 chef_execute(){
 mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
-echo "Please wait while actual run is performed, this may take a few minutes...."
-echo "Target host is $target_host" >> /tmp/chef-run/chef-run.txt
-$ssh_command root@$target_host "chef-client" >> /tmp/chef-run/chef-run.txt
-less -f /tmp/chef-run/chef-run.txt
+  echo "Please wait while actual run is performed, this may take a few minutes...."
+  echo "Target host is $target_host" >> /tmp/chef-run/chef-run.txt 2>&1
+  $ssh_command root@$target_host "chef-client" >> /tmp/chef-run/chef-run.txt 2>&1
+done
+less -f -R /tmp/chef-run/chef-run.txt
 rm /tmp/chef-run/chef-run.txt
 rm -r /tmp/chef-run
-done
+
 }
 
 rpm_repo(){
@@ -111,8 +113,8 @@ if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 for target_host in `echo $target_list`; do
-$ssh_command root@$target_host "service altitomcat start"
-echo "Tomcat started on $target_host."
+  $ssh_command root@$target_host "service altitomcat start"
+  echo "Tomcat started on $target_host."
 done
 }
 
@@ -122,9 +124,9 @@ read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
-for target_host in `echo $target_list`; do
-$ssh_command root@$target_host "service altitomcat stop"
-echo "Tomcat stopped on $target_host."
+  for target_host in `echo $target_list`; do
+  $ssh_command root@$target_host "service altitomcat stop"
+  echo "Tomcat stopped on $target_host."
 done
 }
 
