@@ -1,1 +1,1 @@
-default["volumes"] = "sdb|opt|opt"
+default["volumes"] = "sdb|opt|opt/tomcat"
