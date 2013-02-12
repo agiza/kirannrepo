@@ -144,5 +144,6 @@ template "/opt/tomcat/conf/realdoc.key" do
   mode   "0600"
 end
 
-#include_recipe "realdoc::correspondence-mount"
+include_recipe "realdoc::correspondence-mount"
+include_recipe "realdoc::cis-mount"
 
