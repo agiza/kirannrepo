@@ -6,9 +6,15 @@
 #include_recipe "java"
 include_recipe "altisource::yumclient"
 include_recipe "altisource::altirepo"
+
+# make the directory for tomcat mount.
+directory "/opt/tomcat" do
+end
+
 include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"
+
 
 package "altitomcat" do
   action :upgrade
