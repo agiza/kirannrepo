@@ -11,6 +11,7 @@ include_recipe "altisource::altirepo"
 directory "/opt/tomcat" do
 end
 
+volumes = "sdb|opt|opt/tomcat"
 include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"

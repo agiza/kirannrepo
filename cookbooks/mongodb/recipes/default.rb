@@ -8,7 +8,6 @@
 #
 
 include_recipe "altisource::altirepo"
-include_recipe "altisource::volgrp"
 
 service "mongod" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true, :disable => true

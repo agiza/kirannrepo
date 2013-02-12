@@ -8,6 +8,8 @@
 #
 app_name = "mongod-replica1"
 include_recipe "mongodb::default"
+volumes = "sdb|mongod|mongod"
+include_recipe "altisource::volgrp"
 
 directory "/data" do
   owner "mongod"

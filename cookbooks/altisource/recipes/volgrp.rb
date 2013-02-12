@@ -6,7 +6,7 @@
 if node.attribute?("novolume")
   Chef::Log.info("No volume mount attribute is set.")
 else
-  volumes = node[:volumes]
+  # volumes = node[:volumes]
   if volumes.nil? || volumes.empty?
     Chef::Log.info("No volumes found to mount.")
   else
