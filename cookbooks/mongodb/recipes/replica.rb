@@ -8,7 +8,8 @@
 #
 app_name = "mongod-replica"
 include_recipe "mongodb::default"
-volumes = "sdb|mongod|mongod"
+# volumes = "sdb|mongod|mongod"
+node.default.volumes = "sdb|mongod|mongod"
 include_recipe "altisource::volgrp"
 
 directory "/data" do
