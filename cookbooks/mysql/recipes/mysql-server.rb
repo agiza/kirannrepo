@@ -45,7 +45,7 @@ template "/etc/my.cnf" do
 end
 
 dbdapp = "DBD-mysql-4.022"
-yumserver = search(:node, "recipes:altisource\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
+yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
 if yumserver.nil? || yumserver.empty?
   Chef::Log.warn("No yum repositories found.")
 else
