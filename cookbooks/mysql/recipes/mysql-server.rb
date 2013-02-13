@@ -20,24 +20,10 @@ execute "mysql-dbd" do
   action :nothing
 end
 
-package "MySQL-shared-compat-advanced" do
-  action :upgrade
-end
-
-package "MySQL-client-advanced" do
-  action :upgrade
-end
-
-package "MySQL-server-advanced" do
-  action :upgrade
-end
-
-package "MySQL-devel-advanced" do
-  action :upgrade
-end
-
-package "MySQL-test-advanced" do
-  action :upgrade
+%w[MySQL-shared-compat-advanced MySQL-client-advanced MySQL-server-advanced MySQL-devel-advanced MySQL-test-advanced].each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
 
 link "/usr/lib64/libmysqlclient.so" do
