@@ -19,30 +19,26 @@ execute "mysql-dbd" do
   command "/usr/local/bin/mysql-dbd"
   action :nothing
 end
-mysql_package = []
-mysql_package << "MySQL-shared-compat-advanced","MySQL-client-advanced","MySQL-server-advanced","MySQL-devel-advanced","MySQL-test-advanced"
-mysql_package = mysql_package.split(",")
-mysql_package.each do |package|
-  package "package" do
-    action :upgrade
-  end
+
+package "MySQL-shared-compat-advanced" do
+  action :upgrade
 end
 
-#package "MySQL-client-advanced" do
-#  action :upgrade
-#end
+package "MySQL-client-advanced" do
+  action :upgrade
+end
 
-#package "MySQL-server-advanced" do
-#  action :upgrade
-#end
+package "MySQL-server-advanced" do
+  action :upgrade
+end
 
-#package "MySQL-devel-advanced" do
-#  action :upgrade
-#end
+package "MySQL-devel-advanced" do
+  action :upgrade
+end
 
-#package "MySQL-test-advanced" do
-#  action :upgrade
-#end
+package "MySQL-test-advanced" do
+  action :upgrade
+end
 
 link "/usr/lib64/libmysqlclient.so" do
   to "/usr/lib64/libmysqlclient.so.16.0.0"
@@ -76,64 +72,53 @@ else
   end
 end
 
-mysql_dir = []
-mysql_dir << "/mysql","/mysql/data","/mysql/log","/mysql/log/err","/mysql/log/slow","/mysql/log/general","/mysql/tmp","/mysql/innodb"
-mysql_dir = mysql_dir.split(",")
-mysql_dir.each do |dir|
-  directory "dir" do
-    owner  "mysql"
-    group  "mysql"
-    action :create
-  end
+directory "/mysql" do
+  owner "mysql"
+  group "mysql"
+  action :create
 end
 
-#directory "/mysql" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
-#
-#directory "/mysql/data" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
-#
-#directory "/mysql/log" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
-#
-#directory "/mysql/log/err" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
+directory "/mysql/data" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
 
-#directory "/mysql/log/slow" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
-#
-#directory "/mysql/log/general" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
-#
-#directory "/mysql/tmp" do
-#  owner "mysql"
-#  group "mysql" 
-#  action :create 
-#end
+directory "/mysql/log" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
 
-#directory "/mysql/innodb" do
-#  owner "mysql"
-#  group "mysql"
-#  action :create
-#end
+directory "/mysql/log/err" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/log/slow" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/log/general" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
+
+directory "/mysql/tmp" do
+  owner "mysql"
+  group "mysql" 
+  action :create 
+end
+
+directory "/mysql/innodb" do
+  owner "mysql"
+  group "mysql"
+  action :create
+end
 
 service "mysql" do
   supports :stop => true, :start => true, :restart => true, :reload => true
