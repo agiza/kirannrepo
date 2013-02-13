@@ -69,12 +69,20 @@ template "/usr/local/sbin/appdyn-setup.sh" do
   notifies :run, resources(:execute => "install_check")
 end
 
-execute "addown" do
-  user "root"
-  cwd  "/tmp"
-  command "wget -O /tmp/controller_64bit_linux.sh http://10.0.0.20/yum/common/controller_64bit_linux.sh; cd /tmp; chmod +x controller_64bit_linux.sh"
-  creates "/opt/appdynamics/bin/controller.sh"
-  action :run
+yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yumserver")
+if yumserver.nil? || yumserver.empty?
+  Chef::Log.warn("No yumservers found to download controller software.")
+else
+  yumserver = yumserver("ipaddress")
+  execute "addown" do
+    user "root"
+    cwd  "/tmp"
+    command "wget -O /tmp/controller_64bit_linux.sh http://#{yumserver}/yum/common/controller_64bit_linux.sh; cd /tmp; chmod +x controller_64bit_linux.sh"
+    creates "/tmp/controller_64bit_linux.sh"
+    action :run
+    not_if "test -f /opt/appdynamics/bin/controller.sh"
+    Chef::Log.info("Controller software has been downloaded to the /tmp directory, it still needs to be manually installed.")
+  end
 end
 
 template "/etc/cron.daily/appdynamics" do
