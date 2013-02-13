@@ -8,12 +8,12 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-#rfenvirons = {}
-#search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
-#  rfenvirons[n.chef_environment] = {}
-#end
-rfenvirons = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation")
-rfenvirons = rfenvirons["chef_environment"]
+rfenvirons = {}
+search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
+  rfenvirons[n.chef_environment] = {}
+end
+#rfenvirons = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation")
+#rfenvirons = rfenvirons["chef_environment"]
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No services returned from search.")
@@ -39,7 +39,11 @@ else
     if rfNames.nil? || rfNames.empty?
       Chef::Log.info("No workers returned in this environment.")
     else
-      rfNames = rfNames["ipaddress"]
+      rfipaddress = []
+      rfNames.each do |name|
+        rfipaddress << name["ipaddress"]
+      end
+      rfNames = rfipaddress
       #search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
         #rfNames[n.ipaddress] = {}
       #end
