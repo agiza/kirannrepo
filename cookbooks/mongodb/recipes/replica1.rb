@@ -8,19 +8,9 @@
 #
 app_name = "mongod-replica1"
 include_recipe "mongodb::default"
-# volumes = "sdb|mongod|mongod"
+
 node.default.volumes = "sdb|mongod|mongod"
 include_recipe "altisource::volgrp"
-
-directory "/data" do
-  owner "mongod"
-  group "mongod"
-end
-
-directory "/data/db" do
-  owner "mongod"
-  group "mongod"
-end
 
 directory "/data/db/replica1" do
   owner "mongod"
@@ -56,14 +46,6 @@ template "/etc/init.d/#{app_name}" do
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
 end
-
-#if node.run_list?("role:mongodb-primary")
-#  Chef::Log.info("This is also a mongodb-primary server.")
-#else
-#  service "mongod" do
-#    action [:disable, :stop]
-#  end
-#end
 
 service "#{app_name}" do
   action [:enable, :start]

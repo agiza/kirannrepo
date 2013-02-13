@@ -13,12 +13,10 @@ include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"
 
-package "altitomcat" do
-  action :upgrade
-end
-
-package "jre" do
-  action :upgrade
+%w[altitomcat jre].each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
 
 service "altitomcat" do

@@ -12,16 +12,6 @@ include_recipe "mongodb::default"
 node.default.volumes = "sdb|mongod|mongod"
 include_recipe "altisource::volgrp"
 
-directory "/data" do
-  owner "mongod"
-  group "mongod"
-end
-
-directory "/data/db" do
-  owner "mongod"
-  group "mongod"
-end
-
 directory "/data/db/replica" do
   owner "mongod"
   group "mongod"

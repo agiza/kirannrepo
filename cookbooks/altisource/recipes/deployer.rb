@@ -19,16 +19,12 @@ user "rtnextgen" do
   shell "/bin/bash"
 end
 
-directory "/home/rtnextgen" do
-  owner "rtnextgen"
-  group "rtnextgen"
-  action :create
-end
-
-directory "/home/rtnextgen/bin" do
-  owner "rtnextgen"
-  group "rtnextgen"
-  action :create
+%w[/home/rtnextgen /home/rtnextgen/bin /home/rtnextgen/chef-repo /home/rtnextgen/.chef].each do |dir|
+  directory dir do
+    owner "rtnextgen"
+    group "rtnextgen"
+    action :create
+  end
 end
 
 if node.attribute?('yum_server')
@@ -76,17 +72,12 @@ template "/home/rtnextgen/bin/chef-provision" do
     :appnames => app_names['names']
   )
 end
-
-directory "/home/rtnextgen/.chef/plugins" do
-  owner "rtnextgen"
-  group "rtnextgen"
-  action :create
-end
-
-directory "/home/rtnextgen/.chef/plugins/knife" do
-  owner "rtnextgen"
-  group "rtnextgen"
-  action :create
+%w[/home/rtnextgen/.chef /home/rtnextgen/.chef/plugins /home/rtnextgen/.chef/plugins/knife].each do |dir|
+  directory dir do
+    owner "rtnextgen"
+    group "rtnextgen"
+    action :create
+  end
 end
 
 template "/home/rtnextgen/.chef/plugins/knife/set_environment.rb" do

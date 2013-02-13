@@ -9,16 +9,6 @@
 app_name = "mongod-config"
 include_recipe "mongodb::default"
 
-directory "/data" do
-  owner "mongod"
-  group "mongod"
-end
-
-directory "/data/db" do
-  owner "mongod"
-  group "mongod"
-end
-
 directory "/data/db/config" do
   owner "mongod"
   group "mongod"

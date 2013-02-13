@@ -7,12 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-yum_package "httpd" do
-  action :upgrade
-end
-
-yum_package "mod_ssl" do
-  action :upgrade
+%w[httpd mod_ssl].each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
 
 include_recipe "apache::mod_security"
@@ -24,14 +22,11 @@ service "httpd" do
   action :nothing
 end
 
-directory "/var/www/html/vpn" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/etc/httpd/proxy.d" do
-  owner "root"
-  group "root"
+%w[/var/www/html/vpn /etc/httpd/proxy.d].each do |dir|
+  directory dir do
+    owner  "root"
+    group  "root"
+  end
 end
 
 template "/etc/httpd/conf/httpd.conf" do

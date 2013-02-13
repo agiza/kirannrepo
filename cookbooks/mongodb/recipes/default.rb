@@ -24,8 +24,16 @@ package "mongo-10gen-server" do
   notifies :disable, resources(:service => "mongod")
 end
 
-directory "/var/run/mongo" do
+link "/data" do
+  to "/mongod"
   owner "mongod"
   group "mongod"
+end
+
+%w[/var/run/mongo /data/db].each do |dir|
+  directory dir do
+    owner "mongod"
+    group "mongod"
+  end
 end
 
