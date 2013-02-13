@@ -73,7 +73,7 @@ yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:gith
 if yumserver.nil? || yumserver.empty?
   Chef::Log.warn("No yumservers found to download controller software.")
 else
-  yumserver = yumserver("ipaddress")
+  yumserver = yumserver["ipaddress"]
   execute "addown" do
     user "root"
     cwd  "/tmp"
