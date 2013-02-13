@@ -9,6 +9,23 @@
 app_name = "int-interthinx"
 app_version = node[:intinterthinx_version]
 
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.nil? || app_version.empty?
+    new_version = search(:node, "recipes:integration\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:intinterthinx_version]
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
+
 include_recipe "altisource::altitomcat"
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
