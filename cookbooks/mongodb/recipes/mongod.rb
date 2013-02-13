@@ -7,10 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name="mongod"
-include_recipe "mongodb::default"
-# volumes = "sdb|mongod|mongod"
+
+# mount volumes first before creating directory structure.
 node.default.volumes = "sdb|mongod|mongod"
 include_recipe "altisource::volgrp"
+
+include_recipe "mongodb::default"
 
 directory "/etc/mongo" do
   owner "mongod"

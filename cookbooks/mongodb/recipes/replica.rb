@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "mongod-replica"
-include_recipe "mongodb::default"
-# volumes = "sdb|mongod|mongod"
 node.default.volumes = "sdb|mongod|mongod"
 include_recipe "altisource::volgrp"
+
+include_recipe "mongodb::default"
 
 directory "/data/db/replica" do
   owner "mongod"

@@ -24,6 +24,11 @@ package "mongo-10gen-server" do
   notifies :disable, resources(:service => "mongod")
 end
 
+directory "/mongod" do
+  owner  "mongod"
+  group  "mongod"
+end
+
 link "/data" do
   to "/mongod"
   owner "mongod"
