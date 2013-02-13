@@ -18,7 +18,7 @@ else
       Chef::Log.fatal("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
-      app_version = new_version[:intrsa_version]
+      app_version = new_version[:intrs_version]
     end
   else
     Chef::Log.info("Found version attribute.")
