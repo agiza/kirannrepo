@@ -9,7 +9,7 @@
 
 # Create a hash of all environments with realfoundationapp installed
 rfenvirons = {}
-search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundationapp") do |n|
+search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
   rfenvirons[n.chef_environment] = {}
 end
 
@@ -36,9 +36,6 @@ else
     search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
       rfNames[n.ipaddress] = {}
     end
-    #rfNames = search(:node, "role:realfoundationapp AND chef_environment:#{environ}")
-    #rfNames = rfNames.collect { |vhostName| "#{vhostName}" }.join(" ")
-    #rfNames = rfNames.gsub!("node[","").gsub!(".#{node[:domain]}]","").split(" ")
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"
