@@ -13,7 +13,6 @@ include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"
 
-
 package "altitomcat" do
   action :upgrade
 end
