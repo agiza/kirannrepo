@@ -19,8 +19,8 @@ execute "mysql-dbd" do
   command "/usr/local/bin/mysql-dbd"
   action :nothing
 end
-
-mysql_package = "MySQL-shared-compat-advanced", "MySQL-client-advanced", "MySQL-server-advanced", "MySQL-devel-advanced", "MySQL-test-advanced"
+mysql_package = []
+mysql_package << "MySQL-shared-compat-advanced","MySQL-client-advanced","MySQL-server-advanced","MySQL-devel-advanced","MySQL-test-advanced"
 mysql_package = mysql_package.split(",")
 mysql_package.each do |package|
   package "package" do
@@ -75,7 +75,9 @@ else
     notifies :run, resources(:execute => "mysql-dbd"), :delayed
   end
 end
-mysql_dir = "/mysql", "/mysql/data", "/mysql/log", "/mysql/log/err", "/mysql/log/slow", "/mysql/log/general", "/mysql/tmp", "/mysql/innodb"
+
+mysql_dir = []
+mysql_dir << "/mysql","/mysql/data","/mysql/log","/mysql/log/err","/mysql/log/slow","/mysql/log/general","/mysql/tmp","/mysql/innodb"
 mysql_dir = mysql_dir.split(",")
 mysql_dir.each do |dir|
   directory "dir" do
