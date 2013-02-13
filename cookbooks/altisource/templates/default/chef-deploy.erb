@@ -67,7 +67,7 @@ mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
   echo "Please wait while actual run is performed, this may take a few minutes...."
   echo "Target host is $target_host" >> /tmp/chef-run/chef-run.txt 2>&1
-  $ssh_command root@$target_host "chef-client" >> /tmp/chef-run/chef-run.txt 2>&1
+  $ssh_command root@$target_host "yum clean all; sleep 30; chef-client" >> /tmp/chef-run/chef-run.txt 2>&1
 done
 less -f -R /tmp/chef-run/chef-run.txt
 rm /tmp/chef-run/chef-run.txt
