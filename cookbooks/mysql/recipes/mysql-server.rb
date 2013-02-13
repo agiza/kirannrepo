@@ -58,52 +58,12 @@ else
   end
 end
 
-directory "/mysql" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/data" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/log" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/log/err" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/log/slow" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/log/general" do
-  owner "mysql"
-  group "mysql"
-  action :create
-end
-
-directory "/mysql/tmp" do
-  owner "mysql"
-  group "mysql" 
-  action :create 
-end
-
-directory "/mysql/innodb" do
-  owner "mysql"
-  group "mysql"
-  action :create
+%w[/mysql /mysql/data /mysql/log /mysql/log/err /mysql/log/slow /mysql/log/general /mysql/tmp /mysql/innodb].each do |dir|
+  directory dir do
+    owner "mysql"
+    group "mysql"
+    action :create
+  end
 end
 
 service "mysql" do
