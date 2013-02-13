@@ -7,10 +7,6 @@
 include_recipe "altisource::yumclient"
 include_recipe "altisource::altirepo"
 
-# make the directory for tomcat mount.
-directory "/opt/tomcat" do
-end
-
 #volumes = "sdb|opt|opt/tomcat"
 node.default.volumes = "sdb|opt|opt/tomcat"
 include_recipe "altisource::volgrp"
