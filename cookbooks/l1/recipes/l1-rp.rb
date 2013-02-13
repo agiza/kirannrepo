@@ -13,7 +13,7 @@ app_version = node[:l1rp_version]
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
-  if app_version.empty? || app_version.nil?
+  if app_version.nil? || app_version.empty?
     new_version = search(:node, "recipes:l1\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
       Chef::Log.fatal("No version for #{app_name} software package found.")
