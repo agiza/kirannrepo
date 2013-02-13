@@ -69,10 +69,11 @@ template "/usr/local/sbin/appdyn-setup.sh" do
   notifies :run, resources(:execute => "install_check")
 end
 
-yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yumserver")
+yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
 if yumserver.nil? || yumserver.empty?
   Chef::Log.warn("No yumservers found to download controller software.")
 else
+  yumserver = yumserver.first
   yumserver = yumserver["ipaddress"]
   execute "addown" do
     user "root"
