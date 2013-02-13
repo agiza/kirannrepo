@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+node.default.volumes = "sdb|opt|opt/tomcat"
+include_recipe "altisource::volgrp"
+
 package "libaio" do
   action :upgrade
 end
@@ -32,6 +35,9 @@ directory "/opt/appdynamics" do
   owner "appdynamics"
   group "appdynamics"
 end
+
+node.default.volumes = "sdb|ad|opt/appdynamics"
+include_recipe "altisource::volgrp"
 
 execute "install_check" do
   user "root"
