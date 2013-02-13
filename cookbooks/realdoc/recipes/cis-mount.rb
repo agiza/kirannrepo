@@ -15,7 +15,7 @@ else
   if cismount.nil? || cismount.empty?
     Chef::Log.info("No CIS mounts found to mount.")
   else
-    if node[:cisusername].nil? | node[:cisusername].empty? || node[:cispassword].nil? || node[:cispassword].empty?
+    if node[:cisusername].nil? || node[:cisusername].empty? || node[:cispassword].nil? || node[:cispassword].empty?
       Chef::Log.info("No smbcredentials provided, this mount will not work properly.")
     else
       cisusername = node[:cisusername]
