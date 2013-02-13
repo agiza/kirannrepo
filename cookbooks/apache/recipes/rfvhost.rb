@@ -8,10 +8,12 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-rfenvirons = {}
-search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
-  rfenvirons[n.chef_environment] = {}
-end
+#rfenvirons = {}
+#search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
+#  rfenvirons[n.chef_environment] = {}
+#end
+rfenvirons = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation")
+rfenvirons = rfenvirons["chef_environment"]
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No services returned from search.")
@@ -34,37 +36,41 @@ else
   rfenvirons.each do |environ|
     #rfNames = {}
     rfNames = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}")
-    rfNames = rfNames["ipaddress"]
-    #search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
-      #rfNames[n.ipaddress] = {}
-    #end
-    template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
-      source "rf.proxy.conf.erb"
-      owner "root"
-      group  "root"
-      mode   "0644"
-      notifies :reload, resources(:service => "httpd")
-      variables(
-        :vhostRfWorkers => rfNames,
-        :environ => "#{environ}",
-        :serveripallow => serveripallow
-      )
-    end
-    template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
-      source "rfvhost#{ssl}.conf.erb"
-      owner  "root"
-      group  "root"
-      mode   "0644"
-      notifies :reload, resources(:service => "httpd")
-      variables(
-        :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
-        :serverName => webName["rf#{environ}"]
-      )
-    end
-    directory "/var/www/html/#{environ}" do
-      owner "root"
-      group "root"
+    if rfNames.nil? || rfNames.empty?
+      Chef::Log.info("No workers returned in this environment.")
+    else
+      rfNames = rfNames["ipaddress"]
+      #search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
+        #rfNames[n.ipaddress] = {}
+      #end
+      template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
+        source "rf.proxy.conf.erb"
+        owner "root"
+        group  "root"
+        mode   "0644"
+        notifies :reload, resources(:service => "httpd")
+        variables(
+          :vhostRfWorkers => rfNames,
+          :environ => "#{environ}",
+          :serveripallow => serveripallow
+        )
+      end
+      template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
+        source "rfvhost#{ssl}.conf.erb"
+        owner  "root"
+        group  "root"
+        mode   "0644"
+        notifies :reload, resources(:service => "httpd")
+        variables(
+          :vhostName => "#{environ}",
+          :testvhostName => webName["rf#{environ}"],
+          :serverName => webName["rf#{environ}"]
+        )
+      end
+      directory "/var/www/html/#{environ}" do
+        owner "root"
+        group "root"
+      end
     end
   end
 end
