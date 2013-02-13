@@ -20,8 +20,12 @@ execute "mysql-dbd" do
   action :nothing
 end
 
-package "MySQL-shared-compat-advanced", "MySQL-client-advanced", "MySQL-server-advanced", "MySQL-devel-advanced", "MySQL-test-advanced" do
-  action :upgrade
+mysql_package = "MySQL-shared-compat-advanced", "MySQL-client-advanced", "MySQL-server-advanced", "MySQL-devel-advanced", "MySQL-test-advanced"
+mysql_package = mysql_package.split(",")
+mysql_package.each do |package|
+  package "package" do
+    action :upgrade
+  end
 end
 
 #package "MySQL-client-advanced" do
@@ -71,11 +75,14 @@ else
     notifies :run, resources(:execute => "mysql-dbd"), :delayed
   end
 end
-
-directory "/mysql", "/mysql/data", "/mysql/log", "/mysql/log/err", "/mysql/log/slow", "/mysql/log/general", "/mysql/tmp", "/mysql/innodb" do
-  owner  "mysql"
-  group  "mysql"
-  action :create
+mysql_dir = "/mysql", "/mysql/data", "/mysql/log", "/mysql/log/err", "/mysql/log/slow", "/mysql/log/general", "/mysql/tmp", "/mysql/innodb"
+mysql_dir = mysql_dir.split(",")
+mysql_dir.each do |dir|
+  directory "dir" do
+    owner  "mysql"
+    group  "mysql"
+    action :create
+  end
 end
 
 #directory "/mysql" do
