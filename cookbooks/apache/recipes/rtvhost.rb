@@ -48,7 +48,7 @@ else
   # Convert the hash list of environments into a string, unique values, then split
   #rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
   #rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
-  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
 
   # Convert the hash list of environments into a string, unique values, then split
   #rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
@@ -56,7 +56,10 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   #rtcenenvirons.each do |environ|
   rtenvirons.each do |environ|
-    fpnames = [] && rpnames = [] && vpnames = [] && regnames = []
+    fpnames = []
+    rpnames = []
+    vpnames = []
+    regnames = []
     search(:node, "recipes:realtrans\\:\\:realtrans-fp AND chef_environment:#{environ}").each do |worker|
       fpnames << worker["ipaddress"]
     end
