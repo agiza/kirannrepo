@@ -10,7 +10,7 @@
 
 rtenvirons = []
 %w[realtrans-rp realtrans-vp realtrans-fp realtrans-reg].each do |app|
-  search(:node, "recipes:realtrans\\:\\:app").each do |node|
+  search(:node, "recipes:realtrans\\:\\:"app).each do |node|
     rtenvirons << node["chef_environment"]
   end
 end
