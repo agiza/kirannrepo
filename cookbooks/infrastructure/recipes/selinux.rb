@@ -11,7 +11,7 @@ execute "permissive" do
   command "echo 0 > /selinux/enforce"
   :nothing
   only_if "test -f /selinux/enforce"
-  not_if  do "grep '0' /selinux/enforce".empty? end
+  not_if  "grep 0 /selinux/enforce"
 end
 
 template "/etc/sysconfig/selinux" do
