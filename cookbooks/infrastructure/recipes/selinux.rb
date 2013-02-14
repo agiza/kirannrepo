@@ -17,5 +17,6 @@ template "/etc/sysconfig/selinux" do
   owner  "root"
   group  "root"
   mode   "0644"
+  not_if "! -f /selinux/enforce" || "grep 0 /selinux/enforce"
 end
 
