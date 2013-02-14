@@ -97,15 +97,12 @@ rabbitapps.each do |app|
   unless "#{app}" == "rabbitmq"
     name_queue = data_bag_item("rabbitmq", app)
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost "]}
-    #name_queue["vhosts"].each do |vhost|
-    #  appvhosts << vhost
-    #end
     appvhosts << name_queue["vhosts"]
-    #appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
+    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
     vhost_names << appvhosts
   end
 end
-vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.sort.uniq.join(" ")
+vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.sort.uniq
 
 # This defines the common service that creates the initial cluster.
 execute "rabbit-config" do
