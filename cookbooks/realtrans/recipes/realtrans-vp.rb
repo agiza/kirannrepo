@@ -19,6 +19,7 @@ else
     else
       new_version = new_version.first
       app_version = new_version[:realtransvp_version]
+      node.set['realtransvp_version'] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")
