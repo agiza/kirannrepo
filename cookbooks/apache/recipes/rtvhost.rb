@@ -48,7 +48,7 @@ else
   # Convert the hash list of environments into a string, unique values, then split
   #rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
   #rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
-  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }join(" ").split.uniq.join(" ").split(" ")
+  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
   # Convert the hash list of environments into a string, unique values, then split
   #rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
