@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: rabbitmq
-# Recipe:: rabbitmq-worker
+# Recipe:: rabbitworker
 #
 # Copyright 2012, Altisource
 #

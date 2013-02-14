@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: rabbitmq
-# Recipe:: rabbitmq-master
+# Recipe:: rabbitmaster
 #
 # Copyright 2012, Altisource
 #
@@ -25,22 +25,16 @@ end
 # This creates an array of all rabbitmq worker hostnames for the cluster config file.
 rabbitservers = []
 if node.attribute?('performance')
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{node.chef_environment}")
-  if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
-  else
-    rabbitentries.each do |rabbitentry|
-      rabbitservers << rabbitentry[:hostname]
-    end
-  end
+  environment = node[:chef_environment]
 else
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
-  if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
-  else
-    rabbitentries.each do |rabbitentry|
-      rabbitservers << rabbitentry[:hostname]
-    end
+  environment = "shared"
+end
+rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{environment}")
+if rabbitentries.nil? || rabbitentries.empty?
+  Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
+else
+  rabbitentries.each do |rabbitentry|
+    rabbitservers << rabbitentry[:hostname]
   end
 end
 
@@ -99,10 +93,10 @@ end
 vhost_names = []
 # Find all items in rabbitmq data bag and loop over them to build application data and vhosts
 rabbitapps = data_bag("rabbitmq")
-rabbitapps.each do |application_name|
-  unless "#{application_name}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", application_name)
-    appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
+rabbitapps.each do |app|
+  unless "#{app}" == "rabbitmq"
+    name_queue = data_bag_item("rabbitmq", app)
+    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
     appvhosts << name_queue["vhosts"]
     appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq.join(" ")
     vhost_names << appvhosts
@@ -119,10 +113,10 @@ execute "rabbit-config" do
 end
 
 # This loops through all apps and defines a service to execute setup
-rabbitapps.each do |application_name|
-  unless "#{application_name}" == "rabbitmq"
-    execute "#{application_name}-config" do
-      command "/etc/rabbitmq/#{application_name}-rabbit.sh"
+rabbitapps.each do |app|
+  unless "#{app}" == "rabbitmq"
+    execute "#{app}-config" do
+      command "/etc/rabbitmq/#{app}-rabbit.sh"
       action :nothing
       environment ({'HOME' => '/etc/rabbitmq'})
     end
@@ -144,14 +138,14 @@ template "/etc/rabbitmq/rabbit-common.sh" do
 end
 
 # This loops through all application entries to create the actual script to setup application entries
-rabbitapps.each do |application_name|
-  unless "#{application_name}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", application_name)
-    appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
+rabbitapps.each do |app|
+  unless "#{app}" == "rabbitmq"
+    name_queue = data_bag_item("rabbitmq", app)
+    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
     appvhosts << name_queue['vhosts']
     #appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join(" ").split(" ").sort.uniq.join(" ")
     appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
-    template "/etc/rabbitmq/#{application_name}-rabbit.sh" do
+    template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
       group "root"
       owner "root"
@@ -160,12 +154,11 @@ rabbitapps.each do |application_name|
         :queue_names  => name_queue['queues'],
         :exchange_names => name_queue['exchange'],
         :binding_names => name_queue['binding'],
-        #:vhost_names => name_queue['vhosts'],
         :vhost_names => appvhosts,
         :userstring => name_queue['user'],
         :adminuser => rabbitcore['adminuser']
       )
-      notifies :run, "execute[#{application_name}-config]", :delayed
+      notifies :run, "execute[#{app}-config]", :delayed
     end
   end
 end
@@ -174,3 +167,4 @@ service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action [:enable, :start]
 end
+
