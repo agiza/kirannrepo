@@ -9,6 +9,8 @@
 app_name = "int-realservicing"
 app_version = node[:intrs_version]
 
+include_recipe "altisource::altitomcat"
+
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
@@ -19,14 +21,13 @@ else
     else
       new_version = new_version.first
       app_version = new_version[:intrs_version]
+      node.set[:intrs_version] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")
   end
 end
 
-
-include_recipe "altisource::altitomcat"
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]

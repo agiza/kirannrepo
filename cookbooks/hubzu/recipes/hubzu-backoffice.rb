@@ -9,6 +9,8 @@
 app_name = "hubzu-backoffice"
 app_version = node[:hubzubo_version]
 
+include_recipe "altisource::altitomcat"
+
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
@@ -19,6 +21,7 @@ else
     else
       new_version = new_version.first
       app_version = new_version[:hubzubo_version]
+      node.set[:hubzubo_version] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")

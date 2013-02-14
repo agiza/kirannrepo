@@ -9,6 +9,8 @@
 app_name = "hubzu"
 app_version = node[:hubzu_version]
 
+include_recipe "altisource::altitomcat"
+
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
@@ -19,6 +21,7 @@ else
     else
       new_version = new_version.first
       app_version = new_version[:hubzu_version]
+      node.set[:hubzu_version] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")

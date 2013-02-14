@@ -9,6 +9,26 @@
 app_name = "replication-app"
 app_version = node[:repapp_version]
 
+include_recipe "altisource::altitomcat"
+
+if node.attribute?('package_noinstall')
+  Chef::Log.info("No version needed.")
+else
+  if app_version.nil? || app_version.empty?
+    new_version = search(:node, "recipes:rsng\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
+    if new_version.nil? || new_version.empty?
+      Chef::Log.fatal("No version for #{app_name} software package found.")
+    else
+      new_version = new_version.first
+      app_version = new_version[:repapp_version]
+      node.set[:repapp_version] = app_version
+    end
+  else
+    Chef::Log.info("Found version attribute.")
+  end
+end
+
+
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]

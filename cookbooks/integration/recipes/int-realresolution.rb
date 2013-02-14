@@ -19,6 +19,7 @@ else
     else
       new_version = new_version.first
       app_version = new_version[:intrres_version]
+      node.set[:intrres_version] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")
