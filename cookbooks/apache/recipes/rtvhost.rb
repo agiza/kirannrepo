@@ -60,16 +60,16 @@ else
     rpnames = []
     vpnames = []
     regnames = []
-    search(:node, "recipes:realtrans\\:\\:realtrans-fp AND chef_environment:#{environ}") do |worker|
+    search(:node, "recipes:realtrans\\:\\:realtrans-fp AND chef_environment:#{environ}").each do |worker|
       fpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-rp AND chef_environment:#{environ}") do |worker|
+    search(:node, "recipes:realtrans\\:\\:realtrans-rp AND chef_environment:#{environ}").each do |worker|
       rpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-vp AND chef_environment:#{environ}") do |worker|
+    search(:node, "recipes:realtrans\\:\\:realtrans-vp AND chef_environment:#{environ}").each do |worker|
       vpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-reg AND chef_environment:#{environ}") do |worker|
+    search(:node, "recipes:realtrans\\:\\:realtrans-reg AND chef_environment:#{environ}").each do |worker|
       regnames << worker["ipaddress"]
     end
       
