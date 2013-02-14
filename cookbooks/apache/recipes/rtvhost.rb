@@ -8,19 +8,25 @@
 #
 # Create a hash of all environments with realtrans installed
 
-rtenvirons = {}
-search(:node, "recipes:realtrans\\:\\:realtrans-rp").each do |node|
-  rtenvirons[node.chef_environment] = {}
+%w[realtrans-rp realtrans-fp realtrans-vp realtrans-reg].each do |app|
+  rtenvirons = {}
+  search(:node, "recipes:realtrans\\:\\:#{app}").each do |node|
+    rtenvirons[node.chef_environment] = {}
+  end
 end
-search(:node, "recipes:realtrans\\:\\:realtrans-fp").each do |node|
-  rtenvirons[node.chef_environment] = {}
-end
-search(:node, "recipes:realtrans\\:\\:realtrans-vp").each do |node|
-  rtenvirons[node.chef_environment] = {}
-end
-search(:node, "recipes:realtrans\\:\\:realtrans-reg").each do |node|
-  rtenvirons[node.chef_environment] = {}
-end
+
+#search(:node, "recipes:realtrans\\:\\:realtrans-rp").each do |node|
+#  rtenvirons[node.chef_environment] = {}
+#end
+#search(:node, "recipes:realtrans\\:\\:realtrans-fp").each do |node|
+#  rtenvirons[node.chef_environment] = {}
+#end
+#search(:node, "recipes:realtrans\\:\\:realtrans-vp").each do |node|
+#  rtenvirons[node.chef_environment] = {}
+#end
+#search(:node, "recipes:realtrans\\:\\:realtrans-reg").each do |node|
+#  rtenvirons[node.chef_environment] = {}
+#end
 
 #rtcenenvirons = {}
 #search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen") do |n|
