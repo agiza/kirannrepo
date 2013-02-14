@@ -19,6 +19,6 @@ template "/etc/sysconfig/selinux" do
   owner  "root"
   group  "root"
   mode   "0644"
-  subscribes :run, resources(:execute => "permissive"), :immediately
+  notifies :run, resources(:execute => "permissive"), :immediately
 end
 
