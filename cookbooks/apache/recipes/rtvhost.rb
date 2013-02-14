@@ -37,14 +37,31 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtcenenvirons.each do |environ|
-    cenNames = {}
-    search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{environ}") do |n|
-      cenNames[n.ipaddress] = {}
+    fpnames = []
+    rpnames = []
+    vpnames = []
+    regnames = []
+    search(:node, "recipes:realtrans\\:\\:realtrans-fp AND chef_environment:#{environ}") do |worker|
+      fpnames << worker["ipaddress"]
     end
-    venNames = {}
-    search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven AND chef_environment:#{environ}") do |n|
-      venNames[n.ipaddress] = {}
-    end 
+    search(:node, "recipes:realtrans\\:\\:realtrans-rp AND chef_environment:#{environ}") do |worker|
+      rpnames << worker["ipaddress"]
+    end
+    search(:node, "recipes:realtrans\\:\\:realtrans-vp AND chef_environment:#{environ}") do |worker|
+      vpnames << worker["ipaddress"]
+    end
+    search(:node, "recipes:realtrans\\:\\:realtrans-reg AND chef_environment:#{environ}") do |worker|
+      regnames << worker["ipaddress"]
+    end
+      
+    #cenNames = {}
+    #search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{environ}") do |n|
+    #  cenNames[n.ipaddress] = {}
+    #end
+    #venNames = {}
+    #search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven AND chef_environment:#{environ}") do |n|
+    #  venNames[n.ipaddress] = {}
+    #end 
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"
@@ -52,8 +69,12 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostCenWorkers => cenNames,
-        :vhostVenWorkers => venNames,
+        :fpworkers => fpnames,
+        :rpworkers => rpnames,
+        :vpworkers => vpnames,
+        :regworkers => regnames,
+        #:vhostCenWorkers => cenNames,
+        #:vhostVenWorkers => venNames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
