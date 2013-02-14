@@ -55,7 +55,7 @@ ProxyPreserveHost         On
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://rtrp<%= @environ %>/realtrans-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtrp-<%= @environ %>/realtrans-rp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /realtrans-fp>
