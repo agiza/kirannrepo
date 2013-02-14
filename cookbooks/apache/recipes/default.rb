@@ -41,7 +41,7 @@ template "/etc/httpd/conf/httpd.conf" do
   group "root"
   mode "0644"
   #notifies :reload, resources(:service => "httpd")
-  subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
+  subscribes :run, resources(:execute => "test-apache-config"), :delayed
 end
 
 # Look up ssl server name from data bag.
@@ -62,7 +62,7 @@ else
       :serveradmin => "#{apachedata['serveradmin']}"
     )
     #notifies :reload, resources(:service => "httpd")
-    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
+    subscribes :run, resources(:execute => "test-apache-config"), :delayed
   end
   # Uses servername to grab for the data element that contains the certificate.
   servercert = apachedata["sslcert"]
@@ -76,7 +76,7 @@ else
       :servername => "#{servername}"
     )
     #notifies :reload, resources(:service => "httpd")
-    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
+    subscribes :run, resources(:execute => "test-apache-config"), :delayed
   end
   # This grabs private key to populate the server private key.
   serverkey = apachedata["sslkey"]
@@ -90,7 +90,7 @@ else
       :servername => "#{servername}"
     )
     #notifies :reload, resources(:service => "httpd")
-    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
+    subscribes :run, resources(:execute => "test-apache-config"), :delayed
   end
 end
 
@@ -110,7 +110,7 @@ else
         :serveripallow => apachedata['serveripallow'].split("|")
       )
       #notifies :reload, resources(:service => "httpd")
-      subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
+      subscribes :run, resources(:execute => "test-apache-config"), :delayed
     end
   end
 end
