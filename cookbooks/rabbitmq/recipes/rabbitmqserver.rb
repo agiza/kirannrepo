@@ -11,9 +11,9 @@ include_recipe "rabbitmq::default"
 
 # If this is the master, trigger the rabbitmq master recipe.
 if node.attribute?('rabbitmq-master')
-  include_recipe "rabbitmq::rabbitmq-master"
+  include_recipe "rabbitmq::rabbitmaster"
 # If this is not the master, trigger the worker recipe.
 else
-  include_recipe "rabbitmq::rabbitmq-worker"
+  include_recipe "rabbitmq::rabbitworker"
 end
 
