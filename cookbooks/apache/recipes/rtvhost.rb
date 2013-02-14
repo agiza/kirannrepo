@@ -8,18 +8,18 @@
 #
 # Create a hash of all environments with realtrans installed
 
-rtenvirons = []
+rtenvirons = {}
 search(:node, "recipes:realtrans\\:\\:realtrans-rp").each do |node|
-  rtenvirons << node["chef_environment"]
+  rtenvirons[node.chef_environment] = {}
 end
 search(:node, "recipes:realtrans\\:\\:realtrans-fp").each do |node|
-  rtenvirons << node["chef_environment"]
+  rtenvirons[node.chef_environment] = {}
 end
 search(:node, "recipes:realtrans\\:\\:realtrans-vp").each do |node|
-  rtenvirons << node["chef_environment"]
+  rtenvirons[node.chef_environment] = {}
 end
 search(:node, "recipes:realtrans\\:\\:realtrans-reg").each do |node|
-  rtenvirons << node["chef_environment"]
+  rtenvirons[node.chef_environment] = {}
 end
 
 #rtcenenvirons = {}
@@ -34,7 +34,7 @@ end
 
 #if rtcenenvirons.nil? || rtcenenvirons.empty?
 if rtenvirons.nil? || rtenvirons.empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No Environments for realtrans returned from search.")
 else
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
