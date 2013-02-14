@@ -101,7 +101,7 @@ rabbitapps.each do |app|
       appvhosts << vhost
     end
     #appvhosts << name_queue["vhosts"]
-    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
+    #appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
     vhost_names << appvhosts
   end
 end
