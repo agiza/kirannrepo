@@ -14,30 +14,6 @@ rtenvirons = {}
   end
 end
 
-#search(:node, "recipes:realtrans\\:\\:realtrans-rp").each do |node|
-#  rtenvirons[node.chef_environment] = {}
-#end
-#search(:node, "recipes:realtrans\\:\\:realtrans-fp").each do |node|
-#  rtenvirons[node.chef_environment] = {}
-#end
-#search(:node, "recipes:realtrans\\:\\:realtrans-vp").each do |node|
-#  rtenvirons[node.chef_environment] = {}
-#end
-#search(:node, "recipes:realtrans\\:\\:realtrans-reg").each do |node|
-#  rtenvirons[node.chef_environment] = {}
-#end
-
-#rtcenenvirons = {}
-#search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen") do |n|
-#  rtcenenvirons[n.chef_environment] = {}
-#end
-
-#rtvenenvirons = {}
-#search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven") do |n|
-#  rtvenenvirons[n.chef_environment] = {}
-#end
-
-#if rtcenenvirons.nil? || rtcenenvirons.empty?
 if rtenvirons.nil? || rtenvirons.empty?
   Chef::Log.info("No Environments for realtrans returned from search.")
 else
@@ -51,15 +27,9 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  #rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
-  #rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
   rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
 
-  # Convert the hash list of environments into a string, unique values, then split
-  #rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
-
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  #rtcenenvirons.each do |environ|
   rtenvirons.each do |environ|
     fpnames = []
     rpnames = []

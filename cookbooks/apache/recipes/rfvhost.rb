@@ -12,16 +12,12 @@ rfenvirons = {}
 search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
   rfenvirons[n.chef_environment] = {}
 end
-#rfenvirons = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation")
-#rfenvirons = rfenvirons["chef_environment"]
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
-  # Convert the hash list of environments into a string, unique values, then split
-  rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.join(" ")
-  rfenvirons = rfenvirons.split.uniq.join(" ")
-  rfenvirons = rfenvirons.split(" ")
+  # Convert the hash list of environments into unique values
+  rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq
 
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -34,47 +30,37 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
-    #rfNames = {}
-    rfNames = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}")
-    if rfNames.nil? || rfNames.empty?
-      Chef::Log.info("No workers returned in this environment.")
-    else
-      rfipaddress = []
-      rfNames.each do |name|
-        rfipaddress << name["ipaddress"]
-      end
-      rfNames = rfipaddress
-      #search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{environ}") do |n|
-        #rfNames[n.ipaddress] = {}
-      #end
-      template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
-        source "rf.proxy.conf.erb"
-        owner "root"
-        group  "root"
-        mode   "0644"
-        notifies :reload, resources(:service => "httpd")
-        variables(
-          :vhostRfWorkers => rfNames,
-          :environ => "#{environ}",
-          :serveripallow => serveripallow
-        )
-      end
-      template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
-        source "rfvhost#{ssl}.conf.erb"
-        owner  "root"
-        group  "root"
-        mode   "0644"
-        notifies :reload, resources(:service => "httpd")
-        variables(
-          :vhostName => "#{environ}",
-          :testvhostName => webName["rf#{environ}"],
-          :serverName => webName["rf#{environ}"]
-        )
-      end
-      directory "/var/www/html/#{environ}" do
-        owner "root"
-        group "root"
-      end
+    rfNames = []
+    search(:node, "recipes:realfoundation\\:\\:realfoundation OR AND chef_environment:#{environ}").each do |worker|
+      rfNames << worker["ipaddress"]
+    end
+    template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
+      source "rf.proxy.conf.erb"
+      owner "root"
+      group  "root"
+      mode   "0644"
+      notifies :reload, resources(:service => "httpd")
+      variables(
+        :vhostRfWorkers => rfNames,
+        :environ => "#{environ}",
+        :serveripallow => serveripallow
+      )
+    end
+    template "/etc/httpd/conf.d/rf-#{environ}.vhost.conf" do
+      source "rfvhost#{ssl}.conf.erb"
+      owner  "root"
+      group  "root"
+      mode   "0644"
+      notifies :reload, resources(:service => "httpd")
+      variables(
+        :vhostName => "#{environ}",
+        :testvhostName => webName["rf#{environ}"],
+        :serverName => webName["rf#{environ}"]
+      )
+    end
+    directory "/var/www/html/#{environ}" do
+      owner "root"
+      group "root"
     end
   end
 end

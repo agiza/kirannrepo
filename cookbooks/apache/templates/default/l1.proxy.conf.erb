@@ -1,13 +1,25 @@
 ProxyRequests             Off
 ProxyPreserveHost         On
 
-<Proxy balancer://l1cen-<%= @environ %>>
+<Proxy balancer://l1fp-<%= @environ %>>
     Order allow,deny
     <% @serveripallow.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
     
-    <% @vhostCenWorkers.each do |a| -%>
+    <% @fpworkers.each do |a| -%>
+    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
+    <% end -%>
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+<Proxy balancer://l1rp-<%= @environ %>>
+    Order allow,deny
+    <% @serveripallow.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
+    <% @rpworkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>
     ProxySet stickysession=JSESSIONID
@@ -19,7 +31,7 @@ ProxyPreserveHost         On
     Allow from <%= ip %>
     <% end -%>
 
-    <% @l1intWorkers.each do |a| -%>
+    <% @intworkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>
     ProxySet stickysession=JSESSIONID
@@ -32,7 +44,7 @@ ProxyPreserveHost         On
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://l1cen-<%= @environ %>/l1-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://l1rp-<%= @environ %>/l1-rp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /l1-fp>
@@ -41,7 +53,7 @@ ProxyPass               balancer://l1cen-<%= @environ %>/l1-rp stickysession=JSE
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://l1cen-<%= @environ %>/l1-fp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://l1fp-<%= @environ %>/l1-fp stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /int-corelogic>

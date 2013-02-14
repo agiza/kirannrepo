@@ -7,13 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 # Create a hash of all environments with lendersone installed
-l1cenenvirons = {}
-search(:node, "recipes:l1\\:\\:l1-central OR role:l1-cen") do |n|
-  l1cenenvirons[n.chef_environment] = {}
+l1environs = {}
+%w[l1-fp l1-rp].each do |app|
+  search(:node, "recipes:l1\\:\\:#{app}") do |node|
+    l1environs[node.chef_environment] = {}
+  end
 end
 
-if l1cenenvirons.nil? || l1cenenvirons.empty?
-  Chef::Log.info("No services returned from search.")
+if l1environs.nil? || l1environs.empty?
+  Chef::Log.info("No lenders one apps found in search of this environment.")
 else
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -24,22 +26,22 @@ else
   end
   serveripallow = webName['serveripallow'].split("|")
 
-  # Convert the hash list of environments into a string, unique values, then split
-  l1cenenvirons = l1cenenvirons.collect { |l1cenenviron| "#{l1cenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  # Convert the hash list of environments into unique values
+  l1environs = l1environs.collect { |l1environ| "#{l1environ}" }.uniq
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  l1cenenvirons.each do |environ|
-    cenNames = {}
-    search(:node, "recipes:l1\\:\\:l1-central OR role:l1-cen AND chef_environment:#{environ}") do |n|
-      cenNames[n.ipaddress] = {}
+  l1environs.each do |environ|
+    l1rpnames = []
+    l1fpnames = []
+    search(:node, "recipes:l1\\:\\:l1-fp AND chef_environment:#{environ}").each do |worker|
+      l1fpnames << worker["ipaddress"]
     end
-    venNames = {}
-    search(:node, "recipes:l1\\:\\:l1-vp OR role:l1-ven AND chef_environment:#{environ}") do |n|
-      venNames[n.ipaddress] = {}
+    search(:node, "recipes:l1\\:\\:l1-rp AND chef_environment:#{environ}").each do |worker|
+      l1rpnames << worker["ipaddress"]
     end
-    l1intNames = {}
-    search(:node, "recipes:integration\\:\\:l1-corelogic OR role:l1-integration AND chef_environment:#{environ}") do |n|
-      l1intNames[n.ipaddress] = {}
+    l1intnames = []
+    search(:node, "recipes:integration\\:\\:l1-corelogic AND chef_environment:#{environ}").each do |worker|
+      l1intnames << worker["ipaddress"]
     end
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
@@ -48,8 +50,9 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostCenWorkers => cenNames,
-        :l1intWorkers => l1intNames,
+        :rpworkers => l1rpnames,
+        :fpworkers => l1fpnames,
+        :intworkers => l1intnames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow

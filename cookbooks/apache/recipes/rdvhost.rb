@@ -16,8 +16,8 @@ end
 if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
-  # Convert the hash list of environments into a string, unique values, then split
-  rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  # Convert the hash list of environments into unique values
+  rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.uniq
 
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -30,9 +30,9 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rdenvirons.each do |environ|
-    rdNames = {}
+    rdNames = []
     search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{environ}") do |n|
-      rdNames[n.ipaddress] = {}
+      rdNames << n["ipaddress"]
     end
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
