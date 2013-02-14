@@ -120,7 +120,7 @@ if node.attribute?('rabbitmq-master')
       name_queue = data_bag_item("rabbitmq", application_name)
       appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
       appvhosts << name_queue["vhosts"]
-      #appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq.join(" ")
+      appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq.join(" ")
       vhost_names << appvhosts
     end
   end
