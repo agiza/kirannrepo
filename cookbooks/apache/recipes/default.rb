@@ -22,6 +22,12 @@ service "httpd" do
   action :nothing
 end
 
+execute "test-apache-config" do
+  command "apachectl configtest"
+  action :nothing
+  subscribes :reload, resources(:service => "httpd"), :delayed
+end
+
 %w[/var/www/html/vpn /etc/httpd/proxy.d].each do |dir|
   directory dir do
     owner  "root"
@@ -34,7 +40,8 @@ template "/etc/httpd/conf/httpd.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :reload, resources(:service => "httpd")
+  #notifies :reload, resources(:service => "httpd")
+  subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
 end
 
 # Look up ssl server name from data bag.
@@ -54,7 +61,8 @@ else
       :proxyname => "#{apachedata['servername'].split(",")[1]}",
       :serveradmin => "#{apachedata['serveradmin']}"
     )
-    notifies :reload, resources(:service => "httpd")
+    #notifies :reload, resources(:service => "httpd")
+    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
   end
   # Uses servername to grab for the data element that contains the certificate.
   servercert = apachedata["sslcert"]
@@ -67,7 +75,8 @@ else
       :servercert => servercert,
       :servername => "#{servername}"
     )
-    notifies :reload, resources(:service => "httpd")
+    #notifies :reload, resources(:service => "httpd")
+    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
   end
   # This grabs private key to populate the server private key.
   serverkey = apachedata["sslkey"]
@@ -80,7 +89,8 @@ else
       :serverkey => serverkey,
       :servername => "#{servername}"
     )
-    notifies :reload, resources(:service => "httpd")
+    #notifies :reload, resources(:service => "httpd")
+    subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
   end
 end
 
@@ -99,7 +109,8 @@ else
       variables(
         :serveripallow => apachedata['serveripallow'].split("|")
       )
-      notifies :reload, resources(:service => "httpd")
+      #notifies :reload, resources(:service => "httpd")
+      subscribes :run, resources(:execute => "test-apache-config"), :notification_timing
     end
   end
 end
