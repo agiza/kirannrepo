@@ -102,7 +102,7 @@ rabbitapps.each do |app|
     vhost_names << appvhosts
   end
 end
-vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").split(" ").sort.uniq.join(" ")
+vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").sort.uniq.join(" ")
 
 # This defines the common service that creates the initial cluster.
 execute "rabbit-config" do
