@@ -7,17 +7,26 @@
 # All rights reserved - Do Not Redistribute
 #
 # Create a hash of all environments with realtrans installed
-rtcenenvirons = {}
-search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen") do |n|
-  rtcenenvirons[n.chef_environment] = {}
+
+rtenvirons = []
+%w[realtrans-rp realtrans-vp realtrans-fp realtrans-reg].each do |app|
+  search(:node, "recipes:realtrans\\:\\:#{app}").each do |node|
+    rtenvirons << node["chef_environment"]
+  end
 end
 
-rtvenenvirons = {}
-search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven") do |n|
-  rtvenenvirons[n.chef_environment] = {}
-end
+#rtcenenvirons = {}
+#search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen") do |n|
+#  rtcenenvirons[n.chef_environment] = {}
+#end
 
-if rtcenenvirons.nil? || rtcenenvirons.empty?
+#rtvenenvirons = {}
+#search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven") do |n|
+#  rtvenenvirons[n.chef_environment] = {}
+#end
+
+#if rtcenenvirons.nil? || rtcenenvirons.empty?
+if rtenvirons.nil? || rtenvirons.empty?
   Chef::Log.info("No services returned from search.")
 else
   # Databag item for webserver hostname
@@ -30,13 +39,15 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  #rtcenenvirons = rtcenenvirons.collect { |rtcenenviron| "#{rtcenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
   # Convert the hash list of environments into a string, unique values, then split
-  rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
+  #rtvenenvirons = rtvenenvirons.collect { |rtvenenviron| "#{rtvenenviron}" }.join(" ").split.uniq.join(" ").split(" ")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  rtcenenvirons.each do |environ|
+  #rtcenenvirons.each do |environ|
+  rtenvirons.each do |environ|
     fpnames = []
     rpnames = []
     vpnames = []
@@ -54,14 +65,6 @@ else
       regnames << worker["ipaddress"]
     end
       
-    #cenNames = {}
-    #search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{environ}") do |n|
-    #  cenNames[n.ipaddress] = {}
-    #end
-    #venNames = {}
-    #search(:node, "recipes:realtrans\\:\\:realtrans-vp OR role:realtrans-ven AND chef_environment:#{environ}") do |n|
-    #  venNames[n.ipaddress] = {}
-    #end 
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"
@@ -73,8 +76,6 @@ else
         :rpworkers => rpnames,
         :vpworkers => vpnames,
         :regworkers => regnames,
-        #:vhostCenWorkers => cenNames,
-        #:vhostVenWorkers => venNames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
