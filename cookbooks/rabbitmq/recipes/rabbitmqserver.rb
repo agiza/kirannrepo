@@ -164,7 +164,7 @@ if node.attribute?('rabbitmq-master')
       name_queue = data_bag_item("rabbitmq", application_name)
       appvhosts = search(:node, "#{application_name}_amqp_vhost:*").map {|n| n["#{application_name}_amqp_vhost"]}
       appvhosts << name_queue['vhosts']
-      appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.split(" ").join("/ ").split(" ").sort.uniq.join(" ")
+      appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join("/ ").split(" ").sort.uniq.join(" ")
       template "/etc/rabbitmq/#{application_name}-rabbit.sh" do
         source "app_rabbit.erb"
         group "root"
