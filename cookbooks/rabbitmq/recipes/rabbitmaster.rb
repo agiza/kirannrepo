@@ -96,12 +96,12 @@ rabbitapps = data_bag("rabbitmq")
 rabbitapps.each do |app|
   unless "#{app}" == "rabbitmq"
     name_queue = data_bag_item("rabbitmq", app)
-    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
+    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost "]}
     name_queue["vhosts"].each do |vhost|
       appvhosts << vhost
     end
     #appvhosts << name_queue["vhosts"]
-    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq.join(" ")
+    appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
     vhost_names << appvhosts
   end
 end
