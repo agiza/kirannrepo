@@ -70,9 +70,16 @@ template "/home/ubuntu/bin/openvpn-resend.sh" do
   mode   "0755"
 end
 
-rhel_hosts = search(:node, "platform:redhat OR platform:centos")
-rhel_hosts = rhel.hosts.sort.uniq
-ubuntu_hosts = search(:node, "platform:ubuntu")
+rhel_hosts = []
+ubuntu_hosts = []
+search(:node, "platform:redhat OR platform:centos").each do |host|
+  rhel_hosts << host["hostname"]
+end
+rhel_hosts = rhel_hosts.sort.uniq
+
+search(:node, "platform:ubuntu").each do |host|
+  ubuntu_hosts << host
+end
 ubuntu_hosts = ubuntu_hosts.sort.uniq
 
 template "/home/ubuntu/bin/rhel_host" do
