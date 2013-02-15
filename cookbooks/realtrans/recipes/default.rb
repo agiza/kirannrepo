@@ -3,8 +3,6 @@
 # Recipe:: default
 #
 
-#include_recipe "java"
-
 # This looks for realdoc proxy attribute and allows override of realdoc server or finds the first server itself
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
