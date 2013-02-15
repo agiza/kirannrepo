@@ -55,7 +55,7 @@ webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-hubzuamqp = data_bag_item("rabbitmq", "hubuz")
+hubzuamqp = data_bag_item("rabbitmq", "hubzu")
 hubzucred = hubzuamqp['user'].split("|")
 template "/opt/tomcat/conf/hubzu.properties" do
   source "hubzu.properties.erb"
