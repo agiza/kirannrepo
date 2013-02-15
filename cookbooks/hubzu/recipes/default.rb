@@ -11,7 +11,7 @@ if node.attribute?('hzproxy')
   hzhost = node[:hzproxy].split(":")[0]
   hzport = node[:hzproxy].split(":")[1]
 else
-  hzhost = search(:node, "recipes:hubzu\\:\\:#{app_name} OR role:hubzu AND chef_environment:#{node.chef_environment}")
+  hzhost = search(:node, "recipes:hubzu\\:\\:hubzu OR role:hubzu AND chef_environment:#{node.chef_environment}")
   if hzhost.nil? || hzhost.empty?
     Chef::Log.warn("No services found.") && hzhost = "No servers found."
   else
