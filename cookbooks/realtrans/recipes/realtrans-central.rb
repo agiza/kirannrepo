@@ -28,6 +28,8 @@ end
 include_recipe "altisource::altitomcat"
 
 include_recipe "realtrans::default"
+rdochost = node[:rdochost]
+rdocport = node[:rdocport]
 # This looks for realdoc proxy attribute and allows override of realdoc server or finds the first server itself
 #if node.attribute?('realdocproxy')
 #  rdochost = node[:realdocproxy].split(":")[0]

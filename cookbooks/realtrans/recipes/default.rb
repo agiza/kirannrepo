@@ -20,3 +20,6 @@ else
   end
 end
 
+node.default.rdochost = rdochost
+node.default.rdocport = rdocport
+
