@@ -78,7 +78,7 @@ end
 rhel_hosts = rhel_hosts.sort.uniq
 
 search(:node, "platform:ubuntu").each do |host|
-  ubuntu_hosts << host
+  ubuntu_hosts << host["hostname"]
 end
 ubuntu_hosts = ubuntu_hosts.sort.uniq
 
