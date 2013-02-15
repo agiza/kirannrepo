@@ -84,7 +84,11 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
-altidev = search(:node, "name:*")
+altidev = []
+search(:node, "name:*").each do |node|
+  altidev << node
+end
+altidev = altidev.sort.uniq
 rabbitnodes = {}
 search(:node, "role:rabbitserver") do |n|
   rabbitnodes[n.ipaddress] = {}
