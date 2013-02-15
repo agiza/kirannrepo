@@ -20,6 +20,39 @@ else
   end
 end
 
+if node.attribute?('rtcenproxy')
+  rtcenhost = node[:rtcenproxy].split(":")[0]
+  rtcenport = node[:rtcenproxy].split(":")[1]
+else
+  rtcenhost = search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{node.chef_environment}")
+  if rtcenhost.nil? || rtcenhost.empty?
+    Chef::Log.warn("No services returned from search.") && rtcenhost = "No servers found."
+  else
+    rtcenhost = rtcenhost.first
+    rtcenhost = rtcenhost["ipaddress"]
+    rtcenport = "8080"
+  end
+end
+
+if node.attribute?('amqpproxy')
+  amqphost = node[:amqpproxy].split(":")[0]
+  amqpport = node[:amqpproxy].split(":")[1]
+else
+  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  if amqphost.nil? || amqphost.empty?
+    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
+  else
+    amqphost = amqphost.first
+    amqphost = amqphost["ipaddress"]
+    amqpport = "5672"
+  end
+end
+
+
 node.default.rdochost = rdochost
 node.default.rdocport = rdocport
+node.default.rtcenhost = rtcenhost
+node.default.rtcenport = rtcenport
+node.default.amqphost = amqphost
+node.default.amqpport = amqpport
 
