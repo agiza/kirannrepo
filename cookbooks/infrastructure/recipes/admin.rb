@@ -71,7 +71,9 @@ template "/home/ubuntu/bin/openvpn-resend.sh" do
 end
 
 rhel_hosts = search(:node, "platform:redhat OR platform:centos")
+rhel_hosts = rhel.hosts.sort.uniq
 ubuntu_hosts = search(:node, "platform:ubuntu")
+ubuntu_hosts = ubuntu_hosts.sort.uniq
 
 template "/home/ubuntu/bin/rhel_host" do
   source "rhel_host.erb"
