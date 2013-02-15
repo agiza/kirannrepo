@@ -65,9 +65,11 @@ template "/opt/tomcat/conf/replication-app.properties" do
   variables( 
     :webHostname => webHost["rsng#{node.chef_environment}"],
     :melissadata => melissadata['melissadata'],
-    :amqphost => "#{rsngcred[0]}",
-    :amqpport => "#{rsngcred[1]}",
+    :amqpuser => "#{rsngcred[0]}",
+    :amqppass => "#{rsngcred[1]}",
     :rsnghost => "#{rsnghost}:#{rsngport}",
+    :amqphost => amqphost,
+    :amqpport => amqpport,
     :mysqldb => mysqldb["realservice"]
   )
 end

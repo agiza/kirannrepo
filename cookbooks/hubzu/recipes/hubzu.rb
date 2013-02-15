@@ -28,19 +28,11 @@ else
   end
 end
 
-if node.attribute?('hzproxy')
-  hzhost = node[:hzproxy].split(":")[0]
-  hzport = node[:hzproxy].split(":")[1]
-else
-  hzhost = search(:node, "recipes:hubzu\\:\\:hubzu OR role:hubzu AND chef_environment:#{node.chef_environment}")
-  if hzhost.nil? || hzhost.empty?
-    Chef::Log.warn("No services found.") && hzhost = "No servers found."
-  else
-    hzhost = hzhost.first
-    hzhost = hzhost["ipaddress"]
-    hzport = "8080"
-  end
-end
+include_recipe "hubzu::default"
+hzhost = node[:hzhost]
+hzport = node[:hzport]
+amqphost = node[:amqphost]
+amqpport = node[:amqpport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -63,6 +55,8 @@ webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
+hubzuamqp = data_bag_item("rabbitmq", "hubuz")
+hubzucred = hubzuamqp['user'].split("|")
 template "/opt/tomcat/conf/hubzu.properties" do
   source "hubzu.properties.erb"
   group 'tomcat'
@@ -74,7 +68,12 @@ template "/opt/tomcat/conf/hubzu.properties" do
     :mailserver => mailserver,
     :melissadata => melissadata['melissadata'],
     :ldapserver => ldapserver,
-    :hzserver => "#{hzhost}:#{hzport}"
+    :hzserver => "#{hzhost}:#{hzport}",
+    :amqphost => amqphost,
+    :amqpport => amqpport,
+    :amqpuser => "#{hubzucred[0]}",
+    :amqppass => "#{hubzucred[1]}"
+    
   )
 end
 
