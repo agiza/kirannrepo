@@ -122,9 +122,8 @@ rabbitapps.each do |app|
         appvhosts << vhost
       end
     end
-    vhost_names << appvhosts
-    #appvhosts << name_queue['vhosts']
     appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
+    vhost_names << appvhosts
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
       group "root"
@@ -143,26 +142,6 @@ rabbitapps.each do |app|
   end
 end
 
-# Setup empty array for comprehensive list of vhosts
-#vhost_names = []
-# Find all items in rabbitmq data bag and loop over them to build application data and vhosts
-#rabbitapps = data_bag("rabbitmq")
-#rabbitapps.each do |app|
-#  unless "#{app}" == "rabbitmq"
-#    appvhosts = []
-#    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
-#    name_queue = data_bag_item("rabbitmq", app)
-#    if name_queue["vhosts"].nil? || name_queue["vhosts"].empty?
-#      Chef::Log.info("No additional vhosts to add for this app.")
-#    else 
-#      name_queue["vhosts"].split(" ").each do |vhost|
-#        appvhosts << vhost
-#      end
-#    end
-#    #appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
-#    vhost_names << appvhosts
-#  end
-#end
 vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").gsub!(" ", "").split("/").sort.uniq.join(" /")
 #vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join.split.sort.uniq.join(" ")
 
