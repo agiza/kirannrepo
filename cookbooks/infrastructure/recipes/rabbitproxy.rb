@@ -43,7 +43,7 @@ else
     variables(
       :clusternodes => clusternodes,
       :amqpport => amqpport,
-      :stompport => stomport
+      :stompport => stompport
     )
     notifies :restart, resources(:service => "haproxy")
   end
