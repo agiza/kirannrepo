@@ -28,46 +28,13 @@ else
   end
 end
 
-if node.attribute?('rfproxy')
-  rfhost = node[:rfproxy].split(":")[0]
-  rfport = node[:rfproxy].split(":")[1]
-else
-  rfhost = search(:node, "recipes:realfoundation\\:\\:#{app_name} OR role:realfoundation AND chef_environment:#{node.chef_environment}")
-  if rfhost.nil? || rfhost.empty?
-    Chef::Log.warn("No services found.") && rfhost = "No servers found."
-  else
-    rfhost = rfhost.first
-    rfhost = rfhost["ipaddress"]
-    rfport = "8080"
-  end
-end
-
-if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy].split(":")[0]
-  rdocport = node[:realdocproxy].split(":")[1]
-else
-  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
-    if rdochost.nil? || rdochost.empty?
-    Chef::Log.warn("No services returned from search.") && rdochost = "No servers found."
-  else
-    rdochost = rdochost.first
-    rdochost = rdochost["ipaddress"]
-    rdocport = "8080"
-  end
-end
-if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy].split(":")[0]
-  amqpport = node[:amqpproxy].split(":")[1]
-else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitserver OR role:rabbitserver AND chef_environment:shared")
-  if amqphost.nil? || amqphost.empty?
-    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
-  else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
-    amqpport = "5672"
-  end
-end
+include_recipe "realfoundation::default"
+rfhost = node[:rfhost]
+rfport = node[:rfport]
+rdochost = node[:rdochost]
+rdocport = node[:rdocport]
+amqphost = node[:amqphost]
+amqpport = node[:amqpport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
