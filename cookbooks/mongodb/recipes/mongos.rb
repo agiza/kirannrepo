@@ -14,39 +14,42 @@ service "#{app_name}" do
   action :nothing
 end
 
-configserver = []
+# Checks for stress/performance environment attribute as this may be a separate environment.
 if node.attribute?('performance')
-  configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{node.chef_environment}")
+  environment = node[:chef_environment]
 else
-  configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:shared")
-end
-if configs.nil? || configs.empty?
-  Chef::Log.info("No services returned from search.") && configserver << "127.0.0.1"
-else
-  configs[0..3].each do |config|
-    configserver << config["ipaddress"]
-  end
-end
-configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
-template "/etc/#{app_name}.conf" do
-  source "mongod.conf.erb"
-  group "root"
-  owner "root"
-  mode "0644"
-  variables(
-    :mongodbconfig => configserver,
-    :app_name => "#{app_name}"
-    )
-  notifies :reload, resources(:service => "#{app_name}")
+  environment = "shared"
 end
 
-template "/etc/init.d/#{app_name}" do
-  source "mongos-init.erb"
-  group  "root"
-  owner  "root"
-  mode   "0755"
-  variables(:app_name => "#{app_name}")
-  notifies :reload, resources(:service => "#{app_name}")
+# Create an empty array for config server nodes.
+configserver = []
+configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{environment}")
+if configs.nil? || configs.empty?
+  Chef::Log.info("No services returned from search.")
+else
+  configs[0..3].sort.each do |config|
+    configserver << config["ipaddress"]
+  configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
+  template "/etc/#{app_name}.conf" do
+    source "mongod.conf.erb"
+    group "root"
+    owner "root"
+    mode "0644"
+    variables(
+      :mongodbconfig => configserver,
+      :app_name => "#{app_name}"
+      )
+    notifies :reload, resources(:service => "#{app_name}")
+  end
+  
+  template "/etc/init.d/#{app_name}" do
+    source "mongos-init.erb"
+    group  "root"
+    owner  "root"
+    mode   "0755"
+    variables(:app_name => "#{app_name}")
+    notifies :reload, resources(:service => "#{app_name}")
+  end
 end
 
 directory "/var/run/mongo" do
