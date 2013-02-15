@@ -122,7 +122,7 @@ rabbitapps.each do |app|
         appvhosts << vhost
       end
     end
-    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
+    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq #.join(" ")
     vhost_names << appvhosts
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
