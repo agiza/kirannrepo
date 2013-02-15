@@ -86,6 +86,13 @@ else
   end
 end
 
+template "/tmp/response.varfile" do
+  source "appdyn-response.varfile.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
 template "/etc/cron.daily/appdynamics" do
   source "appdynamics.erb"
   owner  "root"
