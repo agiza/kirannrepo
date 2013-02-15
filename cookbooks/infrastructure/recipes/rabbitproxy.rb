@@ -8,6 +8,18 @@
 #
 include_recipe "infrastructure::haproxy"
 
+if node.attribute?('amqpproxy')
+ amqpport = node[:amqpproxy].split(":")[1]
+else
+ amqpport = "5672"
+end
+
+if node.attribute?('stompproxy')
+ stompport = node[:stompproxy].split(":")[1]
+else
+ stompport = "61613"
+end
+
 # Check for stress/performance environment as infrastructure may be separate there.
 if node.attribute?('performance')
   environment = node[:chef_environment]
@@ -30,8 +42,8 @@ else
     mode "0644"
     variables(
       :clusternodes => clusternodes,
-      :amqpport => "5672",
-      :stompport => "61613"
+      :amqpport => amqpport,
+      :stompport => stomport"
     )
     notifies :restart, resources(:service => "haproxy")
   end
