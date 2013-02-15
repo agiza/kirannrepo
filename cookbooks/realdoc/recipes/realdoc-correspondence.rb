@@ -27,32 +27,13 @@ else
 end
 
 include_recipe "altisource::altitomcat"
-if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy].split(":")[0]
-  amqpport = node[:amqpproxy].split(":")[1]
-else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_enviroment:shared")
-  if amqphost.nil? || amqphost.empty?
-    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
-  else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
-    amqpport = "5672"
-  end
-end
-if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy].split(":")[0]
-  rdocport = node[:realdocproxy].split(":")[1]
-else
-  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
-  if rdochost.nil? || rdochost.empty?
-    Chef::Log.warn("No services returned from search.") && rdochost = "No servers found."
-  else
-    rdochost = rdochost.first
-    rdochost = rdochost["ipaddress"]
-    rdocport = "8080"
-  end
-end
+# trigger node attribute creation.
+include_recipe "realdoc::default"
+amqphost = node[:amqphost]
+amqpport = node[:amqpport]
+rdochost = node[:rdochost]
+rdocport = node[:rdocport]
+elasticHost = node[:elasticHost]
 
 service "realdoc-correspondence" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -72,18 +53,6 @@ yum_package "#{app_name}" do
 end
 
 mongoHost = "127.0.0.1"
-
-if node.attribute?('elasticsearchproxy')
-  elasticHost = node[:elasticsearchproxy]
-else
-  elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
-  if elasticHost.nil? || elasticHost.empty?
-    Chef::Log.warn("No services returned from search.") && elasticHost = "No servers found."
-  else
-    elasticHost = elasticHost.first
-    elasticHost = elasticHost["ipaddress"]
-  end
-end
 
 # Integration components
 webHost = data_bag_item("infrastructure", "apache")
