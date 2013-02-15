@@ -143,7 +143,7 @@ rabbitapps.each do |app|
 end
 
 #vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").gsub!(" ", "").split("/").sort.uniq.join(" /")
-vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.sort.uniq.join(" ")
+vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.sort.uniq #.join(" ")
 
 # Setup the core vhost entries first as these are common elements
 template "/etc/rabbitmq/rabbit-common.sh" do
