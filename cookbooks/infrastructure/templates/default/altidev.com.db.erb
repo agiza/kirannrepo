@@ -16,16 +16,16 @@ ns	A	<%= @dnsmaster %>
 ns2	A	<%= @dnsslaves[0] %> 
 ns3	A	<%= @dnsslaves[1] %> 
 altidev.com.	MX	10	mail
-<% @altidev.each do |altidev| -%>
+<% @altidev.sort.each do |altidev| -%>
 <%= altidev[:hostname] %>   A   <%= altidev[:ipaddress] %>
 <% end -%>
-<% @altidevex.each do |altidevex| -%>
+<% @altidevex.sort.each do |altidevex| -%>
 <%= altidevex %>
 <% end -%>
-<% @rabbitproxy.each do |rabbit| -%>
+<% @rabbitproxy.sort.each do |rabbit| -%>
 rabbit-proxy    A    <%= rabbit %>
 <% end -%>
-<% @cname.each do |cname| -%>
+<% @cname.sort.each do |cname| -%>
 <%= cname %>
 <% end -%>
 
