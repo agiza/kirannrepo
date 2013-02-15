@@ -20,6 +20,7 @@ else
   end
 end
 
+# This looks for rt central proxy attribute or finds the first server itself.
 if node.attribute?('rtcenproxy')
   rtcenhost = node[:rtcenproxy].split(":")[0]
   rtcenport = node[:rtcenproxy].split(":")[1]
@@ -34,6 +35,7 @@ else
   end
 end
 
+# This looks for rabbitmq proxy attribute "ip/hostname:port" or finds the first instance itself.
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
@@ -48,7 +50,7 @@ else
   end
 end
 
-
+# Set default attributes for use by recipes.
 node.default.rdochost = rdochost
 node.default.rdocport = rdocport
 node.default.rtcenhost = rtcenhost
