@@ -28,34 +28,11 @@ else
   end
 end
 
-
-if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy].split(":")[0]
-  amqpport = node[:amqpproxy].split(":")[1]
-else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
-  if amqphost.nil? || amqphost.empty?
-    Chef::Log.info("No services returned from search.")
-  else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
-    amqpport = "5672"
-  end
-end
-
-if node.attribute?('rsngproxy')
-  rsnghost = node[:rsngproxy].split(":")[0]
-  rsngport = node[:rsngproxy].split(":")[1]
-else
-  rsnghost = search(:node, "recipes:rsng\\:\\:rsng-service-app OR role:realservicing AND chef_environment:#{node.chef_environment}")
-  if rsnghost.nil? || rsnghost.empty?
-    Chef::Log.info("No services returned from search.")
-  else
-    rsnghost = rsnghost.first
-    rsnghost = rsnghost["ipaddress"]
-    rsngport = "8080"
-  end
-end
+include_recipe "rsng::default"
+amqphost = node[:amqphost]
+amqpport = node[:amqpport]
+rsnghost = node[:rsnghost]
+rsngport = node[:rsngport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
