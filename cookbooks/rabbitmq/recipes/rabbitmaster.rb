@@ -95,13 +95,12 @@ vhost_names = []
 rabbitapps = data_bag("rabbitmq")
 rabbitapps.each do |app|
   unless "#{app}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", app)
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
-    add_vhosts = name_queue["#{vhosts}"].split(" ")
-    if add_vhosts.nil? || add_vhosts.empty?
+    name_queue = data_bag_item("rabbitmq", app)
+    if name_queue["vhosts"].nil? || name_queue["vhosts"].empty?
       Chef::Log.info("No additional vhosts to add for this app.")
-    else
-      add_vhosts.each do |vhost|
+    else 
+      name_queue["vhosts"].split(" ").each do |vhost|
         appvhosts << vhost
       end
     end
