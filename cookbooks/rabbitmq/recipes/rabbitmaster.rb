@@ -95,6 +95,7 @@ vhost_names = []
 rabbitapps = data_bag("rabbitmq")
 rabbitapps.each do |app|
   unless "#{app}" == "rabbitmq"
+    appvhosts = []
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
     name_queue = data_bag_item("rabbitmq", app)
     if name_queue["vhosts"].nil? || name_queue["vhosts"].empty?
@@ -109,7 +110,7 @@ rabbitapps.each do |app|
   end
 end
 vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").gsub!(" ", "").split("/").sort.uniq.join(" /")
-#vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.sort.uniq.join(" ")
+#vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join.split.sort.uniq.join(" ")
 
 # This defines the common service that creates the initial cluster.
 execute "rabbit-config" do
@@ -146,9 +147,17 @@ end
 # This loops through all application entries to create the actual script to setup application entries
 rabbitapps.each do |app|
   unless "#{app}" == "rabbitmq"
-    name_queue = data_bag_item("rabbitmq", app)
+    appvhosts = []
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
-    appvhosts << name_queue['vhosts']
+    name_queue = data_bag_item("rabbitmq", app)
+    if name_queue["vhosts"].nil? || name_queue["vhosts"].empty?
+      Chef::Log.info("No additional vhosts to add for this app.")
+    else
+      name_queue["vhosts"].split(" ").each do |vhost|
+        appvhosts << vhost
+      end
+    end
+    #appvhosts << name_queue['vhosts']
     appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
