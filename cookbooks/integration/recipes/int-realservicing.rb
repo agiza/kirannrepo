@@ -28,13 +28,7 @@ else
   end
 end
 
-include_recipe "realtrans::default"
-rdochost = node[:rdochost]
-rdocport = node[:rdocport]
-
-rtcenhost = node[:rtcenhost]
-rtcenport = node[:rtcenport]
-
+include_recipe "integration::default"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
