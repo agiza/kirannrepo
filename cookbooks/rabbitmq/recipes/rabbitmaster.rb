@@ -99,6 +99,7 @@ rabbitapps.each do |app|
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
     name_queue["#{vhosts}"].split(" ").each do |vhost|
       appvhosts << vhost
+    end
     #appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.sort.uniq
     vhost_names << appvhosts
   end
