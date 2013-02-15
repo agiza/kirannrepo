@@ -122,7 +122,7 @@ rabbitapps.each do |app|
         appvhosts << vhost
       end
     end
-    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq #.join(" ")
+    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
     appvhosts.each do |vhost|
       vhost_names << vhost
     end
