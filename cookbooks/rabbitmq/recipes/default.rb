@@ -16,9 +16,16 @@ package "rabbitmq-server" do
   action :upgrade
 end
 
-execute "rabbit-plugins" do
-  command "rabbitmq-plugins enable rabbitmq_stomp; rabbitmq-plugins enable rabbitmq_management"
+execute "rabbit-stomp" do
+  command "rabbitmq-plugins enable rabbitmq_stomp"
   action :run
+  not_if "grep rabbitmq_stomp /etc/rabbitmq/enabled_plugins"
+end
+
+execute "rabbit-management" do
+  command "rabbitmq-plugins enable rabbitmq_management"
+  action :run
+  not_if "grep rabbitmq_management /etc/rabbitmq/enabled_plugins"
 end
 
 
