@@ -84,15 +84,14 @@ template "/etc/rndc.key" do
   notifies :restart, resources(:service => "named")
 end
 
-altidev = []
-search(:node, "name:*").each do |node|
-  altidev << node
+altidev = search(:node, "name:*")
+altidev = altidev.sort
+
+rabbitnodes = []
+search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver") do |rabbit|
+  rabbitnodes << rabbit["ipaddress"]
 end
-altidev = altidev.sort.uniq
-rabbitnodes = {}
-search(:node, "role:rabbitserver") do |n|
-  rabbitnodes[n.ipaddress] = {}
-end
+rabbitnodes = rabbitnodes.sort.uniq
 template "/etc/named/altidev.com.db" do
   source "altidev.com.db.erb"
   owner  "named"
