@@ -11,7 +11,7 @@ if node.attribute?('rfproxy')
   rfhost = node[:rfproxy].split(":")[0]
   rfport = node[:rfproxy].split(":")[1]
 else
-  rfhost = search(:node, "recipes:realfoundation\\:\\:#{app_name} OR role:realfoundation AND chef_environment:#{node.chef_environment}")
+  rfhost = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{node.chef_environment}")
   if rfhost.nil? || rfhost.empty?
     Chef::Log.warn("No services found.") && rfhost = "No servers found."
   else
