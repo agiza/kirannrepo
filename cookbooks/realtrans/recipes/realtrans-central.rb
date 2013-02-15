@@ -76,7 +76,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   variables( 
     :webHostname => webHost["rt#{node.chef_environment}"],
-    :rt_ven_host => "#{rtvenhost}:#{rtvenport}",
     :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
