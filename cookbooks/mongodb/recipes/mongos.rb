@@ -25,7 +25,7 @@ end
 configserver = []
 configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{environment}")
 if configs.nil? || configs.empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.fatal("No MongoDB Config servers found in search, unable to route requests.")
 else
   configs[0..3].each do |config|
     configserver << config["ipaddress"]
