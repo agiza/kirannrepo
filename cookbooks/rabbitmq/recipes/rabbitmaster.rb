@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# Create execution to allow for notification to trigger run.
 execute "guest-remove" do
   command "/etc/rabbitmq/rabbit-guest.sh"
   action :nothing
@@ -24,6 +25,7 @@ end
 
 # This creates an array of all rabbitmq worker hostnames for the cluster config file.
 rabbitservers = []
+# Check for stress/performance environment as infrastructure may be separate there.
 if node.attribute?('performance')
   environment = node[:chef_environment]
 else
@@ -53,7 +55,7 @@ template "/etc/rabbitmq/rabbitmq.config" do
   variables(
      :rabbitnodes => rabbitservers
   )
-  notifies :restart, resources(:service => "rabbitmq-server")
+  notifies :restart, resources(:service => "rabbitmq-server"), :immediately
 end
 
 template "/etc/rabbitmq/rabbit-host.sh" do
@@ -79,16 +81,23 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   group  "rabbitmq"
   mode   "0600"
   variables( :cookie => rabbitcore['rabbit_cookie'] )
-  notifies :restart, resources(:service => "rabbitmq-server")
+  notifies :restart, resources(:service => "rabbitmq-server"), :immediately
 end
 
-template "/etc/rabbitmq/rabbitmqadmin" do
-  source "rabbitmqadmin.erb" 
-  owner  "root"
-  group  "root"
-  mode   "0755"
+execute  "rabbitmqadmin" do
+  command "wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
+  creates "/etc/rabbitmq/rabbitmqadmin"
+  action :run
 end
 
+#template "/etc/rabbitmq/rabbitmqadmin" do
+#  source "rabbitmqadmin.erb" 
+#  owner  "root"
+#  group  "root"
+#  mode   "0755"
+#end
+
+# Pull all entries in data_bag rabbitmq to get a list of apps for looping.
 rabbitapps = data_bag("rabbitmq")
 # This defines the common service that creates the initial cluster.
 execute "rabbit-config" do
@@ -108,6 +117,7 @@ rabbitapps.each do |app|
   end
 end
 
+# Declare an array for a comprehensive list of all vhosts to be created.
 vhost_names = []
 # This loops through all application entries to create the actual script to setup application entries
 rabbitapps.each do |app|
@@ -126,7 +136,7 @@ rabbitapps.each do |app|
     appvhosts.each do |vhost|
       vhost_names << vhost
     end
-    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join(" ") #.sort.uniq.join(" ")
+    appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.join(" ")
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
       group "root"
@@ -145,9 +155,8 @@ rabbitapps.each do |app|
   end
 end
 
-#vhost_names = vhost_names.collect { |vhost| "#{vhost} " }.join(" ").gsub!(" ", "").split("/").sort.uniq.join(" /")
+# Create a string of all vhost names to use for the comprehensive vhost collection.
 vhost_names = vhost_names.sort.uniq.collect { |vhost| "#{vhost}" }.join(" ")
-#vhost_names = vhost_names.collect { |vhost| "#{vhost}" }.join(" ") #.sort.uniq.join(" ")
 
 # Setup the core vhost entries first as these are common elements
 template "/etc/rabbitmq/rabbit-common.sh" do
@@ -160,7 +169,7 @@ template "/etc/rabbitmq/rabbit-common.sh" do
     :vhost_names => vhost_names,
     :adminuser => rabbitcore['adminuser']
   )
-  notifies :run, 'execute[rabbit-config]', :delayed
+  notifies :run, 'execute[rabbit-config]', :immediately
 end
 
 service "rabbitmq-server" do
