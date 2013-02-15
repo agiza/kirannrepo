@@ -49,6 +49,6 @@ node.default.rdochost = rdochost
 node.default.rdocport = rdocport
 node.default.l1cenhost = l1cenhost
 node.default.l1cenport = l1cenport
-node.default amqphost = amqphost
+node.default.amqphost = amqphost
 node.default.amqpport = amqpport
 
