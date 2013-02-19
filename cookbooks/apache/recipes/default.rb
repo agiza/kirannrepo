@@ -12,6 +12,7 @@
     action :upgrade
   end
 end
+include_recipe "altisource::epel-local"
 
 include_recipe "apache::mod_security"
 include_recipe "apache::mod_bw"
