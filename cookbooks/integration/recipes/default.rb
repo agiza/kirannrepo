@@ -21,8 +21,8 @@ else
   end
 end
 
-altisource_netcheck "rabbitmq" do
-  type "amqphost amqpport"
+altisource_network "#{amqphost}" do
+  port "#{amqpport}"
   action :check
   provider "altisource_netcheck"
 end
