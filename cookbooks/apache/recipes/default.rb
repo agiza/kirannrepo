@@ -126,3 +126,8 @@ service "httpd" do
   action [:enable, :start]
 end
 
+include_recipe "apache::rtvhost"
+include_recipe "apache::rdvhost"
+include_recipe "apache::l1vhost"
+include_recipe "apache::rfvhost"
+
