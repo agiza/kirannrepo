@@ -21,11 +21,11 @@ else
   end
 end
 
-altisource_network "#{amqphost}" do
-  port "#{amqpport}"
-  action :check
-  provider "altisource_netcheck"
-end
+#altisource_network "#{amqphost}" do
+#  port "#{amqpport}"
+#  action :check
+#  provider "altisource_netcheck"
+#end
 
 # Set default attributes for use by recipes.
 node.default.amqphost = amqphost
