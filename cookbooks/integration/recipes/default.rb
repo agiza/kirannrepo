@@ -21,6 +21,12 @@ else
   end
 end
 
+altisource_netcheck "rabbitmq" do
+  type "amqphost amqpport"
+  action :check
+  provider "altisource_netcheck"
+end
+
 # Set default attributes for use by recipes.
 node.default.amqphost = amqphost
 node.default.amqpport = amqpport
