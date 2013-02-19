@@ -55,7 +55,7 @@ end
 
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
-ftpserver = data_bag_item("integration", "realdoc")
+#ftpserver = data_bag_item("integration", "realdoc")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -65,8 +65,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}",
-    :ftpserver => ftpserver
+    :amqppass => "#{rdrabbit[1]}"
+    #:ftpserver => ftpserver
   )
   notifies :restart, resources(:service => "altitomcat")
 end
