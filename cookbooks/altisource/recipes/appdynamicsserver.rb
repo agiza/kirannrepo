@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-node.default.volumes = "sdb|opt|opt/tomcat"
+node.default.volumes = "sdb|opt|opt/appdynamics"
 include_recipe "altisource::volgrp"
 
 package "libaio" do
