@@ -14,6 +14,11 @@ service "#{app_name}" do
   action :nothing
 end
 
+service "mongod" do
+  supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
+  action [:disable, :stop]
+end
+
 # Checks for stress/performance environment attribute as this may be a separate environment.
 if node.attribute?('performance')
   environment = node[:chef_environment]
