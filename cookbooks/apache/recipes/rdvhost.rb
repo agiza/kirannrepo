@@ -14,7 +14,7 @@ search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc") do |n|
 end
 
 if rdenvirons.nil? || rdenvirons.empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No realdoc nodes in this environment found in search.")
 else
   # Convert the hash list of environments into unique values
   rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.uniq

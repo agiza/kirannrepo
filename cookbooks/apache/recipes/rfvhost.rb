@@ -14,7 +14,7 @@ search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation
 end
 
 if rfenvirons.nil? || rfenvirons.empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No realfoundation nodes in this environment found in search.")
 else
   # Convert the hash list of environments into unique values
   rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq

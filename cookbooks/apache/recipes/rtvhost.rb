@@ -15,7 +15,7 @@ rtenvirons = {}
 end
 
 if rtenvirons.nil? || rtenvirons.empty?
-  Chef::Log.info("No Environments for realtrans returned from search.")
+  Chef::Log.info("No realtrans installations in this environment found in search.")
 else
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")

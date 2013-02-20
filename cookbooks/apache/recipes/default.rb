@@ -48,7 +48,7 @@ end
 # Look up ssl server name from data bag.
 apachedata = data_bag_item("infrastructure", "apache")
 if apachedata['servername'].nil? || apachedata['servername'].empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No SSL server names returned from search, SSL configuration will be skipped.")
 else
   # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
   servername = "#{apachedata['servername'].split(",")[0]}"
@@ -98,7 +98,7 @@ end
 # Provides a mechanism to include optional configurations by adding them to a data bag item, separated by pipe character.
 # For each site included, there must be a matching config file template.
 if apachedata['serversites'].nil? || apachedata['serversites'].empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No Optional configuration entries returned from search.")
 else
   sitesinclude = apachedata['serversites'].split("|")
   sitesinclude.each do |site|
