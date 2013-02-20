@@ -91,6 +91,7 @@ template "/tmp/response.varfile" do
   owner  "root"
   group  "root"
   mode   "0644"
+  Chef::Log.info("To install, issue the following command /tmp/controller_64bit_linux.sh -q -varfile /tmp/response.varfile ")
 end
 
 template "/etc/cron.daily/appdynamics" do

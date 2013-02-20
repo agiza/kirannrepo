@@ -1,16 +1,22 @@
 #sampleresponse file for AppDynamics Controller 3.7
-iiopPort=3700
-serverPort=8090
 serverHostName=<%= node[:fqdn] %>
-haControllerType=medium
-controllerTenancyMode=single
+serverPort=8090
+databasePort=3388
 adminPort=4848
-sys.languageId=en
 jmsPort=7676
+iiopPort=3700
+sslPort=8181
+controllerTenancyMode=single
+haControllerType=medium
+accountName=cust
+accountAccessKey=nothing
+rootUserPassword=ignored
+rootUserRePassword=ignored
+sys.languageId=en
 sys.installationDir=/opt/appdynamics
 mysql-root-user-password=singcontroller
-databasePort=3388
 userName=admin
-accountName=cust
-sslPort=8181
+password=altisource_123
+rePassword=altisource_123
+diableEULA=true
 actualDbDir=/opt/appdynamics/db
