@@ -13,7 +13,7 @@ if node.attribute?('hzproxy')
 else
   hzhost = search(:node, "recipes:hubzu\\:\\:hubzu OR role:hubzu AND chef_environment:#{node.chef_environment}")
   if hzhost.nil? || hzhost.empty?
-    Chef::Log.warn("No services found.") && hzhost = "No servers found."
+    Chef::Log.warn("No hubzu servers found in search.") && hzhost = "No servers found."
   else
     hzhost = hzhost.first
     hzhost = hzhost["ipaddress"]
@@ -27,7 +27,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
-    Chef::Log.info("No services returned from search.")
+    Chef::Log.info("No rabbitmq servers returned from search.")
   else
     amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]

@@ -69,7 +69,7 @@ else
   configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:shared")
 end
 if configs.nil? || configs.empty?
-  Chef::Log.info("No services returned from search.") && configserver << "127.0.0.1"
+  Chef::Log.info("No mongodb config servers returned from search.") && configserver << "127.0.0.1"
 else
   configs.each do |config|
     configserver << config["ipaddress"]

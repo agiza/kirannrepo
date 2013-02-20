@@ -12,7 +12,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
-    Chef::Log.info("No services returned from search.")
+    Chef::Log.info("No rabbitmq servers returned from search.")
   else
     amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]
@@ -26,7 +26,7 @@ if node.attribute?('rsngproxy')
 else
   rsnghost = search(:node, "recipes:rsng\\:\\:rsng-service-app OR role:realservicing AND chef_environment:#{node.chef_environment}")
   if rsnghost.nil? || rsnghost.empty?
-    Chef::Log.info("No services returned from search.")
+    Chef::Log.info("No rsng servers returned from search.")
   else
     rsnghost = rsnghost.first
     rsnghost = rsnghost["ipaddress"]

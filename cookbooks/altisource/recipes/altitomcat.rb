@@ -28,7 +28,7 @@ end
 if node.attribute?('performance')
   appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:#{node.chef_environment}")
   if appdynhost.nil? || appdynhost.empty?
-    Chef::Log.info("No services returned from search.")
+    Chef::Log.info("No appdynamic controller servers returned from search.")
   else
     appdynhost = appdynhost.first
     appdynhost = appdynhost["ipaddress"]
@@ -36,14 +36,14 @@ if node.attribute?('performance')
 else
   appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:shared")
   if appdynhost.nil? || appdynhost.empty?
-    Chef::Log.info("No services returned from search.")
+    Chef::Log.info("No appdynamic controller servers returned from search.")
   else
     appdynhost = appdynhost.first
     appdynhost = appdynhost["ipaddress"]
   end
 end
 if appdynhost.nil? || appdynhost.empty?
-  Chef::Log.info("No services returned from search.")
+  Chef::Log.info("No appdynamic controller servers returned from search.")
 else
   include_recipe "altisource::appdynamics"
   appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"

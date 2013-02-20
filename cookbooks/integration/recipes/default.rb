@@ -13,7 +13,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
-    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
+    Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
     amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]

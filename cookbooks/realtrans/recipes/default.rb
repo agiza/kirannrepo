@@ -10,7 +10,7 @@ if node.attribute?('realdocproxy')
 else
   rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
     if rdochost.nil? || rdochost.empty?
-    Chef::Log.warn("No services returned from search.") && rdochost = "No servers found."
+    Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found."
   else
     rdochost = rdochost.first
     rdochost = rdochost["ipaddress"]
@@ -25,7 +25,7 @@ if node.attribute?('rtcenproxy')
 else
   rtcenhost = search(:node, "recipes:realtrans\\:\\:realtrans-central OR role:realtrans-cen AND chef_environment:#{node.chef_environment}")
   if rtcenhost.nil? || rtcenhost.empty?
-    Chef::Log.warn("No services returned from search.") && rtcenhost = "No servers found."
+    Chef::Log.warn("No realtrans-central servers returned from search.") && rtcenhost = "No servers found."
   else
     rtcenhost = rtcenhost.first
     rtcenhost = rtcenhost["ipaddress"]
@@ -40,7 +40,7 @@ if node.attribute?('amqpproxy')
 else
   amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
   if amqphost.nil? || amqphost.empty?
-    Chef::Log.warn("No services returned from search.") && amqphost = "No servers found."
+    Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
     amqphost = amqphost.first
     amqphost = amqphost["ipaddress"]
