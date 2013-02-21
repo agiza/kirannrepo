@@ -26,7 +26,7 @@ include_recipe "infrastructure::selinux"
 package "rabbitmq-server" do
   #provider Chef::Provider::Package::Yum
   action :upgrade
-  notifies :restart, resources(service => "rabbitmq-server")
+  notifies :restart, resources(:service => "rabbitmq-server"), :immediately
   notifies :run, resources(:execute => "rabbit-management")
   notifies :run, resources(:execute => "rabbitmqadmin")
 end
