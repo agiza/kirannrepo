@@ -15,15 +15,15 @@ end
 #replicaset = node[:replicaset]
 replicalist = []
 if node.attribute?('performance')
-  replicaset = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:#{node.chef_environment}")
-  replicaset = replicaset[:replicaset]
+  replicsetid = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:#{node.chef_environment}")
+  replicaset = replicasetid[:replicaset]
   replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
   end
 else
-  replicaset = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:shared")
-  replicaset = replicaset[:replicaset]
+  replicasetid = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:shared")
+  replicaset = replicasetid[:replicaset]
   replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
