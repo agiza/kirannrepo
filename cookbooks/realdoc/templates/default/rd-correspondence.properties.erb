@@ -1,3 +1,20 @@
+rd.jdbc.driverClassName=com.mysql.jdbc.Driver
+rd.jdbc.initialSize=<%= node[:db_initsize] %>
+rd.jdbc.maxActive=<%= node[:db_maxactive] %>
+rd.jdbc.maxIdle=<%= node[:db_maxidle] %>
+rd.jdbc.maxWait=6000
+rd.jdbc.minIdle=0
+rd.jdbc.password=<%= @mysqldb['rdoc_dbpass'] %>
+rd.jdbc.removeAbandonedTimeout=600
+rd.jdbc.removeAbandoned=true
+rd.jdbc.testOnBorrow=true
+rd.jdbc.testWhileIdle=false
+rd.jdbc.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
+rd.jdbc.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rdoc_dbname'] %>?autoReconnect=true
+rd.jdbc.username=<%= @mysqldb['rdoc_dbuser'] %>
+rd.jdbc.validationQuery=SELECT 1
+rd.jdbc.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
+
 realdoc.event.bus=rd.event.bus
 
 realdoc.mongo.server=<%= @mongo_host %>
@@ -159,4 +176,7 @@ rf.activiti.jobExecutorActivate=true
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
+
+rd.fileStorageMethod=GRID_FS
+rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
 
