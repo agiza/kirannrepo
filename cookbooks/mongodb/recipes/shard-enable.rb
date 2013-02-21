@@ -13,16 +13,20 @@ execute "shard-enable" do
 end
 
 replicaset = node[:replicaset]
-replicalist = []
-if node.attribute?('performance')
-  replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
-  replicas.each do |replica|
-    replicalist << "#{replica[:ipaddress]}:27017"
-  end
+if replicaset.nil? || replicaset.empty?
+  Chef::Log.fatal("No replicaset is defined, setting a default of rdng.") && replicaset = "rdng"
 else
-  replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
-  replicas.each do |replica|
-    replicalist << "#{replica[:ipaddress]}:27017"
+  replicalist = []
+  if node.attribute?('performance')
+    replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
+    replicas.each do |replica|
+      replicalist << "#{replica[:ipaddress]}:27017"
+    end
+  else
+    replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
+    replicas.each do |replica|
+      replicalist << "#{replica[:ipaddress]}:27017"
+    end
   end
 end
 
