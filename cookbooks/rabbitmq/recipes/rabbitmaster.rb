@@ -87,15 +87,8 @@ end
 execute  "rabbitmqadmin" do
   command "wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
   creates "/etc/rabbitmq/rabbitmqadmin"
-  action :run
+  action :nothing
 end
-
-#template "/etc/rabbitmq/rabbitmqadmin" do
-#  source "rabbitmqadmin.erb" 
-#  owner  "root"
-#  group  "root"
-#  mode   "0755"
-#end
 
 # Pull all entries in data_bag rabbitmq to get a list of apps for looping.
 rabbitapps = data_bag("rabbitmq")
