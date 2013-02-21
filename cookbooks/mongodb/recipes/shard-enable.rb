@@ -36,7 +36,8 @@ template "/data/db/shardadd.js" do
   group  "root"
   mode   "0644"
   variables(
-    :replicas => replicalist
+    :replicas => replicalist,
+    :replicaset => replicaset
   )
   notifies :run, 'execute[shard-enable]'
 end
