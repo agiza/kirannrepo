@@ -14,7 +14,7 @@ end
 
 replicaset = node[:replicaset]
 if replicaset.nil? || replicaset.empty?
-  Chef::Log.fatal("No replicaset is defined, setting a default of rdng.") && replicaset = "rdng"
+  Chef::Log.fatal("No replicaset attribute is defined, This is REQUIRED.")
 else
   replicalist = []
   if node.attribute?('performance')
