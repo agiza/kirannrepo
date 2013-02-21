@@ -14,6 +14,12 @@ service "rabbitmq-server" do
   action :nothing
 end
 
+execute "rabbit-management" do
+  command "rabbitmq-plugins enable rabbitmq_management"
+  action :nothing
+  not_if "grep rabbitmq_management /etc/rabbitmq/enabled_plugins"
+end
+
 execute  "rabbitmqadmin" do
   command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
   action :nothing
