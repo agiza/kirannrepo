@@ -8,6 +8,12 @@
 #
 
 # Create a service for rabbitmqadmin python script to allow for a notification run when upgrade occurs.
+
+service "rabbitmq-server" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :nothing
+end
+
 execute  "rabbitmqadmin" do
   command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
   action :nothing
@@ -20,6 +26,8 @@ include_recipe "infrastructure::selinux"
 package "rabbitmq-server" do
   #provider Chef::Provider::Package::Yum
   action :upgrade
+  notifies :restart, resources(service => "rabbitmq-server")
+  notifies :run, resources(:execute => "rabbit-management")
   notifies :run, resources(:execute => "rabbitmqadmin")
 end
 
@@ -33,6 +41,6 @@ execute "rabbit-management" do
   command "rabbitmq-plugins enable rabbitmq_management"
   action :run
   not_if "grep rabbitmq_management /etc/rabbitmq/enabled_plugins"
+  notifies :run, resources(:execute => "rabbitmqadmin")
 end
-
 
