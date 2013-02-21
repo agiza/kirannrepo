@@ -14,7 +14,7 @@ end
 
 replicaset = node[:replicaset]
 replicalist = []
-if node.performance?
+if node.attribute?('performance')
   replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
