@@ -84,12 +84,6 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
 end
 
-execute  "rabbitmqadmin" do
-  command "wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
-  creates "/etc/rabbitmq/rabbitmqadmin"
-  action :nothing
-end
-
 # Pull all entries in data_bag rabbitmq to get a list of apps for looping.
 rabbitapps = data_bag("rabbitmq")
 # This defines the common service that creates the initial cluster.

@@ -88,13 +88,6 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   notifies :restart, resources(:service => "rabbitmq-server")
 end
 
-template "/etc/rabbitmq/rabbitmqadmin" do
-  source "rabbitmqadmin.erb" 
-  owner  "root"
-  group  "root"
-  mode   "0755"
-end
-
 # This is for the slave entries that only need to remove the default guest account.
 template "/etc/rabbitmq/rabbit-guest.sh" do
   source "rabbit_guest.erb"
