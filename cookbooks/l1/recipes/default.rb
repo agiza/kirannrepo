@@ -45,6 +45,19 @@ else
   end
 end
 
+# This looks for amqp vhost attribute or creates one if it is missing.
+if node.attribute?('l1_amqp_vhost')
+  Chef::Log.info("Rabbitmq vhost attribute found.")
+else
+  amqpvhost = search(:node, "l1_amqp_vhost:* AND chef_environment:#{node.chef_environment}")
+  if amqpvhost.nil? || amqpvhost.empty?
+    amqpenviron = "#{node[:chef_environment]}".downcase
+    amqpvhost = "l1#{amqpenviron}"
+    node.default.l1_amqp_vhost = amqpvhost
+  end
+end
+
+
 node.default.rdochost = rdochost
 node.default.rdocport = rdocport
 node.default.l1cenhost = l1cenhost
