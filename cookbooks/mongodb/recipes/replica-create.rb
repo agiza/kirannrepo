@@ -51,7 +51,7 @@ template "/etc/mongo/rsadd.js" do
   variables(
     :replicas => replicalist
   )
- # notifies :run, 'execute[replica-create]'
+  notifies :run, 'execute[replica-create]'
 end
 
 template "/usr/local/bin/replica-create" do
@@ -59,7 +59,7 @@ template "/usr/local/bin/replica-create" do
   owner  "root"
   group  "root"
   mode   "0755"
- # notifies :run, 'execute[replica-create]'
+  notifies :run, 'execute[replica-create]'
 end
 
 ruby_block "remove replica-create from run list" do

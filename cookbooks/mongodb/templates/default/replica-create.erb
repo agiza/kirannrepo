@@ -1,3 +1,10 @@
 #!/bin/bash
-mongo localhost:27017 --quiet /etc/mongo/rsadd.js
+if [ -f /usr/local/bin/replicacreated]; then
+  echo "replica already created."
+elif [ ! -f /etc/mongo/rsadd.js ]; then
+  echo "No rsadd.js file to access"; exit 1
+else
+  mongo localhost:27017 --quiet /etc/mongo/rsadd.js && touch /usr/local/sbin/replicacreated; exit 0 || echo "Error running the replicate create script."; exit 1
+
+fi
 
