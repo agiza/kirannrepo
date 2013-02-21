@@ -12,20 +12,25 @@ execute "shard-enable" do
   action :nothing
 end
 
-replicaset = node[:replicaset]
+#replicaset = node[:replicaset]
 replicalist = []
 if node.attribute?('performance')
+  replicaset = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:#{node.chef_environment}")
+  replicaset = replicaset["replicaset"]
   replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
   end
 else
+  replicaset = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND chef_environment:shared")
+  replicaset = replicaset["replicaset"]
   replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
   replicas.each do |replica|
     replicalist << "#{replica[:ipaddress]}:27017"
   end
 end
-template "/etc/mongo/shardadd.js" do
+
+template "/data/db/shardadd.js" do
   source "shardadd.js.erb"
   owner  "root"
   group  "root"
