@@ -58,6 +58,17 @@ else
   end
 end
 
+# This looks for mongo db attribute or creates one if it is missing.
+if node.attribute?('mongodb_database')
+  Chef::Log.info("Mongo DB database attribute found.")
+else
+  mongodbhost = search(:node, "mongodb_database:* AND chef_environment:#{node.chef_environment}")
+  if mongodbhost.nil? || mongodbhost.empty?
+    mongodbenviron = "#{node[:chef_environment]}".downcase
+    mongodbhost = "realdoc#{mongodbenviron}"
+    node.default.mongodb_database = mongodbhost
+  end
+end
 
 # Set default node attributes for other recipes.
 node.default.amqphost = amqphost
