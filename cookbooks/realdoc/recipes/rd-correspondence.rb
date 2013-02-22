@@ -49,7 +49,7 @@ yum_package "#{app_name}" do
   end
   flush_cache [ :before ]
   allow_downgrade true
-  notifies :restart, resources(:service => "#{app_name}")
+  notifies :restart, resources(:service => "altitomcat")
 end
 
 mongoHost = "127.0.0.1"
@@ -94,4 +94,3 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   variables(:mysqldb => mysqldb["#{app_name}"])
   notifies :restart, resources(:service => "altitomcat")
 end
-
