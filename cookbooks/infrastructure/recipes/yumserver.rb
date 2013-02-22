@@ -89,7 +89,7 @@ template "/usr/local/bin/yum-update" do
   mode   "0755"
 end
 
-if node[:denveryumserver]?
+if node.attribute?("denveryumserver")
   template "/usr/local/bin/local-repo-update" do
     source "prod-repo-update.erb"
     owner  "root"
