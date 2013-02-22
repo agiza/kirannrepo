@@ -3,7 +3,7 @@ if [ ! -f /data/db/shardadd.js ]; then
   echo "No shardadd.js file to access"; exit 1
 else
   mongo localhost:27017 --quiet /data/db/shardadd.js
-  shardsuccess=`mongo localhost:27017 --quiet --eval "printjson(sh.status())" | grep <%= node[:replicaset] %> | grep host`
+  shardsuccess=`mongo localhost:27017 --quiet --eval "printjson(sh.status())" | grep \"<%= node[:replicaset] %>\" | grep host`
   shardfail=`mongo localhost:27017 --quiet --eval "printjson(sh.status())" | grep "does not have sharding"`
   if [ "$shardsuccess" != "" ]; then
     echo "Shards added."; exit 0

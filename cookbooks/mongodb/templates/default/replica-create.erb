@@ -6,7 +6,7 @@ elif [ ! -f /etc/mongo/rsadd.js ]; then
 else
   mongo localhost:27017 --quiet /etc/mongo/rsadd.js 
   replicacheck=`mongo localhost:27017 --quiet --eval "printjson(rs.status())" | grep name | wc -l`
-  if [ "$replicacheck" == "3" ]; then
+  if [ "$replicacheck" -eq 3 ]; then
     touch /usr/local/sbin/replicacreated; exit 0
   else
     echo "Error creating the replicaset."; exit 1
