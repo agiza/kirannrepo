@@ -56,3 +56,9 @@ ruby_block "remove shard-enable from run list" do
   end
 end
 
+ruby_block "remove replicaset attribute" do
+  block do
+    node.attribute.remove("replicaset")
+  end
+end
+

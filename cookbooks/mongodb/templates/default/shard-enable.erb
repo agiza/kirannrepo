@@ -1,10 +1,16 @@
 #!/bin/bash
-if [ -f /data/db/replicacreated]; then
-  echo "replica already created."
-elif [ ! -f /data/db/rsadd.js ]; then
-  echo "No rsadd.js file to access"; exit 1
+if [ ! -f /data/db/shardadd.js ]; then
+  echo "No shardadd.js file to access"; exit 1
 else
-  mongo localhost:27017 --quiet /data/db/rsadd.js && touch /data/db/replicacreated; exit 0 || echo "Error running the replicate create script."; exit 1
-
+  mongo localhost:27017 --quiet /data/db/shardadd.js
+  shardsuccess=`mongo localhost:27017 --quiet --eval "printjson(sh.status())" | grep <%= node[:replicaset] %> | grep host`
+  shardfail=`mongo localhost:27017 --quiet --eval "printjson(sh.status())" | grep "does not have sharding"`
+  if [ "$shardsuccess" != "" ]; then
+    echo "Shards added."; exit 0
+  elif [ "$shardfail" != "" ]; then
+    echo "Error Adding the Shards."; exit 1
+  else
+    echo "Undetermined Error Adding the Shards."; exit 1
+  fi
 fi
 
