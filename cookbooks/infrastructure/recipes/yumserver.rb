@@ -89,11 +89,21 @@ template "/usr/local/bin/yum-update" do
   mode   "0755"
 end
 
-template "/usr/local/bin/local-repo-update" do
-  source "local-repo-update.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
+if node[:denveryumserver]?
+  template "/usr/local/bin/local-repo-update" do
+    source "prod-repo-update.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
+    variables(:denveryumserver => node[:denveryumserver])
+  end
+else
+  template "/usr/local/bin/local-repo-update" do
+    source "local-repo-update.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
+  end
 end
 
 template "/etc/httpd/conf.d/yum.conf" do
