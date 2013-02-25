@@ -50,7 +50,7 @@ done
 # Loop to add each queue with mirror turned on.
 for vhost in `echo "$vhosts"`; do
   for item in `echo "$queue_names"`; do
-   option_check=`grep '|' "$item"`
+   option_check=`echo "$item" | grep '|'`
    if [ "$option_check" != "" ]; then
      queue=`echo "$item" | cut -d "|" -f1`
      option=`echo "$item" | cut -d "|" -f2`
