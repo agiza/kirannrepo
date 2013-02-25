@@ -49,7 +49,14 @@ done
 
 # Loop to add each queue with mirror turned on.
 for vhost in `echo "$vhosts"`; do
-  for queue in `echo "$queue_names"`; do
+  for item in `echo "$queue_names"`; do
+   option_check=`grep '|' "$item"`
+   if [ "$option_check" != "" ]; then
+     queue=`echo "$item" | cut -d "|" -f1`
+     option=`echo "$item" | cut -d "|" -f2`
+   else
+     queue=`echo "$item"`
+   fi
    html_vhost=`echo $vhost | sed -e 's/\//\%2f/'`
    check=`echo $vhost`
    if [ "$check" != "" ]; then
@@ -60,6 +67,10 @@ for vhost in `echo "$vhosts"`; do
        if [ "$deadcheck" != "" ] || [ "$moncheck" != "" ]; then
          echo "Create $queue on $vhost..."
          curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-message-ttl\":432000000},\"node\":\"rabbit@$host\"}" http://$host:15672/api/queues/"$html_vhost"/"$queue"
+       elif [ "$option" != "" ]; then
+         option_key=`echo $option | cut -d ":" -f1`
+         option_value=`echo $option | cut -d ":" -f2`
+         curl -i -u $admin_user:$admin_pass -H "content-type:application/json" -XPUT -d"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"$option_key\":\"$option_value\"},\"node\":\"rabbit@$host\"}" http://$host:15672/api/queues/"$html_vhost"/"$queue"
        else
          /etc/rabbitmq/rabbitmqadmin -H ${host} -V "${vhost}" -u ${admin_user} -p ${admin_pass} declare queue name="${queue}" durable=true
        fi
