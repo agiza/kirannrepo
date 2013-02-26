@@ -8,27 +8,22 @@
 #
 include_recipe "altisource::yumclient"
 
-if node.attribute?('rhelrepoproxy') 
-  execute "yum" do
-    command "yum clean all"
-    action :nothing
-  end
-  if node.attribute?('yum_server')
-    yumserver = node[:yum_server]
+if node.attribute?('yum_server')
+  yumserver = node[:yum_server]
+else
+  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
+  if yumserver.nil? || yumserver.empty?
+    Chef::Log.warn("No yum repositories found.") && yumserver = "127.0.0.1"
   else
-    yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
-    if yumserver.nil? || yumserver.empty?
-      Chef::Log.warn("No yum repositories found.") && yumserver = "127.0.0.1"
-    else
-      yumserver = yumserver.first
-      yumserver = yumserver["ipaddress"]
-    end
+    yumserver = yumserver.first
+    yumserver = yumserver["ipaddress"]
   end
-  template "/etc/yum.repos.d/rhel-local.repo" do
-    source "rhel-local.repo.erb"
-    mode "0644"
-    variables(:yumserver => yumserver)
-    notifies :run, resources(:execute => "yum")
-  end
+end
+
+template "/etc/yum.repos.d/rhel-local.repo" do
+  source "rhel-local.repo.erb"
+  mode "0644"
+  variables(:yumserver => yumserver)
+  notifies :run, resources(:execute => "yum")
 end
 
