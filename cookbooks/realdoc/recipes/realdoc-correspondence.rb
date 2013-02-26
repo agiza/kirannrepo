@@ -26,7 +26,6 @@ else
   end
 end
 
-include_recipe "altisource::altitomcat"
 # trigger node attribute creation.
 include_recipe "realdoc::default"
 amqphost = node[:amqphost]
