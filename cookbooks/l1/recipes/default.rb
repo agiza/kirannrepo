@@ -3,6 +3,8 @@
 # Recipe:: default
 #
 
+include_recipe "altisource::altitomcat"
+
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
