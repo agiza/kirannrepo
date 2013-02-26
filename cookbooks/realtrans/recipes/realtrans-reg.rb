@@ -26,8 +26,6 @@ else
   end
 end
 
-include_recipe "altisource::altitomcat"
-
 include_recipe "realtrans::default"
 rdochost = node[:rdochost]
 rdocport = node[:rdocport]

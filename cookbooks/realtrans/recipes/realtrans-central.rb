@@ -24,9 +24,6 @@ else
   end
 end
 
-# Include tomcat recipe to get tomcat installed
-include_recipe "altisource::altitomcat"
-
 include_recipe "realtrans::default"
 rdochost = node[:rdochost]
 rdocport = node[:rdocport]
