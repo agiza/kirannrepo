@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "altisource::altitomcat"
 
 if node.attribute?('hzproxy')
   hzhost = node[:hzproxy].split(":")[0]
