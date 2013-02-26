@@ -9,8 +9,6 @@
 app_name = "replication-app"
 app_version = node[:repapp_version]
 
-include_recipe "altisource::altitomcat"
-
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
