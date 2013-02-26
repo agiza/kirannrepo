@@ -26,9 +26,6 @@ else
   end
 end
 
-
-include_recipe "altisource::altitomcat"
-
 include_recipe "integration::default"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]

@@ -9,8 +9,6 @@
 app_name = "int-realservicing"
 app_version = node[:intrs_version]
 
-include_recipe "altisource::altitomcat"
-
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else

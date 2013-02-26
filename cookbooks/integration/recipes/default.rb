@@ -31,4 +31,5 @@ end
 node.default.amqphost = amqphost
 node.default.amqpport = amqpport
 
+include_recipe "altisource::altitomcat"
 
