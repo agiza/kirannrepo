@@ -43,7 +43,7 @@ template "/home/rtnextgen/bin/chef-deploy" do
   group  "rtnextgen"
   mode   "0755"
   variables(
-    :appnames => app_names['names'],
+    :appnames => app_names,
     :yumserver => yumserver
   )
 end
@@ -61,7 +61,7 @@ template "/home/rtnextgen/bin/deploy-software" do
   group  "rtnextgen"
   mode   "0755"
   variables(
-    :appnames => app_names['names']
+    :appnames => app_names
   )
 end
 
@@ -71,7 +71,7 @@ template "/home/rtnextgen/bin/chef-provision" do
   group  "rtnextgen"
   mode   "0755"
   variables(
-    :appnames => app_names['names']
+    :appnames => app_names
   )
 end
 %w[/home/rtnextgen/.chef /home/rtnextgen/.chef/plugins /home/rtnextgen/.chef/plugins/knife].each do |dir|

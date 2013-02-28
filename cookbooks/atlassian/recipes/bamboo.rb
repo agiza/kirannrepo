@@ -163,7 +163,7 @@ template "/home/bamboo/bin/rpm-package" do
   owner  "bamboo"
   group  "bamboo"
   mode   "0755"
-  variables( :application_names => app_names['names'] )
+  variables( :application_names => app_names )
 end
 
 template "/home/bamboo/bin/bamboo-plugins.sh" do
