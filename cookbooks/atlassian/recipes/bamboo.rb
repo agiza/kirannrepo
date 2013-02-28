@@ -156,7 +156,8 @@ template "/home/bamboo/bin/tomcat-clean-rhel.sh" do
   mode   "0755"
 end
 
-app_names = data_bag_item("infrastructure", "applications")
+#app_names = data_bag_item("infrastructure", "applications")
+app_names = node[:app_names]
 template "/home/bamboo/bin/rpm-package" do
   source "rpm-package.erb"
   owner  "bamboo"
