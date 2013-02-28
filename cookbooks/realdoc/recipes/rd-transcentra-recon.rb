@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "rd-transcentra-recon-adapter"
-app_version = node[:rdtrancentrarecon_version]
+app_version = node[:rdtranscentrarecon_version]
 
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
@@ -18,7 +18,7 @@ else
       Chef::Log.fatal("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
-      app_version = new_version[:rdtrancentrarecon_version]
+      app_version = new_version[:rdtranscentrarecon_version]
       node.set['rdtranscentrarecon_version'] = app_version
     end
   else
