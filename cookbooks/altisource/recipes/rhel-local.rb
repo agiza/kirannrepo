@@ -8,6 +8,11 @@
 #
 include_recipe "altisource::yumclient"
 
+execute "yum" do
+  command "yum clean all"
+  action :nothing
+end
+
 if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
