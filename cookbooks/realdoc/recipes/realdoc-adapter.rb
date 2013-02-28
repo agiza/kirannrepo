@@ -8,4 +8,5 @@
 #
 include_recipe "realdoc::strongmail-adapter"
 include_recipe "realdoc::rd-transcentra-recon"
+include_recipe "realdoc::rd-mailmerge-adapter"
 
