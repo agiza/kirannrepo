@@ -11,9 +11,6 @@ realdoc.email.fromAddress.personal=<%= @mailserver['from'] %>
 realdoc.fax.toAddress=<%= @mailserver['from'] %>
 rd.fax.toAddress=robert.hudson@altisource.com
 
-rd.mailmerge-scheduler.delay=3600000
-rd.mailmerge-scheduler.correspondence.clientid=ocwen
-
 amqp.host=<%= @amqphost %>
 amqp.port=<%= @amqpport %>
 amqp.username=<%= @amqpuser %>
@@ -37,6 +34,7 @@ realdoc.correspondence.amqp.recon.inbound=rd.correspondence.recon
 realdoc.correspondence.amqp.delivery=rd.correspondence.requests
 realdoc.correspondence.amqp.generate=rd.correspondence.generate
 realdoc.correspondence.amqp.delivery=rd.correspondence.delivery
+realdoc.correspondence.directory=${catalina.base}/correspondence
 
 rd.correspondence.documentApprovalCandidateGroup=283420cd-d9d1-4e39-8ecd-b00dc552e54d 
 rd.correspondence.batchApprovalCandidateGroup=b27f2e6c-59ed-43b0-a3c2-7d85e4c619af 
@@ -83,7 +81,6 @@ rf.ldapAuthenticationProvider.enabled=false
 rf.ldapAuthenticationProvider.enabled=true
 <% end -%>
 
-
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false
 
@@ -108,7 +105,7 @@ logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
 rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
 
-brandName=wide
+brandName=realdoc-basic
 
 rf.security.maxBadLoginsDefault=3
 rf.security.lockoutWindowMinsDefault=60
@@ -162,7 +159,4 @@ rf.activiti.jobExecutorActivate=true
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
-
-rd.fileStorageMethod=GRID_FS
-rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
 
