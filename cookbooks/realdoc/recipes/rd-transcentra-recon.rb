@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: realdoc
-# Recipe:: rd-print-recon
+# Recipe:: rd-trancentra-recon-adapter
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "rd-print-recon"
-app_version = node[:rdprint_version]
+app_name = "rd-transcentra-recon-adapter"
+app_version = node[:rdtrancentrarecon_version]
 
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
@@ -18,8 +18,8 @@ else
       Chef::Log.fatal("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
-      app_version = new_version[:rdprint_version]
-      node.set['rdprint_version'] = app_version
+      app_version = new_version[:rdtrancentrarecon_version]
+      node.set['rdtranscentrarecon_version'] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")
