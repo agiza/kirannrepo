@@ -53,6 +53,16 @@ end
 
 mongoHost = "127.0.0.1"
 
+directory "/opt/tomcat/correspondence" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/correspondence/input" do
+  owner "tomcat"
+  group "tomcat"
+end
+
 # Integration components
 webHost = data_bag_item("infrastructure", "apache")
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
@@ -93,3 +103,6 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   variables(:mysqldb => mysqldb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
+
+include_recipe "realdoc::correspondence-mount"
+
