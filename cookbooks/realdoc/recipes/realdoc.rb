@@ -64,7 +64,6 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-#ftpserver = data_bag_item("integration", "realdoc")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -83,7 +82,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
     :ldapserver => ldapserver
-    #:ftpserver => ftpserver
   )
 end
 
@@ -106,13 +104,6 @@ directory "/opt/tomcat/correspondence/input" do
   owner "tomcat"
   group "tomcat"
 end
-
-#template "/opt/tomcat/conf/realdoc.key" do
-#  source "realdoc.key.erb"
-#  owner  "tomcat"
-#  group  "tomcat"
-#  mode   "0600"
-#end
 
 include_recipe "realdoc::correspondence-mount"
 include_recipe "realdoc::cis-mount"

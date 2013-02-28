@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "altisource::altitomcat"
+include_recipe "mongodb::mongos"
 
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
