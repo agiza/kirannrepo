@@ -1,13 +1,13 @@
 #
 # Cookbook Name:: realdoc
-# Recipe:: rd-transcentra-recon-adapter
+# Recipe:: rd-proxy-image-generator
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "rd-transcentra-recon-adapter"
-app_version = node[:rdtranscentrarecon_version]
+app_name = "rd-mailmerge-adapter"
+app_version = node[:rdmailmerge_version]
 
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
@@ -18,8 +18,8 @@ else
       Chef::Log.fatal("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
-      app_version = new_version[:rdtranscentrarecon_version]
-      node.set['rdtranscentrarecon_version'] = app_version
+      app_version = new_version[:rdmailmerge_version]
+      node.set['rdmailmerge_version'] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")
