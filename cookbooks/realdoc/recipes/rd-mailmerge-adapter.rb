@@ -60,7 +60,7 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -78,18 +78,18 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rdochost => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
-    :mysqldb => mysqldb["realdoc"],
+    :oradb => oradb["realdoc"],
     :ldapserver => ldapserver
   )
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
-  source "realdoc.xml.erb"
+  source "#{app_name}.xml.erb"
   group  'tomcat'
   owner  'tomcat'
   mode   '0644'
-  variables(:mysqldb => mysqldb["realdoc"])
+  variables(:oradb => oradb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
 

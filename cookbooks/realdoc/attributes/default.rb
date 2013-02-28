@@ -12,6 +12,9 @@ default["db_server"]		= "mysqldbprim"
 default["db_port"]		= "3306"
 default["db_timeevict"]		= "60000"
 default["db_valquerytimeout"]	= "2"
+# Oracle DB defaults
+default["oradb_server"]		= "50.19.6.17"
+default["oradb_port"]		= "1521"
 # Mongodb defaults
 default["mongodb_database"]	= "realdoc"
 default["mongodb_pass"]		= "guest"
