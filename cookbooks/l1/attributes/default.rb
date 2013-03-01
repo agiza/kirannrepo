@@ -18,3 +18,7 @@ default["rf_ldap_flag"]         = "false"
 default["rf_dao_flag"]          = "true"
 default["access_index"]         = "lendersone"
 default["log4j_index"]          = "lendersone"
+# Default version attributes
+default["l1central_version"]    = "0.0.0-1"
+default["l1fp_version"]         = "0.0.0-1"
+default["l1rp_version"]         = "0.0.0-1"

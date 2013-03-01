@@ -19,3 +19,5 @@ default["rf_ldap_flag"]		= "false"
 default["rf_dao_flag"]		= "true"
 default["access_index"]		= "realfound"
 default["log4j_index"]          = "realfound"
+# Default version attributes
+default["realfoundation_version"]          = "0.0.0-1"
