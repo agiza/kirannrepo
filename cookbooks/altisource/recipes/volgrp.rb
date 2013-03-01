@@ -51,7 +51,7 @@ else
         action :nothing
       end
 
-      execute "format" do
+      execute "formatdisk" do
         command "mkfs -t #{type} -m 1 #{fulldevice}"
         action :nothing
       end
