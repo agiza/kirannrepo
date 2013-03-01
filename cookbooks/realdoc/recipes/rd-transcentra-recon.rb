@@ -61,6 +61,7 @@ melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+transcentra = data_bag_item("integration", "transcentra")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -79,6 +80,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
     :mysqldb => mysqldb["realdoc"],
+    :transcentra => transcentra,
     :ldapserver => ldapserver
   )
 end
