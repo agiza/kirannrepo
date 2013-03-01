@@ -24,6 +24,49 @@ else
       )
       notifies :run, "execute[volgrp-mount]", :immediately
     end
+    volumes = volumes.split(" ")
+    volumes.each do |volume|
+      disk = volume.split("|")[0]
+      device = "/dev/#{disk}"
+      vol = volume.split("|")[1]
+      volgrp = "#{vol}_vg"
+      mountpoint = volume.split("|")[2]
+      mount = "/#{mountpoint}"
+      options = volume.split("|")[3]
+      fulldevice = "/dev/mapper/#{volgrp}-lvol0"
+
+      execute "pvcreate" do
+        command "pvcreate #{device}"
+        action :nothing
+        not_if "test -f #{device}"
+      end
+
+      execute "vgcreate" do
+        command "vgcreate #{volgrp} #{device}"
+        action :nothing
+      end
+
+      execute "lvcreate" do
+        command "lvcreate -l 100%VG #{volgrp}"
+        action :nothing
+      end
+
+      execute "format" do
+        command "mkfs -t #{type} -m 1 #{fulldevice}"
+        action :nothing
+      end
+
+      mount "volume" do
+        device "#{device}"
+        fstype "#{type}"
+        options "#{options}"
+        mount_point "#{mount}"
+        dump "0"
+        pass "0"
+        #action [:mount, :enable]
+        action [:nothing]
+      end
+    end
   end
 end
 

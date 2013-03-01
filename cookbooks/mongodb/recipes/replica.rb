@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "mongod-replica"
-node.default.volumes = "sdb|mongod|mongod"
+node.default.volumes = "sdb|mongod|mongod|defaults"
 include_recipe "altisource::volgrp"
 
 include_recipe "mongodb::default"

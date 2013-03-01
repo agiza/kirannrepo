@@ -8,7 +8,7 @@ include_recipe "altisource::yumclient"
 include_recipe "altisource::altirepo"
 
 #volumes = "sdb|opt|opt/tomcat"
-node.default.volumes = "sdb|opt|opt/tomcat"
+node.default.volumes = "sdb|opt|opt/tomcat|defaults"
 include_recipe "altisource::volgrp"
 
 app_name = "altitomcat"

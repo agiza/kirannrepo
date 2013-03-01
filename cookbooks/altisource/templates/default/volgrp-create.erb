@@ -14,6 +14,8 @@ for i in `echo "${voldata}"`; do
   device=/dev/$disk
   # Makes the physical partition a product of the disk
   partition="${device}"
+  # This parses the options
+  options=`echo "$i" | cut -d "|" -f4`
 
   # Check to see if the volume group has been added to fstab, if so, do nothing.
   fstab_check=`grep "/dev/mapper/${vol_grp}-lvol0" /etc/fstab`
