@@ -34,6 +34,7 @@ else
       mount = "/#{mountpoint}"
       options = volume.split("|")[3]
       fulldevice = "/dev/mapper/#{volgrp}-lvol0"
+      type = "ext4"
 
       execute "pvcreate" do
         command "pvcreate #{device}"
@@ -52,7 +53,7 @@ else
       end
 
       execute "formatdisk" do
-        command "mkfs -t #{type} -m 1 #{fulldevice}"
+        command "/sbin/mkfs -t #{type} -m 1 #{fulldevice}"
         action :nothing
       end
 
@@ -61,8 +62,8 @@ else
         fstype "#{type}"
         options "#{options}"
         mount_point "#{mount}"
-        dump "0"
-        pass "0"
+        dump 0
+        pass 0
         #action [:mount, :enable]
         action [:nothing]
       end
