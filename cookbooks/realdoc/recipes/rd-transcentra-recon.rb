@@ -56,10 +56,10 @@ mongoHost = "127.0.0.1"
 # Integration components
 # Try to pull environment specific data bag item for transcentra ftp if it exists.
 transcentra = data_bag_item("integration","transcentra")
-if transcentra("transcentra#{node.chef_environment.downcase}").nil?
-  transcentraftp = transcentra("transcentra")
+if transcentra["transcentra#{node.chef_environment.downcase}"].nil?
+  transcentraftp = transcentra["transcentra"]
 else
-  transcentraftp = transcentra("transcentra#{node.chef_environment.downcase}")
+  transcentraftp = transcentra["transcentra#{node.chef_environment.downcase}"]
 end
 webHost = data_bag_item("infrastructure", "apache")
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
