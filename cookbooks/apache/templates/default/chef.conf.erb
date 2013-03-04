@@ -1,0 +1,9 @@
+Alias /chef-repo/ "/var/www/html/chef-repo/"
+<Directory "/var/www/html/chef-repo/">
+    Options Indexes Multiviews
+    AllowOverride AuthConfig
+    Order allow,deny
+    Allow from 127.0.0.0/255.0.0.0 ::1/128
+    Allow from 63.123.133.0/24
+</Directory>
+
