@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Updating common repository."
+reposync -p /data/yum-repo/ --repoid=common -l
+
+#echo "Updating testing repository."
+#reposync -p /data/yum-repo/ --repoid=testing -l
+
+echo "Updating release repository."
+reposync -p /data/yum-repo/ --repoid=release -l
+
+echo "Done."
+

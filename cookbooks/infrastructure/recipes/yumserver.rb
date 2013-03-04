@@ -97,6 +97,18 @@ if node.attribute?("denveryumserver")
     mode   "0755"
     variables(:denveryumserver => node[:denveryumserver])
   end
+  template "/usr/local/bin/altidev-update" do
+    source "altidev-update.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
+  end
+  template "/etc/yum.repos.d/altidev.repo" do
+    source "altidev.repo.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+  end
 else
   template "/usr/local/bin/local-repo-update" do
     source "local-repo-update.erb"
@@ -114,9 +126,9 @@ template "/etc/httpd/conf.d/yum.conf" do
   notifies :restart, resources(:service => "httpd")
 end
 
-cron "yum-update" do
+cron "altidev-update" do
   minute "0,10,20,30,40,50"
   user  "root"
-  command "/usr/local/bin/yum-update > /dev/null 2>&1"
+  command "/usr/local/bin/altidev-update > /dev/null 2>&1"
 end
 
