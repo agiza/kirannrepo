@@ -16,8 +16,11 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.info("No rabbitmq servers returned from search.")
   else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
+    amqphostip = []
+    amqphost.each do |amqphost|
+      amqphostip << amqphost["ipaddress"]
+    end
+    amqphost = amqphostip.sort.first
     amqpport = "5672"
   end
 end
@@ -30,8 +33,11 @@ else
   if rsnghost.nil? || rsnghost.empty?
     Chef::Log.info("No rsng servers returned from search.")
   else
-    rsnghost = rsnghost.first
-    rsnghost = rsnghost["ipaddress"]
+    rsnghostip = []
+    rsnghost.each do |rsnghost|
+      rsnghostip << rsnghost["ipaddress"]
+    end
+    rsnghost = rsnghostip.sort.first
     rsngport = "8080"
   end
 end

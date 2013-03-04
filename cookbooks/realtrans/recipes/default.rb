@@ -14,8 +14,11 @@ else
     if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found."
   else
-    rdochost = rdochost.first
-    rdochost = rdochost["ipaddress"]
+    rdochostip = []
+    rdochost.each do |rdochost|
+      rdochostip << rdochost["ipaddress"]
+    end
+    rdochost = rdochostip.sort.first
     rdocport = "8080"
   end
 end
@@ -29,8 +32,11 @@ else
   if rtcenhost.nil? || rtcenhost.empty?
     Chef::Log.warn("No realtrans-central servers returned from search.") && rtcenhost = "No servers found."
   else
-    rtcenhost = rtcenhost.first
-    rtcenhost = rtcenhost["ipaddress"]
+    rtcenhostip = []
+    rtcenhost.each do |rtcenhost|
+      rtcenhostip << rtcenhost["ipaddress"]
+    end
+    rtcenhost = rtcenhostip.sort.first
     rtcenport = "8080"
   end
 end
@@ -44,8 +50,11 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
+    amqphostip = []
+    amqphost.each do |amqphost|
+      amqphostip << amqphost["ipaddress"]
+    end
+    amqphost = amqphostip.sort.first
     amqpport = "5672"
   end
 end

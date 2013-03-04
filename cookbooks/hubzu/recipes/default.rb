@@ -16,8 +16,11 @@ else
   if hzhost.nil? || hzhost.empty?
     Chef::Log.warn("No hubzu servers found in search.") && hzhost = "No servers found."
   else
-    hzhost = hzhost.first
-    hzhost = hzhost["ipaddress"]
+    hzhostip = []
+    hzhost.each do |hzhost|
+      hzhostip << hzhost["ipaddress"]
+    end
+    hzhost = hzhostip.sort.first
     hzport = "8080"
   end
 end
@@ -30,8 +33,11 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.info("No rabbitmq servers returned from search.")
   else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
+    amqphostip = []
+    amqphost.each do |amqphost|
+      amqphostip << amqphost["ipaddress"]
+    end
+    amqphost = amqphostip.sort.first
     amqpport = "5672"
   end
 end

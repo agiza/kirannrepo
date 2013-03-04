@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
 include_recipe "altisource::altitomcat"
 include_recipe "mongodb::mongos"
 
@@ -17,8 +18,11 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
-    amqphost = amqphost.first
-    amqphost = amqphost["ipaddress"]
+    ampqhostip = []
+    ampqhost.each do |ampqhost|
+    ampqhostip << ampqhost["ipaddress"]
+    end
+    amqphost = amqphostip.sort.first
     amqpport = "5672"
   end
 end
@@ -46,8 +50,11 @@ else
   if elasticHost.nil? || elasticHost.empty?
     Chef::Log.warn("No elasticsearch servers returned from search.") && elasticHost = "No servers found."
   else
-    elasticHost = elasticHost.first
-    elasticHost = elasticHost["ipaddress"]
+    elastichostip = []
+    elasticHost.each do |elastichost|
+      elastichostip << elastichost["ipaddress"]
+    end
+    elasticHost = elastichostip.sort.first
   end
 end
 
@@ -60,18 +67,6 @@ else
     amqpenviron = "#{node[:chef_environment]}".downcase
     amqpvhost = "realdoc#{amqpenviron}"
     node.default.realdoc_amqp_vhost = amqpvhost
-  end
-end
-
-# This looks for mongo db attribute or creates one if it is missing.
-if node.attribute?('mongodb_database')
-  Chef::Log.info("Mongo DB database attribute found.")
-else
-  mongodbhost = search(:node, "mongodb_database:* AND chef_environment:#{node.chef_environment}")
-  if mongodbhost.nil? || mongodbhost.empty?
-    mongodbenviron = "#{node[:chef_environment]}".downcase
-    mongodbhost = "realdoc#{mongodbenviron}"
-    node.default.mongodb_database = mongodbhost
   end
 end
 
