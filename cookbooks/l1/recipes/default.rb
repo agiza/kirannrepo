@@ -33,6 +33,7 @@ else
     l1cenhostip = []
     l1cenhost.each do |l1cenhost|
       l1cenhostip << l1cenhost["ipaddress"]
+    end
     l1cenhost = l1cenhostip.sort.first
     l1cenport = "8080"
   end
