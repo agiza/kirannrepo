@@ -1,13 +1,31 @@
 #!/bin/bash
 
 echo "Updating common repository."
-reposync -p /data/yum-repo/ --repoid=common -l
+if [ -f /data/yum-repo/commonwork ]; then
+  echo "Common is already being replicated."
+else
+  touch /data/yum-repo/commonwork
+  reposync -p /data/yum-repo/ --repoid=common -l
+  rm -f /data/yum-repo/commonwork
+fi
 
-#echo "Updating testing repository."
-#reposync -p /data/yum-repo/ --repoid=testing -l
+if [ -f /data/yum-repo/testingwork ]; then
+  echo "Testing repo is already being replicated." 
+else
+  #echo "Updating testing repository."
+  #touch /data/yum-repo/testingwork
+  #reposync -p /data/yum-repo/ --repoid=testing -l
+  #rm -f /data/yum-repo/testingwork
+fi
 
-echo "Updating release repository."
-reposync -p /data/yum-repo/ --repoid=release -l
+if [ -f /data/yum-repo/releasework ]; then
+  echo "Release repository already being replicated."
+else
+  echo "Updating release repository."
+  touch /data/yum-repo/releasework
+  reposync -p /data/yum-repo/ --repoid=release -l
+  rm -f /data/yum-repo/releasework
+fi
 
 echo "Done."
 
