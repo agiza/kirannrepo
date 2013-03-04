@@ -49,9 +49,19 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+if data_bag_item("infrastructure", "projourdb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "projourdb#{node.chef_environment}").empty?
+  projourdb = data_bag_item("infrastructure", "projourdb")
+else
+  projourdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
+end
+
+if data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").empty?
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+end
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
 template "/opt/tomcat/conf/replication-app.properties" do

@@ -24,9 +24,9 @@ watchdog.hardLimitThreshold=12
 jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
 jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
 
-jdbc.url.progress.journal=jdbc:datadirect:openedge://<%= node[:projourdb_server] %>:<%= node[:projourdb_port] %>;databaseName=journal.db
-jdbc.username.progress.journal=<%= node[:projourdb_user] %>
-jdbc.password.progress.journal=<%= node[:projourdb_pass] %>
+jdbc.url.progress.journal=jdbc:datadirect:openedge://<%= @projourdb["projourdb_server"] %>:<%= @projourdb["projourdb_port"] %>;databaseName=journal.db
+jdbc.username.progress.journal=<%= @projourdb["projourdb_user"] %>
+jdbc.password.progress.journal=<%= @projourdb["projourdb_pass"] %>
 jdbc.initial-size.progress.journal=10
 jdbc.min-idle.progress.journal=0
 jdbc.max-idle.progress.journal=10
