@@ -5,25 +5,25 @@ if [ -f /data/yum-repo/commonwork ]; then
   echo "Common is already being replicated."
 else
   touch /data/yum-repo/commonwork
-  reposync -p /data/yum-repo/ --repoid=common -l
+  reposync -p /data/yum-repo/ --repoid=common -l > /data/yum-repo/common.log 2>&1
   rm -f /data/yum-repo/commonwork
 fi
 
-if [ -f /data/yum-repo/testingwork ]; then
-  echo "Testing repo is already being replicated." 
-else
+#if [ -f /data/yum-repo/testingwork ]; then
+#  echo "Testing repo is already being replicated." 
+#else
   #echo "Updating testing repository."
   #touch /data/yum-repo/testingwork
-  #reposync -p /data/yum-repo/ --repoid=testing -l
+  #reposync -p /data/yum-repo/ --repoid=testing -l > /data/yum-repo/common.log 2>&1
   #rm -f /data/yum-repo/testingwork
-fi
+#fi
 
 if [ -f /data/yum-repo/releasework ]; then
   echo "Release repository already being replicated."
 else
   echo "Updating release repository."
   touch /data/yum-repo/releasework
-  reposync -p /data/yum-repo/ --repoid=release -l
+  reposync -p /data/yum-repo/ --repoid=release -l > /data/yum-repo/release.log 2>&1
   rm -f /data/yum-repo/releasework
 fi
 
