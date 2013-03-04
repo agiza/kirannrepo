@@ -40,6 +40,20 @@ jdbc.min-idle.mysql.rsng=0
 jdbc.max-idle.mysql.rsng=10
 jdbc.maxActive.mysql.rsng=50
 
+rfTenant.code=TENANT1
+###################################
+# support for active / passive HA #
+###################################
+ha.lockTableName=rs_lock_table
+ha.sleepTime=1000
+
+#modifies Jackson ObjectMapper behavior to expect upper case field names in input
+json.expectFieldsAsUpperCase=false
+#Set Jackson ObjectMapper to convert all incoming field names to uppercase.  (could slow parsing)
+json.parseFieldsAsUpperCase=false
+#Defer initializing mappings loaded from meta data until first use
+mapping.lazyInit=false
+
 #############################################################
 #######  Melissa Settings  ##################################
 #############################################################
