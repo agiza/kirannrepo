@@ -78,7 +78,8 @@ template "/opt/tomcat/conf/replication-app.properties" do
     :rsnghost => "#{rsnghost}:#{rsngport}",
     :amqphost => amqphost,
     :amqpport => amqpport,
-    :mysqldb => mysqldb["realservice"]
+    :mysqldb => mysqldb["realservice"],
+    :projourdb => projourdb["realservice"]
   )
 end
 
