@@ -30,7 +30,7 @@ else
     if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found"
   else
-    rdochost = rdochost.first
+    rdochost = rdochost.sort.first
     rdochost = rdochost["ipaddress"]
     rdocport = "8080"
   end
