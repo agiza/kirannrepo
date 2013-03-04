@@ -54,6 +54,13 @@ end
 mongoHost = "127.0.0.1"
 
 # Integration components
+# Try to pull environment specific data bag item for transcentra ftp if it exists.
+transcentra = data_bag_item("integration","transcentra")
+if transcentra("transcentra#{node.chef_environment.downcase}").nil?
+  transcentraftp = transcentra("transcentra")
+else
+  transcentraftp = transcentra("transcentra#{node.chef_environment.downcase}")
+end
 webHost = data_bag_item("infrastructure", "apache")
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
@@ -61,7 +68,6 @@ melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-transcentra = data_bag_item("integration", "transcentra")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -80,7 +86,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
     :mysqldb => mysqldb["realdoc"],
-    :transcentra => transcentra,
+    :transcentra => transcentraftp,
     :ldapserver => ldapserver
   )
 end
