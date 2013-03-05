@@ -18,9 +18,9 @@ else
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
-    ampqhostip = []
-    ampqhost.each do |ampqhost|
-    ampqhostip << ampqhost["ipaddress"]
+    amqphostip = []
+    amqphost.each do |amqphost|
+    amqphostip << amqphost["ipaddress"]
     end
     amqphost = amqphostip.sort.first
     amqpport = "5672"
