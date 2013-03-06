@@ -49,15 +49,15 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-projour = Chef::Cookbook.get_infrastructure_data_bag
+projour = Chef::DataBag.load("infrastructure")
 if projour["projourdb#{node.chef_environment}"]
   projourdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
 else
   projourdb = data_bag_item("infrastructure", "projourdb")
 end
 
-mysql = Chef::Cookbook.get_infrastructure_data_bag
-if mysql["infrastructure", "mysqldb#{node.chef_environment}"]
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 else
   mysqldb = data_bag_item("infrastructure", "mysqldb")
