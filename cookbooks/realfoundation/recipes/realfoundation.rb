@@ -72,7 +72,12 @@ template "/opt/tomcat/conf/realfoundation.properties" do
   )
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+end
 template "/opt/tomcat/conf/Catalina/localhost/realfoundation.xml" do
   source "realfoundation.xml.erb"
   group 'tomcat'

@@ -60,7 +60,12 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
+ora = Chef::DataBag.load("infrastructure")
+if ora["oradb#{node.chef_environment}"]
+  oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
+else
+  oradb = data_bag_item("infrastructure", "oradb")
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -83,7 +88,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
 end
 
-oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group  'tomcat'

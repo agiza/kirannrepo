@@ -79,7 +79,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver
   )
 end
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+end
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'

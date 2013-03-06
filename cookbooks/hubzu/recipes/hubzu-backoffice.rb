@@ -53,7 +53,12 @@ webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+end
 hubzuamqp = data_bag_item("rabbitmq", "hubzu")
 hubzucred = hubzuamqp['user'].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do

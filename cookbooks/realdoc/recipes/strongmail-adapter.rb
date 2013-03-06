@@ -56,7 +56,12 @@ end
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 mailserver = data_bag_item("integration", "mail")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -74,7 +79,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'

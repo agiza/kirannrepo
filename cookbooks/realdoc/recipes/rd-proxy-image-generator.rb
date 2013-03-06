@@ -60,7 +60,12 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+mysql = Chef::DataBag.load("infrastructure")
+if mysql["mysqldb#{node.chef_environment}"]
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+else
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -83,7 +88,6 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
 end
 
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "realdoc.xml.erb"
   group  'tomcat'
