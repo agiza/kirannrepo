@@ -3,10 +3,15 @@
 # Prep the filesystem with the application names.
 if [ -f /tmp/rpm-appnames.txt ]; then rm -f /tmp/rpm-appnames.txt; fi
 if [ -f /tmp/rpm-versions.txt ]; then rm -f /tmp/rpm-versions.txt; fi
+if [ -f /tmp/rpm-recipes.txt ]; then rm -f /tmp/rpm-recipes.txt; fi
 app_list="<%= @appnames %>"
 for i in `echo "$app_list"`; do
-        echo $i | cut -d "|" -f1 >> /tmp/rpm-appnames.txt
-	echo $i >> /tmp/rpm-versions.txt
+        app_name=`echo $i | cut -d "|" -f1`
+        app_version=`echo $i | cut -d "|" -f2`
+        app_recipe=`echo $i | cut -d "|" -f3`
+        echo $app_name >> /tmp/rpm-appnames.txt
+	echo "${app_name}|${app_version}" >> /tmp/rpm-versions.txt
+        echo "${app_name}|${app_recipe}" >> /tmp/rpm-recipes.txt
 done
 app_list=`cat /tmp/rpm-versions.txt`
 applications=`cat /tmp/rpm-appnames.txt`
@@ -31,8 +36,18 @@ for i in `echo $app_name`; do
 done
 }
 
+recipe_select(){
+for i in `echo $app_name`; do
+  app_recipe=`grep $i\| /tmp/rpm-recipes.txt | cut -d "|" -f2`
+done
+}
+
 target_search(){
 target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
+}
+
+target_find(){
+target_list=`knife search node "recipes:*\\:\\:$app_recipe AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
 }
 
 chef_version(){
@@ -137,13 +152,22 @@ attr_select
 target_search
 }
 
+data_valid(){
+select_env
+select_app
+attr_select
+target_find
+}
+
 tag_instance(){
 if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
   echo "Missing critical information, command can not be completed. Your command was $target_list, $app_name, $version."; exit 1
 fi
+
 rpm_repo_check
+
 for target_host in `echo $target_list`; do
-  deploy-software -f tag -a $app_name -v $version -t $target_host
+  echo "deploy-software -f tag -a $app_name -v $version -t $target_host"
   echo "Version $version for application $app_name has been tagged to $target_host."
 done
 }
@@ -225,7 +249,7 @@ while :
                 data_check; chef_version; pause
                 ;;
   b)
-                data_check; enter_version; tag_instance; pause 
+                data_valid; enter_version; tag_instance; pause 
                 ;;
   c)
                 data_check; enter_version; rpm_repo; pause 
