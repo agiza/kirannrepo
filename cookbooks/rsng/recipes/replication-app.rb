@@ -49,17 +49,26 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-if data_bag_item("infrastructure", "projourdb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "projourdb#{node.chef_environment}").empty?
+projourdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
+if projourdb.nil? || projourdb.empty?
   projourdb = data_bag_item("infrastructure", "projourdb")
-else
-  projourdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
 end
 
-if data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").empty?
+#if data_bag_item("infrastructure", "projourdb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "projourdb#{node.chef_environment}").empty?
+#  projourdb = data_bag_item("infrastructure", "projourdb")
+#else
+#  projourdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
+#end
+
+mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+if mysqldb.nil? || mysqldb.empty?
   mysqldb = data_bag_item("infrastructure", "mysqldb")
-else
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
 end
+#if data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").nil? || data_bag_item("infrastructure", "mysqldb#{node.chef_environment}").empty?
+#  mysqldb = data_bag_item("infrastructure", "mysqldb")
+#else
+#  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+#end
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
