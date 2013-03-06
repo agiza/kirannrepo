@@ -11,10 +11,15 @@ jms.amqp.endport=<%= @amqpport %>
 jms.amqp.username=<%= @amqpuser %>
 jms.amqp.password=<%= @amqppass %>
 jms.amqp.virtual-host=<%= node[:hubzu_amqp_vhost] %>
+jms.exchange.name=backoffice.exchange
 
-jms.queue.name=property.listing.add
-jms.exchange.name=property.listing
-jms.queue.routing.key=backoffice.property.add
+#Listing Agreement JMS configuration
+jms.la.queue.name=property.la.add
+jms.la.queue.routing.key=backoffice.la.add
+
+#PSA JMS Configuration
+jms.psa.queue.name=property.psa.add
+jms.psa.queue.routing.key=backoffice.psa.add
 
 # Application configuration
 
