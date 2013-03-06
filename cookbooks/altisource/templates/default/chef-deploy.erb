@@ -246,28 +246,28 @@ while :
                 read choice
                 case "$choice" in
   a)
-                data_check; chef_version; pause
+                data_valid; chef_version; pause
                 ;;
   b)
                 data_valid; enter_version; tag_instance; pause 
                 ;;
   c)
-                data_check; enter_version; rpm_repo; pause 
+                data_valid; enter_version; rpm_repo; pause 
                 ;;
   d)
-                data_check; chef_testrun; pause
+                data_valid; chef_testrun; pause
                 ;;
   e)
-                data_check; rpm_version; pause
+                data_valid; rpm_version; pause
                 ;;
   f)
-                data_check; stop_tomcat; pause
+                data_valid; stop_tomcat; pause
                 ;;
   g)
-                data_check; start_tomcat; pause
+                data_valid; start_tomcat; pause
                 ;;
   h)
-                data_check; chef_execute; pause
+                data_valid; chef_execute; pause
                 ;;
   r)
                 read_me; pause
