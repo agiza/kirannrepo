@@ -167,7 +167,7 @@ fi
 rpm_repo_check
 
 for target_host in `echo $target_list`; do
-  echo "deploy-software -f tag -a $app_name -v $version -t $target_host"
+  deploy-software -f tag -a $app_name -v $version -t $target_host
   echo "Version $version for application $app_name has been tagged to $target_host."
 done
 }
