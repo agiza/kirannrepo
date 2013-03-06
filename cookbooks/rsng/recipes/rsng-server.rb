@@ -7,5 +7,5 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "rsng::replication-app"
-include_recipe "rsng::rsng-server-app"
+include_recipe "rsng::rsng-service-app"
 
