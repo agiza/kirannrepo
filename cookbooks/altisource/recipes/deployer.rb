@@ -89,4 +89,24 @@ template "/home/rtnextgen/.chef/plugins/knife/set_environment.rb" do
   mode   "0644"
 end
  
+template "/home/rtnextgen/.chef/plugins/knife/data_bag_export_all.rb" do
+  source "data_bag_export_all.rb.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0644"
+end
+
+template "/home/rtnextgen/.chef/plugins/knife/node_export_all.rb" do
+  source "node_export_all.rb.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0644"
+end
+
+template "/home/rtnextgen/.chef/plugins/knife/role_export_all.rb" do
+  source "role_export_all.rb.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0644"
+end
 
