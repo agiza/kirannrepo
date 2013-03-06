@@ -11,7 +11,7 @@ if node.attribute?('rfproxy')
   rfhost = node[:rfproxy].split(":")[0]
   rfport = node[:rfproxy].split(":")[1]
 else
-  rfhost = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation AND chef_environment:#{node.chef_environment}")
+  rfhost = search(:node, "realfoundation_version:* AND chef_environment:#{node.chef_environment}")
   if rfhost.nil? || rfhost.empty?
     Chef::Log.warn("No realfoundation servers found.") && rfhost = "No servers found."
   else
@@ -28,7 +28,7 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{node.chef_environment}")
+  rdochost = search(:node, "realdoc_version:* AND chef_environment:#{node.chef_environment}")
     if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found."
   else

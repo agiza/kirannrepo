@@ -29,7 +29,7 @@ if node.attribute?('rsngproxy')
   rsnghost = node[:rsngproxy].split(":")[0]
   rsngport = node[:rsngproxy].split(":")[1]
 else
-  rsnghost = search(:node, "recipes:rsng\\:\\:rsng-service-app OR role:realservicing AND chef_environment:#{node.chef_environment}")
+  rsnghost = search(:node, "rsngapp_version:* AND chef_environment:#{node.chef_environment}")
   if rsnghost.nil? || rsnghost.empty?
     Chef::Log.info("No rsng servers returned from search.")
   else
