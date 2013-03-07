@@ -30,13 +30,13 @@ link "/usr/lib64/libmysqlclient.so" do
   to "/usr/lib64/libmysqlclient.so.16.0.0"
 end
 
-template "/etc/my.cnf" do
-  source "my.cnf.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  notifies :restart, resources(:service => "mysql")
-end
+#template "/etc/my.cnf" do
+#  source "my.cnf.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0644"
+#  notifies :restart, resources(:service => "mysql")
+#end
 
 dbdapp = "DBD-mysql-4.022"
 yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
