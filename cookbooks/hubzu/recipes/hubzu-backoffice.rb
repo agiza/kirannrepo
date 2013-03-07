@@ -31,6 +31,8 @@ hzhost = node[:hzhost]
 hzport = node[:hzport]
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
+rdochost = node[:rdochost]
+rdocport = node[:rdocport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -86,6 +88,7 @@ template "/opt/tomcat/conf/esignature-client.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
+  variables( :rdochost => "#{rdochost}:#{rdocport}")
   notifies :restart, resources(:service => "altitomcat")
 end
 

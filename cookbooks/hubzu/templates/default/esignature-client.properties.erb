@@ -19,3 +19,17 @@ esignature.listing.addendum.emailBody=Hi,\n\nThe Listing Agreement for {property
 The {listing.addendum.documentName} reflects this change and is ready for review.\n\n\
 Please complete your review and sign the {addendum.documentName} within 24 hours. Once all parties have signed, we\u2019ll email you a final copy.
 esignature.listing.addendum.emailSubject=Change to Hubzu Listing Agreement for property ID {propertyId}
+
+# document service configuration
+document.service.baseurl=http://<%= @rdochost %>/realdoc/api
+document.service.username=correspondence
+
+# PSA bundle email subject
+esignature.psa.emailSubject = Purchase & Sale Agreement Documents for Hubzu Property {propertyId}
+
+# PSA bundle email body
+esignature.psa.emailBody = The collection of Purchase and Sale Agreement documents for \
+{propertyAddress}, {propertyCity}, {propertyState} are ready for your review and signature.\n\
+Please complete your review and signature within 24 hours.\nOnce all parties have signed, \
+you will receive a final copy.\n\n\Thank you,\nTHe Hubzu Team
+
