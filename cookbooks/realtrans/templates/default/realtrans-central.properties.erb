@@ -117,9 +117,7 @@ rd.remote.singleUserMode=true
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
 
-<% if node.attribute?('activiti_execute') -%>
 rf.activiti.jobExecutorActivate=true
-<% end -%>
 
 <% if node.attribute?('realtrans_stacktrace') -%>
 rf.sendStacktrace=true
