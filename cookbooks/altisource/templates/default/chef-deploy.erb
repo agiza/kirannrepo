@@ -25,8 +25,10 @@ ssh_command="ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 pause(){
 echo "press Enter key to continue..."; read response
 }
-nodesempty(){
-echo "There are no servers matching your request for $app_name in $env_targ."
+nodescheck(){
+if [ "$target_list" == "" ]; then
+  echo "There are no servers matching your request for $app_name in $env_targ."; break
+fi
 }
 
 environ_list(){
@@ -50,35 +52,29 @@ target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ"
 }
 
 target_find(){
-target_list=`knife search node "recipes:*$app_recipe AND chef_environment:$env_targ" || "recipes:*$app_name AND chef_environment:$env_targ" | grep "Node Name" | cut -d ":" -f2`
+target_first=`knife search node "recipes:*${app_recipe} AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
+target_second=`knife search node "recipes:*${app_name} AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
+target_list=`echo ${target_first} ${target_second}`
 }
 
 chef_version(){
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
 for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
   echo "Chef version is $curr_version on $target_host"
 done
-fi
 }
 
 rpm_version(){
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
 for target_host in `echo $target_list`; do
   rpm_version=`$ssh_command root@$target_host "rpm -qa | grep $app_name"`
   echo "Version is $rpm_version on $target_host."
 done
-fi
 }
 
 chef_testrun(){
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
   echo "Please wait while test run is performed, this may take a few minutes...."
@@ -88,13 +84,10 @@ done
 less -f -R /tmp/chef-testrun/chef-test.txt
 rm -f /tmp/chef-testrun/chef-test.txt
 rm -r /tmp/chef-testrun
-fi
 }
 
 chef_execute(){
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
 mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
   echo "Please wait while actual run is performed, this may take a few minutes...."
@@ -104,7 +97,6 @@ done
 less -f -R /tmp/chef-run/chef-run.txt
 rm /tmp/chef-run/chef-run.txt
 rm -r /tmp/chef-run
-fi
 }
 
 rpm_repo(){
@@ -144,14 +136,11 @@ read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
 for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat start"
   echo "Tomcat started on $target_host."
 done
-fi
 }
 
 stop_tomcat(){
@@ -160,14 +149,11 @@ read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
-if [ "$target_host" == "" ]; then
-  nodesempty
-else
+nodescheck
   for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat stop"
   echo "Tomcat stopped on $target_host."
 done
-fi
 }
 
 data_check(){
