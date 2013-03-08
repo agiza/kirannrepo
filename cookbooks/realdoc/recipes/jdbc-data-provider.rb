@@ -40,7 +40,7 @@ end
 
 yum_package "#{app_name}" do
   version "#{app_version}"
-  if node.attribute?('package_noinstall')|| version == "0.0.0-1"
+  if node.attribute?('package_noinstall') || version == "0.0.0-1"
     Chef::Log.info("Package is set to not be installed for version is still invalid default.")
     action :nothing
   else
