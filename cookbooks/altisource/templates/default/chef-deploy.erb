@@ -77,7 +77,7 @@ fi
 
 chef_testrun(){
 if [ "$target_host" == "" ]; then
-  nodesemtpy
+  nodesempty
 else
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
