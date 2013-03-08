@@ -51,7 +51,8 @@ end
 # Install the application package. This app requires an application version since it allows for downgrading.  If the package_noinstall attribute is set, skip installing the rpm (This is for dev environments where manual installation is desired).
 yum_package "#{app_name}" do
   version "#{app_version}"
-  if node.attribute?('package_noinstall')
+  if node.attribute?('package_noinstall')|| version == "0.0.0-1"
+    Chef::Log.info("Package is set to not be installed for version is still invalid default.")
     action :nothing
   else
     action :install
