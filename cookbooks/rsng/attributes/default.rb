@@ -17,4 +17,7 @@ default["tenantid"]             = "TENANT1"
 default["rf_ldap_flag"]         = "false"
 default["rf_dao_flag"]          = "true"
 default["access_index"]         = "realservice"
-default["log4j_index"]         = "realservice"
+default["log4j_index"]          = "realservice"
+# Default version attributes
+default["repapp_version"]	= "0.0.0-1"
+default["rsngapp_version"]	= "0.0.0-1"
