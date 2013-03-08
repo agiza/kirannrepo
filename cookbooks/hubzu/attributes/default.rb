@@ -18,3 +18,6 @@ default["rf_ldap_flag"]         = "false"
 default["rf_dao_flag"]          = "true"
 default["access_index"]         = "hubzu"
 default["log4j_index"]          = "hubzu"
+# Default version attributes
+default["hubzu_version"]	= "0.0.0-1"
+default["hubzubo_version"]	= "0.0.0-1"
