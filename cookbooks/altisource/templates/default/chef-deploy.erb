@@ -162,7 +162,7 @@ target_find
 
 tag_instance(){
 if [ "$target_list" == "" -o "$app_name" == "" -o "$version" == "" ]; then
-  echo "Missing critical information, command can not be completed. Your command was $target_list, $app_name, $version."; exit 1
+  echo "Missing critical information, command can not be completed. Your command was Host: ${target_list}, App: ${app_name}, Version: ${version}."; exit 1
 fi
 
 rpm_repo_check
