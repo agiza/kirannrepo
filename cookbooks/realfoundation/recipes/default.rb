@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "altisource::altitomcat"
+
 if node.attribute?('rfproxy')
   rfhost = node[:rfproxy].split(":")[0]
   rfport = node[:rfproxy].split(":")[1]

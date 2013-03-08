@@ -8,18 +8,26 @@
 #
 app_name = "realtrans-vp"
 app_version = node[:realtransvp_version]
+version_str = "realtransvp_version"
 
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
-    new_version = search(:node, "recipes:*\\:\\:realtrans-server AND chef_environment:#{node.chef_environment}")
+    new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
       Chef::Log.fatal("No version for #{app_name} software package found.")
     else
-      new_version = new_version.first
-      app_version = new_version[:realtransvp_version]
-      node.set['realtransvp_version'] = app_version
+      version_string = []
+      new_version.each do |version|
+        version_string << version["#{version_str}"]
+      end
+      new_version = version_string.sort.uniq.last
+      app_version = new_version
+      node.set["#{version_str}"] = app_version
+    end
+    if app_version == "0.0.0-1"
+      Chef::Log.fatal("Version is still the default version, please assign a current version of this software package.")
     end
   else
     Chef::Log.info("Found version attribute.")
