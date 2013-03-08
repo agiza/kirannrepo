@@ -51,20 +51,31 @@ target_list=`knife search node "recipes:*\\:\\:$app_recipe AND chef_environment:
 }
 
 chef_version(){
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
 for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
   echo "Chef version is $curr_version on $target_host"
 done
+fi
 }
 
 rpm_version(){
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
 for target_host in `echo $target_list`; do
   rpm_version=`$ssh_command root@$target_host "rpm -qa | grep $app_name"`
   echo "Version is $rpm_version on $target_host."
 done
+fi
 }
 
 chef_testrun(){
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
   echo "Please wait while test run is performed, this may take a few minutes...."
@@ -74,10 +85,13 @@ done
 less -f -R /tmp/chef-testrun/chef-test.txt
 rm -f /tmp/chef-testrun/chef-test.txt
 rm -r /tmp/chef-testrun
-
+fi
 }
 
 chef_execute(){
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
 mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
   echo "Please wait while actual run is performed, this may take a few minutes...."
@@ -87,7 +101,7 @@ done
 less -f -R /tmp/chef-run/chef-run.txt
 rm /tmp/chef-run/chef-run.txt
 rm -r /tmp/chef-run
-
+fi
 }
 
 rpm_repo(){
@@ -127,10 +141,14 @@ read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
 for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat start"
   echo "Tomcat started on $target_host."
 done
+fi
 }
 
 stop_tomcat(){
@@ -139,10 +157,14 @@ read answer
 if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
+if [ "$target_host" == "" ]; then
+  echo "There are no nodes matching your request for $app_name in $env_list."
+else
   for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat stop"
   echo "Tomcat stopped on $target_host."
 done
+fi
 }
 
 data_check(){
