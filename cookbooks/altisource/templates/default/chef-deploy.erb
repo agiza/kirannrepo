@@ -52,7 +52,7 @@ target_list=`knife search node "recipes:*\\:\\:$app_recipe AND chef_environment:
 
 chef_version(){
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
 for target_host in `echo $target_list`; do
   curr_version=`knife node show $target_host -a $app_attribute | cut -d ":" -f2`
@@ -63,7 +63,7 @@ fi
 
 rpm_version(){
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
 for target_host in `echo $target_list`; do
   rpm_version=`$ssh_command root@$target_host "rpm -qa | grep $app_name"`
@@ -74,7 +74,7 @@ fi
 
 chef_testrun(){
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
 mkdir -p /tmp/chef-testrun
 for target_host in `echo $target_list`; do
@@ -90,7 +90,7 @@ fi
 
 chef_execute(){
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
 mkdir -p /tmp/chef-run
 for target_host in `echo $target_list`; do
@@ -142,7 +142,7 @@ if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
 for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat start"
@@ -158,7 +158,7 @@ if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 if [ "$target_host" == "" ]; then
-  echo "There are no nodes matching your request for $app_name in $env_list."
+  echo "There are no nodes matching your request for $app_name in $env_targ."
 else
   for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat stop"
