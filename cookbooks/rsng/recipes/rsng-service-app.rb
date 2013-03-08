@@ -23,8 +23,8 @@ else
         version_string << version["#{version_str}"]
       end
       new_version = version_string.sort.uniq.last
-      app_version = new_version[:"#{version_str}"]
-      node.set[:version_str] = app_version
+      app_version = new_version
+      node.set["#{version_str}"] = app_version
     end
     if app_version = "0.0.0-1"
       Chef::Log.fatal("Version is still the default version, please assign a current version of this software package.")
