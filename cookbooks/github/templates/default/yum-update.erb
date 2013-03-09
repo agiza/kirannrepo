@@ -12,8 +12,6 @@ else
       cd $yum_dir/$i/; rm -rf $yum_dir/$i/repodata/*xml*; createrepo --update ./ > $yum_dir/../yum-update-$i.log 2>&1
     fi
   done
-  # Update Gems index
-  #cd $yum_dir/ruby; gem generate_index -d $yum_dir/ruby > $yum_dir/../yum-update-gems.log 2>&1
   rm -f $yum_dir/../yumwork
 fi
 
