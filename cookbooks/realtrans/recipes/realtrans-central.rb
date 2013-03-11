@@ -42,10 +42,10 @@ rtcenport = node[:rtcenport]
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
-altisource_netcheck "#{amqphost}" do
+altisource_network "#{amqphost}" do
   port "#{amqpport}"
-  action :check
-  provider altisource_network
+  action [:prep, :check]
+  provider altisource_netcheck
 end
 
 # Defines the tomcat server to allow for restart/enabling the service
