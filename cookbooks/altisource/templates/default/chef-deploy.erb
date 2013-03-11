@@ -53,7 +53,7 @@ target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ"
 
 target_find(){
 target_first=`knife search node "recipes:*${app_recipe} AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
-target_second=`knife search node "recipes:*${app_name} AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
+target_second=`knife search node "${app_attribute}:* AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
 target_list=`echo ${target_first} ${target_second}`
 }
 
