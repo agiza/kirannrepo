@@ -7,5 +7,6 @@ end
 action :check do
   execute "check" do
     command "nc -zw2 -v #{new_resource.name} #{new_resource.port}"
+    if
   end
 end
