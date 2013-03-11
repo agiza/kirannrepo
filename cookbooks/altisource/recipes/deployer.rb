@@ -110,3 +110,9 @@ template "/home/rtnextgen/.chef/plugins/knife/role_export_all.rb" do
   mode   "0644"
 end
 
+template "/home/rtnextgen/.chef/plugins/knife/environment_export_all.rb" do
+  source "environment_export_all.rb.erb"
+  owner  "rtnextgen"
+  group  "rtnextgen"
+  mode   "0644"
+end

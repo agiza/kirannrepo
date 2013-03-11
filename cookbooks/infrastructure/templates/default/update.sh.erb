@@ -4,7 +4,7 @@
 #sudo apt-get -y upgrade
 rhel_host=`cat ~/bin/rhel_host`
 for i in $rhel_host; do
-        echo "Upgrading $i...."; ssh -q -o StrictHostKeyChecking=no root@$i "yum -y update --exclude=real*\ int*\ strong*\ jdbc*\ alti*\ MySQL*\ rabbitmq*\ mongo-10gen*\ appdyn*\ "; echo "Finished $i...."
+        echo "Upgrading $i...."; ssh -q -o StrictHostKeyChecking=no root@$i "yum -y update --exclude=real*\ int*\ strong*\ jdbc*\ alti*\ MySQL*\ rabbitmq*\ mongo-10gen*\ appdyn*\ rd-*\ "; echo "Finished $i...."
 done
 ubuntu_host=`cat ~/bin/ubuntu_host`
 for h in $ubuntu_host; do
