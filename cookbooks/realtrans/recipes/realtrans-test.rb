@@ -28,7 +28,8 @@ end
 #CA section
 begin
   caurl = data_bag_item("integration", "CA")
-  raise "Unable to load Collateral Analytics URL from integration data bag item."
+  rescue Net::HTTPServerException
+    raise "Unable to load Collateral Analytics URL from integration data bag."
 end
 cahost = caurl["caURL"].split("/")[2]
 catype = caurl["caURL"].split(":")[0]
@@ -50,7 +51,8 @@ else
 end
 begin
   mail = data_bag_item("integration", "mail")
-  raise "Unable to load data bag item for mail within integration data bag."
+  rescue Net::HTTPServerException
+    raise "Unable to load mailserver from integration data bag."
 end
 mailhost = mail["host"].split(":")[0]
 mailport = mail["host"].split(":")[1]
@@ -61,7 +63,8 @@ altisource_network "#{mailhost}" do
 end
 begin
   melissa = data_bag_item("integration", "melissadata")
-  raise "Unable to load data bag item for melissadata address validation in integration data bag."
+  rescue Net::HTTPServerException
+    raise "Unable to load melissa data URL from integration data bag."
 end
 melissahost = melissa["melissadata"]["addressurl"].split("/")[2]
 melissatype =  melissa["melissadata"]["addressurl"].split(":")[0]
@@ -84,7 +87,8 @@ end
 
 begin
   realres = data_bag_item("integration", "realresolution")
-  raise "Unable to load data bag item for realresolution ftp server from integration data bag."
+  rescue Net::HTTPServerException
+    raise "Unable to load realresolution ftp host from integration data bag."
 end
 realreshost = realres["ftphost"].split(":")[0]
 realresport = realres["ftphost"].split(":")[1]
@@ -100,7 +104,8 @@ end
 
 begin
   realserv = data_bag_item("integration", "realservicing")
-  raise "Unable to load data bag item for realservice legacy webservice from integration data bag."
+  rescue Net::HTTPServerException
+    raise "Unable to load realservicing legacy webservice url from integration data bag."
 end
 if realserv["requesturl#{node.chef_environment}"].nil? || realserv["requesturl#{node.chef_environment}"].empty?
   realservhost = realserv["requesturl"].split("/")[2]
@@ -127,7 +132,8 @@ end
 # Obtain ldap server information to be passed to property file from the data bag.
 begin
   ldapserver = data_bag_item("integration", "ldap")
-  raise "Unable to load data bag item for ldap server from integration data bag."
+  rescue Net::HTTPServerException
+    raise "Unable to load ldap server from integration data bag."
 end
 if ldapserver['ldaphost'].split(":")[0] == "dummy"
   Chef::Log.info("No ldap server so no network test needed.")
