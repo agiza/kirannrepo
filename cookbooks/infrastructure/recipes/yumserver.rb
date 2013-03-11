@@ -41,21 +41,6 @@ directory "/data/yum-repo/testing" do
   group  "root"
 end
 
-directory "/data/yum-repo/ruby" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/ruby/gems" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/rbel" do
-  owner  "root"
-  group  "root"
-end
-
 directory "/data/yum-repo/rhel-x86_64-server-6" do
   owner  "root"
   group  "root"
