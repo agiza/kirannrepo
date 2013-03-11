@@ -81,7 +81,7 @@ altisource_network "#{realreshost}" do
 end
 
 realserv = data_bag_item("integration", "realservicing")
-if realserv["requesturl#{node.chef_environment}"].nil || realserv["requesturl#{node.chef_environment}"].empty
+if realserv["requesturl#{node.chef_environment}"].nil? || realserv["requesturl#{node.chef_environment}"].empty?
   realservhost = realserv["requesturl"].split("/")[2]
   realservtype = realserv["requesturl"].split(":")[0]
 else
