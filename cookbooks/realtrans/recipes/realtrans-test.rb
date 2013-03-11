@@ -25,28 +25,15 @@ altisource_network "#{rdochost}" do
   provider "altisource_netcheck"
 end
 
-# Obtain melissadata URL's to be passed to the property files from the data bag.
-melissadata = data_bag_item("integration", "melissadata")
-melissahost = melissadata['addressurl'].split("/")[2]
-melissatype = melissadata['addressurl'].split(":")[0]
-  if melissatype == "http"
-    melissaport = "80"
-  else
-    melissaport = "443"
+integration = data_bag_item("integration", "network_check")
+integration["realtrans"].each do |networkcheck|
+  checkname = networkcheck.split(":")[0]
+  checkport = networkcheck.split(":")[1]
+  altisource_network "#{checkname}" do
+    port "#{checkport}"
+    action [:prep, :check]
+    provider "altisource_netcheck"
   end
-altisource_network "#{melissahost}" do
-  port "#{melissaport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
-end
-# Obtain mail server information to be passed to property file from the data bag.
-mailserver = data_bag_item("integration", "mail")
-mailhost = mailserver['host'].split(":")[0]
-mailport = mailserver['host'].split(":")[1]
-altisource_network "#{mailhost}" do
-  port "#{mailport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 
 # Obtain ldap server information to be passed to property file from the data bag.
