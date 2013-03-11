@@ -4,11 +4,8 @@ action :prep do
     command "yum install -y nc"
   end
 end
-begin
-  action :check do
-    execute "check" do
-      command "nc -zw2 -v #{new_resource.name} #{new_resource.port}"
-    end
+action :check do
+  execute "check" do
+    command "nc -zw2 -v #{new_resource.name} #{new_resource.port}"
   end
-  raise "Network check for #{new_resource.name} on port #{new_resource.port} failed.  Either the network is not up, or the service is not responding."
 end
