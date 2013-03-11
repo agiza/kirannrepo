@@ -81,12 +81,12 @@ altisource_network "#{realreshost}" do
 end
 
 realserv = data_bag_item("integration", "realservicing")
-if realserv["requesturl#{chef_environment}"].nil || realserv["requesturl#{chef_environment}"].empty
+if realserv["requesturl#{node.chef_environment}"].nil || realserv["requesturl#{node.chef_environment}"].empty
   realservhost = realserv["requesturl"].split("/")[2]
   realservtype = realserv["requesturl"].split(":")[0]
 else
-  realservhost = realserv["requesturl#{chef_environment}"].split("/")[2]
-  realservtype = realserv["requesturl#{chef_environment}"].split(":")[0]
+  realservhost = realserv["requesturl#{node.chef_environment}"].split("/")[2]
+  realservtype = realserv["requesturl#{node.chef_environment}"].split(":")[0]
 end
 if realservtype == "http"
   realservport = "80"
