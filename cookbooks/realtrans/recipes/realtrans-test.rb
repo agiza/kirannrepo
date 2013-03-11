@@ -51,8 +51,11 @@ else
   end
 end
 
-altisource_network "#{node[:dbserver]}" do
-  port "#{node[:db_port]}"
+mysqldbhost = node[:db_server]
+mysqldbport = node[:db_port]
+altisource_network "#{mysqldbhost}" do
+  port "#{mysqldbport}"
   action [:prep, :check]
   provider "altisource_netcheck"
 end
+
