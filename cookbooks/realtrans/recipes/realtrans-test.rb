@@ -27,8 +27,8 @@ end
 
 integration = data_bag_item("integration", "network_check")
 integration["realtrans"].each do |networkcheck|
-  checkname = networkcheck.split(":")[0]
-  checkport = networkcheck.split(":")[1]
+  checkname = networkcheck[1].split(":")[0]
+  checkport = networkcheck[1].split(":")[1]
   altisource_network "#{checkname}" do
     port "#{checkport}"
     action [:prep, :check]
