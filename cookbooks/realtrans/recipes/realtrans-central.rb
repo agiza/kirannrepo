@@ -42,7 +42,7 @@ rtcenport = node[:rtcenport]
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
-network "#{amqphost}" do
+altisourcenetwork "#{amqphost}" do
   port "#{amqpport}"
   action [:prep, :check]
   provider netcheck
