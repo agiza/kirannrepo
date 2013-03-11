@@ -45,7 +45,7 @@ amqpport = node[:amqpport]
 realtrans_network "#{amqphost}" do
   port "#{amqpport}"
   action [:prep, :check]
-  provider realtrans_netcheck
+  provider netcheck
 end
 
 # Defines the tomcat server to allow for restart/enabling the service
