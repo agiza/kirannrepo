@@ -27,6 +27,18 @@ end
 
 # Obtain melissadata URL's to be passed to the property files from the data bag.
 melissadata = data_bag_item("integration", "melissadata")
+melissahost = melissadata['addressurl'].split("/")[2]
+melissatype = melissadata['addressurl'].split(":")[0]
+  if melissatype == "http"
+    melissaport = "80"
+  else
+    melissaport = "443"
+  end
+altisource_network "#{melissahost}" do
+  port "#{melissaport}"
+  action [:prep, :check]
+  provider "altisource_netcheck"
+end
 # Obtain mail server information to be passed to property file from the data bag.
 mailserver = data_bag_item("integration", "mail")
 mailhost = mailserver['host'].split(":")[0]
