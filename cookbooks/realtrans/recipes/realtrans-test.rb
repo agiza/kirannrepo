@@ -27,6 +27,7 @@ end
 
 integration = data_bag_item("integration", "network_check")
 integration["realtrans"].each do |networkcheck|
+  Chef::Log.info("This check is for #{networkcheck[0]}.")
   checkname = networkcheck[1].split(":")[0]
   checkport = networkcheck[1].split(":")[1]
   altisource_network "#{checkname}" do
