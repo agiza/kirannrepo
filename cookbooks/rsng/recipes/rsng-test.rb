@@ -58,9 +58,9 @@ begin
     progdb = data_bag_item("infrastructure", "projourdb")
     raise "Unable to load Progress DB server from infrastructure data bag."
 end
-progdbhost = progdb["realservice"]["projourdb_server"]
-progdbport = progdb["realservice"]["projourdb_port"]
-if progdbhost.nil? || progbhost.empty?
+progdbhost = "#{progdb['realservice']['projourdb_server']}"
+progdbport = "#{progdb['realservice']['projourdb_port']}"
+if progdbhost.nil? || progdbhost.empty?
   Chef::Log.error("Unable to identify a hostname for Progress DB server for network check.")
 else
   altisource_network "#{progdbhost}" do
