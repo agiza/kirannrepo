@@ -54,7 +54,14 @@ target_list=`knife search node "$app_attribute:* AND chef_environment:$env_targ"
 target_find(){
 target_first=`knife search node "recipes:*${app_recipe} AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
 target_second=`knife search node "${app_attribute}:* AND chef_environment:${env_targ}" | grep "Node Name" | cut -d ":" -f2`
-target_list=`echo ${target_first} ${target_second} | sort | uniq`
+if [ -f /tmp/target.tmp ]; then
+  rm -f /tmp/target.tmp
+fi
+for i in `echo ${target_first}`; do echo $i >> /tmp/target.tmp; done
+for h in `echo ${target_second}`; do echo $h >> /tmp/target.tmp; done
+target_new=`cat /tmp/target.tmp | sort | uniq`
+target_list=${target_new}
+  rm -f /tmp/target.tmp
 }
 
 chef_version(){
