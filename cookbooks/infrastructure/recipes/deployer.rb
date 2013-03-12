@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: altisource
+# Cookbook Name:: infrastructure
 # Recipe:: deployer
 #
 # Copyright 2012, Altisource
