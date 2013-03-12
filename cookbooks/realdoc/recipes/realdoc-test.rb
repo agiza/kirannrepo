@@ -3,7 +3,7 @@
 # Recipe:: realdoc-test
 #
 
-include_recipe realdoc::default
+include_recipe "realdoc::default"
 
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
