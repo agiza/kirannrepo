@@ -54,7 +54,7 @@ begin
   progressdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
   rescue Net::HTTPServerException
     progressdb = data_bag_item("infrastructure", "projourdb")
-  raise "Unable to load Progress DB server from infrastructure data bag.")
+    raise "Unable to load Progress DB server from infrastructure data bag.")
 end
 progressdbhost = progressdb["realservice"]["projourdb_server"]
 progressdbport = progressdb["realservice"]["projourdb_port"]
