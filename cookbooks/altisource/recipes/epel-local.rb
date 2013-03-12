@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "altisource::yumclient"
 
 package "epel-local" do
   action :upgrade

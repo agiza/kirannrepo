@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "altisource::yumclient"
 
 execute "yum" do
   command "yum clean all"

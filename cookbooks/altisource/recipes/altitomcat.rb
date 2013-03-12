@@ -4,7 +4,6 @@
 #
 
 #include_recipe "java"
-include_recipe "altisource::yumclient"
 include_recipe "altisource::altirepo"
 
 #volumes = "sdb|opt|opt/tomcat"
