@@ -6,13 +6,16 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "infrastructure::chefclient"
 
-yum_package "chef" do
-  action :upgrade
+execute "chef-reconfigure" do
+  command "chef-server-ctl reconfigure"
+  action :nothing
 end
 
-yum_package "chef-server" do
+package "chef-server" do
   action :upgrade
+  notifies :run, resources(:execute => "chef-reconfigure")
 end
 
 service "chef-server" do
