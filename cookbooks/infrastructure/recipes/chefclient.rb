@@ -7,7 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package "chef" do
-  action :upgrade
+if platform?("centos", "redhat")
+  package "chef" do
+    action :upgrade
+  end
 end
 
