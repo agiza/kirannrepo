@@ -19,6 +19,7 @@ begin
   rescue Net::HTTPServerException
     raise "Unable to load mailserver from integration data bag."
 end
+
 mailhost = mail["host"].split(":")[0]
 mailport = mail["host"].split(":")[1]
 altisource_network "#{mailhost}" do
@@ -26,6 +27,7 @@ altisource_network "#{mailhost}" do
   action [:prep, :check]
   provider "altisource_netcheck"
 end
+
 begin
   melissa = data_bag_item("integration", "melissadata")
   rescue Net::HTTPServerException
@@ -54,7 +56,7 @@ begin
   progressdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
   rescue Net::HTTPServerException
     progressdb = data_bag_item("infrastructure", "projourdb")
-    raise "Unable to load Progress DB server from infrastructure data bag.")
+    raise "Unable to load Progress DB server from infrastructure data bag."
 end
 progressdbhost = progressdb["realservice"]["projourdb_server"]
 progressdbport = progressdb["realservice"]["projourdb_port"]
