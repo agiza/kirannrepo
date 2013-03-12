@@ -53,18 +53,18 @@ else
 end
 
 begin
-  progressdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
+  progdb = data_bag_item("infrastructure", "projourdb#{node.chef_environment}")
   rescue Net::HTTPServerException
-    progressdb = data_bag_item("infrastructure", "projourdb")
+    progdb = data_bag_item("infrastructure", "projourdb")
     raise "Unable to load Progress DB server from infrastructure data bag."
 end
-progressdbhost = progressdb["realservice"]["projourdb_server"]
-progressdbport = progressdb["realservice"]["projourdb_port"]
-if progressdbhost.nil? || progressbhost.empty?
+progdbhost = progdb["realservice"]["projourdb_server"]
+progdbport = progdb["realservice"]["projourdb_port"]
+if progdbhost.nil? || progbhost.empty?
   Chef::Log.error("Unable to identify a hostname for Progress DB server for network check.")
 else
-  altisource_network "#{progressdbhost}" do
-    port "#{progressdbport}"
+  altisource_network "#{progdbhost}" do
+    port "#{progdbport}"
     action [:prep, :check]
     provider "altisource_netcheck"
   end
