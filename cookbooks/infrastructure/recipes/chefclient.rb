@@ -13,3 +13,10 @@ if platform?("centos", "redhat")
   end
 end
 
+if platform?("ubuntu")
+  execute "gem-update" do
+    command "sudo gem update --no-ri --no-rdoc"
+    action :run
+  end
+end
+
