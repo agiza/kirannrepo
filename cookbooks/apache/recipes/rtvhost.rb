@@ -40,23 +40,23 @@ else
     vpnames = []
     regnames = []
     %w{realtrans-fp realtrans-server}.each do |app|
-      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}".each do |fworker|
-        fpnames << fworker['ipaddress']
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |fworker|
+        fpnames << fworker["ipaddress"]
       end
     end
     %w{realtrans-rp realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |rworker|
-        rpnames << rworker['ipaddress']
+        rpnames << rworker["ipaddress"]
       end
     end
     %w{realtrans-vp realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |vworker|
-        vpnames << vworker['ipaddress']
+        vpnames << vworker["ipaddress"]
       end
     end
     %w{realtrans-reg realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |reworker|
-        regnames << reworker['ipaddress']
+        regnames << reworker["ipaddress"]
       end
     end
     fpnames = fpnames.sort.uniq
