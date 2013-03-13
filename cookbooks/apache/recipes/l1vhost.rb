@@ -36,33 +36,24 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1environs.each do |environ|
-    begin
-      rpworkers = search(:node, "recipes:*\\:\\:l1-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find l1-rp workers in #{environ}"
-    end
     rpnames = []
+    fpnames = []
+    intnames = []
+    rpworkers = search(:node, "recipes:*\\:\\:l1-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
     rpworkers.each do |worker| unless rpworkers.nil? || rpworkers.empty?
       rpnames << worker['ipaddress']
     end
-    begin
-      fpworkers = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find l1-fp workers in #{environ}"
-    end
-    fpnames = []
+    fpworkers = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
     fpworkers.each do |worker| unless fpworkers.nil? || fpworkers.empty?
       fpnames << worker['ipaddress']
     end
-    begin
-      intworkers = search(:node, "recipes:*\\:\\:int-corelogic AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find integration l1 workers in #{environ}"
-    end
-    intnames = []
+    intworkers = search(:node, "recipes:*\\:\\:int-corelogic AND chef_environment:#{environ}")
     intworkers.each do |worker| unless intworkers.nil? || intworkers.empty?
       intnames << worker['ipaddress']
     end
+    rpnames = rpnames.sort.uniq
+    fpnames = fpnames.sort.uniq
+    intnames = intnames.sort.uniq
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"
