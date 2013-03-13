@@ -6,9 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "altisource::altirepo"
 
 if platform?("centos", "redhat")
+  include_recipe "altisource::altirepo"
   package "chef" do
     action :upgrade
   end
