@@ -12,7 +12,7 @@ appnames = "realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-serve
 rtenvirons = {}
 appnames.split(" ").each do |app|
   Chef::Log.info("working on #{app}")
-  rtworkers = search(:node, "recipes:*\\:\\:#{app}").each do |node| unless rtworkers.nil? || rtworkers.empty?
+  search(:node, "recipes:*\\:\\:#{app}").each do |node|
     Chef::Log.info("found #{node}")
     rtenvirons[node.chef_environment] = {} unless node.nil? || node.empty?
     Chef::Log.info("#{node.chef_environment} added.")
