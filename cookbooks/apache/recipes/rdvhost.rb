@@ -14,7 +14,7 @@ appnames.split(" ").each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
     Chef::Log.info("found #{node}")
-    rdenvirons << "#{node.chef_environment}" unless node.nil? || node.empty?
+    rdenvirons << "#{node.chef_environment}"
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
@@ -46,7 +46,7 @@ else
         raise "Unable to find realdoc workers in #{environ}"
     end
     rdNames = []
-    rdworkers.each do |worker| unless rdworkers.nil? || rdworkers.empty?
+    rdworkers.each do |worker|
       rdNames << worker['ipaddress']
     end
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do

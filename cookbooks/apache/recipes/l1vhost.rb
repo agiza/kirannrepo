@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-# Create a hash of all environments with lendersone installed
 appnames = "l1-fp l1-rp l1-server int-corelogic"
 # Create an array of all environments with realtrans workers installed
 l1environs = []
@@ -14,7 +13,7 @@ appnames.split(" ").each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
     Chef::Log.info("found #{node}")
-    l1environs << "#{node.chef_environment}" unless node.nil? || node.empty?
+    l1environs << "#{node.chef_environment}"
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
@@ -40,15 +39,15 @@ else
     fpnames = []
     intnames = []
     rpworkers = search(:node, "recipes:*\\:\\:l1-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-    rpworkers.each do |worker| unless rpworkers.nil? || rpworkers.empty?
+    rpworkers.each do |worker|
       rpnames << worker['ipaddress']
     end
     fpworkers = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-    fpworkers.each do |worker| unless fpworkers.nil? || fpworkers.empty?
+    fpworkers.each do |worker|
       fpnames << worker['ipaddress']
     end
     intworkers = search(:node, "recipes:*\\:\\:int-corelogic AND chef_environment:#{environ}")
-    intworkers.each do |worker| unless intworkers.nil? || intworkers.empty?
+    intworkers.each do |worker|
       intnames << worker['ipaddress']
     end
     rpnames = rpnames.sort.uniq
@@ -86,5 +85,3 @@ else
     end
   end
 end
-
-

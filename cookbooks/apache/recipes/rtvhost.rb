@@ -14,7 +14,7 @@ appnames.split(" ").each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
     Chef::Log.info("found #{node}")
-    rtenvirons << "#{node.chef_environment}" unless node.nil? || node.empty?
+    rtenvirons << "#{node.chef_environment}"
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
@@ -40,21 +40,21 @@ else
   vpnames = []
   regnames = []
   search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
-    fpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    fpnames << worker["ipaddress"]
   end
   search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
-    rpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    rpnames << worker["ipaddress"]
   end
   search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
-    vpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    vpnames << worker["ipaddress"]
   end
   search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
-    regnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    regnames << worker["ipaddress"]
   end
-  fpnames = fpnames.sort.uniq unless fpnames.nil? || fpnames.empty?
-  rpnames = rpnames.sort.uniq unless rpnames.nil? || rpnames.empty?
-  vpnames = vpnames.sort.uniq unless vpnames.nil? || vpnames.empty?
-  regnames = regnames.sort.uniq unless regnames.nil? || regnames.empty?
+  fpnames = fpnames.sort.uniq
+  rpnames = rpnames.sort.uniq
+  vpnames = vpnames.sort.uniq
+  regnames = regnames.sort.uniq
   template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
     source "rt.proxy.conf.erb"
     owner  "root"

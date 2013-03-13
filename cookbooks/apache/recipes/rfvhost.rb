@@ -14,7 +14,7 @@ appnames.split(" ").each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
     Chef::Log.info("found #{node}")
-    rfenvirons << "#{node.chef_environment}" unless node.nil? || node.empty?
+    rfenvirons << "#{node.chef_environment}"
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
@@ -45,7 +45,7 @@ else
       raise "Unable to find realfoundation workers in #{environ}"
     end
     rfNames = []
-    rfworkers.each do |worker| unless rfworkers.nil? || rfworkers.empty?
+    rfworkers.each do |worker|
       rfNames << worker['ipaddress']
     end
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
