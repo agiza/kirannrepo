@@ -16,7 +16,7 @@ rtworker = []
     Chef::Log.info("#{worker} added.")
   end
 end
-Chef::Log.info("Trying to use #{rtworkers}")
+Chef::Log.info("Trying to use #{rtworker}")
 rtenvirons = rtworker.map {|node| node['chef_environment']}
 Chef::Log.info("Use #{rtenvirons}")
 
