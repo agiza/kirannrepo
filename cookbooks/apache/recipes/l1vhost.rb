@@ -7,12 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 # Create a hash of all environments with lendersone installed
+appnames = "l1-fp l1-rp l1-server int-corelogic"
+# Create an array of all environments with realtrans workers installed
 l1environs = []
-%w[l1-fp l1-rp].each do |app|
-  search(:node, "recipes:l1\\:\\:#{app}") do |node|
-    l1environs << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
+appnames.split(" ").each do |app|
+  Chef::Log.info("working on #{app}")
+  search(:node, "recipes:*\\:\\:#{app}").each do |node|
+    Chef::Log.info("found #{node}")
+    l1environs << "#{node.chef_environment}" unless node.nil? || node.empty?
+    Chef::Log.info("#{node.chef_environment} added.")
   end
 end
+l1environs = l1environs.collect { |l1environ| "#{l1environ}" }.uniq
+l1environs = l1environs.sort.uniq
+Chef::Log.info("Use #{l1environs}")
 
 if l1environs.nil? || l1environs.empty?
   Chef::Log.info("No lenders one apps found in search of this environment.")

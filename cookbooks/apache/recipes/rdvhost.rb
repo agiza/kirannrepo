@@ -7,16 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Create a hash of all environments with realfoundationapp installed
-begin
-  rdworkers = search(:node, "recipes:*\\:\\:realdoc" || "recipes:*\\:\\:readoc-server" || "role:realdoc")
-  rescue Net::HTTPServerException
-    raise "No realdoc workers found in any environment."
-end 
+appnames = "realdoc realdoc-server"
+# Create an array of all environments with realtrans workers installed
 rdenvirons = []
-rdworkers.each do |worker|
-  rdenvirons << worker["chef_environment"] unless worker["chef_environment"].nil? || worker["chef_environment"].empty?
+appnames.split(" ").each do |app|
+  Chef::Log.info("working on #{app}")
+  search(:node, "recipes:*\\:\\:#{app}").each do |node|
+    Chef::Log.info("found #{node}")
+    rdenvirons << "#{node.chef_environment}" unless node.nil? || node.empty?
+    Chef::Log.info("#{node.chef_environment} added.")
+  end
 end
+rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.uniq
+rdenvirons = rdenvirons.sort.uniq
+Chef::Log.info("Use #{rdenvirons}")
 
 if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No environments found with realdoc workers.")
