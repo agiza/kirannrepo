@@ -53,6 +53,7 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-reg workers in #{environ}"
     return regnames = regworkers["ipaddress"].sort.uniq unless regnames.nil? || regnames.empty?
+    end
 #    fpnames = []
 #    rpnames = []
 #    vpnames = []
