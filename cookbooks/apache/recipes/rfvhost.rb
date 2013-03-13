@@ -13,7 +13,10 @@ begin
   rescue Net::HTTPServerException
     raise "No Realfoundation workers found in any environment."
 end
-rfenvirons = rfworkers["chef_environment"] unless rfworkers["chef_environment"].nil? || rfworkers["chef_environment"].empty?
+rfenvirons = []
+rfworkers.each do |worker|
+  rfenvirons << worker["chef_environment"] unless worker["chef_environment"].nil || worker["chef_environment"].empty?
+end
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
