@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 # Create a hash of all environments with realtrans installed
-rtenvirons = {}
+rtenvirons = []
 %w[realtrans-central realtrans-server].each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    rtenvirons[node.chef_environment] = {}
+    rtenvirons << node["chef_environment"]
   end
 end
 
