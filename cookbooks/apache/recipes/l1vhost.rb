@@ -38,17 +38,20 @@ else
     rpnames = []
     fpnames = []
     intnames = []
-    rpworkers = search(:node, "recipes:*\\:\\:l1-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-    rpworkers.each do |worker|
-      rpnames << worker['ipaddress']
+    %w{l1-rp l1-server}.each do |app|
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |worker|
+        rpnames << worker['ipaddress']
+      end
     end
-    fpworkers = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
-    fpworkers.each do |worker|
-      fpnames << worker['ipaddress']
+    %w{l1-fp l1-server}.each do |app|
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |worker|
+        fpnames << worker['ipaddress']
+      end
     end
-    intworkers = search(:node, "recipes:*\\:\\:int-corelogic AND chef_environment:#{environ}")
-    intworkers.each do |worker|
-      intnames << worker['ipaddress']
+    %w{int-corelogic l1-int}.each do |app|
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |worker|
+        intnames << worker['ipaddress']
+      end
     end
     rpnames = rpnames.sort.uniq
     fpnames = fpnames.sort.uniq
