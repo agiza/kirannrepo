@@ -17,7 +17,7 @@
 #  end
 #end
 
-node[:chef_environment].each do |rtenvirons|
+rtenvirons = search(:node, "chef_environment:*").map {|n| n["chef_environment"]}
 
   if rtenvirons.nil? || rtenvirons.empty?
     Chef::Log.info("No realtrans installations found in any environment.")
