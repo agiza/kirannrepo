@@ -8,10 +8,12 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-rfenvirons = []
-search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
-  return rfenvirons << n["chef_environment"] unless n["chef_environment"].nil? || n["chef_environment"].empty?
+begin
+  rfworkers = search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation")
+  rescue Net::HTTPServerException
+    raise "No Realfoundation workers found in any environment."
 end
+rfenvirons = rfworkers["chef_environment"] unless rfworkers["chef_environment"].nil? || rfworkers["chef_environment"].empty?
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
@@ -35,7 +37,7 @@ else
     rescue Net::HTTPServerException
       raise "Unable to find realfoundation workers in #{environ}"
     end
-    return rfNames = rfNames["ipaddress"] unless rfNames["ipaddress"].nil? || rfNames["ipaddress"].empty?
+    rfNames = rfNames["ipaddress"] unless rfNames["ipaddress"].nil? || rfNames["ipaddress"].empty?
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"

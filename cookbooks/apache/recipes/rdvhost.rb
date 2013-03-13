@@ -8,13 +8,15 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-rdenvirons = []
-search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc") do |n|
-  return rdenvirons << n["chef_environment"] unless n["chef_environment"].nil? || n["chef_environment"].empty?
-end
+begin
+  rdworkers = search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc")
+  rescue Net::HTTPServerException
+    raise "No realdoc workers found in any environment."
+end 
+rdenvirons = rdworkers["chef_environment"] unless rdworkers["chef_environment"].nil? || rdworkers["chef_environment"].empty?
 
 if rdenvirons.nil? || rdenvirons.empty?
-  Chef::Log.info("No realdoc nodes in this environment found in search.")
+  Chef::Log.info("No environments found with realdoc workers.")
 else
   # Convert the hash list of environments into unique values
   rdenvirons = rdenvirons.sort.uniq
@@ -35,7 +37,7 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realdoc workers in #{environ}"
     end
-    return rdNames = rdNames["ipaddress"] unless rdNames.nil? || rdNames.empty?
+    rdNames = rdNames["ipaddress"] unless rdNames.nil? || rdNames.empty?
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"

@@ -10,7 +10,7 @@
 l1environs = []
 %w[l1-fp l1-rp].each do |app|
   search(:node, "recipes:l1\\:\\:#{app}") do |node|
-    return l1environs << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
+    l1environs << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
   end
 end
 
@@ -36,19 +36,19 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find l1-rp workers in #{environ}"
     end
-    return l1rpnames = l1rpnames["ipaddress"] unless l1rpnames.nil? || l1rpnames.empty?
+    l1rpnames = l1rpnames["ipaddress"] unless l1rpnames.nil? || l1rpnames.empty?
     begin
       l1fpnames = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find l1-fp workers in #{environ}"
     end
-    return l1fpnames = l1fpnames["ipaddress"] unless l1fpnames.nil? || l1fpnames.empty?
+    l1fpnames = l1fpnames["ipaddress"] unless l1fpnames.nil? || l1fpnames.empty?
     begin
       l1intnames = search(:node, "recipes:*\\:\\:l1-corelogic AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find integration l1 workers in #{environ}"
     end
-    return l1intnames = l1intnames["ipaddress"] unless l1intnames.nil? || l1intnames.empty?
+    l1intnames = l1intnames["ipaddress"] unless l1intnames.nil? || l1intnames.empty?
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"
