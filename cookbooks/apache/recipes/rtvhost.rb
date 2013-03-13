@@ -9,8 +9,10 @@
 # Create an array of all environments with realtrans workers installed
 rtenvirons = []
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
+  Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |worker|
-    rtenvirons << worker["chef_environment"] unless worker["chef_environment"].nil? || worker["chef_environment"].empty?
+    Chef::Log.info("found #{worker['name']}")
+    rtenvirons << worker[:chef_environment] unless worker[:chef_environment].nil? || worker[:chef_environment].empty?
     Chef::Log.info("#{worker[:chef_environment]} added.")
   end
 end
