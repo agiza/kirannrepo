@@ -39,26 +39,22 @@ else
     rpnames = []
     vpnames = []
     regnames = []
-    fpapps = "realtrans-fp realtrans-server"
-    fpapps.split(" ").each do |app|
+    %w{realtrans-fp realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}".each do |fworker|
         fpnames << fworker['ipaddress']
       end
     end
-    rpapps = "realtrans-rp realtrans-server"
-    rpapps.split(" ").each do |app|
+    %w{realtrans-rp realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |rworker|
         rpnames << rworker['ipaddress']
       end
     end
-    vpapps = "realtrans-vp realtrans-server"
-    vpapps.split(" ").each do |app|
+    %w{realtrans-vp realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |vworker|
         vpnames << vworker['ipaddress']
       end
     end
-    regapps = "realtrans-reg realtrans-server"
-    regapps.split(" ").each do |app|
+    %w{realtrans-reg realtrans-server}.each do |app|
       search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |reworker|
         regnames << reworker['ipaddress']
       end
