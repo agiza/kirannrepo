@@ -8,8 +8,8 @@
 #
 # Create a hash of all environments with realtrans installed
 rtenvirons = {}
-%w[realtrans-rp realtrans-fp realtrans-vp realtrans-reg].each do |app|
-  search(:node, "recipes:realtrans\\:\\:#{app}").each do |node|
+%w[realtrans-central realtrans-server].each do |app|
+  search(:node, "recipes:*\\:\\:#{app}").each do |node|
     rtenvirons[node.chef_environment] = {}
   end
 end
@@ -27,18 +27,32 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
+  rtenvirons = rtenvirons.sort.uniq.split(" ")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
-    fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-    fpnames = fpworkers["ipaddress"].sort.uniq
-    rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-    rpnames = rpworkers["ipaddress"].sort.uniq
-    vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-    vpnames = vpworkers["ipaddress"].sort.uniq
-    regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
-    vpnames = vpworkers["ipaddress"].sort.uniq
+    begin
+      fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
+      rescue Net::HTTPServerException
+        raise "Unable to find realtrans-fp workers in #{environ}"
+    end
+    return fpnames = fpworkers["ipaddress"].sort.uniq not if fpnames.nil? || fpnames.empty?
+    begin
+      rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
+      rescue Net::HTTPServerException
+        raise "Unable to find realtrans-rp workers in #{environ}"
+    end
+    return rpnames = rpworkers["ipaddress"].sort.uniq not if fpnames.nil? || fpnames.empty?
+    begin
+      vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
+      rescue Net::HTTPServerException
+        raise "Unable to find realtrans-vp workers in #{environ}"
+    return vpnames = vpworkers["ipaddress"].sort.uniq not if vpnames.nil? || vpnames.empty?
+    begin
+      regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
+      rescue Net::HTTPServerException
+        raise "Unable to find realtrans-reg workers in #{environ}"
+    return regnames = regworkers["ipaddress"].sort.uniq not if regnames.nil? || regnames.empty?
 #    fpnames = []
 #    rpnames = []
 #    vpnames = []
