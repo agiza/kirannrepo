@@ -31,7 +31,7 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rdenvirons.each do |environ|
     begin
-      rdNames = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}") || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
+      rdNames = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}" || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realdoc workers in #{environ}"
     end
