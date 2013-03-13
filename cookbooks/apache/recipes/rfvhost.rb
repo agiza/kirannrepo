@@ -40,11 +40,14 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
     begin
-    rfNames = search(:node, "recipes:*\\:\\:realfoundation AND chef_environment:#{environ}")
+    rfworkers = search(:node, "recipes:*\\:\\:realfoundation AND chef_environment:#{environ}")
     rescue Net::HTTPServerException
       raise "Unable to find realfoundation workers in #{environ}"
     end
-    rfNames = rfNames.map {|n| n["ipaddress"]} unless rfNames.nil? || rfNames.empty?
+    rfNames = []
+    rfworkers.each do |worker| unless rfworkers.nil? || rfworkers.empty?
+      rfNames << worker['ipaddress']
+    end
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"

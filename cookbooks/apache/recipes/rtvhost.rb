@@ -37,11 +37,12 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
     begin
-      rpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
+      fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-fp workers in #{environ}"
     end
-    fpworkers.each do |worker| unless fpnames.nil? || fpnames.empty?
+    fpnames = []
+    fpworkers.each do |worker| unless fpworkers.nil? || fpworkers.empty?
       fpnames << worker['ipaddress']
     end
     begin
@@ -49,7 +50,8 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-rp workers in #{environ}"
     end
-    rpworkers.each do |worker| unless fpnames.nil? || fpnames.empty?
+    rpnames = []
+    rpworkers.each do |worker| unless rpworkers.nil? || rpworkers.empty?
       rpnames << worker['ipaddress']
     end
     begin
@@ -57,7 +59,8 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-vp workers in #{environ}"
     end
-    vpworkers.each do |worker| unless vpnames.nil? || vpnames.empty?
+    vpnames = []
+    vpworkers.each do |worker| unless vpworkers.nil? || vpworkers.empty?
       vpnames << worker['ipaddress']
     end
     begin
@@ -65,7 +68,8 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-reg workers in #{environ}"
     end
-    regworkers.each do |worker| unless regnames.nil? || regnames.empty?
+    regnames = []
+    regworkers.each do |worker| unless regworkers.nil? || regworkers.empty?
       regnames << worker['ipaddress']
     end
 #    fpnames = []

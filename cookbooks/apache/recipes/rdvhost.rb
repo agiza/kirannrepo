@@ -41,11 +41,14 @@ else
   rdenvirons = rdenvirons.reject{ |w| w.empty? }
   rdenvirons.each do |environ|
     begin
-      rdNames = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}" || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
+      rdworkers = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}" || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realdoc workers in #{environ}"
     end
-    rdNames = rdNames.map {|n| n["ipaddress"]} unless rdNames.nil? || rdNames.empty?
+    rdNames = []
+    rdworkers.each do |worker| unless rdworkers.nil? || rdworkers.empty?
+      rdNames << worker['ipaddress']
+    end
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"

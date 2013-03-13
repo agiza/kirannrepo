@@ -41,19 +41,28 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find l1-rp workers in #{environ}"
     end
-    rpnames = rpworkers.map {|n| n["ipaddress"]} unless rpworkers.nil? || rpworkers.empty?
+    rpnames = []
+    rpworkers.each do |worker| unless rpworkers.nil? || rpworkers.empty?
+      rpnames << worker['ipaddress']
+    end
     begin
       fpworkers = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find l1-fp workers in #{environ}"
     end
-    fpnames = fpworkers.map {|n| n["ipaddress"]} unless fpworkers.nil? || fpworkers.empty?
+    fpnames = []
+    fpworkers.each do |worker| unless fpworkers.nil? || fpworkers.empty?
+      fpnames << worker['ipaddress']
+    end
     begin
       intworkers = search(:node, "recipes:*\\:\\:int-corelogic AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find integration l1 workers in #{environ}"
     end
-    intnames = intworkers.map {|n| n["ipaddress"]} unless intworkers.nil? || intworkers.empty?
+    intnames = []
+    intworkers.each do |worker| unless intworkers.nil? || intworkers.empty?
+      intnames << worker['ipaddress']
+    end
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
       source "l1.proxy.conf.erb"
       owner  "root"
