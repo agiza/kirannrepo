@@ -25,9 +25,6 @@ Chef::Log.info("Use #{rdenvirons}")
 if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No environments found with realdoc workers.")
 else
-  # Convert the hash list of environments into unique values
-  rdenvirons = rdenvirons.sort.uniq
-
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
   if node.attribute?('ssl_force')
@@ -38,17 +35,13 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  rdenvirons = rdenvirons.reject{ |w| w.empty? }
   rdenvirons.each do |environ|
-    begin
-      rdworkers = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}" || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find realdoc workers in #{environ}"
-    end
+    rdworkers = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}" || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
     rdNames = []
     rdworkers.each do |worker|
       rdNames << worker['ipaddress']
     end
+    rdNames =  rdNames.sort.uniq
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"
@@ -56,7 +49,7 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostRdWorkers => rdNames.sort.uniq,
+        :vhostRdWorkers => rdNames,
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )

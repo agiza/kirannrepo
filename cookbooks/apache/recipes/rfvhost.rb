@@ -39,15 +39,12 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
-    begin
     rfworkers = search(:node, "recipes:*\\:\\:realfoundation AND chef_environment:#{environ}")
-    rescue Net::HTTPServerException
-      raise "Unable to find realfoundation workers in #{environ}"
-    end
     rfNames = []
     rfworkers.each do |worker|
       rfNames << worker['ipaddress']
     end
+    rfNames = rfNames.sort.uniq
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"
