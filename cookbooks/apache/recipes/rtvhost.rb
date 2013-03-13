@@ -12,12 +12,13 @@ rtworker = []
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |worker|
     Chef::Log.info("found #{worker}")
-    rtworker << worker unless worker.nil? || worker.empty?
-    Chef::Log.info("#{worker} added.")
+    rtworker << worker['chef_environment'] unless worker.nil? || worker.empty?
+    Chef::Log.info("#{worker['chef_environment']} added.")
   end
 end
 Chef::Log.info("Trying to use #{rtworker}")
-rtenvirons = rtworker.map {|node| node['chef_environment']}
+#rtenvirons = rtworker.map {|node| node['chef_environment']}
+rtenvirons = rtworker
 Chef::Log.info("Use #{rtenvirons}")
 
 if rtenvirons.nil? || rtenvirons.empty?
