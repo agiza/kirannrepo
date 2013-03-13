@@ -27,7 +27,7 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  rtenvirons = rtenvirons.sort.uniq.split(" ")
+  rtenvirons = rtenvirons.sort.uniq
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
