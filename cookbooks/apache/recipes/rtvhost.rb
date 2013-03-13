@@ -6,16 +6,17 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-# Create a hash of all environments with realtrans installed
+# Create an array of all environments with realtrans workers installed
 rtenvirons = []
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
-  search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    rtenvirons << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
+  search(:node, "recipes:*\\:\\:#{app}").each do |worker|
+    rtenvirons << worker["chef_environment"] unless worker["chef_environment"].nil? || worker["chef_environment"].empty?
+    Chef::Log.info("#{worker[:chef_environment]} added.")
   end
 end
 
 if rtenvirons.nil? || rtenvirons.empty?
-  Chef::Log.info("No realtrans installations in this environment found in search.")
+  Chef::Log.info("No realtrans installations found in any environment.")
 else
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -27,7 +28,6 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  #rtenvirons = rtenvirons.reject{ |w| w.all? {|elem| elem.nil? || elem.strip.empty?}}
   rtenvirons = rtenvirons.sort.uniq
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
