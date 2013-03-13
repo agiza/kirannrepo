@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 # Create an array of all environments with realtrans workers installed
-rtenvirons = []
+rtworker = []
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |worker|
