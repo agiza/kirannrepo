@@ -16,6 +16,7 @@ rtenvirons = {}
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
+rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
 Chef::Log.info("Use #{rtenvirons}")
 
 if rtenvirons.nil? || rtenvirons.empty?
