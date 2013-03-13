@@ -37,29 +37,37 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
     begin
-      fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
+      rpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-fp workers in #{environ}"
     end
-    fpnames = fpworkers.map {|n| n["ipaddress"]}.sort.uniq unless fpnames.nil? || fpnames.empty?
+    fpworkers.each do |worker| unless fpnames.nil? || fpnames.empty?
+      fpnames << worker['ipaddress']
+    end
     begin
       rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-rp workers in #{environ}"
     end
-    rpnames = rpworkers.map {|n| n["ipaddress"]}.sort.uniq unless fpnames.nil? || fpnames.empty?
+    rpworkers.each do |worker| unless fpnames.nil? || fpnames.empty?
+      rpnames << worker['ipaddress']
+    end
     begin
       vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-vp workers in #{environ}"
     end
-    vpnames = vpworkers.map {|n| n["ipaddress"]}.sort.uniq unless vpnames.nil? || vpnames.empty?
+    vpworkers.each do |worker| unless vpnames.nil? || vpnames.empty?
+      vpnames << worker['ipaddress']
+    end
     begin
       regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-reg workers in #{environ}"
     end
-    regnames = regworkers.map {|n| n["ipaddress"]}.sort.uniq unless regnames.nil? || regnames.empty?
+    regworkers.each do |worker| unless regnames.nil? || regnames.empty?
+      regnames << worker['ipaddress']
+    end
 #    fpnames = []
 #    rpnames = []
 #    vpnames = []
@@ -83,10 +91,10 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :fpworkers => fpnames,
-        :rpworkers => rpnames,
-        :vpworkers => vpnames,
-        :regworkers => regnames,
+        :fpworkers => fpnames.sort.uniq,
+        :rpworkers => rpnames.sort.uniq,
+        :vpworkers => vpnames.sort.uniq,
+        :regworkers => regnames.sort.uniq,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
