@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "altisource::altirepo"
 
 if platform?("centos", "redhat")
   package "chef" do
