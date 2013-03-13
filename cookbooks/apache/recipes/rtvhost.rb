@@ -10,7 +10,7 @@
 rtenvirons = []
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    rtenvirons << node["chef_environment"]
+    rtenvirons << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
   end
 end
 
@@ -27,7 +27,7 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
-  rtenvirons = rtenvirons.reject{ |w| w.all? {|elem| elem.nil? || elem.strip.empty?}}
+  #rtenvirons = rtenvirons.reject{ |w| w.all? {|elem| elem.nil? || elem.strip.empty?}}
   rtenvirons = rtenvirons.sort.uniq
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
