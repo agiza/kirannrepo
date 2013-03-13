@@ -35,16 +35,28 @@ else
     rpnames = []
     vpnames = []
     regnames = []
-    search(:node, "recipes:realtrans\\:\\:realtrans-fp AND chef_environment:#{environ}").each do |worker|
+    search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}").each do |worker|
       fpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-rp AND chef_environment:#{environ}").each do |worker|
+    search(:node, "realtransfp_version:* AND chef_environment:#{environ}").each do |worker|
+      fpnames << worker["ipaddress"]
+    end
+    search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}").each do |worker|
       rpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-vp AND chef_environment:#{environ}").each do |worker|
+    search(:node, "realtransrp_version:* AND chef_environment:#{environ}").each do |worker|
+      rpnames << worker["ipaddress"]
+    end
+    search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}").each do |worker|
       vpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:realtrans\\:\\:realtrans-reg AND chef_environment:#{environ}").each do |worker|
+    search(:node, "realtransvp_version:* AND chef_environment:#{environ}").each do |worker|
+      vpnames << worker["ipaddress"]
+    end
+    search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}").each do |worker|
+      regnames << worker["ipaddress"]
+    end
+    search(:node, "realtransreg_version:* AND chef_environment:#{environ}").each do |worker|
       regnames << worker["ipaddress"]
     end
       
@@ -55,10 +67,10 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :fpworkers => fpnames,
-        :rpworkers => rpnames,
-        :vpworkers => vpnames,
-        :regworkers => regnames,
+        :fpworkers => fpnames.sort.uniq,
+        :rpworkers => rpnames.sort.uniq,
+        :vpworkers => vpnames.sort.uniq,
+        :regworkers => regnames.sort.uniq,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow

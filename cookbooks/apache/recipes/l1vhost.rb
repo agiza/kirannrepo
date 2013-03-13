@@ -36,11 +36,20 @@ else
     search(:node, "recipes:l1\\:\\:l1-fp AND chef_environment:#{environ}").each do |worker|
       l1fpnames << worker["ipaddress"]
     end
+    search(:node, "l1fp_version:* AND chef_environment:#{environ}").each do |worker|
+      l1fpnames << worker["ipaddress"]
+    end
     search(:node, "recipes:l1\\:\\:l1-rp AND chef_environment:#{environ}").each do |worker|
+      l1rpnames << worker["ipaddress"]
+    end
+    search(:node, "l1rp_version:* AND chef_environment:#{environ}").each do |worker|
       l1rpnames << worker["ipaddress"]
     end
     l1intnames = []
     search(:node, "recipes:integration\\:\\:l1-corelogic AND chef_environment:#{environ}").each do |worker|
+      l1intnames << worker["ipaddress"]
+    end
+    search(:node, "intcorelogic_version:* AND chef_environment:#{environ}").each do |worker|
       l1intnames << worker["ipaddress"]
     end
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do
@@ -50,9 +59,9 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :rpworkers => l1rpnames,
-        :fpworkers => l1fpnames,
-        :intworkers => l1intnames,
+        :rpworkers => l1rpnames.sort.uniq,
+        :fpworkers => l1fpnames.sort.uniq,
+        :intworkers => l1intnames.sort.uniq,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow

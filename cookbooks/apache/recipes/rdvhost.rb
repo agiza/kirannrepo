@@ -34,6 +34,9 @@ else
     search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc AND chef_environment:#{environ}") do |n|
       rdNames << n["ipaddress"]
     end
+    search(:node, "realdoc_version:* AND chef_environment:#{environ}") do |n|
+      rdNames << n["ipaddress"]
+    end
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"
@@ -41,7 +44,7 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostRdWorkers => rdNames,
+        :vhostRdWorkers => rdNames.sort.uniq,
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )

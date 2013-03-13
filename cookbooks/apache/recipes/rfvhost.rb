@@ -34,6 +34,9 @@ else
     search(:node, "recipes:realfoundation\\:\\:realfoundation AND chef_environment:#{environ}").each do |worker|
       rfNames << worker["ipaddress"]
     end
+    search(:node, "realfoundation_version:* AND chef_environment:#{environ}").each do |worker|
+      rfNames << worker["ipaddress"]
+    end
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"
@@ -41,7 +44,7 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostRfWorkers => rfNames,
+        :vhostRfWorkers => rfNames.sort.uniq,
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )
