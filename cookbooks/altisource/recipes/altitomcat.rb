@@ -44,7 +44,7 @@ end
 if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No appdynamic controller servers returned from search.")
 else
-  include_recipe "altisource::appdynamics"
+  include_recipe "infrastructure::appdynamics"
   appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
 end
