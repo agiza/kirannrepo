@@ -35,59 +35,26 @@ else
   serveripallow = webName['serveripallow'].split("|")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
-  rtenvirons.each do |environ|
-    begin
-      fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find realtrans-fp workers in #{environ}"
-    end
     fpnames = []
-    fpworkers.each do |worker| unless fpworkers.nil? || fpworkers.empty?
-      fpnames << worker['ipaddress']
-    end
-    begin
-      rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find realtrans-rp workers in #{environ}"
-    end
     rpnames = []
-    rpworkers.each do |worker| unless rpworkers.nil? || rpworkers.empty?
-      rpnames << worker['ipaddress']
-    end
-    begin
-      vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find realtrans-vp workers in #{environ}"
-    end
     vpnames = []
-    vpworkers.each do |worker| unless vpworkers.nil? || vpworkers.empty?
-      vpnames << worker['ipaddress']
-    end
-    begin
-      regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
-      rescue Net::HTTPServerException
-        raise "Unable to find realtrans-reg workers in #{environ}"
-    end
     regnames = []
-    regworkers.each do |worker| unless regworkers.nil? || regworkers.empty?
-      regnames << worker['ipaddress']
+    search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
+      fpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
     end
-#    fpnames = []
-#    rpnames = []
-#    vpnames = []
-#    regnames = []
-#    search(:node, "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}").each do |worker|
-#      fpnames << worker["ipaddress"]
-#    end
-#    search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}").each do |worker|
-#      rpnames << worker["ipaddress"]
-#    end
-#    search(:node, "recipes:*\\:\\:realtrans-vp OR realtransvp_version:* AND chef_environment:#{environ}").each do |worker|
-#      vpnames << worker["ipaddress"]
-#    end
-#    search(:node, "recipes:*\\:\\:realtrans-reg OR realtransreg_version:* AND chef_environment:#{environ}").each do |worker|
-#      regnames << worker["ipaddress"]
-#    end
+    search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
+      rpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    end
+    search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
+      vpnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    end
+    search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}").each do |worker|
+      regnames << worker["ipaddress"] unless worker.nil? || worker.empty?
+    end
+    fpnames = fpnames.sort.uniq unless fpnames.nil? || fpnames.empty?
+    rpnames = rpnames.sort.uniq unless rpnames.nil? || rpnames.empty?
+    vpnames = vpnames.sort.uniq unless vpnames.nil? || vpnames.empty?
+    regnames = regnames.sort.uniq unless regnames.nil? || regnames.empty?
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"
@@ -121,5 +88,3 @@ else
     end
   end
 end
-
-
