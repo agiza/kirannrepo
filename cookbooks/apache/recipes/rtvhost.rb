@@ -10,14 +10,12 @@
 rtenvirons = {}
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
   Chef::Log.info("working on #{app}")
-  search(:node, "recipes:*\\:\\:#{app}").each do |worker|
-    Chef::Log.info("found #{worker}")
+  search(:node, "recipes:*\\:\\:#{app}").each do |node|
+    Chef::Log.info("found #{node}")
     rtenvirons[node.chef_environment] = {}
     Chef::Log.info("#{node.chef_environment} added.")
   end
 end
-Chef::Log.info("Trying to use #{rtworker}")
-#rtenvirons = rtworker.map {|node| node['chef_environment']}
 Chef::Log.info("Use #{rtenvirons}")
 
 if rtenvirons.nil? || rtenvirons.empty?
