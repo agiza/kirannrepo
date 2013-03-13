@@ -34,10 +34,6 @@ else
   end
   serveripallow = webName['serveripallow'].split("|")
 
-  # Convert the hash list of environments into unique values
-  l1environs = l1environs.reject{ |w| w.empty? }
-  l1environs = l1environs.sort.uniq
-
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1environs.each do |environ|
     begin
