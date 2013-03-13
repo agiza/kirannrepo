@@ -47,13 +47,14 @@ else
       vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-vp workers in #{environ}"
+    end
     return vpnames = vpworkers["ipaddress"].sort.uniq unless vpnames.nil? || vpnames.empty?
     begin
       regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-reg workers in #{environ}"
-    return regnames = regworkers["ipaddress"].sort.uniq unless regnames.nil? || regnames.empty?
     end
+    return regnames = regworkers["ipaddress"].sort.uniq unless regnames.nil? || regnames.empty?
 #    fpnames = []
 #    rpnames = []
 #    vpnames = []
