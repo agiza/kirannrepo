@@ -67,7 +67,7 @@ else
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
-    )
+      )
     end
     template "/etc/httpd/conf.d/l1-#{environ}.vhost.conf" do
       source "l1vhost#{ssl}.conf.erb"
