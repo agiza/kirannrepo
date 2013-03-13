@@ -11,7 +11,7 @@ rtenvirons = []
 %w[realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server].each do |app|
   Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |worker|
-    Chef::Log.info("found #{worker['name']}")
+    Chef::Log.info("found #{worker}")
     rtenvirons << worker[:chef_environment] unless worker[:chef_environment].nil? || worker[:chef_environment].empty?
     Chef::Log.info("#{worker[:chef_environment]} added.")
   end
