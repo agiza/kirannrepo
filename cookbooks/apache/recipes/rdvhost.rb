@@ -45,7 +45,7 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realdoc workers in #{environ}"
     end
-    rdNames = rdNames["ipaddress"] unless rdNames.nil? || rdNames.empty?
+    rdNames = rdNames.map {|n| n["ipaddress"]} unless rdNames.nil? || rdNames.empty?
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"

@@ -41,25 +41,25 @@ else
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-fp workers in #{environ}"
     end
-    fpnames = fpworkers["ipaddress"].sort.uniq unless fpnames.nil? || fpnames.empty?
+    fpnames = fpworkers.map {|n| n["ipaddress"]}.sort.uniq unless fpnames.nil? || fpnames.empty?
     begin
       rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-rp workers in #{environ}"
     end
-    rpnames = rpworkers["ipaddress"].sort.uniq unless fpnames.nil? || fpnames.empty?
+    rpnames = rpworkers.map {|n| n["ipaddress"]}.sort.uniq unless fpnames.nil? || fpnames.empty?
     begin
       vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-vp workers in #{environ}"
     end
-    vpnames = vpworkers["ipaddress"].sort.uniq unless vpnames.nil? || vpnames.empty?
+    vpnames = vpworkers.map {|n| n["ipaddress"]}.sort.uniq unless vpnames.nil? || vpnames.empty?
     begin
       regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find realtrans-reg workers in #{environ}"
     end
-    regnames = regworkers["ipaddress"].sort.uniq unless regnames.nil? || regnames.empty?
+    regnames = regworkers.map {|n| n["ipaddress"]}.sort.uniq unless regnames.nil? || regnames.empty?
 #    fpnames = []
 #    rpnames = []
 #    vpnames = []

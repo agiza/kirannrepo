@@ -26,7 +26,7 @@ if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
 else
   # Convert the hash list of environments into unique values
-  rfenvirons = rfenvirons.sort.uniq
+#  rfenvirons = rfenvirons.sort.uniq
 
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -37,9 +37,6 @@ else
   end
   serveripallow = webName['serveripallow'].split("|")
 
-  rfenvirons = rfenvirons.reject{ |w| w.empty? }
-  rfenvirons = rfenvirons.sort.uniq
-
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
     begin
@@ -47,7 +44,7 @@ else
     rescue Net::HTTPServerException
       raise "Unable to find realfoundation workers in #{environ}"
     end
-    rfNames = rfNames["ipaddress"] unless rfNames["ipaddress"].nil? || rfNames["ipaddress"].empty?
+    rfNames = rfNames.map {|n| n["ipaddress"]} unless rfNames.nil? || rfNames.empty?
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"
