@@ -33,14 +33,14 @@ else
   l1environs.each do |environ|
     l1rpnames = []
     l1fpnames = []
-    search(:node, "recipes:l1\\:\\:l1-fp OR l1fp_version:* AND chef_environment:#{environ}").each do |worker|
+    search(:node, "recipes:l1\\:\\:l1-fp AND chef_environment:#{environ}").each do |worker|
       l1fpnames << worker["ipaddress"]
     end
-    search(:node, "recipes:l1\\:\\:l1-rp OR l1rp_version:* AND chef_environment:#{environ}").each do |worker|
+    search(:node, "recipes:l1\\:\\:l1-rp AND chef_environment:#{environ}").each do |worker|
       l1rpnames << worker["ipaddress"]
     end
     l1intnames = []
-    search(:node, "recipes:integration\\:\\:l1-corelogic or intcorelogic_version:* AND chef_environment:#{environ}").each do |worker|
+    search(:node, "recipes:integration\\:\\:l1-corelogic AND chef_environment:#{environ}").each do |worker|
       l1intnames << worker["ipaddress"]
     end
     template "/etc/httpd/proxy.d/l1-#{environ}.proxy.conf" do

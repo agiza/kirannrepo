@@ -31,13 +31,13 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
-    fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}")
+    fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
     fpnames = fpworkers["ipaddress"].sort.uniq
-    rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}")
+    rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
     rpnames = rpworkers["ipaddress"].sort.uniq
-    vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp OR realtransvp_version:* AND chef_environment:#{environ}")
+    vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp AND chef_environment:#{environ}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{environ}")
     vpnames = vpworkers["ipaddress"].sort.uniq
-    regworkers = search(:node, "recipes:*\\:\\:realtrans-reg OR realtransreg_version:* AND chef_environment:#{environ}")
+    regworkers = search(:node, "recipes:*\\:\\:realtrans-reg AND chef_environment:#{environ}" || "recipes:8\\:\\:realtrans-server AND chef_environment:#{environ}")
     vpnames = vpworkers["ipaddress"].sort.uniq
 #    fpnames = []
 #    rpnames = []

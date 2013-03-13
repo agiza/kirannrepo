@@ -31,7 +31,7 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rdenvirons.each do |environ|
     rdNames = []
-    search(:node, "recipes:realdoc\\:\\:realdoc OR realdoc_version:* AND chef_environment:#{environ}") do |n|
+    search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}") do |n|
       rdNames << n["ipaddress"]
     end
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do

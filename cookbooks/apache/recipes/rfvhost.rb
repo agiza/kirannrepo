@@ -31,7 +31,7 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
     rfNames = []
-    search(:node, "recipes:realfoundation\\:\\:realfoundation OR realfoundation_version:* AND chef_environment:#{environ}").each do |worker|
+    search(:node, "recipes:realfoundation\\:\\:realfoundation AND chef_environment:#{environ}").each do |worker|
       rfNames << worker["ipaddress"]
     end
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
