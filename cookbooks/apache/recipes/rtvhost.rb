@@ -31,22 +31,30 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
-    fpnames = []
-    rpnames = []
-    vpnames = []
-    regnames = []
-    search(:node, "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}").each do |worker|
-      fpnames << worker["ipaddress"]
-    end
-    search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}").each do |worker|
-      rpnames << worker["ipaddress"]
-    end
-    search(:node, "recipes:*\\:\\:realtrans-vp OR realtransvp_version:* AND chef_environment:#{environ}").each do |worker|
-      vpnames << worker["ipaddress"]
-    end
-    search(:node, "recipes:*\\:\\:realtrans-reg OR realtransreg_version:* AND chef_environment:#{environ}").each do |worker|
-      regnames << worker["ipaddress"]
-    end
+    fpworkers = search(:node "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}")
+    fpnames = fpworkers["ipaddress"].sort.uniq
+    rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}")
+    rpnames = rpworkers["ipaddress"].sort.uniq
+    vpworkers = search(:node, "recipes:*\\:\\:realtrans-vp OR realtransvp_version:* AND chef_environment:#{environ}")
+    vpnames = vpworkers["ipaddress"].sort.uniq
+    regworkers = search(:node, "recipes:*\\:\\:realtrans-reg OR realtransreg_version:* AND chef_environment:#{environ}")
+    vpnames = vpworkers["ipaddress"].sort.uniq
+#    fpnames = []
+#    rpnames = []
+#    vpnames = []
+#    regnames = []
+#    search(:node, "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}").each do |worker|
+#      fpnames << worker["ipaddress"]
+#    end
+#    search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}").each do |worker|
+#      rpnames << worker["ipaddress"]
+#    end
+#    search(:node, "recipes:*\\:\\:realtrans-vp OR realtransvp_version:* AND chef_environment:#{environ}").each do |worker|
+#      vpnames << worker["ipaddress"]
+#    end
+#    search(:node, "recipes:*\\:\\:realtrans-reg OR realtransreg_version:* AND chef_environment:#{environ}").each do |worker|
+#      regnames << worker["ipaddress"]
+#    end
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
       source "rt.proxy.conf.erb"
       owner  "root"
@@ -54,10 +62,10 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :fpworkers => fpnames.sort.uniq,
-        :rpworkers => rpnames.sort.uniq,
-        :vpworkers => vpnames.sort.uniq,
-        :regworkers => regnames.sort.uniq,
+        :fpworkers => fpnames,
+        :rpworkers => rpnames,
+        :vpworkers => vpnames,
+        :regworkers => regnames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
