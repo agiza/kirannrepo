@@ -1,4 +1,4 @@
-#
+
 # Cookbook Name:: apache
 # Recipe:: rfvhost
 #
@@ -8,16 +8,16 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-rfenvirons = {}
+rfenvirons = []
 search(:node, "recipes:realfoundation\\:\\:realfoundation OR role:realfoundation") do |n|
-  rfenvirons[n.chef_environment] = {}
+  return rfenvirons << n["chef_environment"] unless n["chef_environment"].nil? || n["chef_environment"].empty?
 end
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
 else
   # Convert the hash list of environments into unique values
-  rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq
+  rfenvirons = rfenvirons.sort.uniq
 
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -30,10 +30,12 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
-    rfNames = []
-    search(:node, "recipes:realfoundation\\:\\:realfoundation AND chef_environment:#{environ}").each do |worker|
-      rfNames << worker["ipaddress"]
+    begin
+    rfNames = search(:node, "recipes:*\\:\\:realfoundation AND chef_environment:#{environ}")
+    rescue Net::HTTPServerException
+      raise "Unable to find realfoundation workers in #{environ}"
     end
+    return rfNames = rfNames["ipaddress"] unless rfNames["ipaddress"].nil? || rfNames["ipaddress"].empty?
     template "/etc/httpd/proxy.d/rf-#{environ}.proxy.conf" do
       source "rf.proxy.conf.erb"
       owner "root"
@@ -41,7 +43,7 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :vhostRfWorkers => rfNames.sort.uniq,
+        :vhostRfWorkers => rfNames,
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )

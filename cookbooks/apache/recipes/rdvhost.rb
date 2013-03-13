@@ -8,16 +8,16 @@
 #
 
 # Create a hash of all environments with realfoundationapp installed
-rdenvirons = {}
+rdenvirons = []
 search(:node, "recipes:realdoc\\:\\:realdoc OR role:realdoc") do |n|
-  rdenvirons[n.chef_environment] = {}
+  return rdenvirons << n["chef_environment"] unless n["chef_environment"].nil? || n["chef_environment"].empty?
 end
 
 if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No realdoc nodes in this environment found in search.")
 else
   # Convert the hash list of environments into unique values
-  rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.uniq
+  rdenvirons = rdenvirons.sort.uniq
 
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
@@ -30,10 +30,12 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rdenvirons.each do |environ|
-    rdNames = []
-    search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}") do |n|
-      rdNames << n["ipaddress"]
+    begin
+      rdNames = search(:node, "recipes:realdoc\\:\\:realdoc AND chef_environment:#{environ}") || "recipes:realdoc\\:\\:realdoc-server AND chef_environment:#{environ}")
+      rescue Net::HTTPServerException
+        raise "Unable to find realdoc workers in #{environ}"
     end
+    return rdNames = rdNames["ipaddress"] unless rdNames.nil? || rdNames.empty?
     template "/etc/httpd/proxy.d/rd-#{environ}.proxy.conf" do
       source "rd.proxy.conf.erb"
       owner "root"
