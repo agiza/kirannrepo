@@ -39,7 +39,7 @@ directory "/var/ftp/pub" do
 end
 
 targetdirs = data_bag_item("infrastructure", "applications")
-targetdirs = targetdirs['ftptarget'].collect { |ftptarget| "#{ftptarget}" }.join(" ").split.uniq.join(" ").split(" ")
+targetdirs = targetdirs["ftptarget"].split(" ")
 targetdirs.each do |target|
   directory "/var/ftp/pub/#{target}" do
     owner "ftp"
