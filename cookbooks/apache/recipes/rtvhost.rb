@@ -10,7 +10,7 @@
 rtenvirons = []
 %w[realtrans-central realtrans-server].each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    rtenvirons << node["chef_environment"]
+    return rtenvirons << node["chef_environment"] unless node["chef_environment"].nil? || node["chef_environment"].empty?
   end
 end
 
