@@ -32,7 +32,7 @@ else
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   l1environs.each do |environ|
     begin
-      l1rpnames = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}"
+      l1rpnames = search(:node, "recipes:*\\:\\:l1-fp AND chef_environment:#{environ}" || "recipes:*\\:\\:l1-server AND chef_environment:#{environ}")
       rescue Net::HTTPServerException
         raise "Unable to find l1-rp workers in #{environ}"
     end
