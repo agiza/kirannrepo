@@ -30,6 +30,9 @@ else
   end
   serveripallow = webName['serveripallow'].split("|")
 
+  rfenvirons = rfenvirons.reject( |w| w.empty? }
+  rfenvirons = rfenvirons.sort.uniq
+
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|
     begin
