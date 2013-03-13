@@ -31,7 +31,7 @@ else
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rtenvirons.each do |environ|
-    fpworkers = search(:node "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}")
+    fpworkers = search(:node, "recipes:*\\:\\:realtrans-fp OR realtransfp_version:* AND chef_environment:#{environ}")
     fpnames = fpworkers["ipaddress"].sort.uniq
     rpworkers = search(:node, "recipes:*\\:\\:realtrans-rp OR realtransrp_version:* AND chef_environment:#{environ}")
     rpnames = rpworkers["ipaddress"].sort.uniq
