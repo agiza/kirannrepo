@@ -14,7 +14,12 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  amqphost = []
+  %w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
+      amqphost << worker
+    end
+  end
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
@@ -30,8 +35,13 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = search(:node, "realdoc_version:* AND chef_environment:#{node.chef_environment}")
-    if rdochost.nil? || rdochost.empty?
+  rdochost = []
+  %w{realdoc realdoc-server}.each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      rdochost << worker
+    end
+  end
+  if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found"
   else
     rdochostip = []
@@ -46,7 +56,12 @@ end
 if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
-  elasticHost = search(:node, "recipes:elasticsearch\\:\\:elasticsearch AND chef_environment:#{node.chef_environment}")
+  elasticHost = []
+  %w{elasticsearch}.each do |app|
+    search(:node, "recipes:*h\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      elasticHost << worker
+    end
+  end
   if elasticHost.nil? || elasticHost.empty?
     Chef::Log.warn("No elasticsearch servers returned from search.") && elasticHost = "No servers found."
   else
