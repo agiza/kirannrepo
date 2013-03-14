@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "iptables::default"
+iptables_rule "port_artifactory"
+
 package "haproxy" do
   action :upgrade
 end
