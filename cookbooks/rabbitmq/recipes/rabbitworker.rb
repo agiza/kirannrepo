@@ -53,7 +53,7 @@ hostentries = []
     hostentries << host
   end
 end
-hostentries = hostentries.sort.uniq
+#hostentries = hostentries.sort.uniq
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
 template "/etc/rabbitmq/rabbitmq.config" do
@@ -80,7 +80,7 @@ template "/etc/rabbitmq/hosts.txt" do
   group  "root"
   owner  "root"
   mode   "0644"
-  variables(:hostentries => hostentries)
+  variables(:hostentries => hostentries.sort.uniq)
   notifies :run, 'execute[rabbit-host]', :delayed
 end
 
