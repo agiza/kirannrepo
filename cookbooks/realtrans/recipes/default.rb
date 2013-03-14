@@ -28,7 +28,12 @@ if node.attribute?('rtcenproxy')
   rtcenhost = node[:rtcenproxy].split(":")[0]
   rtcenport = node[:rtcenproxy].split(":")[1]
 else
-  rtcenhost = search(:node, "recipes:*\\:\\:realtrans-central AND chef_environment:#{node.chef_environment}" || "recipes:*\\:\\:realtrans-server AND chef_environment:#{node.chef_environment}")
+  rtcenhost = []
+  %w{realtrans-central realtrans-server}.each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}".each do |worker|
+      rtcenhost << worker
+    end
+  end
   if rtcenhost.nil? || rtcenhost.empty?
     Chef::Log.warn("No realtrans-central servers returned from search.") && rtcenhost = "No servers found."
   else
