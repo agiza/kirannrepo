@@ -42,10 +42,10 @@ else
     rabbitservers << rabbitentry[:hostname]
   end
 end
-#rabbitservers = rabbitservers.sort.uniq
+rabbitservers = rabbitservers.uniq.sort!
 
 # This collects and converts the hostnames into the format for a cluster file.
-rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.uniq.join(",\ ")
+rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = []
 %w{rabbitmqserver}.each do |app|
@@ -53,7 +53,7 @@ hostentries = []
     hostentries << host
   end
 end
-#hostentries = hostentries.sort.uniq
+hostentries = hostentries.uniq.sort!
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
 template "/etc/rabbitmq/rabbitmq.config" do
@@ -80,7 +80,7 @@ template "/etc/rabbitmq/hosts.txt" do
   group  "root"
   owner  "root"
   mode   "0644"
-  variables(:hostentries => hostentries.sort.uniq)
+  variables(:hostentries => hostentries)
   notifies :run, 'execute[rabbit-host]', :delayed
 end
 
