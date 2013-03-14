@@ -8,7 +8,11 @@
 #
 
 include_recipe "altisource::altitomcat"
-
+begin
+  appnames = data_bag_item("infrastructure", "applications")
+  rescue Net::HTTPServerException
+    raise "Trouble loading application names for search from infrastructure data bag."
+end
 if node.attribute?('rfproxy')
   rfhost = node[:rfproxy].split(":")[0]
   rfport = node[:rfproxy].split(":")[1]
@@ -30,8 +34,13 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = search(:node, "realdoc_version:* AND chef_environment:#{node.chef_environment}")
-    if rdochost.nil? || rdochost.empty?
+  rdochost = []
+  appnames["appnames"]["realdoc"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      rdochost << worker
+    end
+  end
+  if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found."
   else
     rdochostip = []
@@ -46,7 +55,12 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitserver OR role:rabbitserver AND chef_environment:shared")
+  amqphost = []
+  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
+      amqphost << worker
+    end
+  end
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else

@@ -10,12 +10,18 @@
 include_recipe "altisource::altitomcat"
 include_recipe "mongodb::mongos"
 
+begin
+  appnames = data_bag_item("infrastructure", "applications")
+  rescue Net::HTTPServerException
+    raise "Problem loading applications names for search from infrastructure data bag."
+end
 if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = []
-  %w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
+  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
+  #%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
       amqphost << worker
     end
@@ -36,7 +42,8 @@ if node.attribute?('realdocproxy')
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = []
-  %w{realdoc realdoc-server}.each do |app|
+  appnames["appnames"]["realdoc"].split(" ").each do |app|
+  #%w{realdoc realdoc-server}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rdochost << worker
     end
@@ -57,7 +64,8 @@ if node.attribute?('elasticsearchproxy')
   elasticHost = node[:elasticsearchproxy]
 else
   elasticHost = []
-  %w{elasticsearch}.each do |app|
+  appnames["appnames"]["elasticsearch"].split(" ").each do |app|
+  #%w{elasticsearch}.each do |app|
     search(:node, "recipes:*h\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       elasticHost << worker
     end

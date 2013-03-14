@@ -7,12 +7,21 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "altisource::altitomcat"
-
+begin
+  appnames = data_bag_item("infrastructure", "applications")
+  rescue Net::HTTPServerException
+    raise "Problems loading application names for search from infrastructure data bag."
+end
 if node.attribute?('hzproxy')
   hzhost = node[:hzproxy].split(":")[0]
   hzport = node[:hzproxy].split(":")[1]
 else
-  hzhost = search(:node, "hubzu_version AND chef_environment:#{node.chef_environment}")
+  hzhost = []
+  appnames["appnames"]["hubzu"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      hzhost << worker
+    end
+  end
   if hzhost.nil? || hzhost.empty?
     Chef::Log.warn("No hubzu servers found in search.") && hzhost = "No servers found."
   else
@@ -29,7 +38,12 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  amqphost = []
+  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
+      amqphost << worker
+    end
+  end
   if amqphost.nil? || amqphost.empty?
     Chef::Log.info("No rabbitmq servers returned from search.")
   else
@@ -58,7 +72,12 @@ if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = search(:node, "realdoc_version:* AND chef_environment:#{node.chef_environment}")
+  rdochost = []
+  appnames["appnames"]["realdoc"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      rdochost << worker
+    end
+  end
   if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found"
   else

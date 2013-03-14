@@ -4,12 +4,22 @@
 #
 
 include_recipe "altisource::altitomcat"
+begin
+  appnames = data_bag_item("infrastructure", "applications")
+  rescue Net::HTTPServerException
+    raise "No application names found in infrastructure data bag."
+end
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
   rdocport = node[:realdocproxy].split(":")[1]
 else
-  rdochost = search(:node, "realdoc_version:* AND chef_environment:#{node.chef_environment}")
+  rdochost = []
+  appnames["appnames"]["realdoc"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
+      rdochost << worker
+    end
+  end
   if rdochost.nil? || rdochost.empty?
     Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found."
   else
@@ -26,7 +36,12 @@ if node.attribute?('l1cenproxy')
   l1cenhost = node[:l1cenproxy].split(":")[0]
   l1cenport = node[:l1cenproxy].split(":")[1]
 else
-  l1cenhost = search(:node, "l1central_version OR role:l1-cen AND chef_environment:#{node.chef_environment}")
+  l1cenhost = []
+  appnames["appnames"]["l1-central"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|  
+      l1cenhost << worker
+    end
+  end
   if l1cenhost.nil? || l1cenhost.empty?
     Chef::Log.warn("No l1-central servers returned from search.") && l1cenhost = "No servers found."
   else
@@ -43,7 +58,12 @@ if node.attribute?('amqpproxy')
   amqphost = node[:amqpproxy].split(":")[0]
   amqpport = node[:amqpproxy].split(":")[1]
 else
-  amqphost = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
+  amqphost = []
+  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
+      amqphost << worker
+    end
+  end
   if amqphost.nil? || amqphost.empty?
     Chef::Log.warn("No rabbitmq servers returned from search.") && amqphost = "No servers found."
   else
