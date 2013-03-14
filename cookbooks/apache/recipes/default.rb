@@ -6,7 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "iptables::default"
 
+iptables_rule "http"
 %w[httpd mod_ssl].each do |pkg|
   package pkg do
     action :upgrade

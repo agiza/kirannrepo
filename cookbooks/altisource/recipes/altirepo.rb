@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+iptables_rule "ssh"
 
 execute "yum" do
   command "yum clean all"

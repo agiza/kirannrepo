@@ -8,6 +8,8 @@
 #
 
 include_recipe "infrastructure::selinux"
+include_recipe "iptables::default"
+iptables_rule "dns"
 
 package "bind" do
   action :upgrade
