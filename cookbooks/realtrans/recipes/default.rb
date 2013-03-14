@@ -16,7 +16,7 @@ if node.attribute?('realdocproxy')
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = []
-  appnames["realdoc"].split(" ").each do |app|
+  appnames["appnames"]["realdoc"].split(" ").each do |app|
   #%w{realdoc realdoc-server}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rdochost << worker 
@@ -40,7 +40,7 @@ if node.attribute?('rtcenproxy')
   rtcenport = node[:rtcenproxy].split(":")[1]
 else
   rtcenhost = []
-  appnames["realtrans-central"].split(" ").each do |app|
+  appnames["appnames"]["realtrans-central"].split(" ").each do |app|
   #%w{realtrans-central realtrans-server}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rtcenhost << worker
@@ -64,7 +64,7 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = []
-  appnames["rabbitmq"].split(" ").each do |app|
+  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
   #%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
       amqphost << worker
