@@ -24,6 +24,7 @@ end
 
 # This creates an array of all rabbitmq worker hostnames for the cluster config file.
 rabbitservers = []
+rabbitentries = []
 if node.attribute?('performance')
   target_env = "#{node.chef_environment}"
 else
@@ -46,6 +47,7 @@ rabbitservers = rabbitservers.sort.uniq
 # This collects and converts the hostnames into the format for a cluster file.
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
+hostentries = []
 %w{rabbitmqserver}.each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |host|
     hostentries << host
