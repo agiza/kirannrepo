@@ -11,16 +11,16 @@ appnames = "realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-serve
 # Create an array of all environments with realtrans workers installed
 rtenvirons = []
 appnames.split(" ").each do |app|
-  Chef::Log.info("working on #{app}")
+  #Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    Chef::Log.info("found #{node}")
+    #Chef::Log.info("found #{node}")
     rtenvirons << "#{node.chef_environment}"
-    Chef::Log.info("#{node.chef_environment} added.")
+    #Chef::Log.info("#{node.chef_environment} added.")
   end
 end
-rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
+#rtenvirons = rtenvirons.collect { |rtenviron| "#{rtenviron}" }.uniq
 rtenvirons = rtenvirons.sort.uniq
-Chef::Log.info("Use #{rtenvirons}")
+#Chef::Log.info("Use #{rtenvirons}")
 
 if rtenvirons.nil? || rtenvirons.empty?
   Chef::Log.info("No realtrans installations found in any environment.")
