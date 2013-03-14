@@ -7,13 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name="mongod"
-iptables_rule "port_mongod"
 
 # mount volumes first before creating directory structure.
 node.default.volumes = "sdb|mongod|mongod|defaults"
 include_recipe "altisource::volgrp"
 
 include_recipe "mongodb::default"
+iptables_rule "port_mongod"
 
 directory "/etc/mongo" do
   owner "mongod"
