@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "iptables::iptables"
 
 %w[httpd mod_ssl].each do |pkg|
   package pkg do
