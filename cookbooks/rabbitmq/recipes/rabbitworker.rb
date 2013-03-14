@@ -42,10 +42,10 @@ else
     rabbitservers << rabbitentry[:hostname]
   end
 end
-rabbitservers = rabbitservers.sort.uniq
+#rabbitservers = rabbitservers.sort.uniq
 
 # This collects and converts the hostnames into the format for a cluster file.
-rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
+rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.uniq.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = []
 %w{rabbitmqserver}.each do |app|
