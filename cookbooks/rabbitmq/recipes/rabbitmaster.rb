@@ -31,7 +31,11 @@ if node.attribute?('performance')
 else
   environment = "shared"
 end
-rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{environment}")
+%w{rabbitmqserver rabbitmaster}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
+    rabbitentries << worker
+  end
+end
 if rabbitentries.nil? || rabbitentries.empty?
   Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
 else
@@ -39,11 +43,17 @@ else
     rabbitservers << rabbitentry[:hostname]
   end
 end
+rabbitservers = rabbitservers.sort.uniq
 
 # This collects and converts the hostnames into the format for a cluster file.
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
-hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
+%w{rabbitmqserver rabbitmaster}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app}").each do |worker|
+    hostentries << worker
+  end
+end
+hostentries = hostentries.sort.uniq
 
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")

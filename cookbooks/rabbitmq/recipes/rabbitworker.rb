@@ -25,30 +25,33 @@ end
 # This creates an array of all rabbitmq worker hostnames for the cluster config file.
 rabbitservers = []
 if node.attribute?('performance')
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{node.chef_environment}")
-  if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
-  else
-    rabbitentries.each do |rabbitentry|
-      rabbitservers << rabbitentry[:hostname]
-    end
-  end
+  target_env = "#{node.chef_environment}"
 else
-  rabbitentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:shared")
-  if rabbitentries.nil? || rabbitentries.empty?
-    Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
-  else
-    rabbitentries.each do |rabbitentry|
-      rabbitservers << rabbitentry[:hostname]
-    end
+  target_env = "shared"
+end
+%w{rabbitmqserver rabbitmaster}.each do |app| 
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{target_env}").each do |worker|
+    rabbitentries << worker
   end
 end
+if rabbitentries.nil? || rabbitentries.empty?
+  Chef::Log.warn("No rabbitservers found.") && rabbitentries = node[:hostname]
+else
+  rabbitentries.each do |rabbitentry|
+    rabbitservers << rabbitentry[:hostname]
+  end
+end
+rabbitservers = rabbitservers.sort.uniq
 
 # This collects and converts the hostnames into the format for a cluster file.
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
-hostentries = search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver")
-
+%w{rabbitmqserver}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app}").each do |host|
+    hostentries << host
+  end
+end
+hostentries = hostentries.sort.uniq
 #Pull Core rabbit from databag
 rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
 template "/etc/rabbitmq/rabbitmq.config" do
