@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "iptables::default"
 iptables_rule "ssh"
 
 execute "yum" do
