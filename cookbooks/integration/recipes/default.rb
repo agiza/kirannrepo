@@ -18,7 +18,7 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = []
-  appnames["realdoc"].split(" ").each do |app|
+  appnames["rabbitmq"].split(" ").each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
       amqphost << worker
     end
