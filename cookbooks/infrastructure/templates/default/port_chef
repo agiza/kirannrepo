@@ -1,0 +1,4 @@
+# Port 80/443 for Chef
+-A FWR -p tcp -m tcp --dport 80 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 443 -j ACCEPT
+
