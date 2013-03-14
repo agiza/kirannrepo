@@ -6,6 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "iptables::default"
+iptables_rule "port_ldap"
 
 service "slapd" do
   supports :stop => true, :start => true, :restart => true, :reload => true

@@ -6,6 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+include_recipe "iptables::default"
+iptables_rule "port_http"
 
 yum_package "createrepo" do
   action :upgrade
