@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name="mongod"
+iptabes_rule "port_mongod"
 
 # mount volumes first before creating directory structure.
 node.default.volumes = "sdb|mongod|mongod|defaults"

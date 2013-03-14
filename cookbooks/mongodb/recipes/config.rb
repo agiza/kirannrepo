@@ -9,6 +9,8 @@
 app_name = "mongod-config"
 include_recipe "mongodb::default"
 
+iptables_rule "port_mongod-config"
+
 directory "/data/db/config" do
   owner "mongod"
   group "mongod"

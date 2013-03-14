@@ -13,6 +13,8 @@ include_recipe "altisource::volgrp"
 
 include_recipe "mongodb::default"
 
+iptables_rule "port_mongod-replica1"
+
 directory "/data/db/replica1" do
   owner "mongod"
   group "mongod"

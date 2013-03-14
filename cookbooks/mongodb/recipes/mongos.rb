@@ -9,6 +9,8 @@
 app_name = "mongos"
 include_recipe "mongodb::default"
 
+iptables_rule "port_mongos"
+
 service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true
   action :nothing

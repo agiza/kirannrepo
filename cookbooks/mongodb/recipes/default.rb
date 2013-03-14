@@ -8,6 +8,7 @@
 #
 
 include_recipe "altisource::altirepo"
+include_recipe "iptables::default"
 
 service "mongod" do
   supports :stop => true, :start => true, :restart => true, :status => true, :reload => true, :disable => true

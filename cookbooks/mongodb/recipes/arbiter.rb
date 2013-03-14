@@ -9,6 +9,8 @@
 app_name = "mongod-arbiter"
 include_recipe "mongodb::default"
 
+iptables_rule "port_mongod-arbiter"
+
 directory "/data" do
   owner "mongod"
   group "mongod"

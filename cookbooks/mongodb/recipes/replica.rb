@@ -11,6 +11,7 @@ node.default.volumes = "sdb|mongod|mongod|defaults"
 include_recipe "altisource::volgrp"
 
 include_recipe "mongodb::default"
+iptables_rule "port_mongod-replica"
 
 directory "/data/db/replica" do
   owner "mongod"
