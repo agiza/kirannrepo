@@ -83,7 +83,7 @@ template "/etc/rabbitmq/hosts.txt" do
   group  "root"
   owner  "root"
   mode   "0644"
-  variables(:hostentries => hostsentries)
+  variables(:hostentries => hostentries)
   notifies :run, 'execute[rabbit-host]', :delayed
 end
 
