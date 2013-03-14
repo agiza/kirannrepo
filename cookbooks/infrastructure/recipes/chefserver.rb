@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "infrastructure::chefclient"
+include_recipe "iptables::default"
+iptables_rule "port_chef"
 
 execute "chef-reconfigure" do
   command "chef-server-ctl reconfigure"
