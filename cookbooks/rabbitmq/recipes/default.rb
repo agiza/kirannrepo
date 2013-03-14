@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "iptables::default"
+iptables_rule "port_rabbitmq"
+
 # Create a service for rabbitmqadmin python script to allow for a notification run when upgrade occurs.
 
 service "rabbitmq-server" do

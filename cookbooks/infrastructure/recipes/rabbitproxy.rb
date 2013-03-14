@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "infrastructure::haproxy"
+include_recipe "iptables::default"
+iptables_rule  "port_rabbitproxy"
 
 if node.attribute?('amqpproxy')
  amqpport = node[:amqpproxy].split(":")[1]
