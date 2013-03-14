@@ -15,8 +15,6 @@ end
 # Include epel repository for optional packages
 include_recipe "altisource::epel-local"
 
-iptables_rule "http"
-
 # Optional package recipes
 include_recipe "apache::mod_security"
 include_recipe "apache::mod_bw"
