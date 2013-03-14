@@ -8,7 +8,7 @@
 #
 include_recipe "iptables::default"
 
-iptables_rule "http"
+iptables_rule "port_http"
 %w[httpd mod_ssl].each do |pkg|
   package pkg do
     action :upgrade

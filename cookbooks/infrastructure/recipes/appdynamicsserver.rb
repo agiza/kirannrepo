@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "iptables::default"
-iptables_rule "appdynamics"
+iptables_rule "port_appdynamics"
 
 node.default.volumes = "sdb|opt|opt/appdynamics|defaults"
 include_recipe "altisource::volgrp"

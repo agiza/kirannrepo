@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "iptables::default"
-iptables_rule "dns"
+iptables_rule "port_dns"
 
 package "bind" do
   case node[:platform]
