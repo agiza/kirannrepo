@@ -11,16 +11,16 @@ appnames = "realfoundation"
 # Create an array of all environments with realtrans workers installed
 rfenvirons = []
 appnames.split(" ").each do |app|
-  Chef::Log.info("working on #{app}")
+  #Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    Chef::Log.info("found #{node}")
+    #Chef::Log.info("found #{node}")
     rfenvirons << "#{node.chef_environment}"
-    Chef::Log.info("#{node.chef_environment} added.")
+    #Chef::Log.info("#{node.chef_environment} added.")
   end
 end
-rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq
+#rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq
 rfenvirons = rfenvirons.sort.uniq
-Chef::Log.info("Use #{rfenvirons}")
+#Chef::Log.info("Use #{rfenvirons}")
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
