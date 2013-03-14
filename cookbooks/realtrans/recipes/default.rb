@@ -4,6 +4,11 @@
 #
 
 include_recipe "altisource::altitomcat"
+begin
+  appnames = data_bag_item("infrastructure", "applications")
+  rescue Net::HTTPServerException
+    raise "No application names found in infrastructure data bag."
+end
 
 # This looks for realdoc proxy attribute and allows override of realdoc server or finds the first server itself
 if node.attribute?('realdocproxy')
@@ -11,7 +16,8 @@ if node.attribute?('realdocproxy')
   rdocport = node[:realdocproxy].split(":")[1]
 else
   rdochost = []
-  %w{realdoc realdoc-server}.each do |app|
+  appnames["realdoc"].split(" ").each do |app|
+  #%w{realdoc realdoc-server}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rdochost << worker 
     end
@@ -34,7 +40,8 @@ if node.attribute?('rtcenproxy')
   rtcenport = node[:rtcenproxy].split(":")[1]
 else
   rtcenhost = []
-  %w{realtrans-central realtrans-server}.each do |app|
+  appnames["realtrans-central"].split(" ").each do |app|
+  #%w{realtrans-central realtrans-server}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rtcenhost << worker
     end
@@ -57,7 +64,8 @@ if node.attribute?('amqpproxy')
   amqpport = node[:amqpproxy].split(":")[1]
 else
   amqphost = []
-  %w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
+  appnames["rabbitmq"].split(" ").each do |app|
+  #%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
       amqphost << worker
     end
