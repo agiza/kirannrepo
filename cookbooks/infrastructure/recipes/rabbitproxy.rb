@@ -37,7 +37,7 @@ end
 if clusternodes.nil? || clusternodes.empty?
   Chef::Log.warn("Unable to find any rabbitservers in the infrastructure.")
 else
-  workernodes = clusternodes.uniq.sort!
+  workernodes = clusternodes.uniq.sort
   template "/etc/haproxy/haproxy.cfg" do
     source "rabbitproxy.cfg.erb"
     group "haproxy"
