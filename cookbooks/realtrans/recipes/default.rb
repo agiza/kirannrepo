@@ -30,7 +30,7 @@ if node.attribute?('rtcenproxy')
 else
   rtcenhost = []
   %w{realtrans-central realtrans-server}.each do |app|
-    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}".each do |worker|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
       rtcenhost << worker
     end
   end
