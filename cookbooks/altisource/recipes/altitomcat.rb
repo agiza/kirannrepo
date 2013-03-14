@@ -5,6 +5,7 @@
 
 #include_recipe "java"
 include_recipe "altisource::altirepo"
+iptables_rule "tomcat"
 
 #volumes = "sdb|opt|opt/tomcat"
 node.default.volumes = "sdb|opt|opt/tomcat|defaults"
