@@ -29,18 +29,14 @@ else
   environment = "shared"
 end
 clusternodes = []
-rabbitnodes = []
 %w{rabbitmqserver rabbitmaster}.each do |app|
-  search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver AND chef_environment:#{environment}").each do |worker|
-    rabbitnodes << worker
-  end
-end
-if rabbitnodes.nil? || rabbitnodes.empty?
-  Chef::Log.warn("Unable to find any rabbitservers in the infrastructure.")
-else
-  rabbitnodes.each do |worker|
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
     clusternodes << worker["ipaddress"]
   end
+end
+if clusternodes.nil? || clusternodes.empty?
+  Chef::Log.warn("Unable to find any rabbitservers in the infrastructure.")
+else
   clusternodes = clusternodes.sort.uniq
   template "/etc/haproxy/haproxy.cfg" do
     source "rabbitproxy.cfg.erb"
