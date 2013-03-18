@@ -80,7 +80,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-%w{/opt/tomcat/CMA /opt/tomcat/CMA/input /opt/tomcat/CMA/input/In /opt/tomcat/CMA/input/Inftp /opt/tomcat/CMA/Out /opt/tomcat/CMA/input/Process /opt/tomcat/CMA/input/Process/archive /opt/tomcat/CMA/input/Process/error}.each do |localdir|
+%w{/opt/tomcat/CMA /opt/tomcat/CMA/input /opt/tomcat/CMA/input/In /opt/tomcat/CMA/input/Inftp /opt/tomcat/CMA/input/Out /opt/tomcat/CMA/input/Process /opt/tomcat/CMA/input/Process/archive /opt/tomcat/CMA/input/Process/error}.each do |localdir|
   directory "#{localdir}" do
     owner "tomcat"
     group "tomcat"
