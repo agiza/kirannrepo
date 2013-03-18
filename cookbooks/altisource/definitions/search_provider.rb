@@ -16,6 +16,6 @@ define :search_provider, :enable => true, :appnames => {}, :port => nil do
     params[:name] = params[:name].sort.first
     params[:port] = params[:port]
   end
-  node.default."#{params[:name]}" = params[:name]
-  node.default."#{params[:port]}" = params[:port]
+  node.default.params[:name] = params[:name]
+  node.default.params[:port] = params[:port]
 end
