@@ -64,7 +64,6 @@ if realres.nil? || realres.empty?
     Chef::Log.error("Error trying to set realresolution ftp info from integration data bag.")
   end
 end
-end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
