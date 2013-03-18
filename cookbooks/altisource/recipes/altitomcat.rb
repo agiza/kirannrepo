@@ -27,25 +27,19 @@ end
 
 # configure appdynamics agent after altitomcat rpm installation but before configuration.
 if node.attribute?('performance')
-  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:#{node.chef_environment}")
-  if appdynhost.nil? || appdynhost.empty?
-    Chef::Log.info("No appdynamic controller servers returned from search.")
-  else
-    appdynhost = appdynhost.first
-    appdynhost = appdynhost["ipaddress"]
-  end
+  environment = "#{node.chef_environment}"
 else
-  appdynhost = search(:node, "recipes:altisource\\:\\:appdynamicsserver OR role:appdynamics-server AND chef_environment:shared")
-  if appdynhost.nil? || appdynhost.empty?
-    Chef::Log.info("No appdynamic controller servers returned from search.")
-  else
-    appdynhost = appdynhost.first
-    appdynhost = appdynhost["ipaddress"]
-  end
+  environment = "shared"
 end
+appdynhost = []
+%w{appdynamicsserver}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
+    appdynhost << worker["ipaddress"]
+  end
 if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No appdynamic controller servers returned from search.")
 else
+  appdynhost = appdynhost.first
   include_recipe "infrastructure::appdynamics"
   appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
