@@ -36,6 +36,7 @@ appdynhost = []
   search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
     appdynhost << worker["ipaddress"]
   end
+end
 if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No appdynamic controller servers returned from search.")
 else
