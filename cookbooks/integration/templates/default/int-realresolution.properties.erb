@@ -3,8 +3,15 @@ rt.int.rres.ftp.port=<%= @realres['ftphost'].split(":")[1] %>
 rt.int.rres.ftp.user=<%= @realres['user'] %>
 rt.int.rres.ftp.pwd=<%= @realres['pass'] %>
 rt.int.rres.filename.pattern=*.xml
+<% if @realres['ftpindir'].nil? || @realres['ftpindir'].empty? -%>
 rt.int.rres.remote.in.directory=/<%= "#{node.chef_environment}" %>/input
+<% else -%>
+rt.int.rres.remote.in.directory=<%= @realres['ftpindir'] %>
+<% if @realres['ftpoutdir'].nil? || @realres['ftpoutdir'].empty? -%>
 rt.int.rres.remote.out.directory=/<%= "#{node.chef_environment}" %>/out
+<% else -%>
+rt.int.rres.remote.out.directory=<%= @realres['ftpoutdir'] %>
+<% end -%>
 
 rt.int.rres.remote.archive.directory=/<%= "#{node.chef_environment}" %>/archive
 rt.int.rres.remote.error.directory=/<%= "#{node.chef_environment}" %>/error
