@@ -14,7 +14,7 @@ define :search_provider, :enable => true, :appnames => {}, :port => nil do
     Chef::Log.warn("No #{params[:name]} servers found in search.") && params[:name] = "No servers found."
   else
     params[:name] = params[:name].sort.first
-    "#{params[:name]}port" = params[:port]}
+    params[:port] = params[:port]
   end
   node.default."#{params[:name]}" = params[:name]
   node.default."#{params[:port]}" = params[:port]
