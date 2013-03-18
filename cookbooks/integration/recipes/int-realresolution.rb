@@ -59,9 +59,9 @@ amqpcred = amqpcred['user'].split("|")
 realsvc = data_bag_item("integration", "realservicing")
 begin
   realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
-  rescue Net::HTTPServerException
+rescue Net::HTTPServerException
     realres = data_bag_item("integration", "realresolution")
-    raise "Exception trying to load environment and default realresolution info from data bag."
+raise "Error loading realresolution ftp information from data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
