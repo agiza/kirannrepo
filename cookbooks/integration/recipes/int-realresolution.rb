@@ -61,7 +61,7 @@ begin
   realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
   rescue Net::HTTPServerException
     realres = data_bag_item("integration", "realresolution")
-  raise "Error trying to load realresolution ftp information from data bag."
+  #raise "Error trying to load realresolution ftp information from data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
