@@ -3,9 +3,9 @@
 # Definition:: search_provider
 #
 
-define :search_provider, :enable => true, :appnames => {}, :port => nil do
+define :search_provider, :appnames => {}, :port => nil do
   params[:name] = []
-  appnames["#{params[:appnames]}".split(" ").each do |app|
+  appnames["#{params[:appnames]}"].split(" ").each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}".each do |worker|
       params[:name] << worker["ipaddress"]
     end
