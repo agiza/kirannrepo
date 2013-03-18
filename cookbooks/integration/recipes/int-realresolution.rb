@@ -57,12 +57,11 @@ end
 amqpcred = data_bag_item("rabbitmq", "realtrans")
 amqpcred = amqpcred['user'].split("|")
 realsvc = data_bag_item("integration", "realservicing")
-realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
-if realres.nil? || realres.empty?
-  realres = data_bag_item("integration", "realresolution")
-  if realres.nil? || realres.empty?
-    Chef::Log.error("Error trying to set realresolution ftp info from integration data bag.")
-  end
+begin
+  realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
+  rescue Net::HTTPServerException
+    realres = data_bag_item("integration", "realresolution")
+  raise "Error trying to load realresolution ftp information from data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
