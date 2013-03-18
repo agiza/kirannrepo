@@ -7,6 +7,7 @@ rt.int.rres.filename.pattern=*.xml
 rt.int.rres.remote.in.directory=/<%= "#{node.chef_environment}" %>/input
 <% else -%>
 rt.int.rres.remote.in.directory=<%= @realres['ftpindir'] %>
+<% end -%>
 <% if @realres['ftpoutdir'].nil? || @realres['ftpoutdir'].empty? -%>
 rt.int.rres.remote.out.directory=/<%= "#{node.chef_environment}" %>/out
 <% else -%>
