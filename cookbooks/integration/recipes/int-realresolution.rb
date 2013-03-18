@@ -61,7 +61,7 @@ begin
   realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
   rescue Net::HTTPServerException
     realres = data_bag_item("integration", "realresolution")
-  raise "Exception trying to load environment and default realresolution info from data bag."
+    raise "Exception trying to load environment and default realresolution info from data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
