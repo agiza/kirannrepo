@@ -16,12 +16,12 @@ rt.int.rres.remote.out.directory=<%= @realres['ftpoutdir'] %>
 <% if @realres['ftparchivedir'].nil? || @realres['ftparchivedir'].empty? -%>
 rt.int.rres.remote.archive.directory=/<%= "#{node.chef_environment}" %>/archive
 <% else -%>
-rt.int.rres.remote.archive.directory=/<%= "#{@realres['ftparchivedir']}" %>
+rt.int.rres.remote.archive.directory=<%= "#{@realres['ftparchivedir']}" %>
 <% end -%>
 <% if @realres['ftperrordir'].nil? || @realres['ftperrordir'].empty? -%>
 rt.int.rres.remote.error.directory=/<%= "#{node.chef_environment}" %>/error
 <% else -%>
-rt.int.rres.remote.error.directory=/<%= "#{@realres['ftperrordir']}" %>
+rt.int.rres.remote.error.directory=<%= "#{@realres['ftperrordir']}" %>
 <% end -%>
 
 rt.int.amqp.username=<%= @amqpuser %>
