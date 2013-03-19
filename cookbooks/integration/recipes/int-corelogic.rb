@@ -58,9 +58,7 @@ begin
     rescue Net::HTTPServerException
       raise "Error loading Rabbitmq credentials from rabbitmq data bag."
 end
-unless amqpcred.nil? || amqpcred.empty? do
-  amqpcred = amqpcred['user'].split("|")
-end
+amqpcred = amqpcred['user'].split("|")
 # Find environment specific data bag settings if they exist, if not roll back to simple data bag.
 begin
   corelogic = data_bag_item("integration", "corelogic#{node.chef_environment}")
