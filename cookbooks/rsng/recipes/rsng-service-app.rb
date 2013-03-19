@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -45,7 +45,7 @@ end
 yum_package "#{app_name}" do
   version "#{app_version}"
   if node.attribute?('package_noinstall') || version == "0.0.0-1"
-    Chef::Log.info("Package is set to not be installed for version is still invalid default.")
+    Chef::Log.info("Package is set to not be installed or version is still default.")
     action :nothing
   else
     action :install
@@ -58,7 +58,13 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
-mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+begin
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+    raise Net::HTTPServerException
+      mysqldb = data_bag_item("infrastructure", "mysqldb")
+        rescue Net::HTTPServerException
+          raise "Unable to find default or environment mysqldb databag."
+end
 melissadata = data_bag_item("integration", "melissadata")
 template "/opt/tomcat/conf/rsng-service-app.properties" do
   source "rsng-service-app.properties.erb"
