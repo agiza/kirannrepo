@@ -60,7 +60,7 @@ rsngamqp = data_bag_item("rabbitmq", "realservice")
 rsngcred = rsngamqp['user'].split("|")
 begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    raise Net::HTTPServerException
+    rescue Net::HTTPServerException
       mysqldb = data_bag_item("infrastructure", "mysqldb")
         rescue Net::HTTPServerException
           raise "Unable to find default or environment mysqldb databag."

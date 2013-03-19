@@ -14,8 +14,8 @@ if node.attribute?('package_noinstall')
 else
   if app_version.nil? || app_version.empty? || app_verson == "0.0.0-1"
     new_version = search(:node, "recipes:hubzu\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
-    if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+    if new_version.nil? || new_version.empty? || new_version == "0.0.0-1"
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
       app_version = new_version[:hubzubo_version]
@@ -56,11 +56,12 @@ webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-mysql = Chef::DataBag.load("infrastructure")
-if mysql["mysqldb#{node.chef_environment}"]
+begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-else
-  mysqldb = data_bag_item("infrastructure", "mysqldb")
+    rescue Net::HTTPServerException
+      mysqldb = data_bag_item("infrastructure", "mysqldb")
+        rescue Net::HTTPServerException
+          raise "Unable to find default or environment mysqldb databag."
 end
 hubzuamqp = data_bag_item("rabbitmq", "hubzu")
 hubzucred = hubzuamqp['user'].split("|")
