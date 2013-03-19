@@ -1,4 +1,5 @@
 # Port 5672/15672/61613 for rabbitmq
+-A FWR -p tcp -m tcp --dport 4369 -j ACCEPT
 -A FWR -p tcp -m tcp --dport 5672 -j ACCEPT
 -A FWR -p tcp -m tcp --dport 15672 -j ACCEPT
 -A FWR -p tcp -m tcp --dport 61613 -j ACCEPT
