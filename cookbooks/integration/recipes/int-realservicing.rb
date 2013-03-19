@@ -61,7 +61,7 @@ begin
 end
 amqpcred = amqpcred['user'].split("|")
 begin
-  realservicing = data_bag_item("integration", "realservicing#{node.chef.environment}")
+  realservicing = data_bag_item("integration", "realservicing#{node.chef_environment}")
     rescue Net::HTTPServerException
       realservicing = data_bag_item("integration", "realservicing")
         rescue Net::HTTPServerException
