@@ -64,7 +64,8 @@ begin
   realsvc = data_bag_item("integration", "realservicing#{node.chef_environment}")
     rescue Net::HTTPServerException
       realsvc = data_bag_item("integration", "realservicing")
-        raise "Error loading realserving information from integration data bag."
+        rescue Net::HTTPServerException
+          raise "Error loading realserving information from integration data bag."
 end
 begin
   realres = data_bag_item("integration", "realresolution#{node.chef_environment}")

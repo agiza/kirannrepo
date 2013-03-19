@@ -64,7 +64,8 @@ begin
   realservicing = data_bag_item("integration", "realservicing#{node.chef.environment}")
     rescue Net::HTTPServerException
       realservicing = data_bag_item("integration", "realservicing")
-        raise "Error loading realservicing information from integration data bag."
+        rescue Net::HTTPServerException
+          raise "Error loading realservicing information from integration data bag."
 end
 template "/opt/tomcat/conf/int-realservicing.properties" do
   source "int-realservicing.properties.erb"
