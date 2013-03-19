@@ -26,6 +26,7 @@ else
       app_version = new_version
       node.set["#{version_str}"] = app_version
     end
+
   else
     Chef::Log.info("Found version attribute.")
   end
@@ -47,7 +48,7 @@ end
 yum_package "#{app_name}" do
   version "#{app_version}"
   if node.attribute?('package_noinstall') || version == "0.0.0-1"
-    Chef::Log.info("Package is set to not be installed for version is still invalid default.")
+    Chef::Log.info("Package is set to not be installed.")
     action :nothing
   else
     action :install
