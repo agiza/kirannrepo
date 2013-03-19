@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -54,9 +54,20 @@ yum_package "#{app_name}" do
 end
 
 # Integration elements.
-amqpcred = data_bag_item("rabbitmq", "realtrans")
-amqpcred = amqpcred['user'].split("|")
-realservicing = data_bag_item("integration", "realservicing")
+begin
+  amqpcred = data_bag_item("rabbitmq", "realtrans")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+end
+unless amqpcred.nil? || amqpcred.empty? do
+  amqpcred = amqpcred['user'].split("|")
+end
+begin
+  realservicing = data_bag_item("integration", "realservicing#{node.chef.environment}")
+    rescue Net::HTTPServerException
+      realservicing = data_bag_item("integration", "realservicing")
+        raise "Error loading realservicing information from integration data bag."
+end
 template "/opt/tomcat/conf/int-realservicing.properties" do
   source "int-realservicing.properties.erb"
   group 'tomcat'

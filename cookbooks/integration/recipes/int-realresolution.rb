@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -54,9 +54,20 @@ yum_package "#{app_name}" do
 end
 
 # Integration elements pulled from data bag.
-amqpcred = data_bag_item("rabbitmq", "realtrans")
-amqpcred = amqpcred['user'].split("|")
-realsvc = data_bag_item("integration", "realservicing")
+begin
+  amqpcred = data_bag_item("rabbitmq", "realtrans")
+    rescue Net::HTTPServerException
+      raise "Error trying to load rabbitmq credentials from rabbitmq data bag."
+end
+unless amqpcred.nil? || amqpcred.empty? do
+  amqpcred = amqpcred['user'].split("|")
+end
+begin
+  realsvc = data_bag_item("integration", "realservicing#{node.chef_environment}")
+    rescue Net::HTTPServerException
+      realsvc = data_bag_item("integration", "realservicing")
+        raise "Error loading realserving information from integration data bag."
+end
 begin
   realres = data_bag_item("integration", "realresolution#{node.chef_environment}")
   rescue Net::HTTPServerException

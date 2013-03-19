@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -53,15 +53,21 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-amqpcred = data_bag_item("rabbitmq", "l1")
-amqpcred = amqpcred['user'].split("|")
+begin
+  amqpcred = data_bag_item("rabbitmq", "l1")
+    rescue Net::HTTPServerException
+      raise "Error loading Rabbitmq credentials from rabbitmq data bag."
+end
+unless amqpcred.nil? || amqpcred.empty? do
+  amqpcred = amqpcred['user'].split("|")
+end
 # Find environment specific data bag settings if they exist, if not roll back to simple data bag.
-corelogicenv = data_bag_item("integration", "corelogic#{node.chef_environment}")
-corelogicraw = data_bag_item("integration", "corelogic")
-if corelogicenv.nil? || corelogicenv.empty?
-  corelogic = corelogicraw
-else
-  corelogic = corelogicenv
+begin
+  corelogic = data_bag_item("integration", "corelogic#{node.chef_environment}")
+    rescue Net::HTTPServerException
+      corelogic = data_bag_item("integration", "corelogic")
+        rescue Net::HTTPServerException
+          raise "Error loading corelogic information from integration data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"

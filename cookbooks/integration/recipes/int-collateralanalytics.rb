@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -53,9 +53,19 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-amqpcred = data_bag_item("rabbitmq", "realtrans")
-amqpcred = amqpcred['user'].split("|")
-ca = data_bag_item("integration", "CA")
+begin
+  amqpcred = data_bag_item("rabbitmq", "realtrans")
+    rescue Net::HTTPServerException
+      raise "Unable to load Rabbitmq user credentials from rabbitmq data bag."
+end
+unless amqpcred.nil? || amqpcred.empty? do 
+  amqpcred = amqpcred['user'].split("|") 
+end
+begin
+  ca = data_bag_item("integration", "CA")
+    rescue Net::HTTPServerException
+      raise "Unable to load collateral analytics information from infrastructure data bag."
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
