@@ -26,9 +26,6 @@ else
       app_version = new_version
       node.set["#{version_str}"] = app_version
     end
-    if app_version == "0.0.0-1"
-      Chef::Log.fatal("Version is still the default version, please assign a current version of this software package.")
-    end
   else
     Chef::Log.info("Found version attribute.")
   end
