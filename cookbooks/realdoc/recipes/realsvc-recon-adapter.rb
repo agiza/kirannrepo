@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -56,8 +56,11 @@ yum_package "#{app_name}" do
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
-
-rdrabbit = data_bag_item("rabbitmq", "realdoc")
+begin
+  rdrabbit = data_bag_item("rabbitmq", "realdoc")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+end
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 #ftpserver = data_bag_item("integration", "realdoc")
 template "/opt/tomcat/conf/#{app_name}.properties" do

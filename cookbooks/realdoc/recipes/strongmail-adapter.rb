@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -59,14 +59,23 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-rdrabbit = data_bag_item("rabbitmq", "realdoc")
+begin
+  rdrabbit = data_bag_item("rabbitmq", "realdoc")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+end
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
-mailserver = data_bag_item("integration", "mail")
-mysql = Chef::DataBag.load("infrastructure")
-if mysql["mysqldb#{node.chef_environment}"]
+begin
+  mailserver = data_bag_item("integration", "mail")
+    rescue Net::HTTPServerException
+      raise "Error loading mail info from integration data bag."
+end
+begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-else
-  mysqldb = data_bag_item("infrastructure", "mysqldb")
+    rescue Net::HTTPServerException
+      mysqldb = data_bag_item("infrastructure", "mysqldb")
+        rescue Net::HTTPServerException
+          raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"

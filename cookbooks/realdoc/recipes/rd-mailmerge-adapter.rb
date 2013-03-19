@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "#{version_str}:* AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       version_string = []
       new_version.each do |version|
@@ -66,11 +66,12 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-ora = Chef::DataBag.load("infrastructure")
-if ora["oradb#{node.chef_environment}"]
+begin
   oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
-else
-  oradb = data_bag_item("infrastructure", "oradb")
+    rescue Net::HTTPServerException
+      oradb = data_bag_item("infrastructure", "oradb")
+        rescue Net::HTTPServerException
+          raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
