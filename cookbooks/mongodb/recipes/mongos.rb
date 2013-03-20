@@ -32,8 +32,8 @@ end
 configserver = []
 configs = []
 %w{config mongodb-config}.each do |app|
-  search(:node, "recipes:*\\:\\:config AND chef_environment:#{environment}").each do |config|
-    configs << config["ipaddress"]
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |config|
+    configs << config
   end
 end
 if configs.nil? || configs.empty?
