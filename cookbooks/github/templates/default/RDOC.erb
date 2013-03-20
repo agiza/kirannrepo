@@ -1,0 +1,98 @@
+#!/bin/bash
+# 
+# An "update" hook which rejects any update with poor commit messages.
+#
+# Author: Colin Mollenhour
+#
+
+ISSUE_REGEX='\s*(RDOC)-([0-9]+)[.:,]?\s*'
+NO_ISSUE_REGEX='noref'
+NO_ISSUE_GL_USER_REGEX='^(www-data)$'
+NO_ISSUE_AUTHOR_EMAIL_REGEX='^(phinneyb@.*altisource\.com|finchste@altisource\.com)$'
+
+MYSQL='mysql'
+# Add authentication or put authentication in ~/.my.cnf
+#MYSQL="$MYSQL -u redmine -pPASSWORD"
+
+refname="$1"
+oldrev="$2"
+newrev="$3"
+#echo "DEBUG - refname: $1, oldrev: $2, newrev: $3"
+
+sep="---------------------------------------------"
+function die { echo -e "$1" 1>&2; exit 1; }
+
+[ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ] && \
+  die "Usage: $0 <ref> <oldrev> <newrev>"
+
+[ -z "$GL_USER" ] && \
+  die "Gitolite user is not defined."
+
+# Skip checks on branch deletions
+[ "$newrev" = "0000000000000000000000000000000000000000" ] && exit 0
+
+# Skip checks on tag pushes
+[[ $refname =~ ^refs\/tags\/ ]] && exit 0
+
+function reject {
+  die "
+Your commit message was rejected for the following reason:
+
+$1
+$sep
+$SHORT: $MESSAGE
+$sep
+HINT: Use 'git commit --amend' to modify your last commit or 'git rebase -i ${oldrev:0:7}' to modify all commits.
+"
+}
+
+function checkMessage {
+  REF=$1
+  SHORT=${REF:0:7}
+  MESSAGE=$(git show -s --format=format:"%s%+b" $REF | tr '\n' ' ')
+  AUTHOR_EMAIL=$(git show -s --format=format:"%ae" $REF)
+
+  shopt -s nocasematch
+
+  # Make sure the author email is populated
+  [ -z $AUTHOR_EMAIL ] && \
+    reject "You must configure your name and email address."
+
+  # Make sure that the log message contains some text.
+  [[ $MESSAGE =~ [a-zA-Z0-9]+ ]] || \
+    reject "You must supply a descriptive commit message."
+
+  # Allow an issue reference to be omitted if "noref" is added to message
+  if [[ $MESSAGE =~ $NO_ISSUE_REGEX ]]; then
+    [ -z $NO_ISSUE_GL_USER_REGEX ] && [ -z $NO_ISSUE_AUTHOR_EMAIL_REGEX ] && \
+      return
+    [ -n $NO_ISSUE_GL_USER_REGEX ] && [[ $GL_USER =~ $NO_ISSUE_GL_USER_REGEX ]] && \
+      return
+    [ -n $NO_ISSUE_AUTHOR_EMAIL_REGEX ] && [[ $AUTHOR_EMAIL =~ $NO_ISSUE_AUTHOR_EMAIL_REGEX ]] && \
+      return
+  fi
+
+  # Skip merge commits and commits that do nothing
+  NUMPARENTS=$(git cat-file -p $REF | grep '^parent ' | wc -l)
+  [ $NUMPARENTS -gt 1 -o "$(git diff --stat $REF $REF^)" == "" ] && \
+    return
+
+  # Make sure that the log message references a Jira issue.
+  [[ $MESSAGE =~ $ISSUE_REGEX ]] || \
+    reject "You must specify a Jira issue number matching the following pattern:\n$ISSUE_REGEX\nExample: RF-##"
+
+  # Make sure the referenced issue actually exists
+#  REDMINE_ISSUE=${BASH_REMATCH[2]}
+#  REDMINE_ISSUE_EXISTS=$(${MYSQL} -N redmine -e "SELECT COUNT(*) FROM issues I WHERE I.id = ${REDMINE_ISSUE};")
+#  [[ ${REDMINE_ISSUE_EXISTS} -ne 0 ]] || \
+#    reject "Issue #${REDMINE_ISSUE} does not exist."
+
+  # Check message length, ignoring issue refs
+  MSGNOREF=${MESSAGE/${BASH_REMATCH[0]}}
+  [[ ${#MSGNOREF} -gt 10 ]] || \
+    reject "Your commit message \"$MSGNOREF\" is too short. Be more descriptive."
+}
+
+for rev in $(git rev-list --reverse ^$oldrev $newrev); do
+  checkMessage $rev
+done

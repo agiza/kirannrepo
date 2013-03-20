@@ -67,6 +67,15 @@ user "gitolite" do
   shell "/bin/bash"
 end
 
+%w{RDOC RF RTNG RecordRefs.pm}.each do |vref|
+  template "/var/lib/gitolite/.gitolite/VREF/#{vref}" do
+    source "#{vref}.erb"
+      owner "gitolite"
+      group "gitolite"
+      mode  "0750"
+   end
+end
+
 cron "backups" do
   minute "20"
   user "root"

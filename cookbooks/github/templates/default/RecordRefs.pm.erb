@@ -1,0 +1,9 @@
+package Gitolite::Triggers::RecordRefs;
+use strict;
+use warnings;
+
+sub access_2 {
+  $ENV{GL_REFS} .= "$_[5] " unless $_[5] =~ /DENIED/;
+}
+
+1; 
