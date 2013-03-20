@@ -58,7 +58,11 @@ end
 #hosts = hostentries.uniq.sort
 
 #Pull Core rabbit from databag
-rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
+begin
+  rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
+    rescue Net::HTTPServerException
+      raise "Error trying to pull rabbitmq info from rabbitmq data bag."
+end
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -97,7 +101,11 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
 end
 
 # Pull all entries in data_bag rabbitmq to get a list of apps for looping.
-rabbitapps = data_bag("rabbitmq")
+begin
+  rabbitapps = data_bag("rabbitmq")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq data bag."
+end
 # This defines the common service that creates the initial cluster.
 execute "rabbit-config" do
   command "/etc/rabbitmq/rabbit-common.sh"

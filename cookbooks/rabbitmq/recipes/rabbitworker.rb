@@ -55,7 +55,11 @@ hostentries = []
 end
 #hosts = hostentries.uniq.sort
 #Pull Core rabbit from databag
-rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
+begin
+  rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq information from rabbitmq data bag."
+end
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
