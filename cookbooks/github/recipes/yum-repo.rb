@@ -7,12 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package "yum" do
-  action :upgrade
-end
-
-package "apache2" do
-  action :upgrade
+%w{yum apache2}.each do |package|
+  package "#{package}" do
+    action :upgrade
+  end
 end
 
 template "/usr/local/bin/yum-update" do
