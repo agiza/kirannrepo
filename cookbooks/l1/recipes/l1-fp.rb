@@ -55,7 +55,11 @@ end
 
 # Integration components
 webHost = data_bag_item("infrastructure", "apache")
-l1rabbit = data_bag_item("rabbitmq", "l1")
+begin
+  l1rabbit = data_bag_item("rabbitmq", "l1")
+    rescue Net::HTTPServerException
+      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+end
 l1rabbit = l1rabbit['user'].split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
@@ -81,11 +85,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
 end
 
 # Obtain mysqldb information for context file.
-mysql = Chef::DataBag.load("infrastructure")
-if mysql["mysqldb#{node.chef_environment}"]
+begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-else
-  mysqldb = data_bag_item("infrastructure", "mysqldb")
+    rescue Net::HTTPServerException
+      mysqldb = data_bag_item("infrastructure", "mysqldb")
+        rescue Net::HTTPServerException
+          raise "Error loading mysqldb information from infrastructure data bag."
 end
 # Template that creates the application context for database connection pooling.
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
