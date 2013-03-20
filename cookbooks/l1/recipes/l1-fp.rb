@@ -16,7 +16,7 @@ else
   if app_version.nil? || app_version.empty?
     new_version = search(:node, "recipes:l1\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty?
-      Chef::Log.fatal("No version for #{app_name} software package found.")
+      Chef::Log.info("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
       app_version = new_version["#{app_attr}"]
