@@ -17,16 +17,12 @@ execute "bamboo-plugins" do
   action :nothing
 end
 
-directory "/home/bamboo/.ssh" do
-  owner "bamboo"
-  group "bamboo"
-  action :create
-end
-
-directory "/home/bamboo/bin" do
-  owner "bamboo"
-  group "bamboo"
-  action :create
+%w{/home/bamboo/.ssh /home/bamboo/bin}.each do |dir|
+  directory "#{dir}" do
+    owner "bamboo"
+    group "bamboo"
+    action :create
+  end
 end
 
 template "/opt/atlassian/bamboo/bamboo.cfg.xml" do

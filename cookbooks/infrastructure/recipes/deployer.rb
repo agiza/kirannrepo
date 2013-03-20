@@ -30,22 +30,13 @@ end
 if node.attribute?('yum_server')
   yumserver = node[:yum_server]
 else
-  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
+  yumserver = []
+  %w{yumserver yum-repo}.each do |app|
+    search(:node, "recipes:*\\:\\:#{app}").each do |worker|
+      yumserver << worker["ipaddress"]
+    end
+  end
   yumserver = yumserver.first
-  yumserver = yumserver["ipaddress"]
-end
-
-#app_names = data_bag_item("infrastructure", "applications")
-app_names = node[:app_names]
-template "/home/rtnextgen/bin/chef-deploy" do
-  source "chef-deploy.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0755"
-  variables(
-    :appnames => app_names,
-    :yumserver => yumserver
-  )
 end
 
 template "/home/rtnextgen/bin/chef-cookbook-upload" do
@@ -55,25 +46,20 @@ template "/home/rtnextgen/bin/chef-cookbook-upload" do
   mode   "0755"
 end
 
-template "/home/rtnextgen/bin/deploy-software" do
-  source "deploy-software.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0755"
-  variables(
-    :appnames => app_names
-  )
+app_names = node[:app_names]
+%w{chef-deploy deploy-software chef-provision}.each do |script|
+  template "/home/rtnextgen/bin/#{script}" do
+    source "#{script}.erb"
+    owner  "rtnextgen"
+    group  "rtnextgen"
+    mode   "0755"
+    variables(
+      :appnames => app_names,
+      :yumserver => yumserver
+    )
+  end
 end
 
-template "/home/rtnextgen/bin/chef-provision" do
-  source "chef-provision.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0755"
-  variables(
-    :appnames => app_names
-  )
-end
 %w[/home/rtnextgen/.chef /home/rtnextgen/.chef/plugins /home/rtnextgen/.chef/plugins/knife].each do |dir|
   directory dir do
     owner "rtnextgen"
@@ -82,37 +68,11 @@ end
   end
 end
 
-template "/home/rtnextgen/.chef/plugins/knife/set_environment.rb" do
-  source "set_environment.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0644"
-end
- 
-template "/home/rtnextgen/.chef/plugins/knife/data_bag_export_all.rb" do
-  source "data_bag_export_all.rb.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0644"
-end
-
-template "/home/rtnextgen/.chef/plugins/knife/node_export_all.rb" do
-  source "node_export_all.rb.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0644"
-end
-
-template "/home/rtnextgen/.chef/plugins/knife/role_export_all.rb" do
-  source "role_export_all.rb.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0644"
-end
-
-template "/home/rtnextgen/.chef/plugins/knife/environment_export_all.rb" do
-  source "environment_export_all.rb.erb"
-  owner  "rtnextgen"
-  group  "rtnextgen"
-  mode   "0644"
+%w{set_environment.rb data_bag_export_all.rb node_export_all.rb role_export_all.rb environment_export_all.rb}.each do |plugin|
+  template "/home/rtnextgen/.chef/plugins/knife/#{plugin}" do
+    source "#{plugin}.erb"
+    owner  "rtnextgen"
+    group  "rtnextgen"
+    mode   "0644"
+  end
 end
