@@ -13,9 +13,11 @@ include_recipe "altisource::volgrp"
 include_recipe "mongodb::default"
 iptables_rule "port_mongod-replica"
 
-directory "/data/db/replica" do
-  owner "mongod"
-  group "mongod"
+%w{/data /data/db /data/db/replica}.each do |dir|
+  directory "#{dir}" do
+    owner "mongod"
+    group "mongod"
+  end
 end
 
 service "#{app_name}" do
@@ -47,14 +49,6 @@ template "/etc/init.d/#{app_name}" do
   variables(:app_name => "#{app_name}")
   notifies :reload, resources(:service => "#{app_name}")
 end
-
-#if node.run_list?("role:mongodb-primary")
-#  Chef::Log.info("This is also a mongodb-primary server.")
-#else
-#  service "mongod" do
-#    action [:disable, :stop]
-#  end
-#end
 
 service "#{app_name}" do
   action [:enable, :start]

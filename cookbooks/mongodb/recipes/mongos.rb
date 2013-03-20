@@ -30,7 +30,12 @@ end
 
 # Create an empty array for config server nodes.
 configserver = []
-configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{environment}")
+configs = []
+%w{config mongodb-config}.each do |app|
+  search(:node, "recipes:*\\:\\:config AND chef_environment:#{environment}").each do |config|
+    configs << config["ipaddress"]
+  end
+end
 if configs.nil? || configs.empty?
   Chef::Log.fatal("No MongoDB Config servers found in search, unable to route requests.")
 else

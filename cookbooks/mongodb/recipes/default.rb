@@ -15,31 +15,23 @@ service "mongod" do
   action :nothing
 end
 
-package "mongo-10gen" do
-  action :upgrade
-end
+%w{mongo-10gen mongo-10gen-server}.each do |package|
+  package "#{package}" do
+    action :upgrade
+    notifies :stop, resources(:service => "mongod")
+    notifies :disable, resources(:service => "mongod")
+  end
 
-package "mongo-10gen-server" do
-  action :upgrade
-  notifies :stop, resources(:service => "mongod")
-  notifies :disable, resources(:service => "mongod")
-end
-
-directory "/mongod" do
-  owner  "mongod"
-  group  "mongod"
+%w{/mongod /data /var/run/mongo /data/db}.each do |dir|
+  directory "#{dir}" do
+    owner  "mongod"
+    group  "mongod"
+  end
 end
 
 link "/data" do
   to "/mongod"
   owner "mongod"
   group "mongod"
-end
-
-%w[/var/run/mongo /data/db].each do |dir|
-  directory dir do
-    owner "mongod"
-    group "mongod"
-  end
 end
 

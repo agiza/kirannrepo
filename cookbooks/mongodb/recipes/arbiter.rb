@@ -11,19 +11,11 @@ include_recipe "mongodb::default"
 
 iptables_rule "port_mongod-arbiter"
 
-directory "/data" do
-  owner "mongod"
-  group "mongod"
-end
-
-directory "/data/db" do
-  owner "mongod"
-  group "mongod"
-end
-
-directory "/data/db/arbiter" do
-  owner "mongod"
-  group "mongod"
+%w{/data /data/db /data/db/arbiter}.each do |dir|
+  directory "#{dir}" do
+    owner "mongod"
+    group "mongod"
+  end
 end
 
 service "#{app_name}" do

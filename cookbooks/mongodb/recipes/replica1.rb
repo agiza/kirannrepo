@@ -15,9 +15,11 @@ include_recipe "mongodb::default"
 
 iptables_rule "port_mongod-replica1"
 
-directory "/data/db/replica1" do
-  owner "mongod"
-  group "mongod"
+%w{/data /data/db /data/db/replica1}.each do |dir|
+  directory "#{dir}" do
+    owner "mongod"
+    group "mongod"
+  end
 end
 
 service "mongod" do
