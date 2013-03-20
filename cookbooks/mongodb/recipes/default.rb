@@ -21,6 +21,7 @@ end
     notifies :stop, resources(:service => "mongod")
     notifies :disable, resources(:service => "mongod")
   end
+end
 
 %w{/mongod /data /var/run/mongo /data/db}.each do |dir|
   directory "#{dir}" do
