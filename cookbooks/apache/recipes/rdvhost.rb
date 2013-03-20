@@ -26,7 +26,11 @@ if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No environments found with realdoc workers.")
 else
   # Databag item for webserver hostname
-  webName = data_bag_item("infrastructure", "apache")
+  begin
+    webName = data_bag_item("infrastructure", "apache")
+      rescue Net::HTTPServerException
+        raise "Error trying to load apache information from infrastructure data bag."
+  end
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else
@@ -73,5 +77,4 @@ else
     end
   end
 end
-
 

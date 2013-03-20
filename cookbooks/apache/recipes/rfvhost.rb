@@ -11,16 +11,11 @@ appnames = "realfoundation"
 # Create an array of all environments with realtrans workers installed
 rfenvirons = []
 appnames.split(" ").each do |app|
-  #Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    #Chef::Log.info("found #{node}")
     rfenvirons << "#{node.chef_environment}"
-    #Chef::Log.info("#{node.chef_environment} added.")
   end
 end
-#rfenvirons = rfenvirons.collect { |rfenviron| "#{rfenviron}" }.uniq
 rfenvirons = rfenvirons.sort.uniq
-#Chef::Log.info("Use #{rfenvirons}")
 
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
@@ -29,7 +24,11 @@ else
 #  rfenvirons = rfenvirons.sort.uniq
 
   # Databag item for webserver hostname
-  webName = data_bag_item("infrastructure", "apache")
+  begin
+    webName = data_bag_item("infrastructure", "apache")
+      rescue Net::HTTPServerException
+        raise "Error loading apache information from infrastructure data bag."
+  end
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else

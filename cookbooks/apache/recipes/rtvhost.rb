@@ -26,7 +26,11 @@ if rtenvirons.nil? || rtenvirons.empty?
   Chef::Log.info("No realtrans installations found in any environment.")
 else
   # Databag item for webserver hostname
-  webName = data_bag_item("infrastructure", "apache")
+  begin
+    webName = data_bag_item("infrastructure", "apache")
+      rescue Net::HTTPServerException
+        raise "Error trying to pull apache information from infrastructure data bag."
+  end
   if node.attribute?('ssl_force')
     ssl = ".ssl"
   else
