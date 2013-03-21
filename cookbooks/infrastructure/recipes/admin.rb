@@ -42,7 +42,7 @@ template "/home/ubuntu/bin/rhel_host" do
   owner  "ubuntu"
   group  "ubuntu"
   mode   "0644"
-  variables(:rhel_host => rhel_host)
+  variables(:rhel_hosts => rhel_hosts)
 end
 
 template "/home/ubuntu/bin/ubuntu_host" do
