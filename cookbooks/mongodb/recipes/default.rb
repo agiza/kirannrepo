@@ -23,7 +23,7 @@ end
   end
 end
 
-%w{/mongod /data /var/run/mongo /data/db}.each do |dir|
+%w{/mongod /var/run/mongo}.each do |dir|
   directory "#{dir}" do
     owner  "mongod"
     group  "mongod"
@@ -34,5 +34,10 @@ link "/data" do
   to "/mongod"
   owner "mongod"
   group "mongod"
+end
+
+directory "/data/db" do
+  owner  "mongod"
+  group  "mongod"
 end
 
