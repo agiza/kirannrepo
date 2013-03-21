@@ -23,7 +23,7 @@ end
 user "appdynamics" do
   comment "Appdynamics User"
   uid  "1001"
-  gid  "appdynamics"
+  gid  1001
   home "/opt/appdynamics"
   shell "/bin/bash"
 end
