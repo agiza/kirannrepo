@@ -45,7 +45,7 @@ ubuntu_hosts = ubuntu_hosts.sort.uniq
     mode   "0644"
     variables(:"#{hosts}" => "#{hosts}")
   end
-
+end
 #template "/home/ubuntu/bin/ubuntu_host" do
 #  source "ubuntu_host.erb"
 #  owner  "ubuntu"
