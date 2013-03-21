@@ -37,22 +37,21 @@ search(:node, "platform:ubuntu").each do |host|
 end
 ubuntu_hosts = ubuntu_hosts.sort.uniq
 
-%w{rhel_host ubuntu_host}.each do |hosts|
-  template "/home/ubuntu/bin/#{hosts}" do
-    source "#{hosts}.erb"
-    owner  "ubuntu"
-    group  "ubuntu"
-    mode   "0644"
-    variables(:"#{hosts}" => "#{hosts}")
-  end
+template "/home/ubuntu/bin/rhel_host" do
+  source "rhel_host.erb"
+  owner  "ubuntu"
+  group  "ubuntu"
+  mode   "0644"
+  variables(:rhel_host => rhel_host)
 end
-#template "/home/ubuntu/bin/ubuntu_host" do
-#  source "ubuntu_host.erb"
-#  owner  "ubuntu"
-#  group  "ubuntu"
-#  mode   "0644"
-#  variables(:ubuntu_hosts => ubuntu_hosts)
-#end
+
+template "/home/ubuntu/bin/ubuntu_host" do
+  source "ubuntu_host.erb"
+  owner  "ubuntu"
+  group  "ubuntu"
+  mode   "0644"
+  variables(:ubuntu_hosts => ubuntu_hosts)
+end
 
 %w{update.sh drop-files}.each do |script|
   template "/home/ubuntu/bin/#{script}" do
