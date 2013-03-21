@@ -35,12 +35,12 @@ else
         action :nothing
       end
       template "/usr/local/bin/cis-mount.sh" do
-        source "correspondence-create.erb"
+        source "cis-create.erb"
         group  "root"
         owner  "root"
         mode   "0755"
         variables(
-          :corrount => cismount
+          :cismount => cismount
         )
         notifies :run, "execute[cis-mount]", :immediately
       end
