@@ -45,7 +45,11 @@ supports :stop => true, :start => true, :restart => true, :reload => true
 action :nothing
 end
 
-zones = data_bag_item("infrastructure", "dns")
+begin
+  zones = data_bag_item("infrastructure", "dns")
+    rescue Net::HTTPServerException
+      raise "Problem trying to obtain dns information from infrastructure data bag."
+end
 template "/etc/named.conf" do
   source "named.conf.server.erb"
   owner  "named"
@@ -91,8 +95,10 @@ altidev = search(:node, "name:*")
 # altidev = altidev.sort
 
 rabbitnodes = []
-search(:node, "recipes:rabbitmq\\:\\:rabbitmqserver OR role:rabbitserver") do |rabbit|
-  rabbitnodes << rabbit["ipaddress"]
+%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared") do |rabbit|
+    rabbitnodes << rabbit["ipaddress"]
+  end
 end
 rabbitnodes = rabbitnodes.sort.uniq
 template "/etc/named/altidev.com.db" do
@@ -125,6 +131,7 @@ template "/etc/named/ascorp.com.db" do
     :dnsslaves => zones['dnsslaves'].split("\\")
   )
 end
+
 rev0010 = search(:node, "ipaddress:10.0.0*")
 template "/etc/named/rev.0.0.10.in-addr.arpa" do
   source "rev.0.0.10.in-addr.arpa.erb"
@@ -153,6 +160,7 @@ template "/etc/named/rev.1.0.10.in-addr.arpa" do
   )
 end
 
+rev2010 = search(:node, "ipaddress:10.0.2*")
 template "/etc/named/rev.2.0.10.in-addr.arpa" do
   source "rev.2.0.10.in-addr.arpa.erb"
   owner  "named"
@@ -161,7 +169,8 @@ template "/etc/named/rev.2.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev2010 => zones['rev.2.0.10'].split("\\")
+    :rev2010 => rev1020,
+    :rev2010ex => zones['rev.2.0.10'].split("\\")
   )
 end
 
