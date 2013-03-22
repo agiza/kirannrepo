@@ -6,7 +6,7 @@
 define :volume_mount do
 
   execute "volume-mount" do
-    command "/usr/local/bin/#{params[:name]}"
+    command "/usr/local/bin/#{params[:name]}.sh"
     action :nothing
   end
   
