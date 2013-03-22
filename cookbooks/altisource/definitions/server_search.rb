@@ -7,7 +7,7 @@ define :server_search do
   
   target = "#{params[:name]}"
   Chef::Log.info("target is #{target}")
-  targetnames = "#{params[:targetnames]}"
+  targetnames = params[:targetnames]
   Chef::Log.info("targetnames is #{targetnames}")
   workerip = []
   targetnames.split(" ").each do |app|
