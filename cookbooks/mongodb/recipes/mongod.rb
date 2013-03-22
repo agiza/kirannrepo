@@ -16,7 +16,7 @@ if node.attribute?("novolume")
   Chef::Log.info("No volume mount attribute is set.")
 else
   include_recipe "altisource::volume"
-  volume_mount "mongod" do
+  volume_mount "volume_mongod" do
     volumes "sdb|mongod|mongod|defaults"
   end
 end 

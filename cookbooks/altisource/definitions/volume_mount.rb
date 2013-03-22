@@ -11,7 +11,7 @@ define :volume_mount do
   end
   
   template "/usr/local/bin/#{params[:name]}.sh" do
-    source "volgrp-create.erb"
+    source "#{params[:name]}.erb"
     mode 0755
     group "root"
     owner "root"
