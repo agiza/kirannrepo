@@ -44,7 +44,7 @@ server_search "testdochost" do
   targetname = "#{appnames["appnames"]["realdoc"].split(" ")}"
   environment = "#{node.chef_environment}"
 end
-Chef::Log.warn("node set was #{node[:testdochost]}.")
+Chef::Log.info("node set was #{node[:testdochost]}.")
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]

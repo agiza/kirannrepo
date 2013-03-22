@@ -7,13 +7,14 @@ define :server_search do
   
   target = "#{params[:name]}"
   targetnames = "#{params[:targetnames]}"
-  target = []
+  workerip = []
   targetnames.split(" ").each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}").each do |worker|
-      target << worker["ipaddress"]
+      workerip << worker["ipaddress"]
     end
   end
-  target = target.sort.first
-  node.default.target = target
+  workerip = workerip.sort.first
+  node.default.target = workerip
+  Chef::Log.info("node default for #{target} was set to #{workerip}")
 end
 
