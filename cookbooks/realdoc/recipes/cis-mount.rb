@@ -14,7 +14,7 @@ if cismount.nil? || cismount.empty?
 else
   include_recipe "altisource::volume"
   netvolume_mount "volume_cis" do
-    volume "#{node[:cismount]}"
+    volumes "#{node[:cismount]}"
   end
 end
 
