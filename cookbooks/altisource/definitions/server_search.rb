@@ -14,7 +14,7 @@ define :server_search do
         raise "No application names found in infrastructure data bag."
   end
   target = []
-  appdata["appnames"][:targetname].split(" ").each do |app|
+  appdata["appnames"]["#{targetname}"].split(" ").each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
       target << worker["ipaddress"]
     end
