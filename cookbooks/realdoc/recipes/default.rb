@@ -40,8 +40,9 @@ end
 
 # Test of search definition.
 #include_recipe "altisource::default"
+apptargets = "realdoc realdoc-server"
 server_search "testdochost" do
-  targetnames = appnames["appnames"]["realdoc"].split(" ")
+  targetnames = "#{apptargets}"
   environment = "#{node.chef_environment}"
 end
 Chef::Log.info("node set was #{node[:testdochost]}.")
