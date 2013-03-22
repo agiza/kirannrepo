@@ -39,27 +39,19 @@ end
 #end
 
 dbdapp = "DBD-mysql-4.022"
-yumserver = []
-%w{yumserver yum-repo}.each do |app|
-  search(:node, "recipes:*\\:\\:#{app}").each do |server|
-    yumserver << server["ipaddress"]
-  end
+yumserver_search do
 end
-if yumserver.nil? || yumserver.empty?
-  Chef::Log.warn("No yum repositories found.")
-else
-  yumserver = yumserver.first
-  template "/usr/local/bin/mysql-dbd" do
-    source "mysql-dbd.erb"
-    owner  "root"
-    group  "root"
-    mode   "0755"
-    variables(
-      :dbdapp => dbdapp,
-      :yumserver => yumserver
-    )
-    notifies :run, resources(:execute => "mysql-dbd"), :delayed
-  end
+yumserver = node[:yumserver]
+template "/usr/local/bin/mysql-dbd" do
+  source "mysql-dbd.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+  variables(
+    :dbdapp => dbdapp,
+    :yumserver => yumserver
+  )
+  notifies :run, resources(:execute => "mysql-dbd"), :delayed
 end
 
 %w[/mysql /mysql/data /mysql/log /mysql/log/err /mysql/log/slow /mysql/log/general /mysql/tmp /mysql/innodb].each do |dir|

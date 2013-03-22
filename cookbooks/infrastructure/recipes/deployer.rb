@@ -27,17 +27,9 @@ end
   end
 end
 
-if node.attribute?('yum_server')
-  yumserver = node[:yum_server]
-else
-  yumserver = []
-  %w{yumserver yum-repo}.each do |app|
-    search(:node, "recipes:*\\:\\:#{app}").each do |worker|
-      yumserver << worker["ipaddress"]
-    end
-  end
-  yumserver = yumserver.first
+yumserver_search do
 end
+yumserver = node[:yumserver]
 
 template "/home/rtnextgen/bin/chef-cookbook-upload" do
   source "chef-cookbook-upload.erb"
