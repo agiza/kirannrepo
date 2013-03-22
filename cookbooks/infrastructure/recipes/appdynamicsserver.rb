@@ -6,15 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
 include_recipe "iptables::default"
 iptables_rule "port_appdynamics"
-
-#node.default.volumes = "sdb|opt|opt/appdynamics|defaults"
-#include_recipe "altisource::volgrp"
-
-volume_mount "volume_appdynserver" do
-  volumes "sdb|opt|opt/appdynamics|defaults"
-end
 
 package "libaio" do
   action :upgrade
@@ -42,8 +36,10 @@ directory "/opt/appdynamics" do
   group "appdynamics"
 end
 
-node.default.volumes = "sdb|ad|opt/appdynamics"
-include_recipe "altisource::volgrp"
+include_recipe "altisource::volume"
+volume_mount "volume_appdynserver" do
+  volumes "sdb|opt|opt/appdynamics|defaults"
+end
 
 execute "install_check" do
   user "root"
