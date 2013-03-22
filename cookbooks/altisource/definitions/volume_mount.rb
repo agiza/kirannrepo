@@ -4,8 +4,13 @@
 #
 
 define :volume_mount do
+
+  execute "volume-mount" do
+    command "/usr/local/bin/#{params[:name]}"
+    action :nothing
+  end
   
-  template "/usr/local/bin/volgrp-mount.sh" do
+  template "/usr/local/bin/#{params[:name]}.sh" do
     source "volgrp-create.erb"
     mode 0755
     group "root"

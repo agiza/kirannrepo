@@ -15,6 +15,7 @@ app_name="mongod"
 if node.attribute?("novolume")
   Chef::Log.info("No volume mount attribute is set.")
 else
+  include_recipe "altisource::volume"
   volume_mount "mongod" do
     volumes "sdb|mongod|mongod|defaults"
   end
