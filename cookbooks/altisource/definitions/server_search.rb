@@ -6,16 +6,17 @@
 define :server_search do
   
   target = "#{params[:name]}"
-  targetname = "#{params[:target]}"
-  environment = "#{params[:environment]}"
   begin
     appdata = data_bag_item("infrastructure", "applications")
       rescue Net::HTTPServerException
         raise "No application names found in infrastructure data bag."
   end
+  if appdata.nil? || appdata.empty?
+    Chef::Log.fatal("appdata is not available.")
+  end
   target = []
-  appdata["appnames"]["#{targetname}"].split(" ").each do |app|
-    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
+  appdata["appnames"]["#{params[:target]}"].split(" ").each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}").each do |worker|
       target << worker["ipaddress"]
     end
   end
