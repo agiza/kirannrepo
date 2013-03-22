@@ -3,14 +3,14 @@
 # Definition:: server_search
 #
 
-define :server_search do
+define :server_search, :targetnames => {} do
   
   target = "#{params[:name]}"
   Chef::Log.info("target is #{target}")
-  targetnames = "#{params[:targetnames]}"
+  targetnames = params[:targetnames].split(" ")
   Chef::Log.info("targetnames is #{targetnames}")
   workerip = []
-  targetnames.split(" ").each do |app|
+  targetnames.each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}").each do |worker|
     Chef::Log.info("Search was for #{app} in environment #{params[:environment]} and found #{worker["ipaddress"]}")
       workerip << worker["ipaddress"]
