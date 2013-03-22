@@ -10,7 +10,7 @@ define :server_search do
   #targetnames = "#{params[:targetnames]}"
   Chef::Log.info("targetnames is #{params[:targetnames]}")
   workerip = []
-  params[:targetnames].split(" ").each do |app|
+  params[:targetnames].each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}").each do |worker|
     Chef::Log.info("Search was for #{app} in environment #{params[:environment]} and found #{worker["ipaddress"]}")
       workerip << worker["ipaddress"]
