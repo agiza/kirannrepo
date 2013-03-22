@@ -8,10 +8,6 @@ include_recipe "altisource::altirepo"
 include_recipe "iptables::default"
 iptables_rule "port_tomcat"
 
-#volumes = "sdb|opt|opt/tomcat"
-#node.default.volumes = "sdb|opt|opt/tomcat|defaults"
-#include_recipe "altisource::volgrp"
-
 include_recipe "altisource::volume"
 volume_mount "volume_tomcat" do
   volumes "sdb|opt|opt/tomcat|defaults"
