@@ -15,5 +15,6 @@ define :yumserver_search do
       end
     end
     yumserver = yumserver.first
+  end
 end
 
