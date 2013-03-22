@@ -29,7 +29,7 @@ port = 27037
 dbpath=/data/db/replica1
 <% end -%>
 rest = true
-fastsync = true
+#fastsync = true
 replSet = <%= node[:replicaset] %>
 <% end -%>
 <% if @app_name == "mongod-arbiter" -%>
