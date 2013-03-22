@@ -12,14 +12,9 @@ execute "yum" do
   action :nothing
 end
 
-if node.attribute?('yum_server')
-  yumserver = node[:yum_server]
-else
-  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
-  yumserver = yumserver.first
-  yumserver = yumserver["ipaddress"]
+yumserver_search do
 end
-yumserver = yumserver.first
+yumserver = node[:yumserver]
 template "/etc/yum.repos.d/alticore.repo" do
   source "alticore.repo.erb"
   mode "0644"

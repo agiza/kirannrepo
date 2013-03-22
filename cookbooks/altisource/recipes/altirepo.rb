@@ -17,17 +17,10 @@ if node.attribute?('testing_setting')
 else
   testing_setting = "0"
 end
-if node.attribute?('yum_server')
-  yumserver = node[:yum_server]
-else
-  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo") 
-  if yumserver.nil? || yumserver.empty?
-    Chef::Log.info("No yum repositories found.") && yumserver = "127.0.0.1"
-  else
-    yumserver = yumserver.first
-    yumserver = yumserver["ipaddress"]
-  end
+
+yumserver_search do
 end
+yumserver = node[:yumserver]
 template "/etc/yum.repos.d/altisource.repo" do
   source "altisource.repo.erb"
   mode "0644"

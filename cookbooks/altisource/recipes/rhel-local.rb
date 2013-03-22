@@ -12,18 +12,9 @@ execute "yum" do
   action :nothing
 end
 
-if node.attribute?('yum_server')
-  yumserver = node[:yum_server]
-else
-  yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
-  if yumserver.nil? || yumserver.empty?
-    Chef::Log.warn("No yum repositories found.") && yumserver = "127.0.0.1"
-  else
-    yumserver = yumserver.first
-    yumserver = yumserver["ipaddress"]
-  end
+yumserver_search do
 end
-
+yumserver = node[:yumserver]
 template "/etc/yum.repos.d/rhel-local.repo" do
   source "rhel-local.repo.erb"
   mode "0644"
