@@ -3,7 +3,7 @@
 # Definition:: server_search
 #
 
-define :server_search, :targetnames => {} do
+define :server_search do
   
   target = "#{params[:name]}"
   Chef::Log.info("target is #{target}")
