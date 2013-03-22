@@ -17,7 +17,7 @@ quiet = true
 <% if @app_name == "mongod" || @app_name == "mongod-replica" || @app_name == "mongod-replica1" -%>
 # Mongod replica configuration
 
-bind_ip = 127.0.01,<%= node[:ipaddress] %>
+bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
 <% if @app_name == "mongod" -%>
 port = 27017
 dbpath=/data/db
