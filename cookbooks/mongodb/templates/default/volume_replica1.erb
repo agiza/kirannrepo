@@ -47,7 +47,8 @@ for i in `echo "${voldata}"`; do
 
     echo "All volumes mounted."
   else
-    echo "Volumes already mounted."
+    mount -a
+    echo "Volumes mounted."
   fi
 
 done
