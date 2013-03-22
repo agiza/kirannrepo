@@ -6,9 +6,9 @@
 define :server_search do
   
   target = "#{params[:name]}"
-  targetnames = params[:targetnames]
+  targetnames = "#{params[:targetnames]}"
   target = []
-  targetnames.each do |app|
+  targetnames.split(" ").each do |app|
     search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{params[:environment]}").each do |worker|
       target << worker["ipaddress"]
     end
