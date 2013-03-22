@@ -3,7 +3,7 @@
 # Definition:: volume_mount
 #
 
-define :volume_mount, :volumes => {} do
+define :volume_mount do
   
   template "/usr/local/bin/volgrp-mount.sh" do
     source "volgrp-create.erb"
