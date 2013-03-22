@@ -37,12 +37,13 @@ else
     amqpport = "5672"
   end
 end
+
 # Test of search definition.
 server_search "testdochost" do
   target = "realdoc"
   environment = "#{node.chef_environment}"
 end
-Chef::Log.warn("node set was #{node[:testdochost]}."
+Chef::Log.warn("node set was #{node[:testdochost]}.")
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
