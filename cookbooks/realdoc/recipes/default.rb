@@ -39,12 +39,12 @@ else
 end
 
 # Test of search definition.
-include_recipe "altisource::default"
-server_search "testdochost" do
-  target = "realdoc"
-  environment = "#{node.chef_environment}"
-end
-Chef::Log.warn("node set was #{node[:testdochost]}.")
+#include_recipe "altisource::default"
+#server_search "testdochost" do
+#  target = "realdoc"
+#  environment = "#{node.chef_environment}"
+#end
+#Chef::Log.warn("node set was #{node[:testdochost]}.")
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
