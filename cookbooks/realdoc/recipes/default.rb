@@ -39,6 +39,7 @@ else
 end
 
 # Test of search definition.
+include_recipe "altisource::default"
 server_search "testdochost" do
   target = "realdoc"
   environment = "#{node.chef_environment}"
