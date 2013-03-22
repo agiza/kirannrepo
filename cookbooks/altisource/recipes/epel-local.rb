@@ -30,7 +30,7 @@ end
 
 yumserver_search do
 end
-
+yumserver = node[:yumserver]
 template "/etc/yum.repos.d/epel-local.repo" do
   source "epel-local.repo.erb"
   mode "0644"

@@ -15,6 +15,7 @@ define :yumserver_search do
       end
     end
     yumserver = yumserver.first
+    node.default.yumserver = yumserver
   end
 end
 
