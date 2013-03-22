@@ -40,11 +40,11 @@ end
 
 # Test of search definition.
 #include_recipe "altisource::default"
-server_search "testdochost" do
-  targetnames = "realdoc realdoc-server"
-  environment = "#{node.chef_environment}"
-end
-Chef::Log.info("node set was #{node[:testdochost]}.")
+#server_search "testdochost" do
+#  targetnames = "realdoc realdoc-server"
+#  environment = "#{node.chef_environment}"
+#end
+#Chef::Log.info("node set was #{node[:testdochost]}.")
 
 if node.attribute?('realdocproxy')
   rdochost = node[:realdocproxy].split(":")[0]
