@@ -39,12 +39,16 @@ end
 #end
 
 dbdapp = "DBD-mysql-4.022"
-yumserver = search(:node, "recipes:infrastructure\\:\\:yumserver OR recipes:github\\:\\:yum-repo")
+yumserver = []
+%w{yumserver yum-repo}.each do |app|
+  search(:node, "recipes:*\\:\\:#{app}").each do |server|
+    yumserver << server["ipaddress"]
+  end
+end
 if yumserver.nil? || yumserver.empty?
   Chef::Log.warn("No yum repositories found.")
 else
   yumserver = yumserver.first
-  yumserver = yumserver["ipaddress"]
   template "/usr/local/bin/mysql-dbd" do
     source "mysql-dbd.erb"
     owner  "root"
