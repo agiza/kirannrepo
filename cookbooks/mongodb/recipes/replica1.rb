@@ -8,16 +8,9 @@
 #
 app_name = "mongod-replica1"
 
-#node.default.volumes = "sdb|mongod|mongod|defaults"
-#include_recipe "altisource::volgrp"
-
-if node.attribute?("novolume")
-  Chef::Log.info("No volume mount attribute is set.")
-else
-  include_recipe "altisource::volume"
-  volume_mount "volume_replica1" do
-    volumes "sdb|mongod|mongod|defaults"
-  end
+include_recipe "altisource::volume"
+volume_mount "volume_replica1" do
+  volumes "sdb|mongod|mongod|defaults"
 end
 
 include_recipe "mongodb::default"

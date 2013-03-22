@@ -9,8 +9,12 @@
 include_recipe "iptables::default"
 iptables_rule "port_appdynamics"
 
-node.default.volumes = "sdb|opt|opt/appdynamics|defaults"
-include_recipe "altisource::volgrp"
+#node.default.volumes = "sdb|opt|opt/appdynamics|defaults"
+#include_recipe "altisource::volgrp"
+
+volume_mount "volume_appdynserver" do
+  volumes "sdb|opt|opt/appdynamics|defaults"
+end
 
 package "libaio" do
   action :upgrade

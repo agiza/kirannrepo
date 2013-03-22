@@ -8,18 +8,10 @@
 #
 app_name="mongod"
 
-# mount volumes first before creating directory structure.
-#node.default.volumes = "sdb|mongod|mongod|defaults"
-#include_recipe "altisource::volgrp"
-
-if node.attribute?("novolume")
-  Chef::Log.info("No volume mount attribute is set.")
-else
-  include_recipe "altisource::volume"
-  volume_mount "volume_mongod" do
-    volumes "sdb|mongod|mongod|defaults"
-  end
-end 
+include_recipe "altisource::volume"
+volume_mount "volume_mongod" do
+  volumes "sdb|mongod|mongod|defaults"
+end
 
 include_recipe "mongodb::default"
 iptables_rule "port_mongod"
