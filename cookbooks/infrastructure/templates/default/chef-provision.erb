@@ -81,10 +81,10 @@ knife node run_list add $host role[all] && echo "Role all has been added to the 
 check_errs $? "There was a problem with adding the all role."
 
 # Add any other roles that were selected.
-for i in `echo $add_role`; do
-  knife node run_list add $host "$i" && echo "Role $i has been added to the node." 
-  check_errs $? "There was a problem with adding $i role."
-done
+#for i in `echo $add_role`; do
+#  knife node run_list add $host "$i" && echo "Role $i has been added to the node." 
+#  check_errs $? "There was a problem with adding $i role."
+#done
 
 # SSH to the new node and run chef-client.
 ssh root@$host "chef-client" && echo "Initial chef-client run has been completed." 
@@ -104,8 +104,8 @@ read pause
 data_check(){
 enter_host
 select_env
-select_role
-attr_select
+#select_role
+#attr_select
 #target_search
 }
 
