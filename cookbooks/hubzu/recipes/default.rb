@@ -7,53 +7,14 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "altisource::altitomcat"
-begin
-  appnames = data_bag_item("infrastructure", "applications")
-  rescue Net::HTTPServerException
-    raise "Problems loading application names for search from infrastructure data bag."
-end
-if node.attribute?('hzproxy')
-  hzhost = node[:hzproxy].split(":")[0]
-  hzport = node[:hzproxy].split(":")[1]
-else
-  hzhost = []
-  appnames["appnames"]["hubzu"].split(" ").each do |app|
-    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
-      hzhost << worker
-    end
-  end
-  if hzhost.nil? || hzhost.empty?
-    Chef::Log.warn("No hubzu servers found in search.") && hzhost = "No servers found."
-  else
-    hzhostip = []
-    hzhost.each do |hzhost|
-      hzhostip << hzhost["ipaddress"]
-    end
-    hzhost = hzhostip.sort.first
-    hzport = "8080"
-  end
+
+hzhost_search do 
 end
 
-if node.attribute?('amqpproxy')
-  amqphost = node[:amqpproxy].split(":")[0]
-  amqpport = node[:amqpproxy].split(":")[1]
-else
-  amqphost = []
-  appnames["appnames"]["rabbitmq"].split(" ").each do |app|
-    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
-      amqphost << worker
-    end
-  end
-  if amqphost.nil? || amqphost.empty?
-    Chef::Log.info("No rabbitmq servers returned from search.")
-  else
-    amqphostip = []
-    amqphost.each do |amqphost|
-      amqphostip << amqphost["ipaddress"]
-    end
-    amqphost = amqphostip.sort.first
-    amqpport = "5672"
-  end
+amqphost_search do 
+end
+
+rdochost_search do
 end
 
 # This looks for amqp vhost attribute or creates one if it is missing.
@@ -67,33 +28,4 @@ else
     node.default.hubzu_amqp_vhost = amqpvhost
   end
 end
-
-if node.attribute?('realdocproxy')
-  rdochost = node[:realdocproxy].split(":")[0]
-  rdocport = node[:realdocproxy].split(":")[1]
-else
-  rdochost = []
-  appnames["appnames"]["realdoc"].split(" ").each do |app|
-    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{node.chef_environment}").each do |worker|
-      rdochost << worker
-    end
-  end
-  if rdochost.nil? || rdochost.empty?
-    Chef::Log.warn("No realdoc servers returned from search.") && rdochost = "No servers found"
-  else
-    rdochostip = []
-    rdochost.each do |rdochost|
-      rdochostip << rdochost["ipaddress"]
-    end
-    rdochost = rdochostip.sort.first
-    rdocport = "8080"
-  end
-end
-
-node.default.hzhost = hzhost
-node.default.hzport = hzport
-node.default.amqphost = amqphost
-node.default.amqpport = amqpport
-node.default.rdochost = rdochost
-node.default.rdocport = rdocport
 

@@ -5,6 +5,11 @@
 
 define :amqphost_search do
   
+  if node.attribute?("performance")
+    environment = "#{node.chef_environment}"
+  else
+    environment = "shared"
+  end
   begin
     appnames = data_bag_item("infrastructure", "applications")
     rescue Net::HTTPServerException
@@ -19,7 +24,7 @@ define :amqphost_search do
   else
     amqphost = []
     appdata["rabbitmq"].split(" ").each do |app|
-      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:shared").each do |worker|
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
         amqphost << worker
       end
     end
