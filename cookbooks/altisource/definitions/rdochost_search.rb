@@ -34,6 +34,7 @@ define :rdochost_search do
       rdocport = "8080"
     end
   end
+  Chef::Log.info("Realdoc host is set to #{rdochost}.")
   node.default.rdochost = rdochost
   node.default.rdocport = rdocport
 

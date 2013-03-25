@@ -15,7 +15,8 @@ define :yumserver_search do
       end
     end
     yumserver = yumserver.first
-    node.default.yumserver = yumserver
   end
+  Chef::Log.info("Yumserver is set to #{yumserver}")
+  node.default.yumserver = yumserver
 end
 

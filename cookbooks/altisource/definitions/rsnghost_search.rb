@@ -33,7 +33,7 @@ define :rsnghost_search do
       rsngport = "8080"
     end
   end
-
+  Chef::Log.info("Realservice host is set to #{rsnghost}")
   node.default.rsnghost = rsnghost
   node.default.rsngport = rsngport
 

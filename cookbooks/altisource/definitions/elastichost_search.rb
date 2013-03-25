@@ -31,6 +31,7 @@ define :elastichost_search do
       elasticHost = elastichostip.sort.first
     end
   end
+  Chef::Log.info("Elasticsearch host is set to #{elasticHost}.")
   node.default.elasticHost = elasticHost
 
 end

@@ -34,7 +34,7 @@ define :rtcenhost_search do
       rtcenport = "8080"
     end
   end
-
+  Chef::Log.info("Realtrans Central host is set to #{rtcenhost}")
   node.default.rtcenhost = rtcenhost
   node.default.rtcenport = rtcenport
 

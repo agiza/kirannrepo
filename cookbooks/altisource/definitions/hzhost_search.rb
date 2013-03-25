@@ -33,6 +33,7 @@ define :hzhost_search do
       hzport = "8080"
     end
   end
+  Chef::Log.info("Hubzu host is set to #{hzhost}.")
   node.default.hzhost = hzhost
   node.default.hzort = hzport
 

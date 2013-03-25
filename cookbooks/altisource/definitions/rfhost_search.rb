@@ -33,7 +33,7 @@ define :rfhost_search do
       rfport = "8080"
     end
   end
-
+  Chef::Log.info("Realfoundation host is set to #{rfhost}")
   node.default.rfhost = rfhost
   node.default.rfport = rfport
 

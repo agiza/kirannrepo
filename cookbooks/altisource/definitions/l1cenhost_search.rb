@@ -33,7 +33,7 @@ define :l1cenhost_search do
       l1cenport = "8080"
     end
   end
-
+  Chef::Log.info("Lendersone central host is set to #{l1cenhost}")
   node.default.l1cenhost = l1cenhost
   node.default.l1cenport = l1cenport
 
