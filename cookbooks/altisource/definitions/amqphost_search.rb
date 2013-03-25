@@ -34,6 +34,7 @@ define :amqphost_search do
       amqpport = "5672"
     end
   end
+  Chef::Log.info("Rabbithost set to #{amqphost}")
   node.default.amqphost = amqphost
   node.default.amqpport = amqpport
 
