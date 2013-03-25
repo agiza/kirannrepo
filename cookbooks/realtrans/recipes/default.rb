@@ -102,6 +102,6 @@ node.default.rdochost = rdochost
 node.default.rdocport = rdocport
 node.default.rtcenhost = rtcenhost
 node.default.rtcenport = rtcenport
-node.default.amqphost = amqphost
-node.default.amqpport = amqpport
+#node.default.amqphost = amqphost
+#node.default.amqpport = amqpport
 
