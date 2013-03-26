@@ -1,0 +1,22 @@
+# adapter settings
+rd.adapter.scan.freq=15000
+# mongo
+rd.adapter.mongo.host=<%= @mongo_host %>
+rd.adapter.mongo.server=<%= @mongo_host %>
+rd.adapter.mongo.database=<%= node[:mongodb_database] %>
+rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+
+# rabbit
+rd.adapter.amqp.host=<%= @amqphost %>
+rd.adapter.amqp.port=<%= @amqpport %>
+rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
+rd.adapter.amqp.username=<%= @amqpuser %>
+rd.adapter.amqp.password=<%= @amqppass %>
+# input directory
+realdoc.correspondence.directory=/tmp
+
+# queue names
+realdoc.correspondence.amqp.requests=rd.correspondence.requests
+realdoc.correspondence.amqp.generate=rd.correspondence.generate
+realdoc.correspondence.amqp.delivery=rd.correspondence.delivery
+
