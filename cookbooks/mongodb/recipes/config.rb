@@ -39,6 +39,13 @@ template "/etc/init.d/#{app_name}" do
   notifies :reload, resources(:service => "#{app_name}")
 end
 
+template "/etc/logrotate.d/mongod" do
+  source "mongod-logrotate.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
 service "#{app_name}" do
   action [:enable, :start]
 end

@@ -64,6 +64,13 @@ template "/etc/mongo/demoData.js" do
   #notifies :run, resources(:execute => "mongod-seed")
 end
 
+template "/etc/logrotate.d/mongos" do
+  source "mongos-logrotate.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
 configserver = []
 if node.attribute?('performance')
   configs = search(:node, "recipes:mongodb\\:\\:config OR role:mongodb-config AND chef_environment:#{node.chef_environment}")

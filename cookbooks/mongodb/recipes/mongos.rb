@@ -64,6 +64,13 @@ else
     variables(:app_name => "#{app_name}")
     notifies :reload, resources(:service => "#{app_name}")
   end
+  
+  template "/etc/logrotate.d/mongos" do
+    source "mongos-logrotate.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+  end
 end
 
 directory "/var/run/mongo" do

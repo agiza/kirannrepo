@@ -41,10 +41,3 @@ directory "/data/db" do
   group  "mongod"
 end
 
-template "/etc/logrotate.d/mongod" do
-  source "mongod-logrotate.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-end
-
