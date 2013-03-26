@@ -15,6 +15,7 @@ define :cifsvolume_mount do
       options "#{params[:options]}"
       action [:mount, :enable]
     end
+  end
 
 end
 
