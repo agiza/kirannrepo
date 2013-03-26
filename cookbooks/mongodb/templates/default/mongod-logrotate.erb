@@ -1,0 +1,20 @@
+# Logrotate file for mongod
+
+/var/log/mongo/mongod.log
+/var/log/mongo/mongod-replica.log
+/var/log/mongo/mongod-replica1.log
+/var/log/mongo/mongod-config.log
+/var/log/mongo/mongos-mgr.log
+/var/log/mongo/mongos.log {
+    compress
+    delaycompress
+    notifempty
+    daily
+    rotate 5
+    create 0644 mongod mongod
+    postrotate
+       /usr/bin/killall -SIGUSR1 mongod
+       /usr/bin/killall -SIGUSR1 mongos
+    endscript
+}
+
