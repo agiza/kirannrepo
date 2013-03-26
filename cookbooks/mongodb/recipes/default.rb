@@ -18,8 +18,10 @@ end
 %w{mongo-10gen mongo-10gen-server}.each do |package|
   package "#{package}" do
     action :upgrade
-    notifies :stop, resources(:service => "mongod")
-    notifies :disable, resources(:service => "mongod")
+    unless run_context.loaded_recipe?("mongodb::mongod")
+      notifies :stop, resources(:service => "mongod")
+      notifies :disable, resources(:service => "mongod")
+    end
   end
 end
 
