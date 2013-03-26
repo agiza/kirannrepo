@@ -11,7 +11,7 @@ define :nfsvolume_mount do
     mount "#{params[:name]}" do
       device "#{params[:device]}"
       mount_point "#{params[:mountpoint]}"
-      fstype "cifs"
+      fstype "nfs4"
       options "#{params[:options]}"
       action [:mount, :enable]
     end
