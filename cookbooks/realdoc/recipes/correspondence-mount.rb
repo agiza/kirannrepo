@@ -7,16 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-unless node[:corrmount].nil? || node[:corrmount].empty?
-  corrmount = node[:corrmount]
-  include_recipe "altisource::volume"
-  netvolume_mount "volume_corr" do
-    volumes = "#{node[:corrmount]}"
-  end
-else
-  Chef::Log.info("No correspondence mounts found to mount.")
-end
-
 unless node[:corrvolume].nil? || node[:corrvolume].empty?
   corrvolume = node[:corrvolume]
   include_recipe "altisource::volume"
