@@ -7,26 +7,24 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "altisource::altirepo"
+include_recipe "altisource::epel-local"
+include_recipe "infrastructure::selinux"
+
 include_recipe "iptables::default"
 iptables_rule "port_rabbitmq"
-
-# Create a service for rabbitmqadmin python script to allow for a notification run when upgrade occurs.
 
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
 end
 
-execute "rabbit-management" do
-  command "rabbitmq-plugins enable rabbitmq_management"
-  action :nothing
-  not_if "grep rabbitmq_management /etc/rabbitmq/enabled_plugins"
-end
-
-execute "rabbit-stomp" do
-  command "rabbitmq-plugins enable rabbitmq_stomp"
-  action :nothing
-  not_if "grep rabbitmq_stomp /etc/rabbitmq/enabled_plugins"
+%w{rabbitmq_management rabbitmq_management_visualiser rabbitmq_stomp}.each do |plugin|
+  execute "#{plugin}" do
+    command "rabbitmq-plugins enable #{plugin}"
+    action :run
+    not_if "rabbitmq-plugins list #{plugin}"
+  end
 end
 
 execute  "rabbitmqadmin" do
@@ -34,16 +32,9 @@ execute  "rabbitmqadmin" do
   action :nothing
 end
 
-include_recipe "altisource::altirepo"
-include_recipe "altisource::epel-local"
-include_recipe "infrastructure::selinux"
-
 package "rabbitmq-server" do
-  #provider Chef::Provider::Package::Yum
   action :upgrade
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
-  notifies :run, resources(:execute => "rabbit-management")
-  notifies :run, resources(:execute => "rabbit-stomp")
-  notifies :run, resources(:execute => "rabbitmqadmin")
+  notifies :run, resources(:execute => "rabbitmqadmin"), :immediately
 end
 
