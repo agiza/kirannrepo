@@ -7,8 +7,6 @@ define :lvm_mount do
   if node.attribute?("novolume")
     Chef::Log.info("No volume mount attribute is set.")
   else
-    include_recipe "lvm::default"
-
     execute "pvcreate" do
       command "pvcreate #{params[:device]}"
       only_if "pvdisplay #{params[:device]} 2>&1 | grep -q 'Failed to read physical volume'"
