@@ -8,11 +8,6 @@
 #
 
 # Create execution to allow for notification to trigger run.
-execute "guest-remove" do
-  command "/etc/rabbitmq/rabbit-guest.sh"
-  action :nothing
-end
-
 execute "rabbit-host" do
   command "/etc/rabbitmq/rabbit-host.sh"
   action :nothing
@@ -177,6 +172,10 @@ template "/etc/rabbitmq/rabbit-common.sh" do
     :adminuser => rabbitcore['adminuser']
   )
   notifies :run, 'execute[rabbit-config]', :immediately
+end
+
+rabbitmq_user "guest" do
+  action :delete
 end
 
 service "rabbitmq-server" do

@@ -24,6 +24,7 @@ end
     command "/usr/sbin/rabbitmq-plugins enable #{plugin}"
     action :run
     not_if "/usr/sbin/rabbitmq-plugins list -E #{plugin} | grep '[E]'"
+    notifies :restart, resources(:service => "rabbitmq-server")
   end
 end
 

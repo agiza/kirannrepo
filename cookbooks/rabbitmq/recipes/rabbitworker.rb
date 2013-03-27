@@ -98,12 +98,16 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
 end
 
 # This is for the slave entries that only need to remove the default guest account.
-template "/etc/rabbitmq/rabbit-guest.sh" do
-  source "rabbit_guest.erb"
-  group  "root"
-  owner  "root"
-  mode   "0755"
-  notifies :run, 'execute[guest-remove]', :delayed
+#template "/etc/rabbitmq/rabbit-guest.sh" do
+#  source "rabbit_guest.erb"
+#  group  "root"
+#  owner  "root"
+#  mode   "0755"
+#  notifies :run, 'execute[guest-remove]', :delayed
+#end
+
+rabbitmq_user "guest" do
+  action :delete
 end
 
 service "rabbitmq-server" do
