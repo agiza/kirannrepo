@@ -23,7 +23,7 @@ end
   execute "#{plugin}" do
     command "rabbitmq-plugins enable #{plugin}"
     action :run
-    not_if "rabbitmq-plugins list #{plugin}"
+    not_if "rabbitmq-plugins list -E #{plugin}"
   end
 end
 
