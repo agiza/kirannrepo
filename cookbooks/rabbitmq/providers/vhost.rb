@@ -39,6 +39,22 @@ def vhost_exists?(name)
   end
 end
 
+def policy_exists?(name)
+  cmdStr = "rabbitmqctl list_policies -p #{name} | egrep ^#{name}\tHA\t.*\t"
+  cmd = Mixlib::ShellOut.new(cmdStr)
+  cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
+  cmd.run_command
+  Chef::Log.debug "rabbitmq_policy_exists?: #{cmdStr}"
+  Chef::Log.debug "rabbitmq_policy_exists?: #{cmd.stdout}"
+  begin
+    cmd.error!
+    true
+  rescue
+    false
+  end
+end
+
+
 action :add do
   unless vhost_exists?(new_resource.vhost)
     cmdStr = "rabbitmqctl add_vhost #{new_resource.vhost}"
@@ -51,10 +67,10 @@ action :add do
 end
 
 action :setpolicy do
-  unless vhost_exists?(new_resource.vhost)
+  unless policy_exists?(new_resource.vhost)
     cmdStr = "rabbitmqctl set_policy -p #{new_resource.vhost} HA '.*' '\{\"ha-mode\': \"all\"\}'"
     execute cmdStr do
-      Chef::Log.debug "rabbitmq_vhost_add: #{cmdStr}"
+      Chef::Log.debug "rabbitmq_vhost_setpolicy: #{cmdStr}"
       Chef::Log.info "Setting HA policy to RabbitMQ vhost '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
