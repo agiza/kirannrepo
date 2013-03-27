@@ -40,7 +40,7 @@ def vhost_exists?(name)
 end
 
 def policy_exists?(name)
-  cmdStr = "rabbitmqctl list_policies -p #{name} | egrep ^#{name}\tHA\t.*\t"
+  cmdStr = "rabbitmqctl list_policies -p #{name} | grep \"#{name}\" | grep \"HA\""
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
