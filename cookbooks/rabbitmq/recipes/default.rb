@@ -23,7 +23,7 @@ end
   execute "#{plugin}" do
     command "/usr/sbin/rabbitmq-plugins enable #{plugin}"
     action :run
-    only_if "/usr/sbin/rabbitmq-plugins list -E #{plugin} | grep \"[\ \]\""
+    not_if "/usr/sbin/rabbitmq-plugins list -E #{plugin} | grep '[E]'"
   end
 end
 
