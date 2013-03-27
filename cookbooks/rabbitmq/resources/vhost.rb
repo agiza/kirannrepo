@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-actions :add, :delete
+actions :add, :setpolicy, :delete
 
 attribute :vhost, :kind_of => String, :name_attribute => true
 
