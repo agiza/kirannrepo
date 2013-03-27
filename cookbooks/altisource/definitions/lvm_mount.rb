@@ -23,15 +23,15 @@ define :lvm_mount do
 
     execute "lvcreate" do
       command "lvcreate -l 100%VG #{params[:group]}"
-      Chef::Log.info("lvcreate -l 100%VG #{params[:group]}")
+      Chef::Log.info("Would execute lvcreate -l 100%VG #{params[:group]}")
       not_if "lvdisplay -c /dev/#{params[:group]}/#{params[:volume]}"
       action :run
     end
 
     execute "format" do
       command "mkfs -t #{params[:filesystem]} -m 1 /dev/mapper/#{params[:group]}-#{params[:volume]}"
-      Chef::Log.info("mkfs -t #{params[:filesystem]} -m 1 /dev/mapper/#{params[:group]}-#{params[:volume]}")
-      not_if "blkid #{params[:device]} 2>&1 | grep #{params[:filesystem]}"
+      Chef::Log.info("Would execute mkfs -t #{params[:filesystem]} -m 1 /dev/mapper/#{params[:group]}-#{params[:volume]}")
+      not_if "blkid /dev/mapper/#{params[:group]}-#{params[:volume]} 2>&1 | grep #{params[:filesystem]}"
       action :run
     end  
 
