@@ -9,9 +9,18 @@
 app_name = "mongod-replica1"
 
 include_recipe "altisource::volume"
-volume_mount "volume_replica1" do
-  volumes "sdb|mongod|mongod|defaults"
+lvm_mount "replica1" do
+  device "/dev/sdb"
+  group  "mongod_vg"
+  volume "lvol0"
+  filesystem "ext4"
+  options "defaults"
+  mountpoint "/mongod"
 end
+
+#volume_mount "volume_replica1" do
+#  volumes "sdb|mongod|mongod|defaults"
+#end
 
 include_recipe "mongodb::default"
 

@@ -46,7 +46,7 @@ lvm_mount "appdynserver" do
   group  "opt_vg"
   volume "lvol0"
   filesystem "ext4"
-  options "default"
+  options "defaults"
   mountpoint "/opt/appdynamics"
 end
 
