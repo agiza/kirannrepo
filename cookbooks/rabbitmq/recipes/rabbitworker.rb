@@ -64,7 +64,7 @@ end
 # Join cluster
 execute "cluster" do
   command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitnodes}; rabbitmqctl start_app"
-  notif "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
+  not_if "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
 end
 
 template "/etc/rabbitmq/rabbitmq.config" do
