@@ -176,7 +176,7 @@ end
 # Admin account setup for all vhosts
 rabbitmq_user "#{rabbitcore['adminuser'].split("|")[0]}" do
   password "#{rabbitcore['adminuser'].split("|")[1]}"
-  tag "management"
+  tag "administrator"
   action [:add, :set_tags]
 end
 vhost_names.split(" ").each do |vhost|
