@@ -167,11 +167,6 @@ end
 vhost_names = vhost_names.sort.uniq.collect { |vhost| "#{vhost}" }.join(" ")
 
 # Setup the core vhost entries first as these are common elements
-# Create set_policy action
-execute "set_policy" do
-  command "rabbitmqctl set_policy -p #{vhost} HA '.*' '\{\"ha-mode\': \"all\"\}'"
-  action :nothing
-end
 # Vhost setup on cluster
 vhost_names.split(" ").each do |vhost|
   rabbitmq_vhost "#{vhost}" do
