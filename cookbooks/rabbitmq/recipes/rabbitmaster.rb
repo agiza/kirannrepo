@@ -60,7 +60,7 @@ begin
 end
 # Join cluster
 execute "cluster" do
-  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitnodes}; rabbitmqctl start_app"
+  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitservers}; rabbitmqctl start_app"
   notif "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
 end
 
