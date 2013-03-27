@@ -37,17 +37,25 @@ directory "/opt/appdynamics" do
 end
 
 include_recipe "altisource::volume"
-#volume_mount "volume_appdynserver" do
-#  volumes "sdb|opt|opt/appdynamics|defaults"
-#end
 
-lvm_mount "appdynserver" do
-  device "/dev/sdb"
-  group  "opt_vg"
-  volume "lvol0"
-  filesystem "ext4"
-  options "defaults"
-  mountpoint "/opt/appdynamics"
+if node.attribute["appdynserver_volume"]
+  lvm_mount "appdynserver" do
+    device "#{node[:appdynserver_volume][:device]}"
+    group  "#{node[:appdynserver_volume][:group]}"
+    volume "#{node[:appdynserver_volume][:volume]}"
+    filesystem "#{node[:appdynserver_volume][:filesystem]}"
+    options "#{node[:appdynserver_volume][:defaults]}"
+    mountpoint "#{node[:appdynserver_volume][:mountpoint]}"
+  end
+else
+  lvm_mount "appdynserver" do
+    device "/dev/sdb"
+    group  "opt_vg"
+    volume "lvol0"
+    filesystem "ext4"
+    options "defaults"
+    mountpoint "/opt/appdynamics"
+  end
 end
 
 execute "install_check" do
