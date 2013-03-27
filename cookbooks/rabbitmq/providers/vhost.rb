@@ -16,6 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+def whyrun_supported
+  true
+end
+
+def whyrun_mode?
+  Chef::Config[:whyrun]
+end
 
 def vhost_exists?(name)
   cmdStr = "rabbitmqctl -q list_vhosts | grep ^#{name}$"

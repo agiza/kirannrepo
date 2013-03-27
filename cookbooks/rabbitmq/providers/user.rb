@@ -17,6 +17,14 @@
 # limitations under the License.
 #
 
+def whyrun_supported
+  true
+end
+
+def whyrun_mode?
+  Chef::Config[:whyrun]
+end
+
 def user_exists?(name)
   cmdStr = "rabbitmqctl -q list_users |grep '^#{name}\\b'"
   cmd = Mixlib::ShellOut.new(cmdStr)
