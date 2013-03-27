@@ -60,6 +60,13 @@ begin
     rescue Net::HTTPServerException
       raise "Error loading rabbitmq information from rabbitmq data bag."
 end
+
+# Join cluster
+execute "cluster" do
+  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitnodes}; rabbitmqctl start_app"
+  notif "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
+end
+
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'

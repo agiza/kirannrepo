@@ -58,6 +58,12 @@ begin
     rescue Net::HTTPServerException
       raise "Error trying to pull rabbitmq info from rabbitmq data bag."
 end
+# Join cluster
+execute "cluster" do
+  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitnodes}; rabbitmqctl start_app"
+  notif "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
+end
+
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
   group 'root'
@@ -180,18 +186,18 @@ vhost_names.split(" ").each do |vhost|
   end
 end
 
-template "/etc/rabbitmq/rabbit-common.sh" do
-  source "rabbit_common.erb"
-  group  "root"
-  owner  "root"
-  mode   "0755"
-  variables(
-    :rabbitnodes => rabbitservers,
-    :vhost_names => vhost_names,
-    :adminuser => rabbitcore['adminuser']
-  )
-  notifies :run, 'execute[rabbit-config]', :immediately
-end
+#template "/etc/rabbitmq/rabbit-common.sh" do
+#  source "rabbit_common.erb"
+#  group  "root"
+#  owner  "root"
+#  mode   "0755"
+#  variables(
+#    :rabbitnodes => rabbitservers,
+#    :vhost_names => vhost_names,
+#    :adminuser => rabbitcore['adminuser']
+#  )
+#  notifies :run, 'execute[rabbit-config]', :immediately
+#end
 
 rabbitmq_user "guest" do
   action :delete
