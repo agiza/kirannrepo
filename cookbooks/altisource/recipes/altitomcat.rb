@@ -9,18 +9,25 @@ include_recipe "iptables::default"
 iptables_rule "port_tomcat"
 
 include_recipe "altisource::volume"
-lvm_mount "altitomcat" do
-  device "/dev/sdb"
-  group  "opt_vg"
-  volume "lvol0"
-  filesystem "ext4"
-  options "defaults"
-  mountpoint "/opt/tomcat"
+if node.attribute["altitomcat_volume"]
+  lvm_mount "altitomcat" do
+    device "#{node[:altitomcat_volume][:device]}"
+    group  "#{node[:altitomcat_volume][:group]}"
+    volume "#{node[:altitomcat_volume][:volume]}"
+    filesystem "#{node[:altitomcat_volume][:filesystem]}"
+    options "#{node[:altitomcat_volume][:defaults]}"
+    mountpoint "#{node[:altitomcat_volume][:mountpoint]}"
+  end
+else
+  lvm_mount "altitomcat" do
+    device "/dev/sdb"
+    group  "opt_vg"
+    volume "lvol0"
+    filesystem "ext4"
+    options "defaults"
+    mountpoint "/opt/tomcat"
+  end
 end
-
-#volume_mount "volume_tomcat" do
-#  volumes "sdb|opt|opt/tomcat|defaults"
-#end
 
 app_name = "altitomcat"
 
