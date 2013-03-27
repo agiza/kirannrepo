@@ -31,7 +31,7 @@ define :lvm_mount do
     execute "format" do
       command "/sbin/mkfs -t #{params[:filesystem]} -m 1 /dev/mapper/#{params[:group]}-#{params[:volume]}"
       Chef::Log.info("Would execute mkfs -t #{params[:filesystem]} -m 1 /dev/mapper/#{params[:group]}-#{params[:volume]}")
-      not_if "/sbin/blkid /dev/mapper/#{params[:group]}-#{params[:volume]} | grep #{params[:filesystem]}"
+      not_if "/sbin/blkid /dev/mapper/#{params[:group]}-#{params[:volume]} | grep \"TYPE=\"#{params[:filesystem]}\"\""
       action :run
     end  
 
