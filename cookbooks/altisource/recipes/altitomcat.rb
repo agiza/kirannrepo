@@ -9,14 +9,14 @@ include_recipe "iptables::default"
 iptables_rule "port_tomcat"
 
 include_recipe "altisource::volume"
-lvm_mount "altitomcat" do
-  device "/dev/sdb"
-  group  "opt_vg"
-  volume "lvol0"
-  filesystem "ext4"
-  options "default"
-  mountpoint "/opt/tomcat"
-end
+#lvm_mount "altitomcat" do
+#  device "/dev/sdb"
+#  group  "opt_vg"
+#  volume "lvol0"
+#  filesystem "ext4"
+#  options "default"
+#  mountpoint "/opt/tomcat"
+#end
 
 #volume_mount "volume_tomcat" do
 #  volumes "sdb|opt|opt/tomcat|defaults"
