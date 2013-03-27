@@ -21,9 +21,9 @@ end
 
 %w{rabbitmq_management rabbitmq_management_visualiser rabbitmq_stomp}.each do |plugin|
   execute "#{plugin}" do
-    command "rabbitmq-plugins enable #{plugin}"
+    command "/usr/sbin/rabbitmq-plugins enable #{plugin}"
     action :run
-    not_if "rabbitmq-plugins list -E #{plugin}"
+    only_if "/usr/sbin/rabbitmq-plugins list -E #{plugin} | grep '[ ]'"
   end
 end
 
