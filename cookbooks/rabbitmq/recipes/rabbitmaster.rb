@@ -177,7 +177,7 @@ end
 rabbitmq_user "#{rabbitcore['adminuser'].split("|")[0]}" do
   password "#{rabbitcore['adminuser'].split("|")[1]}"
   tag "management"
-  action :add
+  action [:add, :set_tags]
 end
 vhost_names.split(" ").each do |vhost|
   rabbitmq_user "#{rabbitcore['adminuser'].split("|")[0]}" do
