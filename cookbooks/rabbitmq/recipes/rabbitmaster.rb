@@ -161,6 +161,25 @@ end
 vhost_names = vhost_names.sort.uniq.collect { |vhost| "#{vhost}" }.join(" ")
 
 # Setup the core vhost entries first as these are common elements
+# Vhost setup on cluster
+vhost_names.split(" ").each do |vhost|
+  rabbitmq_vhost "#{vhost}" do
+    action :add
+  end
+end
+# Admin account setup for all vhosts
+rabbitmq_user "#{rabbitcore['adminuser'].split("|")[0]}" do
+  password "#{rabbitcore['adminuser'].split("|")[1]}"
+  action :add
+end
+vhost_names.split(" ").each do |vhost|
+  rabbitmq_user "#{rabbitcore['adminuser'].split("|")[0]}" do
+    vhost "#{vhost}"
+    permissions ".* .* .*"
+    action :set_permissions
+  end
+end
+
 template "/etc/rabbitmq/rabbit-common.sh" do
   source "rabbit_common.erb"
   group  "root"
