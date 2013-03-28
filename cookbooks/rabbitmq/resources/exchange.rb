@@ -22,7 +22,7 @@ actions :add, :delete, :set_binding, :set_binding_option, :clear_binding
 attribute :exchange, :kind_of => String, :name_attribute => true
 attribute :admin_user, :kind_of => String, :required => true
 attribute :admin_password, :kind_of => String, :required => true
-attribute :appvhost, :kind_of => String, :required => true
+attribute :vhost, :kind_of => String, :required => true
 attribute :source, :kind_of => String
 attribute :type, :kind_of => String
 attribute :destination, :kind_of => String

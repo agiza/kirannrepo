@@ -24,8 +24,8 @@ def whyrun_mode?
   Chef::Config[:whyrun]
 end
 
-def queue_exists?(name)
-  cmdStr = "rabbitmqctl -q list_queues -p #{appvhost} name | grep -w ^#{name}$"
+def queue_exists?(name, vhost)
+  cmdStr = "rabbitmqctl -q list_queues -p #{vhost} name | grep -w ^#{name}$"
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
@@ -40,20 +40,11 @@ def queue_exists?(name)
 end
 
 action :add do
-  unless queue_exists?(new_resource.queue)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{appvhost} -u #{admin_user} -p #{admin_password} declare queue name=#{new_resource.queue} durable=true"
-    execute cmdStr do
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}'."
-      new_resource.updated_by_last_action(true)
+  unless queue_exists?(new_resource.queue, new_resource.vhost)
+    if new_resource.admin_user.nil? || new_resource.admin_password.nil?
+      Chef::Application.fatal!("rabbitmqadmin declare queue name #{new_resource.queue} fails with missing admin user/password.")
     end
-  end
-end
-
-action :add_ttl do
-  unless queue_exists?(new_resource.queue)
-    html_vhost = appvhost.gsub("/", "%2f")
-    cmdStr = "curl -i -u #{admin_user}:#{admin_password} -H \"content-type:application/json\" -XPUT -d\"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"x-message-ttl\":432000000},\"node\":\"rabbit@#{node.hostname}\"}\" http://127.0.0.1:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
+    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare queue name=#{new_resource.queue} durable=true"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}'."
@@ -63,23 +54,23 @@ action :add_ttl do
 end
 
 action :add_with_option do
-  unless queue_exists?(new_resource.queue)
-    html_vhost = appvhost.gsub("/", "%2f")
-    cmdStr = "curl -i -u #{admin_user}:#{admin_password} -H \"content-type:application/json\" -XPUT -d\"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"#{option_key}\":\"#{option_value}\"},\"node\":\"rabbit@#{node[:hostname]}\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
+  unless queue_exists?(new_resource.queue, new_resource.vhost)
+    html_vhost = new_resource.vhost.gsub("/", "%2f")
+    cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"},\"node\":\"rabbit@#{node[:hostname]}\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}'."
+      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
   end
 end
 
 action :delete do
-  if queue_exists?(new_resource.queue)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{appvhost} -u #{admin_user} -p #{admin_password} delete queue name=#{new_resource.queue}"
+  if queue_exists?(new_resource.queue, new_resource.vhost)
+    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-      Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'."
+      Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
   end

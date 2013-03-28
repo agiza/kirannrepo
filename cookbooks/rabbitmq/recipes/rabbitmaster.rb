@@ -207,7 +207,7 @@ rabbitapps.each do |app|
           rabbitmq_queue "#{queue}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             option_key "null"
             option_value "null"
             action :add
@@ -223,7 +223,7 @@ rabbitapps.each do |app|
           rabbitmq_queue "#{queue_option.split('|')[0]}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             option_key "#{queue_option.split('|')[1]}"
             option_value "#{queue_option.split('|')[2]}"
             action :add_with_option
@@ -240,7 +240,7 @@ rabbitapps.each do |app|
           rabbitmq_exchange "#{exchange}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             source "null"
             type "null"
             destination "null"
@@ -260,7 +260,7 @@ rabbitapps.each do |app|
           rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             source "null"
             type "null"
             destination "null"
@@ -281,7 +281,7 @@ rabbitapps.each do |app|
           rabbitmq_exchange "#{binding.split('|')[0]}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             source "#{binding.split('|')[1]}"
             type "#{binding.split('|')[2]}"
             destination "#{binding.split('|')[3]}"
@@ -301,7 +301,7 @@ rabbitapps.each do |app|
           rabbitmq_exchange "#{binding_option.split('|')[0]}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
-            appvhost "#{vhost}"
+            vhost "#{vhost}"
             source "#{binding_option.split('|')[1]}"
             type "#{binding_option.split('|')[2]}"
             destination "#{binding_option.split('|')[3]}"
