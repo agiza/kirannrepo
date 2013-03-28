@@ -204,7 +204,7 @@ rabbitapps.each do |app|
         end
       end
       # Grab the queues with options and split them for a loop, will separate the options later.
-      if name_queue['queues_options']nil?
+      if name_queue['queues_options'].nil?
         Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
       else
         queues_options = name_queue['queues_options'].split(" ")
@@ -282,8 +282,9 @@ rabbitapps.each do |app|
         end
       end
       # Grab the bindings with options and split them for loop, separate options later.
-      if name_queue['bindings_options']
+      if name_queue['bindings_options'].nil?
         Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
+      else
         bindings_options = name_queue['bindings_options'].split(" ")
         bindings_options.each do |binding_option|
           rabbitmq_exchange "#{binding_option.split('|')[0]}" do
@@ -301,21 +302,21 @@ rabbitapps.each do |app|
         end
       end
     end
-    template "/etc/rabbitmq/#{app}-rabbit.sh" do
-      source "app_rabbit.erb"
-      group "root"
-      owner "root"
-      mode '0755'
-      variables(
-        :queue_names  => name_queue['queues'],
-        :exchange_names => name_queue['exchange'],
-        :binding_names => name_queue['binding'],
-        :vhost_names => appvhosts,
-        :userstring => name_queue['user'],
-        :adminuser => rabbitcore['adminuser']
-      )
-      notifies :run, "execute[#{app}-config]", :delayed
-    end
+  end
+  template "/etc/rabbitmq/#{app}-rabbit.sh" do
+    source "app_rabbit.erb"
+    group "root"
+    owner "root"
+    mode '0755'
+    variables(
+      :queue_names  => name_queue['queues'],
+      :exchange_names => name_queue['exchange'],
+      :binding_names => name_queue['binding'],
+      :vhost_names => appvhosts,
+      :userstring => name_queue['user'],
+      :adminuser => rabbitcore['adminuser']
+    )
+    notifies :run, "execute[#{app}-config]", :delayed
   end
 end
 
