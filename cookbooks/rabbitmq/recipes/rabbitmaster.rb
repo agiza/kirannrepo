@@ -61,7 +61,7 @@ end
 # Join cluster
 execute "cluster" do
   command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitservers}; rabbitmqctl start_app"
-  not_if "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
+  not_if "rabbitmqctl cluster_status | grep 'rabbit@#{node[:hostname]}'"
 end
 
 template "/etc/rabbitmq/rabbitmq.config" do
@@ -128,7 +128,9 @@ end
 # Declare an array for a comprehensive list of all vhosts to be created.
 vhost_names = []
 # This loops through all application entries to create the actual script to setup application entries
+# For each application, we need to grab and create all users, exchanges, queues, and bindings.
 rabbitapps.each do |app|
+  # Collect All of the vhosts for any specific application
   unless "#{app}" == "rabbitmq"
     appvhosts = []
     appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
@@ -144,7 +146,107 @@ rabbitapps.each do |app|
     appvhosts.each do |vhost|
       vhost_names << vhost
     end
+    # Collect all vhosts and create a string.
     appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
+    # Define admin user and password
+    admin_user = "#{rabbitcore['adminuser'].split("|")[0]}"
+    admin_password = "#{rabbitcore['adminuser'].split("|")[1]}"
+    # Split the string to allow for looping on each vhost.
+    vhosts_list = appvhosts.split(" ")
+    # Grab the normal queues for creation and split them for a loop.
+    queues = name_queue['queues'].split(" ")
+    # Grab the queues with options and split them for a loop, will separate the options later.
+    queues_options = name_queue['queues_options'].split(" ")
+    # Grab the normal exchanges and split them for a loop.
+    exchanges = name_queue['exchanges'].split(" ")
+    # Grab the exchanges with options and split them for a loop. will separate the options later.
+    exchanges_options = name_queue['exchanges_options'].split(" ")
+    # Grab the normal bindings, split them for looping.
+    bindings = name_queue['bindings'].split(" ")
+    # Grab the bindings with options and split them for loop, separate options later.
+    bindings_options = name_queue['bindings_options'].split(" ")
+    # Loop for all vhosts
+    vhosts_lists.each do |vhost|
+      # Exchanges creation
+      exchanges.each do |exchange|
+        rabbitmq_exchange "#{exchange}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "null"
+          type "null"
+          destination "null"
+          routingkey "null"
+          option_key "null"
+          option_value "null"
+          action :add
+        end
+      end
+      exchanges_options.each do |exchange_option|
+        rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "null"
+          type "null"
+          destination "null"
+          routingkey "null"
+          option_key "#{exchange_option.split('|')[1]}"
+          option_value "#{exchange_option.split('|')[2]}"
+          action :add
+        end
+      end
+      # Queues creation
+      queues.each do |queue|
+        rabbitmq_queue "#{queue}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          option_key "null"
+          option_value "null"
+          action :add
+        end
+      end
+      queues_options.each do |queue_option|
+        rabbitmq_queue "#{queue_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          option_key "#{queue_option.split('|')[1]}"
+          option_value "#{queue_option.split('|')[2]}"
+          action :add_with_option
+        end
+      end
+      # Bindings creation
+      bindings.each do |binding|
+        rabbitmq_exchange "#{binding.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "#{binding.split('|')[1]}"
+          type "#{binding.split('|')[2]}"
+          destination "#{binding.split('|')[3]}"
+          routingkey "#{binding.split('|')[4]}"
+          option_key "null"
+          option_value "null"
+          action :set_binding
+        end
+      end
+      bindings_options.each do |binding_option|
+        rabbitmq_exchange "#{binding_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "#{binding_option.split('|')[1]}"
+          type "#{binding_option.split('|')[2]}"
+          destination "#{binding_option.split('|')[3]}"
+          routingkey "#{binding_option.split('|')[4]}"
+          option_key "#{binding_option.split('|')[5]}"
+          option_value "#{binding_option.split('|')[6]}"
+          action :set_binding_option
+        end
+      end
+    end
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
       source "app_rabbit.erb"
       group "root"
@@ -186,19 +288,6 @@ vhost_names.split(" ").each do |vhost|
     action :set_permissions
   end
 end
-
-#template "/etc/rabbitmq/rabbit-common.sh" do
-#  source "rabbit_common.erb"
-#  group  "root"
-#  owner  "root"
-#  mode   "0755"
-#  variables(
-#    :rabbitnodes => rabbitservers,
-#    :vhost_names => vhost_names,
-#    :adminuser => rabbitcore['adminuser']
-#  )
-#  notifies :run, 'execute[rabbit-config]', :immediately
-#end
 
 rabbitmq_user "guest" do
   action :delete
