@@ -282,10 +282,10 @@ rabbitapps.each do |app|
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
-            source "#{binding.split('|')[1]}"
-            type "#{binding.split('|')[2]}"
-            destination "#{binding.split('|')[3]}"
-            routingkey "#{binding.split('|')[4]}"
+            source "#{binding.split('|')[0]}"
+            type "#{binding.split('|')[1]}"
+            destination "#{binding.split('|')[2]}"
+            routingkey "#{binding.split('|')[3]}"
             option_key "null"
             option_value "null"
             action :set_binding
@@ -302,12 +302,12 @@ rabbitapps.each do |app|
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
-            source "#{binding_option.split('|')[1]}"
-            type "#{binding_option.split('|')[2]}"
-            destination "#{binding_option.split('|')[3]}"
-            routingkey "#{binding_option.split('|')[4]}"
-            option_key "#{binding_option.split('|')[5]}"
-            option_value "#{binding_option.split('|')[6]}"
+            source "#{binding_option.split('|')[0]}"
+            type "#{binding_option.split('|')[1]}"
+            destination "#{binding_option.split('|')[2]}"
+            routingkey "#{binding_option.split('|')[3]}"
+            option_key "#{binding_option.split('|')[4]}"
+            option_value "#{binding_option.split('|')[5]}"
             action :set_binding_option
           end
         end
