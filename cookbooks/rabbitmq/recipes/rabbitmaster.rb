@@ -196,8 +196,8 @@ rabbitapps.each do |app|
   #end
     # Loop for all vhosts
   #vhosts_list.each do |vhost|
-    appvhosts.each do |vhost|
-        # Grab the normal queues for creation and split them for a loop.
+    appvhosts.uniq.each do |vhost|
+      # Grab the normal queues for creation and split them for a loop.
       if name_queue['queues'].nil?
         Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
       else
@@ -208,7 +208,7 @@ rabbitapps.each do |app|
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
-          option_key "null"
+            option_key "null"
             option_value "null"
             action :add
           end
