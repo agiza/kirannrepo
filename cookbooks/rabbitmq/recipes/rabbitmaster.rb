@@ -235,10 +235,10 @@ rabbitapps.each do |app|
       end
     end
     # Grab the normal exchanges and split them for a loop.
-    if name_queue['exchanges'].nil?
+    if name_queue['exchange'].nil?
       Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
     else
-      exchanges = name_queue['exchanges'].split(" ")
+      exchanges = name_queue['exchange'].split(" ")
       # Exchanges creation
       exchanges.each do |exchange|
         rabbitmq_exchange "#{exchange}" do
@@ -256,10 +256,10 @@ rabbitapps.each do |app|
       end
     end
     # Grab the exchanges with options and split them for a loop. will separate the options later.
-    if name_queue['exchanges_options'].nil?
+    if name_queue['exchange_options'].nil?
       Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
     else
-      exchanges_options = name_queue['exchanges_options'].split(" ")
+      exchanges_options = name_queue['exchange_options'].split(" ")
       exchanges_options.each do |exchange_option|
         rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
           admin_user "#{admin_user}"
@@ -277,10 +277,10 @@ rabbitapps.each do |app|
     end
     # Grab the normal bindings, split them for looping.
     # Bindings creation
-    if name_queue['bindings'].nil?
+    if name_queue['binding'].nil?
       Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
     else
-      bindings = name_queue['bindings'].split(" ")
+      bindings = name_queue['binding'].split(" ")
       bindings.each do |binding|
         rabbitmq_exchange "#{binding.split('|')[0]}" do
           admin_user "#{admin_user}"
@@ -297,10 +297,10 @@ rabbitapps.each do |app|
       end
     end
     # Grab the bindings with options and split them for loop, separate options later.
-    if name_queue['bindings_options'].nil?
+    if name_queue['binding_options'].nil?
       Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
     else
-      bindings_options = name_queue['bindings_options'].split(" ")
+      bindings_options = name_queue['binding_options'].split(" ")
       bindings_options.each do |binding_option|
         rabbitmq_exchange "#{binding_option.split('|')[0]}" do
           admin_user "#{admin_user}"
