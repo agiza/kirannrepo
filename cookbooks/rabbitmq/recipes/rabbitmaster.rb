@@ -236,7 +236,7 @@ rabbitapps.each do |app|
             option_value "null"
             action :add
           end
-       end
+        end
       else
         Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
       end
