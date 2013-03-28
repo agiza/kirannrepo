@@ -187,7 +187,9 @@ rabbitapps.each do |app|
     # Loop for all vhosts
     vhosts_lists.each do |vhost|
       # Grab the normal queues for creation and split them for a loop.
-      unless name_queue['queues'].nil?
+      if name_queue['queues'].nil?
+        Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
+      else
         queues = name_queue['queues'].split(" ") 
         # Queues creation
         queues.each do |queue|
@@ -200,11 +202,11 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      #else 
-      #  Chef::Log.info("No queues for #{app} in #{vhost} found to create.") 
       end
       # Grab the queues with options and split them for a loop, will separate the options later.
-      unless name_queue['queues_options']nil?
+      if name_queue['queues_options']nil?
+        Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
+      else
         queues_options = name_queue['queues_options'].split(" ")
         queues_options.each do |queue_option|
           rabbitmq_queue "#{queue_option.split('|')[0]}" do
@@ -216,11 +218,11 @@ rabbitapps.each do |app|
             action :add_with_option
           end
         end
-      #else
-      #  Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
       end
       # Grab the normal exchanges and split them for a loop.
-      unless name_queue['exchanges'].nil?
+      if name_queue['exchanges'].nil?
+        Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
+      else
         exchanges = name_queue['exchanges'].split(" ")
         # Exchanges creation
         exchanges.each do |exchange|
@@ -237,11 +239,11 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      #else
-      #  Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
       end
       # Grab the exchanges with options and split them for a loop. will separate the options later.
-      unless name_queue['exchanges_options'].nil?
+      if name_queue['exchanges_options'].nil?
+        Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
+      else
         exchanges_options = name_queue['exchanges_options'].split(" ")
         exchanges_options.each do |exchange_option|
           rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
@@ -257,12 +259,12 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      #else
-      #  Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
       end
       # Grab the normal bindings, split them for looping.
       # Bindings creation
-      unless name_queue['bindings'].nil?
+      if name_queue['bindings'].nil?
+        Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
+      else
         bindings = name_queue['bindings'].split(" ")
         bindings.each do |binding|
           rabbitmq_exchange "#{binding.split('|')[0]}" do
@@ -278,11 +280,10 @@ rabbitapps.each do |app|
             action :set_binding
           end
         end
-      #else
-      #  Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
       end
       # Grab the bindings with options and split them for loop, separate options later.
-      unless name_queue['bindings_options']
+      if name_queue['bindings_options']
+        Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
         bindings_options = name_queue['bindings_options'].split(" ")
         bindings_options.each do |binding_option|
           rabbitmq_exchange "#{binding_option.split('|')[0]}" do
@@ -298,8 +299,6 @@ rabbitapps.each do |app|
             action :set_binding_option
           end
         end
-      #else
-      #  Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
       end
     end
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
