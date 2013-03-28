@@ -200,8 +200,8 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      else 
-        Chef::Log.info("No queues for #{app} in #{vhost} found to create.") 
+      #else 
+      #  Chef::Log.info("No queues for #{app} in #{vhost} found to create.") 
       end
       # Grab the queues with options and split them for a loop, will separate the options later.
       unless name_queue['queues_options']nil?
@@ -216,8 +216,8 @@ rabbitapps.each do |app|
             action :add_with_option
           end
         end
-      else
-        Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
+      #else
+      #  Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
       end
       # Grab the normal exchanges and split them for a loop.
       unless name_queue['exchanges'].nil?
@@ -237,8 +237,8 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      else
-        Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
+      #else
+      #  Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
       end
       # Grab the exchanges with options and split them for a loop. will separate the options later.
       unless name_queue['exchanges_options'].nil?
@@ -257,8 +257,8 @@ rabbitapps.each do |app|
             action :add
           end
         end
-      else
-        Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
+      #else
+      #  Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
       end
       # Grab the normal bindings, split them for looping.
       # Bindings creation
@@ -278,8 +278,8 @@ rabbitapps.each do |app|
             action :set_binding
           end
         end
-      else
-        Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
+      #else
+      #  Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
       end
       # Grab the bindings with options and split them for loop, separate options later.
       unless name_queue['bindings_options']
@@ -298,8 +298,8 @@ rabbitapps.each do |app|
             action :set_binding_option
           end
         end
-      else
-        Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
+      #else
+      #  Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
       end
     end
     template "/etc/rabbitmq/#{app}-rabbit.sh" do
