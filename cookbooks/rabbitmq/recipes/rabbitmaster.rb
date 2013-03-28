@@ -195,7 +195,7 @@ rabbitapps.each do |app|
     end
   end
 # Collect all vhosts and create a string.
-  appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
+  #appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
     # Split the string to allow for looping on each vhost.
   vhosts_list = appvhosts.split(" ")
     # Loop for all vhosts
