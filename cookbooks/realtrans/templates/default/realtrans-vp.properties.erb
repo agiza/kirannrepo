@@ -94,6 +94,7 @@ rf.startupAuthenticationProvider.enabled=false
 <% end -%>
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 
+# Deprecated
 rf.persistence.filters=vendorUserFilter
 
 <% if node.attribute?('rf_app_config_flag') -%>
