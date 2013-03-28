@@ -199,120 +199,119 @@ rabbitapps.each do |app|
     # Split the string to allow for looping on each vhost.
   vhosts_list = appvhosts.split(" ")
     # Loop for all vhosts
-    vhosts_lists.each do |vhost|
+  vhosts_lists.each do |vhost|
       # Grab the normal queues for creation and split them for a loop.
-      if name_queue['queues'].nil?
-        Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
-      else
-        queues = name_queue['queues'].split(" ") 
-        # Queues creation
-        queues.each do |queue|
-          rabbitmq_queue "#{queue}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            option_key "null"
-            option_value "null"
-            action :add
-          end
+    if name_queue['queues'].nil?
+      Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
+    else
+      queues = name_queue['queues'].split(" ") 
+      # Queues creation
+      queues.each do |queue|
+        rabbitmq_queue "#{queue}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          option_key "null"
+          option_value "null"
+          action :add
         end
       end
-      # Grab the queues with options and split them for a loop, will separate the options later.
-      if name_queue['queues_options'].nil?
-        Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
-      else
-        queues_options = name_queue['queues_options'].split(" ")
-        queues_options.each do |queue_option|
-          rabbitmq_queue "#{queue_option.split('|')[0]}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            option_key "#{queue_option.split('|')[1]}"
-            option_value "#{queue_option.split('|')[2]}"
-            action :add_with_option
-          end
+    end
+    # Grab the queues with options and split them for a loop, will separate the options later.
+    if name_queue['queues_options'].nil?
+      Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
+    else
+      queues_options = name_queue['queues_options'].split(" ")
+      queues_options.each do |queue_option|
+        rabbitmq_queue "#{queue_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          option_key "#{queue_option.split('|')[1]}"
+          option_value "#{queue_option.split('|')[2]}"
+          action :add_with_option
         end
       end
-      # Grab the normal exchanges and split them for a loop.
-      if name_queue['exchanges'].nil?
-        Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
-      else
-        exchanges = name_queue['exchanges'].split(" ")
-        # Exchanges creation
-        exchanges.each do |exchange|
-          rabbitmq_exchange "#{exchange}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            source "null"
-            type "null"
-            destination "null"
-            routingkey "null"
-            option_key "null"
-            option_value "null"
-            action :add
-          end
+    end
+    # Grab the normal exchanges and split them for a loop.
+    if name_queue['exchanges'].nil?
+      Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
+    else
+      exchanges = name_queue['exchanges'].split(" ")
+      # Exchanges creation
+      exchanges.each do |exchange|
+        rabbitmq_exchange "#{exchange}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "null"
+          type "null"
+          destination "null"
+          routingkey "null"
+          option_key "null"
+          option_value "null"
+          action :add
         end
       end
-      # Grab the exchanges with options and split them for a loop. will separate the options later.
-      if name_queue['exchanges_options'].nil?
-        Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
-      else
-        exchanges_options = name_queue['exchanges_options'].split(" ")
-        exchanges_options.each do |exchange_option|
-          rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            source "null"
-            type "null"
-            destination "null"
-            routingkey "null"
-            option_key "#{exchange_option.split('|')[1]}"
-            option_value "#{exchange_option.split('|')[2]}"
-            action :add
-          end
+    end
+    # Grab the exchanges with options and split them for a loop. will separate the options later.
+    if name_queue['exchanges_options'].nil?
+      Chef::Log.info("No Exchanges with options for #{app} in #{vhost} found to create.")
+    else
+      exchanges_options = name_queue['exchanges_options'].split(" ")
+      exchanges_options.each do |exchange_option|
+        rabbitmq_exchange "#{exchange_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "null"
+          type "null"
+          destination "null"
+          routingkey "null"
+          option_key "#{exchange_option.split('|')[1]}"
+          option_value "#{exchange_option.split('|')[2]}"
+          action :add
         end
       end
-      # Grab the normal bindings, split them for looping.
-      # Bindings creation
-      if name_queue['bindings'].nil?
-        Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
-      else
-        bindings = name_queue['bindings'].split(" ")
-        bindings.each do |binding|
-          rabbitmq_exchange "#{binding.split('|')[0]}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            source "#{binding.split('|')[1]}"
-            type "#{binding.split('|')[2]}"
-            destination "#{binding.split('|')[3]}"
-            routingkey "#{binding.split('|')[4]}"
-            option_key "null"
-            option_value "null"
-            action :set_binding
-          end
+    end
+    # Grab the normal bindings, split them for looping.
+    # Bindings creation
+    if name_queue['bindings'].nil?
+      Chef::Log.info("No Bindings for #{app} in #{vhost} found to create.")
+    else
+      bindings = name_queue['bindings'].split(" ")
+      bindings.each do |binding|
+        rabbitmq_exchange "#{binding.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "#{binding.split('|')[1]}"
+          type "#{binding.split('|')[2]}"
+          destination "#{binding.split('|')[3]}"
+          routingkey "#{binding.split('|')[4]}"
+          option_key "null"
+          option_value "null"
+          action :set_binding
         end
       end
-      # Grab the bindings with options and split them for loop, separate options later.
-      if name_queue['bindings_options'].nil?
-        Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
-      else
-        bindings_options = name_queue['bindings_options'].split(" ")
-        bindings_options.each do |binding_option|
-          rabbitmq_exchange "#{binding_option.split('|')[0]}" do
-            admin_user "#{admin_user}"
-            admin_password "#{admin_password}"
-            vhost "#{vhost}"
-            source "#{binding_option.split('|')[1]}"
-            type "#{binding_option.split('|')[2]}"
-            destination "#{binding_option.split('|')[3]}"
-            routingkey "#{binding_option.split('|')[4]}"
-            option_key "#{binding_option.split('|')[5]}"
-            option_value "#{binding_option.split('|')[6]}"
-            action :set_binding_option
-          end
+    end
+    # Grab the bindings with options and split them for loop, separate options later.
+    if name_queue['bindings_options'].nil?
+      Chef::Log.info("No Bindings with options for #{app} in #{vhost} found to create.")
+    else
+      bindings_options = name_queue['bindings_options'].split(" ")
+      bindings_options.each do |binding_option|
+        rabbitmq_exchange "#{binding_option.split('|')[0]}" do
+          admin_user "#{admin_user}"
+          admin_password "#{admin_password}"
+          vhost "#{vhost}"
+          source "#{binding_option.split('|')[1]}"
+          type "#{binding_option.split('|')[2]}"
+          destination "#{binding_option.split('|')[3]}"
+          routingkey "#{binding_option.split('|')[4]}"
+          option_key "#{binding_option.split('|')[5]}"
+          option_value "#{binding_option.split('|')[6]}"
+          action :set_binding_option
         end
       end
     end
