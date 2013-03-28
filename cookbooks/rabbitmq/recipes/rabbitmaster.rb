@@ -199,7 +199,7 @@ rabbitapps.each do |app|
     # Split the string to allow for looping on each vhost.
   vhosts_list = appvhosts.split(" ")
     # Loop for all vhosts
-  vhosts_lists.each do |vhost|
+  vhosts_list.each do |vhost|
       # Grab the normal queues for creation and split them for a loop.
     if name_queue['queues'].nil?
       Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
