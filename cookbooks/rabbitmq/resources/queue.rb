@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-actions :add, :delete, :add_ttl, :add_with_option
+actions :add, :delete, :add_with_option
 
 attribute :queue, :kind_of => String, :name_attribute => true
-attribute :admin_user, :kind_of => String 
-attribute :admin_password, :kind_of => String
-attribute :vhost, :kind_of => String
+attribute :admin_user, :kind_of => String, :required => true 
+attribute :admin_password, :kind_of => String, :required => true
+attribute :appvhost, :kind_of => String, :required => true
 attribute :option_key, :kind_of => String
 attribute :option_value, :kind_of => String
 
