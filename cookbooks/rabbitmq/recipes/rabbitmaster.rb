@@ -149,7 +149,7 @@ rabbitapps.each do |app|
   end
 end
 # Collect all vhosts and create a string.
-appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
+appvhosts = vhost_names.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
 # Define admin user and password
 admin_user = "#{rabbitcore['adminuser'].split("|")[0]}"
 admin_password = "#{rabbitcore['adminuser'].split("|")[1]}"
@@ -181,6 +181,25 @@ end
 # Now loop for each application.
 rabbitapps.each do |app|
   name_queue = data_bag_item("rabbitmq", app)
+  # Collect All of the vhosts for any specific application
+  unless "#{app}" == "rabbitmq"
+    appvhosts = []
+    appvhosts = search(:node, "#{app}_amqp_vhost:*").map {|n| n["#{app}_amqp_vhost"]}
+    name_queue = data_bag_item("rabbitmq", app)
+    if name_queue["vhosts"].nil? || name_queue["vhosts"].empty?
+      Chef::Log.info("No additional vhosts to add for this app.")
+    else
+      name_queue["vhosts"].split(" ").each do |vhost|
+        appvhosts << vhost
+      end
+    end
+    appvhosts = appvhosts
+    appvhosts.each do |vhost|
+      vhost_names << vhost
+    end
+  end
+# Collect all vhosts and create a string.
+  appvhosts = vhost_names.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
   appvhosts.each do |vhost|
     # Split the string to allow for looping on each vhost.
     vhosts_list = appvhosts.split(" ")
