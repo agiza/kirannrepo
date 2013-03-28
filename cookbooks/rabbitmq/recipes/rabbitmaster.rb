@@ -193,16 +193,11 @@ rabbitapps.each do |app|
         appvhosts << vhost
       end
     end
-    appvhosts = appvhosts
-    appvhosts.each do |vhost|
-      vhost_names << vhost
-    end
   end
 # Collect all vhosts and create a string.
-  appvhosts = vhost_names.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
-  appvhosts.each do |vhost|
+  appvhosts = appvhosts.collect {|vhost| "#{vhost}" }.sort.uniq.join(" ")
     # Split the string to allow for looping on each vhost.
-    vhosts_list = appvhosts.split(" ")
+  vhosts_list = appvhosts.split(" ")
     # Loop for all vhosts
     vhosts_lists.each do |vhost|
       # Grab the normal queues for creation and split them for a loop.
