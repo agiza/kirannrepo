@@ -19,7 +19,7 @@
 
 actions :add, :delete, :add_ttl, :add_with_option
 
-attribute :name, :kind_of => String, :name_attribute => true
+attribute :queue, :kind_of => String, :name_attribute => true
 attribute :admin_user, :kind_of => String 
 attribute :admin_password, :kind_of => String
 attribute :vhost, :kind_of => String

@@ -74,7 +74,7 @@ action :add_with_option do
 end
 
 action :delete do
-  if vhost_exists?(new_resource.vhost)
+  if queue_exists?(new_resource.queue)
     cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{admin_user} -p #{admin_password} delete queue name=#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"

@@ -66,12 +66,12 @@ action :add do
 end
 
 action :set_binding do
-  unless binding_exists?(new_resource.binding)
+  unless binding_exists?(new_resource.exchange)
     html_vhost = vhost.gsub("/", "%2f")
     cmdStr = "/etc/rabbitmq/rabbitmqadmin -H 127.0.0.1 -V #{vhost} -u #{admin_user} -p #{admin_password} declare binding source=#{source} destination_type=#{type} destination=#{destination} routing_key=#{routingkey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.binding}'."
+      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
       new_resource.updated_by_last_action(true)
     end
   end
@@ -79,13 +79,13 @@ end
 
 
 action :set_binding_option do
-  unless binding_exists?(new_resource.binding)
+  unless binding_exists?(new_resource.exchange)
     html_vhost = vhost.gsub("/", "%2f")
     #cmdStr = "curl -i -u #{admin_user}:#{admin_password} -H \"content-type:application/json\" -XPOST -d\"{\"routing_key\":\"#{routingkey}\",\"arguments\":{\"#{option_key}\":\"#{option_value}\"}}\" http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{source}/q/#{destination}"
     cmdStr = "curl -i -u #{admin_user}:#{admin_password} -H \'content-type:application/json\' -XPOST -d\'{\"routing_key\":\"#{routingkey}\",\"arguments\":{\"#{option_key}\":\"#{option_value}\"}}\' http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{source}/q/#{destination}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.binding}'."
+      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
       new_resource.updated_by_last_action(true)
     end
   end
@@ -103,11 +103,11 @@ action :delete do
 end
 
 action :clear_binding do
-  if binding_exists?(new_resource.binding)
+  if binding_exists?(new_resource.exchange)
     cmdStr = "/etc/rabbitmq/rabbitmqadmin -H 127.0.0.1 -V #{vhost} -u #{admin_user} -p #{admin_password} delete binding source=#{source} destination_type=#{type} destination=#{destination} properties_key=#{routingkey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_delete: #{cmdStr}"
-      Chef::Log.info "Deleting RabbitMQ Binding '#{new_resource.binding}'."
+      Chef::Log.info "Deleting RabbitMQ Binding '#{new_resource.exchange}'."
       new_resource.updated_by_last_action(true)
     end
   end
