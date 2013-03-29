@@ -52,7 +52,7 @@ rabbitapps.each do |app|
         rabbitmq_user "#{rabbituser}" do
           vhost "#{vhost}"
           password "#{rabbitpass}"
-          permissions "   .* .*"
+          permissions " ^$ .* .*"
           tag "management"
           action [:add, :set_tags, :set_permissions]
         end
