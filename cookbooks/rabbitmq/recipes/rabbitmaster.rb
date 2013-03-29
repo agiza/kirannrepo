@@ -208,6 +208,7 @@ rabbitapps.each do |app|
           tag "management"
           action [:add, :set_tags, :set_permissions]
         end
+      end
       # Grab the normal queues for creation and split them for a loop.
       if name_queue['queues'].nil?
         Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
