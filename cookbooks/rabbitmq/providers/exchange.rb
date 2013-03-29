@@ -40,7 +40,8 @@ def exchange_exists?(name, vhost)
 end
 
 def binding_exists?(name, vhost, source, destination, routingkey)
-  cmdStr = "rabbitmqctl -q list_bindings -p #{vhost} | grep ^#{source} | grep -w #{destination} | grep -w \"#{routingkey}\""
+  routekey = routingkey.gsub("#", "\#")
+  cmdStr = "rabbitmqctl -q list_bindings -p #{vhost} | grep ^#{source} | grep -w #{destination} | grep -w \"#{routekey}\""
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
