@@ -9,6 +9,9 @@ include_recipe "iptables::default"
 iptables_rule "port_tomcat"
 
 include_recipe "altisource::volume"
+directory "/opt/tomcat" do
+  action :create
+end
 if node.attribute["altitomcat_volume"]
   lvm_mount "altitomcat" do
     device "#{node[:altitomcat_volume][:device]}"
