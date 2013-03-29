@@ -69,7 +69,8 @@ end
 action :set_binding do
   unless binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} routing_key=#{new_resource.routingkey}"
+    routekey = new_resource.routingkey.gsub("#", "\#")
+    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} routing_key=#{routekey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
@@ -82,7 +83,7 @@ end
 action :set_binding_option do
   unless binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    #cmdStr = "curl -i -u #{admin_user}:#{admin_password} -H \"content-type:application/json\" -XPOST -d\"{\"routing_key\":\"#{routingkey}\",\"arguments\":{\"#{option_key}\":\"#{option_value}\"}}\" http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{source}/q/#{destination}"
+   # routekey = new_resource.routingkey.gsub("#", "\#")
     cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \'content-type:application/json\' -XPOST -d\'{\"routing_key\":\"#{new_resource.routingkey}\",\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"}}\' http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
@@ -93,7 +94,7 @@ action :set_binding_option do
 end
 
 action :delete do
-  if exchange_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
+  if exchange_exists?(new_resource.exchange, new_resource.vhost)
     cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete exchange name=#{new_resource.exchange}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_exchange_delete: #{cmdStr}"
@@ -105,7 +106,8 @@ end
 
 action :clear_binding do
   if binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} properties_key=#{new_resource.routingkey}"
+    routekey = new_resource.routingkey.gsub("#", "\#")
+    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} properties_key=#{routekey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_delete: #{cmdStr}"
       Chef::Log.info "Deleting RabbitMQ Binding '#{new_resource.exchange}'."
