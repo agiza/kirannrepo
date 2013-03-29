@@ -56,6 +56,18 @@ end
 action :add_with_option do
   unless queue_exists?(new_resource.queue, new_resource.vhost)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
+    cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":\\\"#{new_resource.option_value}\\\"},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
+    execute cmdStr do
+      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
+      new_resource.updated_by_last_action(true)
+    end
+  end
+end
+
+action :add_with_ttl do
+  unless queue_exists?(new_resource.queue, new_resource.vhost)
+    html_vhost = new_resource.vhost.gsub("/", "%2f")
     cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
