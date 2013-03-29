@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-actions :add, :delete, :add_with_option
+actions :add, :delete, :add_with_option, :add_with_ttl
 
 attribute :queue, :kind_of => String, :name_attribute => true
 attribute :vhost, :kind_of => String, :required => true
