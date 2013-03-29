@@ -93,7 +93,7 @@ template "/etc/rabbitmq/hosts.txt" do
   notifies :run, 'execute[rabbit-host]', :delayed
 end
 
-execute "purge_db" do
+execute "purgedb" do
   command "rm -rf /var/lib/rabbitmq/mnesia"
   action :nothing
 end
@@ -105,7 +105,7 @@ template "/var/lib/rabbitmq/.erlang.cookie" do
   mode   "0600"
   variables( :cookie => rabbitcore['rabbit_cookie'] )
   notifies :stop, resources(:service => "rabbitmq-server"), :immediately
-  notifies :run, resources(:service=> "purge_db"), :immediately
+  notifies :run, resources(:execute => "purgedb"), :immediately
   notifies :start, resources(:service => "rabbitmq-server"), :immediately
 end
 
