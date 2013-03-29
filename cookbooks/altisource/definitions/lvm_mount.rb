@@ -15,7 +15,7 @@ define :lvm_mount do
     end
   
     execute "vgcreate" do
-      command "/sbin/vgcreate #{params[:group]}"
+      command "/sbin/vgcreate #{params[:group]} #{params[:device]}"
       #Chef::Log.info("Would execute vgcreate #{params[:group]}")
       only_if "/sbin/vgdisplay #{params[:group]} 2>&1 | grep -q 'not found'"
       action :run
