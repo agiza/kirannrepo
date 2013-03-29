@@ -68,7 +68,7 @@ end
 
 action :setpolicy do
   unless policy_exists?(new_resource.vhost)
-    cmdStr = "rabbitmqctl set_policy -p #{new_resource.vhost} HA '.*' '\{\"ha-mode\': \"all\"\}'"
+    cmdStr = "rabbitmqctl set_policy -p #{new_resource.vhost} HA '.*' '\{\"ha-mode\": \"all\"\}'"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_vhost_setpolicy: #{cmdStr}"
       Chef::Log.info "Setting HA policy to RabbitMQ vhost '#{new_resource.vhost}'."
