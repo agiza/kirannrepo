@@ -194,10 +194,20 @@ rabbitapps.each do |app|
       end
     end
   #end
-    # Loop for all vhosts
-  #vhosts_list.each do |vhost|
+    # Collect vhosts, sort and remove unique items, then loop for all vhosts
     appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.uniq.sort.join(" ").split(" ")
     appvhosts.each do |vhost|
+      # Create user names and assign permissions for application vhost
+      name_queue["user"].split(" ").each do |user|
+        rabbituser = user.split("|")[0]
+        rabbitpass = user.split("|")[1]
+        rabbitmq_user "#{rabbituser}" do
+          vhost "#{vhost}"
+          password "#{rabbitpass}"
+          permissions "   .* .*"
+          tag "management"
+          action [:add, :set_tags, :set_permissions]
+        end
       # Grab the normal queues for creation and split them for a loop.
       if name_queue['queues'].nil?
         Chef::Log.info("No queues for #{app} in #{vhost} found to create.")
@@ -314,21 +324,21 @@ rabbitapps.each do |app|
         end
       end
     end
-    template "/etc/rabbitmq/#{app}-rabbit.sh" do
-      source "app_rabbit.erb"
-      group "root"
-      owner "root"
-      mode '0755'
-      variables(
-        :queue_names  => name_queue['queues'],
-        :exchange_names => name_queue['exchange'],
-        :binding_names => name_queue['binding'],
-        :vhost_names => appvhosts,
-        :userstring => name_queue['user'],
-        :adminuser => rabbitcore['adminuser']
-      )
-      notifies :run, "execute[#{app}-config]", :delayed
-    end
+    #template "/etc/rabbitmq/#{app}-rabbit.sh" do
+    #  source "app_rabbit.erb"
+    #  group "root"
+    #  owner "root"
+    #  mode '0755'
+    #  variables(
+    #    :queue_names  => name_queue['queues'],
+    #    :exchange_names => name_queue['exchange'],
+    #    :binding_names => name_queue['binding'],
+    #    :vhost_names => appvhosts,
+    #    :userstring => name_queue['user'],
+    #    :adminuser => rabbitcore['adminuser']
+    #  )
+    #  notifies :run, "execute[#{app}-config]", :delayed
+    #end
   end
 end
 
