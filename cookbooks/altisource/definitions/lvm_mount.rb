@@ -7,6 +7,11 @@ define :lvm_mount do
   if node.attribute?("novolume")
     Chef::Log.info("No volume mount attribute is set.")
   else
+    directory "#{params[:mountpoint]}" do
+      recursive "true"
+      action :create
+    end
+
     execute "pvcreate" do
       command "/sbin/pvcreate #{params[:device]}"
       #Chef::Log.info("Would execute pvcreate  #{params[:device]}")
