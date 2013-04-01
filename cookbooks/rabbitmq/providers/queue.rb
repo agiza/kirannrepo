@@ -39,6 +39,21 @@ def queue_exists?(name, vhost)
   end
 end
 
+def queue_option_exists?(name, vhost, option_key, option_value)
+  cmdStr = "rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{admin_user} -p #{admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
+  cmd = Mixlib::ShellOut.new(cmdStr)
+  cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
+  cmd.run_command
+  Chef::Log.debug "rabbitmq_option_exists?: #{cmdStr}"
+  Chef::Log.debug "rabbitmq_option_exists?: #{cmd.stdout}"
+  begin
+    cmd.error!
+    true
+  rescue
+    false
+  end
+end
+
 action :add do
   unless queue_exists?(new_resource.queue, new_resource.vhost)
     if new_resource.admin_user.nil? || new_resource.admin_password.nil?
@@ -54,7 +69,15 @@ action :add do
 end
 
 action :add_with_option do
-  unless queue_exists?(new_resource.queue, new_resource.vhost)
+  unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
+    if queue_exists?(new_resource.queue, new_resource.vhost)
+      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+      execute cmdStr do
+        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
+        new_resource.updated_by_last_action(true)
+      end
+    end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
     cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":\\\"#{new_resource.option_value}\\\"},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
@@ -66,7 +89,15 @@ action :add_with_option do
 end
 
 action :add_with_ttl do
-  unless queue_exists?(new_resource.queue, new_resource.vhost)
+  unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
+    if queue_exists?(new_resource.queue, new_resource.vhost)
+      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+      execute cmdStr do
+        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
+        new_resource.updated_by_last_action(true)
+      end
+    end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
     cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
