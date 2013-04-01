@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-execute "replica-create" do
-  command "/usr/local/bin/replica-create"
-  action :nothing
-end
+#execute "replica-create" do
+#  command "/usr/local/bin/replica-create"
+#  action :nothing
+#end
 
 replicaset = node[:replicaset]
 replicalist = []
@@ -43,15 +43,18 @@ unless replicaset.nil? || replicaset.empty? || replicaset.nil? || replicaset.emp
     variables(
       :replicas => replicalist
     )
-    notifies :run, 'execute[replica-create]'
+    #notifies :run, 'execute[replica-create]'
   end
 
-  template "/usr/local/bin/replica-create" do
-    source "replica-create.erb"
-    owner  "root"
-    group  "root"
-    mode   "0755"
-    notifies :run, 'execute[replica-create]'
+  #template "/usr/local/bin/replica-create" do
+  #  source "replica-create.erb"
+  #  owner  "root"
+  #  group  "root"
+  #  mode   "0755"
+  #  notifies :run, 'execute[replica-create]'
+  #end
+  mongodb_replica "#{node[:replicaset]}" do
+    action :create
   end
 
   ruby_block "remove replica-create from run list" do

@@ -42,16 +42,19 @@ unless replicaset.nil? || replicaset.empty?
       :replicas => replicalist,
       :replicaset => replicaset
     )
-    notifies :run, 'execute[shard-enable]'
+    #notifies :run, 'execute[shard-enable]'
   end
 
-  template "/usr/local/bin/shard-enable" do
-    source "shard-enable.erb"
-    owner  "root"
-    group  "root"
-    mode   "0755"
-    notifies :run, 'execute[shard-enable]'
+  mongodb_shard "#{replicaset}" do
+    action :add
   end
+  #template "/usr/local/bin/shard-enable" do
+  #  source "shard-enable.erb"
+  #  owner  "root"
+  #  group  "root"
+  #  mode   "0755"
+  #  notifies :run, 'execute[shard-enable]'
+  #end
 
   ruby_block "remove shard-enable from run list" do
     block do
