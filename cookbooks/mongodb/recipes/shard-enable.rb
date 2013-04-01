@@ -12,53 +12,54 @@ execute "shard-enable" do
   action :nothing
 end
 
-replicaset = node[:replicaset]
-if replicaset.nil? || replicaset.empty?
-  Chef::Log.fatal("No replicaset attribute is defined, This is REQUIRED.")
+if node.attribute?('performance')
+  environment = "#{node[:chef_environment]}"
 else
+  environment = "shared"
+end
+
+replicaset = node[:replicaset]
+unless replicaset.nil? || replicaset.empty?
   replicalist = []
-  if node.attribute?('performance')
-    replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:#{node.chef_environment}")
-    replicas.each do |replica|
-      replicalist << "#{replica[:ipaddress]}:27017"
+
+  %w{mongod replica replica1}.each do |app|
+    if "#{app}" == "mongod"
+      port = "27017"
+    elsif "#{app}" == "replica"
+      port = "27027"
+    elsif "#{app}" == "replica1"
+      port = "27037"
     end
-  else
-    replicas = search(:node, "recipes:mongodb\\:\\:mongod OR role:mongodb-primary AND role:mongodb-#{replicaset} AND chef_environment:shared")
-    replicas.each do |replica|
-      replicalist << "#{replica[:ipaddress]}:27017"
+    search(:node, "recipes:*\\:\\:#{app} AND replicaset:#{replicaset} AND chef_environment:#{environment}")
+      replicalist << "#{replica[:ipaddress]}:#{port}"
+    end
+  template "/data/db/shardadd.js" do
+    source "shardadd.js.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    variables(
+      :replicas => replicalist,
+      :replicaset => replicaset
+    )
+    notifies :run, 'execute[shard-enable]'
+  end
+
+  template "/usr/local/bin/shard-enable" do
+    source "shard-enable.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
+    notifies :run, 'execute[shard-enable]'
+  end
+
+  ruby_block "remove shard-enable from run list" do
+    block do
+      node.run_list.remove("mongodb::shard-enable")
     end
   end
-end
 
-template "/data/db/shardadd.js" do
-  source "shardadd.js.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables(
-    :replicas => replicalist,
-    :replicaset => replicaset
-  )
-  notifies :run, 'execute[shard-enable]'
-end
-
-template "/usr/local/bin/shard-enable" do
-  source "shard-enable.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-  notifies :run, 'execute[shard-enable]'
-end
-
-ruby_block "remove shard-enable from run list" do
-  block do
-    node.run_list.remove("mongodb::shard-enable")
-  end
-end
-
-ruby_block "remove replicaset attribute" do
-  block do
-    node.attribute.remove("replicaset")
-  end
+else
+  Chef::Log.error("No replicaset attribute is defined, This is REQUIRED. Skipping shard enable activity.")
 end
 

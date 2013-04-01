@@ -18,10 +18,6 @@ lvm_mount "replica" do
   mountpoint "/mongod"
 end
 
-#volume_mount "volume_replica" do
-#  volumes "sdb|mongod|mongod|defaults"
-#end
-
 include_recipe "mongodb::default"
 iptables_rule "port_mongod-replica"
 

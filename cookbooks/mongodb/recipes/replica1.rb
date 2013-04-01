@@ -18,12 +18,7 @@ lvm_mount "replica1" do
   mountpoint "/mongod"
 end
 
-#volume_mount "volume_replica1" do
-#  volumes "sdb|mongod|mongod|defaults"
-#end
-
 include_recipe "mongodb::default"
-
 iptables_rule "port_mongod-replica1"
 
 %w{/data /data/db /data/db/replica1}.each do |dir|
