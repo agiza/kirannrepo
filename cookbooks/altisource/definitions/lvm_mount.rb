@@ -8,7 +8,7 @@ define :lvm_mount do
     Chef::Log.info("No volume mount attribute is set.")
   else
     directory "#{params[:mountpoint]}" do
-      recursive "true"
+      recursive true
       action :create
     end
 
