@@ -31,6 +31,17 @@ env=`echo $env_list`
    done
 }
 
+enter_role(){
+echo "Enter recipes to be included in the correct format. i.e. [recipe[mongodb::mongod]]"
+  read answer
+  format_check = `echo "${answer}" | grep "\[" | grep "\]\]"`
+    if [ "$format_check" == "" ]; then
+      echo "Your entry did not match the correct format."; exit 1
+    else
+      role_name=${answer}
+    fi
+}
+ 
 select_role(){
 role=`echo generic realtrans realdoc rabbitserver`
    clear
@@ -43,6 +54,20 @@ role=`echo generic realtrans realdoc rabbitserver`
       esac
    done
 }
+
+node_check(){
+count=0
+while [ $count -lt 6 ]; do
+  node_check=`knife node show $host | grep "Response" | grep "not found"`
+  if [ $node_check != "" ]; then
+    echo "Node record found."; start=6
+  else
+    echo "Waiting for node record."; sleep 10; (( count++ ))
+  fi
+done
+if [ $node_check != "" ]; then
+  echo "Node record not found, can not add environment or roles without a node record."; exit 1
+fi
 
 attr_select(){
 
@@ -72,6 +97,13 @@ fi
 knife bootstrap $host --distro rhel6-rpms && echo "Chef has been provisioned to the host." 
 check_errs $? "There was a problem with the bootstrap."
 
+# Perform initial chef-client run to make sure that node record gets created.
+ssh root@$host "chef-client"
+check_errs $? "There was a problem running chef-client for initial run."
+
+# This sleeps and looks for active node record on chef server after initial chef-client run.
+node_check
+
 # Add node to the new environment.
 knife node set_environment $host $env_targ
 check_errs $? "There was a problem with adding the node to the environment."
@@ -81,9 +113,9 @@ knife node run_list add $host role[all] && echo "Role all has been added to the 
 check_errs $? "There was a problem with adding the all role."
 
 # Add any other roles that were selected.
-#for i in `echo $add_role`; do
-#  knife node run_list add $host "$i" && echo "Role $i has been added to the node." 
-#  check_errs $? "There was a problem with adding $i role."
+#for i in `echo $role_name`; do
+knife node run_list add $host "${role_name}" && echo "Roles have been added to the node." 
+check_errs $? "There was a problem with adding ${role_name} role."
 #done
 
 # SSH to the new node and run chef-client.
@@ -92,7 +124,7 @@ check_errs $? "There was a problem with the chef client run, check the logs."
 }
 
 chef_check(){
-knife node show $host | grep Role 
+knife node show $host
 check_errs $? "There was a problem checking the role for this host."
 }
 
@@ -104,6 +136,7 @@ read pause
 data_check(){
 enter_host
 select_env
+enter_role
 #select_role
 #attr_select
 #target_search
