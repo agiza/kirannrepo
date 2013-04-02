@@ -38,36 +38,39 @@ echo "Enter recipes to be included in the correct format. i.e. [recipe[mongodb::
     if [ "$format_check" == "" ]; then
       echo "Your entry did not match the correct format."; exit 1
     else
-      role_name=${answer}
+      role_name="${answer}"
     fi
 }
  
-select_role(){
-role=`echo generic realtrans realdoc rabbitserver`
-   clear
-   select func in $role; do
-      case $func in
-      *)
-         role_name="$func"
-         break
-         ;;
-      esac
-   done
-}
+#select_role(){
+#role=`echo generic realtrans realdoc rabbitserver`
+#   clear
+#   select func in $role; do
+#      case $func in
+#      *)
+#         role_name="$func"
+#         break
+#         ;;
+#      esac
+#   done
+#}
 
 node_check(){
 count=0
 while [ $count -lt 6 ]; do
   node_check=`knife node show $host | grep "Response" | grep "not found"`
-  if [ $node_check != "" ]; then
+  if [ "$node_check" != "" ]; then
     echo "Node record found."; start=6
   else
-    echo "Waiting for node record."; sleep 10; (( count++ ))
+    echo "Waiting for node record."; sleep 10
+    (( count++ ))
   fi
 done
+
 if [ $node_check != "" ]; then
   echo "Node record not found, can not add environment or roles without a node record."; exit 1
 fi
+}
 
 attr_select(){
 
