@@ -95,7 +95,8 @@ check_errs $? "There was a problem running chef-client for initial run."
 node_check
 
 # Add node to the new environment.
-knife node set_environment $host $env_targ
+knife exec -E 'nodes.transform("name:$host") {|n| puts n.chef_environment("$env_targ"); n.save }'
+#knife node set_environment $host $env_targ
 check_errs $? "There was a problem with adding the node to the environment."
 
 # Add role all automatically to the new node.
