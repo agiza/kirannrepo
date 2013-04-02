@@ -34,7 +34,7 @@ env=`echo $env_list`
 enter_role(){
 echo "Enter recipes to be included in the correct format. i.e. [recipe[mongodb::mongod]]"
   read answer
-  format_check = `echo "${answer}" | grep "\[" | grep "\]\]"`
+  format_check=`echo "${answer}" | grep "\[" | grep "\]\]"`
     if [ "$format_check" == "" ]; then
       echo "Your entry did not match the correct format."; exit 1
     else
