@@ -42,27 +42,14 @@ echo "Enter recipes to be included in the correct format. i.e. [recipe[mongodb::
     fi
 }
  
-#select_role(){
-#role=`echo generic realtrans realdoc rabbitserver`
-#   clear
-#   select func in $role; do
-#      case $func in
-#      *)
-#         role_name="$func"
-#         break
-#         ;;
-#      esac
-#   done
-#}
-
 node_check(){
-count=0
-while [ $count -lt 6 ]; do
+count=1
+while [ $count -lt 10 ]; do
   node_check=`knife node show $host | grep "Response" | grep "not found"`
   if [ "$node_check" != "" ]; then
-    echo "Node record found."; start=6
+    echo "Node record found."; break
   else
-    echo "Waiting for node record."; sleep 10
+    echo "Sleeping while Waiting for node record to be created."; sleep 10
     (( count++ ))
   fi
 done
@@ -101,7 +88,7 @@ knife bootstrap $host --distro rhel6-rpms && echo "Chef has been provisioned to 
 check_errs $? "There was a problem with the bootstrap."
 
 # Perform initial chef-client run to make sure that node record gets created.
-ssh root@$host "chef-client"
+ssh root@$host "hostname $host; chef-client"
 check_errs $? "There was a problem running chef-client for initial run."
 
 # This sleeps and looks for active node record on chef server after initial chef-client run.
