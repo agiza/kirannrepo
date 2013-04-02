@@ -48,6 +48,12 @@ unless replicaset.nil? || replicaset.empty?
   mongodb_shard "#{replicaset}" do
     action :add
   end
+
+ # mongodb_shard "#{replicaset}" do
+ #   database "#{database}"
+ #   action :enable
+ # end
+
   #template "/usr/local/bin/shard-enable" do
   #  source "shard-enable.erb"
   #  owner  "root"

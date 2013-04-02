@@ -40,6 +40,21 @@ def shard_exists?(replicaset)
   end
 end
 
+def shard_enabled?(database)
+  cmdStr = "mongo localhost:27017/config --quiet --eval \"printjson(printjson(db.databases.find({_id:'#{new_resource.database}').next())\" | grep true"
+  cmd = Mixlib::ShellOut.new(cmdStr)
+  cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
+  cmd.run_command
+  Chef::Log.debug "shard_enabled?: #{cmdStr}"
+  Chef::Log.debug "shard_enabled?: #{cmd.stdout}"
+  begin
+    cmd.error!
+    true
+  rescue
+    false
+  end
+end
+
 action :add do
   unless shard_exists?(new_resource.replicaset)
     cmdStr = "mongo localhost:27017 --quiet /data/db/shardadd.js"
@@ -52,8 +67,8 @@ action :add do
 end
 
 action :enable do
-  unless shard_exists?(new_resource.database)
-    cmdStr = "mongo localhost:27017 --quiet db.runCommand( { enableSharding : \'#{new_resource.database}\" } )"
+  unless shard_enabled?(new_resource.database)
+    cmdStr = "mongo localhost:27017/admin --quiet db.runCommand( { enableSharding : \'#{new_resource.database}\" } )"
     execute cmdStr do
       Chef::Log.debug "shard_enabled: #{cmdStr}"
       Chef::Log.info "Enabling Sharding for '#{new_resource.database}'."
