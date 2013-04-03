@@ -9,8 +9,9 @@
 
 include_recipe "altisource::altitomcat"
 
-%w{amqphost_search rdochost_search}.each do |search|
-  "#{search}" do
-  end
+amqphost_search do
+end
+
+rdochost_search do
 end
 
