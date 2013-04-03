@@ -14,7 +14,7 @@ define :cloud_mount do
 
     execute "format" do
       command "/sbin/mkfs -t #{params[:filesystem]} -m 1 #{params[:device]}"
-      not_if "/sbin/blkid -o full -s TYPE #{params[:mountpoint]} | grep \"#{params[:filesystem]}\""
+      not_if "/sbin/blkid -o full -s TYPE #{params[:device]} | grep \"#{params[:filesystem]}\""
       action :run
     end  
 
