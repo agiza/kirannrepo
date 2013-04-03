@@ -6,6 +6,33 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+cloud_mount "opt" do
+  device "/dev/xvdl"
+  mountpoint "/opt"
+  fstype "ext4"
+  options "defaults"
+end
+
+cloud_mount "backup" do
+  device "/dev/xvdm"
+  mountpoint "/backup"
+  fstype "ext4"
+  options "defaults"
+end
+
+cloud_mount "mnt" do
+  device "/dev/xvdj"
+  mountpoint "/mnt"
+  fstype "ext4"
+  options "defaults"
+end
+
+cloud_mount "bamboo_data" do
+  device "/dev/xvdn"
+  mountpoint "/mnt/bamboo_data"
+  fstype "ext4"
+  options "defaults"
+end
 
 service "bamboo" do
   supports :stop => true, :start => true, :restart => true, :status => true
