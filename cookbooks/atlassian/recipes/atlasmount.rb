@@ -15,7 +15,7 @@ cloud_mount "var" do
 end
 
 cloud_mount "opt" do
-  device "/dev/xdd"
+  device "/dev/xvdd"
   mountpoint "/opt/atlassian"
   fstype "ext4"
   options "defaults,nobootwait,comment=optatlas"
