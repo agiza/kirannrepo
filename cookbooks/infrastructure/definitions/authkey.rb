@@ -9,7 +9,7 @@
 
 define :authkey do
   
-  directory "#{params[:user]}/.ssh" do
+  directory "#{params[:name]}/.ssh" do
     recursive true
     action :create
   end
@@ -19,15 +19,15 @@ define :authkey do
     rescue Net::HttpServerException
       raise ("Failed to load authkeys from infrastructure data bag.")
   end
-  if authkeys["#{params[:user]}"].nil? || authkeys["#{params[:user]}"].empty?
+  if authkeys["#{params[:name]}"].nil? || authkeys["#{params[:name]}"].empty?
     Chef::Log.info("Authkeys is empty or missing, unable to update keys file.")
   else
-    template "/#{params[:user]}/.ssh/authorized_keys" do
+    template "/#{params[:name]}/.ssh/authorized_keys" do
       source "authorized_keys.erb"
-      owner "#{params[:user]}"
-      group "#{params[:user]}"
+      owner "#{params[:name]}"
+      group "#{params[:name]}"
       mode  "0600"
-      variables(:authkeys => authkeys["#{params[:user]}"])
+      variables(:authkeys => authkeys["#{params[:name]}"])
       action :create
     end
   end

@@ -8,6 +8,5 @@
 #
 
 authkey "root" do
-  user "root"
 end
 
