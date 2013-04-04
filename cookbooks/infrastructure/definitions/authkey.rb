@@ -19,7 +19,7 @@ define :authkey do
     rescue Net::HttpServerException
       raise ("Failed to load authkeys from infrastructure data bag.")
   end
-  if authkeys.nil? || authkeys.empty?
+  if authkeys["#{params[:user]}"].nil? || authkeys["#{params[:user]}"].empty?
     Chef::Log.info("Authkeys is empty or missing, unable to update keys file.")
   else
     template "/#{params[:user]}/.ssh/authorized_keys" do
