@@ -1,4 +1,4 @@
-<% @authkeys.each do |key,value| -%>
-<%= value %> <%= key %>
+<% @authkeys.each_pair do |key, value| -%>
+<%= "#{value}" %> <%= "#{key}" %>
 <% end -%>
 
