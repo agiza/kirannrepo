@@ -7,6 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 
+cloud_mount "storage" do
+  device "/dev/xvdg"
+  mountpoint "/storage"
+  fstype "ext4"
+  options "defaults,nobootwait,comment=cloudstorage"
+end
+
+cloud_mount "backup" do
+  device "/dev/xvdh"
+  mountpoint "/backup"
+  fstype "ext4"
+  options "defaults,nobootwait,comment=cloudstorage"
+end
+
 %w{/home/ubuntu /home/ubuntu/.ssh}.each do |dir|
   directory "#{dir}" do
     owner "ubuntu"
@@ -14,18 +28,18 @@
   end
 end
 
-template "/home/ubuntu/mount-storage.sh" do
-  source "mount-storage.sh.erb"
-  owner  "ubuntu"
-  group  "ubuntu"
-  mode   "0755"
-end
+#template "/home/ubuntu/mount-storage.sh" do
+#  source "mount-storage.sh.erb"
+#  owner  "ubuntu"
+#  group  "ubuntu"
+#  mode   "0755"
+#end
 
-execute "mountopt" do
-  command "/home/ubuntu/mount-storage.sh"
-  creates "/storage/lost+found"
-  action  :run
-end
+#execute "mountopt" do
+#  command "/home/ubuntu/mount-storage.sh"
+#  creates "/storage/lost+found"
+#  action  :run
+#end
 
 file "/home/ubuntu/.ssh/authorized_keys" do
   owner "ubuntu"
