@@ -8,8 +8,12 @@
 #
 
 define :authkey do
-  
-  directory "#{params[:name]}/.ssh" do
+  if "#{params[:name]}" == "root"
+    userdir = "/#{params[:name]}"
+  else
+    userdir = "/home/#{params[:name]}"
+  end
+  directory "#{userdir}/.ssh" do
     recursive true
     action :create
   end
