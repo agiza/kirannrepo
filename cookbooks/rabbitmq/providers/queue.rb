@@ -110,7 +110,7 @@ action :add_with_ttl do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    uri = URI('http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}')
+    uri = URI("http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}")
     req = Net::HTTP::Post.new(uri)
     req.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     req.body = "{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"#{new_resource.option_key}\":#{new_resource.option_value}},\"node\":\"rabbit@#{node[:hostname]}\"}"
