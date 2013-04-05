@@ -24,7 +24,11 @@ attribute :vhost, :kind_of => String, :required => true
 attribute :admin_user, :kind_of => String, :required => true 
 attribute :admin_password, :kind_of => String, :required => true
 attribute :option_key, :kind_of => String
-attribute :option_value, :kind_of => String
+if "#{:option_value}" == "x-message-ttl"
+  attribute :option_value, :kind_of => Integer
+else
+  attribute :option_value, :kind_of => String
+end
 
 def initialize(*args)
   super
