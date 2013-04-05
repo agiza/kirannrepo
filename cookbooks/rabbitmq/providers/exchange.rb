@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 require 'net/http'
+
 def whyrun_supported
   true
 end
