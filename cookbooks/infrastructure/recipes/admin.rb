@@ -6,6 +6,8 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+authkey "ubuntu" do
+end
 
 %w{vpn-client vpn-revoke}.each do |template|
   template "/root/bin/#{template}.sh" do
