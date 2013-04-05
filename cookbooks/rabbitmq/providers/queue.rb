@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+require 'net/http'
+
 def whyrun_supported
   true
 end
@@ -79,7 +81,16 @@ action :add_with_option do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":\\\"#{new_resource.option_value}\\\"},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
+    uri = URI("http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}")
+    req = Net::HTTP::Post.new(uri)
+    req.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
+    req.body = "{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"},\"node\":\"rabbit@#{node[:hostname]}\"}\""
+    req.content_type = 'application/json'
+    cmdStr = 'Net::HTTP.start(uri.hostname, uri.port) do {|http|
+      http.request(req)
+    }
+    puts res.body'
+    #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":\\\"#{new_resource.option_value}\\\"},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
@@ -99,7 +110,16 @@ action :add_with_ttl do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
+    uri = URI("http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}")
+    req = Net::HTTP::Post.new(uri)
+    req.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
+    req.body = "{\"durable\":true,\"auto_delete\":false,\"arguments\":{\"#{new_resource.option_key}\":#{new_resource.option_value}},\"node\":\"rabbit@#{node[:hostname]}\"}"
+    req.content_type = 'application/json'
+    cmdStr = 'Net::HTTP.start(uri.hostname, uri.port) do {|http|
+      http.request(req)
+    }
+    puts res.body'
+    #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
