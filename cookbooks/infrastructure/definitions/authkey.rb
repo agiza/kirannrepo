@@ -26,7 +26,7 @@ define :authkey do
   if authkeys["#{params[:name]}"].nil? || authkeys["#{params[:name]}"].empty?
     Chef::Log.info("Authkeys is empty or missing, unable to update keys file.")
   else
-    template "/#{params[:name]}/.ssh/authorized_keys" do
+    template "#{userdir}/.ssh/authorized_keys" do
       source "authorized_keys.erb"
       owner "#{params[:name]}"
       group "#{params[:name]}"
