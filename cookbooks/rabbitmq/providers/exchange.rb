@@ -85,8 +85,8 @@ action :set_binding_option do
   unless binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
    # routekey = new_resource.routingkey.gsub("#", "\#")
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
+    #uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
     request = Net::HTTP::Post.new("/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')

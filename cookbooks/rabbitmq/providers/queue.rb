@@ -81,8 +81,8 @@ action :add_with_option do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
+    #uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
     request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
@@ -107,8 +107,8 @@ action :add_with_ttl do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
+    #uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
     request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
