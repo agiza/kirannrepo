@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-authkey "root" do
+if platform_family?("rhel")
+  authkey "root" do
+  end
 end
 
