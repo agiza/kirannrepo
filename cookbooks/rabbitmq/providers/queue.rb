@@ -81,12 +81,12 @@ action :add_with_option do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    #uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
+    uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => { "#{new_resource.option_key}" =>  "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" =>  "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}
     cmdStr = http.request(request)
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
@@ -107,13 +107,14 @@ action :add_with_ttl do
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    ttl = "#{new_resource.option_value}"
-    #uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
+    #ttl = "#{new_resource.option_value}"
+    uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new(uri.host, uri.port)
+    #http = Net::HTTP.new("#{node[:ipaddress]}", 15672)
     request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => ttl}, 'node' => "rabbit@#{node[:hostname]}"}
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}
     cmdStr = http.request(request)
     #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
