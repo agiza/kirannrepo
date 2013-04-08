@@ -58,16 +58,25 @@ def queue_option_exists?(name, vhost, option_key, option_value)
 end
 
 def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_value)
+  #if "#{option_key}" == "x-message-ttl"
+  #  option_value = "#{option_value}"
+  #else
+  #  option_value = "\"#{option_value}\""
+  #end
   uri = URI.parse("http://#{node[:ipaddress]}:15672")
   http = Net::HTTP.new(uri.host, uri.port)
   headers = {'Content-Type' => 'applications/json'}
-  request = Net::HTTP::Post.new("/api/queues/#{vhost}/#{queue}", headers)
-  request.basic_auth admin_user, admin_password
-  request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
-  Chef::Log.info("#{request.path} Method: #{request.method} #{request.body}")
+  request = Net::HTTP::Put.new("/api/queues/#{vhost}/#{queue}", headers)
+  request.basic_auth "#{admin_user}", "#{admin_password}"
+  if "#{option_key}" == "x-message-ttl"
+    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => option_value}}.to_json
+  else
+    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
+  end
+  Chef::Log.info("#{request.url} Method: #{request.method} #{request.body}")
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
-    raise ("Error creating #{URI.escape(queue)} on #{URI.escape(vhost)} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
+    raise ("Error creating #{queue} on #{vhost} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
   end
 end
 
