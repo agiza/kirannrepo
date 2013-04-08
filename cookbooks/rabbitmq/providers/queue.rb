@@ -58,16 +58,17 @@ def queue_option_exists?(name, vhost, option_key, option_value)
 end
 
 def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_value)
+  if "#{option_key}" == "x-message-ttl"
+    option_value = Integer("#{option_value}")
+  else
+    option_value = "#{option_value}"
+  end
   uri = URI.parse("http://#{node[:ipaddress]}:15672")
-  #http = Net::HTTP.new(uri.host, uri.port)
+  http = Net::HTTP.new(uri.host, uri.port)
   headers = {'Content-Type' => 'applications/json'}
   request = Net::HTTP::Put.new("/api/queues/#{vhost}/#{queue}", headers)
   request.basic_auth "#{admin_user}", "#{admin_password}"
-  if "#{option_key}" == "x-message-ttl"
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => Integer("#{option_value}")}}
-  else
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}
-  end
+  request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => option_value}}
   Chef::Log.info("#{uri.host}:#{uri.port}#{request.path} Method: #{request.method} #{request.body}")
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
