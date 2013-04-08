@@ -57,13 +57,13 @@ def queue_option_exists?(name, vhost, option_key, option_value)
   end
 end
 
-def post(admin_user, vhost, option_key, option_value)
-user = "#{new_resource.admin_user}"
-password = "#{new_resource.admin_password}"
+def post(admin_user, admin_password, html_vhost, queue, option_key, option_value)
+user = "#{admin_user}"
+password = "#{admin_password}"
 uri = URI.parse("http://#{node[:ipaddress]}:15672")
 http = Net::HTTP.new(uri.host, uri.port)
 post_ws = "/api/queues/#{html_vhost}/#{new_resource.queue}"
-request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
+request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
 req = Net::HTTP::Post.new(post_ws, initheader = {'Content-Type' =>'application/json'})
   req.basic_auth user, pass
   req.body = request.body
@@ -104,7 +104,7 @@ action :add_with_option do
     #request.add_field('Content-Type', 'application/json')
     request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
     #cmdStr = http.request(request)
-    cmdStr = post(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.option_key, new_resource.option_value)
+    cmdStr = post(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
@@ -131,7 +131,7 @@ action :add_with_ttl do
     #request.add_field('Content-Type', 'application/json')
     request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => 432000000}}.to_json
     #cmdStr = http.request(request)
-    cmdStr = post(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.option_key, new_resource.option_value)
+    cmdStr = post(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
     #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
