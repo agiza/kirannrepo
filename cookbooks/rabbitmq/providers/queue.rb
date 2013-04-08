@@ -58,14 +58,16 @@ def queue_option_exists?(name, vhost, option_key, option_value)
 end
 
 def declare_queue(admin_user, admin_password, vhost, queue, option_key, option_value)
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
-    response = Net::HTTP::Post.new("/api/queues/#{uri_encode(vhost)}/#{uri_encode(queue)}") do |req|
-      req.basic_auth admin_user, admin_password
-      req.headers['Content-Type'] = "application/json"
-      req.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
-    end
-    decode_resource(response)
+  uri = URI.parse("http://#{node[:ipaddress]}:15672")
+  http = Net::HTTP.new(uri.host, uri.port)
+ # request = http.put("/api/queues/#{URI.escape(vhost)}/#{URI.escape(queue)}")
+ # response = New::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
+  response = http.put("/api/queues/#{URI.escape(vhost)}/#{URI.escape(queue)}") do |req|
+    req.basic_auth admin_user, admin_password
+    req.headers['Content-Type'] = "application/json"
+    req.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
+  end
+  decode_resource(response)
 end
 
 action :add do
