@@ -58,22 +58,13 @@ def queue_option_exists?(name, vhost, option_key, option_value)
 end
 
 def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_value)
-  #if "#{option_key}" == "x-message-ttl"
-  #  option_value = "#{option_value}"
-  #else
-  #  option_value = "\"#{option_value}\""
-  #end
   uri = URI.parse("http://#{node[:ipaddress]}:15672")
   #http = Net::HTTP.new(uri.host, uri.port)
   headers = {'Content-Type' => 'applications/json'}
   request = Net::HTTP::Put.new("/api/queues/#{vhost}/#{queue}", headers)
   request.basic_auth "#{admin_user}", "#{admin_password}"
-  if "#{option_key}" == "x-message-ttl"
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => option_value}}
-  else
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}
-  end
-  Chef::Log.info("#{uri.host}:#{uri.port}/#{request.path} Method: #{request.method} #{request.body}")
+  request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}
+  Chef::Log.info("#{uri.host}:#{uri.port}#{request.path} Method: #{request.method} #{request.body}")
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
     raise ("Error creating #{queue} on #{vhost} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
@@ -126,8 +117,9 @@ action :add_with_ttl do
         new_resource.updated_by_last_action(true)
       end
     end
-    html_vhost = html_vhost = new_resource.vhost.gsub("/", "%2f")
-    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
+    html_vhost = new_resource.vhost.gsub("/", "%2f")
+    option_value = new_resource_option_value.gsub!("\"", "")
+    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, option_value)
       Chef::Log.error "Error adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
     else
       Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
