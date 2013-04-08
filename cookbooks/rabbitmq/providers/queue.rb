@@ -81,6 +81,7 @@ action :add_with_option do
         new_resource.updated_by_last_action(true)
       end
     end
+    html_vhost = new_resource.vhost.gsub("/", "%2f")
     uri = URI.parse("http://#{node[:ipaddress]}:15672")
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Put.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
