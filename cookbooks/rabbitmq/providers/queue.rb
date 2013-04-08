@@ -57,6 +57,17 @@ def queue_option_exists?(name, vhost, option_key, option_value)
   end
 end
 
+def declare_queue(admin_user, admin_password, vhost, queue, option_key, option_value)
+    uri = URI.parse("http://#{node[:ipaddress]}:15672")
+    http = Net::HTTP.new(uri.host, uri.port)
+    response = Net::HTTP::Post.new("/api/queues/#{uri_encode(vhost)}/#{uri_encode(queue)}") do |req|
+      req.basic_auth admin_user, admin_password
+      req.headers['Content-Type'] = "application/json"
+      req.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
+    end
+    decode_resource(response)
+end
+
 action :add do
   unless queue_exists?(new_resource.queue, new_resource.vhost)
     if new_resource.admin_user.nil? || new_resource.admin_password.nil?
@@ -81,19 +92,22 @@ action :add_with_option do
         new_resource.updated_by_last_action(true)
       end
     end
-    html_vhost = new_resource.vhost.gsub("/", "%2f")
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}", initheader = {'Content-Type' => 'application/json'})
-    request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
+#    html_vhost = new_resource.vhost.gsub("/", "%2f")
+#    uri = URI.parse("http://#{node[:ipaddress]}:15672")
+#    http = Net::HTTP.new(uri.host, uri.port)
+#    request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}", initheader = {'Content-Type' => 'application/json'})
+#    request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     #request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
-    cmdStr = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
-    execute cmdStr do
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
-      new_resource.updated_by_last_action(true)
-    end
+#    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
+    #cmdStr = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
+#    response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
+#    cmdStr = puts response
+#    execute cmdStr do
+     declare_queue(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
+     Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
+     Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
+     new_resource.updated_by_last_action(true)
+    #end
   end
 end
 
@@ -107,20 +121,20 @@ action :add_with_ttl do
         new_resource.updated_by_last_action(true)
       end
     end
-    html_vhost = new_resource.vhost.gsub("/", "%2f")
-    uri = URI.parse("http://#{node[:ipaddress]}:15672")
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}", initheader = {'Content-Type' => 'application/json'})
-    request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
-    #request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
-    response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
-    cmdStr = puts "#{response.code} #{response.message}: #{response.body}"
+    #html_vhost = new_resource.vhost.gsub("/", "%2f")
+#    uri = URI.parse("http://#{node[:ipaddress]}:15672")
+#    http = Net::HTTP.new(uri.host, uri.port)
+#    request = Net::HTTP::Post.new("/api/queues/#{html_vhost)}/#{new_resource.queue}") #, initheader = {'Content-Type' => 'application/json'})
+#    request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
+#    request.add_field('Content-Type', 'application/json')
+#    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
+#    response = http.request(request)
+#    cmdStr = decode_resource(response) #puts "#{response.code} #{response.message}: #{response.body}"
     #cmdStr = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
     #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     #execute cmdStr do
-    cmdStr
-    Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+    declare_queue(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue new_resource.option_key, new_resource.option_value)
+    Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
     Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
     new_resource.updated_by_last_action(true)
     #end
