@@ -61,7 +61,7 @@ def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_
   uri = URI.parse("http://#{node[:ipaddress]}:15672")
   http = Net::HTTP.new(uri.host, uri.port)
   headers = {'Content-Type' => 'applications/json'}
-  request = Net::HTTP::Post.new("/api/queues/#{URI.escape(vhost)}/#{URI.escape(queue)}", headers)
+  request = Net::HTTP::Post.new("/api/queues/#{vhost}/#{queue}", headers)
   request.basic_auth admin_user, admin_password
   request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
   Chef::Log.info("#{request.path} Method: #{request.method} #{request.body}")
@@ -95,7 +95,8 @@ action :add_with_option do
         new_resource.updated_by_last_action(true)
       end
     end
-    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
+    html_vhost = new_resource.vhost.gsub("/", "%2f")
+    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
       Chef::Log.error "Error adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
     else
       Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
@@ -116,7 +117,8 @@ action :add_with_ttl do
         new_resource.updated_by_last_action(true)
       end
     end
-    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
+    html_vhost = html_vhost = new_resource.vhost.gsub("/", "%2f")
+    unless declare_queue?(new_resource.admin_user, new_resource.admin_password, html_vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
       Chef::Log.error "Error adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
     else
       Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
