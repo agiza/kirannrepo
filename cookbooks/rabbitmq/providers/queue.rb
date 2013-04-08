@@ -113,7 +113,7 @@ action :add_with_ttl do
     request = Net::HTTP::Post.new("/api/queues/#{html_vhost}/#{new_resource.queue}", initheader = {'Content-Type' => 'application/json'})
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     #request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}.to_json
+    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
     cmdStr = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
     #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     execute cmdStr do
