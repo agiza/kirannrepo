@@ -122,6 +122,7 @@ action :add_with_ttl do
       Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
+    end
   end
 end
 
