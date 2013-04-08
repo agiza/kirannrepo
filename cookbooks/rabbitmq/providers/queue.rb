@@ -66,7 +66,7 @@ def declare_queue(admin_user, admin_password, vhost, queue, option_key, option_v
   request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
-    raise ("Error creating #{queue} on #{vhost} with #{option_key}")
+    raise ("Error creating #{queue} on #{vhost} with #{option_key}:#{response.code}:#{response.message}: #{request.method} :#{response.body}")
   end
 end
 
