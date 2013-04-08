@@ -133,7 +133,7 @@ action :add_with_ttl do
     #cmdStr = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request) }
     #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
     #execute cmdStr do
-    declare_queue(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue new_resource.option_key, new_resource.option_value)
+     declare_queue(new_resource.admin_user, new_resource.admin_password, new_resource.vhost, new_resource.queue, new_resource.option_key, new_resource.option_value)
     Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
     Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
     new_resource.updated_by_last_action(true)
