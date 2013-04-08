@@ -64,7 +64,7 @@ def declare_queue(admin_user, admin_password, vhost, queue, option_key, option_v
   request = Net::HTTP::Post.new("/api/queues/#{URI.escape(vhost)}/#{URI.escape(queue)}", headers)
   request.basic_auth admin_user, admin_password
   request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
-  Chef::Log.info("#{request.path} Method: #{request.method.} #{request.body}")
+  Chef::Log.info("#{request.path} Method: #{request.method} #{request.body}")
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
     raise ("Error creating #{URI.escape(queue)} on #{URI.escape(vhost)} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
