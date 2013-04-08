@@ -57,10 +57,10 @@ def queue_option_exists?(name, vhost, option_key, option_value)
   end
 end
 
-def declare_queue(admin_user, admin_password, vhost, queue, option_key, option_value)
+def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_value)
   uri = URI.parse("http://#{node[:ipaddress]}:15672")
   http = Net::HTTP.new(uri.host, uri.port)
-  headers={'Content-Type' => 'applications/json'}
+  headers = {'Content-Type' => 'applications/json'}
   request = Net::HTTP::Post.new("/api/queues/#{URI.escape(vhost)}/#{URI.escape(queue)}", headers)
   request.basic_auth admin_user, admin_password
   request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}.to_json
