@@ -69,14 +69,14 @@ def declare_queue?(admin_user, admin_password, vhost, queue, option_key, option_
   request = Net::HTTP::Put.new("/api/queues/#{vhost}/#{queue}", headers)
   request.basic_auth "#{admin_user}", "#{admin_password}"
   if "#{option_key}" == "x-message-ttl"
-    request.set_form_data({'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => option_value}})
+    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => option_value}}
   else
-    request.set_form_data({'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}})
+    request.body = {'durable' => true, 'auto_delete' => false, 'node' => "rabbit@#{node[:hostname]}", 'arguments' => {"#{option_key}" => "#{option_value}"}}
   end
-  Chef::Log.info("#{request.host}:#{request.port}/#{request.path} Method: #{request.method} #{request.set_form_data}")
+  Chef::Log.info("#{request.host}:#{request.port}/#{request.path} Method: #{request.method} #{request.body}")
   response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(request)}
   unless response.kind_of?(Net::HTTPSuccess)
-    raise ("Error creating #{queue} on #{vhost} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.set_form_data}")
+    raise ("Error creating #{queue} on #{vhost} with #{option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
   end
 end
 
