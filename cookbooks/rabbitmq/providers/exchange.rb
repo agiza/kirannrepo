@@ -94,10 +94,10 @@ action :set_binding_option do
     request.body = {'routing_key' => "#{new_resource.routingkey}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
-      raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
+      raise ("Error creating Binding to source:#{new_resource.exchange} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
+      Chef::Log.debug "rabbitmq_binding_add: #{new_resource.exchange}"
+      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
 #    cmdStr = http.request(request)
