@@ -81,7 +81,7 @@ rabbitapps.each do |app|
       else
         queues_options = name_queue['queues_options'].split(" ")
         queues_options.each do |queue_option|
-          option_string =  queue_option.split('|')[1]}.gsub(":", "=>")
+          option_string =  queue_option.split('|')[1].gsub(":", "=>")
           option_key = queue_option.split('|')[1].split(":")[0]
           option_value = queue_option.split('|')[1].split(":")[1]
           rabbitmq_queue "#{queue_option.split('|')[0]}" do
