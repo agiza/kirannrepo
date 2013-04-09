@@ -87,10 +87,10 @@ action :add_with_option do
     request = Net::HTTP::Put.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => option_value}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
-      raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_string}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
+      raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
     #cmdStr = http.request(request)
     #execute cmdStr do
@@ -118,7 +118,7 @@ action :add_with_ttl do
     request = Net::HTTP::Put.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => option_value}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")

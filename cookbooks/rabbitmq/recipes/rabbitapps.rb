@@ -81,17 +81,19 @@ rabbitapps.each do |app|
       else
         queues_options = name_queue['queues_options'].split(" ")
         queues_options.each do |queue_option|
-          option_string =  queue_option.split('|')[1].gsub(":", "=>")
-          option_key = queue_option.split('|')[1].split(":")[0]
-          option_value = queue_option.split('|')[1].split(":")[1]
+          option_key = queue_option.split('|')[1]
+          option_value = queue_option.split('|')[2]
           rabbitmq_queue "#{queue_option.split('|')[0]}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
-            option_string "#{option_string}"
             option_key "#{option_key}"
             option_value "#{option_value}"
-            action :add_with_option
+            if "option_key" == "x-message-ttl"
+              action :add_with_ttl
+            else
+              action :add_with_option
+            end
           end
         end
       end
