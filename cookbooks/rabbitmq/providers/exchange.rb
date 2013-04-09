@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 require 'net/http'
+require 'json'
 
 def whyrun_supported
   true
@@ -90,7 +91,7 @@ action :set_binding_option do
     request = Net::HTTP::Put.new("/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'routing_key' => "#{new_resource.routingkey}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}
+    request.body = {'routing_key' => "#{new_resource.routingkey}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
