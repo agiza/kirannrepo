@@ -23,12 +23,9 @@ attribute :queue, :kind_of => String, :name_attribute => true
 attribute :vhost, :kind_of => String, :required => true
 attribute :admin_user, :kind_of => String, :required => true 
 attribute :admin_password, :kind_of => String, :required => true
+attribute :option_string, :kind_of => String
 attribute :option_key, :kind_of => String
-if "#{:option_value}" == "x-message-ttl"
-  attribute :option_value, :kind_of => Integer
-else
-  attribute :option_value, :kind_of => String
-end
+attribute :option_value, :kind_of => String
 
 def initialize(*args)
   super
