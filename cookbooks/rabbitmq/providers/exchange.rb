@@ -85,20 +85,27 @@ end
 action :set_binding_option do
   unless binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
-    #routekey = new_resource.routingkey.gsub("#", "\#")
     uri = URI.parse("http://#{node[:ipaddress]}:15672")
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new("/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}")
-    #request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
+    request = Net::HTTP::Put.new("/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}")
+    request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
     request.body = {'routing_key' => "#{new_resource.routingkey}", 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}
-    cmdStr = http.request(request)
-    #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \'content-type:application/json\' -XPOST -d\'{\"routing_key\":\"#{new_resource.routingkey}\",\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"}}\' http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}"
-    execute cmdStr do
-      Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
-      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
+    response = http.start {|http| http.request(request)}
+    unless response.kind_of?(Net::HTTPSuccess)
+      raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
+    else
+      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
+#    cmdStr = http.request(request)
+    #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \'content-type:application/json\' -XPOST -d\'{\"routing_key\":\"#{new_resource.routingkey}\",\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"}}\' http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}"
+#    execute cmdStr do
+#      Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
+#      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
+#      new_resource.updated_by_last_action(true)
+#    end
   end
 end
 

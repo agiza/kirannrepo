@@ -89,7 +89,7 @@ rabbitapps.each do |app|
             vhost "#{vhost}"
             option_key "#{option_key}"
             option_value "#{option_value}"
-            if "option_key" == "x-message-ttl"
+            if option_key == "x-message-ttl"
               action :add_with_ttl
             else
               action :add_with_option
