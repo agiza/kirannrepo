@@ -42,6 +42,17 @@ def queue_exists?(name, vhost)
   end
 end
 
+def queue_delete(name,vhost)
+  if queue_exists?(new_resource.queue, new_resource.vhost)
+    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+    execute cmdStr do
+      Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+      Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
+      new_resource.updated_by_last_action(true)
+    end
+  end
+end
+
 def queue_option_exists?(name, vhost, option_key, option_value)
   cmdStr = "rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
   cmd = Mixlib::ShellOut.new(cmdStr)
@@ -74,12 +85,7 @@ end
 action :add_with_option do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
-      execute cmdStr do
-        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        #new_resource.updated_by_last_action(true)
-      end
+      queue_delete(new_resource.queue, new_resource.vhost)
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
     uri = URI.parse("http://#{node[:ipaddress]}:15672")
@@ -102,12 +108,7 @@ end
 action :add_with_ttl do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
-      execute cmdStr do
-        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        #new_resource.updated_by_last_action(true)
-      end
+      queue_delete(new_resource.queue, new_resource.vhost)
     end
     option_value = Integer("#{new_resource.option_value}")
     html_vhost = new_resource.vhost.gsub("/", "%2f")
