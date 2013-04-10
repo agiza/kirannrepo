@@ -58,6 +58,7 @@ rabbitapps.each do |app|
             tag "management"
           else
             tag "#{rabbittag}"
+          end
           action [:add, :set_tags, :set_permissions]
         end
       end
