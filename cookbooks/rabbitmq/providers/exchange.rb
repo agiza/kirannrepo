@@ -100,13 +100,6 @@ action :set_binding_option do
       Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
-#    cmdStr = http.request(request)
-    #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \'content-type:application/json\' -XPOST -d\'{\"routing_key\":\"#{new_resource.routingkey}\",\"arguments\":{\"#{new_resource.option_key}\":\"#{new_resource.option_value}\"}}\' http://127.0.0.1:15672/api/bindings/#{html_vhost}/e/#{new_resource.source}/q/#{new_resource.destination}"
-#    execute cmdStr do
-#      Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
-#      Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
-#      new_resource.updated_by_last_action(true)
-#    end
   end
 end
 
