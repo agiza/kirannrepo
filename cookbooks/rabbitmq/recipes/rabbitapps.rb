@@ -123,7 +123,8 @@ rabbitapps.each do |app|
       else
         exchanges = name_queue['exchange'].split(" ")
         # Exchanges creation
-        exchanges.each do |exchange|
+        exchanges.each do |exchangename|
+          exchange = "#{exchangename.split('|')[0]}"
           rabbitmq_exchange "#{exchange}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
@@ -165,7 +166,10 @@ rabbitapps.each do |app|
       else
         bindings = name_queue['binding'].split(" ")
         bindings.each do |binding|
-          rabbitmq_exchange "#{binding.split('|')[0]}" do
+          name = binding.split('|')[0]
+          option_key = binding_option.split('|')[4]
+          option_value = binding_option.split('|')[5]
+          rabbitmq_exchange "#{name}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
@@ -173,9 +177,15 @@ rabbitapps.each do |app|
             type "#{binding.split('|')[1]}"
             destination "#{binding.split('|')[2]}"
             routingkey "#{binding.split('|')[3]}"
-            option_key "null"
-            option_value "null"
-            action :set_binding
+            if option_key.nil? || option_key.empty?
+              option_key "null"
+              option_value "null"
+              action :set_binding
+            else
+              option_key "#{option_key}"
+              option_value "#{option_value}"
+              action :set_binding_option
+            end
           end
         end
       end
