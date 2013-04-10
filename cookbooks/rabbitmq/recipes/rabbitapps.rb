@@ -78,7 +78,7 @@ rabbitapps.each do |app|
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
-            if option_key.nil? || option_key.empty??
+            if option_key.nil? || option_key.empty?
               option_key "null"
               option_value "null"
               action :add
@@ -95,27 +95,27 @@ rabbitapps.each do |app|
         end
       end
       # Grab the queues with options and split them for a loop, will separate the options later.
-     # if name_queue['queues_options'].nil?
-     #   Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
-     # else
-     #   queues_options = name_queue['queues_options'].split(" ")
-     #   queues_options.each do |queue_option|
-     #     option_key = queue_option.split('|')[1]
-     #     option_value = queue_option.split('|')[2]
-     #     rabbitmq_queue "#{queue_option.split('|')[0]}" do
-     #       admin_user "#{admin_user}"
-     #       admin_password "#{admin_password}"
-     #       vhost "#{vhost}"
-     #       option_key "#{option_key}"
-     #       option_value "#{option_value}"
-     #       if option_key == "x-message-ttl"
-     #         action :add_with_ttl
-     #       else
-     #         action :add_with_option
-     #       end
-     #     end
-     #   end
-     # end
+      if name_queue['queues_options'].nil?
+        Chef::Log.info("No queues with options for #{app} in #{vhost} found to create.")
+      else
+        queues_options = name_queue['queues_options'].split(" ")
+        queues_options.each do |queue_option|
+          option_key = queue_option.split('|')[1]
+          option_value = queue_option.split('|')[2]
+          rabbitmq_queue "#{queue_option.split('|')[0]}" do
+            admin_user "#{admin_user}"
+            admin_password "#{admin_password}"
+            vhost "#{vhost}"
+            option_key "#{option_key}"
+            option_value "#{option_value}"
+            if option_key == "x-message-ttl"
+              action :add_with_ttl
+            else
+              action :add_with_option
+            end
+          end
+        end
+      end
       # Grab the normal exchanges and split them for a loop.
       if name_queue['exchange'].nil?
         Chef::Log.info("No Exchanges for #{app} in #{vhost} found to create.")
