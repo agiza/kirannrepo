@@ -72,6 +72,7 @@ rabbitapps.each do |app|
         Chef::Log.debug("#{queues} will be created in #{vhost}")
         # Queues creation
         queues.each do |queue|
+          queue = queue.split("|")[0]
           option_key = queue.split('|')[1]
           option_value = queue.split('|')[2]
           rabbitmq_queue "#{queue}" do
