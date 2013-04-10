@@ -60,7 +60,7 @@ end
 
 action :add do
   unless exchange_exists?(new_resource.exchange, new_resource.vhost)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare exchange name=#{new_resource.exchange} auto_delete=false durable=true type=topic"
+    cmdStr = "/usr/bin/rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare exchange name=#{new_resource.exchange} auto_delete=false durable=true type=topic"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_exchange_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ exchange '#{new_resource.exchange}'."
@@ -73,7 +73,7 @@ action :set_binding do
   unless binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     html_vhost = new_resource.vhost.gsub("/", "%2f")
     routekey = new_resource.routingkey.gsub("#", "\#")
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} routing_key=#{routekey}"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} routing_key=#{routekey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Binding '#{new_resource.exchange}'."
@@ -105,7 +105,7 @@ end
 
 action :delete do
   if exchange_exists?(new_resource.exchange, new_resource.vhost)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete exchange name=#{new_resource.exchange}"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete exchange name=#{new_resource.exchange}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_exchange_delete: #{cmdStr}"
       Chef::Log.info "Deleting RabbitMQ Exchange '#{new_resource.exchange}'."
@@ -117,7 +117,7 @@ end
 action :clear_binding do
   if binding_exists?(new_resource.exchange, new_resource.vhost, new_resource.source, new_resource.destination, new_resource.routingkey)
     routekey = new_resource.routingkey.gsub("#", "\#")
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} properties_key=#{routekey}"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete binding source=#{new_resource.source} destination_type=#{new_resource.type} destination=#{new_resource.destination} properties_key=#{routekey}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_binding_delete: #{cmdStr}"
       Chef::Log.info "Deleting RabbitMQ Binding '#{new_resource.exchange}'."

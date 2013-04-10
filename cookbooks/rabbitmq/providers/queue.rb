@@ -43,7 +43,7 @@ def queue_exists?(name, vhost)
 end
 
 def queue_deleted?(name,vhost)
-  cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+  cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
@@ -59,7 +59,7 @@ def queue_deleted?(name,vhost)
 end
 
 def queue_option_exists?(name, vhost, option_key, option_value)
-  cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
+  cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
@@ -78,7 +78,7 @@ action :add do
     if new_resource.admin_user.nil? || new_resource.admin_password.nil?
       Chef::Application.fatal!("rabbitmqadmin declare queue name #{new_resource.queue} fails with missing admin user/password.")
     end
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare queue name=#{new_resource.queue} durable=true"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare queue name=#{new_resource.queue} durable=true"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}'."
@@ -140,7 +140,7 @@ end
 
 action :delete do
   if queue_exists?(new_resource.queue, new_resource.vhost)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
       Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
