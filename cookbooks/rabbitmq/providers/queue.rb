@@ -43,13 +43,17 @@ def queue_exists?(name, vhost)
 end
 
 def queue_delete(name,vhost)
-  if queue_exists?(new_resource.queue, new_resource.vhost)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
-    execute cmdStr do
-      Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-      Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-      new_resource.updated_by_last_action(true)
-    end
+  cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+  cmd = Mixlib::ShellOut.new(cmdStr)
+  cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
+  cmd.run_command
+  Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+  Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
+  begin
+    cmd.error!
+    true
+  rescue
+    false
   end
 end
 
