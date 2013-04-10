@@ -33,6 +33,12 @@ execute  "rabbitmqadmin" do
   action :nothing
 end
 
+link "/usr/bin/rabbitmqadmin" do
+  to "/etc/rabbitmq/rabbitmqadmin"
+  owner "root"
+  group "root"
+end
+
 package "rabbitmq-server" do
   action :upgrade
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
