@@ -78,7 +78,7 @@ action :add_with_option do
       execute cmdStr do
         Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
         Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        new_resource.updated_by_last_action(true)
+        #new_resource.updated_by_last_action(true)
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
@@ -106,7 +106,7 @@ action :add_with_ttl do
       execute cmdStr do
         Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
         Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        new_resource.updated_by_last_action(true)
+        #new_resource.updated_by_last_action(true)
       end
     end
     option_value = Integer("#{new_resource.option_value}")
