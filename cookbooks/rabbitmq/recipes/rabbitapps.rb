@@ -71,10 +71,10 @@ rabbitapps.each do |app|
         queues = name_queue['queues'].split(" ") 
         Chef::Log.debug("#{queues} will be created in #{vhost}")
         # Queues creation
-        queues.each do |queue|
-          queue = queue.split("|")[0]
-          option_key = queue.split('|')[1]
-          option_value = queue.split('|')[2]
+        queues.each do |queuename|
+          queue = queuename.split("|")[0]
+          option_key = queuename.split('|')[1]
+          option_value = queuename.split('|')[2]
           rabbitmq_queue "#{queue}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
