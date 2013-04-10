@@ -57,7 +57,7 @@ end
 
 webHost = data_bag_item("infrastructure", "apache")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
-rsngcred = rsngamqp['user'].split("|")
+rsngcred = rsngamqp['user'].split(" ").first.split("|")
 begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
     rescue Net::HTTPServerException

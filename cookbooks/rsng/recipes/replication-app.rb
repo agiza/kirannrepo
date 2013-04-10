@@ -72,7 +72,7 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
-rsngcred = rsngamqp['user'].split("|")
+rsngcred = rsngamqp['user'].split(" ").first.split("|")
 template "/opt/tomcat/conf/replication-app.properties" do
   source "replication-app.properties.erb"
   group 'tomcat'

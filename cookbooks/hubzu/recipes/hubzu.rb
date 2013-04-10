@@ -55,7 +55,7 @@ melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 hubzuamqp = data_bag_item("rabbitmq", "hubzu")
-hubzucred = hubzuamqp['user'].split("|")
+hubzucred = hubzuamqp['user'].split(" ").first.split("|")
 template "/opt/tomcat/conf/hubzu.properties" do
   source "hubzu.properties.erb"
   group 'tomcat'
