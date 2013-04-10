@@ -48,12 +48,16 @@ rabbitapps.each do |app|
       name_queue["user"].split(" ").each do |user|
         rabbituser = user.split("|")[0]
         rabbitpass = user.split("|")[1]
+        rabbittag = user.split("|")[2]
         Chef::Log.debug("Creating user #{rabbituser} for #{vhost}")
         rabbitmq_user "#{rabbituser}" do
           vhost "#{vhost}"
           password "#{rabbitpass}"
           permissions "^(amq\.gen.*|amq\.default)$ .* .*"
-          tag "management"
+          if rabbittag.nil? || rabbittag.empty?
+            tag "management"
+          else
+            tag "#{rabbittag}"
           action [:add, :set_tags, :set_permissions]
         end
       end
