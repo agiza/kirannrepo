@@ -70,7 +70,7 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 # Obtain rabbitmq user credentials from the rabbitmq data bag.
 rtrabbit = data_bag_item("rabbitmq", "realtrans")
-rtrabbit = rtrabbit['user'].split("|")
+rtrabbit = rtrabbit['user'].split(" ")[0].split("|")
 # Obtain melissadata URL's to be passed to the property files from the data bag.
 melissadata = data_bag_item("integration", "melissadata")
 # Obtain mail server information to be passed to property file from the data bag.
