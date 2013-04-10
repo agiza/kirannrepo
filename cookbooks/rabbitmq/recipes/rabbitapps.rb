@@ -50,7 +50,7 @@ rabbitapps.each do |app|
         rabbitpass = user.split("|")[1]
         rabbittag = user.split("|")[2]
         Chef::Log.debug("Creating user #{rabbituser} for #{vhost}")
-        %w{:add :set_tags :set_permissions}.each do |action|
+        %w{add set_tags set_permissions}.each do |action|
           rabbitmq_user "#{rabbituser}" do
             vhost "#{vhost}"
             password "#{rabbitpass}"
