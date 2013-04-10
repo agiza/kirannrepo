@@ -50,16 +50,18 @@ rabbitapps.each do |app|
         rabbitpass = user.split("|")[1]
         rabbittag = user.split("|")[2]
         Chef::Log.debug("Creating user #{rabbituser} for #{vhost}")
-        rabbitmq_user "#{rabbituser}" do
-          vhost "#{vhost}"
-          password "#{rabbitpass}"
-          permissions "^(amq\.gen.*|amq\.default)$ .* .*"
-          if rabbittag.nil? || rabbittag.empty?
-            tag "management"
-          else
-            tag "#{rabbittag}"
+        %w{add set_tags set_permissions}.each do |action|
+          rabbitmq_user "#{rabbituser}" do
+            vhost "#{vhost}"
+            password "#{rabbitpass}"
+            permissions "^(amq\.gen.*|amq\.default)$ .* .*"
+            if rabbittag.nil? || rabbittag.empty?
+              tag "management"
+            else
+              tag "#{rabbittag}"
+            end
+            action :"#{action}"
           end
-          action [:add, :set_tags, :set_permissions]
         end
       end
       # Grab the normal queues for creation and split them for a loop.
