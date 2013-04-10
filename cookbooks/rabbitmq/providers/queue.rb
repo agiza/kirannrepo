@@ -105,7 +105,7 @@ action :add_with_option do
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
@@ -131,7 +131,7 @@ action :add_with_ttl do
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
