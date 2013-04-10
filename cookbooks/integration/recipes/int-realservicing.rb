@@ -59,7 +59,7 @@ begin
     rescue Net::HTTPServerException
       raise "Error loading rabbitmq credentials from rabbitmq data bag."
 end
-amqpcred = amqpcred['user'].split("|")
+amqpcred = amqpcred['user'].split(" ")[0].split("|")
 begin
   realservicing = data_bag_item("integration", "realservicing#{node.chef_environment}")
     rescue Net::HTTPServerException

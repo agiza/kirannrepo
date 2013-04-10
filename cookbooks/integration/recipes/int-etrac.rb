@@ -58,7 +58,7 @@ begin
     rescue Net::HTTPServerException
       raise "Errorloading rabbitmq credentials from rabbitmq data bag."
 end
-amqpcred = amqpcred['user'].split("|")
+amqpcred = amqpcred['user'].split(" ")[0].split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
