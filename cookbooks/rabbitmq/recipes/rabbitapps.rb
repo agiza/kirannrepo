@@ -167,8 +167,8 @@ rabbitapps.each do |app|
         bindings = name_queue['binding'].split(" ")
         bindings.each do |binding|
           name = binding.split('|')[0]
-          option_key = binding_option.split('|')[4]
-          option_value = binding_option.split('|')[5]
+          option_key = binding.split('|')[4]
+          option_value = binding.split('|')[5]
           rabbitmq_exchange "#{name}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
