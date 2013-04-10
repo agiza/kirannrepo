@@ -42,12 +42,13 @@ def queue_exists?(name, vhost)
   end
 end
 
-def queue_delete(name,vhost)
+def queue_deleted?(name,vhost)
   cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
   Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+  Chef::Log.debug "rabbitmq_queue_delete: #{cmd.stdout}"
   Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
   begin
     cmd.error!
@@ -89,7 +90,9 @@ end
 action :add_with_option do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      queue_delete(new_resource.queue, new_resource.vhost)
+      unless queue_deleted?(new_resource.queue, new_resource.vhost)
+        Chef::Log.error "Error trying to delete queue that exists without proper arguments."
+      end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
     uri = URI.parse("http://#{node[:ipaddress]}:15672")
@@ -112,7 +115,9 @@ end
 action :add_with_ttl do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      queue_delete(new_resource.queue, new_resource.vhost)
+      unless queue_deleted?(new_resource.queue, new_resource.vhost)
+        Chef::Log.error "Error trying to delete queue that exists without proper arguments."
+      end
     end
     option_value = Integer("#{new_resource.option_value}")
     html_vhost = new_resource.vhost.gsub("/", "%2f")
