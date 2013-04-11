@@ -42,6 +42,6 @@ end
 package "rabbitmq-server" do
   action :upgrade
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
-  notifies :run, resources(:execute => "rabbitmqadmin"), :immediately
+  notifies :run, resources(:execute => "rabbitmqadmin")
 end
 
