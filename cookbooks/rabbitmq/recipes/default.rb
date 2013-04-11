@@ -48,6 +48,6 @@ end
 execute  "rabbitmqadmin" do
   command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
   action :run
-  onlyif "file /etc/rabbitmq/rabbitmqadmin | grep 'python' == ''"
+  only_if "file /etc/rabbitmq/rabbitmqadmin | grep 'python' == ''"
 end
 
