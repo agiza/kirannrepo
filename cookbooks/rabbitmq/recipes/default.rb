@@ -33,9 +33,21 @@ execute  "rabbitmqadmin" do
   action :nothing
 end
 
+link "/usr/bin/rabbitmqadmin" do
+  to "/etc/rabbitmq/rabbitmqadmin"
+  owner "root"
+  group "root"
+end
+
 package "rabbitmq-server" do
   action :upgrade
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
-  notifies :run, resources(:execute => "rabbitmqadmin"), :immediately
+  notifies :run, resources(:execute => "rabbitmqadmin")
+end
+
+execute  "rabbitmqadmin" do
+  command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
+  action :run
+  only_if "file /etc/rabbitmq/rabbitmqadmin | grep 'python' == ''"
 end
 

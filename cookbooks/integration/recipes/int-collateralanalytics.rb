@@ -58,7 +58,7 @@ begin
     rescue Net::HTTPServerException
       raise "Unable to load Rabbitmq user credentials from rabbitmq data bag."
 end
-amqpcred = amqpcred['user'].split("|") 
+amqpcred = amqpcred['user'].split(" ").first.split("|") 
 begin
   ca = data_bag_item("integration", "CA")
     rescue Net::HTTPServerException

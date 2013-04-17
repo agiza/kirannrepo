@@ -64,7 +64,7 @@ begin
           raise "Unable to find default or environment mysqldb databag."
 end
 hubzuamqp = data_bag_item("rabbitmq", "hubzu")
-hubzucred = hubzuamqp['user'].split("|")
+hubzucred = hubzuamqp['user'].split(" ").first.split("|")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'

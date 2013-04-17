@@ -42,8 +42,24 @@ def queue_exists?(name, vhost)
   end
 end
 
+def queue_deleted?(name,vhost)
+  cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+  cmd = Mixlib::ShellOut.new(cmdStr)
+  cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
+  cmd.run_command
+  Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
+  Chef::Log.debug "rabbitmq_queue_delete: #{cmd.stdout}"
+  Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
+  begin
+    cmd.error!
+    true
+  rescue
+    false
+  end
+end
+
 def queue_option_exists?(name, vhost, option_key, option_value)
-  cmdStr = "rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
+  cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} list queues name arguments.#{option_key} | grep -w #{name} | grep -w #{option_value}"
   cmd = Mixlib::ShellOut.new(cmdStr)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
@@ -62,7 +78,7 @@ action :add do
     if new_resource.admin_user.nil? || new_resource.admin_password.nil?
       Chef::Application.fatal!("rabbitmqadmin declare queue name #{new_resource.queue} fails with missing admin user/password.")
     end
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare queue name=#{new_resource.queue} durable=true"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare queue name=#{new_resource.queue} durable=true"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}'."
@@ -74,11 +90,8 @@ end
 action :add_with_option do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
-      execute cmdStr do
-        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        new_resource.updated_by_last_action(true)
+      unless queue_deleted?(new_resource.queue, new_resource.vhost)
+        Chef::Log.error "Error trying to delete queue that exists without proper arguments."
       end
     end
     html_vhost = new_resource.vhost.gsub("/", "%2f")
@@ -87,14 +100,12 @@ action :add_with_option do
     request = Net::HTTP::Put.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => "#{new_resource.option_value}"}}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
-    #cmdStr = http.request(request)
-    #execute cmdStr do
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
@@ -104,11 +115,8 @@ end
 action :add_with_ttl do
   unless queue_option_exists?(new_resource.queue, new_resource.vhost, new_resource.option_key, new_resource.option_value)
     if queue_exists?(new_resource.queue, new_resource.vhost)
-      cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
-      execute cmdStr do
-        Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
-        Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
-        new_resource.updated_by_last_action(true)
+      unless queue_deleted?(new_resource.queue, new_resource.vhost)
+        Chef::Log.error "Error trying to delete queue that exists without proper arguments."
       end
     end
     option_value = Integer("#{new_resource.option_value}")
@@ -118,15 +126,12 @@ action :add_with_ttl do
     request = Net::HTTP::Put.new("/api/queues/#{html_vhost}/#{new_resource.queue}")
     request.basic_auth "#{new_resource.admin_user}", "#{new_resource.admin_password}"
     request.add_field('Content-Type', 'application/json')
-    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => option_value}, 'node' => "rabbit@#{node[:hostname]}"}.to_json
+    request.body = {'durable' => true, 'auto_delete' => false, 'arguments' => {"#{new_resource.option_key}" => option_value}}.to_json
     response = http.start {|http| http.request(request)}
     unless response.kind_of?(Net::HTTPSuccess)
       raise ("Error creating #{new_resource.queue} on #{new_resource.vhost} with #{new_resource.option_key}. Code:#{response.code}:#{response.message} to Request URL #{request.path} with Request method: #{request.method} and Request Body: #{request.body}")
     else
-    #cmdStr = http.request(request)
-   #cmdStr = "curl -i -u #{new_resource.admin_user}:#{new_resource.admin_password} -H \"content-type:application/json\" -XPUT -d\"{\\\"durable\\\":true,\\\"auto_delete\\\":false,\\\"arguments\\\":{\\\"#{new_resource.option_key}\\\":#{new_resource.option_value}},\\\"node\\\":\\\"rabbit@#{node[:hostname]}\\\"}\" http://#{node[:ipaddress]}:15672/api/queues/#{html_vhost}/#{new_resource.queue}"
-    #execute cmdStr do
-      Chef::Log.debug "rabbitmq_queue_add: #{cmdStr}"
+      Chef::Log.debug "rabbitmq_queue_add: #{new_resource.queue}"
       Chef::Log.info "Adding RabbitMQ Queue '#{new_resource.queue}' on '#{new_resource.vhost}'."
       new_resource.updated_by_last_action(true)
     end
@@ -135,7 +140,7 @@ end
 
 action :delete do
   if queue_exists?(new_resource.queue, new_resource.vhost)
-    cmdStr = "/etc/rabbitmq/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
+    cmdStr = "/usr/bin/rabbitmqadmin -H #{node[:ipaddress]} -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} delete queue name=#{new_resource.queue}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_queue_delete: #{cmdStr}"
       Chef::Log.info "Deleting RabbitMQ Queue '#{new_resource.queue}'on '#{new_resource.vhost}'."
