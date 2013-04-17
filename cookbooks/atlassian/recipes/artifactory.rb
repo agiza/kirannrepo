@@ -9,6 +9,7 @@
 
 include_recipe "iptables::default"
 iptables_rule "port_artifactory"
+iptables_rule "port_httpd"
 
 package "haproxy" do
   action :upgrade
