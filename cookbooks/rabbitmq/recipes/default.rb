@@ -19,6 +19,11 @@ service "rabbitmq-server" do
   action :nothing
 end
 
+execute  "rabbitmqadmin" do
+  command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
+  action :nothing
+end
+
 package "rabbitmq-server" do
   action :upgrade
   notifies :restart, resources(:service => "rabbitmq-server"), :immediately
@@ -29,11 +34,6 @@ end
   rabbitmq_plugin "#{plugin}" do
     action :enable
   end
-end
-
-execute  "rabbitmqadmin" do
-  command "if [ -f /etc/rabbitmq/rabbitmqadmin ]; then rm -f /etc/rabbitmq/rabbitmqadmin; fi; wget -O /etc/rabbitmq/rabbitmqadmin http://#{node[:ipaddress]}:15672/cli/rabbitmqadmin; chmod +x /etc/rabbitmq/rabbitmqadmin"
-  action :nothing
 end
 
 link "/usr/bin/rabbitmqadmin" do
