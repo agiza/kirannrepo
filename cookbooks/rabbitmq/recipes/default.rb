@@ -20,11 +20,8 @@ service "rabbitmq-server" do
 end
 
 %w{rabbitmq_management rabbitmq_management_visualiser rabbitmq_stomp}.each do |plugin|
-  execute "#{plugin}" do
-    command "/usr/sbin/rabbitmq-plugins enable #{plugin}"
-    action :run
-    not_if "/usr/sbin/rabbitmq-plugins list -E #{plugin} | grep '[E]'"
-    notifies :restart, resources(:service => "rabbitmq-server")
+  rabbitmq_plugin "#{plugin}" do
+    action :enable
   end
 end
 
