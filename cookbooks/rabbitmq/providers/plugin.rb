@@ -17,6 +17,14 @@
 # limitations under the License.
 #
 
+def whyrun_supported
+  true
+end
+
+def whyrun_mode?
+  Chef::Config[:whyrun]
+end
+
 def plugins_bin_path(return_array=false)
   path = ENV.fetch('PATH') + ':/usr/lib/rabbitmq/bin'
   return_array ? path.split(':') : path
