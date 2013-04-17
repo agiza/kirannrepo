@@ -19,6 +19,12 @@ service "rabbitmq-server" do
   action :nothing
 end
 
+package "rabbitmq-server" do
+  action :upgrade
+  notifies :restart, resources(:service => "rabbitmq-server"), :immediately
+  notifies :run, resources(:execute => "rabbitmqadmin")
+end
+
 %w{rabbitmq_management rabbitmq_management_visualiser rabbitmq_stomp}.each do |plugin|
   rabbitmq_plugin "#{plugin}" do
     action :enable
@@ -34,12 +40,6 @@ link "/usr/bin/rabbitmqadmin" do
   to "/etc/rabbitmq/rabbitmqadmin"
   owner "root"
   group "root"
-end
-
-package "rabbitmq-server" do
-  action :upgrade
-  notifies :restart, resources(:service => "rabbitmq-server"), :immediately
-  notifies :run, resources(:execute => "rabbitmqadmin")
 end
 
 execute  "rabbitmqadmin" do
