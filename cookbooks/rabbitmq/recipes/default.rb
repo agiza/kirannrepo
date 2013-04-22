@@ -16,6 +16,18 @@ iptables_rule "port_rabbitmq"
 
 include_recipe "altisource::volume"
 if node.attribute["rabbitmq_volume"]
+  %w{/rabbit/rabbitmq /rabbit/log}.each do |dir|
+    directory "#{dir}" do
+      action :create
+    end
+  end
+
+  link "/var/lib/rabbitmq" do
+    to "/rabbit/rabbitmq"
+  end
+  link "/var/log/rabbitmq" do
+    to "/rabbit/log"
+  end
   lvm_mount "rabbitmq" do
     device "#{node[:rabbitmq_volume][:device]}"
     group  "#{node[:rabbitmq_volume][:group]}"
@@ -25,6 +37,18 @@ if node.attribute["rabbitmq_volume"]
     mountpoint "#{node[:rabbitmq_volume][:mountpoint]}"
   end
 else
+  %w{/rabbit/rabbitmq /rabbit/log}.each do |dir|
+    directory "#{dir}" do
+      action :create
+    end
+  end
+
+  link "/var/lib/rabbitmq" do
+    to "/rabbit/rabbitmq"
+  end
+  link "/var/log/rabbitmq" do
+    to "/rabbit/log"
+  end
   lvm_mount "rabbitmq" do
     device "/dev/sdb"
     group  "rabbit_vg"
@@ -33,19 +57,6 @@ else
     options "defaults"
     mountpoint "/rabbit"
   end
-end
-
-%w{/rabbit/rabbitmq /rabbit/log}.each do |dir|
-  directory "#{dir}" do
-    action :create
-  end
-end
-
-link "/var/lib/rabbitmq" do
-  to "/rabbit/rabbitmq"
-end
-link "/var/log/rabbitmq" do
-  to "/rabbit/log"
 end
 
 service "rabbitmq-server" do
