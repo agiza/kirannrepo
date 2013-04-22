@@ -84,11 +84,14 @@ if [ "$hostcheck" != "" ]; then
   echo "NSlookup of server failed, please check that the host is in DNS."; exit 1
 fi
 # Hostname was passed and nslookup succeeded, proceed with provisioning.
+# triggering hostname command first to make sure the node name is set correctly.
+ssh root@$host "hostname $host"
+# Triggering bootstrap.
 knife bootstrap $host --distro rhel6-rpms && echo "Chef has been provisioned to the host." 
 check_errs $? "There was a problem with the bootstrap."
 
 # Perform initial chef-client run to make sure that node record gets created.
-ssh root@$host "hostname $host; chef-client"
+ssh root@$host "chef-client"
 check_errs $? "There was a problem running chef-client for initial run."
 
 # This sleeps and looks for active node record on chef server after initial chef-client run.
