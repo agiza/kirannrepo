@@ -41,6 +41,7 @@ else
   %w{/rabbit/rabbitmq /rabbit/log}.each do |dir|
     directory "#{dir}" do
       action :create
+      recursive true
     end
   end
 
