@@ -27,5 +27,5 @@ template "/root/tomcat-clean.sh" do
   mode   "0755"
 end
 
-include_recipe "infrastructure::rookey"
+include_recipe "infrastructure::rootkey"
 
