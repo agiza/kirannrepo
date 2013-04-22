@@ -1,0 +1,5 @@
+#!/bin/bash
+rhel_host=`knife search node "platform:redhat" | grep "IP" | cut -d ":" -f2`
+for i in `echo "$rhel_host"`; do
+        echo "Upgrading $i...."; ssh -q -o StrictHostKeyChecking=no root@$i "yum clean all; yum update -y --disablerepo=altisourcecommon --disablerepo=altisourcerelease --disablerepo=altisourcetesting"; echo "Finished $i...."
+done

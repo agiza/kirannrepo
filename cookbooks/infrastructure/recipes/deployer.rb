@@ -39,7 +39,7 @@ template "/home/rtnextgen/bin/chef-cookbook-upload" do
 end
 
 app_names = node[:app_names]
-%w{chef-deploy deploy-software chef-provision}.each do |script|
+%w{chef-deploy deploy-software chef-provision update-server}.each do |script|
   template "/home/rtnextgen/bin/#{script}" do
     source "#{script}.erb"
     owner  "rtnextgen"
