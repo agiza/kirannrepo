@@ -14,6 +14,40 @@ include_recipe "infrastructure::selinux"
 include_recipe "iptables::default"
 iptables_rule "port_rabbitmq"
 
+include_recipe "altisource::volume"
+if node.attribute["rabbitmq_volume"]
+  lvm_mount "rabbitmq" do
+    device "#{node[:rabbitmq_volume][:device]}"
+    group  "#{node[:rabbitmq_volume][:group]}"
+    volume "#{node[:rabbitmq_volume][:volume]}"
+    filesystem "#{node[:rabbitmq_volume][:filesystem]}"
+    options "#{node[:rabbitmq_volume][:defaults]}"
+    mountpoint "#{node[:rabbitmq_volume][:mountpoint]}"
+  end
+else
+  lvm_mount "rabbitmq" do
+    device "/dev/sdb"
+    group  "rabbit_vg"
+    volume "lvol0"
+    filesystem "ext4"
+    options "defaults"
+    mountpoint "/rabbit"
+  end
+end
+
+%w{/rabbit/rabbitmq /rabbit/log}.each do |dir|
+  directory "#{dir}" do
+    action :create
+  end
+end
+
+link "/var/lib/rabbitmq" do
+  to "/rabbit/rabbitmq"
+end
+link "/var/log/rabbitmq" do
+  to "/rabbit/log"
+end
+
 service "rabbitmq-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
