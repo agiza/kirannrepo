@@ -45,7 +45,7 @@ end
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.uniq.sort.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = []
-%w{rabbitmqserver rabbitmaster}.each do |app|
+%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |worker|
     hostentries << worker
   end
