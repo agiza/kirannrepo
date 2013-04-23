@@ -48,11 +48,12 @@ end
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.uniq.join(",\ ")
 # This grabs entries for the hosts file in case there is no local dns.
 hostentries = []
-%w{rabbitmqserver}.each do |app|
+%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
   search(:node, "recipes:*\\:\\:#{app}").each do |host|
     hostentries << host
   end
 end
+hostentries = hostentries.uniq
 #hosts = hostentries.uniq.sort
 #Pull Core rabbit from databag
 begin

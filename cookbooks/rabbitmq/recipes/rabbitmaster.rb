@@ -50,6 +50,7 @@ hostentries = []
     hostentries << worker
   end
 end
+hostentries = hostentries.uniq
 #hosts = hostentries.uniq.sort
 
 #Pull Core rabbit from databag
