@@ -20,6 +20,7 @@ if [ "$answer" == "Y" ]; then
         scp /tmp/$userid.txt ubuntu@atlas:/tmp/$userid.txt
         ssh ubuntu@atlas "cd /opt/atlassian/cli; ./user-add.sh /tmp/$userid.txt; rm -f /tmp/$userid.txt"
         rm -rf /tmp/$userid.txt
+	echo "Attached are instructions for configuring OpenVPN for Cloud Access" | mutt -a /home/ubuntu/bin/ASNG-BasicInstructionsforConfiguringOpenVPNandToolAccessintheCloud-230413-0926-71.pdf -s "Instructions for OpenVPN" -- $email_address
 else
         echo "Please try again."; exit 1
 fi
