@@ -31,11 +31,6 @@ else
       rescue Net::HTTPServerException
         raise "Error trying to load apache information from infrastructure data bag."
   end
-  if node.attribute?('ssl_force')
-    ssl = ".ssl"
-  else
-    ssl = ""
-  end
   serveripallow = webName['serveripallow'].split("|")
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
@@ -60,7 +55,7 @@ else
       )
     end
     template "/etc/httpd/conf.d/rd-#{environ}.vhost.conf" do
-      source "rdvhost#{ssl}.conf.erb"
+      source "rdvhost.conf.erb"
       owner  "root"
       group  "root"
       mode   "0644"

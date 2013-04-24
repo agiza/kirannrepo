@@ -21,12 +21,6 @@ if avacenenvirons.nil? || avacenenvirons.empty?
 else
   # Databag item for webserver hostname
   webName = data_bag_item("infrastructure", "apache")
-  if node.attribute?('ssl_force')
-  then
-    ssl = ".ssl"
-  else
-    ssl = ""
-  end
   serveripallow = webName['serveripallow'].split("|")
 
   # Convert the hash list of environments into a string, unique values, then split
@@ -60,7 +54,7 @@ else
       )
     end
     template "/etc/httpd/conf.d/ava-#{environ}.vhost.conf" do
-      source "avavhost#{ssl}.conf.erb"
+      source "avavhost.conf.erb"
       owner  "root"
       group  "root"
       mode   "0644"

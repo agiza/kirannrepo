@@ -31,11 +31,6 @@ else
       rescue Net::HTTPServerException
         raise "Error trying to pull apache information from infrastructure data bag."
   end
-  if node.attribute?('ssl_force')
-    ssl = ".ssl"
-  else
-    ssl = ""
-  end
   serveripallow = webName['serveripallow'].split("|")
   rtenvirons.each do |environ|
     # Loop through list of environments to build workers and pass to the vhost/proxy templates
@@ -84,7 +79,7 @@ else
       )
     end
     template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do
-      source "rtvhost#{ssl}.conf.erb"
+      source "rtvhost.conf.erb"
       owner  "root"
       group  "root"
       mode   "0644"

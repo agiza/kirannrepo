@@ -3,6 +3,12 @@
     ServerName <%= @serverName %>
     DocumentRoot "/var/www/html/<%= @vhostName %>"
 
+<% if node.attribute?('ssl_force') -%>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+<% end -%>
+
 Include proxy.d/ava-<%= @vhostName %>.proxy.conf
 
 </VirtualHost>
