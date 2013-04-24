@@ -60,11 +60,11 @@ begin
       raise "Error trying to pull rabbitmq info from rabbitmq data bag."
 end
 # Join cluster
-execute "cluster" do
-  Chef::Log.debug("Cluster will be made up of #{rabbitservers}")
-  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitservers}; rabbitmqctl start_app"
-  not_if "rabbitmqctl cluster_status | grep 'rabbit@#{node[:hostname]}'"
-end
+#execute "cluster" do
+#  Chef::Log.debug("Cluster will be made up of #{rabbitservers}")
+#  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitservers}; rabbitmqctl start_app"
+#  not_if "rabbitmqctl cluster_status | grep 'rabbit@#{node[:hostname]}'"
+#end
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
