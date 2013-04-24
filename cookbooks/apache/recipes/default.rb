@@ -7,13 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "iptables::default"
-
 iptables_rule "port_http"
-%w[httpd mod_ssl].each do |pkg|
+
+# Install packages
+%w{httpd mod_ssl}.each do |pkg|
   package pkg do
     action :upgrade
   end
 end
+
 # Include epel repository for optional packages
 include_recipe "altisource::epel-local"
 
@@ -33,10 +35,11 @@ execute "test-apache-config" do
   notifies :reload, resources(:service => "httpd"), :delayed
 end
 
-%w[/var/www/html/vpn /etc/httpd/proxy.d].each do |dir|
-  directory dir do
+%w{/var/www/html/vpn /etc/httpd/proxy.d}.each do |dir|
+  directory "#{dir}" do
     owner  "root"
     group  "root"
+    recursive true
   end
 end
 
@@ -50,25 +53,24 @@ end
 
 # Look up ssl server name from data bag.
 apachedata = data_bag_item("infrastructure", "apache")
-if apachedata['servername'].nil? || apachedata['servername'].empty?
-  Chef::Log.info("No SSL server names returned from search, SSL configuration will be skipped.")
+if apachedata['securesite'].nil? || apachedata['securesite'].empty?
+  Chef::Log.info("No Secure sites returned from search, SSL configuration will be skipped.")
 else
   # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
-  servername = "#{apachedata['servername'].split(",")[0]}"
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
     owner "root"
     group "root"
     mode "0644"
     variables( 
-      :servername => "#{apachedata['servername'].split(",")[0]}",
-      :proxyname => "#{apachedata['servername'].split(",")[1]}",
-      :serveradmin => "#{apachedata['serveradmin']}"
+      :servername => "#{apachedata['securesite']['servername'].split(",")[0]}",
+      :proxyname => "#{apachedata['securesite']['servername'].split(",")[1]}",
+      :serveradmin => "#{apachedata['securesite']['serveradmin']}"
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
   # Uses servername to grab for the data element that contains the certificate.
-  servercert = apachedata["sslcert"]
+  servercert = apachedata['securesite']["sslcert"]
   template "/etc/pki/tls/certs/#{servername}.crt" do
     source "servername.crt.erb"
     owner  "root"
@@ -81,7 +83,7 @@ else
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
   # This grabs private key to populate the server private key.
-  serverkey = apachedata["sslkey"]
+  serverkey = apachedata['securesite']["sslkey"]
   template "/etc/pki/tls/private/#{servername}.key" do
     source "servername.key.erb"
     owner  "root"

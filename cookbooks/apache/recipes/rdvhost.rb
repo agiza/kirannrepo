@@ -11,16 +11,15 @@ appnames = %w(realdoc realdoc-server)
 # Create an array of all environments with realtrans workers installed
 rdenvirons = []
 appnames.each do |app|
-  #Chef::Log.info("working on #{app}")
+  Chef::Log.debug("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
-    #Chef::Log.info("found #{node}")
+    Chef::Log.debug("found #{node}")
     rdenvirons << "#{node.chef_environment}"
-    #Chef::Log.info("#{node.chef_environment} added.")
+    Chef::Log.debug("#{node.chef_environment} added.")
   end
 end
-#rdenvirons = rdenvirons.collect { |rdenviron| "#{rdenviron}" }.uniq
 rdenvirons = rdenvirons.sort.uniq
-#Chef::Log.info("Use #{rdenvirons}")
+Chef::Log.debug("Use #{rdenvirons}")
 
 if rdenvirons.nil? || rdenvirons.empty?
   Chef::Log.info("No environments found with realdoc workers.")

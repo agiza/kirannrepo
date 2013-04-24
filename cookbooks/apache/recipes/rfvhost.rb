@@ -20,9 +20,6 @@ rfenvirons = rfenvirons.sort.uniq
 if rfenvirons.nil? || rfenvirons.empty?
   Chef::Log.info("No realfoundation nodes in this environment found in search.")
 else
-  # Convert the hash list of environments into unique values
-#  rfenvirons = rfenvirons.sort.uniq
-
   # Databag item for webserver hostname
   begin
     webName = data_bag_item("infrastructure", "apache")
