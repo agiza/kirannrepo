@@ -42,7 +42,6 @@ else
     rabbitservers << rabbitentry[:hostname]
   end
 end
-#rabbitservers = rabbitservers.uniq.sort!
 
 # This collects and converts the hostnames into the format for a cluster file.
 rabbitservers = rabbitservers.collect { |entry| "\'rabbit@#{entry}\'"}.sort.uniq.join(",\ ")
@@ -54,19 +53,12 @@ hostentries = []
   end
 end
 hostentries = hostentries.uniq
-#hosts = hostentries.uniq.sort
 #Pull Core rabbit from databag
 begin
   rabbitcore = data_bag_item("rabbitmq", "rabbitmq")
     rescue Net::HTTPServerException
       raise "Error loading rabbitmq information from rabbitmq data bag."
 end
-
-# Join cluster
-#execute "cluster" do
-#  command "rabbitmqctl stop_app; rabbitmqctl join_cluster #{rabbitservers}; rabbitmqctl start_app"
-#  not_if "rabbitmqctl cluster_status | grep rabbit@#{node[:hostname]}"
-#end
 
 template "/etc/rabbitmq/rabbitmq.config" do
   source "rabbitmq.config.erb"
@@ -96,13 +88,20 @@ template "/etc/rabbitmq/hosts.txt" do
   notifies :run, 'execute[rabbit-host]', :delayed
 end
 
+execute "purgedb" do
+  command "rm -rf /var/lib/rabbitmq/mnesia"
+  action :nothing
+end
+
 template "/var/lib/rabbitmq/.erlang.cookie" do
   source "erlang.cookie.erb"
   owner  "rabbitmq"
   group  "rabbitmq"
   mode   "0600"
   variables( :cookie => rabbitcore['rabbit_cookie'] )
-  notifies :restart, resources(:service => "rabbitmq-server")
+  notifies :stop, resources(:service => "rabbitmq-server"), :immediately
+  notifies :run, resources(:execute => "purgedb"), :immediately
+  notifies :start, resources(:service => "rabbitmq-server"), :immediately
 end
 
 rabbitmq_user "guest" do
