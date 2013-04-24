@@ -4,18 +4,14 @@ ProxyPreserveHost         On
 <Proxy balancer://yum-repo>
     Order allow,deny
     Allow from 127.0.0.1
-    Allow from 63.123.133
-    Allow from 184.72.127.192
+    Allow from 63.123.133.0/24
+    Allow from 184.72.127.192/32
 
     BalancerMember http://github.altidev.com:80/yum
 </Proxy>
 
 
 <Location /yum-repo>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
 
 ProxyPass               balancer://yum-repo
 </Location>
