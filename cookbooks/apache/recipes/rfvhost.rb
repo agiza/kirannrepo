@@ -26,7 +26,7 @@ else
       rescue Net::HTTPServerException
         raise "Error loading apache information from infrastructure data bag."
   end
-  serveripallow = webName['serveripallow']
+  serveripallow = %w(webName['serveripallow'])
 
   # Loop through list of environments to build workers and pass to the vhost/proxy templates
   rfenvirons.each do |environ|

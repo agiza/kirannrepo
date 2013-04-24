@@ -105,6 +105,7 @@ end
 if apachedata['serversites'].nil? || apachedata['serversites'].empty?
   Chef::Log.info("No Optional configuration entries returned from search.")
 else
+  serveripallow = %w(apachedata['serveripallow'])
   sitesinclude = apachedata['serversites'].split("|")
   sitesinclude.each do |site|
     template "/etc/httpd/conf.d/#{site}.conf" do
@@ -113,7 +114,7 @@ else
       group  "root"
       mode   "0644"
       variables(
-        :serveripallow => apachedata['serveripallow']
+        :serveripallow => serveripallow
       )
       notifies :run, resources(:execute => "test-apache-config"), :delayed
     end

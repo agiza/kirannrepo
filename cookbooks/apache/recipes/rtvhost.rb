@@ -31,7 +31,7 @@ else
       rescue Net::HTTPServerException
         raise "Error trying to pull apache information from infrastructure data bag."
   end
-  serveripallow = webName['serveripallow']
+  serveripallow = %w(webName['serveripallow'])
   rtenvirons.each do |environ|
     # Loop through list of environments to build workers and pass to the vhost/proxy templates
     fpnames = []
