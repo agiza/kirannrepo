@@ -3,7 +3,7 @@ Alias /vpn/ "/home/ubuntu/vpn/certificates/"
     Options Indexes Multiviews
     AllowOverride AuthConfig
     Order allow,deny
-    <% %w(@serveripallow).each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 </Directory>

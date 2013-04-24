@@ -3,7 +3,7 @@ ProxyPreserveHost         On
 
 <Proxy balancer://atlas>
     Order allow,deny
-    <% %w(@serveripallow).each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
