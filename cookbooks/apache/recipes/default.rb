@@ -54,23 +54,24 @@ end
 # Look up ssl server name from data bag.
 apachedata = data_bag_item("infrastructure", "apache")
 if apachedata['securesite'].nil? || apachedata['securesite'].empty?
-  Chef::Log.info("No Secure sites returned from search, SSL configuration will be skipped.")
+  Chef::Log.info("No SSL sites returned from search, SSL configuration will be skipped.")
 else
   # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
+  ssldata = apachedata['securesite']
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
     owner "root"
     group "root"
     mode "0644"
     variables( 
-      :servername => "#{apachedata['securesite']['servername'].split(",")[0]}",
-      :proxyname => "#{apachedata['securesite']['servername'].split(",")[1]}",
-      :serveradmin => "#{apachedata['securesite']['serveradmin']}"
+      :servername => "#{ssldata['servername'].split(",")[0]}",
+      :proxyname => "#{ssldata['servername'].split(",")[1]}",
+      :serveradmin => "#{ssldata['serveradmin']}"
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
   # Uses servername to grab for the data element that contains the certificate.
-  servercert = apachedata['securesite']["sslcert"]
+  servercert = ssldata["sslcert"]
   template "/etc/pki/tls/certs/#{servername}.crt" do
     source "servername.crt.erb"
     owner  "root"
@@ -83,7 +84,7 @@ else
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
   # This grabs private key to populate the server private key.
-  serverkey = apachedata['securesite']["sslkey"]
+  serverkey = ssldata["sslkey"]
   template "/etc/pki/tls/private/#{servername}.key" do
     source "servername.key.erb"
     owner  "root"
