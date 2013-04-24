@@ -30,7 +30,7 @@ if node.attribute?('performance')
 else
   target_env = "shared"
 end
-%w{rabbitmqserver rabbitmaster}.each do |app| 
+%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app| 
   search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{target_env}").each do |worker|
     rabbitentries << worker
   end
