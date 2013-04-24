@@ -3,7 +3,7 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtfp-<%= @environ %>>
     Order allow,deny
-    <% @serveripallow.each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
@@ -15,7 +15,7 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtrp-<%= @environ %>>
     Order allow,deny
-    <% @serveripallow.each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
@@ -27,7 +27,7 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtvp-<%= @environ %>>
     Order allow,deny
-    <% @serveripallow.each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
@@ -39,7 +39,7 @@ ProxyPreserveHost         On
 
 <Proxy balancer://rtreg-<%= @environ %>>
     Order allow,deny
-    <% @serveripallow.each do |ip| -%>
+    <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
