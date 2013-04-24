@@ -113,7 +113,7 @@ else
       group  "root"
       mode   "0644"
       variables(
-        :serveripallow => apachedata['serveripallow'].split("|")
+        :serveripallow => apachedata['serveripallow']
       )
       notifies :run, resources(:execute => "test-apache-config"), :delayed
     end
