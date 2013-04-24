@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-appnames = "realfoundation"
+appnames = %w(realfoundation)
 # Create an array of all environments with realtrans workers installed
 rfenvirons = []
 appnames.split(" ").each do |app|

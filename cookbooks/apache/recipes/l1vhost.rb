@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-appnames = "l1-fp l1-rp l1-server int-corelogic"
+appnames = %w(l1-fp l1-rp l1-server int-corelogic)
 # Create an array of all environments with realtrans workers installed
 l1environs = []
 appnames.split(" ").each do |app|

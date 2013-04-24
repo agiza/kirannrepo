@@ -7,10 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
-appnames = "realdoc realdoc-server"
+appnames = %w(realdoc realdoc-server)
 # Create an array of all environments with realtrans workers installed
 rdenvirons = []
-appnames.split(" ").each do |app|
+appnames.each do |app|
   #Chef::Log.info("working on #{app}")
   search(:node, "recipes:*\\:\\:#{app}").each do |node|
     #Chef::Log.info("found #{node}")
