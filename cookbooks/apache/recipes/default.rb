@@ -58,14 +58,16 @@ if apachedata['securesite'].nil? || apachedata['securesite'].empty?
 else
   # Sets up the ssl config file using servername for ssl.conf and proxyname is second element which is the proxy that is included in the ssl configuration by default.  Note, wildcards supported so you can include multiple sites.
   ssldata = apachedata['securesite']
+  servername = ssldata['servername'].split(",")[0]
+  proxyname = ssldata['servername'].split(",")[1]
   template "/etc/httpd/conf.d/ssl.conf" do
     source "ssl.conf.erb"
     owner "root"
     group "root"
     mode "0644"
     variables( 
-      :servername => "#{ssldata['servername'].split(",")[0]}",
-      :proxyname => "#{ssldata['servername'].split(",")[1]}",
+      :servername => "#{servername}",
+      :proxyname => "#{proxyname}",
       :serveradmin => "#{ssldata['serveradmin']}"
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
