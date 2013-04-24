@@ -105,7 +105,7 @@ end
 if apachedata['serversites'].nil? || apachedata['serversites'].empty?
   Chef::Log.info("No Optional configuration entries returned from search.")
 else
-  serveripallow = %w(apachedata['serveripallow'])
+  serveripallow = apachedata['serveripallow']
   sitesinclude = apachedata['serversites'].split("|")
   sitesinclude.each do |site|
     template "/etc/httpd/conf.d/#{site}.conf" do
