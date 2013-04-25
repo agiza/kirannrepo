@@ -28,7 +28,7 @@ cloud_mount "storage" do
 end
 
 cloud_mount "backups" do
-  device "/xvdn"
+  device "/dev/xvdn"
   mountpoint "/backups"
   fstype "ext4"
   options "defaults"
