@@ -18,7 +18,14 @@
 # limitations under the License.
 #
 
-package "squid" do
+case node['platform']
+when "redhat","centos","scientific","fedora","suse","amazon"
+  squidname = "squid"
+when "debian","ubuntu"
+  squidname = "squid3"
+end
+
+package "#{squidname}" do
   action :install
 end
 
@@ -26,20 +33,20 @@ case node['platform']
 when "redhat","centos","scientific","fedora","suse","amazon"
   template "/etc/sysconfig/squid" do
     source "redhat/sysconfig/squid.erb"
-    notifies :restart, "service[squid]", :delayed
+    notifies :restart, "service[#{squidname}]", :delayed
     mode 00644
   end
 end
 
 case node['platform']
 when "redhat","centos","scientific","fedora","suse","amazon"
-  service "squid" do
+  service "#{squidname}" do
     supports :restart => true, :status => true, :reload => true
     provider Chef::Provider::Service::Redhat
     action [ :enable, :start ]
   end
 when "debian","ubuntu"
-  service "squid3" do
+  service "#{squidname}" do
     supports :restart => true, :status => true, :reload => true
     provider Chef::Provider::Service::Upstart
     action [ :enable, :start ]
@@ -58,7 +65,7 @@ Chef::Log.info "Squid version number (unknown if blank): #{version}"
 
 template "/etc/squid/squid.conf" do
   source "squid#{version}.conf.erb"
-  notifies :reload, "service[squid]"
+  notifies :reload, "service[#{squidname}]"
   mode 00644
 end
 
@@ -105,6 +112,6 @@ template "/etc/squid/chef.acl.config" do
     :host_acl => host_acl,
     :url_acl => url_acl
     )
-  notifies :reload, "service[squid]"
+  notifies :reload, "service[#{squidname}]"
 end
 
