@@ -1,6 +1,6 @@
 # This file managed by Chef
 
-#	WELCOME TO SQUID 2.7.STABLE7
+#	WELCOME TO SQUID 2.7.STABLE9
 #	----------------------------
 #
 #	This is the default Squid configuration file. You may wish
@@ -609,7 +609,7 @@ acl to_localhost dst 127.0.0.0/8 0.0.0.0/32
 # Adapt to list your (internal) IP networks from where browsing
 # should be allowed
 acl localnet src 10.0.0.0/8	# RFC1918 possible internal network
-acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+acl localnet src 172.0.0.0/8	# RFC1918 possible internal network
 acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
 #
 acl SSL_ports port 443		# https
@@ -618,6 +618,7 @@ acl SSL_ports port 873		# rsync
 acl Safe_ports port 80		# http
 acl Safe_ports port 21		# ftp
 acl Safe_ports port 443		# https
+acl Safe_ports port 993		# imaps
 acl Safe_ports port 70		# gopher
 acl Safe_ports port 210		# wais
 acl Safe_ports port 1025-65535	# unregistered ports
@@ -675,7 +676,7 @@ http_access deny CONNECT !SSL_ports
 # Example rule allowing access from your local networks.
 # Adapt localnet in the ACL section to list your (internal) IP networks
 # from where browsing should be allowed
-#http_access allow localnet
+http_access allow localnet
 http_access allow localhost
 
 # And finally deny all other access to this proxy
