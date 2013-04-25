@@ -42,8 +42,8 @@ else
   configs[0..3].each do |config|
     configserver << config["ipaddress"]
   end
-  configserver = configserver.sort.uniq
-  configserver = configserver.collect { |entry| "#{entry}:27047"}.join(",")
+  configserver = configserver.uniq.sort
+  configserver = configserver.collect {|entry| "#{entry}:27047"}.join(",")
   template "/etc/#{app_name}.conf" do
     source "mongod.conf.erb"
     group "root"
