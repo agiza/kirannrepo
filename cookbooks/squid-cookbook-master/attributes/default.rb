@@ -19,7 +19,7 @@
 #
 
 default['squid']['port'] = 8080
-default['squid']['network'] = 10.0.0.0/16
+default['squid']['network'] = "10.0.0.0/16"
 default['squid']['config_file'] = "/etc/squid/squid.conf"
 default['squid']['timeout'] = "10"
 default['squid']['opts'] = ""
