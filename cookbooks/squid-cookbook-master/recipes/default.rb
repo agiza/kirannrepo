@@ -69,6 +69,11 @@ template "/etc/squid/squid.conf" do
   mode 00644
 end
 
+template "/etc/squid/squid_user" do
+  source "squid_user.erb"
+  mode 00644
+end
+
 url_acl = []
 begin
   data_bag("squid_urls").each do |bag|
