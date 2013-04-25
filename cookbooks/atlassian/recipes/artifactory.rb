@@ -34,19 +34,6 @@ cloud_mount "backups" do
   options "defaults"
 end
 
-#template "/root/mount-storage.sh" do
-#  source "mount-storage-nexus.sh.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0755"
-#end
-#
-#execute "mountopt" do
-#  command "/root/mount-storage.sh"
-#  creates "/storage/lost+found"
-#  action :run
-#end
-
 template "/etc/init.d/artifactory" do
   source "artifactory-init.erb"
   owner  "root"
@@ -68,9 +55,9 @@ template "/etc/artifactory/jetty.xml" do
   mode   "0755"
 end
 
-artifactory = {}
+artifactory = []
 search(:node, 'recipes:*\\:\\:artifactory') do |n|
-  artifactory[n.ipaddress] = {}
+  artifactory << n['ipaddress']
 end
 artifactory = artifactory.first
 template "/etc/haproxy/haproxy.cfg" do
