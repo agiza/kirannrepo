@@ -8,7 +8,7 @@ include_recipe "rsng::default"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
-altisource_network "#{amqphost}" do
+network_test "#{amqphost}" do
   port "#{amqpport}"
   action [:prep, :check]
   provider "altisource_netcheck"
@@ -22,7 +22,7 @@ end
 
 mailhost = mail["host"].split(":")[0]
 mailport = mail["host"].split(":")[1]
-altisource_network "#{mailhost}" do
+network_test "#{mailhost}" do
   port "#{mailport}"
   action [:prep, :check]
   provider "altisource_netcheck"
@@ -45,7 +45,7 @@ end
 if melissahost.nil? || melissahost.empty?
   Chef::Log.error("Unable to determine hostname for melissadata for network check.")
 else
-  altisource_network "#{melissahost}" do
+  network_test "#{melissahost}" do
     port "#{melissaport}"
     action [:prep, :check]
     provider "altisource_netcheck"
@@ -63,7 +63,7 @@ progdbport = "#{progdb['realservice']['projourdb_port']}"
 if progdbhost.nil? || progdbhost.empty?
   Chef::Log.error("Unable to identify a hostname for Progress DB server for network check.")
 else
-  altisource_network "#{progdbhost}" do
+  network_test "#{progdbhost}" do
     port "#{progdbport}"
     action [:prep, :check]
     provider "altisource_netcheck"
@@ -81,7 +81,7 @@ if ldapserver['ldaphost'].split(":")[0] == "dummy"
 else
   ldaphost = ldapserver['ldaphost'].split(":")[0]
   ldapport = ldapserver['ldaphost'].split(":")[1]
-  altisource_network "#{ldaphost}" do
+  network_test "#{ldaphost}" do
     port "#{ldapport}"
     action [:prep, :check]
     provider "altisource_netcheck"
@@ -93,7 +93,7 @@ mysqldbport = node[:db_port]
 if mysqldbhost.nil? || mysqldbhost.empty?
   Chef::Log.error("Unable to identify a host for mysql DB server.")
 else
-  altisource_network "#{mysqldbhost}" do
+  network_test "#{mysqldbhost}" do
     port "#{mysqldbport}"
     action [:prep, :check]
     provider "altisource_netcheck"

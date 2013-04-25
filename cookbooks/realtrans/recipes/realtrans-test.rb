@@ -13,16 +13,12 @@ rtcenport = node[:rtcenport]
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
-altisource_network "#{amqphost}" do
+network_test "#{amqphost}" do
   port "#{amqpport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 
-altisource_network "#{rdochost}" do
+network_test "#{rdochost}" do
   port "#{rdocport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 
 #CA section
@@ -43,10 +39,8 @@ end
 if cahost == "" || caport == ""
   Chef::Log.error("Unable to determine CA hostname or port.")
 else
-  altisource_network "#{cahost}" do
+  network_test "#{cahost}" do
     port "#{caport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 begin
@@ -56,10 +50,8 @@ begin
 end
 mailhost = mail["host"].split(":")[0]
 mailport = mail["host"].split(":")[1]
-altisource_network "#{mailhost}" do
+network_test "#{mailhost}" do
   port "#{mailport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 begin
   melissa = data_bag_item("integration", "melissadata")
@@ -78,10 +70,8 @@ end
 if melissahost.nil? || melissahost.empty?
   Chef::Log.error("Unable to determine hostname for melissadata for network check.")
 else
-  altisource_network "#{melissahost}" do
+  network_test "#{melissahost}" do
     port "#{melissaport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -95,10 +85,8 @@ realresport = realres["ftphost"].split(":")[1]
 if realreshost.nil? || realreshost.empty?
   Chef::Log.error("Unable to determine a host for Realresolution to test.")
 else
-  altisource_network "#{realreshost}" do
+  network_test "#{realreshost}" do
     port "#{realresport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -122,10 +110,8 @@ end
 if realservhost.nil? || realservhost.empty?
   Chef::Log.error("Unable to identify a hostname for realservice legacy webservice for network check.")
 else
-  altisource_network "#{realservhost}" do
+  network_test "#{realservhost}" do
     port "#{realservport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -140,10 +126,8 @@ if ldapserver['ldaphost'].split(":")[0] == "dummy"
 else
   ldaphost = ldapserver['ldaphost'].split(":")[0]
   ldapport = ldapserver['ldaphost'].split(":")[1]
-  altisource_network "#{ldaphost}" do
+  network_test "#{ldaphost}" do
     port "#{ldapport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -152,10 +136,8 @@ mysqldbport = node[:db_port]
 if mysqldbhost.nil? || mysqldbhost.empty?
   Chef::Log.error("Unable to identify a host for mysql DB server.")
 else
-  altisource_network "#{mysqldbhost}" do
+  network_test "#{mysqldbhost}" do
     port "#{mysqldbport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 

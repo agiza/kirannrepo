@@ -8,10 +8,8 @@ include_recipe "realdoc::default"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 
-altisource_network "#{amqphost}" do
+network_test "#{amqphost}" do
   port "#{amqpport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 
 begin
@@ -21,10 +19,8 @@ begin
 end
 mailhost = mail["host"].split(":")[0]
 mailport = mail["host"].split(":")[1]
-altisource_network "#{mailhost}" do
+network_test "#{mailhost}" do
   port "#{mailport}"
-  action [:prep, :check]
-  provider "altisource_netcheck"
 end
 begin
   melissa = data_bag_item("integration", "melissadata")
@@ -43,10 +39,8 @@ end
 if melissahost.nil? || melissahost.empty?
   Chef::Log.error("Unable to determine hostname for melissadata for network check.")
 else
-  altisource_network "#{melissahost}" do
+  network_test "#{melissahost}" do
     port "#{melissaport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -65,10 +59,8 @@ end
 if transcentrahost.nil? || transcentrahost.empty?
   Chef::Log.error("Unable to identify a hostname for transcentra sftp for network check.")
 else
-  altisource_network "#{transcentrahost}" do
+  network_test "#{transcentrahost}" do
     port "#{transcentraport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -77,10 +69,8 @@ oradbport = node[:oradb_port]
 if oradbhost.nil? || oradbhost.empty?
   Chef::Log.error("Unable to identify a hostname for Oracle DB server for network check.")
 else
-  altisource_network "#{oradbhost}" do
+  network_test "#{oradbhost}" do
     port "#{oradbport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -95,10 +85,8 @@ if ldapserver['ldaphost'].split(":")[0] == "dummy"
 else
   ldaphost = ldapserver['ldaphost'].split(":")[0]
   ldapport = ldapserver['ldaphost'].split(":")[1]
-  altisource_network "#{ldaphost}" do
+  network_test "#{ldaphost}" do
     port "#{ldapport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
@@ -107,10 +95,8 @@ mysqldbport = node[:db_port]
 if mysqldbhost.nil? || mysqldbhost.empty?
   Chef::Log.error("Unable to identify a host for mysql DB server.")
 else
-  altisource_network "#{mysqldbhost}" do
+  network_test "#{mysqldbhost}" do
     port "#{mysqldbport}"
-    action [:prep, :check]
-    provider "altisource_netcheck"
   end
 end
 
