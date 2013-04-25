@@ -32,12 +32,12 @@ ubuntu_hosts = []
 search(:node, "platform:redhat OR platform:centos").each do |host|
   rhel_hosts << host["hostname"]
 end
-rhel_hosts = rhel_hosts.sort.uniq
+rhel_hosts.uniq.sort!
 
 search(:node, "platform:ubuntu").each do |host|
   ubuntu_hosts << host["hostname"]
 end
-ubuntu_hosts = ubuntu_hosts.sort.uniq
+ubuntu_hosts.uniq.sort!
 
 template "/home/ubuntu/bin/rhel_host" do
   source "rhel_host.erb"
