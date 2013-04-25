@@ -29,7 +29,7 @@ else
   environment = "shared"
 end
 clusternodes = []
-%w{rabbitmqserver rabbitmaster}.each do |app|
+%w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
   search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
     clusternodes << worker["ipaddress"]
   end
