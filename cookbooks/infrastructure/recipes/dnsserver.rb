@@ -92,7 +92,7 @@ template "/etc/rndc.key" do
 end
 
 altidev = search(:node, "name:*")
-altidev.sort!(&:name)
+altidev.sort_by!{|x|[x.name]}
 
 rabbitnodes = []
 %w{rabbitmqserver rabbitmaster rabbitworker}.each do |app|
