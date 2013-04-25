@@ -133,6 +133,7 @@ template "/etc/named/ascorp.com.db" do
 end
 
 rev0010 = search(:node, "ipaddress:10.0.0*")
+rev0010.sort_by!{|x|[x.name]}
 template "/etc/named/rev.0.0.10.in-addr.arpa" do
   source "rev.0.0.10.in-addr.arpa.erb"
   owner  "named"
@@ -147,6 +148,7 @@ template "/etc/named/rev.0.0.10.in-addr.arpa" do
 end
 
 rev1010 = search(:node, "ipaddress:10.0.1*")
+rev1010.sort_by!{|x|[x.name]}
 template "/etc/named/rev.1.0.10.in-addr.arpa" do
   source "rev.1.0.10.in-addr.arpa.erb"
   owner  "named"
@@ -161,6 +163,7 @@ template "/etc/named/rev.1.0.10.in-addr.arpa" do
 end
 
 rev2010 = search(:node, "ipaddress:10.0.2*")
+rev2010.sort_by!{|x|[x.name]}
 template "/etc/named/rev.2.0.10.in-addr.arpa" do
   source "rev.2.0.10.in-addr.arpa.erb"
   owner  "named"
