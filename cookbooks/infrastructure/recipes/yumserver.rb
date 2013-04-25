@@ -17,9 +17,12 @@ yum_package "httpd" do
   action :upgrade
 end
 
-directory "/data/yum-repo" do
-  owner "root"
-  group "root"
+%w{/data/yum-repo /data/yum-repo/release /data/yum-repo/common /data/yum-repo/testing /data/yum-repo/rhel-x86_64-server-6 /data/yum-repo/rhel-x86_64-server-6/getPackage /data/yum-repo/epel}.each do |dir|
+  directory "#{dir}" do
+    owner "root"
+    group "root"
+    recursive true
+  end
 end
 
 link "/var/www/html/yum-repo" do
@@ -28,38 +31,8 @@ link "/var/www/html/yum-repo" do
   group "root"
 end
 
-directory "/data/yum-repo/release" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/common" do
-  owner "root"
-  group "root"
-end
-
-directory "/data/yum-repo/testing" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/rhel-x86_64-server-6" do
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/rhel-x86_64-server-6/getPackage" do
-  owner  "root"
-  group  "root"
-end
-
 link "/data/yum-repo/redhat" do
   to "/data/yum-repo/rhel-x86_64-server-6/getPackage"
-  owner  "root"
-  group  "root"
-end
-
-directory "/data/yum-repo/epel" do
   owner  "root"
   group  "root"
 end
