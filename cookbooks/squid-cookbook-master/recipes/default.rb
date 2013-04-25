@@ -31,15 +31,19 @@ when "redhat","centos","scientific","fedora","suse","amazon"
   end
 end
 
-service "squid" do
-  supports :restart => true, :status => true, :reload => true
-  case node['platform']
-  when "redhat","centos","scientific","fedora","suse","amazon"
+case node['platform']
+when "redhat","centos","scientific","fedora","suse","amazon"
+  service "squid" do
+    supports :restart => true, :status => true, :reload => true
     provider Chef::Provider::Service::Redhat
-  when "debian","ubuntu"
-    provider Chef::Provider::Service::Upstart
+    action [ :enable, :start ]
   end
-  action [ :enable, :start ]
+when "debian","ubuntu"
+  service "squid3" do
+    supports :restart => true, :status => true, :reload => true
+    provider Chef::Provider::Service::Upstart
+    action [ :enable, :start ]
+  end
 end
 
 if node['squid']['network']
