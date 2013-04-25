@@ -20,18 +20,32 @@ service "haproxy" do
   action :enable
 end
 
-template "/root/mount-storage.sh" do
-  source "mount-storage-nexus.sh.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
+cloud_mount "storage" do
+  device "/dev/xvdm"
+  mountpoint "/storage"
+  fstype "ext4"
+  options "defaults"
 end
 
-execute "mountopt" do
-  command "/root/mount-storage.sh"
-  creates "/storage/lost+found"
-  action :run
+cloud_mount "backups" do
+  device "/xvdn"
+  mountpoint "/backups"
+  fstype "ext4"
+  options "defaults"
 end
+
+#template "/root/mount-storage.sh" do
+#  source "mount-storage-nexus.sh.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0755"
+#end
+#
+#execute "mountopt" do
+#  command "/root/mount-storage.sh"
+#  creates "/storage/lost+found"
+#  action :run
+#end
 
 template "/etc/init.d/artifactory" do
   source "artifactory-init.erb"
@@ -55,7 +69,7 @@ template "/etc/artifactory/jetty.xml" do
 end
 
 artifactory = {}
-search(:node, 'recipes:atlassian\:\:artifactory') do |n|
+search(:node, 'recipes:*\\:\\:artifactory') do |n|
   artifactory[n.ipaddress] = {}
 end
 artifactory = artifactory.first
