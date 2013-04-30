@@ -48,7 +48,7 @@ puts "Looking for #{@node_name}"
 searcher = Chef::Search::Query.new
 result = searcher.search(:node, "name:#{@node_name}")
  
-knife_search = Chef::Knife::Search.new
+#knife_search = Chef::Knife::Search.new
 node = result.first.first
 if node.nil?
 puts "Could not find a node named #{@node_name}"
@@ -59,9 +59,9 @@ puts "Setting environment to #{@environment}"
 node.chef_environment(@environment)
 node.save
  
-knife_search = Chef::Knife::Search.new
-knife_search.name_args = ['node', "name:#{@node_name}"]
-knife_search.run
+#knife_search = Chef::Knife::Search.new
+#knife_search.name_args = ['node', "name:#{@node_name}"]
+#knife_search.run
  
 end
 end

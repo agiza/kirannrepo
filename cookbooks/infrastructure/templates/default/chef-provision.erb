@@ -98,18 +98,18 @@ check_errs $? "There was a problem running chef-client for initial run."
 node_check
 
 # Add node to the new environment.
-knife exec -E "'"nodes.transform("name:$host") {|n| puts n.chef_environment("$env_targ"); n.save }"'"
-#knife node set_environment $host $env_targ
+#knife exec -E "'nodes.transform("name:$host") {|n| puts n.chef_environment("$env_targ"); n.save }'"
+knife node set_environment $host $env_targ
 check_errs $? "There was a problem with adding the node to the environment."
 
 # Add role all automatically to the new node.
-knife node run_list add $host role[all] && echo "Role all has been added to the node." 
-check_errs $? "There was a problem with adding the all role."
+#knife node run_list add $host role[all] && echo "Role all has been added to the node." 
+#check_errs $? "There was a problem with adding the all role."
 
 # Add any other roles that were selected.
 #for i in `echo $role_name`; do
-knife node run_list add $host "${role_name}" && echo "Roles have been added to the node." 
-check_errs $? "There was a problem with adding ${role_name} role."
+knife node run_list add $host "${role_name}" && echo "Recipes have been added to the node." 
+check_errs $? "There was a problem with adding ${role_name} recipe."
 #done
 
 # SSH to the new node and run chef-client.
