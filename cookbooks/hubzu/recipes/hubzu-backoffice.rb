@@ -12,7 +12,7 @@ app_version = node[:hubzubo_version]
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")
 else
-  if app_version.nil? || app_version.empty? || app_verson == "0.0.0-1"
+  if app_version.nil? || app_version.empty? || app_version == "0.0.0-1"
     new_version = search(:node, "recipes:hubzu\\:\\:#{app_name} AND chef_environment:#{node.chef_environment}")
     if new_version.nil? || new_version.empty? || new_version == "0.0.0-1"
       Chef::Log.info("No version for #{app_name} software package found.")
