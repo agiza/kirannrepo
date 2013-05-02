@@ -46,17 +46,10 @@ unless replicaset.nil? || replicaset.empty? || replicaset.nil? || replicaset.emp
     #notifies :run, 'execute[replica-create]'
   end
 
-  #template "/usr/local/bin/replica-create" do
-  #  source "replica-create.erb"
-  #  owner  "root"
-  #  group  "root"
-  #  mode   "0755"
-  #  notifies :run, 'execute[replica-create]'
-  #end
   mongodb_replica "#{node[:replicaset]}" do
     action :create
   end
-
+  
   ruby_block "remove replica-create from run list" do
     block do
       node.run_list.remove("mongodb::replica-create")
