@@ -1,18 +1,30 @@
 [common]
 name=Packages from Altisource - noarch
+<% if node.attribute?("yumredirect") -%>
+baseurl=http://<%= node[:yumredirect] %>/yum-repo/common
+<% else -%>
 baseurl=http://107.21.20.81/yum-repo/common
+<% end -%>
 enabled=1
 gpgcheck=0
 
 [testing]
 name=Packages from Altisource - testing
+<% if node.attribute?("yumredirect") -%>
+baseurl=http://<%= node[:yumredirect] %>/yum-repo/testing
+<% else -%>
 baseurl=http://107.21.20.81/yum-repo/testing
+<% end -%>
 enabled=0
 gpgcheck=0
 
 [release]
 name=Packages from Altisource - release
+<% if node.attribute?("yumredirect") -%>
+baseurl=http://<%= node[:yumredirect] %>/yum-repo/release
+<% else -%>
 baseurl=http://107.21.20.81/yum-repo/release
+<% end -%>
 enabled=1
 gpgcheck=0
 
