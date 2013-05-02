@@ -34,26 +34,49 @@ cloud_mount "backups" do
   options "defaults"
 end
 
-template "/etc/init.d/artifactory" do
-  source "artifactory-init.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
+%w{/storage/artifactory/etc/opt/jfrog/artifactory /storage/artifactory/opt/jfrog/artifactory /storage/artifactory/var/opt/jfrog/artifactory}.each do |dir|
+  directory "#{dir}" do
+    action :create
+    recursive true
+  end
 end
 
-template "/etc/artifactory/default" do
-  source "artifactory-default.erb"
-  owner  "artifactory"
-  group  "root"
-  mode   "0755"
+link "/etc/opt" do
+  to "/storage/artifactory/etc/opt"
 end
 
-template "/etc/artifactory/jetty.xml" do
-  source "artifactory-jetty.xml.erb"
-  owner  "artifactory"
-  group  "root"
-  mode   "0755"
+link "/var/opt/jfrog" do
+  to "/storage/artifactory/var/opt/jfrog"
 end
+
+link "/opt/jfrog" do
+  to "/storage/artifactory/opt/jfrog"
+end
+
+package "artifactory" do
+  action :upgrade
+end
+
+#template "/etc/init.d/artifactory" do
+#  source "artifactory-init.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0755"
+#end
+
+#template "/etc/artifactory/default" do
+#  source "artifactory-default.erb"
+#  owner  "artifactory"
+#  group  "root"
+#  mode   "0755"
+#end
+
+#template "/etc/artifactory/jetty.xml" do
+#  source "artifactory-jetty.xml.erb"
+#  owner  "artifactory"
+#  group  "root"
+#  mode   "0755"
+#end
 
 artifactory = []
 search(:node, 'recipes:*\\:\\:artifactory') do |n|
