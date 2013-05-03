@@ -1,22 +1,6 @@
-realdoc.event.bus=rd.event.bus
-
-realdoc.mongo.server=<%= @mongo_host %>
-realdoc.mongo.database=<%= node[:mongodb_database] %>
-mongo.server=<%= @mongo_host %>
-mongo.database=<%= node[:mongodb_database] %>
-
-realdoc.email.fromAddress=<%= @mailserver['from'] %>
-rd.email.fromAddress=<%= @mailserver['from'] %>
-realdoc.email.fromAddress.personal=<%= @mailserver['from'] %>
-realdoc.fax.toAddress=<%= @mailserver['from'] %>
-rd.fax.toAddress=robert.hudson@altisource.com
-
-amqp.host=<%= @amqphost %>
-amqp.port=<%= @amqpport %>
-amqp.username=<%= @amqpuser %>
-amqp.password=<%= @amqppass %>
-amqp.virtual-host=<%= node[:realdoc_amqp_vhost] %>
-amqp.queue.inbound=realdoc
+################################################################################
+## RealDoc properties
+################################################################################
 
 rd.amqp.host=<%= @amqphost %>
 rd.amqp.port=<%= @amqpport %>
@@ -24,20 +8,47 @@ rd.amqp.username=<%= @amqpuser %>
 rd.amqp.password=<%= @amqppass %>
 rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.amqp.requests.import=rd.import.standard
+rd.correspondence.amqp.recon.inbound=rd.correspondence.recon
+rd.correspondence.amqp.requests=rd.correspondence.requests
+rd.correspondence.amqp.generate=rd.correspondence.generate
+rd.correspondence.amqp.delivery=rd.correspondence.delivery
 
-realdoc.correspondence.amqp.host=<%= @amqphost %>
-realdoc.correspondence.amqp.port=<%= @amqpport %>
-realdoc.correspondence.amqp.username=<%= @amqpuser %>
-realdoc.correspondence.amqp.password=<%= @amqppass %>
-realdoc.correspondence.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
-realdoc.correspondence.amqp.recon.inbound=rd.correspondence.recon
-realdoc.correspondence.amqp.delivery=rd.correspondence.requests
-realdoc.correspondence.amqp.generate=rd.correspondence.generate
-realdoc.correspondence.amqp.delivery=rd.correspondence.delivery
-realdoc.correspondence.directory=${catalina.base}/correspondence
+rd.correspondence.directory=${catalina.base}/correspondence
+rd.correspondence.workingDirectory=${catalina.base}/correspondence/working
+rd.correspondence.archiveDirectory=${catalina.base}/correspondence/archive
 
 rd.correspondence.documentApprovalCandidateGroup=283420cd-d9d1-4e39-8ecd-b00dc552e54d 
 rd.correspondence.batchApprovalCandidateGroup=b27f2e6c-59ed-43b0-a3c2-7d85e4c619af 
+
+realdoc.event.bus=rd.event.bus
+
+mongo.server=<%= @mongo_host %>
+mongo.database=<%= node[:mongodb_database] %>
+
+rd.remote.url=http://<%= @rdochost %>/realdoc/api
+rd.remote.defaultUsername=correspondence
+rd.remote.singleUserMode=true
+rd.productName=RealDoc
+rd.rulesPackage=RealDocPackage
+
+rd.documentservice.tempPath=/tmp/
+
+rd.fileStorageMethod=GRID_FS
+rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
+
+
+template.mongo.database=<%= node[:mongodb_database] %>
+realdoc.mongo.host=<%= @mongo_host %>
+template.mongo.host=<%= @mongo_host %>
+mongo.host=<%= @mongo_host %>
+viewer.mongo.host=<%= @mongo_host %>
+viewer.mongo.database=<%= node[:mongodb_database] %>
+
+
+################################################################################
+## RealFoundation properties
+################################################################################
+
 rf.automaticTaskAssignment.enabled=true 
 rf.taskManager.customColumns=approved,rejected,total,BATCH_ID 
 
@@ -92,15 +103,6 @@ rf.melissadata.defaultMaxConnectionsPerHost=1
 rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
 rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
 
-template.mongo.database=<%= node[:mongodb_database] %>
-realdoc.mongo.host=<%= @mongo_host %>
-template.mongo.host=<%= @mongo_host %>
-mongo.host=<%= @mongo_host %>
-correspondence.mongo.host=<%= @mongo_host %>
-correspondence.mongo.database=<%= node[:mongodb_database] %>
-viewer.mongo.host=<%= @mongo_host %>
-viewer.mongo.database=<%= node[:mongodb_database] %>
-
 logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
 rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
@@ -143,15 +145,7 @@ rf.startupAuthenticationProvider.enabled=false
 rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.startupFileLocation=file:${catalina.base}/startup.xml
 
-rd.documentservice.tempPath=/tmp/
-realdoc.correspondence.amqp.requests=rd.correspondence.requests
-
 realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
-rd.remote.url=http://<%= @rdochost %>/realdoc/api
-rd.remote.defaultUsername=correspondence
-rd.remote.singleUserMode=true
-rd.productName=RealDoc
-rd.rulesPackage=RealDocPackage
 
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true
