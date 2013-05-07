@@ -82,3 +82,10 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+directory "/opt/tomcat/realservicing/response" do
+  owner "tomcat"
+  group "tomcat"
+  recursive true
+  action :create
+end
+
