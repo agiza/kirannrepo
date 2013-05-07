@@ -7,15 +7,15 @@ rabbit.server.channelCacheSize=100
 
 service.consumers=5
 
-jdbc.driverClassName.mysql.rsng=com.mysql.jdbc.Driver
+rf.db.driver=com.mysql.jdbc.Driver
 
-jdbc.url.mysql.rsng=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
-jdbc.username.mysql.rsng=<%= @mysqldb["rsng_dbuser"] %>
-jdbc.password.mysql.rsng=<%= @mysqldb["rsng_dbpass"] %>
-jdbc.initial-size.mysql.rsng=10
-jdbc.min-idle.mysql.rsng=0
-jdbc.max-idle.mysql.rsng=10
-jdbc.maxActive.mysql.rsng=50
+rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
+rf.db.username=<%= @mysqldb["rsng_dbuser"] %>
+rf.db.password=<%= @mysqldb["rsng_dbpass"] %>
+rf.db.initialSize=10
+rf.db.minIdle=0
+rf.db.maxIdle=10
+rf.db.maxActive=50
 
 rfTenant.code=TENANT1
 
