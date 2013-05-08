@@ -14,6 +14,9 @@ define :yumserver_search do
         yumserver << worker["ipaddress"]
       end
     end
+    if yumserver.nil? || yumserver.empty?
+      Chef::Log.error "No Yum server found, software can not be installed without a Yum server."
+    end
     yumserver = yumserver.first
   end
   Chef::Log.info("Yumserver is set to #{yumserver}")
