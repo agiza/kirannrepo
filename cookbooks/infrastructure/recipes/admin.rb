@@ -64,3 +64,26 @@ end
   end
 end
 
+# Section for VPN Account creator
+%w{vpn-client vpn-revoke}.each do |script|
+  template "/usr/lib/cgi-bin/#{script}.php" do
+    source "#{script}.php.erb"
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+end
+
+file "/usr/lib/cgi-bin/.htaccess" do
+  content '     AuthName "Altisource OpenVPN Account Creator"
+     AuthType Digest
+     AuthUserFile /usr/lib/cgi-bin/.htdigest
+     AuthGroupFile /dev/null
+     <Limit GET>
+     require valid-user
+     </Limit>'
+  owner "root"
+  group "root"
+  mode "0644"
+end
+
