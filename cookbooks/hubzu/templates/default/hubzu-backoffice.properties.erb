@@ -41,4 +41,28 @@ jms.psa.queue.routing.key=backoffice.psa.add
 # 0 0 0 25 12 ?         = every Christmas Day at midnight
 
 # 1 minute delay
-docusign.scheduler.delay=0 0/15 * * * ?
+docusign.scheduler.delay=*/60 * * * * ?
+
+#GFD transaction JMS Configuration
+jms.gfd.transaction.queue.name=property.gfd.transaction
+jms.gfd.transaction.queue.routing.key=backoffice.gfd.transaction.add
+################ JMS Properties - End ################
+ 
+################ GFD Properties - Start ################
+#Payment Collection (GFD) Configurations
+gfd.ach.uri= http://tstsvr.achworks.com/dnet/achws.asmx
+ 
+#Company Information
+gfd.companyInfo.sss=TST
+gfd.companyInfo.LocID=9505
+gfd.companyInfo.company=MYCOMPANY
+gfd.companyInfo.companyKey=SASD%!%$DGLJGWYRRDGDDUDFDESDHDD
+ 
+################ GFD Properties - End ################
+ 
+# 1 hour delay
+gfd.scheduler.delay=0 0 * * * ?
+ 
+# realDoc mail configuration
+backoffice.from.email=noreply@altisource.com
+ 
