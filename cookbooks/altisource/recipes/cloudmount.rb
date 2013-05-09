@@ -13,7 +13,7 @@ if node.attribute?("cloudmount")
 elsif not node.attribute?("cloudmount")
   Chef::Log.info("No cloud mount information present, attempting to mount default tomcat volume.")
   cloud_mount "tomcat" do
-    device "/dev/xvdh"
+    device "/dev/xvdj"
     mountpoint "/opt/tomcat"
     filesystem "ext4"
     options "defaults"
