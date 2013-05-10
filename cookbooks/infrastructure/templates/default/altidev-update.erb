@@ -1,5 +1,14 @@
 #!/bin/bash
 
+error_check(){
+error_check=`grep -e "[Ee]rror" ${target_file.txt}`
+if [ "${error_check}" == "" ]; then
+  echo "No error messages found"; result="0"
+else
+  echo "Error messages found"; result="1"
+fi
+}
+
 echo "Updating common repository."
 if [ -f /data/yum-repo/commonwork ]; then
   echo "Common is already being replicated."
@@ -7,6 +16,13 @@ else
   touch /data/yum-repo/commonwork
   reposync -p /data/yum-repo/ --repoid=common -l > /data/yum-repo/common.log 2>&1
   rm -f /data/yum-repo/commonwork
+fi
+
+target_file=/data/yum-repo/common.log; error_check
+if [ "$result" == "1" ]; then
+  echo "There has been a failure on the yum server to synchronize Common repositories on $hostname" | mailx -s "Yum Synchronization failure on $hostname" sanjay.gore@altisource.com
+else
+  echo "no errors detected."
 fi
 
 #if [ -f /data/yum-repo/testingwork ]; then
@@ -26,6 +42,15 @@ else
   reposync -p /data/yum-repo/ --repoid=release -l > /data/yum-repo/release.log 2>&1
   rm -f /data/yum-repo/releasework
 fi
+
+target_file=/data/yum-repo/release.log; error_check
+target_file=/data/yum-repo/common.log; error_check
+if [ "$result" == "1" ]; then
+  echo "There has been a failure on the yum server to synchronize Release repositories on $hostname" | mailx -s "Yum Synchronization failure on $hostname" sanjay.gore@altisource.com
+else
+  echo "no errors detected."
+fi
+
 
 /usr/local/bin/yum-update
 
