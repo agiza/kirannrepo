@@ -8,6 +8,7 @@ rabbit.server.channelCacheSize=100
 service.consumers=5
 
 rf.db.driver=com.mysql.jdbc.Driver
+rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 
 rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
 rf.db.username=<%= @mysqldb["rsng_dbuser"] %>
