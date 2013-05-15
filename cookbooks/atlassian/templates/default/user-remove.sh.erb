@@ -3,7 +3,7 @@
 cd /opt/atlassian/cli
 
 userid=$1
-email="bryan.phinney@gmail.com"
+email="john.eaton@altisource.com"
 
 ./atlassian.sh jira --action updateUser --userId "$userid" --userPassword "In4cT1v3!"
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "bamboo-user" 
@@ -14,5 +14,5 @@ email="bryan.phinney@gmail.com"
 ./atlassian.sh jira --action removeUserFromGroup --userId "$userid" --group "nexus-users"
 
 nohup echo -e "User account $userid has been deactivated by changing the password. \n
- " | /usr/bin/mailx -s "Atlassian Tools Account Deletion" -r bryan.phinney@altisource.com -Ssmtp=mail "$email" &
+ " | /usr/bin/mailx -s "Atlassian Tools Account Deletion" -r john.eaton@altisource.com -Ssmtp=mail "$email" &
 
