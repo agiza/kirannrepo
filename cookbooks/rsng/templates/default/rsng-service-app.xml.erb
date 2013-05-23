@@ -15,8 +15,10 @@
             removeAbandonedTimeout="600"
             validationQuery= "SELECT 1"
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
-            testOnBorrow="true"
-            testWhileIdle="false"
+            testOnBorrow="false"
+            testWhileIdle="true"
+            minEvictableIdleTimeMillis="1800000"
+            numTestsPerEvictionRun="3"
             connectTimeout="180000"
             socketTimeout="180000"
             initialSize="<%= node[:db_initsize] %>"/>
