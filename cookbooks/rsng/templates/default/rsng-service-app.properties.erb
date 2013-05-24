@@ -10,7 +10,7 @@ service.consumers=5
 rf.db.driver=com.mysql.jdbc.Driver
 rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 
-rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000
+rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000&useLegacyDatetimeCode=false
 rf.db.username=<%= @mysqldb["rsng_dbuser"] %>
 rf.db.password=<%= @mysqldb["rsng_dbpass"] %>
 rf.db.initialSize=10
