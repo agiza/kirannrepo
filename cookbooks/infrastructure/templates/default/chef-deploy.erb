@@ -147,10 +147,10 @@ nodescheck
 
 #If the node is '*' then we will do all nodes
 if [ "$node" != "*" ]; then
-	echo "Limiting target_list to '${node}'"
+	echo "Limiting target_list to '${node}'\n"
 	target_list=$node
 else
-    echo "Using full target_list of '${target_list}'"
+    echo "Using full target_list of '${target_list}'\n\n"
 fi
 
 for target_host in `echo $target_list`; do
@@ -169,10 +169,10 @@ nodescheck
 
 #If the node is '*' then we will do all nodes
 if [ "$node" != "*" ]; then
-	echo "Limiting target_list to '${node}'"
+	echo "Limiting target_list to '${node}'\n"
 	target_list=$node
 else
-    echo "Using full target_list of '${target_list}'"
+    echo "Using full target_list of '${target_list}'\n\n"
 fi
 
 for target_host in `echo $target_list`; do
