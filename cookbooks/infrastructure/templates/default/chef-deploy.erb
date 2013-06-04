@@ -147,10 +147,10 @@ nodescheck
 
 #If the node is '*' then we will do all nodes
 if [ "$node" != "*" ]; then
-	echo "Else limiting target_list to ${node}"
+	echo "Limiting target_list to '${node}'"
 	target_list=$node
 else
-    echo "Using full target_list of ${target_list}"
+    echo "Using full target_list of '${target_list}'"
 fi
 
 for target_host in `echo $target_list`; do
@@ -169,10 +169,10 @@ nodescheck
 
 #If the node is '*' then we will do all nodes
 if [ "$node" != "*" ]; then
-	echo "Else limiting target_list to ${node}"
+	echo "Limiting target_list to '${node}'"
 	target_list=$node
 else
-    echo "Using full target_list of ${target_list}"
+    echo "Using full target_list of '${target_list}'"
 fi
 
 for target_host in `echo $target_list`; do
@@ -239,7 +239,7 @@ app=`echo $app_names`
 enter_node(){
 echo "Enter the Node Name to Perform on $env_targ.  For all nodes enter '*':"
   read node
-echo "Please confirm Node Name is $node. (y or no)?"
+echo "Please confirm Node Name is '$node'. (y or no)?"
   read answer
 if [ "$answer" != "y" ]; then
   echo "Node Name is not correct, please try again."; enter_node
