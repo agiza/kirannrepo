@@ -144,6 +144,15 @@ if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 nodescheck
+
+#If the node is '*' then we will do all nodes
+if [ "$node" != "*" ]; then
+	echo "Else limiting target_list to ${node}"
+	target_list=$node
+else
+    echo "Using full target_list of ${target_list}"
+fi
+
 for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat start"
   echo "Tomcat started on $target_host."
@@ -157,7 +166,16 @@ if [ "$answer" != "y" ]; then
 echo "You did not confirm, aborting."; exit 1
 fi
 nodescheck
-  for target_host in `echo $target_list`; do
+
+#If the node is '*' then we will do all nodes
+if [ "$node" != "*" ]; then
+	echo "Else limiting target_list to ${node}"
+	target_list=$node
+else
+    echo "Using full target_list of ${target_list}"
+fi
+
+for target_host in `echo $target_list`; do
   $ssh_command root@$target_host "service altitomcat stop"
   echo "Tomcat stopped on $target_host."
 done
@@ -216,6 +234,18 @@ app=`echo $app_names`
          ;;
       esac
    done
+}
+
+enter_node(){
+echo "Enter the Node Name to Perform on $env_targ.  For all nodes enter '*':"
+  read node
+echo "Please confirm Node Name is $node. (y or no)?"
+  read answer
+if [ "$answer" != "y" ]; then
+  echo "Node Name is not correct, please try again."; enter_node
+else
+nodename=$node
+fi
 }
 
 enter_version(){
@@ -280,10 +310,10 @@ while :
                 data_valid; rpm_version; pause
                 ;;
   f)
-                data_valid; stop_tomcat; pause
+                data_valid; enter_node; stop_tomcat; pause
                 ;;
   g)
-                data_valid; start_tomcat; pause
+                data_valid; enter_node; start_tomcat; pause
                 ;;
   h)
                 data_valid; chef_execute
