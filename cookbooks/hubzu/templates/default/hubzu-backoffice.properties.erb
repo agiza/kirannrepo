@@ -23,25 +23,9 @@ jms.psa.queue.routing.key=backoffice.psa.add
 
 # Application configuration
 
-# Cron expression significance
-# .---------------- minute (0 - 59)
-# |   .------------- hour (0 - 23)
-# |   |   .---------- day of month (1 - 31)
-# |   |   |   .------- month (1 - 12) OR jan,feb,mar,apr ...
-# |   |   |   |  .----- day of week (0 - 7) (Sunday=0 or 7)  OR sun,mon,tue,wed,thu,fri,sat
-# |   |   |   |  |
-# *   *   *   *  *  command to be executed
-
-# Cron examples
-# 0 0 * * * *           = the top of every hour of every day.
-# */10 * * * * *        = every ten seconds.
-# 0 0 8-10 * * *        = 8, 9 and 10 o'clock of every day.
-# 0 0/30 8-10 * * *     = 8:00, 8:30, 9:00, 9:30 and 10 o'clock every day.
-# 0 0 9-17 * * MON-FRI  = on the hour nine-to-five weekdays
-# 0 0 0 25 12 ?         = every Christmas Day at midnight
 
 # 1 minute delay
-docusign.scheduler.delay=*/60 * * * * ?
+docusign.scheduler.delay=60000
 
 #GFD transaction JMS Configuration
 jms.gfd.transaction.queue.name=property.gfd.transaction
@@ -61,7 +45,7 @@ gfd.companyInfo.companyKey=SASD%!%$DGLJGWYRRDGDDUDFDESDHDD
 ################ GFD Properties - End ################
  
 # 1 hour delay
-gfd.scheduler.delay=0 0 * * * ?
+gfd.scheduler.delay=3600000
  
 # realDoc mail configuration
 backoffice.from.email=noreply@altisource.com
