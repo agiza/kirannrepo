@@ -76,8 +76,8 @@ rabbitapps.each do |app|
 			  puts "user_perm: using default perms"
 			  permissions "^(amq\.gen.*|amq\.default)$ .* .*"
 			else
-			  puts "user_perm: using modified perms #{perms[:configure]} #{perms[:write]} #{perms[:read]}"
-			  permissions "#{perms[:configure]} #{perms[:write]} #{perms[:read]}"
+			  puts "user_perm: using modified perms #{perm[:configure]} #{perm[:write]} #{perm[:read]}"
+			  permissions "#{perm[:configure]} #{perm[:write]} #{perm[:read]}"
 			end
 
             if rabbittag.nil? || rabbittag.empty?
