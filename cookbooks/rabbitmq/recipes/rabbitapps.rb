@@ -45,17 +45,17 @@ rabbitapps.each do |app|
     Chef::Log.debug("Current list of vhosts is #{appvhosts}")
     appvhosts.each do |vhost|
 	  # Create a hashmap of permissions for the users
-	  user_perm=Hash.new
+	  perms=Hash.new
 	  name_queue["user_perm"].split(" ").each do |user_perm|
         perm_user = user_perm.split("|")[0]
         perm_configure = user_perm.split("|")[1]
         perm_write = user_perm.split("|")[2]
         perm_read = user_perm.split("|")[3]
 
-		user_perm[perm_user]=Hash.new
-		user_perm[perm_user][:configure]=perm_configure
-		user_perm[perm_user][:write]=perm_write
-		user_perm[perm_user][:read]=perm_read
+		perms[perm_user]=Hash.new
+		perms[perm_user][:configure]=perm_configure
+		perms[perm_user][:write]=perm_write
+		perms[perm_user][:read]=perm_read
 	  end
 
 	  # Create user names and assign permissions for application vhost
@@ -69,8 +69,8 @@ rabbitapps.each do |app|
             vhost "#{vhost}"
             password "#{rabbitpass}"
 
-			perms=user_perm[rabbituser]
-			if perms.nil? 
+			perm=perms[rabbituser]
+			if perm.nil? 
 			  puts "user_perm: using default perms"
 			  #permissions "^(amq\.gen.*|amq\.default)$ .* .*"
 			else
