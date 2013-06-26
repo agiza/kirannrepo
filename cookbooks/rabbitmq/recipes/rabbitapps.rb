@@ -44,7 +44,21 @@ rabbitapps.each do |app|
     appvhosts = appvhosts.collect { |vhost| "#{vhost}" }.uniq.sort.join(" ").split(" ")
     Chef::Log.debug("Current list of vhosts is #{appvhosts}")
     appvhosts.each do |vhost|
-      # Create user names and assign permissions for application vhost
+	  # Create a hashmap of permissions for the users
+	  user_perm=Hash.new
+	  name_queue["user_perm"].split(" ").each do |user_perm|
+        perm_user = user_perm.split("|")[0]
+        perm_configure = user_perm.split("|")[1]
+        perm_write = user_perm.split("|")[2]
+        perm_read = user_perm.split("|")[3]
+
+		user_perm[perm_user]=Hash.new
+		user_perm[perm_user][:configure]=perm_configure
+		user_perm[perm_user][:write]=perm_write
+		user_perm[perm_user][:read]=perm_read
+	  end
+
+	  # Create user names and assign permissions for application vhost
       name_queue["user"].split(" ").each do |user|
         rabbituser = user.split("|")[0]
         rabbitpass = user.split("|")[1]
@@ -54,7 +68,17 @@ rabbitapps.each do |app|
           rabbitmq_user "#{rabbituser}" do
             vhost "#{vhost}"
             password "#{rabbitpass}"
+
+			perms=user_perm[rabbituser]
+			if perms.nil? 
+			  puts "user_perm: using default perms"
+			  #permissions "^(amq\.gen.*|amq\.default)$ .* .*"
+			else
+			  puts "user_perm: using modified perms #{perms[:configure]} #{perms[:write]} #{perms[:read]}"
+			  #permissions "#{perms[:configure]} #{perms[:write]} #{perms[:read]}"
+			end
             permissions "^(amq\.gen.*|amq\.default)$ .* .*"
+
             if rabbittag.nil? || rabbittag.empty?
               tag "management"
             else
