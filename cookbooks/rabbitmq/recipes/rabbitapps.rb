@@ -46,16 +46,18 @@ rabbitapps.each do |app|
     appvhosts.each do |vhost|
 	  # Create a hashmap of permissions for the users
 	  perms=Hash.new
-	  name_queue["user_perm"].split(" ").each do |user_perm|
-        perm_user = user_perm.split("|")[0]
-        perm_configure = user_perm.split("|")[1]
-        perm_write = user_perm.split("|")[2]
-        perm_read = user_perm.split("|")[3]
+	  unless name_queue["user_perm"].nil?
+	    name_queue["user_perm"].split(" ").each do |user_perm|
+          perm_user = user_perm.split("|")[0]
+          perm_configure = user_perm.split("|")[1]
+          perm_write = user_perm.split("|")[2]
+          perm_read = user_perm.split("|")[3]
 
-		perms[perm_user]=Hash.new
-		perms[perm_user][:configure]=perm_configure
-		perms[perm_user][:write]=perm_write
-		perms[perm_user][:read]=perm_read
+	  	  perms[perm_user]=Hash.new
+    	  perms[perm_user][:configure]=perm_configure
+		  perms[perm_user][:write]=perm_write
+		  perms[perm_user][:read]=perm_read
+		end
 	  end
 
 	  # Create user names and assign permissions for application vhost
