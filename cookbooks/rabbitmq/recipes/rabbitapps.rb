@@ -128,12 +128,17 @@ rabbitapps.each do |app|
         # Exchanges creation
         exchanges.each do |exchangename|
           exchange = "#{exchangename.split('|')[0]}"
+		  exchange_type = exchangename.split('|')[1]
           rabbitmq_exchange "#{exchange}" do
             admin_user "#{admin_user}"
             admin_password "#{admin_password}"
             vhost "#{vhost}"
             source "null"
-            type "null"
+			if exchange_type.nil? || exchange_type.empty?
+				type "null"
+			else
+				type "#{exchange_type}
+			end
             destination "null"
             routingkey "null"
             option_key "null"
