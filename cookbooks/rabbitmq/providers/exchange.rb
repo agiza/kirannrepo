@@ -60,7 +60,7 @@ end
 
 action :add do
   unless exchange_exists?(new_resource.exchange, new_resource.vhost)
-    cmdStr = "/usr/bin/rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare exchange name=#{new_resource.exchange} auto_delete=false durable=true type=topic"
+    cmdStr = "/usr/bin/rabbitmqadmin -V #{new_resource.vhost} -u #{new_resource.admin_user} -p #{new_resource.admin_password} declare exchange name=#{new_resource.exchange} auto_delete=false durable=true type=#{new_resource.type}"
     execute cmdStr do
       Chef::Log.debug "rabbitmq_exchange_add: #{cmdStr}"
       Chef::Log.info "Adding RabbitMQ exchange '#{new_resource.exchange}'."

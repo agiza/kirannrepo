@@ -135,7 +135,8 @@ rabbitapps.each do |app|
             vhost "#{vhost}"
             source "null"
 			if exchange_type.nil? || exchange_type.empty?
-				type "null"
+				#default to a topic
+				type "topic"
 			else
 				type "#{exchange_type}"
 			end
