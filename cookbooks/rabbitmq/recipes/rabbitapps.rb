@@ -137,7 +137,7 @@ rabbitapps.each do |app|
 			if exchange_type.nil? || exchange_type.empty?
 				type "null"
 			else
-				type "#{exchange_type}
+				type "#{exchange_type}"
 			end
             destination "null"
             routingkey "null"
