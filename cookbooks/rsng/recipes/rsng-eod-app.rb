@@ -66,8 +66,8 @@ begin
           raise "Unable to find default or environment mysqldb databag."
 end
 melissadata = data_bag_item("integration", "melissadata")
-template "/opt/tomcat/conf/rsng-service-app.properties" do
-  source "rsng-service-app.properties.erb"
+template "/opt/tomcat/conf/eod.properties" do
+  source "eod.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'

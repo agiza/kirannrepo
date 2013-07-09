@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+  <Resource name="jdbc/mysql"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rsng_dbname'] %>?autoReconnect=true"
+            username="<%= @mysqldb['rsng_dbuser'] %>" password="<%= @mysqldb['rsng_dbpass'] %>"
+            maxActive="<%= node[:db_maxactive] %>" 
+            minIdle="0"
+            maxIdle="<%= node[:db_maxidle] %>"
+            maxWait="<%= node[:db_maxwait] %>"
+            timeBetweenEvictionRunsMillis="<%= node[:db_timeevict] %>"
+            removeAbandoned="true"
+            removeAbandonedTimeout="600"
+            validationQuery= "SELECT 1"
+            validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
+            testOnBorrow="false"
+            testWhileIdle="true"
+            minEvictableIdleTimeMillis="1800000"
+            numTestsPerEvictionRun="3"
+            connectTimeout="180000"
+            socketTimeout="180000"
+            initialSize="<%= node[:db_initsize] %>"/>
+</Context>
