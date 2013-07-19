@@ -54,6 +54,18 @@ json.parseFieldsAsUpperCase=false
 #Defer initializing mappings loaded from meta data until first use
 mapping.lazyInit=false
 
+###################################
+# Clustering config for ehCache   #
+###################################
+cache.multicast.group.address=230.0.0.1
+cache.multicast.group.port=4446
+#time.to.live is badly named in ehCache config.  It's really how far mutlicast messages propagate
+cache.mutlicast.time.to.live=32
+cache.listener.port=40001
+cache.socket.timeout=5000
+
+
+
 #############################################################
 #######  Melissa Settings  ##################################
 #############################################################
