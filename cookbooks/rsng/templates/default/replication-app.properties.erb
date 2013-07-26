@@ -13,14 +13,6 @@ journal.response.handling.jsonJournalResponseTransformer.type=com.altisource.rsn
 resequencer.period=30000
 resequencer.recentlyProcessedFifoBufferSize=1000
 
-watchdog.maxRecords=0
-watchdog.watchdogDelay=300000
-watchdog.poller.autoStartup=true
-watchdog.poller.period=30000
-watchdog.reprocessingThreshold=2
-watchdog.reprocessingQuietPeriod=5
-watchdog.hardLimitThreshold=12
-
 rf.db.driver=com.mysql.jdbc.Driver
 jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
 
@@ -59,8 +51,8 @@ mapping.lazyInit=false
 ###################################
 cache.multicast.group.address=230.0.0.1
 cache.multicast.group.port=4446
-#time.to.live is badly named in ehCache config.  It's really how far mutlicast messages propagate
-cache.mutlicast.time.to.live=32
+#time.to.live is badly named in ehCache config.  It's really how far mutlicast messages propagate.  Be careful
+cache.mutlicast.time.to.live=1
 cache.listener.port=40001
 cache.socket.timeout=5000
 
