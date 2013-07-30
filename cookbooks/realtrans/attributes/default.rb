@@ -20,7 +20,6 @@ default["access_index"]		= "realtrans"
 default["log4j_index"]		= "realtrans"
 # Realtrans Default version attributes
 default["realtranscentral_version"]	= "0.0.0-1"
-default["realtransrp_version"]		= "0.0.0-1"
 default["realtransfp_version"]          = "0.0.0-1"
 default["realtransvp_version"]          = "0.0.0-1"
 default["realtransreg_version"]         = "0.0.0-1"
