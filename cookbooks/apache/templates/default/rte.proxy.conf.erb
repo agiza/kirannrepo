@@ -1,0 +1,45 @@
+ProxyRequests             Off
+ProxyPreserveHost         On
+
+<Proxy balancer://rtevp-<%= @environ %>>
+    Order allow,deny
+    <% @serveripallow.split.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
+    <% @vpworkers.each do |a| -%>
+    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
+    <% end -%>
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+<Proxy balancer://rtereg-<%= @environ %>>
+    Order allow,deny
+    <% @serveripallow.split.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
+    <% @regworkers.each do |a| -%>
+    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
+    <% end -%>
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+<Location /realtrans-vp>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer://rtevp-<%= @environ %>/realtrans-vp stickysession=JSESSIONID|jsessionid
+</Location>
+
+<Location /realtrans-reg>
+<LimitExcept POST GET>
+  Order allow,deny
+  Deny from all
+</LimitExcept>
+
+ProxyPass               balancer://rtereg-<%= @environ %>/realtrans-reg stickysession=JSESSIONID|jsessionid
+</Location>
+
