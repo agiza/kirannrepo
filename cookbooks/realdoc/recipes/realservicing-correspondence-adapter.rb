@@ -72,7 +72,7 @@ begin
         rescue Net::HTTPServerException
           raise "Error trying to load mysqldb information from infrastructure data bag."
 end
-template "/opt/tomcat/conf/realsvc-correspondence-adapter.properties" do
+template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
   owner  'tomcat'
