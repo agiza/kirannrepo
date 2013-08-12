@@ -53,5 +53,23 @@ gfd.scheduler.delay=3600000
  
 # realDoc mail configuration
 backoffice.from.email=noreply@altisource.com
+
+#Property management JMS configuration
+jms.property.queue.name=property.backoffice.manage
+jms.property.queue.routing.key=routing.backoffice.manage
+
+#RealFoundation Melissa Address verification Config 
+rf.melissadata.customerId=WebSmart
+rf.melissadata.address.webhost=addresscheck.melissadata.net
+rf.melissadata.geocode.webhost=geocoder.melissadata.net
+rf.melissadata.phone.webhost=phonecheck.melissadata.net
+rf.melissadata.email.webhost=email.melissadata.net
+rf.melissadata.name.webhost=name.melissadata.net
+rf.dataquality.httpPool.maxTotal=1
+rf.dataquality.httpPool.defaultMaxPerRoute=1
+rf.dataquality.readTimeout=0
+rf.dataquality.connectTimeout=0
+rf.geonames.username=altisourcedev
+#rf.geonames.webhost=Host for geonames server
  
  
