@@ -1,3 +1,5 @@
+#TODO: clean up file.  there are a lot of unused and duplicate properties
+
 # adapter settings
 rd.adapter.scan.freq=15000
 # mongo
@@ -18,3 +20,13 @@ realdoc.correspondence.directory=/tmp
 # queue names
 rd.correspondence.amqp.requests=rd.correspondence.requests
 
+
+rd.correspondence.directory=${catalina.base}/correspondence
+rd.correspondence.workingDirectory=${catalina.base}/correspondence/working
+rd.correspondence.archiveDirectory=${catalina.base}/correspondence/archive
+
+rd.amqp.host=<%= @amqphost %>
+rd.amqp.port=<%= @amqpport %>
+rd.amqp.username=<%= @amqpuser %>
+rd.amqp.password=<%= @amqppass %>
+rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
