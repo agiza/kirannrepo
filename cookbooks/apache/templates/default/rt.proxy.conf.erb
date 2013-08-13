@@ -13,13 +13,13 @@ ProxyPreserveHost         On
     ProxySet stickysession=JSESSIONID
 </Proxy>
 
-<Proxy balancer://rtrp-<%= @environ %>>
+<Proxy balancer://rtcentral-<%= @environ %>>
     Order allow,deny
     <% @serveripallow.split.each do |ip| -%>
     Allow from <%= ip %>
     <% end -%>
 
-    <% @rpworkers.each do |a| -%>
+    <% @centralworkers.each do |a| -%>
     BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
     <% end -%>
     ProxySet stickysession=JSESSIONID
@@ -49,13 +49,13 @@ ProxyPreserveHost         On
     ProxySet stickysession=JSESSIONID
 </Proxy>
 
-<Location /realtrans-rp>
+<Location /realtrans-central>
 <LimitExcept POST GET>
   Order allow,deny
   Deny from all
 </LimitExcept>
 
-ProxyPass               balancer://rtrp-<%= @environ %>/realtrans-rp stickysession=JSESSIONID|jsessionid
+ProxyPass               balancer://rtcentral-<%= @environ %>/realtrans-central stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /realtrans-fp>

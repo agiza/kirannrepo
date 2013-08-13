@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-appnames = %w(realtrans-fp realtrans-rp realtrans-reg realtrans-vp realtrans-server)
+appnames = %w(realtrans-fp realtrans-central realtrans-reg realtrans-vp realtrans-server)
 # Create an array of all environments with realtrans workers installed
 rtenvirons = []
 appnames.each do |app|
@@ -35,7 +35,7 @@ else
   rtenvirons.each do |environ|
     # Loop through list of environments to build workers and pass to the vhost/proxy templates
     fpnames = []
-    rpnames = []
+    centralNames = []
     vpnames = []
     regnames = []
     %w{realtrans-fp realtrans-server}.each do |app|
@@ -43,9 +43,9 @@ else
         fpnames << fworker["ipaddress"]
       end
     end
-    %w{realtrans-rp realtrans-server}.each do |app|
-      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |rworker|
-        rpnames << rworker["ipaddress"]
+    %w{realtrans-central realtrans-server}.each do |app|
+      search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environ}").each do |cworker|
+        centralNames << cworker["ipaddress"]
       end
     end
     %w{realtrans-vp realtrans-server}.each do |app|
@@ -59,7 +59,7 @@ else
       end
     end
     fpnames = fpnames.sort.uniq
-    rpnames = rpnames.sort.uniq
+    centralNames = centralNames.sort.uniq
     vpnames = vpnames.sort.uniq
     regnames = regnames.sort.uniq
     template "/etc/httpd/proxy.d/rt-#{environ}.proxy.conf" do
@@ -70,7 +70,7 @@ else
       notifies :reload, resources(:service => "httpd")
       variables(
         :fpworkers => fpnames,
-        :rpworkers => rpnames,
+        :centralworkers => centralNames,
         :vpworkers => vpnames,
         :regworkers => regnames,
         :vhostName => "#{environ}",
