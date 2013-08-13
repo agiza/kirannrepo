@@ -76,7 +76,7 @@ else
       notifies :reload, resources(:service => "httpd")
       variables(
         :vhostName => "#{environ}",
-        :serverName => webName["rt#{environ}"]
+        :serverName => webName["rte#{environ}"]
       )
     end
     directory "/var/www/html/#{environ}" do
