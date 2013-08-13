@@ -72,6 +72,16 @@ begin
         rescue Net::HTTPServerException
           raise "Error trying to load mysqldb information from infrastructure data bag."
 end
+
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
+  group  'tomcat'
+  owner  'tomcat'
+  mode   '0644'
+  variables(:mysqldb => mysqldb["realdoc"])
+  notifies :restart, resources(:service => "altitomcat")
+end
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
