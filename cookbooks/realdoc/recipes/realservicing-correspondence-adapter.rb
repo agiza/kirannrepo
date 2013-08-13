@@ -93,7 +93,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}"
+    :amqppass => "#{rdrabbit[1]}",
+    :exchange => "rd.requests",
+    :routing_key => "correspondence.send"
   )
 end
 

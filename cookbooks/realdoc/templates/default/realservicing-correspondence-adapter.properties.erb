@@ -5,7 +5,9 @@ rd.adapter.scan.freq=15000
 # mongo
 rd.adapter.mongo.host=<%= @mongo_host %>
 rd.adapter.mongo.server=<%= @mongo_host %>
+mongo.server=<%= @mongo_host %>
 rd.adapter.mongo.database=<%= node[:mongodb_database] %>
+mongo.database=<%= node[:mongodb_database] %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
 
 # rabbit
@@ -30,3 +32,5 @@ rd.amqp.port=<%= @amqpport %>
 rd.amqp.username=<%= @amqpuser %>
 rd.amqp.password=<%= @amqppass %>
 rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
+rd.amqp.correspondence.exchange=<%= @exchange %>
+rd.amqp.correspondence.routingKey=<%= @routing_key %>
