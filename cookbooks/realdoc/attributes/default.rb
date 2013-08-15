@@ -35,3 +35,8 @@ default["rdtranscentrarecon_version"]      = "0.0.0-1"
 default["reconadapter_version"] = "0.0.0-1"
 default["smadapter_version"]    = "0.0.0-1"
 default["rdcorradap_version"]	= "0.0.0-1"
+# Adapters
+default['adapters']['rs']['xml_basedir'] = '${catalina.base}/correspondence'
+default['adapters']['rs']['tp2_dir'] = '${catalina.base}/correspondence'
+default['adapters']['rs']['io_basedir'] = '${catalina.base}/correspondence'
+default['adapters']['rs']['xml_poll_freq'] = 3000

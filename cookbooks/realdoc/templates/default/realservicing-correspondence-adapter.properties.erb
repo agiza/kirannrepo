@@ -16,16 +16,9 @@ rd.adapter.amqp.port=<%= @amqpport %>
 rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.adapter.amqp.username=<%= @amqpuser %>
 rd.adapter.amqp.password=<%= @amqppass %>
-# input directory
-realdoc.correspondence.directory=/tmp
 
 # queue names
 rd.correspondence.amqp.requests=rd.correspondence.requests
-
-
-rd.correspondence.directory=${catalina.base}/correspondence
-rd.correspondence.workingDirectory=${catalina.base}/correspondence/working
-rd.correspondence.archiveDirectory=${catalina.base}/correspondence/archive
 
 rd.amqp.host=<%= @amqphost %>
 rd.amqp.port=<%= @amqpport %>
@@ -34,3 +27,13 @@ rd.amqp.password=<%= @amqppass %>
 rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.amqp.correspondence.exchange=<%= @exchange %>
 rd.amqp.correspondence.routingKey=<%= @routing_key %>
+
+rd.adapter.xmlBaseDir=<%= @xmlBaseDir %>
+rd.adapter.tp2Dir=<%= @tp2Dir %>
+rd.adapter.ioBasedir=<% @ioBasedir %>
+
+# deprecated properties
+realdoc.correspondence.directory=/tmp
+rd.correspondence.directory=${catalina.base}/correspondence
+rd.correspondence.workingDirectory=${catalina.base}/correspondence/working
+rd.correspondence.archiveDirectory=${catalina.base}/correspondence/archive

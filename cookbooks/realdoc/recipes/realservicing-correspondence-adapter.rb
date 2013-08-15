@@ -94,8 +94,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{rdrabbit[0]}",
     :amqppass => "#{rdrabbit[1]}",
-    :exchange => "rd.requests",
-    :routing_key => "correspondence.send"
+    :exchange => 'rd.requests',
+    :routing_key => 'correspondence.send',
+    :xmlBaseDir => node[:adapters][:rs][:xml_basedir],
+    :tp2Dir => node[:adapters][:rs][:tp2_dir],
+    :xmlPollFreq => node[:adapters][:rs][:xml_poll_freq],
+    :ioBasedir => node[:adapters][:rs][:io_basedir]
   )
 end
 
