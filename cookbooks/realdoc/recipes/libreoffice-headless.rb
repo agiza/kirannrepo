@@ -2,7 +2,7 @@ include_recipe "iptables::default"
 iptables_rule "libreoffice-iptables"
 
 %w(libreoffice-headless libreoffice-writer libreoffice-calc libreoffice-draw).each do |pkg|
-  yum_packge pkg do
+  yum_package pkg do
     action :upgrade
   end
 end
