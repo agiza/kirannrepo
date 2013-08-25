@@ -8,7 +8,7 @@ iptables_rule "libreoffice-iptables"
 end
 
 (8100..8109).each do |port|
-  template "/etc/libreoffice-#{port}.conf" do
+  template "/etc/init/libreoffice-#{port}.conf" do
     source "libreoffice.conf.erb"
     variables(
         :port => port
