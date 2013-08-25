@@ -1,0 +1,31 @@
+description "Starts LibreOffice Headless server"
+author      "blakgeek"
+
+# used to be: start on startup
+# until we found some mounts weren't ready yet while booting:
+start on started mountall
+stop on shutdown
+
+# Automatically Respawn:
+respawn
+respawn limit 99 5
+
+# TODO: add support for running process as different user
+# setuid <%= @user_id %>
+# setguid <%= @group_id %>
+
+script
+    port=<%= @port %>
+    # A seperate user home directory is required in order to run multiple copies of libreoffice server
+    home="/tmp/libre/${port}"
+    mkdir -p ${home}
+    HOME=${home}
+    export $HOME
+    echo "Starting OpenOffice on port ${port} using home directory ${home}"
+    soffice --userid="${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --nologo --headless --nocrashreport --nofirststartwizard --nologo --norestore
+
+end script
+
+post-start script
+   # TODO: add code send notification when office restarts
+end script
