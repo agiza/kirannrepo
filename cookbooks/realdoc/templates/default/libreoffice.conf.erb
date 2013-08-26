@@ -20,7 +20,7 @@ script
     home="/tmp/libre/${port}"
     mkdir -p ${home}
     HOME=${home}
-    export $HOME
+    export HOME
     echo "Starting OpenOffice on port ${port} using home directory ${home}"
     soffice --userid="${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --nologo --headless --nocrashreport --nofirststartwizard --nologo --norestore
 
