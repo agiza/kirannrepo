@@ -49,6 +49,14 @@ template "/etc/httpd/conf.d/conf.conf" do
   notifies :restart, resources(:service => "httpd")
 end
 
+template "/etc/httpd/conf.d/correspondence.conf" do
+  source "correspondence.conf.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "httpd")
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :start

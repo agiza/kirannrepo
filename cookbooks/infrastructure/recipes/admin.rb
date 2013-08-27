@@ -8,6 +8,8 @@
 #
 authkey "ubuntu" do
 end
+authkey "realsvc" do
+end
 
 %w{vpn-client vpn-revoke}.each do |template|
   template "/root/bin/#{template}.sh" do

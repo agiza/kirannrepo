@@ -72,7 +72,10 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 melissadata = data_bag_item("integration", "melissadata")
 rsngamqp = data_bag_item("rabbitmq", "realservice")
-rsngcred = rsngamqp['user'].split(" ").first.split("|")
+#rsngcred = rsngamqp['user2'].split(" ").first.split("|")
+## JSM: added logic to use the 2nd set of credentials for this replication app
+rsngcred1,rsngcred2 = rsngamqp['user'].split(" ")
+rsngcred = rsngcred2.split("|")
 template "/opt/tomcat/conf/replication-app.properties" do
   source "replication-app.properties.erb"
   group 'tomcat'

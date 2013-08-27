@@ -19,10 +19,10 @@ jdbc.driverClassName.progress=com.ddtek.jdbc.openedge.OpenEdgeDriver
 jdbc.url.progress.journal=jdbc:datadirect:openedge://<%= @projourdb["projourdb_server"] %>:<%= @projourdb["projourdb_port"] %>;databaseName=journal.db
 jdbc.username.progress.journal=<%= @projourdb["projourdb_dbuser"] %>
 jdbc.password.progress.journal=<%= @projourdb["projourdb_dbpass"] %>
-jdbc.initial-size.progress.journal=10
+jdbc.initial-size.progress.journal=5
 jdbc.min-idle.progress.journal=0
-jdbc.max-idle.progress.journal=10
-jdbc.maxActive.progress.journal=20
+jdbc.max-idle.progress.journal=2
+jdbc.maxActive.progress.journal=5
 
 rf.db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb["rsng_dbname"] %>?zeroDateTimeBehavior=convertToNull&connectTimeout=180000&socketTimeout=180000&useLegacyDatetimeCode=false
 rf.db.username=<%= @mysqldb["rsng_dbuser"] %>
@@ -30,7 +30,7 @@ rf.db.password=<%= @mysqldb["rsng_dbpass"] %>
 rf.db.initialSize=<%= node[:db_initsize] %>
 rf.db.minIdle=0
 rf.db.maxIdle=10
-rf.db.maxActive=50
+rf.db.maxActive=20
 
 rfTenant.code=TENANT1
 ###################################
