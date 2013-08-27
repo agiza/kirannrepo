@@ -28,9 +28,8 @@ rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.amqp.correspondence.exchange=<%= @exchange %>
 rd.amqp.correspondence.routingKey=<%= @routing_key %>
 
-rd.adapter.xmlBaseDir=<%= @xmlBaseDir %>
-rd.adapter.tp2Dir=<%= @tp2Dir %>
-rd.adapter.ioBasedir=<% @ioBasedir %>
+rd.correspondence.directory.tp2=<%= @xmlBaseDir %>
+rd.correspondence.directory.xml=<%= @tp2Dir %>
 
 # deprecated properties
 realdoc.correspondence.directory=/tmp
