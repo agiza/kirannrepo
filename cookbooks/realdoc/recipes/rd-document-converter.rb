@@ -1,12 +1,12 @@
 #
 # Cookbook Name:: realdoc
-# Recipe:: realdoc
+# Recipe:: rd-document-converter
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "realdoc"
+app_name = "rd-document-converter"
 app_version = node[:realdoc_version]
 version_str = "realdoc_version"
 
@@ -91,34 +91,4 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver
   )
 end
-
-begin
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Error trying to load mysqldb information from infrastructure data bag."
-end
-template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
-  source "realdoc.xml.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
-  variables(:mysqldb => mysqldb["#{app_name}"])
-  notifies :restart, resources(:service => "altitomcat")
-end
-
-directory "/opt/tomcat/correspondence" do
-  owner "tomcat"
-  group "tomcat"
-end
-
-directory "/opt/tomcat/correspondence/input" do
-  owner "tomcat"
-  group "tomcat"
-end
-
-include_recipe "realdoc::correspondence-mount"
-include_recipe "realdoc::cis-mount"
-include_recipe "realdoc::rd-document-converter"
 
