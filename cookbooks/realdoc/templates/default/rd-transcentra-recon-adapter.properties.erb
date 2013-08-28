@@ -20,10 +20,8 @@ rd.adapter.amqp.port=<%= @amqpport %>
 rd.adapter.amqp.username=<%= @amqpuser %>
 rd.adapter.amqp.password=<%= @amqppass %>
 rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
-rd.adapter.amqp.inboundExchange=rd.requests
-rd.adapter.amqp.inboundRoutingKey=import.standard
-rd.adapter.amqp.importQueue=rd.import.standard
-rd.amqp.requests.import=rd.import.standard
+rd.adapter.amqp.inboundExchange=rd.responses
+rd.adapter.amqp.inboundRoutingKey=correspondence.recon
 
 rd.adapter.print.sftp.host=<%= @transcentra["sftphost"] %>
 rd.adapter.print.sftp.user=<%= @transcentra["sftpuser"] %>
