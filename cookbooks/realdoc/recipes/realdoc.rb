@@ -120,5 +120,7 @@ end
 
 include_recipe "realdoc::correspondence-mount"
 include_recipe "realdoc::cis-mount"
-include_recipe "realdoc::rd-document-converter"
+# commented out the inclusion of the rd-document-converter.
+# this should be added the run list for a role not this recipe
+# include_recipe "realdoc::rd-document-converter"
 
