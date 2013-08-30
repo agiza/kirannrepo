@@ -82,11 +82,20 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+begin
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+rescue Net::HTTPServerException
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+rescue Net::HTTPServerException
+  raise "Error trying to load mysqldb information from infrastructure data bag."
+end
+
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group  'tomcat'
   owner  'tomcat'
   mode   '0644'
+  variables(:mysqldb => mysqldb[:realdoc])
   notifies :restart, resources(:service => "altitomcat")
 end
 
