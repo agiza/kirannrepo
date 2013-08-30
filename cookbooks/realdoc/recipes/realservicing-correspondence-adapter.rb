@@ -51,7 +51,7 @@ yum_package "#{app_name}" do
   else
     action :install
   end
-  flush_cache [ :before ]
+  flush_cache [:before]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
@@ -67,17 +67,17 @@ mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Error trying to load mysqldb information from infrastructure data bag."
+rescue Net::HTTPServerException
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+rescue Net::HTTPServerException
+  raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
   variables(:mysqldb => mysqldb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
@@ -86,22 +86,22 @@ conf = node[:adapters][:rs_inbound]
 
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
-    :mongo_host => "#{mongoHost}",
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}",
-    :exchange => 'rd.requests',
-    :routing_key => 'correspondence.send',
-    :xmlBaseDir => conf[:xml_basedir],
-    :tp2Dir => conf[:tp2_dir],
-    :xmlPollFreq => conf[:xml_poll_freq],
-    :ioBasedir => conf[:io_basedir]
+      :mongo_host => "#{mongoHost}",
+      :amqphost => "#{amqphost}",
+      :amqpport => "#{amqpport}",
+      :amqpuser => "#{rdrabbit[0]}",
+      :amqppass => "#{rdrabbit[1]}",
+      :exchange => 'rd.requests',
+      :routing_key => 'correspondence.send',
+      :xmlBaseDir => conf[:xml_basedir],
+      :tp2Dir => conf[:tp2_dir],
+      :xmlPollFreq => conf[:xml_poll_freq],
+      :ioBasedir => conf[:io_basedir]
   )
 end
 
