@@ -7,8 +7,7 @@ rd.adapter.amqp.port=<%= @amqpport %>
 rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.adapter.amqp.username=<%= @amqpuser %>
 rd.adapter.amqp.password=<%= @amqppass %>
-rd.amqp.legacy.adapter.queue=<%= @amqp[:queue_name] %>
-rd.adapter.amqp.legacy=<%= @amqp[:queue_name] %>
+rd.adapter.amqp.queue=<%= @amqp[:queue_name] %>
 
 # file output settings
 rd.adapter.output.text.directory=<%= @output[:directory] %>
