@@ -35,9 +35,6 @@ end
 include_recipe "realdoc::default"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
-rdochost = node[:rdochost]
-rdocport = node[:rdocport]
-elasticHost = node[:elasticHost]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -95,7 +92,7 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   group  'tomcat'
   owner  'tomcat'
   mode   '0644'
-  variables(:mysqldb => mysqldb[:realdoc])
+  variables(:mysqldb => mysqldb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
