@@ -82,6 +82,8 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+conf = node[:adapters][:rs_inbound]
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group  'tomcat'
@@ -96,10 +98,10 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{rdrabbit[1]}",
     :exchange => 'rd.requests',
     :routing_key => 'correspondence.send',
-    :xmlBaseDir => node[:adapters][:rs][:xml_basedir],
-    :tp2Dir => node[:adapters][:rs][:tp2_dir],
-    :xmlPollFreq => node[:adapters][:rs][:xml_poll_freq],
-    :ioBasedir => node[:adapters][:rs][:io_basedir]
+    :xmlBaseDir => conf[:xml_basedir],
+    :tp2Dir => conf[:tp2_dir],
+    :xmlPollFreq => conf[:xml_poll_freq],
+    :ioBasedir => conf[:io_basedir]
   )
 end
 

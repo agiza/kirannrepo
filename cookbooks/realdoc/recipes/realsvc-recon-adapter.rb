@@ -52,28 +52,32 @@ yum_package "#{app_name}" do
   else
     action :install
   end
-  flush_cache [ :before ]
+  flush_cache [:before]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
+
 begin
   rdrabbit = data_bag_item("rabbitmq", "realdoc")
-    rescue Net::HTTPServerException
-      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+rescue Net::HTTPServerException
+  raise "Error loading rabbitmq credentials from rabbitmq data bag."
 end
+
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
-#ftpserver = data_bag_item("integration", "realdoc")
+conf = node[:adapters][:rs_outbound]
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   variables(
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}"
-    #:ftpserver => ftpserver
+      :amqphost => "#{amqphost}",
+      :amqpport => "#{amqpport}",
+      :amqpuser => "#{rdrabbit[0]}",
+      :amqppass => "#{rdrabbit[1]}",
+      :ftp => conf[:ftp],
+      :output => conf[:output]
   )
   notifies :restart, resources(:service => "altitomcat")
 end

@@ -1,4 +1,3 @@
--------------------------------------- 
 # adapter settings
 rd.adapter.recon.write.cron=*/15 * * * * MON-FRI
 
@@ -11,7 +10,19 @@ rd.adapter.amqp.password=<%= @amqppass %>
 rd.adapter.amqp.legacy=rd.legacy.adapter
 
 # file output settings
-rd.adapter.output.text.directory=/tmp
-rd.adapter.output.text.filename=realdoc-reconfile.txt
-rd.adapter.output.blacklist.filename=realdoc-blacklist.txt
+rd.adapter.output.text.directory=<%= @output[:directory] %>
+rd.adapter.output.suppression.filename=<%= @output[:suppression_filename] %>
+rd.adapter.output.text.filename=<%= @output[:text_filename] %>
+rd.adapter.output.blacklist.filename=<%= @output[:blacklist_filename] %>
+
+#in webapp
+rd.adapter.ftp.host=<%= @ftp[:host] %>
+rd.adapter.ftp.port=<%= @ftp[:port] %>
+rd.adapter.ftp.username=<%= @ftp[:username] %>
+rd.adapter.ftp.privateKey=file:<%= @ftp[:key_file] %>
+rd.adapter.output.ftp.directory=<%= @ftp[:output_dir] %>
+rd.adapter.output.use.ftp=<%= @ftp[:use] %>
+
+rd.adapter.output.ReconPollingInterval=15000
+
 
