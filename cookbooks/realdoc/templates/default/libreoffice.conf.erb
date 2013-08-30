@@ -2,7 +2,6 @@ description "Starts LibreOffice Headless server"
 author      "blakgeek"
 
 # used to be: start on startup
-# until we found some mounts weren't ready yet while booting:
 start on started mountall
 stop on shutdown
 
@@ -22,7 +21,7 @@ script
     HOME=${home}
     export HOME
     echo "Starting OpenOffice on port ${port} using home directory ${home}"
-    soffice --userid="${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --nologo --headless --nocrashreport --nofirststartwizard --nologo --norestore
+    soffice --userid="${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --invisible --headless --nocrashreport --nofirststartwizard --nologo --norestore
 
 end script
 
