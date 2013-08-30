@@ -49,7 +49,7 @@ default['adapters'] = {
         },
         :ftp => {
             :host => "",
-            :port => "",
+            :port => 22,
             :username => "",
             :key_file => "",
             :output_dir => "",
