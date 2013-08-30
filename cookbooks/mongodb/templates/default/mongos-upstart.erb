@@ -1,0 +1,23 @@
+description "Starts a MongoDB replica instance"
+author      "blakgeek"
+
+# used to be: start on startup
+start on started mountall
+stop on shutdown
+
+# Automatically Respawn:
+respawn
+respawn limit 99 5
+
+# TODO: add support for running process as different user
+# setuid <%= @user_id %>
+# setguid <%= @group_id %>
+
+script
+
+    # TODO: add code to start mongo instance
+end script
+
+post-start script
+   # TODO: add code send notification when office restarts
+end script
