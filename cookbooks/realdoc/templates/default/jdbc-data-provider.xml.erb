@@ -1,21 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-  <Resource name="jdbc/mysql"
+  <Resource name="<%= @jndi_name %>"
             auth="Container"
             type="javax.sql.DataSource"
-            driverClassName="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['jdbcpr_dbname'] %>?autoReconnect=true"
-            username="<%= @mysqldb['jdbcpr_dbuser'] %>" password="<%= @mysqldb['jdbcpr_dbpass'] %>"
-            maxActive="<%= node[:db_maxactive] %>" 
-            minIdle="0"
+            driverClassName="<%= @db[:driver] %>"
+            url="<%= @db[:url] %>"
+            username="<%= @db[:username] %>"
+            password="<%= @db[:password] %>"
+            maxActive="<%= node[:db_maxactive] %>"
             maxIdle="<%= node[:db_maxidle] %>"
             maxWait="<%= node[:db_maxwait] %>"
             timeBetweenEvictionRunsMillis="<%= node[:db_timeevict] %>"
-            removeAbandoned="true"
-            removeAbandonedTimeout="600"
-            validationQuery= "SELECT 1"
+            validationQuery= "<%= @db[:validation_query] %>"
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
+            initialSize="<%= node[:db_initsize] %>"
             testOnBorrow="true"
             testWhileIdle="false"
-            initialSize="<%= node[:db_initsize] %>"/>
+            removeAbandoned="true"
+            removeAbandonedTimeout="600"
+            minIdle="0"
+            />
 </Context>
