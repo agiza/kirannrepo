@@ -44,6 +44,9 @@ default['adapters'] = {
         :xml_poll_freq => 3000
     },
     :rs_outbound => {
+        :amqp => {
+            :queue_name => "rd.legacy.adapter"
+        },
         :ftp => {
             :host => "",
             :port => "",
