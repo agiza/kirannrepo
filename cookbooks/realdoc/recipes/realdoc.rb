@@ -58,6 +58,10 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+yum_package "ghostscript" do
+  action :upgrade
+end
+
 package "msttcorefonts" do
   action :upgrade
 end

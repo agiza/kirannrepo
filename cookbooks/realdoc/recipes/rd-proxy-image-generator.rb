@@ -57,6 +57,10 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+yum_package "ghostscript" do
+  action :upgrade
+end
+
 mongoHost = "127.0.0.1"
 
 # Integration components
@@ -96,7 +100,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
 end
 
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
-  source "realdoc.xml.erb"
+  source "#{app_name}.xml.erb"
   group  'tomcat'
   owner  'tomcat'
   mode   '0644'

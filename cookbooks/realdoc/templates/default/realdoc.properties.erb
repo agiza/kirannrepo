@@ -44,6 +44,9 @@ mongo.host=<%= @mongo_host %>
 viewer.mongo.host=<%= @mongo_host %>
 viewer.mongo.database=<%= node[:mongodb_database] %>
 
+rd.converter.ghostscript.tempdir=/tmp
+rd.converter.ghostscript.executable=/usr/bin/gs
+rd.converter.pdfConverter=ghostscript
 
 ################################################################################
 ## RealFoundation properties
