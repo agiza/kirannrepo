@@ -101,7 +101,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
       :xmlBaseDir => conf[:xml_basedir],
       :tp2Dir => conf[:tp2_dir],
       :xmlPollFreq => conf[:xml_poll_freq],
-      :ioBasedir => conf[:io_basedir]
+      :ioBasedir => conf[:io_basedir],
+      :doneFileSuffix => conf[:done_file_suffix]
   )
 end
 

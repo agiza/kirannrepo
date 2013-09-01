@@ -39,8 +39,9 @@ default["rdcorradap_version"] = "0.0.0-1"
 default['adapters'] = {
     :rs_inbound => {
         :xml_basedir => '${catalina.base}/correspondence',
-        :tp2_dir => '${catalina.base}/correspondence',
+        :tp2_dir => '${catalina.base}/correspondence/incoming/tp2',
         :io_basedir => '${catalina.base}/correspondence',
+        :done_file_suffix => ".tag",
         :xml_poll_freq => 3000
     },
     :rs_outbound => {
