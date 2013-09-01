@@ -56,7 +56,7 @@ default['adapters'] = {
             :use => "false"
         },
         :output => {
-            :directory => "/tmp",
+            :directory => '${catalina.base}/correspondence/recon',
             :suppression_filename => "realdoc-email-suppression.txt",
             :text_filename => "realdoc-reconfile.txt",
             :blacklist_filename => "realdoc-blacklist.txt"
