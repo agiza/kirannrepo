@@ -1,7 +1,7 @@
 <Server port="8000" shutdown="SHUTDOWN" debug="0">
     <Service name="Tomcat-Standalone">
         <Connector className="org.apache.coyote.tomcat4.CoyoteConnector" port="8090" minProcessors="5"
-                   maxProcessors="75"
+                   maxProcessors="75" maxThreads="250" minSpareThreads="25" maxSpareThreads="75"
                    enableLookups="false" redirectPort="8443" acceptCount="10" debug="0" connectionTimeout="20000"
                    useURIValidationHack="false" URIEncoding="UTF-8"/>
 
