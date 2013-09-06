@@ -56,7 +56,7 @@ port = 27030
 # Mongos configuration
 port = 27017
 bind_ip = 127.0.0.1,<%= node[:ipaddress] %>
-maxConns = 50
+maxConns = 400
 
 configdb = <%= @mongodbconfig %>
 chunkSize = 64
