@@ -1,5 +1,5 @@
-description "Starts a MongoDB replica instance"
-author      "blakgeek"
+description "upstart init for a mongos instance"
+author      "JSM: stanky"
 
 # used to be: start on startup
 start on started mountall
@@ -9,15 +9,32 @@ stop on shutdown
 respawn
 respawn limit 99 5
 
-# TODO: add support for running process as different user
-# setuid <%= @user_id %>
-# setguid <%= @group_id %>
-
-script
-
-    # TODO: add code to start mongo instance
+pre-start script
+ # JSM: porting from older init.d script setup
+ CONFIGFILE="/etc/mongos.conf"
+ OPTIONS=" -f $CONFIGFILE"
+ SYSCONFIG="/etc/sysconfig/mongod"
+ PID_PATH=/var/run/mongo
+ PID_FILE=${PID_PATH}/mongos.pid
+ MONGO_BIN=/usr/bin/mongos
+ MONGO_ULIMIT=12000
+ MONGO_LOCK_FILE=/var/lock/subsys/mongos
+ MONGO_USER=mongod
+ MONGO_GROUP=mongod
+ RETVAL=0
+ ulimit -n $MONGO_ULIMIT
+ echo -n $"Starting mongos: "
+    daemon --user "$MONGO_USER" --pidfile $PID_FILE $MONGO_BIN $OPTIONS --pidfilepath=$PID_FILE
+      RETVAL=$?
+          [ $RETVAL -eq 0 ] && touch $MONGO_LOCK_FILE
 end script
 
 post-start script
-   # TODO: add code send notification when office restarts
+ RETVAL=0
+ echo -n $"Stopping mongos: "
+ killproc -p $PID_FILE -t30 -TERM $MONGO_BIN
+   RETVAL=$?
+   [ $RETVAL -eq 0 ] && rm -f $MONGO_LOCK_FILE
+   [ $RETVAL -eq 0 ] && rm -f $PID_FILE
 end script
+
