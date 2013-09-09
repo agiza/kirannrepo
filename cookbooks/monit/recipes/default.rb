@@ -1,4 +1,8 @@
 # JSM: added monit initially to do mongos restarts if process dies
+#
+# Include epel repository for optional packages
+include_recipe "altisource::epel-local"
+
 package "monit"
 
 if platform?("ubuntu")
