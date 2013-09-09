@@ -2,6 +2,7 @@
 #
 # Include epel repository for optional packages
 include_recipe "altisource::epel-local"
+include_recipe "postfix"
 
 package "monit"
 
