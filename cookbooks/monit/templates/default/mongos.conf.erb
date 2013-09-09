@@ -1,5 +1,5 @@
 check process mongos with pidfile /var/run/mongo/mongos.pid
   start program "/etc/init.d/mongos start"
   stop program "/etc/init.d/mongos stop"
-  if failed port 27017 then restart
+  if failed host 127.0.0.1 port 27017 then restart
   if 9 restarts within 10 cycles then timeout
