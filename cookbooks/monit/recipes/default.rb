@@ -1,3 +1,4 @@
+# JSM: added monit initially to do mongos restarts if process dies
 package "monit"
 
 if platform?("ubuntu")
