@@ -22,3 +22,5 @@ attribute 'monit/poll_start_delay',
   :type => "string",
   :required => "recommended"
 
+# JSM: adding postfix cookbook dependency
+depends postfix
