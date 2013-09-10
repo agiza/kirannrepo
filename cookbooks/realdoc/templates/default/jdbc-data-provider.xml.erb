@@ -4,7 +4,7 @@
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="oracle.jdbc.driver.OracleDriver"
-            url="<%= @db[:url] %>"
+            url="jdbc:oracle:thin:@<%= node[:oradb_server] %>:<%= node[:oradb_port] %>/<%= @oradb['rdoc_dbname'] %>"
             username="<%= @db[:username] %>"
             password="<%= @db[:password] %>"
             maxActive="<%= node[:db_maxactive] %>"
