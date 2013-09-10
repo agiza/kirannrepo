@@ -77,6 +77,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   notifies :restart, resources(:service => "altitomcat")
   variables(
     :webHostname => webHost["rt#{node.chef_environment}"],
+    :extHostname => webHost["rte#{node.chef_environment}"],
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqphost => "#{amqphost}",
