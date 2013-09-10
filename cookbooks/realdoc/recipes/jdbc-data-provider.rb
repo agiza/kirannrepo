@@ -73,7 +73,7 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-#  variables(:mysqldb => mysqldb["jdbcpr"])
+  variables(:mysqldb => mysqldb["jdbcpr"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
