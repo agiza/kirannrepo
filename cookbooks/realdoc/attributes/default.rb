@@ -58,6 +58,7 @@ default['adapters'] = {
             :use => "false"
         },
         :output => {
+            :done_file_suffix => ".tag",
             :directory => '${catalina.base}/correspondence/recon',
             :suppression_filename => "realdoc-email-suppression.txt",
             :text_filename => "realdoc-reconfile.txt",

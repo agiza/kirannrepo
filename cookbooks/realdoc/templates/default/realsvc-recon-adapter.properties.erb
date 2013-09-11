@@ -9,7 +9,9 @@ rd.adapter.amqp.username=<%= @amqpuser %>
 rd.adapter.amqp.password=<%= @amqppass %>
 rd.adapter.amqp.queue=<%= @amqp[:queue_name] %>
 
+
 # file output settings
+rd.adapter.doneSuffix=<%= @output[:done_file_suffix] %>
 rd.adapter.output.text.directory=<%= @output[:directory] %>
 rd.adapter.output.suppression.filename=<%= @output[:suppression_filename] %>
 rd.adapter.output.text.filename=<%= @output[:text_filename] %>
