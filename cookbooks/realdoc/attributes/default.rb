@@ -15,6 +15,7 @@ default["db_valquerytimeout"] = "2"
 # Oracle DB defaults
 default["oradb_server"] = "50.19.6.17"
 default["oradb_port"] = "1521"
+default["validation_query"] = "SELECT 1 from dual"
 # Mongodb defaults
 default["mongodb_database"] = "realdoc"
 default["mongodb_pass"] = "guest"
