@@ -63,16 +63,17 @@ end
 
 begin
   oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      raise "Error trying to load oradb information from infrastructure data bag."
+  rescue Net::HTTPServerException
+  raise "Error trying to load oradb information from infrastructure data bag."
 end
+
 
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(:odb => oradb["realdoc"])
+  variables(:oradb => oradb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
