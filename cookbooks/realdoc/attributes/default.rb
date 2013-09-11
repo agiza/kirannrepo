@@ -18,8 +18,8 @@ default["oradb_port"] = "1521"
 default["validation_query"] = "SELECT 1 from dual"
 # Mongodb defaults
 default["mongodb_database"] = "realdoc"
-default["mongodb_pass"] = "guest"
-default["mongodb_user"] = "guest"
+default["mongodb_pass"] = ""
+default["mongodb_user"] = ""
 # Realfoundation Default attributes
 default["tenantid"] = "TENANT1"
 default["rf_ldap_flag"] = "false"
