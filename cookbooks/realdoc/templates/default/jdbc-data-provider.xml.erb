@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-  <Resource name="<%= @jndi_name %>"
+  <Resource name="jdbc/dataprovider"
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="oracle.jdbc.driver.OracleDriver"
-            url="jdbc:oracle:thin:@<%= node[:oradb_server] %>:<%= node[:oradb_port] %>/<%= node[:rdoc_dbname] %>"
-            username="<%= node[:rdoc_username] %>"
-            password="<%= node[:rdoc_password] %>"
+            url="jdbc:oracle:thin:@<%= node[:oradb_server] %>:<%= node[:oradb_port] %>/<%= @oradb[:rdoc_dbname] %>"
+            username="<%= @oradb[:rdoc_username] %>"
+            password="<%= @oradb[:rdoc_password] %>"
             maxActive="<%= node[:db_maxactive] %>"
             minIdle="0"
             maxIdle="<%= node[:db_maxidle] %>"
