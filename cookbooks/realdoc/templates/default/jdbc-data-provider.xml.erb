@@ -11,7 +11,7 @@
             maxIdle="<%= node[:db_maxidle] %>"
             maxWait="<%= node[:db_maxwait] %>"
             timeBetweenEvictionRunsMillis="<%= node[:db_timeevict] %>"
-            validationQuery= "<%= @db[:validation_query] %>"
+            validationQuery="<%= node[:validation_query] %>"
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
             initialSize="<%= node[:db_initsize] %>"
             testOnBorrow="true"
