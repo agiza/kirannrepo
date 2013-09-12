@@ -56,9 +56,10 @@ backoffice.from.email=noreply@altisource.com
 
 #Property management JMS configuration
 jms.property.queue.name=property.backoffice.manage
-jms.property.queue.routing.key=routing.backoffice.manage
+jms.property.queue.routing.key=backoffice.manage
+################ JMS Properties - End ################
 
-#RealFoundation Melissa Address verification Config 
+############## Melissa Data Validation Properties - Start #########################
 rf.melissadata.customerId=WebSmart
 rf.melissadata.address.webhost=addresscheck.melissadata.net
 rf.melissadata.geocode.webhost=geocoder.melissadata.net
@@ -70,5 +71,10 @@ rf.dataquality.httpPool.defaultMaxPerRoute=1
 rf.dataquality.readTimeout=0
 rf.dataquality.connectTimeout=0
 rf.geonames.username=altisourcedev
+############## Melissa Data Validation Properties - End #########################
+
+# Rest uRI for hubzu NG portal
+hubzung.rest.client.uri=http://localhost:8080/hubzu-ngportal/
+ 
  
  
