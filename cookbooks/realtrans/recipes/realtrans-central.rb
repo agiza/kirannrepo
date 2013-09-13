@@ -77,6 +77,13 @@ melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 # Obtain ldap server information to be passed to property file from the data bag.
 ldapserver = data_bag_item("integration", "ldap")
+# Internal/External names (if configured)
+internalName = webHost["rt#{node.chef_environment}"]
+externalName = webHost["rte#{node.chef_environment}"]
+if externalName.nil? || externalName.empty?
+	externalName = internalName
+end
+
 # Template resource that creates the property file.
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
@@ -84,8 +91,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :webHostname => webHost["rt#{node.chef_environment}"],
-    :extHostname => webHost["rte#{node.chef_environment}"],
+    :webHostname => internalName,
+    :extHostname => externalName,
     :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqphost => "#{amqphost}",
     :amqpport => "#{amqpport}",

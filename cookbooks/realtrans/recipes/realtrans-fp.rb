@@ -70,6 +70,13 @@ rtrabbit = rtrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
+# Internal/External names (if configured)
+internalName = webHost["rt#{node.chef_environment}"]
+externalName = webHost["rte#{node.chef_environment}"]
+if externalName.nil? || externalName.empty?
+	externalName = internalName
+end
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -77,8 +84,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
-    :webHostname => webHost["rt#{node.chef_environment}"],
-    :extHostname => webHost["rte#{node.chef_environment}"],
+    :webHostname => internalName,
+    :extHostname => externalName,
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqphost => "#{amqphost}",
