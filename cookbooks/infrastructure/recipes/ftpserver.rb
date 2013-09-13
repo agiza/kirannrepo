@@ -42,7 +42,7 @@ template "/etc/vsftpd/user_list" do
   mode   "0644"
   notifies :restart, resources(:service => "vsftpd")
   variables(
-      :users => node[:vsftp][:usernames]
+      :usernames => node[:vsftp][:usernames]
   )
 end
 
