@@ -33,6 +33,7 @@ end
 
 # trigger node attribute creation.
 include_recipe "realdoc::default"
+include_recipe "infrastructure::ftpserver"
 amqphost = node[:amqphost]
 amqpport = node[:amqpport]
 rdochost = node[:rdochost]
