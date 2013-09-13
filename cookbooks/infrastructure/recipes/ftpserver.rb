@@ -35,6 +35,17 @@ template "/etc/vsftpd/email_passwords" do
   notifies :restart, resources(:service => "vsftpd")
 end
 
+template "/etc/vsftpd/user_list" do
+  source "vsftpd.user_list.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :restart, resources(:service => "vsftpd")
+  variables(
+      users => node[:vsftp][:usernames]
+  )
+end
+
 directory "/var/ftp/pub" do
   owner "root"
   group "ftp"
