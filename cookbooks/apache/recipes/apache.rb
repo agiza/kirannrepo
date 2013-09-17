@@ -100,7 +100,7 @@ else
   end
   # This grabs ca key to populate the chain file.
   serverca = ssldata["sslca"]
-  template "/etc/pki/tls/private/#{servername}.ca" do
+  template "/etc/pki/tls/certs/#{servername}.ca" do
     source "servername.ca.erb"
     owner  "root"
     group  "root"
