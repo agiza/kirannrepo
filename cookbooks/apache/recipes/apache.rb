@@ -98,6 +98,19 @@ else
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
+  # This grabs ca key to populate the chain file.
+  serverca = ssldata["sslca"]
+  template "/etc/pki/tls/private/#{servername}.ca" do
+    source "servername.ca.erb"
+    owner  "root"
+    group  "root"
+    mode   "0640"
+    variables(
+      :serverca => serverca,
+      :servername => "#{servername}"
+    )
+    notifies :run, resources(:execute => "test-apache-config"), :delayed
+  end
 end
 
 # Provides a mechanism to include optional configurations by adding them to a data bag item, separated by pipe character.
