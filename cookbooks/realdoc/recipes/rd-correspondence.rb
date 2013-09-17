@@ -116,4 +116,5 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
 end
 
 include_recipe "realdoc::correspondence-mount"
+include_recipe "realdoc::rd-transcentra-recon"
 
