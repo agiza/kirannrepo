@@ -6,9 +6,8 @@ default[:monit][:poll_start_delay]      = 30
 default[:monit][:mail_format][:subject] = "$SERVICE $EVENT"
 default[:monit][:mail_format][:from]    = "monit@#{node['fqdn']}"
 default[:monit][:mail_format][:message]    = <<-EOS
-$HOST
 $ACTION on $SERVICE
-$ SERVICE $DESCRIPTION
+$SERVICE $DESCRIPTION
 $DATE 
 EOS
 
