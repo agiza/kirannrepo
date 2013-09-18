@@ -7,6 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+package "epel-release" do
+  action :remove
+end
+
 package "epel-local" do
   action :upgrade
 end
