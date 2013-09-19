@@ -1,5 +1,3 @@
-default["monit_notify_email"]            = "root@localhost"
-
 default[:monit][:poll_period]           = 10
 default[:monit][:poll_start_delay]      = 30
 
