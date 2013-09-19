@@ -23,7 +23,22 @@ set mail-format {
   message: <%= @node[:monit][:mail_format][:message] %>
 }
 
-set alert <%= @node[:monit_notify_email] %> NOT ON { action, instance, pid, ppid }
+<% if node[:monit_notify_email1] %>
+set alert <%= @node[:monit_notify_email1] %> NOT ON { action, instance, pid, ppid }
+<% end %>
+<% if node[:monit_notify_email2] %>
+set alert <%= @node[:monit_notify_email2] %> NOT ON { action, instance, pid, ppid }
+<% end %>
+<% if node[:monit_notify_email3] %>
+set alert <%= @node[:monit_notify_email3] %> NOT ON { action, instance, pid, ppid }
+<% end %>
+<% if node[:monit_notify_email4] %>
+set alert <%= @node[:monit_notify_email4] %> NOT ON { action, instance, pid, ppid }
+<% end %>
+<% if node[:monit_notify_email5] %>
+set alert <%= @node[:monit_notify_email5] %> NOT ON { action, instance, pid, ppid }
+<% end %>
+
 
 set httpd port <%= node[:monit][:port] %>
   <%= "use address #{node[:monit][:address]}" if node[:monit][:address] %>
