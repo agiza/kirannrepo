@@ -83,3 +83,6 @@ service "#{app_name}" do
   action [:enable, :start]
 end
 
+# JSM: setup monit to monitor mongos
+include_recipe "monit::mongos"
+
