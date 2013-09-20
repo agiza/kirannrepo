@@ -29,7 +29,7 @@ rt.vendor.valuation.sourcing.candidateGroup=Sourcing Team
 
 #Settings for realdoc integration
 rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
-rd.remote.defaultUsername=correspondence
+rd.remote.defaultUsername=<%= @node[:rtng_realdoc_username] %>
 rd.remote.singleUserMode=true
 
 rt.central.webServiceUrl=http://<%= @rt_cen_host %>/realtrans-central/
