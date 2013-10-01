@@ -1,0 +1,11 @@
+rt.int.amqp.username=<%= @amqpuser %>
+rt.int.amqp.password=<%= @amqppass %>
+rt.int.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
+rt.int.amqp.host=<%= @amqphost %>
+rt.int.amqp.port=<%= @amqpport %>
+rt.int.amqp.heartbeat=60
+rt.int.amqp.monitoring.message.queue=rt.monitoring.messages
+
+rt.int.support.login.user=<%= @support["user"] %>
+rt.int.support.login.password=<%= @support["pass"] %>
+rt.int.support.responseTypeList=order_placed,order_accepted,order_review
