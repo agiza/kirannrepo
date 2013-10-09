@@ -11,12 +11,12 @@ iptables_rule "port_tomcat"
 include_recipe "altisource::volume"
 if node.attribute["altitomcat_volume"]
   lvm_mount "altitomcat" do
-    device "#{node[:altitomcat_volume][:device]}"
-    group  "#{node[:altitomcat_volume][:group]}"
-    volume "#{node[:altitomcat_volume][:volume]}"
-    filesystem "#{node[:altitomcat_volume][:filesystem]}"
-    options "#{node[:altitomcat_volume][:defaults]}"
-    mountpoint "#{node[:altitomcat_volume][:mountpoint]}"
+    device node[:altitomcat_volume][:device]
+    group  node[:altitomcat_volume][:group]
+    volume node[:altitomcat_volume][:volume]
+    filesystem node[:altitomcat_volume][:filesystem]
+    options node[:altitomcat_volume][:defaults]
+    mountpoint node[:altitomcat_volume][:mountpoint]
   end
 else
   lvm_mount "altitomcat" do
@@ -44,14 +44,18 @@ end
 
 # configure appdynamics agent after altitomcat rpm installation but before configuration.
 if node.attribute?('performance')
-  environment = "#{node.chef_environment}"
+  environment = node.chef_environment
 else
   environment = "shared"
 end
 appdynhost = []
-%w{appdynamicsserver}.each do |app|
-  search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
-    appdynhost << worker["ipaddress"]
+if (Chef::Config[:solo])
+  Chef::Log.warn("This recipe uses search.  Chef Solo does not support search")
+else
+  %w{appdynamicsserver}.each do |app|
+    search(:node, "recipes:*\\:\\:#{app} AND chef_environment:#{environment}").each do |worker|
+      appdynhost << worker["ipaddress"]
+    end
   end
 end
 if appdynhost.nil? || appdynhost.empty?
@@ -68,10 +72,10 @@ template "/opt/tomcat/bin/setenv.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
-  variables(:appdynstring => "#{appdynstring}",
-            :appdynagent => "#{appdynagent}"
+  variables(:appdynstring => appdynstring,
+            :appdynagent => appdynagent
            )
-  notifies :restart, resources(:service => "altitomcat"), :delayed
+  notifies :restart, "service[altitomcat]", :delayed
 end
 
 template "/opt/tomcat/bin/catalina.sh" do
@@ -87,7 +91,9 @@ template "/opt/tomcat/conf/server.xml" do
   group  "tomcat"
   owner  "tomcat"
   mode   "0644"
-  notifies :restart, resources(:service => "altitomcat"), :delayed
+  variables(:jvm_route => node[:ipaddress], 
+            :secure_proxy => node[:altisource][:altitomcat][:secure_proxy])
+  notifies :restart, "service[altitomcat]", :delayed
 end
 
 template "/etc/logrotate.d/altitomcat" do

@@ -1,90 +1,34 @@
+<% 
+  def variable_defaults(options = {})
+    { :serveripallow => @serveripallow,
+      :environ => @environ,
+      :port => @port }.merge(options)
+  end
+-%>
+
 RewriteEngine on
 RewriteRule ^/$ /realtrans-vp/ [R]
 
 ProxyRequests             Off
 ProxyPreserveHost         On
 
-<Proxy balancer://rtfp-<%= @environ %>>
-    Order allow,deny
-    <% @serveripallow.split.each do |ip| -%>
-    Allow from <%= ip %>
-    <% end -%>
+<%= render "proxy_partial.conf.erb", :variables => variable_defaults({
+    :uri => 'realtrans-fp',
+    :workers => @fpworkers
+}) %>
 
-    <% @fpworkers.each do |a| -%>
-    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
-    <% end -%>
-    ProxySet stickysession=JSESSIONID
-</Proxy>
+<%= render "proxy_partial.conf.erb", :variables => variable_defaults({
+    :uri => 'realtrans-central',
+    :workers => @centralworkers,
+    :port => 8080
+}) %>
 
-<Proxy balancer://rtcentral-<%= @environ %>>
-    Order allow,deny
-    <% @serveripallow.split.each do |ip| -%>
-    Allow from <%= ip %>
-    <% end -%>
+<%= render "proxy_partial.conf.erb", :variables => variable_defaults({
+    :uri => 'realtrans-vp',
+    :workers => @vpworkers
+}) %>
 
-    <% @centralworkers.each do |a| -%>
-    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
-    <% end -%>
-    ProxySet stickysession=JSESSIONID
-</Proxy>
-
-<Proxy balancer://rtvp-<%= @environ %>>
-    Order allow,deny
-    <% @serveripallow.split.each do |ip| -%>
-    Allow from <%= ip %>
-    <% end -%>
-
-    <% @vpworkers.each do |a| -%>
-    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
-    <% end -%>
-    ProxySet stickysession=JSESSIONID
-</Proxy>
-
-<Proxy balancer://rtreg-<%= @environ %>>
-    Order allow,deny
-    <% @serveripallow.split.each do |ip| -%>
-    Allow from <%= ip %>
-    <% end -%>
-
-    <% @regworkers.each do |a| -%>
-    BalancerMember http://<%= "#{a}" %>:8080 route=<%= "#{a}" %>
-    <% end -%>
-    ProxySet stickysession=JSESSIONID
-</Proxy>
-
-<Location /realtrans-central>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtcentral-<%= @environ %>/realtrans-central stickysession=JSESSIONID|jsessionid
-</Location>
-
-<Location /realtrans-fp>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtfp-<%= @environ %>/realtrans-fp stickysession=JSESSIONID|jsessionid
-</Location>
-
-<Location /realtrans-vp>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtvp-<%= @environ %>/realtrans-vp stickysession=JSESSIONID|jsessionid
-</Location>
-
-<Location /realtrans-reg>
-<LimitExcept POST GET>
-  Order allow,deny
-  Deny from all
-</LimitExcept>
-
-ProxyPass               balancer://rtreg-<%= @environ %>/realtrans-reg stickysession=JSESSIONID|jsessionid
-</Location>
-
+<%= render "proxy_partial.conf.erb", :variables => variable_defaults({
+    :uri => 'realtrans-reg',
+    :workers => @regworkers
+}) %>

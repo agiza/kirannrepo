@@ -75,7 +75,8 @@ else
         :regworkers => regnames,
         :vhostName => "#{environ}",
         :environ => "#{environ}",
-        :serveripallow => serveripallow
+        :serveripallow => serveripallow,
+        :port => node[:apache][:workers][:port]
       )
     end
     template "/etc/httpd/conf.d/rt-#{environ}.vhost.conf" do

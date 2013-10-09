@@ -1,0 +1,1 @@
+default[:altisource][:altitomcat][:secure_proxy] = false

@@ -1,0 +1,31 @@
+<%# 
+  Expects:
+    uri => path segment of url for application
+    serveripallow => a comma-separated string of allowed ip addresses to connect to this proxied host
+    environ => an environmental indicator, necessary for hosting multiple environments on one server
+    workers => an enumerable of ip addresses for backends to be balanced among
+    port => the port that the backends will listen on
+%>
+
+<% @abbrev = @uri.gsub(/\s/i,'') -%>
+
+<Proxy balancer://<%= @abbrev %>-<%= @environ %>>
+    Order allow,deny
+    <% @serveripallow.split.each do |ip| -%>
+    Allow from <%= ip %>
+    <% end -%>
+
+    <% @workers.each do |a| -%>
+    BalancerMember http://<%= a %>:<%= @port %> route=<%= a %>
+    <% end -%>
+    ProxySet stickysession=JSESSIONID
+</Proxy>
+
+<Location /<%= @uri %>>
+	<LimitExcept POST GET>
+	  Order allow,deny
+	  Deny from all
+	</LimitExcept>
+
+	ProxyPass balancer://<%= @abbrev %>-<%= @environ %>/<%= @uri %> stickysession=JSESSIONID|jsessionid
+</Location>

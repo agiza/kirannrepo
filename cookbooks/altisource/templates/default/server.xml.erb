@@ -67,6 +67,14 @@
          APR (HTTP/AJP) Connector: /docs/apr.html
          Define a non-SSL HTTP/1.1 Connector on port 8080
     -->
+    <%- if @secure_proxy %>
+    <Connector port="8000" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               secure="true"
+               scheme="https"
+               proxyPort="443"/>
+
+    <%- end %>
     <Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" />
@@ -100,7 +108,7 @@
     <!-- You should set jvmRoute to support load-balancing via AJP ie :
     <Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1">
     -->
-    <Engine name="Catalina" defaultHost="localhost" jvmRoute="<%= node[:ipaddress] %>">
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="<%= @jvm_route %>">
 
       <!--For clustering, please take a look at documentation at:
           /docs/cluster-howto.html  (simple how to)
