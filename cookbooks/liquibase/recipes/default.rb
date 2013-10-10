@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-include_recipe "java"
+#include_recipe "java"
 
 src_filepath = "#{Chef::Config[:file_cache_path]}/#{::File.basename(node[:liquibase][:url])}"
 
