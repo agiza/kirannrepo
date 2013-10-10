@@ -5,12 +5,12 @@ rt.amqp.port=<%= @amqpport %>
 rt.amqp.username=<%= @amqpuser %>
 rt.amqp.password=<%= @amqppass %>
 rt.amqp.heartbeat=60
-rt.amqp.virtual-host=<%= node[:realtrans_amqp_vhost] %>
+rt.amqp.virtual-host=<%= @amqpvhost %>
 
-rf.ldap.port=<%= @ldapserver['ldaphost'].split(":")[1] %>
-rf.ldap.url=ldap://<%= @ldapserver['ldaphost'].split(":")[0] %>:<%= @ldapserver['ldaphost'].split(":")[1] %>
-rf.ldap.searchBase=<%= @ldapserver['searchbase'] %>
-<% if @ldapserver['ldaphost'].split(":")[0] == "dummy" || node.attribute?('ldap_disable') -%>
+rf.ldap.port=<%= @ldap_port %>
+rf.ldap.url=ldap://<%= @ldap_url %>
+rf.ldap.searchBase=<%= @ldap_search_base %>
+<% if @ldap_disabled -%>
 rf.ldapAuthenticationProvider.enabled=false
 <% else -%>
 rf.ldapAuthenticationProvider.enabled=true
@@ -26,7 +26,7 @@ rt.vendor.permission.category.name=VENDOR_PERMISSION_CATEGORY
 
 #Settings for realdoc integration
 rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
-rd.remote.defaultUsername=<%= @node[:rtng_realdoc_username] %>
+rd.remote.defaultUsername=<%= @rtng_rdoc_user %>
 rd.remote.singleUserMode=true
 
 rt.central.webServiceUrl=http://<%= @rt_cen_host %>/realtrans-central/
@@ -37,22 +37,22 @@ rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 rf.documentService.baseDirectoryPath=/opt/tomcat/storage/docs
 rf.documentService.baseTemplatePath=/opt/tomcat/webapps/realtrans-reg/WEB-INF/classes/templates
 rf.templateService.baseDirectoryPath=/opt/tomcat/webapps/realtrans-reg/WEB-INF/classes/templates
-rf.tenantCode=<%= node[:tenantid] %>
+rf.tenantCode=<%= @tenant_id %>
 
 rf.multipartResolver.maxUploadSize=52428800
 
-rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
-rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
-rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
+rf.melissadata.address.webhost=<%= @melissa_data_address_url %>
+rf.melissadata.phone.webhost=<%= @melissa_data_phone_url %>
+rf.melissadata.email.webhost=<%= @melissa_data_email_url %>
 rf.melissadata.customerId=102942719
 rf.melissadata.defaultMaxConnectionsPerHost=1
-rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
-rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
+rf.melissadata.geocode.webhost=<%= @melissa_data_geocode_url %>
+rf.melissadata.name.webhost=<%= @melissa_data_name_url %>
 
-rf.email.host=<%= @mailserver['host'].split(":")[0] %>
-rf.email.port=<%= @mailserver['host'].split(":")[1] %>
-rf.email.username=<%= @mailserver['user'] %>
-rf.email.password=<%= @mailserver['pass'] %>
+rf.email.host=<%= @mail_server_host %>
+rf.email.port=<%= @mail_server_port %>
+rf.email.username=<%= @mail_server_user %>
+rf.email.password=<%= @mail_server_pass %>
 
 internalDomains=
 
@@ -81,23 +81,23 @@ rf.newUserSubject=Welcome!
 rf.passwordResetTemplate=classpath:/passwordResetTemplate.html
 rf.passwordResetTemplateCode=REGPCHANGEPASSWORD
 rf.passwordResetSubject=Password Reset
-rf.userNotificationFromAddress=<%= @mailserver['from'] %>
+rf.userNotificationFromAddress=<%= @mail_server_from %>
 
 rf.defaultPlugin=
 
-rf.app.context.path=<%= @webHostname %>/realtrans-reg
+rf.app.context.path=<%= @extHostname %>/realtrans-reg
 
-<% if node.run_list?('role[implementer]') -%>
+<% if @has_role_implementer -%>
 rf.startupAuthenticationProvider.enabled=true 
 <% else -%>
 rf.startupAuthenticationProvider.enabled=false
 <% end -%>
-rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
+rf.daoAuthenticationProvider.enabled=<%= @rf_dao_flag %>
 
-<% if node.attribute?('rf_app_config_flag') -%>
+<% if @rf_app_config_flag -%>
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
-<% if node.attribute?('realtrans_stacktrace') -%>
+<% if @rt_show_stacktrace -%>
 rf.sendStacktrace=true
 <% else -%>
 rf.sendStacktrace=false
