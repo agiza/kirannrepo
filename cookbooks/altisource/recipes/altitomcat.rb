@@ -7,6 +7,9 @@
 include_recipe "altisource::altirepo"
 include_recipe "iptables::default"
 iptables_rule "port_tomcat"
+if node[:altisource][:altitomcat][:secure_proxy]
+  iptables_rule "secure_proxy_port_tomcat"
+end
 
 include_recipe "altisource::volume"
 if node.attribute["altitomcat_volume"]
