@@ -12,4 +12,5 @@ include_recipe "apache::rtvhost"
 include_recipe "apache::rdvhost"
 include_recipe "apache::l1vhost"
 include_recipe "apache::rfvhost"
+include_recipe "apache::rtevhost"
 
