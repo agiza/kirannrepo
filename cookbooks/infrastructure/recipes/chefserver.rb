@@ -32,8 +32,19 @@ template "/etc/init.d/chef-server" do
   mode   "0755"
 end
 
+%w{gcc make ruby-devel libxml2 libxml2-devel libxslt libxslt-devel}.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+execute "bundle install" do
+  cwd '/home/rtnextgen/chef-repo'
+  path ['/opt/chef/embedded/bin']
+  action :run
+end
+
 service "chef-server" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :enable
 end
-
