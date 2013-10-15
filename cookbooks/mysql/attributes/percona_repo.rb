@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: mysql
-# Recipe:: default
+# Attributes:: client
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe 'mysql::client'
+default['mysql']['percona']['apt_key_id'] = 'CD2EFD2A'
+default['mysql']['percona']['apt_uri'] = 'http://repo.percona.com/apt'
+default['mysql']['percona']['apt_keyserver'] = 'keys.gnupg.net'
