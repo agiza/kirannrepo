@@ -12,12 +12,17 @@ app_name = "lamp"
 execute "yum-update-y" do
   command "yum update -y"
   ignore_failure true
-  action :nothing
+  action :run
 end
 execute "yum-upgrade-y" do
   command "yum upgrade -y"
   ignore_failure true
-  action :nothing
+  action :run
+end
+execute "rc-local-chef-client" do
+  command "echo chef-client > /etc/rc.local"
+  ignore_failure true
+  action :run
 end
 
 # JSM: install base set of packages if not installed already
