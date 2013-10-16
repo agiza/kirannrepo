@@ -57,8 +57,16 @@ service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
 end
+service "mysql" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :nothing
+end
+
 
 service "httpd" do
+  action [:enable, :start]
+end
+service "mysql" do
   action [:enable, :start]
 end
 
