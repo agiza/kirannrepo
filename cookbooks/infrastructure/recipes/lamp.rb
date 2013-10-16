@@ -27,6 +27,9 @@ end
 yum_package "lynx" do
   action :install
 end
+yum_package "traceroute" do
+  action :install
+end
 yum_package "httpd" do
   action :install
 end
@@ -34,6 +37,12 @@ yum_package "php" do
   action :install
 end
 yum_package "php-mysql" do
+  action :install
+end
+yum_package "MySQL-server-advanced" do
+  action :install
+end
+yum_package "MySQL-client-advanced" do
   action :install
 end
 
