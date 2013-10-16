@@ -9,8 +9,16 @@
 app_name = "lamp"
 
 # JSM: upgrade all packages on every Chef client run
-command "yum update -y"
-command "yum upgrade -y"
+execute "yum-update-y" do
+  command "yum update -y"
+  ignore_failure true
+  action :nothing
+end
+execute "yum-upgrade-y" do
+  command "yum upgrade -y"
+  ignore_failure true
+  action :nothing
+end
 
 # JSM: install base set of packages if not installed already
 yum_package "telnet" do
