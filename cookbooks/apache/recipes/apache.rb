@@ -140,6 +140,13 @@ link "/etc/ssl/private" do
   group "root"
 end
 
+template "/etc/logrotate.d/httpd" do
+  source "httpd_log.erb"
+  group  "root"
+  owner  "root"
+  mode   "0644"
+end
+
 service "httpd" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action [:enable, :start]
