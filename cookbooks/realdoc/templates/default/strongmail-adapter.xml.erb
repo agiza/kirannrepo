@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-    <% if @db_type == 'oracle' %>
+    <% if @db[:type] == 'oracle' %>
     <Resource name="jdbc/strongmail"
             auth="Container"
             type="javax.sql.DataSource"

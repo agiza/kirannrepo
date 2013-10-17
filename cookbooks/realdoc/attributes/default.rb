@@ -68,9 +68,10 @@ default[:adapters] = {
 }
 # strongmail db configuration
 default[:strongmail_db] = {
-    :type => 'strongmail',
+    :type => 'mysql',
     :host => 'realdevdbprim',
     :port => '3306',
+    :schema => 'strongmail',
     :initial_size => '2',
     :max_active => '10',
     :max_idle => '10',
@@ -84,6 +85,7 @@ default[:strongmail_db] = {
 default[:dbs] = {
     :mysql => {
         :type => 'mysql',
+        :schema => '',
         :host => 'mysqldbprim',
         :port => '3306',
         :initial_size => '2',
@@ -96,6 +98,7 @@ default[:dbs] = {
     },
     :oracle => {
         :type => 'oracle',
+        :schema => '',
         :host => '50.19.6.17',
         :port => '1521'
     }
