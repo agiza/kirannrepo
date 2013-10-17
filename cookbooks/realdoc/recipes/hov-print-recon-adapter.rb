@@ -60,7 +60,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-ftp_config = node[:print_recon_adapters][app_name]
+ftp_config = node[:print_recon_adapters][vendor_name]
 # Integration components
 # Try to pull environment specific data bag item for ftp config if it exists.
 begin
