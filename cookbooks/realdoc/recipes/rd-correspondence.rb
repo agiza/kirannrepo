@@ -102,7 +102,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :mailserver => mailserver,
     :ldapserver => ldapserver,
     #:ftpserver => ftpserver,
-    :mysqldb => mysqldb["realdoc"]
+    :mysqldb => mysqldb["realdoc"],
+    :app_name => "realdoc-#{node[:chef_environment]}"
   )
 end
 

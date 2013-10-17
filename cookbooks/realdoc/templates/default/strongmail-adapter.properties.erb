@@ -3,25 +3,24 @@
 rd.adapter.scan.freq=15000
 
 # mongo
-rd.adapter.mongo.host=<%= @mongo_host %>
-rd.adapter.mongo.server=<%= @mongo_host %>
-rd.adapter.mongo.database=<%= node[:mongodb_database] %>
-rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+rd.adapter.mongo.host=<%= @mongo[:host] %>
+rd.adapter.mongo.server=<%= @mongo[:host] %>
+rd.adapter.mongo.database=<%= @mongo[:dbname] %>
+rd.adapter.mongo.db=<%= @mongo[:dbname] %>
 
 # rabbit
-rd.adapter.amqp.host=<%= @amqphost %>
-rd.adapter.amqp.port=<%= @amqpport %>
-rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
-rd.adapter.amqp.username=<%= @amqpuser %>
-rd.adapter.amqp.password=<%= @amqppass %>
+rd.adapter.amqp.host=<%= @amqp[:host] %>
+rd.adapter.amqp.port=<%= @amqp[:port] %>
+rd.adapter.amqp.vhost=<%= @amqp[:vhost] %>
+rd.adapter.amqp.username=<%= @amqp[:username] %>
+rd.adapter.amqp.password=<%= @amqp[:password] %>
 rd.adapter.amqp.recon.inbound=rd.correspondence.recon
 rd.adapter.amqp.requests=rd.correspondence.recon
 rd.adapter.amqp.generate=rd.correspondence.generate
 rd.adapter.amqp.delivery=rd.correspondence.delivery
 
-# strongmail db
-rd.adapter.db.sm.driver=com.mysql.jdbc.Driver
-rd.adapter.db.sm.url=jdbc:mysql://<%= @mysqldb['smadap_dbhost'] %>:<%= node[:db_port] %>/<%= @mysqldb['smadap_dbname'] %>
-rd.adapter.db.sm.username=<%= @mysqldb['smadap_dbuser'] %>
-rd.adapter.db.sm.password=<%= @mysqldb['smadap_dbpass'] %>
+# database properties
+rd.adapter.sm.jndi=jdbc/strongmail
+rd.adapter.sm.aggregateLogQuery=<%= @aggregate_query %>
+rd.adapter.sm.successLogQuery=<%= @success_query %>
 

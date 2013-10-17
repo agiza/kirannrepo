@@ -33,13 +33,8 @@ end
 
 # trigger node attribute creation.
 include_recipe "realdoc::default"
-amqphost = node[:amqphost]
-amqpport = node[:amqpport]
-rdochost = node[:rdochost]
-rdocport = node[:rdocport]
-elasticHost = node[:elasticHost]
 
-mongoHost = "127.0.0.1"
+mongo_host = "127.0.0.1"
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -54,42 +49,65 @@ yum_package "#{app_name}" do
   else
     action :install
   end
-  flush_cache [ :before ]
+  flush_cache [:before]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
 
 begin
-  rdrabbit = data_bag_item("rabbitmq", "realdoc")
-    rescue Net::HTTPServerException
-      raise "Error loading rabbitmq credentials from rabbitmq data bag."
+  amqp = data_bag_item("rabbitmq", "realdoc")
+  amqp_credentials = amqp['user'].split(" ").first.split("|")
+rescue Net::HTTPServerException
+  raise "Error loading rabbitmq credentials from rabbitmq data bag."
 end
-rdrabbit = rdrabbit['user'].split(" ").first.split("|")
+
 begin
   mailserver = data_bag_item("integration", "mail")
-    rescue Net::HTTPServerException
-      raise "Error loading mail info from integration data bag."
+rescue Net::HTTPServerException
+  raise "Error loading mail info from integration data bag."
 end
+
+
 begin
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Error trying to load mysqldb information from infrastructure data bag."
+  strongmail = data_bag_item("infrastructure", "strongmail_#{node.chef_environment}")
+rescue Net::HTTPServerException
+  raise "Error trying to load mysqldb information from infrastructure data bag."
 end
+
+db = node[:dbs][strongmail[:db_type]]
+db[:username] = strongmail[:username]
+db[:password] = strongmail[:password]
+app_id="realdoc-#{node[:chef_environment]}"
+
+if strongmail[:db_type] == 'oracle'
+  success_query="select distinct * from sm_success_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = 'realdoc-#{app_id}' order by datestamp, messageid"
+  aggregate_query="select distinct * from sm_aggregate_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = 'realdoc-#{app_id}' order by datestamp, messageid"
+else
+  success_query="select distinct * from sm_success_log where datestamp >= str_to_date('datestring', '%m-%d-%y %h:%i:%s') and userid='realdoc-#{app_id}' order by datestamp, messageid"
+  aggregate_query="select logtype, logname , logdate datestamp, sno, mailingid, dbid, messageid, userid, dbrownum, dbname, msgsno, email, bounce, category, bouncetype, code, vsgname, outboundip, mxip from sm_aggregate_log where logdate >= str_to_date('datestring', '%m-%d-%y %h:%i:%s') and userid='realdoc-#{app_id}' order by logdate, messageid"
+end
+
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   variables(
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}",
-    :mailserver => mailserver,
-    :mongo_host => "#{mongoHost}",
-    :mysqldb => mysqldb["smadap"]
+      :amqp => {
+          :host => node[:amqphost],
+          :port => node[:amqpport],
+          :vhost => node[:realdoc_amqp_vhost],
+          :username => amqp_credentials[0],
+          :password => amqp_credentials[1]
+      },
+      :mailserver => mailserver,
+      :mongo => {
+          :host => "#{mongo_host}",
+          :dbname => node[:mongodb_database]
+      },
+      :success_query => success_query,
+      :aggregate_query => aggregate_query
   )
   notifies :restart, resources(:service => "altitomcat")
 end
@@ -99,7 +117,10 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(:mysqldb => mysqldb["smadap"])
+  variables(
+      :db_type => node[:db_type],
+      :db => db
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
