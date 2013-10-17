@@ -22,12 +22,6 @@ end
 #
 #
 #
-execute "rc.local" do
-  command "echo 'chef-client -o infrastructure::updates' > /etc/rc.local"
-  ignore_failure true
-  action :run
-end
-
 template "/etc/rc.d/rc.local" do
     source "rc.local.erb"
     owner  "root"
