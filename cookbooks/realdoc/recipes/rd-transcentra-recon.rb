@@ -31,84 +31,18 @@ else
   end
 end
 
-# trigger node attribute creation.
-include_recipe "realdoc::default"
-amqphost = node[:amqphost]
-amqpport = node[:amqpport]
-rdochost = node[:rdochost]
-rdocport = node[:rdocport]
-elasticHost = node[:elasticHost]
+yum_package "#{app_name}" do
+  action :install
+end
+
+file "/opt/tomcat/conf/#{app_name}.properties" do
+  action :remove
+end
+
+file "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  action :delete
+end
 
 service "altitomcat" do
-  supports :stop => true, :start => true, :restart => true, :reload => true
-  action :nothing
+  action :restart
 end
-
-yum_package "#{app_name}" do
-  version "#{app_version}"
-  if node.attribute?('package_noinstall') || version == "0.0.0-1"
-    Chef::Log.info("Package is set to not be installed.")
-    action :nothing
-  else
-    action :install
-  end
-  flush_cache [ :before ]
-  allow_downgrade true
-  notifies :restart, resources(:service => "altitomcat")
-end
-
-mongoHost = "127.0.0.1"
-
-# Integration components
-# Try to pull environment specific data bag item for transcentra ftp if it exists.
-transcentra = data_bag_item("integration","transcentra")
-if transcentra["transcentra#{node.chef_environment.downcase}"].nil?
-  transcentraftp = transcentra["transcentra"]
-else
-  transcentraftp = transcentra["transcentra#{node.chef_environment.downcase}"]
-end
-webHost = data_bag_item("infrastructure", "apache")
-rdrabbit = data_bag_item("rabbitmq", "realdoc")
-rdrabbit = rdrabbit['user'].split(" ").first.split("|")
-melissadata = data_bag_item("integration", "melissadata")
-mailserver = data_bag_item("integration", "mail")
-ldapserver = data_bag_item("integration", "ldap")
-begin
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Error trying to load mysqldb information from infrastructure data bag."
-end
-template "/opt/tomcat/conf/#{app_name}.properties" do
-  source "#{app_name}.properties.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
-  notifies :restart, resources(:service => "altitomcat")
-  variables(
-    :webHostname => webHost["rd#{node.chef_environment}"],
-    :mongo_host => "#{mongoHost}",
-    :elastic_host => "#{elasticHost}",
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}",
-    :rdochost => "#{rdochost}:#{rdocport}",
-    :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver,
-    :mysqldb => mysqldb["realdoc"],
-    :transcentra => transcentraftp,
-    :ldapserver => ldapserver
-  )
-end
-
-template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
-  source "realdoc.xml.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
-  variables(:mysqldb => mysqldb["realdoc"])
-  notifies :restart, resources(:service => "altitomcat")
-end
-

@@ -23,8 +23,8 @@ rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.adapter.amqp.inboundExchange=rd.responses
 rd.adapter.amqp.inboundRoutingKey=correspondence.recon
 
-rd.adapter.print.sftp.host=<%= @transcentra["sftphost"] %>
-rd.adapter.print.sftp.user=<%= @transcentra["sftpuser"] %>
-rd.adapter.print.sftp.pword=<%= @transcentra["sftppassword"] %>
-rd.adapter.print.sftpDir=<%= @transcentra["sftpdir"] %>
+rd.adapter.print.sftp.host=<%= @ftp[:host] %>
+rd.adapter.print.sftp.user=<%= @ftp[:username] %>
+rd.adapter.print.sftp.pword=<%= @ftp[:password] %>
+rd.adapter.print.sftpDir=<%= @ftp[:scan_path] %>
 
