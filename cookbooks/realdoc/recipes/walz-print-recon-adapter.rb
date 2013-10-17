@@ -60,10 +60,11 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+ftp_config = node[:print_recon_adapter][app_name]
 # Integration components
 # Try to pull environment specific data bag item for ftp config if it exists.
 begin
-  ftp_config = data_bag_item("integration", "#{vendor_name}_recon_#{node.chef_environment}")
+  ftp_credentials = data_bag_item("integration", "#{vendor_name}_recon_#{node.chef_environment}")
 rescue Net::HTTPServerException
   raise "Error trying to load ftp config information from infrastructure data bag."
 end
@@ -96,7 +97,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
           :username => "#{amqp[0]}",
           :password => "#{amqp[1]}",
       },
-      :ftp => ftp_config
+      :ftp => {
+          :host => ftp_config[:host],
+          :scan_path => ftp_config[:scan_path],
+          :username => ftp_credentials['username'],
+          :password => ftp_credentials['password']
+      }
   )
 end
 

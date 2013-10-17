@@ -15,11 +15,11 @@ rd.adapter.print.errorFilePath=/tmp/files/archive/
 rd.adapter.mongo.host=<%= @mongo_host %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
 
-rd.adapter.amqp.host=<%= @amqphost %>
-rd.adapter.amqp.port=<%= @amqpport %>
-rd.adapter.amqp.username=<%= @amqpuser %>
-rd.adapter.amqp.password=<%= @amqppass %>
-rd.adapter.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
+rd.adapter.amqp.host=<%= @amqp[:host] %>
+rd.adapter.amqp.port=<%= @amqp[:port] %>
+rd.adapter.amqp.username=<%= @amqp[:username] %>
+rd.adapter.amqp.password=<%= @amqp[:password] %>
+rd.adapter.amqp.vhost=<%= @amqp[:vhost] %>
 rd.adapter.amqp.inboundExchange=rd.responses
 rd.adapter.amqp.inboundRoutingKey=correspondence.recon
 
@@ -27,4 +27,3 @@ rd.adapter.print.sftp.host=<%= @ftp[:host] %>
 rd.adapter.print.sftp.user=<%= @ftp[:username] %>
 rd.adapter.print.sftp.pword=<%= @ftp[:password] %>
 rd.adapter.print.sftpDir=<%= @ftp[:scan_path] %>
-
