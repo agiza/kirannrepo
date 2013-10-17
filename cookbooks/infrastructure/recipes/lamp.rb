@@ -9,10 +9,6 @@
 app_name = "lamp"
 
 include_recipe "infrastructure::base"
-include_recipe "infrastructure::updates"
-include_recipe "iptables::default"
-iptables_rule "port_http"
-
 
 # JSM: install/upgrade basic lamp server packages
 yum_package "httpd" do
