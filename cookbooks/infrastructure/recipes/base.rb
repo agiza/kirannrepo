@@ -14,7 +14,7 @@ app_name = "base"
 #
 ## JSM: install base set of packages if not installed already
 #
-%w{telnet lynx traceroute}  do |pkg|
+%w{telnet lynx traceroute}.each do |pkg|
   package pkg do
     action :upgrade
   end
