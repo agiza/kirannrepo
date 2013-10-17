@@ -75,8 +75,8 @@ rescue Net::HTTPServerException
 end
 
 db = node[:dbs][strongmail['db_type']]
-db[:username] = strongmail['username']
-db[:password] = strongmail['password']
+db_username = strongmail['username']
+db_password = strongmail['password']
 app_id="realdoc-#{node[:chef_environment]}"
 
 if strongmail[:db_type] == 'oracle'
@@ -119,7 +119,9 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   mode '0644'
   variables(
       :db_type => node[:db_type],
-      :db => db
+      :db => db,
+      :db_username => db_username,
+      :db_password => db_password
   )
   notifies :restart, resources(:service => "altitomcat")
 end
