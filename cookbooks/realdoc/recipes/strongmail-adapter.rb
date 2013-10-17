@@ -74,9 +74,9 @@ rescue Net::HTTPServerException
   raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 
-db = node[:dbs][strongmail[:db_type]]
-db[:username] = strongmail[:username]
-db[:password] = strongmail[:password]
+db = node[:dbs][strongmail['db_type']]
+db[:username] = strongmail['username']
+db[:password] = strongmail['password']
 app_id="realdoc-#{node[:chef_environment]}"
 
 if strongmail[:db_type] == 'oracle'
