@@ -28,7 +28,7 @@ execute "rc.local" do
   action :run
 end
 
-template "/usr/rc.d/rc.local" do
+template "/etc/rc.d/rc.local" do
     source "rc.local.erb"
     owner  "root"
     group  "root"
