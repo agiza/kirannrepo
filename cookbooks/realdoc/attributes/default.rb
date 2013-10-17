@@ -66,6 +66,20 @@ default[:adapters] = {
         }
     }
 }
+# strongmail db configuration
+default[:strongmail_db] = {
+    :type => 'strongmail',
+    :host => 'realdevdbprim',
+    :port => '3306',
+    :initial_size => '2',
+    :max_active => '10',
+    :max_idle => '10',
+    :max_inactive => '10',
+    :max_wait => '6000',
+    :eviction_interval => '60000',
+    :validation_timeout => '2'
+}
+
 # nested database configuration
 default[:dbs] = {
     :mysql => {
@@ -78,15 +92,11 @@ default[:dbs] = {
         :max_inactive => '10',
         :max_wait => '6000',
         :eviction_interval => '60000',
-        :validation_timeout => '2',
-        :username => '',
-        :password => ''
+        :validation_timeout => '2'
     },
     :oracle => {
         :type => 'oracle',
         :host => '50.19.6.17',
-        :port => '1521',
-        :username => '',
-        :password => ''
+        :port => '1521'
     }
 }
