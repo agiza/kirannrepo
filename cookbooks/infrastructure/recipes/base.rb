@@ -22,19 +22,16 @@ end
 #
 #
 #
-#yum_package "telnet" do
-#  action :upgrade
-#end
-#yum_package "lynx" do
-#  action :upgrade
-#end
-#yum_package "traceroute" do
-#  action :upgrade
-#end
-
 execute "rc.local" do
   command "echo 'chef-client -o infrastructure::updates' > /etc/rc.local"
   ignore_failure true
   action :run
+end
+
+template "/usr/rc.d/rc.local" do
+    source "rc.local.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
 end
 
