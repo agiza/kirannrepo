@@ -70,7 +70,7 @@ directory "/opt/tomcat/correspondence/input" do
 end
 
 # Integration components
-webHost = data_bag_item("infrastructure", "apache")
+
 rdrabbit = data_bag_item("rabbitmq", "realdoc")
 rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
@@ -103,7 +103,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver,
     #:ftpserver => ftpserver,
     :mysqldb => mysqldb["realdoc"],
-    :app_name => "realdoc-#{node[:chef_environment]}"
+    :app_name => "realdoc-#{node.chef_environment}"
   )
 end
 
