@@ -9,6 +9,21 @@
 app_name = "lamp"
 
 # JSM: install base set of packages if not installed already
+#
+#
+
+["telnet = 1.9", .... ].each do |pkg|
+  package pkg do
+    action :upgrade
+  end
+end
+
+%w{telnet lynx traceroute httpd php php-mysql MySQL-server-advanced MySQL-client-advanced} do |pkg|
+  package pkg do
+    action :upgrade
+  end
+end
+
 yum_package "telnet" do
   action :upgrade
 end
