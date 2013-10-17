@@ -32,11 +32,11 @@ else
 end
 
 yum_package "#{app_name}" do
-  action :install
+  action :remove
 end
 
 file "/opt/tomcat/conf/#{app_name}.properties" do
-  action :remove
+  action :delete
 end
 
 file "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
