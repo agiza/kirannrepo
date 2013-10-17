@@ -9,12 +9,12 @@
 app_name = "updates"
 #
 # JSM: update/upgrade all packages on centos/rhel systems
- execute "yum-update-y" do
+ execute "yum-update" do
    command "yum clean all; yum update -y --disablerepo=altisourcecommon --disablerepo=altisourcerelease --disablerepo=altisourcetesting"
    ignore_failure true
    action :run
  end
- execute "yum-upgrade-y" do
+ execute "yum-upgrade" do
    command "yum upgrade -y"
    ignore_failure true
    action :run
