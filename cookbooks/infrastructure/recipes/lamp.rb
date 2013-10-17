@@ -8,47 +8,30 @@
 #
 app_name = "lamp"
 
-# JSM: upgrade all packages on every Chef client run
-execute "yum-update-y" do
-  command "yum update -y"
-  ignore_failure true
-  action :run
-end
-execute "yum-upgrade-y" do
-  command "yum upgrade -y"
-  ignore_failure true
-  action :run
-end
-execute "rc-local-chef-client" do
-  command "echo chef-client > /etc/rc.local"
-  ignore_failure true
-  action :run
-end
-
 # JSM: install base set of packages if not installed already
 yum_package "telnet" do
-  action :install
+  action :upgrade
 end
 yum_package "lynx" do
-  action :install
+  action :upgrade
 end
 yum_package "traceroute" do
-  action :install
+  action :upgrade
 end
 yum_package "httpd" do
-  action :install
+  action :upgrade
 end
 yum_package "php" do
-  action :install
+  action :upgrade
 end
 yum_package "php-mysql" do
-  action :install
+  action :upgrade
 end
 yum_package "MySQL-server-advanced" do
-  action :install
+  action :upgrade
 end
 yum_package "MySQL-client-advanced" do
-  action :install
+  action :upgrade
 end
 
 
