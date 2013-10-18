@@ -25,6 +25,9 @@ rd.adapter.ftp.privateKey=file:<%= @ftp[:key_file] %>
 rd.adapter.output.ftp.directory=<%= @ftp[:output_dir] %>
 rd.adapter.output.use.ftp=<%= @ftp[:use] %>
 
+rd.adapter.mongo.host=<%= @mongo_host %>
+rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+
 # deprecated properties
 rd.adapter.output.ReconPollingInterval=15000
 
