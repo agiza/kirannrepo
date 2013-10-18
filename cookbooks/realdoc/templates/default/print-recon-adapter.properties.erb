@@ -36,5 +36,5 @@ rd.adapter.amqp.signature.inboundExchange=rd.correspondence.recon
 rd.adapter.print.sftp.host=<%= @ftp[:host] %>
 rd.adapter.print.sftp.user=<%= @ftp[:username] %>
 rd.adapter.print.sftp.pword=<%= @ftp[:password] %>
-rd.adapter.print.sftpDir=<%= @dirs[:ftp_ack] %>
-rd.adapter.print.signatures.sftpDir=<%= @dirs[:ftp_signature] %>
+rd.adapter.print.sftpDir=<%= @ftp[:ack_dir] %>
+rd.adapter.print.signatures.sftpDir=<%= @ftp[:signature_dir] %>
