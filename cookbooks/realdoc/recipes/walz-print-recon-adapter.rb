@@ -121,3 +121,11 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+hash.each do |key, dir|
+  directory dir do
+    owner 'tomcat'
+    group 'tomcat'
+    action :create
+  end
+end
+
