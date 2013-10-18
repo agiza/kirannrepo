@@ -8,7 +8,7 @@
 #
 
 vendor_name = "adm"
-app_name = "#{vendor_name}-print-recon-adapter"
+app_name = "rd-#{vendor_name}-print-recon-adapter"
 app_version = node["#{vendor_name}_recon_version"]
 version_str = "#{vendor_name}_recon_version"
 
