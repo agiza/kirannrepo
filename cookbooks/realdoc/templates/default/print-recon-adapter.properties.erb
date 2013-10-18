@@ -7,19 +7,19 @@ rd.adapter.print.manifestFileExtension=.ack
 rd.adapter.print.receiptManifestFileExtension=.rcpt
 rd.adapter.print.errorFileExtension=.err
 
-rd.adapter.print.inputDir=<% @dirs[:input] %>
+rd.adapter.print.inputDir=<%= @dirs[:input] %>
 rd.adapter.print.signatures.inputDir=<%= @dirs[:input] %>
 rd.adapter.print.signatures.errorFilePath=<%= @dirs[:input] %>
 
-rd.adapter.print.workDir=<% @dirs[:working] %>
+rd.adapter.print.workDir=<%= @dirs[:working] %>
 rd.adapter.print.signatures.workDir=<%= @dirs[:working] %>
 
 rd.adapter.print.signatures.archiveDir=<%= @dirs[:signature_archive] %>
 rd.adapter.print.archiveDir=<%= @dirs[:ack_archive] %>
 rd.adapter.print.errorFilePath=<%= @dirs[:error_archive] %>
 
-rd.adapter.mongo.host=<%= @mongo_host %>
-rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+rd.adapter.mongo.host=<%= @mongo[:host] %>
+rd.adapter.mongo.db=<%= @mongo[:database] %>
 
 rd.adapter.amqp.host=<%= @amqp[:host] %>
 rd.adapter.amqp.port=<%= @amqp[:port] %>

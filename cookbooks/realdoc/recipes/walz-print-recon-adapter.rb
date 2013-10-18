@@ -91,11 +91,17 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
+      :vendor_code => vendor_name,
+      :mongo => {
+          :host => '127.0.0.1',
+          :database => node[:mongodb_database]
+      },
       :amqp => {
           :host => "#{amqphost}",
           :port => "#{amqpport}",
           :username => "#{amqp[0]}",
           :password => "#{amqp[1]}",
+          :vhost => node[:realdoc_amqp_vhost]
       },
       :dirs => config[:dirs],
       :ftp => {
