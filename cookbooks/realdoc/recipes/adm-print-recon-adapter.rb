@@ -97,9 +97,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
           :username => "#{amqp[0]}",
           :password => "#{amqp[1]}",
       },
+      :dirs => node[:dirs],
       :ftp => {
           :host => ftp_config[:host],
-          :scan_path => ftp_config[:scan_path],
           :username => ftp_credentials['username'],
           :password => ftp_credentials['password']
       }

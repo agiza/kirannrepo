@@ -1,8 +1,4 @@
-rd.adapter.print.vendorCode=trans
-
-rd.adapter.print.inputDir=/tmp/files/input/
-rd.adapter.print.archiveDir=/tmp/files/archive/
-rd.adapter.print.workDir=/tmp/files/work/
+rd.adapter.print.vendorCode=<%= @vendor_code %>
 rd.adapter.print.receiptFilenameExpression=.*_RCPT_.*
 rd.adapter.print.reconPollingInterval=10000
 rd.adapter.print.signalFileExtension=.cmp
@@ -10,7 +6,17 @@ rd.adapter.print.reconFileExtension=.zip
 rd.adapter.print.manifestFileExtension=.ack
 rd.adapter.print.receiptManifestFileExtension=.rcpt
 rd.adapter.print.errorFileExtension=.err
-rd.adapter.print.errorFilePath=/tmp/files/archive/
+
+rd.adapter.print.inputDir=<% @dirs[:input] %>
+rd.adapter.print.signatures.inputDir=<%= @dirs[:input] %>
+rd.adapter.print.signatures.errorFilePath=<%= @dirs[:input] %>
+
+rd.adapter.print.workDir=<% @dirs[:working] %>
+rd.adapter.print.signatures.workDir=<%= @dirs[:working] %>
+
+rd.adapter.print.signatures.archiveDir=<%= @dirs[:signature_archive] %>
+rd.adapter.print.archiveDir=<%= @dirs[:ack_archive] %>
+rd.adapter.print.errorFilePath=<%= @dirs[:error_archive] %>
 
 rd.adapter.mongo.host=<%= @mongo_host %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
@@ -20,10 +26,15 @@ rd.adapter.amqp.port=<%= @amqp[:port] %>
 rd.adapter.amqp.username=<%= @amqp[:username] %>
 rd.adapter.amqp.password=<%= @amqp[:password] %>
 rd.adapter.amqp.vhost=<%= @amqp[:vhost] %>
+
 rd.adapter.amqp.inboundExchange=rd.responses
 rd.adapter.amqp.inboundRoutingKey=correspondence.recon
+rd.adapter.amqp.signature.importQueue=rd.correspondence.recon
+rd.adapter.amqp.signature.inboundRoutingKey=correspondence.signature
+rd.adapter.amqp.signature.inboundExchange=rd.correspondence.recon
 
 rd.adapter.print.sftp.host=<%= @ftp[:host] %>
 rd.adapter.print.sftp.user=<%= @ftp[:username] %>
 rd.adapter.print.sftp.pword=<%= @ftp[:password] %>
-rd.adapter.print.sftpDir=<%= @ftp[:scan_path] %>
+rd.adapter.print.sftpDir=<%= @dirs[:ftp_ack] %>
+rd.adapter.print.signatures.sftpDir=<%= @dirs[:ftp_signature] %>
