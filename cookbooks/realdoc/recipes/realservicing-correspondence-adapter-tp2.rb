@@ -1,12 +1,12 @@
 #
 # Cookbook Name:: realdoc
-# Recipe:: realservicing-correspondence-adapter_tp2
+# Recipe:: realservicing-correspondence-adapter-tp2
 #
 # Copyright 2012, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name = "realservicing-correspondence-adapter_tp2"
+app_name = "realservicing-correspondence-adapter-tp2"
 app_version = node[:tp2_adapter_version]
 version_str = "tp2_adapter_version"
 
