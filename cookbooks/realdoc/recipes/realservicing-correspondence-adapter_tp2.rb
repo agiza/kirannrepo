@@ -7,8 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 app_name = "realservicing-correspondence-adapter_tp2"
-app_version = node[:rdcorradap_version]
-version_str = "rdcorradap_version"
+app_version = node[:tp2_adapter_version]
+version_str = "tp2_adapter_version"
 
 if node.attribute?('package_noinstall')
   Chef::Log.info("No version needed.")

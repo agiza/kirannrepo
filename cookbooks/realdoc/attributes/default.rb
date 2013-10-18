@@ -36,6 +36,7 @@ default['rdtranscentrarecon_version'] = '0.0.0-1'
 default['reconadapter_version'] = '0.0.0-1'
 default['smadapter_version'] = '0.0.0-1'
 default['rdcorradap_version'] = '0.0.0-1'
+default['tp2_adapter_version'] = '0.0.0-1'
 # Adapters
 default[:adapters] = {
     :rs_inbound => {
