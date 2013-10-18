@@ -105,7 +105,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
       },
       :dirs => config[:dirs],
       :ftp => {
-          :host => config[:host],
+          :host => config[:ftp][:host],
+          :ack_dir => config[:ftp][:ack_dir],
+          :signature_dir => config[:ftp][:signature_dir],
           :username => ftp_credentials['username'],
           :password => ftp_credentials['password']
       }
