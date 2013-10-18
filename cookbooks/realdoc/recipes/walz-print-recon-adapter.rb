@@ -60,7 +60,7 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-ftp_config = node[:print_recon_adapters][vendor_name]
+config = node[:print_recon_adapters][vendor_name]
 # Integration components
 # Try to pull environment specific data bag item for ftp config if it exists.
 begin
@@ -97,9 +97,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
           :username => "#{amqp[0]}",
           :password => "#{amqp[1]}",
       },
+      :dirs => config[:dirs],
       :ftp => {
-          :host => ftp_config[:host],
-          :scan_path => ftp_config[:scan_path],
+          :host => config[:host],
           :username => ftp_credentials['username'],
           :password => ftp_credentials['password']
       }
