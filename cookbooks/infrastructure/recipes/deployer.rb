@@ -38,7 +38,14 @@ template "/home/rtnextgen/bin/chef-cookbook-upload" do
   mode   "0755"
 end
 
-app_names = node[:app_names]
+# build the uber string form of app names
+app_names = ''
+node[:apps].each do |app|
+  app_names << "#{app[:name]}|#{app[:version]}|#{app[:recipe]} "
+end
+# circumcise the uber string (trim the extra space from the end)
+app_names = app_names[0..-2]
+
 %w{chef-deploy deploy-software chef-provision update-server}.each do |script|
   template "/home/rtnextgen/bin/#{script}" do
     source "#{script}.erb"
