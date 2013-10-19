@@ -7,5 +7,4 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'realdoc::print-recon-adapter'
-create_print_recon_adapter('hov')
+PrintReconAdapter.create 'hov'

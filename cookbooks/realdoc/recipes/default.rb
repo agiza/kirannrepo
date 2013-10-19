@@ -31,3 +31,7 @@ else
   end
 end
 
+class Chef::Recipe::namespace
+  include PrintReconAdapter
+end
+
