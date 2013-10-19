@@ -1,5 +1,5 @@
 module PrintReconAdapter
-  def create(vendor_name)
+  def create_print_recon_adapter(vendor_name)
 
     app_name = "rd-#{vendor_name}-print-recon-adapter"
     version_str = "#{vendor_name}_recon_version"

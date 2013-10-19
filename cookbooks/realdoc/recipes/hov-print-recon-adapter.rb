@@ -7,4 +7,4 @@
 # All rights reserved - Do Not Redistribute
 #
 
-PrintReconAdapter.create 'hov'
+create_print_recon_adapter 'hov'

@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-PrintReconAdapter.create 'adm'
+create_print_recon_adapter 'adm'
 
 
 
