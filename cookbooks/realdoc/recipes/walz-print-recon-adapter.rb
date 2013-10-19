@@ -7,4 +7,4 @@
 # All rights reserved - Do Not Redistribute
 #
 
-PrintReconAdapter.create 'walz'
+create_print_recon_adapter 'walz'

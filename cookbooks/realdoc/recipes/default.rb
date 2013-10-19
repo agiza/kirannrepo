@@ -31,7 +31,7 @@ else
   end
 end
 
-class Chef::Recipe::PrintReconAdapter
+class Chef::Recipe
   include PrintReconAdapter
 end
 
