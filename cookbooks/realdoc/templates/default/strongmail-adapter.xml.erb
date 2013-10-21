@@ -5,7 +5,7 @@
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="oracle.jdbc.driver.OracleDriver"
-            url="jdbc:oracle:thin:@<%= @db[:host] %>:<%= node[:port] %>/<%= @db[:schema] %>"
+            url="jdbc:oracle:thin:@<%= @db[:host] %>:<%= @db[:port] %>/<%= @db[:schema] %>"
             username="<%= @db_username %>" password="<%= @db_password %>"
             maxActive="10"
             minIdle="0"
