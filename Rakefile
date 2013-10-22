@@ -63,3 +63,33 @@ task :bundle_cookbook, :cookbook do |t, args|
 
   FileUtils.rm_rf temp_dir
 end
+
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :default => :spec
+
+desc "Validates all cookbooks"
+task :knife_test do
+  sh "bundle exec knife cookbook test -a -c config/knife.rb"
+end
+
+desc "Executes foodcritic linter" 
+task :foodcritic do
+  sh "bundle exec foodcritic cookbooks --epic-fail correctness"
+end
+
+desc "Runs chefspec tests"
+task :chefspec do 
+  sh "bundle exec rspec cookbooks"
+end
+
+desc "Executes all build validations for ci server"
+task :build_ci do
+  Rake::Task[:knife_test].execute
+  Rake::Task[:foodcritic].execute
+  Rake::Task[:chefspec].execute
+end
+
+
