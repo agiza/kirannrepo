@@ -139,3 +139,5 @@ default[:apps] = [
 default["vsftp"] = {
     :usernames => []
 }
+default[:infrastructure][:rpmforge][:version] = "0.5.3-1.el6.rf"
+default[:infrastructure][:rpmforge][:gpg_key] = "#{Chef::Config[:file_cache_path]}/rpmforge-RPM-GPG-KEY.dag.txt"

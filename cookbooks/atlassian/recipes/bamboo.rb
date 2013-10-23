@@ -257,4 +257,5 @@ service "bamboo" do
   action [:enable, :start]
 end
 
+include_recipe 'infrastructure::rpmforge'
 include_recipe 'rvm::system'
