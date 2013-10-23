@@ -257,3 +257,4 @@ service "bamboo" do
   action [:enable, :start]
 end
 
+include_recipe 'rvm::system'

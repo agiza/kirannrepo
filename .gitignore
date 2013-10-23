@@ -1,3 +1,21 @@
+.vagrant
+Berksfile.lock
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+vendor/
+
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+
+# Rake
 .rake_test_cache
-data_bags/
 rspec.xml
+
+# No data bags in git
+data_bags/
