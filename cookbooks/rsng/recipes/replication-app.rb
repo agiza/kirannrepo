@@ -83,11 +83,9 @@ template "/opt/tomcat/conf/replication-app.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["rsng#{node.chef_environment}"],
     :melissadata => melissadata['melissadata'],
     :amqpuser => "#{rsngcred[0]}",
     :amqppass => "#{rsngcred[1]}",
-    :rsnghost => "#{rsnghost}:#{rsngport}",
     :amqphost => amqphost,
     :amqpport => amqpport,
     :mysqldb => mysqldb["realservice"],

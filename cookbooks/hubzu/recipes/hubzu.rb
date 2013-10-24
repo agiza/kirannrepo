@@ -66,13 +66,7 @@ template "/opt/tomcat/conf/hubzu.properties" do
     :webHostname => webHost["hz#{node.chef_environment}"],
     :mailserver => mailserver,
     :melissadata => melissadata['melissadata'],
-    :ldapserver => ldapserver,
-    :hzserver => "#{hzhost}:#{hzport}",
-    :amqphost => amqphost,
-    :amqpport => amqpport,
-    :amqpuser => "#{hubzucred[0]}",
-    :amqppass => "#{hubzucred[1]}"
-    
+    :ldapserver => ldapserver
   )
 end
 

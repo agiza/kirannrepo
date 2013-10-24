@@ -67,8 +67,7 @@ else
     mode "0644"
     variables( 
       :servername => "#{servername}",
-      :proxyname => "#{proxyname}",
-      :serveradmin => "#{ssldata['serveradmin']}"
+      :proxyname => "#{proxyname}"
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
@@ -80,8 +79,7 @@ else
     group  "root"
     mode   "0644"
     variables(
-      :servercert => servercert,
-      :servername => "#{servername}"
+      :servercert => servercert
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
@@ -93,8 +91,7 @@ else
     group  "root"
     mode   "0640"
     variables(
-      :serverkey => serverkey,
-      :servername => "#{servername}"
+      :serverkey => serverkey
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end
@@ -106,8 +103,7 @@ else
     group  "root"
     mode   "0640"
     variables(
-      :serverca => serverca,
-      :servername => "#{servername}"
+      :serverca => serverca
     )
     notifies :run, resources(:execute => "test-apache-config"), :delayed
   end

@@ -4,7 +4,7 @@ maintainer_email "apsoto@gmail.com"
 license          "MIT"
 description      "Configures monit.  Originally based off the 37 Signals Cookbook."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.7.1"
+version          "0.7.2"
 
 
 attribute 'monit/notify_email', 
@@ -23,4 +23,6 @@ attribute 'monit/poll_start_delay',
   :required => "recommended"
 
 # JSM: adding postfix cookbook dependency
-depends "sendmail"
+%w{sendmail altisource}.each do |cb|
+	depends cb
+end

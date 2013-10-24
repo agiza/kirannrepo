@@ -13,7 +13,7 @@
 case "$1" in
     start)
 	echo "Starting Gem Server."
-        "gem server --daemon -b <%= node[:ipaddress] %> -p 8000
+        "gem server --daemon -b <%= @ipaddress %> -p 8000
         ;;
     stop)
         pid_status=`ps -ef | grep ruby | grep "gem\ server" | awk '{print $2}'`

@@ -77,7 +77,7 @@ end
 
 desc "Executes foodcritic linter" 
 task :foodcritic do
-  sh "bundle exec foodcritic cookbooks --epic-fail correctness"
+  sh "bundle exec foodcritic cookbooks"
 end
 
 desc "Runs chefspec tests"

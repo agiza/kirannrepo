@@ -20,7 +20,7 @@ if node.attribute?('realtrans_amqp_vhost')
 else
   amqpvhost = search(:node, "realtrans_amqp_vhost:* AND chef_environment:#{node.chef_environment}")
   if amqpvhost.nil? || amqpvhost.empty?
-    amqpenviron = "#{node[:chef_environment]}".downcase
+    amqpenviron = "#{node.chef_environment}".downcase
     amqpvhost = "realtrans#{amqpenviron}"
     node.default.realtrans_amqp_vhost = amqpvhost
   end

@@ -172,8 +172,7 @@ template "/etc/named/rev.2.0.10.in-addr.arpa" do
   notifies :reload, resources(:service => "named")
   variables(
     :serial => zones['serial'],
-    :rev2010 => rev2010,
-    :rev2010ex => zones['rev.2.0.10'].split("\\")
+    :rev2010 => rev2010
   )
 end
 

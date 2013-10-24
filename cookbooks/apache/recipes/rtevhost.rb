@@ -59,11 +59,8 @@ else
       mode   "0644"
       notifies :reload, resources(:service => "httpd")
       variables(
-        :fpworkers => fpnames,
-        :rpworkers => rpnames,
         :vpworkers => vpnames,
         :regworkers => regnames,
-        :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )

@@ -25,7 +25,7 @@ if node.attribute?('realdoc_amqp_vhost')
 else
   amqpvhost = search(:node, "realdoc_amqp_vhost:* AND chef_environment:#{node.chef_environment}")
   if amqpvhost.nil? || amqpvhost.empty?
-    amqpenviron = "#{node[:chef_environment]}".downcase
+    amqpenviron = "#{node.chef_environment}".downcase
     amqpvhost = "realdoc#{amqpenviron}"
     node.default.realdoc_amqp_vhost = amqpvhost
   end

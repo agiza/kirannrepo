@@ -15,7 +15,7 @@
 replicaset = node[:replicaset]
 replicalist = []
 if node.attribute?('performance')
-  environment = "#{node[:chef_environment]}"
+  environment = "#{node.chef_environment}"
 else
   environment = "shared"
 end

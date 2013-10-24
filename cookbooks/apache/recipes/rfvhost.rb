@@ -56,7 +56,6 @@ else
       notifies :reload, resources(:service => "httpd")
       variables(
         :vhostName => "#{environ}",
-        :testvhostName => webName["rf#{environ}"],
         :serverName => webName["rf#{environ}"]
       )
     end

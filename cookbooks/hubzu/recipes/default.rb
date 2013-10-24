@@ -23,7 +23,7 @@ if node.attribute?('hubzu_amqp_vhost')
 else
   amqpvhost = search(:node, "hubzu_amqp_vhost:* AND chef_environment:#{node.chef_environment}")
   if amqpvhost.nil? || amqpvhost.empty?
-    amqpenviron = "#{node[:chef_environment]}".downcase
+    amqpenviron = "#{node.chef_environment}".downcase
     amqpvhost = "hubzu#{amqpenviron}"
     node.default.hubzu_amqp_vhost = amqpvhost
   end

@@ -60,7 +60,6 @@ else
         :rpworkers => rpnames,
         :fpworkers => fpnames,
         :intworkers => intnames,
-        :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow
       )

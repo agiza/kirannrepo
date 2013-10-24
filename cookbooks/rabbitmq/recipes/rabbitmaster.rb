@@ -28,7 +28,7 @@ rabbitservers = []
 rabbitentries = []
 # Check for stress/performance environment as infrastructure may be separate there.
 if node.attribute?('performance')
-  environment = node[:chef_environment]
+  environment = node.chef_environment
 else
   environment = "shared"
 end

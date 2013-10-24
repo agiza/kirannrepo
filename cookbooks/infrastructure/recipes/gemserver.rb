@@ -22,7 +22,7 @@ else
     group  "root"
     mode   "0755"
     variables(
-      :proxyinfo => proxyinfo
+      :ipaddress => node[:ipaddress]
     )
     notifies :restart, resources(:service => "cntlmd")
   end

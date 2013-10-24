@@ -73,7 +73,6 @@ else
         :centralworkers => centralNames,
         :vpworkers => vpnames,
         :regworkers => regnames,
-        :vhostName => "#{environ}",
         :environ => "#{environ}",
         :serveripallow => serveripallow,
         :port => node[:apache][:workers][:port]

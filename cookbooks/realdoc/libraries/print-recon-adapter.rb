@@ -112,7 +112,6 @@ module PrintReconAdapter
       group 'tomcat'
       owner 'tomcat'
       mode '0644'
-      variables(:mysqldb => mysqldb["realdoc"])
       notifies :restart, resources(:service => "altitomcat")
     end
 
