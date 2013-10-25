@@ -1,4 +1,4 @@
-fetchOrder.input.directory=${catalina.base}/BPO/input
-realServicing.saveOrder.directory=${catalina.base}/BPO/input
-fetchOrder.poller.delay=7000
-realResolution.saveOrder.directory=${catalina.base}/CMA/input/In
+fetchOrder.input.directory=<%= @fetch_order_input %>
+realServicing.saveOrder.directory=<%= @rs_save_order_dir %>
+fetchOrder.poller.delay=<%= @poller_delay %>
+realResolution.saveOrder.directory=<%= @rr_save_order_dir %>
