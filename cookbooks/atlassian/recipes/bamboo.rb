@@ -187,6 +187,8 @@ end
 # circumcise the uber string (trim the extra space from the end)
 app_names = app_names[0..-2]
 
+Chef::Log.warn("Using app_names = #{app_names}")
+
 template "/home/bamboo/bin/rpm-package" do
   source "rpm-package.erb"
   owner  "bamboo"
