@@ -3,5 +3,5 @@ maintainer_email "john.mcdonald@altisource.com"
 license          "All rights reserved"
 description      "Installs/Configures integration"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.3"
+version          "0.0.4"
 depends		 "altisource"
