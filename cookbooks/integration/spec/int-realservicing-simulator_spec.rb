@@ -1,7 +1,7 @@
 require 'chefspec'
 
 describe 'integration::int-realservicing-simulator' do
-  SIM_PROPS = '/opt/tomcat/conf/realservicing-simulator.properties'
+  SIM_PROPS = '/opt/tomcat/conf/realservicing.simulator.properties'
   SIM_XML = '/opt/tomcat/conf/Catalina/localhost/int-realservicing-simulator.xml'
 
   before do
@@ -66,7 +66,7 @@ describe 'integration::int-realservicing-simulator' do
 
   it 'should create a context xml file with mysql settings' do
   	expect(@chef_run).to create_file SIM_XML
-  	expect(@chef_run).to create_file_with_content SIM_XML, 'url="jdbc:mysql://db_server:db_port/spec_rtdb?autoReconnect=true"'
+  	expect(@chef_run).to create_file_with_content SIM_XML, 'url="jdbc:mysql://db-server:db-port/spec_rtdb?autoReconnect=true"'
   end
 
 end
