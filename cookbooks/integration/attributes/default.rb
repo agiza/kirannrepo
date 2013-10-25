@@ -22,7 +22,7 @@ default["intrres_version"]        = "0.0.0-1"
 default["intrs_version"]          = "0.0.0-1"
 default["intsupport_version"]     = "0.0.0-1"
 
-default[:int_rs_simulator][:fetch_order_input] = "${catalina.base}/BPO/input"
-default[:int_rs_simulator][:rs_save_order_dir] = "${catalina.base}/BPO/input"
+default[:int_rs_simulator][:fetch_order_input] = "/opt/tomcat/BPO/input"
+default[:int_rs_simulator][:rs_save_order_dir] = "/opt/tomcat/BPO/input"
 default[:int_rs_simulator][:poller_delay] = 7000
-default[:int_rs_simulator][:rr_save_order_dir] = "${catalina.base}/CMA/input/In"
+default[:int_rs_simulator][:rr_save_order_dir] = "/opt/tomcat/CMA/input/In"
