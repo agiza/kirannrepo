@@ -179,8 +179,14 @@ template "/home/bamboo/bin/tomcat-clean-rhel.sh" do
   mode   "0755"
 end
 
-#app_names = data_bag_item("infrastructure", "applications")
-app_names = node[:app_names]
+# build the uber string form of app names
+app_names = ''
+node[:apps].each do |app|
+  app_names << "#{app[:name]}|#{app[:version]}|#{app[:recipe]} "
+end
+# circumcise the uber string (trim the extra space from the end)
+app_names = app_names[0..-2]
+
 template "/home/bamboo/bin/rpm-package" do
   source "rpm-package.erb"
   owner  "bamboo"
