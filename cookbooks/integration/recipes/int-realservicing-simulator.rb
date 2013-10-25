@@ -90,11 +90,15 @@ end
 [node[:int_rs_simulator][:fetch_order_input], 
  node[:int_rs_simulator][:rs_save_order_dir], 
  node[:int_rs_simulator][:rr_save_order_dir]].each do |dir|
-  directory dir do
-    owner "tomcat"
-    group "tomcat"
-    mode '0755'
-    recursive true
-    action :create
+  begin
+    directory dir do
+      owner "tomcat"
+      group "tomcat"
+      mode '0755'
+      recursive true
+      action :create
+    end
+  rescue Errno::ENOENT, Errno::EACCES
+    Chef::Log.warn("Could not create directory #{dir}.  Ignoring.")
   end
 end
