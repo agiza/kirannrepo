@@ -9,6 +9,9 @@
 include_recipe "iptables::default"
 iptables_rule "port_http"
 
+include_recipe "infrastructure::base"
+
+
 yum_package "createrepo" do
   action :upgrade
 end
