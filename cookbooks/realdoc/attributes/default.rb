@@ -69,9 +69,8 @@ default[:adapters] = {
 }
 # strongmail db configuration
 default[:strongmail_db] = {
+    :connection_string => '<change me>:3306/strongmail?autoReconnect=true',
     :type => 'mysql',
-    :host => 'realdevdbprim',
-    :port => '3306',
     :schema => 'strongmail',
     :initial_size => '2',
     :max_active => '10',
