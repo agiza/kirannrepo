@@ -17,7 +17,7 @@ define :yumserver_search do
     if yumserver.nil? || yumserver.empty?
       Chef::Log.error "No Yum server found, software can not be installed without a Yum server."
     end
-    yumserver = yumserver.first
+    yumserver = yumserver.last
   end
   Chef::Log.info("Yumserver is set to #{yumserver}")
   node.default.yumserver = yumserver
