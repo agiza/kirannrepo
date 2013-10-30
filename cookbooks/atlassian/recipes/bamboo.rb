@@ -197,6 +197,40 @@ template "/home/bamboo/bin/rpm-package" do
   variables( :application_names => app_names )
 end
 
+template '/home/bamboo/bin/package-realdoc-mongoup2date-scripts' do
+  source 'package-realdoc-mongoup2date-scripts.sh.erb'
+  owner 'bamboo'
+  group 'bamboo'
+  mode  '0755'
+  variables(
+      :yum => {
+          :host => node[:yumrepo_host],
+          :username => node[:yum_user]
+      },
+      :git => {
+          :host => node[:git_repo],
+          :username => 'git'
+      }
+  )
+end
+
+template '/home/bamboo/bin/package-mongoup2date' do
+  source 'package-mongoup2date.sh.erb'
+  owner 'bamboo'
+  group 'bamboo'
+  mode  '0755'
+  variables(
+      :yum => {
+          :host => node[:yumrepo_host],
+          :username => node[:yum_user]
+      },
+      :git => {
+          :host => node[:git_repo],
+          :username => 'git'
+      }
+  )
+end
+
 template "/home/bamboo/bin/bamboo-plugins.sh" do
   source "bamboo-plugin.sh.erb"
   owner  "bamboo"

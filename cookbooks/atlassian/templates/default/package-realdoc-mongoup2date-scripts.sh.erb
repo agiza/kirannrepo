@@ -1,0 +1,80 @@
+#!/bin/bash
+
+while getopts "v:r:t:" opt; do
+    case $opt in
+        v)
+            version=$OPTARG
+            ;;
+        r)
+            release=$OPTARG
+            ;;
+        t)
+            tag=$OPTARG
+            set -- "${tag}"
+            IFS="-"
+            declare -a parts=($*)
+            version="${parts[0]}"
+            release="${parts[1]}"
+            ;;
+    esac
+done
+
+# make temp rpm build directory structure
+tmp_dir=`mktemp -d`
+mkdir -p "${tmp_dir}"/{BUILD,RPMS,SOURCES,SPECS,SRPMS,BUILDROOT,realdoc-mongoup2date-scripts}
+if [[ $? != 0 ]]; then 
+    echo "Unable to create rpm build directories" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi 
+
+# tar up the scripts so they can be used by rpm
+cp -R * "${tmp_dir}/realdoc-mongoup2date-scripts"
+if [[ $? != 0 ]]; then 
+    echo "Failed to copy scripts to build location" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi
+cd "${tmp_dir}"
+tar czvf SOURCES/realdoc-mongoup2date-scripts.tar.gz realdoc-mongoup2date-scripts
+if [[ $? != 0 ]]; then 
+    echo "Failed to create scripts tarball" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi
+
+# pull the spec files from git.  fyi there's gotta be a better way of dealing with these
+git clone --depth 1 <%= @git[:username] %>@<%= @git[:host] %>:deployment.git "${tmp_dir}/SPECS"
+if [[ $? != 0 ]]; then 
+    echo "Failed to clone the spec files from git" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi
+
+# get our rpm on.  the exported SPEC_VERSION and SPEC_RELEASE are used by the spec file
+export SPEC_VERSION="${version-1.0.0}"
+export SPEC_RELEASE="${release-1}"
+rpmbuild -ba --define "_topdir ${tmp_dir}" "${tmp_dir}/SPECS/realdoc-mongoup2date-scripts.spec"
+if [[ $? != 0 ]]; then 
+    echo "Failed to create the RPM" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi
+
+# move our fresh new rpm up to the yum testing repo and refresh the build
+echo "Copying the rpm to yum"
+scp "${tmp_dir}/RPMS/noarch/realdoc-mongoup2date-scripts-${version-1.0.0}-${release-1}.noarch.rpm" <%= @yum[:username] %>@<%= @yum[:host] %>:<%= @yum[:test_path] %>
+if [[ $? != 0 ]]; then 
+    echo "Failed to copy the rpm to yum" 1>&2;
+    rm -Rf "${tmp_dir}"
+    exit 1;
+fi
+ssh <%= @yum[:username] %>@<%= @yum[:host] %> "sudo yum-update"
+if [[ $? != 0 ]]; then 
+    echo "yum-update failed" 1>&2;
+fi
+# clean up the temp directory
+rm -Rf "${tmp_dir}"
+
+# we're all done it's miller time
+exit 0
