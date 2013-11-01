@@ -6,14 +6,12 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe "infrastructure::lamp"
-include_recipe "sendmail"
+#include_recipe "sendmail"
 
-template "/etc/php.ini" do
+template "/etc/rc.local" do
   owner "root"
   group "root"
-  mode 0644
-  source 'php.ini.erb'
-  notifies :restart, resources(:service => "httpd"), :delayed
+  mode 0755
+  source 'rc.local.erb'
 end
 

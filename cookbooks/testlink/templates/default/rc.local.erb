@@ -1,0 +1,7 @@
+# Chef managed: force all non-altisource (operating system) packages to be updated at least every time the system reboots
+#
+/usr/bin/chef-client -o infrastructure::updates
+
+# Chef managed: automatically start testlink on system reboots
+/opt/testlink/ctlscript.sh start
+
