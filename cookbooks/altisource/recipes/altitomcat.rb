@@ -45,12 +45,20 @@ service "altitomcat" do
   action :nothing
 end
 
+jvm_params = [
+    node[:java_debugger],
+    node[:java_mem_min],
+    node[:java_mem_max],
+    node[:java_perm_size]
+  ]
+
 # configure appdynamics agent after altitomcat rpm installation but before configuration.
 if node.attribute?('performance')
   environment = node.chef_environment
 else
   environment = "shared"
 end
+
 appdynhost = []
 if (Chef::Config[:solo])
   Chef::Log.warn("This recipe uses search.  Chef Solo does not support search")
@@ -61,6 +69,7 @@ else
     end
   end
 end
+
 if appdynhost.nil? || appdynhost.empty?
   Chef::Log.info("No appdynamic controller servers returned from search.")
 else
@@ -68,6 +77,12 @@ else
   include_recipe "infrastructure::appdynamics"
   appdynstring = "-Dappdynamics.controller.hostName=#{appdynhost} -Dappdynamics.controller.port=8090"
   appdynagent = "-javaagent:/opt/appdynamic-agent/javaagent.jar "
+  jvm_params << appdynagent
+  jvm_params << appdynstring
+end
+
+if node[:altisource][:altitomcat][:jacoco_enabled]
+  jvm_params << "-javaagent:#{node[:altisource][:jacoco_agent][:install_dir]}/jacocoagent.jar=destfile=/opt/tomcat/logs/jacoco.exec,includes=*.*"
 end
 
 template "/opt/tomcat/bin/setenv.sh" do
@@ -75,9 +90,9 @@ template "/opt/tomcat/bin/setenv.sh" do
   group "tomcat"
   owner "tomcat"
   mode "0755"
-  variables(:appdynstring => appdynstring,
-            :appdynagent => appdynagent
-           )
+  variables(
+    :parameters => jvm_params
+  )
   notifies :restart, "service[altitomcat]", :delayed
 end
 
