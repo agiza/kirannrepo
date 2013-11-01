@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 #include_recipe "sendmail"
+include_recipe "infrastructure::base"
 
 template "/etc/rc.local" do
   owner "root"
