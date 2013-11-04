@@ -5,10 +5,10 @@
 # Author: Colin Mollenhour
 #
 
-ISSUE_REGEX='\s*(RTNG|RF)-([0-9]+)[.:,]?\s*'
+ISSUE_REGEX='\s*(RTNG|RF|REALTRANS)-([0-9]+)[.:,]?\s*|Merge branch .+'
 NO_ISSUE_REGEX='noref'
 NO_ISSUE_GL_USER_REGEX='^(www-data)$'
-NO_ISSUE_AUTHOR_EMAIL_REGEX='^(phinneyb@.*altisource\.com|finchste@altisource\.com)$'
+NO_ISSUE_AUTHOR_EMAIL_REGEX='^(mcdonalj@altisource\.com|finchste@altisource\.com)$'
 
 MYSQL='mysql'
 # Add authentication or put authentication in ~/.my.cnf
@@ -79,7 +79,7 @@ function checkMessage {
 
   # Make sure that the log message references a Jira issue.
   [[ $MESSAGE =~ $ISSUE_REGEX ]] || \
-    reject "You must specify a Jira issue number matching the following pattern:\n$ISSUE_REGEX\nExample: RF-##"
+    reject "You must specify a Jira issue number matching the following pattern:\n$ISSUE_REGEX\nExample: REALTRANS-##"
 
   # Make sure the referenced issue actually exists
 #  REDMINE_ISSUE=${BASH_REMATCH[2]}
