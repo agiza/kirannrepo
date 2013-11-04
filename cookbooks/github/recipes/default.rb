@@ -90,9 +90,9 @@ end
    end
 end
 
-cron "backups" do
-  minute "20"
-  user "root"
-  command "rsync -av --delete /var/lib/gitolite/ /storage/backups/gitolite/"
-end
+#cron "backups" do
+#  minute "20"
+#  user "root"
+#  command "rsync -av --delete /var/lib/gitolite/ /storage/backups/gitolite/"
+#end
 
