@@ -24,7 +24,7 @@ end
 cloud_mount "backups" do
   device "/dev/xvdi"
   mountpoint "/backups"
-  fstype "ext4"
+  filesystem "ext4"
   options "defaults,nobootwait,comment=backups"
 end
 
