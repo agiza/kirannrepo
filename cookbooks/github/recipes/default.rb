@@ -11,14 +11,21 @@ cloud_mount "storage" do
   device "/dev/xvdg"
   mountpoint "/storage"
   fstype "ext4"
-  options "defaults,nobootwait,comment=cloudstorage"
+  options "defaults,nobootwait,comment=storage"
 end
 
 cloud_mount "backup" do
   device "/dev/xvdh"
   mountpoint "/backup"
   fstype "ext4"
-  options "defaults,nobootwait,comment=cloudstorage"
+  options "defaults,nobootwait,comment=backup"
+end
+
+cloud_mount "backups" do
+  device "/dev/xvdi"
+  mountpoint "/backups"
+  fstype "ext4"
+  options "defaults,nobootwait,comment=backups"
 end
 
 %w{/home/ubuntu /home/ubuntu/.ssh}.each do |dir|
