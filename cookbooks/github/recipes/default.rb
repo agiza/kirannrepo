@@ -10,7 +10,7 @@
 cloud_mount "storage" do
   device "/dev/xvdg"
   mountpoint "/storage"
-  fstype "ext4"
+  filesystem "ext4"
   options "defaults,nobootwait,comment=storage"
 end
 
