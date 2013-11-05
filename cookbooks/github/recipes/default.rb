@@ -14,12 +14,12 @@ cloud_mount "storage" do
   options "defaults,nobootwait,comment=storage"
 end
 
-cloud_mount "backup" do
-  device "/dev/xvdh"
-  mountpoint "/backup"
-  fstype "ext4"
-  options "defaults,nobootwait,comment=backup"
-end
+#cloud_mount "backup" do
+#  device "/dev/xvdh"
+#  mountpoint "/backup"
+#  fstype "ext4"
+#  options "defaults,nobootwait,comment=backup"
+#end
 
 cloud_mount "backups" do
   device "/dev/xvdi"
@@ -97,9 +97,9 @@ end
    end
 end
 
-#cron "backups" do
-#  minute "20"
-#  user "root"
-#  command "rsync -av --delete /var/lib/gitolite/ /storage/backups/gitolite/"
-#end
+cron "backups" do
+  minute "*/20"
+  user "root"
+  command "rsync -av --delete /storage/ /backups > /dev/null 2>&1"
+end
 
