@@ -79,7 +79,7 @@ db_username = strongmail['username']
 db_password = strongmail['password']
 app_id="realdoc-#{node.chef_environment}"
 
-if strongmail[:db_type] == 'oracle'
+if db[:type] == 'oracle'
   success_query="select distinct * from sm_success_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
   aggregate_query="select distinct * from sm_aggregate_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
 else
