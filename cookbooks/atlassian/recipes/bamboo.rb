@@ -20,6 +20,13 @@ cloud_mount "backup" do
   options "defaults"
 end
 
+cloud_mount "backups" do
+  device "/dev/xvdo"
+  mountpoint "/backups"
+  filesystem "ext4"
+  options "defaults"
+end
+
 cloud_mount "mnt" do
   device "/dev/xvdj"
   mountpoint "/mnt"
