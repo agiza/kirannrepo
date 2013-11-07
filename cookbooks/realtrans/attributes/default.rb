@@ -23,4 +23,7 @@ default["realtranscentral_version"]	= "0.0.0-1"
 default["realtransfp_version"]          = "0.0.0-1"
 default["realtransvp_version"]          = "0.0.0-1"
 default["realtransreg_version"]         = "0.0.0-1"
+# Realtrans default logging attributes
+default[:realtrans][:logging][:maxfilesize] = "10MB"
+default[:realtrans][:logging][:maxhistory] = 7
 

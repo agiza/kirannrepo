@@ -112,7 +112,10 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rf_dao_flag => node[:rf_dao_flag],
     :has_role_implementer => node.run_list?('role[implementer]'),
     :rf_app_config_flag => node.attribute?('rf_app_config_flag'),
-    :rt_show_stacktrace => node.attribute?('realtrans_stacktrace')
+    :rt_show_stacktrace => node.attribute?('realtrans_stacktrace'),
+    :maxfilesize => node[:realtrans][:logging][:maxfilesize],
+    :maxfilehistory => node[:realtrans][:logging][:maxhistory] 
+
   )
 end
 

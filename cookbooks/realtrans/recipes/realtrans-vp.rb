@@ -93,7 +93,10 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{rtrabbit[1]}",
     :melissadata => melissadata['melissadata'],
     :mailserver => mailserver,
-    :ldapserver => ldapserver
+    :ldapserver => ldapserver,
+    :maxfilesize => node[:realtrans][:logging][:maxfilesize],
+    :maxfilehistory => node[:realtrans][:logging][:maxhistory] 
+
   )
 end
 

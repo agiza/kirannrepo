@@ -26,3 +26,6 @@ default[:int_rs_simulator][:fetch_order_input] = "/opt/tomcat/BPO/input"
 default[:int_rs_simulator][:rs_save_order_dir] = "/opt/tomcat/BPO/input"
 default[:int_rs_simulator][:poller_delay] = 7000
 default[:int_rs_simulator][:rr_save_order_dir] = "/opt/tomcat/CMA/input/In"
+
+default[:integration][:realtrans][:logging][:maxfilesize] = "10MB"
+default[:integration][:realtrans][:logging][:maxhistory] = 7

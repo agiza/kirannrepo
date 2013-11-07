@@ -84,6 +84,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => "#{amqpport}",
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
+    :maxfilesize => node[:integration][:realtrans][:logging][:maxfilesize],
+    :maxfilehistory => node[:integration][:realtrans][:logging][:maxhistory],
     :realres => realres,
     :realsvc => realsvc
   )

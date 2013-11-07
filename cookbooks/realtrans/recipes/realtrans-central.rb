@@ -101,7 +101,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :mailserver => mailserver,
     :melissadata => melissadata['melissadata'],
-    :ldapserver => ldapserver
+    :ldapserver => ldapserver,
+    :maxfilesize => node[:realtrans][:logging][:maxfilesize],
+    :maxfilehistory => node[:realtrans][:logging][:maxhistory]
   )
   notifies :restart, resources(:service => "altitomcat")
 end
