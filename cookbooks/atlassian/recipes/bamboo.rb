@@ -99,8 +99,8 @@ template "/opt/atlassian/bamboo/webapp/WEB-INF/classes/bamboo-init.properties" d
   notifies :restart, resources(:service => "bamboo")
 end
 
-template "/etc/cron.daily/bamboo_rsyncs.sh" do
-  source "bamboo_rsyncs.sh.erb"
+template "/etc/cron.daily/bamboo-rsyncs.sh" do
+  source "bamboo-rsyncs.sh.erb"
   owner  "root"
   group  "root"
   mode   "0755"
