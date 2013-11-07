@@ -13,13 +13,6 @@ cloud_mount "opt" do
   options "defaults"
 end
 
-cloud_mount "backup" do
-  device "/dev/xvdm"
-  mountpoint "/backup"
-  fstype "ext4"
-  options "defaults"
-end
-
 cloud_mount "backups" do
   device "/dev/xvdo"
   mountpoint "/backups"
