@@ -99,12 +99,12 @@ template "/opt/atlassian/bamboo/webapp/WEB-INF/classes/bamboo-init.properties" d
   notifies :restart, resources(:service => "bamboo")
 end
 
-#template "/etc/cron.hourly/data-bak.sh" do
-#  source "data-bak.sh.erb"
-#  owner  "root"
-#  group  "root"
-#  mode   "0755"
-#end
+template "/etc/cron.daily/bamboo_rsyncs.sh" do
+  source "bamboo_rsyncs.sh.erb"
+  owner  "root"
+  group  "root"
+  mode   "0755"
+end
 
 template "/opt/atlassian/bamboo/conf/wrapper.conf" do
   source "wrapper.conf.erb"

@@ -1,0 +1,5 @@
+#!/bin/bash
+rsync -avz --delete /opt/ /backups/opt 
+rsync -avz --delete /mnt/bamboo_data/ /backups/mnt_bamboo_data
+rsync -avz --delete /home/bamboo/ /backups/home_bamboo
+rsync -avz --delete /etc/ /backups/etc
