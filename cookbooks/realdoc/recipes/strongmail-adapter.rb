@@ -80,11 +80,11 @@ db_password = strongmail['password']
 app_id="realdoc-#{node.chef_environment}"
 
 if db[:type] == 'oracle'
-  success_query="select distinct * from sm_success_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
-  aggregate_query="select distinct * from sm_aggregate_log where datestamp >= to_timestamp('[datestring]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
+  success_query="select distinct * from sm_success_log where datestamp >= to_timestamp('[DATESTRING]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
+  aggregate_query="select distinct * from sm_aggregate_log where datestamp >= to_timestamp('[DATESTRING]', 'mm-dd-yyyy hh24:mi:ss.ff') and userid = '#{app_id}' order by datestamp, messageid"
 else
-  success_query="select distinct * from sm_success_log where datestamp >= str_to_date('datestring', '%m-%d-%y %h:%i:%s') and userid='#{app_id}' order by datestamp, messageid"
-  aggregate_query="select logtype, logname , logdate datestamp, sno, mailingid, dbid, messageid, userid, dbrownum, dbname, msgsno, email, bounce, category, bouncetype, code, vsgname, outboundip, mxip from sm_aggregate_log where logdate >= str_to_date('datestring', '%m-%d-%y %h:%i:%s') and userid='#{app_id}' order by logdate, messageid"
+  success_query="select distinct * from sm_success_log where datestamp >= str_to_date('[DATESTRING]', '%m-%d-%y %h:%i:%s') and userid='#{app_id}' order by datestamp, messageid"
+  aggregate_query="select logtype, logname , logdate datestamp, sno, mailingid, dbid, messageid, userid, dbrownum, dbname, msgsno, email, bounce, category, bouncetype, code, vsgname, outboundip, mxip from sm_aggregate_log where logdate >= str_to_date('[DATESTRING]', '%m-%d-%y %h:%i:%s') and userid='#{app_id}' order by logdate, messageid"
 end
 
 
