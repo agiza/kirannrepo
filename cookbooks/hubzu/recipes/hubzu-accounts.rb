@@ -27,12 +27,6 @@ else
 end
 
 include_recipe "hubzu::default"
-hzhost = node[:hzhost]
-hzport = node[:hzport]
-amqphost = node[:amqphost]
-amqpport = node[:amqpport]
-rdochost = node[:rdochost]
-rdocport = node[:rdocport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -52,20 +46,11 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
-webHost = data_bag_item("infrastructure", "apache")
-melissadata = data_bag_item("integration", "melissadata")
-mailserver = data_bag_item("integration", "mail")
-ldapserver = data_bag_item("integration", "ldap")
 begin
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+  hubzuvars = data_bag_item("hubzu", "accounts")
     rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Unable to find default or environment mysqldb databag."
+          raise "Unable to find hubzu accounts databag."
 end
-hubzuamqp = data_bag_item("rabbitmq", "hubzu")
-hubzucred = hubzuamqp['user'].split(" ").first.split("|")
-
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -73,16 +58,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :webHostname => webHost["hz#{node.chef_environment}"],
-    :mailserver => mailserver,
-    :melissadata => melissadata['melissadata'],
-    :ldapserver => ldapserver,
-    :hzserver => "#{hzhost}:#{hzport}",
-    :amqphost => amqphost,
-    :amqpport => amqpport,
-    :amqpuser => "#{hubzucred[0]}",
-    :amqppass => "#{hubzucred[1]}",
-    :mysqldb => mysqldb["#{app_name}"]
+    :hubzuvars => hubzuvars["#{app_name}"]
   )
 end
 
