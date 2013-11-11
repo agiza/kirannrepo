@@ -59,17 +59,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :accounts => accounts["#{app_name}"]
+    :accounts => accounts["accounts"]
   )
 end
-
-# JSM: not sure if we'll need the xml file/logic for this app
-#template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
-#  source "#{app_name}.xml.erb"
-#  group 'tomcat'
-#  owner 'tomcat'
-#  mode '0644'
-#  variables(:mysqldb => mysqldb["#{app_name}"])
-#  notifies :restart, resources(:service => "altitomcat")
-#end
 
