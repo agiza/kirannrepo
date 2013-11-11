@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: hubzu
-# Recipe:: hubzu-backoffice
+# Recipe:: hubzu-accounts
 #
-# Copyright 2012, Altisource
+# Copyright 2013, Altisource
 #
 # All rights reserved - Do Not Redistribute
 #
@@ -18,8 +18,8 @@ else
       Chef::Log.info("No version for #{app_name} software package found.")
     else
       new_version = new_version.first
-      app_version = new_version[:hubzubo_version]
-      node.set[:hubzubo_version] = app_version
+      app_version = new_version[:hubzuac_version]
+      node.set[:hubzuac_version] = app_version
     end
   else
     Chef::Log.info("Found version attribute.")

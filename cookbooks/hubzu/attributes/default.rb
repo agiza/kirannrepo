@@ -21,3 +21,12 @@ default["log4j_index"]          = "hubzu"
 # Default version attributes
 default["hubzu_version"]	= "0.0.0-1"
 default["hubzubo_version"]	= "0.0.0-1"
+default["hubzuac_version"]	= "0.0.0-1"
+# Recipe defaults for hubzu-accounts - override these in data bags or environment roles
+default["hubzu_ac_dbname"]	= "namedefault"
+# db.url=jdbc:mysql://localhost:3306/realsuite
+# db.username=realsuite
+# db.password=realsuite
+# db.showsql=true
+# db.driver=com.mysql.jdbc.Driver
+#
