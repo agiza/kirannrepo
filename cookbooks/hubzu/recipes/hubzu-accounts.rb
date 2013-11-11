@@ -47,10 +47,13 @@ yum_package "#{app_name}" do
 end
 
 begin
-  hubzuvars = data_bag_item("hubzu", "accounts")
+  hubzuvars = data_bag_item("hubzu", "accounts#{node.chef_environment}")
     rescue Net::HTTPServerException
+      hubzuvars = data_bag_item("hubzu", "accounts")
+        rescue Net::HTTPServerException
           raise "Unable to find hubzu accounts databag."
 end
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
