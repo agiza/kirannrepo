@@ -73,12 +73,12 @@ template "/opt/tomcat/conf/int-realservicing.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}",
+    :amqphost => amqphost,
+    :amqpport => amqpport,
+    :amqpuser => amqpcred[0],
+    :amqppass => amqpcred[1],
     :maxfilesize => node[:integration][:realtrans][:logging][:maxfilesize],
-    :maxfilehistory => node[:integration][:realtrans][:logging][:maxhistory],
+    :maxhistory => node[:integration][:realtrans][:logging][:maxhistory],
     :realsvc => realservicing
   )
   notifies :restart, resources(:service => "altitomcat")

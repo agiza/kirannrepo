@@ -40,80 +40,78 @@ describe 'realtrans::realtrans-reg' do
               'rt_dbuser' => 'realtrans',
               'rt_dbpass' => 'realtrans'
             }})
+
+
+    @chef_run = ChefSpec::ChefRunner.new do |node|
+        env = Chef::Environment.new
+        env.name 'SPEC'
+        node.stub(:chef_environment).and_return env.name
+        Chef::Environment.stub(:load).and_return env
+
+        node.automatic_attrs[:ipaddress] = '10.111.222.33'
+        node.set[:realdocproxy] = '10.111.222.1:666'
+        node.set[:rtcenproxy] = '10.111.222.1:667'
+        node.set[:amqpproxy] = '10.111.222.1:668'
+        node.set[:amqphost] = 'amqp.chefspec.com'
+        node.set[:amqpport] = 100
+        node.set[:realtrans_amqp_vhost] = 'vhost'
+        node.set[:tenantid] = 'tenantid'
+        node.set[:rf_dao_flag] = true
+        node.set[:rf_app_config_flag] = true
+        node.set[:db_server] = 'db.chefspec.com'
+        node.set[:db_port] = 3306
+        node.set[:db_maxactive] = 1
+        node.set[:db_maxidle] = 0
+        node.set[:db_maxwait] = 0
+        node.set[:db_timeevict] = 1
+        node.set[:db_valquerytimeout] = 1
+        node.set[:db_initsize] = 0
+        node.set[:realtrans][:logging][:maxfilesize] = '1KB'
+        node.set[:realtrans][:logging][:maxhistory] = 1999
+    end.converge 'realtrans::realtrans-reg'
   end
 
   it 'should do create a realtrans-reg.properties file in tomcat''s conf directory' do
-  	chef_run = ChefSpec::ChefRunner.new(log_level: :info, platform: 'centos',version: '6.3') do |node|
-      env = Chef::Environment.new
-      env.name 'SPEC'
-      node.stub(:chef_environment).and_return env.name
-      Chef::Environment.stub(:load).and_return env
+    expect(@chef_run).to create_file REG_PROPS
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.app.context.path=external.chefspec.com/realtrans-reg'
+    expect(@chef_run).to_not create_file_with_content REG_PROPS,'rf.app.context.path=internal.chefspec.com/realtrans-reg'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.amqp.host=amqp.chefspec.com'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.amqp.port=100'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.amqp.username=wtf'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.amqp.password=ftw'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.amqp.virtual-host=vhost'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.melissadata.address.webhost=address'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.melissadata.phone.webhost=phone'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.melissadata.email.webhost=email'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.melissadata.geocode.webhost=geocode'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.melissadata.name.webhost=name'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.email.host=mail.chefspec.com'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.email.port=25'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.email.username=spec'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.email.password=word'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.daoAuthenticationProvider.enabled=true'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.startupAuthenticationProvider.enabled=false'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.overwriteAppConfigArtifacts=true'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rf.sendStacktrace=false'
+  end
 
-      node.automatic_attrs[:ipaddress] = '10.111.222.33'
-  		node.set[:realdocproxy] = '10.111.222.1:666'
-  		node.set[:rtcenproxy] = '10.111.222.1:667'
-  		node.set[:amqpproxy] = '10.111.222.1:668'
-      node.set[:amqphost] = 'amqp.chefspec.com'
-      node.set[:amqpport] = 100
-      node.set[:realtrans_amqp_vhost] = 'vhost'
-      node.set[:tenantid] = 'tenantid'
-      node.set[:rf_dao_flag] = true
-      node.set[:rf_app_config_flag] = true
-  	end 
-  	chef_run.converge 'realtrans::realtrans-reg'
-    chef_run.should create_file REG_PROPS
-    chef_run.should create_file_with_content REG_PROPS, 'rf.app.context.path=external.chefspec.com/realtrans-reg'
-    chef_run.should_not create_file_with_content REG_PROPS,'rf.app.context.path=internal.chefspec.com/realtrans-reg'
-    chef_run.should create_file_with_content REG_PROPS, 'rt.amqp.host=amqp.chefspec.com'
-    chef_run.should create_file_with_content REG_PROPS, 'rt.amqp.port=100'
-    chef_run.should create_file_with_content REG_PROPS, 'rt.amqp.username=wtf'
-    chef_run.should create_file_with_content REG_PROPS, 'rt.amqp.password=ftw'
-    chef_run.should create_file_with_content REG_PROPS, 'rt.amqp.virtual-host=vhost'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.melissadata.address.webhost=address'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.melissadata.phone.webhost=phone'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.melissadata.email.webhost=email'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.melissadata.geocode.webhost=geocode'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.melissadata.name.webhost=name'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.email.host=mail.chefspec.com'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.email.port=25'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.email.username=spec'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.email.password=word'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.daoAuthenticationProvider.enabled=true'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.startupAuthenticationProvider.enabled=false'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.overwriteAppConfigArtifacts=true'
-    chef_run.should create_file_with_content REG_PROPS, 'rf.sendStacktrace=false'
+
+  it 'should set logging properties correctly' do
+    expect(@chef_run).to create_file REG_PROPS
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.logback.maxFileSize=1KB'
+    expect(@chef_run).to create_file_with_content REG_PROPS, 'rt.logback.maxHistory=1999'
   end
 
   it 'should do create a realtrans-reg.xml file in tomcat''s conf/Catalina/localhost directory' do
-    chef_run = ChefSpec::ChefRunner.new(log_level: :info, platform: 'centos',version: '6.3') do |node|
-      env = Chef::Environment.new
-      env.name 'SPEC'
-      node.stub(:chef_environment).and_return env.name
-      Chef::Environment.stub(:load).and_return env
-
-      node.automatic_attrs[:ipaddress] = '10.111.222.33'
-      node.set[:realdocproxy] = '10.111.222.1:666'
-      node.set[:rtcenproxy] = '10.111.222.1:667'
-      node.set[:amqpproxy] = '10.111.222.1:668'
-      node.set[:db_server] = 'db.chefspec.com'
-      node.set[:db_port] = 3306
-      node.set[:db_maxactive] = 1
-      node.set[:db_maxidle] = 0
-      node.set[:db_maxwait] = 0
-      node.set[:db_timeevict] = 1
-      node.set[:db_valquerytimeout] = 1
-      node.set[:db_initsize] = 0
-    end 
-    chef_run.converge 'realtrans::realtrans-reg'
-    chef_run.should create_file REG_XML
-    chef_run.should create_file_with_content REG_XML, 'url="jdbc:mysql://db.chefspec.com:3306/realtrans?autoReconnect=true"'
-    chef_run.should create_file_with_content REG_XML, 'username="realtrans"' 
-    chef_run.should create_file_with_content REG_XML, 'password="realtrans"'
-    chef_run.should create_file_with_content REG_XML, 'maxActive="1"'
-    chef_run.should create_file_with_content REG_XML, 'maxIdle="0"'
-    chef_run.should create_file_with_content REG_XML, 'maxWait="0"'
-    chef_run.should create_file_with_content REG_XML, 'timeBetweenEvictionRunsMillis="1"'
-    chef_run.should create_file_with_content REG_XML, 'validationQueryTimeout="1"'
-    chef_run.should create_file_with_content REG_XML, 'initialSize="0"'
+    expect(@chef_run).to create_file REG_XML
+    expect(@chef_run).to create_file_with_content REG_XML, 'url="jdbc:mysql://db.chefspec.com:3306/realtrans?autoReconnect=true"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'username="realtrans"' 
+    expect(@chef_run).to create_file_with_content REG_XML, 'password="realtrans"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'maxActive="1"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'maxIdle="0"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'maxWait="0"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'timeBetweenEvictionRunsMillis="1"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'validationQueryTimeout="1"'
+    expect(@chef_run).to create_file_with_content REG_XML, 'initialSize="0"'
   end
 end
