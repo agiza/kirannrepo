@@ -59,7 +59,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables( 
-    :accounts => accounts["accounts"]
+    :accounts => accounts["#{app_name}"]
   )
 end
 
