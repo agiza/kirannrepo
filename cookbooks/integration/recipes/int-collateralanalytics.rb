@@ -75,7 +75,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpuser => "#{amqpcred[0]}",
     :amqppass => "#{amqpcred[1]}",
     :maxfilesize => node[:integration][:realtrans][:logging][:maxfilesize],
-    :maxfilehistory => node[:integration][:realtrans][:logging][:maxhistory],
+    :maxhistory => node[:integration][:realtrans][:logging][:maxhistory],
     :ca => ca
   )
   notifies :restart, resources(:service => "altitomcat")
