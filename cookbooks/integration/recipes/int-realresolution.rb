@@ -74,18 +74,28 @@ begin
     rescue Net::HTTPServerException
       raise "Error trying to load realresolution ftp information from data bag."
 end
+
+ftphost = realres['ftphost'].split(":")[0]
+ftpport = realres['ftphost'].split(":")[1]
+ftpuser = realres['user']
+ftppwd = realres['pass']
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
   variables(
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{amqpcred[0]}",
-    :amqppass => "#{amqpcred[1]}",
+    :amqphost => amqphost,
+    :amqpport => amqpport,
+    :amqpuser => amqpcred[0],
+    :amqppass => amqpcred[1],
     :maxfilesize => node[:integration][:realtrans][:logging][:maxfilesize],
     :maxhistory => node[:integration][:realtrans][:logging][:maxhistory],
+    :ftphost => ftphost,
+    :ftpport => ftpport,
+    :ftpuser => ftpuser,
+    :ftppwd => ftppwd,
     :realres => realres,
     :realsvc => realsvc
   )
