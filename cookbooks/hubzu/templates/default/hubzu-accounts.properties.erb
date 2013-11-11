@@ -1,22 +1,22 @@
 ############## DB configuration ############
-db.url=jdbc:mysql://localhost:3306/realsuite
+db.url=<%= @accounts['db.url'] %>
 db.username=<%= @accounts['db.username'] %>
 db.password=<%= @accounts['db.password'] %>
-db.showsql=true
-db.driver=com.mysql.jdbc.Driver
+db.showsql=<%= @accounts['db.showsql'] %>
+db.driver=<%= @accounts['db.driver'] %>
 
 ############### Idology configuration ############
-idology.expectedid.url=https://web.idologylive.com/api/idiq.svc
-idology.expectedid.dq.url=https://web.idologylive.com/api/differentiator-answer-iq.svc
-idology.expectedid.iq.url=https://web.idologylive.com/api/idliveq-answers.svc
-idology.user=hubzudev
-idology.pwd=portalid1234
+idology.expectedid.url=<%= @accounts['idology.expectedid.url'] %>
+idology.expectedid.dq.url=<%= @accounts['idology.expectedid.dq.url'] %>
+idology.expectedid.iq.url=<%= @accounts['idology.expectedid.iq.url'] %>
+idology.user=<%= @accounts['idology.user'] %>
+idology.pwd=<%= @accounts['idology.pwd'] %>
 
 ############### PROXY configuration!!! ############
 ## true/false --> proxy settings impact on sending the network request.
 ## IF env has restriction of using external resources, then we have to set up proxy settings.
-proxy.on=false
-proxy.host=172.26.131.218
-proxy.port=80
-proxy.user=gohozill
-proxy.pwd=We1c0me$ASPS
+proxy.on=<%= @accounts['proxy.on'] %>
+proxy.host=<%= @accounts['proxy.host'] %>
+proxy.port=<%= @accounts['proxy.port'] %>
+proxy.user=<%= @accounts['proxy.user'] %>
+proxy.pwd=<%= @accounts['proxy.pwd'] %>
