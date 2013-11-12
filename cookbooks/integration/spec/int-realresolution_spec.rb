@@ -17,7 +17,7 @@ describe 'integration::int-realresolution' do
 
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("integration", "realresolutionSPEC")
-          .and_return({ 'ftphost' => 'ftp.spec:22' })
+          .and_return({ 'ftphost' => 'ftp.spec:22', 'user' => 'ftpuser', 'pass' => 'ftppass' })
 
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("rabbitmq", "realtrans")
@@ -56,4 +56,10 @@ describe 'integration::int-realresolution' do
     expect(@chef_run).to create_file_with_content RRES_PROPS_FILE,'rt.int.amqp.virtual-host=vhost'
   end
 
+  it 'should set ftp parameters correctly' do
+    expect(@chef_run).to create_file_with_content RRES_PROPS_FILE,'rt.int.rres.ftp.host=ftp.spec'
+    expect(@chef_run).to create_file_with_content RRES_PROPS_FILE,'rt.int.rres.ftp.port=22'
+    expect(@chef_run).to create_file_with_content RRES_PROPS_FILE,'rt.int.rres.ftp.user=ftpuser'
+    expect(@chef_run).to create_file_with_content RRES_PROPS_FILE,'rt.int.rres.ftp.pwd=ftppass'
+  end
 end

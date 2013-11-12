@@ -95,7 +95,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ftphost => ftphost,
     :ftpport => ftpport,
     :ftpuser => ftpuser,
-    :ftppwd => ftppwd,
+    :ftppass => ftppwd,
     :realres => realres,
     :realsvc => realsvc
   )
