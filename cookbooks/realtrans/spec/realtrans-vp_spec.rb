@@ -1,8 +1,8 @@
 require 'chefspec'
 
 describe 'realtrans::realtrans-vp' do
-  VP_PROPS = '/opt/tomcat/conf/realtrans-reg.properties'
-  VP_XML = '/opt/tomcat/conf/Catalina/localhost/realtrans-reg.xml'
+  VP_PROPS = '/opt/tomcat/conf/realtrans-vp.properties'
+  VP_XML = '/opt/tomcat/conf/Catalina/localhost/realtrans-vp.xml'
 
   before do
   	Chef::Recipe.any_instance.stub(:search).and_return(Hash.new)
@@ -69,13 +69,13 @@ describe 'realtrans::realtrans-vp' do
         node.set[:realtrans][:logging][:maxfilesize] = '1KB'
         node.set[:realtrans][:logging][:maxhistory] = 1999
         node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
-    end.converge 'realtrans::realtrans-reg'
+    end.converge 'realtrans::realtrans-vp'
   end
 
-  it 'should do create a realtrans-reg.properties file in tomcat''s conf directory' do
+  it 'should do create a realtrans-vp.properties file in tomcat''s conf directory' do
     expect(@chef_run).to create_file VP_PROPS
-    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.app.context.path=external.chefspec.com/realtrans-reg'
-    expect(@chef_run).to_not create_file_with_content VP_PROPS,'rf.app.context.path=internal.chefspec.com/realtrans-reg'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.app.context.path=external.chefspec.com/realtrans-vp'
+    expect(@chef_run).to_not create_file_with_content VP_PROPS,'rf.app.context.path=internal.chefspec.com/realtrans-vp'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.amqp.host=amqp.chefspec.com'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.amqp.port=100'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.amqp.username=wtf'
