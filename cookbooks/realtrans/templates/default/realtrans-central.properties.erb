@@ -55,13 +55,17 @@ rt.email.replyTo=<%= @mailserver['from'] %>
 
 rt.daysToCloseOrders=90
 
-rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
-rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
-rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
+rf.melissadata.address.webhost=<%= @melissa_data_address_url %>
+rf.melissadata.phone.webhost=<%= @melissa_data_phone_url %>
+rf.melissadata.email.webhost=<%= @melissa_data_email_url %>
 rf.melissadata.customerId=102942719
 rf.melissadata.defaultMaxConnectionsPerHost=1
-rf.melissadata.geocode.webhost=<%= @melissadata['geocodeurl'] %>
-rf.melissadata.name.webhost=<%= @melissadata['nameurl'] %>
+rf.melissadata.geocode.webhost=<%= @melissa_data_geocode_url %>
+rf.melissadata.name.webhost=<%= @melissa_data_name_url %>
+rf.melissadata.expressEntry.webhost=<%= @melissa_data_express_url %>
+rf.melissadata.expressEntry.allWords=<%= @melissa_data_express_all_words %>
+rf.melissadata.expressEntry.maxMatches=<%= @melissa_data_express_max_matches %>
+
 
 rf.multipartResolver.maxUploadSize=52428800
 

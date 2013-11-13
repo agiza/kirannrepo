@@ -27,3 +27,7 @@ default["realtransreg_version"]         = "0.0.0-1"
 default[:realtrans][:logging][:maxfilesize] = "10MB"
 default[:realtrans][:logging][:maxhistory] = 7
 
+# Realtrans default melissadata attributes
+default[:realtrans][:melissadata][:expressentry][:webhost] = "https://expressentry.melissadata.net/web/CompleteAddress"
+default[:realtrans][:melissadata][:expressentry][:max_matches] = 100
+default[:realtrans][:melissadata][:expressentry][:all_words] = ""

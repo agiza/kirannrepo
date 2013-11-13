@@ -70,9 +70,9 @@ end
 webHost = data_bag_item("infrastructure", "apache")
 # Obtain rabbitmq user credentials from the rabbitmq data bag.
 rtrabbit = data_bag_item("rabbitmq", "realtrans")
-rtrabbit = rtrabbit['user'].split(" ").first.split("|")
+user,pass = rtrabbit['user'].split(" ").first.split("|")
 # Obtain melissadata URL's to be passed to the property files from the data bag.
-melissadata = data_bag_item("integration", "melissadata")
+melissadata = data_bag_item("integration", "melissadata")['melissadata']
 # Obtain mail server information to be passed to property file from the data bag.
 mailserver = data_bag_item("integration", "mail")
 # Obtain ldap server information to be passed to property file from the data bag.
@@ -94,13 +94,23 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :webHostname => internalName,
     :extHostname => externalName,
     :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rtrabbit[0]}",
-    :amqppass => "#{rtrabbit[1]}",
+    :amqphost => amqphost,
+    :amqpport => amqpport,
+    :amqpuser => user,
+    :amqppass => pass,
     :realdoc_hostname => "#{rdochost}:#{rdocport}",
     :mailserver => mailserver,
-    :melissadata => melissadata['melissadata'],
+    :melissa_data_address_url => melissadata['addressurl'],
+    :melissa_data_phone_url => melissadata['phoneurl'],
+    :melissa_data_email_url => melissadata['emailurl'],
+    :melissa_data_geocode_url => melissadata['geocodeurl'],
+    :melissa_data_name_url => melissadata['nameurl'],
+    :melissa_data_express_url => melissadata['express_webhost'] || 
+                                 node[:realtrans][:melissadata][:expressentry][:webhost],
+    :melissa_data_express_all_words => melissadata['express_all_words'] || 
+                                       node[:realtrans][:melissadata][:expressentry][:all_words],
+    :melissa_data_express_max_matches => melissadata['express_max_matches'] || 
+                                         node[:realtrans][:melissadata][:expressentry][:max_matches],
     :ldapserver => ldapserver,
     :maxfilesize => node[:realtrans][:logging][:maxfilesize],
     :maxhistory => node[:realtrans][:logging][:maxhistory]

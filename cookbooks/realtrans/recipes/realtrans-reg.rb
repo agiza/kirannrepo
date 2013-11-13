@@ -97,6 +97,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :melissa_data_email_url => melissadata['emailurl'],
     :melissa_data_geocode_url => melissadata['geocodeurl'],
     :melissa_data_name_url => melissadata['nameurl'],
+    :melissa_data_express_url => melissadata['express_webhost'] || 
+                                 node[:realtrans][:melissadata][:expressentry][:webhost],
+    :melissa_data_express_all_words => melissadata['express_all_words'] || 
+                                       node[:realtrans][:melissadata][:expressentry][:all_words],
+    :melissa_data_express_max_matches => melissadata['express_max_matches'] || 
+                                         node[:realtrans][:melissadata][:expressentry][:max_matches],
     :mail_server_host => mailserver['host'].split(':')[0],
     :mail_server_port => mailserver['host'].split(':')[1],
     :mail_server_user => mailserver['user'],

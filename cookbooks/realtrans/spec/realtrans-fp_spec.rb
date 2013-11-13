@@ -26,7 +26,8 @@ describe 'realtrans::realtrans-fp' do
                                          'phoneurl' => 'phone', 
                                          'geocodeurl' => 'geocode', 
                                          'nameurl' => 'name', 
-                                         'emailurl' => 'email'}
+                                         'emailurl' => 'email',
+                                         'express_webhost' => 'http://xprswbhst'}
                                          })
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("integration", "ldap")
@@ -47,26 +48,27 @@ describe 'realtrans::realtrans-fp' do
       node.stub(:chef_environment).and_return env.name
       Chef::Environment.stub(:load).and_return env
 
-		node.automatic_attrs[:ipaddress] = '10.111.222.33'
+  		node.automatic_attrs[:ipaddress] = '10.111.222.33'
   		node.set[:realdocproxy] = '10.111.222.1:666'
   		node.set[:rtcenproxy] = '10.111.222.1:667'
   		node.set[:amqpproxy] = '10.111.222.1:668'
-		node.set[:amqphost] = 'amqp.chefspec.com'
-		node.set[:amqpport] = 100
-		node.set[:realtrans_amqp_vhost] = 'vhost'
-		node.set[:tenantid] = 'tenantid'
-		node.set[:rf_dao_flag] = true
-		node.set[:rf_app_config_flag] = true
-		node.set[:db_server] = 'db.chefspec.com'
-		node.set[:db_port] = 3306
-		node.set[:db_maxactive] = 1
-		node.set[:db_maxidle] = 0
-		node.set[:db_maxwait] = 0
-		node.set[:db_timeevict] = 1
-		node.set[:db_valquerytimeout] = 1
-		node.set[:db_initsize] = 0
-		node.set[:realtrans][:logging][:maxfilesize] = '1KB'
-		node.set[:realtrans][:logging][:maxhistory] = 1999
+  		node.set[:amqphost] = 'amqp.chefspec.com'
+  		node.set[:amqpport] = 100
+  		node.set[:realtrans_amqp_vhost] = 'vhost'
+  		node.set[:tenantid] = 'tenantid'
+  		node.set[:rf_dao_flag] = true
+  		node.set[:rf_app_config_flag] = true
+  		node.set[:db_server] = 'db.chefspec.com'
+  		node.set[:db_port] = 3306
+  		node.set[:db_maxactive] = 1
+  		node.set[:db_maxidle] = 0
+  		node.set[:db_maxwait] = 0
+  		node.set[:db_timeevict] = 1
+  		node.set[:db_valquerytimeout] = 1
+  		node.set[:db_initsize] = 0
+  		node.set[:realtrans][:logging][:maxfilesize] = '1KB'
+  		node.set[:realtrans][:logging][:maxhistory] = 1999
+      node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
   	end.converge 'realtrans::realtrans-fp'
   end
 
@@ -111,4 +113,9 @@ describe 'realtrans::realtrans-fp' do
     expect(@chef_run).to create_file_with_content FP_XML, 'initialSize="0"'
   end
 
+  it 'should populate the new express melissadata properties' do
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.melissadata.expressEntry.webhost=http://xprswbhst'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.melissadata.expressEntry.allWords=ALL WORDS'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.melissadata.expressEntry.maxMatches=100'
+  end
 end

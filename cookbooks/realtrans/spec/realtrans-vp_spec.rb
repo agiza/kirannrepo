@@ -25,7 +25,8 @@ describe 'realtrans::realtrans-vp' do
                                          'phoneurl' => 'phone', 
                                          'geocodeurl' => 'geocode', 
                                          'nameurl' => 'name', 
-                                         'emailurl' => 'email'}
+                                         'emailurl' => 'email',
+                                         'express_webhost' => 'http://xprswbhst'}
                                          })
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("integration", "ldap")
@@ -67,6 +68,7 @@ describe 'realtrans::realtrans-vp' do
         node.set[:db_initsize] = 0
         node.set[:realtrans][:logging][:maxfilesize] = '1KB'
         node.set[:realtrans][:logging][:maxhistory] = 1999
+        node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
     end.converge 'realtrans::realtrans-reg'
   end
 
@@ -113,4 +115,10 @@ describe 'realtrans::realtrans-vp' do
     expect(@chef_run).to create_file_with_content VP_XML, 'validationQueryTimeout="1"'
     expect(@chef_run).to create_file_with_content VP_XML, 'initialSize="0"'
   end
+
+  it 'should populate the new express melissadata properties' do
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.melissadata.expressEntry.webhost=http://xprswbhst'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.melissadata.expressEntry.allWords=ALL WORDS'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.melissadata.expressEntry.maxMatches=100'
+  end  
 end
