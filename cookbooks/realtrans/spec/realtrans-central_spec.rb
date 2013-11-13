@@ -27,8 +27,9 @@ describe 'realtrans::realtrans-central' do
                                          'geocodeurl' => 'geocode', 
                                          'nameurl' => 'name', 
                                          'emailurl' => 'email',
-                                         'express_webhost' => 'http://xprswbhst'}
-                                         })
+                                         'express' => {'webhost' => 'http://xprswbhst'} 
+                                         }
+                      })
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("integration", "ldap")
           .and_return({'ldaphost' => 'ldap.chefspec.com:389',

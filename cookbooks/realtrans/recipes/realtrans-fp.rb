@@ -77,6 +77,8 @@ if externalName.nil? || externalName.empty?
 	externalName = internalName
 end
 
+melissadata_express = melissadata['express'] || {}
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -97,11 +99,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :melissa_data_email_url => melissadata['emailurl'],
     :melissa_data_geocode_url => melissadata['geocodeurl'],
     :melissa_data_name_url => melissadata['nameurl'],
-    :melissa_data_express_url => melissadata['express_webhost'] || 
+    :melissa_data_express_url => melissadata_express['webhost'] || 
                                  node[:realtrans][:melissadata][:expressentry][:webhost],
-    :melissa_data_express_all_words => melissadata['express_all_words'] || 
+    :melissa_data_express_all_words => melissadata_express['all_words'] || 
                                        node[:realtrans][:melissadata][:expressentry][:all_words],
-    :melissa_data_express_max_matches => melissadata['express_max_matches'] || 
+    :melissa_data_express_max_matches => melissadata_express['max_matches'] || 
                                          node[:realtrans][:melissadata][:expressentry][:max_matches],
     :mailserver => mailserver,
     :ldapserver => ldapserver,
