@@ -40,11 +40,11 @@ default['tp2_adapter_version'] = '0.0.0-1'
 # Adapters
 default[:adapters] = {
     :rs_inbound => {
-        :xml_basedir => '${catalina.base}/correspondence',
-        :tp2_presplit_dir => '${catalina.base}/incoming/tp2',
-        :tp2_postsplit_dir => '${catalina.base}/incoming/processed-tp2',
+        :xml_basedir => '/opt/tomcat/correspondence',
+        :tp2_presplit_dir => '/opt/tomcat/incoming/tp2',
+        :tp2_postsplit_dir => '/opt/tomcat/incoming/processed-tp2',
         :tp2_max_lines => 1000,
-        :io_basedir => '${catalina.base}/correspondence',
+        :io_basedir => '/opt/tomcat/correspondence',
         :done_file_suffix => '.tag',
         :xml_poll_freq => 3000
     },
