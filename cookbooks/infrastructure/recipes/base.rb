@@ -21,11 +21,18 @@ app_name = "base"
 end
 #
 #
-#
+# JSM: apply updates on reboots
 template "/etc/rc.d/rc.local" do
     source "rc.local.erb"
     owner  "root"
     group  "root"
     mode   "0755"
+end
+# JSM: custom sshd options to speed up logins / require cert auth
+template "/etc/ssh/sshd_config" do
+    source "sshd_config.erb"
+    owner  "root"
+    group  "root"
+    mode   "0600"
 end
 
