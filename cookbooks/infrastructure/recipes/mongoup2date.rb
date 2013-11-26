@@ -11,8 +11,8 @@ yum_package "mongoup2date" do
 end
 
 # TODO: determine who these files should be owned by
-template '/var/mongoup2date/mongoup2date.properties' do
-  source 'mongoup2date.properties.erb'
+template '/var/mongoup2date/mongoup2date.conf' do
+  source 'mongoup2date.conf.erb'
   mode '0644'
   variables(
       :mongodb => node[:mongodb],
