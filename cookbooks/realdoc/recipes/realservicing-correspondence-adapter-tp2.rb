@@ -107,6 +107,25 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
 end
 
+# TODO: so much is wrong below this line.  remember this is a temporary fix and will be addressed later
+
+# TODO: no, this should not be owned by tomcat.  eventually we'll need to add a realdoc user to these systems
+directory '/opt/realdoc/bin/' do
+  owner 'apache'
+  group 'apache'
+  action :create
+end
+directory "#{conf[:tp2_postsplit_dir]}" do
+  owner 'apache'
+  group 'apache'
+  action :create
+end
+directory "#{conf[:tp2_presplit_dir]}" do
+  owner 'apache'
+  group 'apache'
+  action :create
+end
+
 # TODO: move this script to the adapter the rpm. for now this is good enough
 template '/opt/realdoc/bin/tp2splitter' do
   source 'tp2splitter.sh.erb'
