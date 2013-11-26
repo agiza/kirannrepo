@@ -135,6 +135,7 @@ template '/opt/realdoc/bin/tp2splitter' do
   group 'tomcat'
   owner 'tomcat'
   mode '0755'
+end
 
 # setup splitter cronjob
 cron "tp2splitter" do
