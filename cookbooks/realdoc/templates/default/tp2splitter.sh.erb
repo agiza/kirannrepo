@@ -33,7 +33,7 @@ if [[ "${archive_dir}" == "" || "${target_dir}" == "" || "${source_dir}" == "" ]
 fi
 
 # process all .tp2 files with corresponding .done files
-for done_file in `ls ${source_dir}/*.tag`; do
+for done_file in `ls ${source_dir}/*.tag 2> /dev/null`; do
 
 	# find root filename
 	root=`basename ${done_file%*.tag}`
