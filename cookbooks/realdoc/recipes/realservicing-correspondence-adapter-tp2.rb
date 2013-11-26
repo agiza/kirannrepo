@@ -114,16 +114,19 @@ directory '/opt/realdoc/bin/' do
   owner 'apache'
   group 'apache'
   action :create
+  recursive true
 end
 directory "#{conf[:tp2_postsplit_dir]}" do
   owner 'apache'
   group 'apache'
   action :create
+  recursive true
 end
 directory "#{conf[:tp2_presplit_dir]}" do
   owner 'apache'
   group 'apache'
   action :create
+  recursive true
 end
 
 # TODO: move this script to the adapter the rpm. for now this is good enough
@@ -132,7 +135,6 @@ template '/opt/realdoc/bin/tp2splitter' do
   group 'tomcat'
   owner 'tomcat'
   mode '0755'
-end
 
 # setup splitter cronjob
 cron "tp2splitter" do
