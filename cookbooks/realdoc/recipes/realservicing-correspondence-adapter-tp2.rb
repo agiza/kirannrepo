@@ -100,7 +100,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
       :exchange => 'rd.requests',
       :routing_key => 'correspondence.send',
       :xmlBaseDir => conf[:xml_basedir],
-      :tp2Dir => conf[:tp2_dir],
+      :tp2Dir => conf[:tp2_postsplit_dir],
       :xmlPollFreq => conf[:xml_poll_freq],
       :ioBasedir => conf[:io_basedir],
       :doneFileSuffix => conf[:done_file_suffix]
@@ -117,7 +117,6 @@ end
 
 # setup splitter cronjob
 cron "tp2splitter" do
-  minute "*/2"
-  command '/opt/realdoc/bin/tp2splitter'
+  command "/opt/realdoc/bin/tp2splitter -s #{conf[:tp2_presplit_dir]} -t #{conf[:tp2_postsplit_dir]} -a #{conf[:io_basedir]}/archive -l #{conf[:tp2_max_lines]}"
 end
 

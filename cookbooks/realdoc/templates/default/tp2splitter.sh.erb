@@ -33,10 +33,10 @@ if [[ "${archive_dir}" == "" || "${target_dir}" == "" || "${source_dir}" == "" ]
 fi
 
 # process all .tp2 files with corresponding .done files
-for done_file in `ls ${source_dir}/*.done`; do
+for done_file in `ls ${source_dir}/*.tag`; do
 
 	# find root filename
-	root=`basename ${done_file%*.done}`
+	root=`basename ${done_file%*.tag}`
 
 	# if the .tp2 actually exists process it
 	if [ -e "${source_dir}/${root}.tp2" ]; then
@@ -49,7 +49,7 @@ for done_file in `ls ${source_dir}/*.done`; do
 		# move the split files to the target directory and create a .done file for each one
 		for chunk_file in `ls ${target_dir}/${root}???`; do
 			mv "${chunk_file}" "${chunk_file}.tp2"
-			touch "${chunk_file}.done"
+			touch "${chunk_file}.tag"
 		done
 
 		# archive the original unsplit file and remove the .done file
