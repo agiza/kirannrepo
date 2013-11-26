@@ -41,7 +41,7 @@ remote_file "#{install_path}/#{src_filename}" do
   owner 'root'
   group 'root'
   mode 00644
-  not_if { ::File.exists?(install_path/srcfilename) }
+  not_if { ::File.exists?(install_path/src_filename) }
 end
 
 bash 'extract_stash' do
@@ -50,6 +50,6 @@ bash 'extract_stash' do
     tar xzf #{src_filename}.tar.gz 
     chown -R root:root #{src_filename}
     EOH
-  not_if { ::File.exists?(install_path/srcfilename) }
+  not_if { ::File.exists?(install_path/src_filename) }
 end
 
