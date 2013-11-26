@@ -1,0 +1,59 @@
+#!/bin/bash
+
+source_dir=
+target_dir=
+archive_dir=
+lines=1000
+
+
+function usage() {
+	echo "usage: $0 -s <source dir> -t <target dir> -a <archive dir> -l <max lines per chunk>"
+}
+
+while getopts "s:t:a:l:" opt; do
+    case $opt in
+        s)
+            source_dir=$OPTARG
+            ;;
+        t)
+            target_dir=$OPTARG
+            ;;
+        a)
+            archive_dir=$OPTARG
+            ;;
+        l)
+            lines=$OPTARG
+            ;;
+    esac
+done
+
+if [[ "${archive_dir}" == "" || "${target_dir}" == "" || "${source_dir}" == "" ]]; then
+    usage
+    exit 1;
+fi
+
+# process all .tp2 files with corresponding .done files
+for done_file in `ls ${source_dir}/*.done`; do
+
+	# find root filename
+	root=`basename ${done_file%*.done}`
+
+	# if the .tp2 actually exists process it
+	if [ -e "${source_dir}/${root}.tp2" ]; then
+
+		echo "splitting ${source_dir}/${root}.tp2"
+
+		# split the file
+		split -a 3 -l ${lines} "${source_dir}/${root}.tp2" "${target_dir}/${root}"
+
+		# move the split files to the target directory and create a .done file for each one
+		for chunk_file in `ls ${target_dir}/${root}???`; do
+			mv "${chunk_file}" "${chunk_file}.tp2"
+			touch "${chunk_file}.done"
+		done
+
+		# archive the original unsplit file and remove the .done file
+		mv "${source_dir}/${root}.tp2" $archive_dir/${root}.`date +"%s"`.tp2
+		rm "$done_file"
+	fi
+done

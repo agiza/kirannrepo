@@ -107,3 +107,17 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
 end
 
+# TODO: move this script to the adapter the rpm. for now this is good enough
+template '/opt/realdoc/bin/tp2splitter' do
+  source 'tp2splitter.sh.erb'
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0755'
+end
+
+# setup splitter cronjob
+cron "tp2splitter" do
+  minute "*/2"
+  command '/opt/realdoc/bin/tp2splitter'
+end
+
