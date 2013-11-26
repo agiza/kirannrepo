@@ -49,7 +49,10 @@ for done_file in `ls ${source_dir}/*.tag 2> /dev/null`; do
 		# move the split files to the target directory and create a .done file for each one
 		for chunk_file in `ls ${target_dir}/${root}???`; do
 			mv "${chunk_file}" "${chunk_file}.tp2"
+			chown tomcat:tomcat "${chunk_file}.tp2"
 			touch "${chunk_file}.tag"
+			chown tomcat:tomcat "${chunk_file}.tag"
+
 		done
 
 		# archive the original unsplit file and remove the .done file

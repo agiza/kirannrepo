@@ -139,7 +139,6 @@ end
 
 # setup splitter cronjob
 cron "tp2splitter" do
-  user 'tomcat'
   command "/opt/realdoc/bin/tp2splitter -s #{conf[:tp2_presplit_dir]}/input_tp2 -t #{conf[:tp2_postsplit_dir]}/input_tp2 -a #{conf[:io_basedir]}/archive -l #{conf[:tp2_max_lines]}"
 end
 
