@@ -30,6 +30,7 @@ src_vers = "atlassian-stash-2.9.3"
 src_file = "http://www.atlassian.com/software/stash/downloads/binary/#{src_vers}.tar.gz"
 install_path = "/opt/atlassian-stash"
 install_file = "#{install_path}/#{src_vers}.tar.gz"
+install_vers = "#{install_path}/#{src_vers}"
 
 bash 'mkdir_stash' do
   code <<-EOH
@@ -51,6 +52,6 @@ bash 'extract_stash' do
     tar xzf #{src_vers}.tar.gz 
     chown -R root:root #{src_vers}
     EOH
-  not_if { ::File.exists?(install_file) }
+  not_if { ::File.exists?(install_vers) }
 end
 
