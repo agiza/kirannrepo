@@ -107,7 +107,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
 end
 
-# TODO: so much is wrong below this line.  remember this is a temporary fix and will be addressed later
+# TODO: so much is wrong below this line. it makes me want to cry.  remember this is a temporary fix and will be addressed later
 
 # TODO: no, this should not be owned by tomcat.  eventually we'll need to add a realdoc user to these systems
 directory '/opt/realdoc/bin/' do
@@ -139,7 +139,7 @@ end
 
 # setup splitter cronjob
 cron "tp2splitter" do
-  user tomcat
+  user 'tomcat'
   command "/opt/realdoc/bin/tp2splitter -s #{conf[:tp2_presplit_dir]}/input_tp2 -t #{conf[:tp2_postsplit_dir]}/input_tp2 -a #{conf[:io_basedir]}/archive -l #{conf[:tp2_max_lines]}"
 end
 
