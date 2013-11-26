@@ -36,7 +36,7 @@ bash 'mkdir_stash' do
   EOH
 end
 
-remote_file "#{install_path}/#{src_file}" do
+remote_file "#{install_path}/#{src_filename}" do
   source  "#{src_file}"
   owner 'root'
   group 'root'
@@ -46,7 +46,7 @@ end
 bash 'extract_stash' do
   code <<-EOH
     cwd #{install_path}
-    tar xzf #{src_file} 
+    tar xzf #{src_filename} 
     EOH
 end
 
