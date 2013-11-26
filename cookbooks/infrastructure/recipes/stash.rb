@@ -27,24 +27,26 @@ end
 #  http://www.atlassian.com/software/stash/downloads/binary/atlassian-stash-2.9.3.tar.gz
 #
 src_filename = "atlassian-stash-2.9.3.tar.gz"
-src_filepath = "http://www.atlassian.com/software/stash/downloads/binary/#{src_filename}"
-extract_path = "/opt/atlassian-stash"
+src_file = "http://www.atlassian.com/software/stash/downloads/binary/#{src_filename}"
+install_path = "/opt/atlassian-stash"
 
-remote_file "#{extract_path}/#{src_filename}" do
-  source  "#{src_filepath}"
+bash 'mkdir_stash' do
+  code <<-EOH
+    mkdir -p #{install_path}
+  EOH
+end
+
+remote_file "#{install_path}/#{src_file}" do
+  source  "#{src_file}"
   owner 'root'
   group 'root'
   mode 00644
-  not_if { ::File.exists?(extract_path) }
 end
 
 bash 'extract_stash' do
-  cwd ::File.dirname(extract_path)
   code <<-EOH
-    mkdir -p #{extract_path}
-    tar xzf #{src_filename} -C #{extract_path}
-    mv #{extract_path}/*/* #{extract_path}/
+    cwd #{install_path}
+    tar xzf #{src_file} 
     EOH
-  not_if { ::File.exists?(extract_path) }
 end
 
