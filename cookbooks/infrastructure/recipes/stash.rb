@@ -45,7 +45,7 @@ end
 
 bash 'extract_stash' do
   code <<-EOH
-    cwd #{install_path}
+    cd #{install_path}
     tar xzf #{src_filename} 
     EOH
 end
