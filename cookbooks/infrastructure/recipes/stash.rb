@@ -12,8 +12,7 @@ app_name = "stash"
 #
 #
 #
-node.set[:java][:install_flavor]="oracle" 
-node.set[:java][:accept_oracle_download_terms]=true 
+node.set[:java][:oracle][:accept_oracle_download_terms] = true
 node.set[:java][:jdk_version]='7'
 include_recipe "java::oracle"
 
