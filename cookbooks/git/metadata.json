@@ -20,7 +20,6 @@
     "mac_os_x": ">= 10.6.0"
   },
   "dependencies": {
-    "dmg": ">= 0.0.0",
     "build-essential": ">= 0.0.0",
     "yum": ">= 0.0.0",
     "windows": ">= 0.0.0",
