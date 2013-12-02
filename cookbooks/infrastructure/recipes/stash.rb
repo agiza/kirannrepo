@@ -35,8 +35,11 @@ install_vers = "#{install_path}/#{src_vers}"
 bash 'mkdir_stash' do
   code <<-EOH
     mkdir -p #{install_path}
+    mkdir -p #{install_path}/stash-data
   EOH
+  not_if { ::File.exists?(install_path) }
 end
+
 
 remote_file "#{install_file}" do
   source  "#{src_file}"
