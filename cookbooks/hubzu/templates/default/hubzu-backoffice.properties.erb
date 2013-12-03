@@ -29,7 +29,7 @@ jms.la.change.queue.routing.key=backoffice.la.change.add
 
 
 # 1 minute delay
-docusign.scheduler.delay=60000
+docusign.scheduler.delay=<%= @backoffice['docusign.scheduler.delay'] %>
 
 #GFD transaction JMS Configuration
 jms.gfd.transaction.queue.name=property.gfd.transaction
@@ -74,7 +74,7 @@ rf.geonames.username=altisourcedev
 ############## Melissa Data Validation Properties - End #########################
 
 # Rest uRI for hubzu NG portal
-hubzung.rest.client.uri=http://54.200.253.218:8080/hubzu-ngportal/
+hubzung.rest.client.uri=<%= @backoffice['hubzung.rest.client.uri'] %>
  
  
  

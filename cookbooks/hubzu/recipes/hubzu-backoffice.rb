@@ -65,6 +65,13 @@ begin
 end
 hubzuamqp = data_bag_item("rabbitmq", "hubzu")
 hubzucred = hubzuamqp['user'].split(" ").first.split("|")
+
+begin
+      backoffice = data_bag_item("hubzu", "backoffice#{node.chef_environment}")
+        rescue Net::HTTPServerException
+           raise "Unable to find hubzu-backoffice environment specifc databag."
+end
+
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
@@ -81,14 +88,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqpport => amqpport,
     :amqpuser => "#{hubzucred[0]}",
     :amqppass => "#{hubzucred[1]}",
-    :mysqldb => mysqldb["#{app_name}"]
+    :mysqldb => mysqldb["#{app_name}"],
+    :backoffice => backoffice["backoffice"]
   )
-end
-
-begin
-      esignature = data_bag_item("hubzu", "esignature#{node.chef_environment}")
-        rescue Net::HTTPServerException
-           raise "Unable to find esignature environment specifc databag."
 end
 
 template "/opt/tomcat/conf/esignature-client.properties" do
@@ -97,8 +99,7 @@ template "/opt/tomcat/conf/esignature-client.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-    :rdochost => "#{rdochost}:#{rdocport}",
-    :esignature => esignature["esignature"]
+    :backoffice => backoffice["backoffice"]
   )
   notifies :restart, resources(:service => "altitomcat")
 end
