@@ -1,9 +1,9 @@
 # DB configuration
-db.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['hubzu_dbname'] %>?autoReconnect=true
-db.username=<%= @mysqldb['hubzu_dbuser'] %>
-db.password=<%= @mysqldb['hubzu_dbpass'] %>
-db.showsql=true
-db.driver=com.mysql.jdbc.Driver
+db.url=<%= @accounts['db.url'] %>
+db.username=<%= @accounts['db.username'] %>
+db.password=<%= @accounts['db.password'] %>
+db.showsql=<%= @accounts['db.showsql'] %>
+db.driver=<%= @accounts['db.driver'] %>
 
 ############### Idology configuration ############
 idology.expectedid.url=<%= @accounts['idology.expectedid.url'] %>
