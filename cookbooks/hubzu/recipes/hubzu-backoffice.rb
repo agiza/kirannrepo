@@ -86,7 +86,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
 end
 
 begin
-      accounts = data_bag_item("hubzu", "esignature#{node.chef_environment}")
+      esignature = data_bag_item("hubzu", "esignature#{node.chef_environment}")
         rescue Net::HTTPServerException
            raise "Unable to find esignature environment specifc databag."
 end
@@ -96,7 +96,10 @@ template "/opt/tomcat/conf/esignature-client.properties" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables( :rdochost => "#{rdochost}:#{rdocport}")
+  variables( 
+    :rdochost => "#{rdochost}:#{rdocport}",
+    :esignature => esignature["esignature"]
+  )
   notifies :restart, resources(:service => "altitomcat")
 end
 
