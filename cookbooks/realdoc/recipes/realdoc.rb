@@ -53,7 +53,7 @@ yum_package "#{app_name}" do
   else
     action :install
   end
-  flush_cache [ :before ]
+  flush_cache [:before]
   allow_downgrade true
   notifies :restart, resources(:service => "altitomcat")
 end
@@ -77,37 +77,43 @@ mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
   notifies :restart, resources(:service => "altitomcat")
   variables(
-    :webHostname => webHost["rd#{node.chef_environment}"],
-    :mongo_host => "#{mongoHost}",
-    :elastic_host => "#{elasticHost}",
-    :amqphost => "#{amqphost}",
-    :amqpport => "#{amqpport}",
-    :amqpuser => "#{rdrabbit[0]}",
-    :amqppass => "#{rdrabbit[1]}",
-    :rdochost => "#{rdochost}:#{rdocport}",
-    :melissadata => melissadata['melissadata'],
-    :mailserver => mailserver,
-    :ldapserver => ldapserver
+      :webHostname => webHost["rd#{node.chef_environment}"],
+      :mongo => {
+          :host => "#{mongoHost}",
+          :database => node[:mongodb_database]
+      },
+      :amqp => {
+          host => "#{amqphost}",
+          :port => "#{amqpport}",
+          :username => "#{rdrabbit[0]}",
+          :password => "#{rdrabbit[1]}",
+          :vhost => node[:realdoc_amqp_vhost]
+      },
+      :elastic_host => "#{elasticHost}",
+      :rdochost => "#{rdochost}:#{rdocport}",
+      :melissadata => melissadata['melissadata'],
+      :mailserver => mailserver,
+      :ldapserver => ldapserver
   )
 end
 
 begin
   mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-    rescue Net::HTTPServerException
-      mysqldb = data_bag_item("infrastructure", "mysqldb")
-        rescue Net::HTTPServerException
-          raise "Error trying to load mysqldb information from infrastructure data bag."
+rescue Net::HTTPServerException
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+rescue Net::HTTPServerException
+  raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   source "realdoc.xml.erb"
-  group  'tomcat'
-  owner  'tomcat'
-  mode   '0644'
+  group 'tomcat'
+  owner 'tomcat'
+  mode '0644'
   variables(:mysqldb => mysqldb["#{app_name}"])
   notifies :restart, resources(:service => "altitomcat")
 end

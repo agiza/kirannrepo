@@ -2,11 +2,17 @@
 ## RealDoc properties
 ################################################################################
 
-rd.amqp.host=<%= @amqphost %>
-rd.amqp.port=<%= @amqpport %>
-rd.amqp.username=<%= @amqpuser %>
-rd.amqp.password=<%= @amqppass %>
-rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
+# mongodb settings
+rd.mongo.host=<%= @mongo[:host] %>
+rd.mongo.database=<%= @mongo[:database] %>
+
+# amqp settings
+rd.amqp.host=<%= @amqp[:host] %>
+rd.amqp.port=<%= @amqp[:port] %>
+rd.amqp.username=<%= @amqp[:username] %>
+rd.amqp.password=<%= @amqp[:password] %>
+rd.amqp.vhost=<%= @amqp[:vhost] %>
+
 rd.amqp.requests.import=rd.import.standard
 rd.correspondence.amqp.recon.inbound=rd.correspondence.recon
 rd.correspondence.amqp.requests=rd.correspondence.requests
@@ -22,8 +28,6 @@ rd.correspondence.batchApprovalCandidateGroup=b27f2e6c-59ed-43b0-a3c2-7d85e4c619
 
 realdoc.event.bus=rd.event.bus
 
-mongo.server=<%= @mongo_host %>
-mongo.database=<%= node[:mongodb_database] %>
 
 rd.remote.url=http://<%= @rdochost %>/realdoc/api
 rd.remote.defaultUsername=correspondence
@@ -35,14 +39,6 @@ rd.documentservice.tempPath=/tmp/
 
 rd.fileStorageMethod=GRID_FS
 rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
-
-
-template.mongo.database=<%= node[:mongodb_database] %>
-realdoc.mongo.host=<%= @mongo_host %>
-template.mongo.host=<%= @mongo_host %>
-mongo.host=<%= @mongo_host %>
-viewer.mongo.host=<%= @mongo_host %>
-viewer.mongo.database=<%= node[:mongodb_database] %>
 
 rd.converter.ghostscript.tempdir=/tmp
 rd.converter.ghostscript.executable=/usr/bin/gs
@@ -154,3 +150,13 @@ realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
 
+# deprecated properties
+
+template.mongo.database=<%= node[:mongodb_database] %>
+realdoc.mongo.host=<%= @mongo_host %>
+template.mongo.host=<%= @mongo_host %>
+mongo.host=<%= @mongo_host %>
+viewer.mongo.host=<%= @mongo_host %>
+viewer.mongo.database=<%= node[:mongodb_database] %>
+mongo.server=<%= @mongo_host %>
+mongo.database=<%= node[:mongodb_database] %>

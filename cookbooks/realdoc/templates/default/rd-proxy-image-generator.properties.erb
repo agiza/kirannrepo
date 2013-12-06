@@ -22,8 +22,8 @@ rd.correspondence.batchApprovalCandidateGroup=b27f2e6c-59ed-43b0-a3c2-7d85e4c619
 
 realdoc.event.bus=rd.event.bus
 
-mongo.server=<%= @mongo_host %>
-mongo.database=<%= node[:mongodb_database] %>
+rd.mongo.host=<%= @mongo_host %>
+rd.mongo.database=<%= node[:mongodb_database] %>
 
 rd.remote.url=http://<%= @rdochost %>/realdoc/api
 rd.remote.defaultUsername=correspondence
@@ -153,3 +153,6 @@ realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
 
+# deprecated properties
+mongo.server=<%= @mongo_host %>
+mongo.database=<%= node[:mongodb_database] %>
