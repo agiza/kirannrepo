@@ -13,27 +13,25 @@ ProxyPreserveHost         On
 
 
 <Location /jira>
-
 ProxyPass               balancer://atlas/jira stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /confluence>
-
 ProxyPass               balancer://atlas/confluence stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /fisheye>
-
 ProxyPass               balancer://atlas/fisheye stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /crowd>
-
 ProxyPass               balancer://atlas/crowd stickysession=JSESSIONID|jsessionid
 </Location>
 
 <Location /bamboo>
-
 ProxyPass               balancer://atlas/bamboo stickysession=JSESSIONID|jsessionid
 </Location>
 
+<Location /artifactory>
+ProxyPass               balancer://atlas/artifactory stickysession=JSESSIONID|jsessionid
+</Location>
