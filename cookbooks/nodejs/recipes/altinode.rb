@@ -3,13 +3,6 @@
 # Recipe:: altinode
 #
 
-nodejs = {
-	"install_method" => "binary",
-	"version" => "0.10.15",
-	"npm" => "1.2.18",
-	"check_sha" => false
-      }
-
 include_recipe "nodejs::install_from_binary"
 include_recipe "nodejs::npm"
 
