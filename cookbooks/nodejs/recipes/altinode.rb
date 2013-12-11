@@ -18,7 +18,6 @@ execute "npm install -g grunt-cli " do
   command "npm install -g grunt-cli"
   cwd "/usr/local/src/node-v#{node['nodejs']['version']}"
   not_if {::File.exists?("#{node['nodejs']['dir']}/bin/grunt") }
- }
 end
 
 execute "npm install -g bower " do
@@ -26,5 +25,4 @@ execute "npm install -g bower " do
   command "npm install -g bower"
   cwd "/usr/local/src/node-v#{node['nodejs']['version']}"
   not_if {::File.exists?("#{node['nodejs']['dir']}/bin/bower") }
- }
 end
