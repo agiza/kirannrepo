@@ -3,7 +3,7 @@
 # Recipe:: altinode
 #
 
-"nodejs" => {
+nodejs = {
 	"install_method" => "source",
 	"version" => "0.10.15",
 	"npm" => "1.2.18",
