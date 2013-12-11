@@ -10,7 +10,7 @@ nodejs = {
       }
 
 include_recipe "nodejs::install_from_binary"
-# include_recipe "nodejs::npm"
+include_recipe "nodejs::npm"
 
 execute "npm install -g grunt-cli " do
   environment({"PATH" => "/usr/local/bin:/usr/bin:/bin:$PATH"})
