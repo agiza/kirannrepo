@@ -5,7 +5,7 @@
 
 nodejs = {
 	"version" => "0.10.15",
-	"npm" => "1.2.18",
+#	"npm" => "1.2.18",
 	"check_sha" => false
       }
 
