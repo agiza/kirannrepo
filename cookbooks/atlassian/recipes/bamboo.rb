@@ -301,3 +301,5 @@ end
 
 include_recipe 'infrastructure::rpmforge'
 include_recipe 'rvm::system'
+include_recipe 'nodejs::altinode'
+
