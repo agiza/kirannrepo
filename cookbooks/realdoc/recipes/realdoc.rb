@@ -88,7 +88,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
           :database => node[:mongodb_database]
       },
       :amqp => {
-          host => "#{amqphost}",
+          :host => "#{amqphost}",
           :port => "#{amqpport}",
           :username => "#{rdrabbit[0]}",
           :password => "#{rdrabbit[1]}",
