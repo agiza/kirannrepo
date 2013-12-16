@@ -55,8 +55,9 @@ gfd.scheduler.delay=3600000
 backoffice.from.email=noreply@altisource.com
 
 #Property management JMS configuration
-jms.property.queue.name=property.backoffice.manage
-jms.property.queue.routing.key=backoffice.manage
+jms.property.queue.name=<%= @backoffice['jms.property.queue.name'] %>
+jms.property.queue.routing.key=<%= @backoffice['jms.property.queue.routing.key'] %>
+
 ################ JMS Properties - End ################
 
 ############## Melissa Data Validation Properties - Start #########################
