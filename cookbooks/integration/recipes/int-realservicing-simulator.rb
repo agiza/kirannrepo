@@ -60,7 +60,9 @@ template "/opt/tomcat/conf/realservicing.simulator.properties" do
     :fetch_order_input => node[:int_rs_simulator][:fetch_order_input],
     :rs_save_order_dir => node[:int_rs_simulator][:rs_save_order_dir],
     :rr_save_order_dir => node[:int_rs_simulator][:rr_save_order_dir],
-    :poller_delay => node[:int_rs_simulator][:poller_delay]
+    :poller_delay => node[:int_rs_simulator][:poller_delay],
+    :max_order_count => node[:int_rs_simulator][:max_order_count],
+    :max_batch_count => node[:int_rs_simulator][:max_batch_count]
   )
   notifies :restart, resources(:service => "altitomcat")
 end
