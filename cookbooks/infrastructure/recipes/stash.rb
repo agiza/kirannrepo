@@ -16,9 +16,11 @@ node.set[:java][:oracle][:accept_oracle_download_terms] = true
 node.set[:java][:jdk_version]='7'
 include_recipe "java::oracle"
 
-package "git" do
-  action :upgrade
-end
+#package "git" do
+#  action :upgrade
+#end
+include_recipe "git::source"
+
 
 #include_recipe "mysql::server"
 #include_recipe "mysql::client"
