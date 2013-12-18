@@ -6,10 +6,6 @@
 ##
 ## All rights reserved - Do Not Redistribute
 ##
-## JSM: modeling for stash system
-##  
-app_name = "stash"
-#
 #
 #
 node.set[:java][:oracle][:accept_oracle_download_terms] = true
