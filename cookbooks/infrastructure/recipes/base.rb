@@ -36,3 +36,10 @@ template "/etc/ssh/sshd_config" do
     mode   "0600"
 end
 
+# JSM: testing a recipe change
+template "/root/test" do
+    source "test.erb"
+    owner  "root"
+    group  "root"
+    mode   "0600"
+end
