@@ -30,6 +30,8 @@ describe 'integration::int-realservicing-simulator' do
 	  	node.set[:int_rs_simulator][:fetch_order_input] = '/tmp/fetch'
 	  	node.set[:int_rs_simulator][:rs_save_order_dir] = '/tmp/rs-save'
 	  	node.set[:int_rs_simulator][:rr_save_order_dir] = '/tmp/rr-save'
+		node.set[:int_rs_simulator][:max_order_count] = 3
+		node.set[:int_rs_simulator][:max_batch_count] = 7
 	  	node.set[:db_server] = 'db-server'
 	  	node.set[:db_port] = 'db-port'
 	  	node.set[:db_maxactive] = 1
@@ -39,6 +41,8 @@ describe 'integration::int-realservicing-simulator' do
 	  	node.set[:db_valquerytimeout] = 1
 	  	node.set[:db_initsize] = 0
 	  end.converge 'integration::int-realservicing-simulator'
+#    :max_order_count => 
+#    :max_batch_count => node[:int_rs_simulator][:max_batch_count]
 	
   end
 
@@ -62,6 +66,8 @@ describe 'integration::int-realservicing-simulator' do
   	expect(@chef_run).to create_file_with_content SIM_PROPS, 'realServicing.saveOrder.directory=/tmp/rs-save'
   	expect(@chef_run).to create_file_with_content SIM_PROPS, 'fetchOrder.poller.delay=7000'
   	expect(@chef_run).to create_file_with_content SIM_PROPS, 'realResolution.saveOrder.directory=/tmp/rr-save'
+  	expect(@chef_run).to create_file_with_content SIM_PROPS, 'bulkorder.max.order.count=3'
+  	expect(@chef_run).to create_file_with_content SIM_PROPS, 'bulkorder.max.batch.count=7'
   end
 
   it 'should create a context xml file with mysql settings' do
