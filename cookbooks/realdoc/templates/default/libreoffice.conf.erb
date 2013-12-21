@@ -21,7 +21,7 @@ script
     HOME=${home}
     export HOME
     echo "Starting OpenOffice on port ${port} using home directory ${home}"
-    soffice --userid="${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --invisible --headless --nocrashreport --nofirststartwizard --nologo --norestore
+    soffice -env:UserInstallation="file://${home}" --accept="socket,host=0,port=${port};urp;StarOffice.ServiceManager" --invisible --headless --nocrashreport --nofirststartwizard --nologo --norestore
 
 end script
 
