@@ -94,6 +94,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
           :password => "#{rdrabbit[1]}",
           :vhost => node[:realdoc_amqp_vhost]
       },
+      :libreoffice => node[:libreoffice],
       :elastic_host => "#{elasticHost}",
       :rdochost => "#{rdochost}:#{rdocport}",
       :melissadata => melissadata['melissadata'],

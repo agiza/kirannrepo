@@ -99,6 +99,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqppass => "#{rdrabbit[1]}",
     :rdochost => "#{rdochost}:#{rdocport}",
     :melissadata => melissadata['melissadata'],
+    :libreoffice => node[:libreoffice],
     :mailserver => mailserver,
     :ldapserver => ldapserver,
     #:ftpserver => ftpserver,

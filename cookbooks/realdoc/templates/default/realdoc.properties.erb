@@ -44,6 +44,11 @@ rd.converter.ghostscript.tempdir=/tmp
 rd.converter.ghostscript.executable=/usr/bin/gs
 rd.converter.pdfConverter=ghostscript
 
+# libreoffice config
+rd.openOffice.ports=<%= @libreoffice[:ports] %>
+rd.openOffice.workDir=<%= @libreoffice[:working_dir] %>
+rd.openOffice.homeDir=<%= @libreoffice[:bin_dir] %>
+
 ################################################################################
 ## RealFoundation properties
 ################################################################################

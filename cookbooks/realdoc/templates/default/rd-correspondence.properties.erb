@@ -35,9 +35,11 @@ rd.documentservice.tempPath=/tmp/
 
 rd.fileStorageMethod=GRID_FS
 rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
-
-
 rd.correspondence.appName=<%= @app_name %>
+
+rd.openOffice.ports=<%= @libreoffice[:ports] %>
+rd.openOffice.workDir=<%= @libreoffice[:working_dir] %>
+rd.openOffice.homeDir=<%= @libreoffice[:bin_dir] %>
 
 ################################################################################
 ## RealFoundation properties
