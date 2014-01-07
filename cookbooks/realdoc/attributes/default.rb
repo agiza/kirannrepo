@@ -108,5 +108,6 @@ default[:dbs] = {
 default[:libreoffice] = {
     :bin_dir => '/usr/lib64/libreoffice',
     :working_dir => '/tmp/libreoffice',
-    :ports => '8200,8201,8202,8203,8204,8205,8206,8207,8208,8209'
+    :ports => '8200,8201,8202,8203,8204,8205,8206,8207,8208,8209',
+    :core_war_ports => '8210,8211,8212,8213,8214,8215,8216,8217,8218,8219'
 }
