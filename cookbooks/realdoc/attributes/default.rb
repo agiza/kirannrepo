@@ -111,4 +111,4 @@ default[:libreoffice] = {
     :ports => '8200,8201,8202,8203,8204,8205,8206,8207,8208,8209',
     :core_war_ports => '8210,8211,8212,8213,8214,8215,8216,8217,8218,8219'
 }
-node[:altisource][:altitomcat][:setenv_cmds] = 'pkill -u tomcat -f "libreoffice.*headless"'
+default[:altisource][:altitomcat][:setenv_cmds] = 'pkill -u tomcat -f "libreoffice.*headless"'
