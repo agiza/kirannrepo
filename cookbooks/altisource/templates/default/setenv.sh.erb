@@ -5,4 +5,5 @@
 CATALINA_OPTS="<%= stringified_parameters %> -XX:-UseSplitVerifier"
 JRE_HOME=/usr/java/default
 
+# node specific commands
 <%= node[:altisource][:altitomcat][:setenv_cmds] %>
