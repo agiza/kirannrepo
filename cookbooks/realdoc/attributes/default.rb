@@ -110,3 +110,4 @@ default[:libreoffice] = {
     :working_dir => '/tmp/libreoffice',
     :ports => '8200,8201,8202,8203,8204,8205,8206,8207,8208,8209'
 }
+node[:altisource][:altitomcat][:setenv_cmds] = 'pkill -u tomcat -f "libreoffice.*headless"'
