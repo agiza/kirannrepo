@@ -44,6 +44,10 @@ service "altitomcat" do
   action :nothing
 end
 
+package "msttcorefonts" do
+  action :upgrade
+end
+
 yum_package "#{app_name}" do
   version "#{app_version}"
   if node.attribute?('package_noinstall') || version == "0.0.0-1"
