@@ -27,6 +27,7 @@ rd.adapter.output.use.ftp=<%= @ftp[:use] %>
 
 rd.adapter.mongo.host=<%= @mongo_host %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+rd.adapter.mongo.slaveOk=false
 
 # deprecated properties
 rd.adapter.output.ReconPollingInterval=15000

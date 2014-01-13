@@ -9,6 +9,7 @@ mongo.server=<%= @mongo_host %>
 rd.adapter.mongo.database=<%= node[:mongodb_database] %>
 mongo.database=<%= node[:mongodb_database] %>
 rd.adapter.mongo.db=<%= node[:mongodb_database] %>
+rd.adapter.mongo.slaveOk=false
 
 # rabbit
 rd.adapter.amqp.host=<%= @amqphost %>

@@ -24,6 +24,7 @@ realdoc.event.bus=rd.event.bus
 
 rd.mongo.host=<%= @mongo_host %>
 rd.mongo.database=<%= node[:mongodb_database] %>
+rd.mongo.slaveOk=false
 
 rd.remote.url=http://<%= @rdochost %>/realdoc/api
 rd.remote.defaultUsername=correspondence
