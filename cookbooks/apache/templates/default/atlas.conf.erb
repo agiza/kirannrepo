@@ -35,3 +35,7 @@ ProxyPass               balancer://atlas/bamboo stickysession=JSESSIONID|jsessio
 <Location /artifactory>
 ProxyPass               balancer://atlas/artifactory stickysession=JSESSIONID|jsessionid
 </Location>
+
+<Location /static-files>
+ProxyPass               balancer://atlas/static-files
+</Location>
