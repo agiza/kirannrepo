@@ -32,8 +32,8 @@ template "/etc/init.d/chef-server" do
   mode   "0755"
 end
 
-template "/etc/security/limits.conf.erb" do
-  source "limits.conf"
+template "/etc/security/limits.conf" do
+  source "limits.conf.erb"
   owner  "root"
   group  "root"
   mode   "0644"
