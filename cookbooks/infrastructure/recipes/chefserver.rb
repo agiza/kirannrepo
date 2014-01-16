@@ -32,6 +32,13 @@ template "/etc/init.d/chef-server" do
   mode   "0755"
 end
 
+template "/etc/security/limits.conf.erb" do
+  source "limits.conf"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+end
+
 %w{gcc make ruby-devel libxml2 libxml2-devel libxslt libxslt-devel}.each do |pkg|
   package pkg do
     action :install
