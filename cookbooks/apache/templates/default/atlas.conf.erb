@@ -32,6 +32,10 @@ ProxyPass               balancer://atlas/crowd stickysession=JSESSIONID|jsession
 ProxyPass               balancer://atlas/bamboo stickysession=JSESSIONID|jsessionid
 </Location>
 
+<Location /testlink>
+ProxyPass               balancer://atlas/testlink stickysession=JSESSIONID|jsessionid
+</Location>
+
 <Location /artifactory>
 ProxyPass               balancer://atlas/artifactory stickysession=JSESSIONID|jsessionid
 </Location>
