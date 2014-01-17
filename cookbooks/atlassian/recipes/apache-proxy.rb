@@ -72,6 +72,20 @@ link "/etc/apache2/sites-enabled/bamboo-mod_proxy" do
   group "root"
 end
 
+template "/etc/apache2/sites-available/testlink-mod_proxy" do
+  source "testlink-mod_proxy.erb"
+  owner  "root"
+  group  "root"
+  mode   "0644"
+  notifies :reload, resources(:service => "apache2")
+end
+
+link "/etc/apache2/sites-enabled/testlink-mod_proxy" do
+  to "../sites-available/testlink-mod_proxy"
+  owner "root"
+  group "root"
+end
+
 template "/etc/apache2/sites-available/artifactory-mod_proxy" do
   source "artifactory-mod_proxy.erb"
   owner  "root"

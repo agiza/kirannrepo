@@ -1,0 +1,12 @@
+<Proxy *>
+Order deny,allow
+Allow from all
+</Proxy>
+
+ProxyRequests                                   Off
+ProxyPreserveHost                               On
+
+<Location /bamboo>
+ProxyPass  http://<%= node[:testlink_server] %>:<%= node[:testlink_port] %>/testlink
+</Location>
+
