@@ -6,7 +6,7 @@ Allow from all
 ProxyRequests                                   Off
 ProxyPreserveHost                               On
 
-<Location /bamboo>
+<Location /testlink>
 ProxyPass  http://<%= node[:testlink_server] %>:<%= node[:testlink_port] %>/testlink
 </Location>
 
