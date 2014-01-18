@@ -54,7 +54,8 @@ rd.openOffice.homeDir=<%= @libreoffice[:bin_dir] %>
 ## RealFoundation properties
 ################################################################################
 
-rf.automaticTaskAssignment.enabled=true 
+rf.automaticTaskAssignment.enabled=<%= @task_management[:auto_assign] %>
+rf.defaultNumberOfTasksPerGroup=<%= @task_management[:num_tasks_per_group] %>
 rf.taskManager.customColumns=approved,rejected,total,BATCH_ID 
 
 db.driver=com.mysql.jdbc.Driver

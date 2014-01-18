@@ -112,3 +112,8 @@ default[:libreoffice] = {
     :core_war_ports => '8210,8211,8212,8213,8214,8215,8216,8217,8218,8219'
 }
 default[:altisource][:altitomcat][:setenv_cmds] = 'pkill -u tomcat -f "libreoffice.*headless"'
+
+default[:task_management] = {
+    :auto_assign => true,
+    :num_tasks_per_group => 25
+}
