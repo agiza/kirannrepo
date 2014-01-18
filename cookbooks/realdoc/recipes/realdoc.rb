@@ -99,7 +99,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
       :rdochost => "#{rdochost}:#{rdocport}",
       :melissadata => melissadata['melissadata'],
       :mailserver => mailserver,
-      :ldapserver => ldapserver
+      :ldapserver => ldapserver,
+      :task_management => node[:task_management]
   )
 end
 
