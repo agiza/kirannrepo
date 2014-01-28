@@ -172,7 +172,7 @@ fi
 
 else
 
-update_command="nodes.find(:name => "\'"$node_check"\'") {|n| n.set["\'"$app_attribute"\'"] = "\'"$app_version"\'"; n.save }"
+update_command="nodes.find(:name => "\'"$node_name.altidev.*"\'") {|n| n.set["\'"$app_attribute"\'"] = "\'"$app_version"\'"; n.save }"
         knife exec -E "$update_command"; if [ "$?" -gt "0" ]; then echo "Update version command failed. Try to run * knife exec -E $update_command *"; exit 1; fi
         #update_version.sh $node_name $app_attribute $app_version ; if [ "$?" -gt "0" ]; then echo "Update version command failed."; exit 1; fi
 fi
