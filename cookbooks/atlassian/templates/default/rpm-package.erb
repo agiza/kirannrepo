@@ -159,21 +159,21 @@ echo "Build completed and package has been moved to the repo."
 # Function to tag new version to node for deployment.
 tag_package(){
 # Update node attribute for version
-node_name="$target_host.altidev.com"
+node_name="$target_host"
 app_version="$version"
 if [ "$node_name" == "" -o "$app_attribute" == "" -o "$version" == "" ]; then
 echo "This command requires a server, application name and version number. i.e. $0 realtrans-demo realtrans_central_version 1.0.0-14.  Please try again."; exit 1
 
 # Check that target_host is a valid node name
-node_check=`knife node list | grep $node_name`
+node_check=`knife node list | grep -w $node_name`
 if [ "$node_check" == "" ]; then
-        echo "$target_host.altidev.com is not a valid chef node name, please check your target as a chef node update is not possible with this target."; exit 1
+        echo "$target_host is not a valid chef node name, please check your target as a chef node update is not possible with this target."; exit 1
 fi
 
 else
 
-update_command="nodes.find(:name => "\'"$node_name"\'") {|n| n.set["\'"$app_attribute"\'"] = "\'"$app_version"\'"; n.save }"
-        knife exec -E "$update_command"; if [ "$?" -gt "0" ]; then echo "Update version command failed."; exit 1; fi
+update_command="nodes.find(:name => "\'"$node_check"\'") {|n| n.set["\'"$app_attribute"\'"] = "\'"$app_version"\'"; n.save }"
+        knife exec -E "$update_command"; if [ "$?" -gt "0" ]; then echo "Update version command failed. Try to run * knife exec -E $update_command *"; exit 1; fi
         #update_version.sh $node_name $app_attribute $app_version ; if [ "$?" -gt "0" ]; then echo "Update version command failed."; exit 1; fi
 fi
 }
