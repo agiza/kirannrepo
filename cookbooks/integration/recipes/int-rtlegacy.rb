@@ -100,7 +100,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :monitoring_exchange => node[:int_rtl][:amqp][:exchange][:monitoring],
     :task_pool_size => node[:int_rtl][:amqp][:monitoring][:task_executor],
     :local_directory => node[:int_rtl][:local][:directory],
-    :poller_delay => rtlegacy[:poller_delay]
+    :poller_delay => rtlegacy['poller_delay']
   )
   notifies :restart, resources(:service => "altitomcat")
 end
