@@ -67,10 +67,10 @@ begin
     rescue Net::HTTPServerException
       raise "Error trying to load realresolution ftp information from data bag."
 end
-ftp_host = rtlegacy[:ftphost].split(":")[0]
-ftp_port = rtlegacy[:ftphost].split(":")[1]
-ftp_user = rtlegacy[:user]
-ftp_pwd = rtlegacy[:pass]
+ftp_host = rtlegacy['ftphost'].split(":")[0]
+ftp_port = rtlegacy['ftphost'].split(":")[1]
+ftp_user = rtlegacy['user']
+ftp_pwd = rtlegacy['pass']
 
 
 template "/opt/tomcat/conf/#{app_name}.properties" do
@@ -104,11 +104,4 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
   )
   notifies :restart, resources(:service => "altitomcat")
 end
-
-directory node[:int_rtl][:local][:directory] do
-  owner "tomcat"
-  group "tomcat"
-end
-
-
 

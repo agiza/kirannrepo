@@ -11,9 +11,9 @@ describe 'integration::int-rtlegacy' do
           .and_return({ 'user' => 'test|spec'})
     Chef::Recipe.any_instance.stub(:data_bag_item)
           .with("integration", "rtlegacySPEC")
-          .and_return({ :ftphost => 'ftp.spec:22', 
-          				:user => 'ftpuser', 
-          				:pass => 'ftppass' })
+          .and_return({ 'ftphost' => 'ftp.spec:22', 
+          				'user' => 'ftpuser', 
+          				'pass' => 'ftppass' })
 
     Chef::Recipe.any_instance.stub(:yumserver_search).and_return(Object.new)
     Chef::Recipe.any_instance.stub(:amqphost_search).and_return(Object.new)
