@@ -140,6 +140,14 @@ default[:apps] = [
         :name => 'int-realservicing-simulator',
         :version => 'intrs_sim_version',
         :recipe => 'int-realservicing-simulator'
+    }, {
+        :name => 'int-rtlegacy',
+        :version => 'intrtl_version',
+        :recipe => 'int-rtlegacy'
+    }, {
+        :name => 'int-rtlegacy-simulator',
+        :version => 'intrtl_sim_version',
+        :recipe => 'int-rtlegacy-simulator'
     }
 ]
 default["vsftp"] = {

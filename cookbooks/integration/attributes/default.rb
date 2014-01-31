@@ -21,6 +21,7 @@ default["intinterthinx_version"]  = "0.0.0-1"
 default["intrres_version"]        = "0.0.0-1"
 default["intrs_version"]          = "0.0.0-1"
 default["intsupport_version"]     = "0.0.0-1"
+default["intrtl_version"]		  = "0.0.0-1"
 
 default[:int_rs_simulator][:fetch_order_input] = "/opt/tomcat/BPO/input"
 default[:int_rs_simulator][:rs_save_order_dir] = "/opt/tomcat/BPO/input"
@@ -28,6 +29,21 @@ default[:int_rs_simulator][:poller_delay] = 7000
 default[:int_rs_simulator][:rr_save_order_dir] = "/opt/tomcat/CMA/input/In"
 default[:int_rs_simulator][:max_order_count] = 50
 default[:int_rs_simulator][:max_batch_count] = 50
+
+default[:int_rtl][:ftp][:file_pattern] = "*.json"
+
+default[:int_rtl][:remote][:in_directory] = "/Dev/PV/input" 
+default[:int_rtl][:remote][:archive_directory] = "/Dev/PV/archive" 
+default[:int_rtl][:remote][:error_directory] = "/Dev/PV/error" 
+
+default[:int_rtl][:amqp][:heartbeat] = 60
+default[:int_rtl][:amqp][:exchange][:inbound] = "rt.core.incoming"
+default[:int_rtl][:amqp][:exchange][:deadmessages] = "rt.core.deadmessage"
+default[:int_rtl][:amqp][:exchange][:monitoring] = "rt.monitoring"
+
+default[:int_rtl][:amqp][:monitoring][:task_executor] = 10
+default[:int_rtl][:local][:directory] = "${catalina.base}/pv/input"
+default[:int_rtl][:poller_delay] = 120000
 
 default[:integration][:realtrans][:logging][:maxfilesize] = "10MB"
 default[:integration][:realtrans][:logging][:maxhistory] = 7
