@@ -63,7 +63,7 @@ amqp_user,amqp_pass = amqpcred['user'].split(" ").first.split("|")
 begin
   rtlegacy = data_bag_item("integration", "rtlegacy#{node.chef_environment}")
   rescue Net::HTTPServerException
-    realres = data_bag_item("integration", "rtlegacy")
+    rtlegacy = data_bag_item("integration", "rtlegacy")
     rescue Net::HTTPServerException
       raise "Error trying to load realresolution ftp information from data bag."
 end
