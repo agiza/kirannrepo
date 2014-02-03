@@ -4,6 +4,10 @@ db.username=<%= @mysqldb['hubzu_dbuser'] %>
 db.password=<%= @mysqldb['hubzu_dbpass'] %>
 db.showsql=true
 db.driver=com.mysql.jdbc.Driver
+db.validationQuery=Select 1
+db.testOnBorrow=true
+db.testWhileIdle=true
+db.timeBetweenEvictionRunsMillis=10000
 
 # JMS configurations
 jms.amqp.endpoint=<%= @amqphost %>
@@ -84,4 +88,3 @@ rf.geonames.username=altisourcedev
 
 # Rest uRI for hubzu NG portal
 hubzung.rest.client.uri=<%= @backoffice['hubzung.rest.client.uri'] %>
- 
