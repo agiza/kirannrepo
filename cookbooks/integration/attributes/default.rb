@@ -32,9 +32,9 @@ default[:int_rs_simulator][:max_batch_count] = 50
 
 default[:int_rtl][:ftp][:file_pattern] = "*.json"
 
-default[:int_rtl][:remote][:in_directory] = "/Dev/PV/input" 
-default[:int_rtl][:remote][:archive_directory] = "/Dev/PV/archive" 
-default[:int_rtl][:remote][:error_directory] = "/Dev/PV/error" 
+default[:int_rtl][:remote][:in_directory] = "/#{node.chef_environment}/PV/input" 
+default[:int_rtl][:remote][:archive_directory] = "/#{node.chef_environment}/PV/archive" 
+default[:int_rtl][:remote][:error_directory] = "/#{node.chef_environment}/PV/error" 
 
 default[:int_rtl][:amqp][:heartbeat] = 60
 default[:int_rtl][:amqp][:exchange][:inbound] = "rt.core.incoming"

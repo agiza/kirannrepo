@@ -48,10 +48,6 @@ describe 'integration::int-rtlegacy' do
   	expect(@chef_run).to install_yum_package_at_version 'int-rtlegacy','1.0.0-SPEC'
   end
 
-  it 'should set ownership of directories' do
-  	expect(@chef_run).to create_directory '/tmp/rtl'
-  end
-
   it 'should create a properties file' do
   	expect(@chef_run).to create_file PROPS
   end
@@ -59,8 +55,10 @@ describe 'integration::int-rtlegacy' do
   it 'should create a properties file with contents' do
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.ftp.host=ftp.spec'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.ftp.user=ftpuser'
+  	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.ftp.pwd=ftppass'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.filename.pattern=*.json'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.remote.in.directory=/tmp/rtl-in'
+	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.rtlegacy.remote.error.directory=/SPEC/PV/error'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.amqp.username=test'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.amqp.password=spec'
   	expect(@chef_run).to create_file_with_content PROPS, 'rt.int.amqp.exchange.messages.inbound=spec.xchg.in'
