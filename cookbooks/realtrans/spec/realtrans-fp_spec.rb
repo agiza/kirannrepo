@@ -118,4 +118,10 @@ describe 'realtrans::realtrans-fp' do
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.melissadata.expressEntry.allWords=ALL WORDS'
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.melissadata.expressEntry.maxMatches=100'
   end
+
+  it 'should include the new pv properties' do
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rt.amqp.queue.pvdata.create=rt.core.pvdata.create'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rt.previous.valuations.requestUrl=http://localhost:8080/int-rtlegacy-simulator/PriorValuation.svc/GetPriorValuationDetails'
+  end
+
 end

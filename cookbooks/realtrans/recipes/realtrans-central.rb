@@ -115,7 +115,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
                                          node[:realtrans][:melissadata][:expressentry][:max_matches],
     :ldapserver => ldapserver,
     :maxfilesize => node[:realtrans][:logging][:maxfilesize],
-    :maxhistory => node[:realtrans][:logging][:maxhistory]
+    :maxhistory => node[:realtrans][:logging][:maxhistory],
+    :pv_request_url => node[:realtrans][:pv][:request_url]
   )
   notifies :restart, resources(:service => "altitomcat")
 end

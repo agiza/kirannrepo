@@ -69,6 +69,7 @@ describe 'realtrans::realtrans-vp' do
         node.set[:realtrans][:logging][:maxfilesize] = '1KB'
         node.set[:realtrans][:logging][:maxhistory] = 1999
         node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
+        node.set[:realtrans][:pv][:request_url] = "http://pv/request/url"
     end.converge 'realtrans::realtrans-vp'
   end
 
@@ -121,4 +122,10 @@ describe 'realtrans::realtrans-vp' do
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.melissadata.expressEntry.allWords=ALL WORDS'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.melissadata.expressEntry.maxMatches=100'
   end  
+
+  it 'should include the new pv properties' do
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.amqp.queue.pvdata.create=rt.core.pvdata.create'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.previous.valuations.requestUrl=http://pv/request/url'
+  end
+
 end

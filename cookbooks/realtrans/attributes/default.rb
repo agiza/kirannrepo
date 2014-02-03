@@ -31,3 +31,6 @@ default[:realtrans][:logging][:maxhistory] = 7
 default[:realtrans][:melissadata][:expressentry][:webhost] = "https://expressentry.melissadata.net/web/CompleteAddress"
 default[:realtrans][:melissadata][:expressentry][:max_matches] = 100
 default[:realtrans][:melissadata][:expressentry][:all_words] = ""
+
+default[:realtrans][:amqp][:queue][:pvdata_create] = "rt.core.pvdata.create"
+default[:realtrans][:pv][:request_url] = "http://localhost:8080/int-rtlegacy-simulator/PriorValuation.svc/GetPriorValuationDetails"

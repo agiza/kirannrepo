@@ -33,7 +33,7 @@ rt.amqp.queue.orders.create=rt.core.orders.create
 rt.amqp.exchange.avm.request=rt.avm.request
 rt.amqp.queue.avm.response=rt.avm.response
 rt.amqp.exchange.outgoing=rt.core.internal
-
+rt.amqp.queue.pvdata.create=rt.core.pvdata.create
 
 rf.db.showSql=false
 rf.db.generateDdl=false
@@ -133,3 +133,5 @@ rf.sendStacktrace=false
 
 rt.logback.maxHistory=<%= @maxhistory %>
 rt.logback.maxFileSize=<%= @maxfilesize %>
+
+rt.previous.valuations.requestUrl=<%= @pv_request_url %>

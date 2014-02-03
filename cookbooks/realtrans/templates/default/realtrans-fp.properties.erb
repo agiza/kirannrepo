@@ -22,6 +22,7 @@ rt.vendor.permission.category.name=VENDOR_PERMISSION_CATEGORY
 rt.registration.portal.url=<%= @extHostname %>/realtrans-reg
 rt.amqp.exchange.monitoring=rt.monitoring
 rt.amqp.exchange.outgoing=rt.core.internal
+rt.amqp.queue.pvdata.create=rt.core.pvdata.create
 
 #Settings for realdoc integration
 rd.remote.url=http://<%= @realdoc_hostname %>/realdoc/api
@@ -122,3 +123,5 @@ rf.sendStacktrace=false
 
 rt.logback.maxHistory=<%= @maxhistory %>
 rt.logback.maxFileSize=<%= @maxfilesize %>
+
+rt.previous.valuations.requestUrl=<%= @pv_request_url %>
