@@ -108,7 +108,9 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :ldapserver => ldapserver,
     :maxfilesize => node[:realtrans][:logging][:maxfilesize],
     :maxhistory => node[:realtrans][:logging][:maxhistory],
-    :pv_request_url => node[:realtrans][:pv][:request_url]
+    :pv_request_url => node[:realtrans][:pv][:request_url],
+    :legacy_user => node[:realtrans][:pv][:legacy_user],
+    :legacy_password => node[:realtrans][:pv][:legacy_password]
   )
 end
 

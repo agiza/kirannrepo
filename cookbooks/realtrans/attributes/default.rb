@@ -34,3 +34,7 @@ default[:realtrans][:melissadata][:expressentry][:all_words] = ""
 
 default[:realtrans][:amqp][:queue][:pvdata_create] = "rt.core.pvdata.create"
 default[:realtrans][:pv][:request_url] = "http://localhost:8080/int-rtlegacy-simulator/PriorValuation.svc/GetPriorValuationDetails"
+
+default[:realtrans][:pv][:legacy_user] = "user"
+default[:realtrans][:pv][:legacy_password] = "password"
+
