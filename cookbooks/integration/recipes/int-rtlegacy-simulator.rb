@@ -57,7 +57,8 @@ template "/opt/tomcat/conf/rtlegacy.simulator.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
-
+     :legacy_user => node[:int_rtlegacy_simulator][:legacy_user],
+     :legacy_password => node[:int_rtlegacy_simulator][:legacy_password]
   )
   notifies :restart, resources(:service => "altitomcat")
 end
