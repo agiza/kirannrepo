@@ -144,11 +144,15 @@ rf.daoAuthenticationProvider.enabled=<%= node[:rf_dao_flag] %>
 rf.startupFileLocation=file:${catalina.base}/startup.xml
 
 realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
-rf.activiti.jobExecutorActivate=true
 
 <% if node.attribute?('rf_app_config_flag') -%>
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
+
+rd.correspondence.dispatch.retry.enabled=<%= node[:rd_corres_flag] %>
+rf.activiti.jobExecutorActivate=<%= node[:rf_job_flag] %>
+rd.correspondence.amqp.consumers.dispatch.generate=5
+
 
 ################################################################################
 ## Deprecated properties

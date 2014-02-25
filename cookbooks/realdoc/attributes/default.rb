@@ -12,9 +12,7 @@ default['db_server'] = 'mysqldbprim'
 default['db_port'] = '3306'
 default['db_timeevict'] = '60000'
 default['db_valquerytimeout'] = '2'
-# Oracle DB defaults
-default['oradb_server'] = '50.19.6.17'
-default['oradb_port'] = '1521'
+# Oracle DB defaults default['oradb_server'] = '50.19.6.17' default['oradb_port'] = '1521'
 default['validation_query'] = 'SELECT 1 from dual'
 # Mongodb defaults
 default['mongodb_database'] = 'realdoc'
@@ -117,3 +115,8 @@ default[:task_management] = {
     :auto_assign => true,
     :num_tasks_per_group => 25
 }
+
+#Generating correspondence
+default['rd_corres_flag'] = 'false'
+default['rf_job_flag'] = 'false'
+
