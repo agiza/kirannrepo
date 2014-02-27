@@ -27,6 +27,14 @@ template "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/jira-application.pr
   notifies :restart, resources(:service => "jira")
 end
 
+template "/var/atlassian/application-data/jira/jira-config.properties" do
+  source "jira-config.properties.erb"
+  owner  "jira"
+  group  "jira"
+  mode   "0644"
+  notifies :restart, resources(:service => "jira")
+end
+
 template "/opt/atlassian/jira/conf/server.xml" do
   source "jira-server.xml.erb"
   owner  "jira"
