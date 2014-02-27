@@ -117,7 +117,7 @@ default[:task_management] = {
 }
 
 #Generating correspondence
-default['rd_corres_flag'] = 'false'
-default['rd_corres_consumers'] = '5'
+default['rd_corres_flag'] = 'true'
+default['rd_corres_consumers'] = '10'
 default['rf_job_flag'] = 'false'
 
