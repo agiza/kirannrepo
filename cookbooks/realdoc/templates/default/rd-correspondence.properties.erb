@@ -151,7 +151,7 @@ rf.overwriteAppConfigArtifacts=true
 
 rd.correspondence.dispatch.retry.enabled=<%= node[:rd_corres_flag] %>
 rf.activiti.jobExecutorActivate=<%= node[:rf_job_flag] %>
-rd.correspondence.amqp.consumers.dispatch.generate=5
+rd.correspondence.amqp.consumers.dispatch.generate=<%= node[:rd_corres_consumers] %>
 
 
 ################################################################################
