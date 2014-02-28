@@ -118,7 +118,7 @@ default[:task_management] = {
 
 default['rf_job_flag'] = 'false'
 #Generating correspondence
-default['rd_corres_flag'] = 'true'
+default['rd_corres_flag'] = 'false'
 default['rd_mongo_conns'] = '50'
 default['rd_corres_delivery'] = '10'
 default['rd_corres_dispatch'] = '20'
