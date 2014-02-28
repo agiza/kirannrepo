@@ -149,9 +149,15 @@ realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
 
-rd.correspondence.dispatch.retry.enabled=<%= node[:rd_corres_flag] %>
+
 rf.activiti.jobExecutorActivate=<%= node[:rf_job_flag] %>
-rd.correspondence.amqp.consumers.dispatch.generate=<%= node[:rd_corres_consumers] %>
+
+rd.mongo.connectionsPerHost=<%= node[:rd_mongo_conns] %>
+rd.correspondence.dispatch.retry.enabled=<%= node[:rd_corres_flag] %>
+rd.correspondence.amqp.consumers.delivery=<%= node[:rd_corres_delivery] %>
+rd.correspondence.amqp.consumers.dispatch.generate=<%= node[:rd_corres_dispatch] %>
+rd.correspondence.amqp.consumers.batch.requests=<%= node[:rd_corres_batch] %>
+rd.correspondence.amqp.consumers.recon=<%= node[:rd_corres_recon] %>
 
 
 ################################################################################

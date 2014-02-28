@@ -116,8 +116,12 @@ default[:task_management] = {
     :num_tasks_per_group => 25
 }
 
+default['rf_job_flag'] = 'false'
 #Generating correspondence
 default['rd_corres_flag'] = 'true'
-default['rd_corres_consumers'] = '10'
-default['rf_job_flag'] = 'false'
+default['rd_mongo_conns'] = '50'
+default['rd_corres_delivery'] = '10'
+default['rd_corres_dispatch'] = '20'
+default['rd_corres_batch'] = '10'
+default['rd_corres_recon'] = '10'
 
