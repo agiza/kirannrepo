@@ -8,20 +8,15 @@
 #
 app_name="mongod"
 
-include_recipe "altisource::volume"
-lvm_mount "mongod" do
-  device "/dev/sdb"
-  group  "mongod_vg"
-  volume "lvol0"
-  filesystem "ext4"
-  options "defaults"
-  mountpoint "/mongod"
-end
-
 include_recipe "mongodb::default"
 iptables_rule "port_mongod"
 
 directory "/etc/mongo" do
+  owner "mongod"
+  group "mongod"
+end
+
+directory "/mongod" do
   owner "mongod"
   group "mongod"
 end
