@@ -9,9 +9,9 @@
 
 if platform?("centos", "redhat")
   include_recipe "altisource::altirepo"
-  package "chef" do
-    action :upgrade
-  end
+#  package "chef" do
+#    action :upgrade
+#  end
 end
 
 if platform?("ubuntu")
