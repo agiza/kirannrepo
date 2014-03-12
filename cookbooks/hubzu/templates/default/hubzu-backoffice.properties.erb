@@ -91,3 +91,16 @@ hubzung.rest.client.uri=<%= @backoffice['hubzung.rest.client.uri'] %>
 ##############Send error emails to#####################
 error.notification.email=true
 error.notification.email.recipient=hubzuperformanceam@gmail.com
+
+backoffice.error.emailAlert=true
+ 
+#Error email alert template
+backoffice.error.emailAlert.template = ERROR_EMAIL_NOTIFICATION
+backoffice.error.emailAlert.subject =  {Environment} : {Entity} {EntityId} failed to process successfully
+
+##Thread Task Executor Properties - Start
+thread.taskExecutor.corePoolSize=5
+thread.taskExecutor.maxPoolSize=10
+thread.taskExecutor.queueCapacity=100
+thread.taskExecutor.waitForTasksToCompleteOnShutdown=true
+##Thread Task Executor Properties - End
