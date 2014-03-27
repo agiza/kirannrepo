@@ -34,7 +34,7 @@ rd.rulesPackage=RealDocPackage
 
 rd.documentservice.tempPath=/tmp/
 
-rd.fileStorageMethod=GRID_FS
+rd.fileStorageMethod=<%= node[:rd_storage_method] %>
 rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
 rd.correspondence.appName=<%= @app_name %>
 
