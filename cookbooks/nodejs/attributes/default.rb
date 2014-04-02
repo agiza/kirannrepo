@@ -27,7 +27,7 @@
 
 # JSM: note would have to use source to get exact versions and then it builds every time chef-client is run - very slow but binary faster ....
 default['nodejs']['install_method'] = 'binary'
-default['nodejs']['version'] = '0.10.15'
+default['nodejs']['version'] = '0.10.26'
 default['nodejs']['dir'] = '/usr/local'
 default['nodejs']['src_url'] = "http://nodejs.org/dist"
 default['nodejs']['make_threads'] = node['cpu'] ? node['cpu']['total'].to_i : 2
