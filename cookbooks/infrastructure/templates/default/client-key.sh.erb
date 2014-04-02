@@ -12,6 +12,8 @@ fi
 
 if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
         echo "Certs have already been created. Skipping creation."; exit 1
+elif [ -f /home/ubuntu/vpn/certificates/$userid/$userid.zip ]; then
+        echo "Certs have already been created. Skipping creation."; exit 1
 else
 # Source the config file for certificate generation
 source ./vars
@@ -30,18 +32,19 @@ cd /tmp/$working_dir
 cat /home/ubuntu/vpn-text/openvpn-client.ovpn | sed -e s/userid/$userid/g > $userid-client.ovpn
 
 # Package certificates and configuration file into a package.
-tar -czvf /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz $userid.key ca.crt $userid.crt $userid-client.ovpn
+#tar -czvf /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz $userid.key ca.crt $userid.crt $userid-client.ovpn
+zip /home/ubuntu/vpn/certificates/$userid/$userid.zip $userid.key ca.crt $userid.crt $userid-client.ovpn
 
 # Files are packaged, get rid of working directory.
 rm -rf /tmp/$working_dir
 
 # Change ownership so that ubuntu user owns the files
-chown ubuntu.ubuntu /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz
+chown ubuntu.ubuntu /home/ubuntu/vpn/certificates/$userid/$userid.zip
 
 fi
 
 # Finished with activities, check for completion and issue some feeback.
-if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
+if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.zip ]; then
         echo "Cert and keys have been packaged for delivery."
 else
         echo "Certificate creation and packaging has failed. Please check for issues."; exit 1
