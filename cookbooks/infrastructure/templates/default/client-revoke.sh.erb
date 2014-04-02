@@ -10,7 +10,7 @@ if [ "$userid" == "" ]; then
         echo "No client name entered, exiting"; exit 1
 fi
 
-if [ ! -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
+if [ ! -f /home/ubuntu/vpn/certificates/$userid/$userid.zip ]; then
         echo "Certs do not appear to exist. Skipping deletion."; exit 1
 else
 # Source the config file for certificate generation

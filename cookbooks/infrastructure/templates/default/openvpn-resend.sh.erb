@@ -11,7 +11,7 @@ USER_NAME=$1
 EMAIL_ADDRESS=$2
 
 # This line pipes the static text into an email with the certificates attached to the email address provided.
-cat vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a /home/ubuntu/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
+cat vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a /home/ubuntu/vpn/$USER_NAME/$USER_NAME.zip -s "OpenVPN Client Certificates"
 
 # This line checks for success and gives us feedback.
 if [ "$?" -gt "1" ]; then
