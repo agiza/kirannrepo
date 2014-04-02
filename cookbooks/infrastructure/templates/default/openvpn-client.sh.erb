@@ -52,18 +52,18 @@ $HOME/bin/client-key.sh $USER_NAME
 if [ "$?" -gt "0" ]; then
         echo "Non-standard exit code means this step can not proceed."
 else
-# This calls the text and pipes it to mutt to send an email containing the certs and instructions to the email address provided.
-#working_dir=$USER_NAME-`date +%y%m%d%h%m`
-#mkdir -p /tmp/$working_dir
-#cd /tmp/$working_dir
+  # This calls the text and pipes it to mutt to send an email containing the certs and instructions to the email address provided.
+  #working_dir=$USER_NAME-`date +%y%m%d%h%m`
+  #mkdir -p /tmp/$working_dir
+  #cd /tmp/$working_dir
 
-if [ -f $HOME/vpn/$USER_NAME/$USER_NAME.zip ] ; then
+  if [ -f $HOME/vpn/$USER_NAME/$USER_NAME.zip ] ; then
     cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.zip -s "OpenVPN Client Certificates"
-else
+  else
     cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
+  fi
 fi
 
-fi
 # This checks for success codes and if they are not there, let the user know.
 if [ "$?" -lt "1" ]; then
         echo "Mail sent."
