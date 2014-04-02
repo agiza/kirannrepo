@@ -57,7 +57,11 @@ else
 #mkdir -p /tmp/$working_dir
 #cd /tmp/$working_dir
 
-cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
+if [ -f $HOME/vpn/$USER_NAME/$USER_NAME.zip ] ; then
+    cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.zip -s "OpenVPN Client Certificates"
+else
+    cat $HOME/vpn-text/openvpn_client_config.txt | sed -e s/userid/$USER_NAME/g | mutt -x $EMAIL_ADDRESS -a $HOME/vpn/$USER_NAME/$USER_NAME.tar.gz -s "OpenVPN Client Certificates"
+fi
 
 fi
 # This checks for success codes and if they are not there, let the user know.
