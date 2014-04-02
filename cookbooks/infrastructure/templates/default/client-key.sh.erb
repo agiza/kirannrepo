@@ -11,9 +11,9 @@ if [ "$userid" == "" ]; then
 fi
 
 if [ -f /home/ubuntu/vpn/certificates/$userid/$userid.tar.gz ]; then
-        echo "Certs have already been created. Skipping creation."; exit 1
+        echo "Certs have already been created. Skipping creation."; exit 0
 elif [ -f /home/ubuntu/vpn/certificates/$userid/$userid.zip ]; then
-        echo "Certs have already been created. Skipping creation."; exit 1
+        echo "Certs have already been created. Skipping creation."; exit 0
 else
 # Source the config file for certificate generation
 source ./vars

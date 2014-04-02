@@ -30,7 +30,7 @@ echo "     AuthName \"Cloud OpenVPN Certificate repository\"
 fi
 
 # This creates a symbolic link for easy access for apache serving, if there is already a link or file, it skips.
-if [ ! -f $HOME/vpn/$USER_NAME ]; then
+if [ ! -L $HOME/vpn/$USER_NAME ]; then
         ln -s $HOME/vpn/certificates/$USER_NAME $HOME/vpn/$USER_NAME
 fi
 
