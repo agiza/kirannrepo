@@ -1,23 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
-  <Resource name="jdbc/dataprovider"
+  <Resource name="jdbc/mysql"
             auth="Container"
             type="javax.sql.DataSource"
-            driverClassName="oracle.jdbc.driver.OracleDriver"
-            url="jdbc:oracle:thin:@<%= node[:oradb_server] %>:<%= node[:oradb_port] %>/<%= @oradb['rdoc_dbname'] %>"
-            username="<%= @oradb['rdoc_dbuser'] %>"
-            password="<%= @oradb['rdoc_dbpass'] %>"
-            maxActive="<%= node[:ordb_maxactive] %>"
+            driverClassName="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rdoc_dbname'] %>?autoReconnect=true"
+            username="<%= @mysqldb['rdoc_dbuser'] %>" password="<%= @mysqldb['rdoc_dbpass'] %>"
+            maxActive="<%= node[:db_maxactive] %>" 
             minIdle="0"
-            maxIdle="<%= node[:ordb_maxidle] %>"
+            maxIdle="<%= node[:db_maxidle] %>"
             maxWait="<%= node[:db_maxwait] %>"
             timeBetweenEvictionRunsMillis="<%= node[:db_timeevict] %>"
             removeAbandoned="true"
             removeAbandonedTimeout="600"
-            validationQuery="<%= node[:validation_query] %>"
+            validationQuery= "SELECT 1"
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
             testOnBorrow="true"
             testWhileIdle="false"
-            initialSize="<%= node[:db_initsize] %>"
-            />
+            initialSize="<%= node[:db_initsize] %>"/>
 </Context>
