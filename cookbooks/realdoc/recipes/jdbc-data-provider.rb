@@ -74,7 +74,7 @@ template "/opt/tomcat/conf/Catalina/localhost/jdbc-data-provider.xml" do
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(:mysqldb => mysqldb["#{app_name}"])
+  variables(:mysqldb => mysqldb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
