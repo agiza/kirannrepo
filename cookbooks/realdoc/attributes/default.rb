@@ -128,5 +128,7 @@ default['rd_corres_batch'] = '10'
 default['rd_corres_recon'] = '10'
 #storage 
 default['rd_storage_method'] = 'GRID_FS'
-
+default['rd_corr_storage_method'] = 'GRID_FS'
+default['rd_pig_storage_method'] = 'GRID_FS'
+default['rd_dconv_storage_method'] = 'GRID_FS'
 
