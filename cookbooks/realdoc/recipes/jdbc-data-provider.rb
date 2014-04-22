@@ -69,8 +69,8 @@ begin
   raise "Error trying to load oradb information from infrastructure data bag."
 end
 
-template "/opt/tomcat/conf/Catalina/localhost/jdbc-data-provider.xml" do
-  source "jdbc-data-provider.xml.erb"
+template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
+  source "#{app_name}.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
