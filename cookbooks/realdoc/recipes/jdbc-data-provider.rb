@@ -63,18 +63,18 @@ end
 
 
 begin
-  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
-rescue Net::HTTPServerException
-  mysqldb = data_bag_item("infrastructure", "mysqldb")
-rescue Net::HTTPServerException
-  raise "Error trying to load mysqldb information from infrastructure data bag."
+  oradb = data_bag_item("infrastructure", "oradb#{node.chef_environment}")
+  rescue Net::HTTPServerException
+  oradb = data_bag_item("infrastructure", "oradb")
+  raise "Error trying to load oradb information from infrastructure data bag."
 end
+
 template "/opt/tomcat/conf/Catalina/localhost/jdbc-data-provider.xml" do
   source "jdbc-data-provider.xml.erb"
   group 'tomcat'
   owner 'tomcat'
   mode '0644'
-  variables(:mysqldb => mysqldb["realdoc"])
+  variables(:oradb => oradb["realdoc"])
   notifies :restart, resources(:service => "altitomcat")
 end
 
