@@ -106,4 +106,5 @@ thread.taskExecutor.waitForTasksToCompleteOnShutdown=true
 ##Thread Task Executor Properties - End
 
 backoffice.environment.key=<%= @backoffice['backoffice.environment.key'] %>
-psa.report.scheduler.delay=0 0 16 * * ?
+#psa.report.scheduler.delay=0 0 13 * * ?
+psa.report.scheduler.delay=0 0 3,10,13,16 * * ?
