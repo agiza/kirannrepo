@@ -14,7 +14,7 @@
             timeBetweenEvictionRunsMillis="<%= node[:db_timeevict] %>"
             removeAbandoned="true"
             removeAbandonedTimeout="600"
-            validationQuery= "SELECT 1"
+            validationQuery= "SELECT 1 from dual"
             validationQueryTimeout="<%= node[:db_valquerytimeout] %>"
             testOnBorrow="true"
             testWhileIdle="false"
