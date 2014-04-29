@@ -130,6 +130,47 @@ directory "/opt/tomcat/correspondence/input" do
   group "tomcat"
 end
 
+directory "/opt/tomcat/files" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/archive" do 
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/archive/recon" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/archive/recon/ack" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/input" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/input/recon/" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/working/" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+directory "/opt/tomcat/files/working/recon/" do
+  owner "tomcat"
+  group "tomcat"
+end
+
+
 include_recipe "realdoc::correspondence-mount"
 include_recipe "realdoc::cis-mount"
 # commented out the inclusion of the rd-document-converter.
