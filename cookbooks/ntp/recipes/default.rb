@@ -24,6 +24,6 @@ template '/etc/ntp.conf' do
    )
 end
 
-service 'ntpd' do
+service 'ntp' do
    action [:enable, :start]
 end
