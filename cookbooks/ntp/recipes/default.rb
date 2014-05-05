@@ -19,3 +19,8 @@ template "/etc/ntp.conf" do
    notifies :restart, "service[ntpd]"
 end
 
+service "ntpd" do
+  supports :stop => true, :start => true, :restart => true, :reload => true  
+action [:enable, :start]
+
+end
