@@ -148,6 +148,10 @@ default[:apps] = [
         :name => 'int-rtlegacy-simulator',
         :version => 'intrtl_sim_version',
         :recipe => 'int-rtlegacy-simulator'
+    }, {
+        :name => 'correspondence-request',
+        :version => 'corrreq_version',
+        :recipe => 'correspondence-request'
     }
 ]
 default["vsftp"] = {
