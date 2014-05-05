@@ -87,5 +87,6 @@ template "/opt/realdoc/conf/#{app_name}.yaml" do
 	  :microservice => {
            :maitred_app_port => "#{maitred_app_port}",
           :maitred_adm_port => "#{maitred_adm_port}"
-
+}
+)
 end
