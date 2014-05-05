@@ -1,0 +1,58 @@
+#MongoDB Settings
+rd.mongo.host=<%= @mongo[:host] %>
+rd.mongo.database=<%= @mongo[:database] %>
+
+#amqp settings
+rd.amqp.host=<%= @amqp[:host] %>
+rd.amqp.port=<%= @amqp[:port] %>
+rd.amqp.username=<%= @amqp[:username] %>
+rd.amqp.password=<%= @amqp[:password] %>
+rd.amqp.vhost=<%= @amqp[:vhost] %>
+
+#DB Configuraions
+driverClassName="oracle.jdbc.driver.OracleDriver"
+url="jdbc:oracle:thin:@<%= node[:oradb_server] %>:<%= node[:oradb_port] %>/<%= @oradb['rdoc_dbname'] %>"
+username="<%= @oradb['rdoc_dbuser'] %>"
+password="<%= @oradb['rdoc_dbpass'] %>"
+
+#any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+
+#the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+#the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+#the minimum number of connections to keep open
+  minSize: 8
+
+#the maximum number of connections to keep open
+  maxSize: 32
+
+#whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
+#TODO find proper keys!
+# # how long a connection must be held before it can be validated
+#validationInterval: 10s
+#
+#the maximum lifetime of an idle connection
+#closeConnectionIfIdleFor: 1 minute
+logging:
+  level: INFO
+
+swagger:
+  enabled: true
+
+#TODO add microservice section 
+
+server:
+  applicationConnectors:
+      - type: http
+        port: <%= @microservice['maitred_app_port'] %>
+  adminConnectors:
+    - type: http
+      port: <%= @microservice['maitred_adm_port'] %>
+

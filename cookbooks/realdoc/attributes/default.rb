@@ -132,4 +132,8 @@ default['rd_storage_method'] = 'GRID_FS'
 default['rd_corr_storage_method'] = 'GRID_FS'
 default['rd_pig_storage_method'] = 'GRID_FS'
 default['rd_dconv_storage_method'] = 'GRID_FS'
-
+#correspondence-request ports (microservice)
+default[:microservice] = {
+    :maitred_app_port => '17200',
+    :maitred_adm_port => '18200'
+}
