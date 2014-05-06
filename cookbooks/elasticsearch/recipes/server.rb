@@ -11,6 +11,13 @@ package "elasticsearch" do
   action :upgrade
 end
 
+directory "/opt/elasticsearch" do
+  owner  "elasticsearch"
+  group  "elasticsearch"
+  mode   "0644"
+  action :create
+end
+
 directory "/opt/elasticsearch/logs" do
   owner  "elasticsearch"
   group  "elasticsearch"
