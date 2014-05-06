@@ -35,6 +35,9 @@ include_recipe "integration::default"
 amqp_host = node[:amqphost]
 amqp_port = node[:amqpport]
 
+rtcenhost = node[:rtcenhost]
+rtcenport = node[:rtcenport]
+
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
@@ -83,6 +86,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :amqp_port => amqp_port,
     :amqp_user => amqp_user,
     :amqp_pass => amqp_pass,
+    :rt_cen_host => "#{rtcenhost}:#{rtcenport}",
     :amqp_vhost => node[:realtrans_amqp_vhost],
     :maxfilesize => node[:integration][:realtrans][:logging][:maxfilesize],
     :maxhistory => node[:integration][:realtrans][:logging][:maxhistory],
