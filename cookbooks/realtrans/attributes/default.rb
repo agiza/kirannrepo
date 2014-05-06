@@ -38,3 +38,6 @@ default[:realtrans][:pv][:request_url] = "http://localhost:8080/int-rtlegacy-sim
 default[:realtrans][:pv][:legacy_user] = "user"
 default[:realtrans][:pv][:legacy_password] = "password"
 
+# Realtrans default mobile attributes
+default[:realtrans][:vp][:mobileEnabled] = "false"
+

@@ -110,7 +110,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :maxhistory => node[:realtrans][:logging][:maxhistory],
     :pv_request_url => node[:realtrans][:pv][:request_url],
     :legacy_user => node[:realtrans][:pv][:legacy_user],
-    :legacy_password => node[:realtrans][:pv][:legacy_password]
+    :legacy_password => node[:realtrans][:pv][:legacy_password],
+    :mobile_enabled => node[:realtrans][:vp][:mobileEnabled]
   )
 end
 

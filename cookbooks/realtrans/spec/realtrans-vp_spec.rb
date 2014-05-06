@@ -70,6 +70,7 @@ describe 'realtrans::realtrans-vp' do
         node.set[:realtrans][:logging][:maxhistory] = 1999
         node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
         node.set[:realtrans][:pv][:request_url] = "http://pv/request/url"
+        node.set[:realtrans][:vp][:mobileEnabled] = "true"
     end.converge 'realtrans::realtrans-vp'
   end
 
@@ -95,6 +96,7 @@ describe 'realtrans::realtrans-vp' do
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.startupAuthenticationProvider.enabled=false'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.overwriteAppConfigArtifacts=true'
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.sendStacktrace=false'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.vp.mobileEnabled=true'
   end
 
 
