@@ -53,6 +53,15 @@ yum_package "#{app_name}" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+# Integration elements pulled from data bag.
+begin
+  amqpcred = data_bag_item("rabbitmq", "realtrans")
+    rescue Net::HTTPServerException
+      raise "Error trying to load rabbitmq credentials from rabbitmq data bag."
+end
+amqp_user,amqp_pass = amqpcred['user'].split(" ").first.split("|")
+
+
 template "/opt/tomcat/conf/rtlegacy.simulator.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
