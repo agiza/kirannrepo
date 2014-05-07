@@ -48,5 +48,6 @@ default[:int_rtl][:poller_delay] = 120000
 default[:integration][:realtrans][:logging][:maxfilesize] = "10MB"
 default[:integration][:realtrans][:logging][:maxhistory] = 7
 
+default[:int_rtlegacy_simulator][:amqp][:heartbeat] = 60
 default[:int_rtlegacy_simulator][:legacy_user]="user"
 default[:int_rtlegacy_simulator][:legacy_password]="password"

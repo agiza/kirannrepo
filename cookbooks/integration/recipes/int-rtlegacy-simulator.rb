@@ -32,6 +32,8 @@ else
 end
 
 include_recipe "integration::default"
+amqp_host = node[:amqphost]
+amqp_port = node[:amqpport]
 
 service "altitomcat" do
   supports :stop => true, :start => true, :restart => true, :reload => true
@@ -57,6 +59,12 @@ template "/opt/tomcat/conf/rtlegacy.simulator.properties" do
   owner 'tomcat'
   mode '0644'
   variables( 
+     :amqp_host => amqp_host,
+     :amqp_port => amqp_port,
+     :amqp_user => amqp_user,
+     :amqp_pass => amqp_pass,
+     :amqp_vhost => node[:realtrans_amqp_vhost],
+     :amqp_heartbeat => node[:int_rtlegacy_simulator][:amqp][:heartbeat],
      :legacy_user => node[:int_rtlegacy_simulator][:legacy_user],
      :legacy_password => node[:int_rtlegacy_simulator][:legacy_password]
   )
