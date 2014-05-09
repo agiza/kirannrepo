@@ -11,25 +11,33 @@ package "elasticsearch" do
   action :upgrade
 end
 
-directory "/opt/elasticsearch" do
-  owner  "elasticsearch"
-  group  "elasticsearch"
-  mode   "0644"
-  action :create
+file "/etc/profile.d/elasticsearch.sh" do
+     owner "root"
+     group "root"
+     mode  "0644"
+     content "export ES_HOME=/usr/share/elasticsearch"
+     action :create
 end
 
-directory "/opt/elasticsearch/logs" do
-  owner  "elasticsearch"
-  group  "elasticsearch"
-  mode   "0644"
-  action :create
+execute "mapper-attachments plugin" do
+  command '/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/2.0.0'
+  not_if do 
+     File.exists?("/usr/share/elasticsearch/plugins/mapper-attachments")
+  end
 end
 
-directory "/opt/elasticsearch/data" do
-  owner  "elasticsearch"
-  group  "elasticsearch"
-  mode   "0644"
-  action :create
+execute "river-mongodb plugin" do
+  command '/usr/share/elasticsearch/bin/plugin -install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.0'
+   not_if do 
+     File.exists?("/usr/share/elasticsearch/plugins/river-mongodb")
+   end
+end
+
+execute "elasticsearch-gui plugin" do
+  command '/usr/share/elasticsearch/bin/plugin -install jettro/elasticsearch-gui'
+   not_if do
+       File.exists?("/usr/share/elasticsearch/plugins/gui")
+   end
 end
 
 service "elasticsearch" do
