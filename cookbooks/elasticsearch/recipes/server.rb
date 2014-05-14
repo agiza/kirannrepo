@@ -11,6 +11,13 @@ package "elasticsearch" do
   action :upgrade
 end
 
+directory "/usr/share/elasticsearch/logs" do
+        owner "root"
+	group "root"
+        mode 755
+        action :create
+end
+
 file "/etc/profile.d/elasticsearch.sh" do
      owner "root"
      group "root"

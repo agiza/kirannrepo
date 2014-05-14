@@ -101,7 +101,7 @@ cluster.name: <%= node[:hostname] %>
 
 # Set the number of shards (splits) of an index (5 by default):
 #
-# index.number_of_shards: 5
+index.number_of_shards: 10
 
 # Set the number of replicas (additional copies) of an index (1 by default):
 #
@@ -143,7 +143,7 @@ cluster.name: <%= node[:hostname] %>
 
 # Path to directory where to store index data allocated for this node.
 #
-path.data: /opt/elasticsearch/data
+path.data: /usr/share/elasticsearch/data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (à la RAID 0) on a file level, favouring locations with most free
@@ -158,7 +158,7 @@ path.data: /opt/elasticsearch/data
 # Path to log files:
 #
 # path.logs: /path/to/logs
-path.logs: /opt/elasticsearch/logs
+path.logs: /usr/share/elasticsearch/logs
 
 # Path to where plugins are installed:
 #
@@ -316,12 +316,12 @@ network.host: <%= node[:ipaddress] %>
 #
 # 1. Disable multicast discovery (enabled by default):
 #
-# discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.multicast.enabled: false
 #
 # 2. Configure an initial list of master nodes in the cluster
 #    to perform discovery when new nodes (master or data) are started:
 #
-# discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
+discovery.zen.ping.unicast.hosts: ["10.0.10.230:9300", "10.0.10.64:9300"]
 
 # EC2 discovery allows to use AWS EC2 API in order to perform discovery.
 #
