@@ -19,7 +19,7 @@ package 'ntp' do
    action :upgrade
 end
 
-service node [:ntp][:service] do
+service node[:ntp][:service] do
   service_name node[:ntp][:service]
   action [:enable, :start,:restart]
 end
