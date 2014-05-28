@@ -138,7 +138,8 @@ end
 print @mongodb_host
 
 execute "elasticSearchRiverIndex" do
-  command "/usr/share/elasticsearch/indextmp/elasticSearchRiverIndex.sh -h localhost -p #{elasticsearch_port} -k #{mongodb_host} -q #{mongodb_port} -d #{mongodb_database} -v #{elasticsearch_index}"
+  command "/usr/share/elasticsearch/indextmp/elasticSearchRiverIndex.sh -h localhost -p node[:elasticsearch_port] -k node[:mongodb_host] -q node[:mongodb_port] -d node[:mongodb_database] -v node[:elasticsearch_index]"
   action :run
 end
 
+node[:elasticsearch_port]
