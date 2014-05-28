@@ -1,0 +1,15 @@
+{
+    "type": "mongodb",
+    "mongodb": {
+      "servers": [
+        { "host": "10.0.10.87", "port": 27017 }
+      ],
+      "options": { "secondary_read_preference": true, "drop_collection": true },
+      "db": "realdocqa",
+      "collection": "documents"
+    },
+    "index": {
+      "name": "documents",
+      "type": "document"
+    }
+  }

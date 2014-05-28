@@ -1,0 +1,15 @@
+{
+"type": "mongodb",
+"mongodb": {
+"servers": [
+{ "host": "mongo_host", "port": mongo_port }
+],
+"options": { "secondary_read_preference": true },
+"db": "mongo_db",
+"collection": "documents"
+},
+"index": {
+"name": "documentname",
+"type": "documenttype"
+}
+}
