@@ -175,15 +175,15 @@ mongo.database=<%= node[:mongodb_database] %>
 
 
 #ElasticSearch props
-rd.elasticsearch.documents.indexName=documents
-rd.elasticsearch.documents.typeName=document
-rd.elasticsearch.dispatches.indexName=dispatches
-rd.elasticsearch.dispatches.typeName=dispatch
+rd.elasticsearch.documents.indexName=documents_<%= @realdoc['rd-es-version'] %>
+rd.elasticsearch.documents.typeName=document_<%= @realdoc['rd-es-version'] %>
+rd.elasticsearch.dispatches.indexName=dispatches_<%= @realdoc['rd-es-version'] %>
+rd.elasticsearch.dispatches.typeName=dispatch_<%= @realdoc['rd-es-version'] %>
 rd.elasticsearch.dispatches.simpleSearchFields=batchId,businessKey,clientId,deliveryChannel,deliveryProfileCode,destination,externalRequestId,status.code,status.createdBy,status.message,statusHistory.code,statusHistory.createdBy,statusHistory.message
 rd.elasticsearch.searchType=query_and_fetch
-#rd.elasticsearch.nodes=<Node_Host:Port>,<Node_Host:Port>
-rd.elasticsearch.nodes=10.0.10.230:9300,10.0.10.64:9300
-#rd.elasticsearch.clustername=<cluster_name>
-rd.elasticsearch.clustername=realdocvaultqa
+rd.elasticsearch.nodes=<%= @realdoc['rd-es-node'] %>
+#rd.elasticsearch.nodes=10.0.10.230:9300,10.0.10.64:9300
+rd.elasticsearch.clustername=<%= @realdoc['rd-es-cluster'] %>
+#rd.elasticsearch.clustername=realdocvaultqa
 rd.elasticsearch.ping_timeout=10s
 rd.elasticsearch.transportclient.sniff=true
