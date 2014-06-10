@@ -135,11 +135,10 @@ service "elasticsearch" do
   action [:enable, :start]
 end
 
-print @mongodb_host
+log "Here is one of the node's attributes: #{node['mongodb_database']}"
 
 execute "elasticSearchRiverIndex" do
-  command "/usr/share/elasticsearch/indextmp/elasticSearchRiverIndex.sh -h localhost -p node[:elasticsearch_port] -k node[:mongodb_host] -q node[:mongodb_port] -d node[:mongodb_database] -v node[:elasticsearch_index]"
-  action :run
+#   command "echo I found this entry #{node['mongodb_database']}"
+  command "/usr/share/elasticsearch/indextmp/elasticSearchRiverIndex.sh -h "localhost" -p "9200"  -k "10.0.0.138" -q "27017" -d #{node['mongodb_database']} -v "v1""
 end
 
-node[:elasticsearch_port]

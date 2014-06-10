@@ -1,0 +1,90 @@
+maitreDLink: "http://realdoc-qa.altidev.com:18200/ping"
+mongo:
+  host: "localhost"
+  db: "realdoc"
+  letterRequestAuditCollection: "audit.letterRequests"
+  letterRequestMappingCollection: "rsLetterMapping"
+
+quartz:
+  jobs:
+    ? realdoc.adapter.ods.jobs.LetterRequestBatchProcessorJob
+    : "Every(5mn)"
+
+messaging:
+  correspondenceRESTEndpoint: "http://realdoc-qa.altidev.com:17200/requests"
+  correspondenceHTTPMethod: "POST"
+
+database:
+  # the name of your JDBC driver
+  driverClass: com.mysql.jdbc.Driver
+
+  # the username
+  user: "realdoc"
+
+  # the password
+  password: "realdoc"
+
+  # the JDBC URL
+  url: jdbc:mysql://realdevdbprim.altidev.net:3306/ods?socketTimeout=1000&connectTimeout=1000&autoReconnect=true
+
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+  # the minimum number of connections to keep open
+  minSize: 8
+
+  # the maximum number of connections to keep open
+  maxSize: 32
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+
+# TODO find proper keys!
+#  # how long a connection must be held before it can be validated
+#  validationInterval: 10s
+#
+#  # the maximum lifetime of an idle connection
+#  closeConnectionIfIdleFor: 1 minute
+logging:
+  level: DEBUG
+  appenders:
+
+    - type: file
+      currentLogFilename: /var/log/realdoc/adapter-ods.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: /var/log/realdoc/adapter-ods-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
+      logFormat: "[%d{ISO8601,UTC}] %-5p %X{appId:-adapter-ods-1} %c: %m%n%rEx"
+
+swagger:
+  enabled: true
+
+server:
+  applicationConnectors:
+      - type: http
+        port: 9080
+  adminConnectors:
+    - type: http
+      port: 9081
+
+  requestLog:
+    timeZone: UTC
+    appenders:
+      - type: file
+        threshold: ALL
+        currentLogFilename: /var/log/realdoc/adapter-ods-access.log
+        archive: true
+        archivedLogFilenamePattern: /var/log/realdoc/adapter-ods-access.%d.log.gz
+        archivedFileCount: 5
+
+custom:
+  requestProcessingThreadPoolSize: 10
