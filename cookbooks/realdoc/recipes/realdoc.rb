@@ -97,6 +97,7 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
       },
       :libreoffice => node[:libreoffice],
       :elastic_host => "#{elasticHost}",
+      :realdoc  => realdoc['realdoc'],
       :rdochost => "#{rdochost}:#{rdocport}",
       :melissadata => melissadata['melissadata'],
       :mailserver => mailserver,
