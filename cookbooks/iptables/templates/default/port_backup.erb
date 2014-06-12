@@ -1,0 +1,5 @@
+# for backup bpcd 13782/tcp bpcd
+-A FWR -p tcp -m tcp --dport 13782 -j ACCEPT
+# # 
+# # for backup vnetd 13724/tcp vnetd
+-A FWR -p tcp -m tcp --dport 13724 -j ACCEPT

@@ -1,0 +1,14 @@
+# for ITCM enterprise wide inventory management tool for agent communication
+-A FWR -p tcp -m tcp --dport 7 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 22 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 135 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 322 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 443 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 554 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 3001 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 3002 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 4104 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 4105 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 4728 -j ACCEPT
+-A FWR -p tcp -m tcp --dport 5250 -j ACCEPT
+
