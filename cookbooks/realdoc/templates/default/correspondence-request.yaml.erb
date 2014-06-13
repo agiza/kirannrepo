@@ -55,7 +55,7 @@ swagger:
 server:
   applicationConnectors:
       - type: http
-        port: <%= @microservice['maitred_app_port'] %>
+        port: <%= @app_port_corr %>
   adminConnectors:
     - type: http
-      port: <%= @microservice['maitred_adm_port'] %>
+      port: <%= @adm_port_cor %>

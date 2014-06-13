@@ -84,9 +84,9 @@ template "/opt/realdoc/conf/#{app_name}.yaml" do
           :password => "#{rdrabbit[1]}",
           :vhost => node[:realdoc_amqp_vhost]
       },
-	  :microservice => {
-           :maitred_app_port => "#{maitred_app_port}",
-          :maitred_adm_port => "#{maitred_adm_port}"
-}
+        :app_port_corr => node[:microservice][:correspondence_request][:app_port],
+        :adm_port_corr => node[:microservice][:correspondence_request][:adm_port],
+        :app_port_ods => node[:microservice][:adapter_ods][:app_port],
+        :adm_port_ods => node[:microservice][:adapter_ods][:adm_port]
 )
 end

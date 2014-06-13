@@ -1,4 +1,4 @@
-maitreDLink: "http://realdoc-qa.altidev.com:18200/ping"
+maitreDLink: "http://<%= @rdochost %>:<%= @adm_port_corr %>/ping"
 mongo:
   host: "localhost"
   db: "realdoc"
@@ -11,7 +11,7 @@ quartz:
     : "Every(5mn)"
 
 messaging:
-  correspondenceRESTEndpoint: "http://realdoc-qa.altidev.com:17200/requests"
+  correspondenceRESTEndpoint: "http://<%= @rdochost %>:<%= @app_port_corr %>/requests"
   correspondenceHTTPMethod: "POST"
 
 database:
