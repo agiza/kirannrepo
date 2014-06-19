@@ -130,4 +130,9 @@ describe 'realtrans::realtrans-vp' do
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.previous.valuations.requestUrl=http://pv/request/url'
   end
 
+  it 'should include the pv fetch filter property' do
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.previous.valuations.order.filter=alwaysFetchFilter'
+  end
+
+
 end

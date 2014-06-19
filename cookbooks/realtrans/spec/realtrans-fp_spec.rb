@@ -124,4 +124,8 @@ describe 'realtrans::realtrans-fp' do
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rt.previous.valuations.requestUrl=http://localhost:8080/int-rtlegacy-simulator/PriorValuation.svc/GetPriorValuationDetails'
   end
 
+  it 'should include the pv fetch filter property' do
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rt.previous.valuations.order.filter=alwaysFetchFilter'
+  end
+
 end
