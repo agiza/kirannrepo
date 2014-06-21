@@ -32,11 +32,11 @@ end
   end
 end
 
-link "/data" do
-  to "/mongod"
-  owner "mongod"
-  group "mongod"
-end
+# link "/data" do
+#   to "/mongod"
+#   owner "mongod"
+#   group "mongod"
+# end
 
 directory "/data/db" do
   owner  "mongod"
