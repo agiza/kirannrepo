@@ -1,5 +1,0 @@
-// to run: sudo $MONGO_HOME/bin/mongo localhost:27017 --quiet shardadd.js
-<% @replicas.each do |replica| -%>
-sh.addShard("<%= "#{@replicaset}/#{replica}" %>");
-<% end -%>
-

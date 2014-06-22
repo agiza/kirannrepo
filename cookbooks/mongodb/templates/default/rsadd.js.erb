@@ -1,5 +1,0 @@
-// to run: sudo $MONGO_HOME/bin/mongo localhost:27017 --quiet rsadd.js
-rs.initiate();
-<% @replicas.each do |replica| -%>
-rs.add("<%= replica %>");
-<% end -%>

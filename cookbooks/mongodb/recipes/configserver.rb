@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: mongodb
-# Recipe:: mongos
+# Recipe:: configserver
 #
 # Copyright 2011, edelight GmbH
 # Authors:
@@ -19,35 +19,20 @@
 # limitations under the License.
 #
 
-node.set['mongodb']['is_mongos'] = true
+node.set['mongodb']['is_configserver'] = true
+node.set['mongodb']['cluster_name'] = node['mongodb']['cluster_name']
 node.set['mongodb']['shard_name'] = node['mongodb']['shard_name']
-node.override['mongodb']['instance_name'] = 'mongos'
 
 include_recipe 'mongodb::install'
-include_recipe 'mongodb::mongo_gem'
 
-service 'mongodb' do
-  action [:disable, :stop]
-end
-
-configsrvs = search(
-  :node,
-  "mongodb_cluster_name:#{node['mongodb']['cluster_name']} AND \
-   mongodb_is_configserver:true AND \
-   chef_environment:#{node.chef_environment}"
-)
-
-if configsrvs.length != 1 && configsrvs.length != 3
-  Chef::Log.error("Found #{configsrvs.length} configservers, need either one or three of them")
-  fail 'Wrong number of configserver nodes' unless Chef::Config[:solo]
-end
-
+# mongodb_instance will set configsvr = true in the config file.
+# http://docs.mongodb.org/manual/reference/configuration-options/#sharded-cluster-options
+# we still explicitly set the port and small files.
 mongodb_instance node['mongodb']['instance_name'] do
-  mongodb_type 'mongos'
+  mongodb_type 'configserver'
   port         node['mongodb']['config']['port']
   logpath      node['mongodb']['config']['logpath']
   dbpath       node['mongodb']['config']['dbpath']
-  configservers configsrvs
   enable_rest  node['mongodb']['config']['rest']
   smallfiles   node['mongodb']['config']['smallfiles']
 end
