@@ -74,19 +74,21 @@ when 'rhel', 'fedora'
   # determine the package name
   # from http://rpm.pbone.net/index.php3?stat=3&limit=1&srodzaj=3&dl=40&search=mongodb
   # verified for RHEL5,6 Fedora 18,19
-  default[:mongodb][:package_name] = 'mongodb-server'
+  default[:mongodb][:package_name] = 'mongodb-enterprise-server'
   default[:mongodb][:sysconfig_file] = '/etc/sysconfig/mongodb'
   default[:mongodb][:user] = 'mongod'
   default[:mongodb][:group] = 'mongod'
   default[:mongodb][:init_script_template] = 'redhat-mongodb.init.erb'
   default[:mongodb][:default_init_name] = 'mongod'
   default[:mongodb][:instance_name] = 'mongod'
+
+  # we always install from the distro using the enterprise version
   # then there is this guy
-  if node['platform'] == 'centos' || node['platform'] == 'amazon'
-    Chef::Log.warn("CentOS doesn't provide mongodb, forcing use of mongodb-org repo")
-    default[:mongodb][:install_method] = 'mongodb-org'
-    default[:mongodb][:package_name] = 'mongodb-org'
-  end
+  # if node['platform'] == 'centos' || node['platform'] == 'amazon'
+  #   Chef::Log.warn("CentOS doesn't provide mongodb, forcing use of mongodb-org repo")
+  #   default[:mongodb][:install_method] = 'mongodb-org'
+  #   default[:mongodb][:package_name] = 'mongodb-org'
+  # end
 when 'debian'
   if node['platform'] == 'ubuntu'
     default[:mongodb][:apt_repo] = 'ubuntu-upstart'

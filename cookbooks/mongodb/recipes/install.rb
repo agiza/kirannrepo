@@ -20,7 +20,6 @@ template node['mongodb']['dbconfig_file'] do
   variables(
     :config => node['mongodb']['config']
   )
-  action :create_if_missing
 end
 
 # and we install our own init file
@@ -45,7 +44,6 @@ template init_file do
     :bind_ip =>        node['mongodb']['config']['bind_ip'],
     :port =>           node['mongodb']['config']['port']
   )
-  action :create_if_missing
 end
 
 case node['platform_family']
