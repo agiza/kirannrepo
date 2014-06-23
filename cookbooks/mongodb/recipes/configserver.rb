@@ -18,10 +18,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+node.default['mongodb']['config']['dbpath'] = '/data/db'
+node.default['mongodb']['config']['nojournal'] = false
+node.default['mongodb']['config']['rest'] = false
+node.default['mongodb']['config']['smallfiles'] = false
 node.set['mongodb']['is_configserver'] = true
 node.set['mongodb']['cluster_name'] = node['mongodb']['cluster_name']
-node.set['mongodb']['shard_name'] = node['mongodb']['shard_name']
+# node.set['mongodb']['shard_name'] = node['mongodb']['shard_name']
 
 include_recipe 'mongodb::install'
 

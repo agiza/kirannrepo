@@ -21,6 +21,8 @@
 
 node.set['mongodb']['is_mongos'] = true
 node.set['mongodb']['shard_name'] = node['mongodb']['shard_name']
+node.set['mongodb']['config']['nojournal'] = nil
+node.set['mongodb']['package_name'] = 'mongodb-enterprise-mongos'
 node.override['mongodb']['instance_name'] = 'mongos'
 
 include_recipe 'mongodb::install'
@@ -46,8 +48,8 @@ mongodb_instance node['mongodb']['instance_name'] do
   mongodb_type 'mongos'
   port         node['mongodb']['config']['port']
   logpath      node['mongodb']['config']['logpath']
-  dbpath       node['mongodb']['config']['dbpath']
+  dbpath       nil
   configservers configsrvs
-  enable_rest  node['mongodb']['config']['rest']
-  smallfiles   node['mongodb']['config']['smallfiles']
+  enable_rest  nil
+  smallfiles   nil
 end

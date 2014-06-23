@@ -17,11 +17,6 @@ when 'rhel', 'fedora'
 else
   default['mongodb']['config']['fork'] = false
 end
-default['mongodb']['config']['dbpath'] = '/var/lib/mongodb'
-default['mongodb']['config']['nojournal'] = false
-default['mongodb']['config']['rest'] = false
-default['mongodb']['config']['smallfiles'] = false
-default['mongodb']['config']['oplogSize'] = nil
 
 default['mongodb']['config']['replSet'] = nil
 default['mongodb']['config']['keyFile'] = '/etc/mongodb.key' if node['mongodb']['key_file_content']

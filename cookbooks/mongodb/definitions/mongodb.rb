@@ -105,7 +105,7 @@ define :mongodb_instance,
     elsif new_resource.is_shard && new_resource.shard_name
       # for replicated shards we autogenerate
       # the replicaset name for each shard
-      replicaset_name = "rs_#{new_resource.shard_name}"
+      replicaset_name = "#{new_resource.shard_name}"
     else
       # Well shoot, we don't have a predefined name and we aren't
       # really sharded. If we want backwards compatibility, this should be:
@@ -115,7 +115,7 @@ define :mongodb_instance,
       # But using a non-default shard name when we're creating a default
       # replicaset name seems surprising to me and needlessly arbitrary.
       # So let's use the *default* default in this case:
-      replicaset_name = 'rs_default'
+      replicaset_name = 'default'
     end
   else
     # not a replicaset, so no name
@@ -160,15 +160,16 @@ define :mongodb_instance,
   end
 
   # dbpath dir [make sure it exists]
-  directory new_resource.dbpath do
-    owner new_resource.mongodb_user
-    group new_resource.mongodb_group
-    mode '0755'
-    action :create
-    recursive true
-    not_if { new_resource.is_mongos }
+  if new_resource.dbpath
+    directory new_resource.dbpath do
+      owner new_resource.mongodb_user
+      group new_resource.mongodb_group
+      mode '0755'
+      action :create
+      recursive true
+      not_if { new_resource.is_mongos }
+    end
   end
-
   # init script
   template new_resource.init_file do
     cookbook new_resource.template_cookbook

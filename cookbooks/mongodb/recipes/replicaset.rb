@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+node.default['mongodb']['config']['dbpath'] = '/data/db'
+node.default['mongodb']['config']['nojournal'] = false
+node.default['mongodb']['config']['rest'] = false
+node.default['mongodb']['config']['smallfiles'] = false
 node.set['mongodb']['is_replicaset'] = true
 node.set['mongodb']['cluster_name'] = node['mongodb']['cluster_name']
 
