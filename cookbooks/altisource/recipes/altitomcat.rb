@@ -12,7 +12,9 @@ if node[:altisource][:altitomcat][:secure_proxy]
 end
 
 include_recipe "altisource::volume"
-if node.attribute["altitomcat_volume"]
+if node['altitomcat']['volume']['skip']
+  Chef::Log.info("Skipping tomcat volume creation.  This really should be the default.")
+elsif node.attribute["altitomcat_volume"]
   lvm_mount "altitomcat" do
     device node[:altitomcat_volume][:device]
     group  node[:altitomcat_volume][:group]

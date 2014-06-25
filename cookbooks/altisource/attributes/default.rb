@@ -1,3 +1,4 @@
+default[:altitomcat][:volume][:skip] = false
 default[:altisource][:altitomcat][:secure_proxy] = false
 default[:altisource][:altitomcat][:jacoco_enabled] = false
 default[:altisource][:altitomcat][:setenv_cmds] = ''
