@@ -193,8 +193,8 @@ rd.elasticsearch.dispatches.typeName=dispatch
 rd.elasticsearch.dispatches.simpleSearchFields=batchId,businessKey,clientId,deliveryChannel,deliveryProfileCode,destination,externalRequestId,status.code,status.createdBy,status.message,statusHistory.code,statusHistory.createdBy,statusHistory.message
 rd.elasticsearch.searchType=query_and_fetch
 #rd.elasticsearch.nodes=<Node_Host:Port>,<Node_Host:Port>
-rd.elasticsearch.nodes=<%= @realdoc['es_node'] %>
+rd.elasticsearch.nodes=<%= node[:realdoc][:elasticsearch][:nodes] %>
 #rd.elasticsearch.clustername=<cluster_name>
-rd.elasticsearch.clustername=<%= @realdoc['es_cluster'] %>
+rd.elasticsearch.clustername=<%= node[:realdoc][:elasticsearch][:cluster] %>
 rd.elasticsearch.ping_timeout=10s
 rd.elasticsearch.transportclient.sniff=true

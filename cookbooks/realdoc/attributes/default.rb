@@ -185,4 +185,10 @@ default[:maitred] = {
          :log_file_count => '3'
     },
 }
- 
+default['realdoc'] = {
+         :elasticsearch => {
+           :nodes => 'change me' ,
+           :clusters => 'change me'
+           :version => 'v'
+         }
+}
