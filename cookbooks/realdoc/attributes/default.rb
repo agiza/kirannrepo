@@ -188,7 +188,7 @@ default[:maitred] = {
 default['realdoc'] = {
          :elasticsearch => {
            :nodes => 'change me' ,
-           :clusters => 'change me'
+           :clusters => 'change me',
            :version => 'v'
          }
 }
