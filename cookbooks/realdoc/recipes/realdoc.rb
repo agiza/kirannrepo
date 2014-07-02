@@ -75,7 +75,11 @@ rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 melissadata = data_bag_item("integration", "melissadata")
 mailserver = data_bag_item("integration", "mail")
 ldapserver = data_bag_item("integration", "ldap")
-realdoc = data_bag_item("integration", "realdoc")
+begin
+realdoc = data_bag_item("integration", "realdoc_#{node.chef_environment}")
+rescue Net::HTTPServerException
+  raise "Error trying to load realdoc information from integration data bag."
+end
 template "/opt/tomcat/conf/#{app_name}.properties" do
   source "#{app_name}.properties.erb"
   group 'tomcat'
