@@ -137,3 +137,5 @@ default[:microservice] = {
     :maitred_app_port => '17200',
     :maitred_adm_port => '18200'
 }
+default['elasticsearch_hosts'] = 'change me'
+default['elasticsearch_cluster'] = 'change me'
