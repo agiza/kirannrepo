@@ -2,18 +2,11 @@
 ## RealDoc properties
 ################################################################################
 
-# mongodb settings
-rd.mongo.host=<%= @mongo[:host] %>
-rd.mongo.database=<%= @mongo[:database] %>
-rd.mongo.slaveOk=false
-
-# amqp settings
-rd.amqp.host=<%= @amqp[:host] %>
-rd.amqp.port=<%= @amqp[:port] %>
-rd.amqp.username=<%= @amqp[:username] %>
-rd.amqp.password=<%= @amqp[:password] %>
-rd.amqp.vhost=<%= @amqp[:vhost] %>
-
+rd.amqp.host=<%= @amqphost %>
+rd.amqp.port=<%= @amqpport %>
+rd.amqp.username=<%= @amqpuser %>
+rd.amqp.password=<%= @amqppass %>
+rd.amqp.vhost=<%= node[:realdoc_amqp_vhost] %>
 rd.amqp.requests.import=rd.import.standard
 rd.correspondence.amqp.recon.inbound=rd.correspondence.recon
 rd.correspondence.amqp.requests=rd.correspondence.requests
@@ -27,10 +20,11 @@ rd.correspondence.archiveDirectory=${catalina.base}/correspondence/archive
 rd.correspondence.documentApprovalCandidateGroup=283420cd-d9d1-4e39-8ecd-b00dc552e54d 
 rd.correspondence.batchApprovalCandidateGroup=b27f2e6c-59ed-43b0-a3c2-7d85e4c619af 
 
-rd.correspondence.resendDeliveryProfileCode=DP_RESEND_CORRESPONDENCE
-
 realdoc.event.bus=rd.event.bus
 
+rd.mongo.host=<%= @mongo_host %>
+rd.mongo.database=<%= node[:mongodb_database] %>
+rd.mongo.slaveOk=false
 
 rd.remote.url=http://<%= @rdochost %>/realdoc/api
 rd.remote.defaultUsername=correspondence
@@ -40,15 +34,11 @@ rd.rulesPackage=RealDocPackage
 
 rd.documentservice.tempPath=/tmp/
 
-rd.fileStorageMethod=<%= node[:rd_storage_method] %>
+rd.fileStorageMethod=<%= node[:rd_corr_storage_method] %>
 rf.ui.pluginDisplayOrder=docviewer,correspondence,taskplanner,administration,securitysetup
+rd.correspondence.appName=<%= @app_name %>
 
-rd.converter.ghostscript.tempdir=/tmp
-rd.converter.ghostscript.executable=/usr/bin/gs
-rd.converter.pdfConverter=ghostscript
-
-# libreoffice config
-rd.openOffice.ports=<%= @libreoffice[:core_war_ports] %>
+rd.openOffice.ports=<%= @libreoffice[:ports] %>
 rd.openOffice.workDir=<%= @libreoffice[:working_dir] %>
 rd.openOffice.homeDir=<%= @libreoffice[:bin_dir] %>
 
@@ -56,8 +46,7 @@ rd.openOffice.homeDir=<%= @libreoffice[:bin_dir] %>
 ## RealFoundation properties
 ################################################################################
 
-rf.automaticTaskAssignment.enabled=<%= @task_management[:auto_assign] %>
-rf.defaultNumberOfTasksPerGroup=<%= @task_management[:num_tasks_per_group] %>
+rf.automaticTaskAssignment.enabled=true 
 rf.taskManager.customColumns=approved,rejected,total,BATCH_ID 
 
 db.driver=com.mysql.jdbc.Driver
@@ -100,12 +89,10 @@ rf.ldapAuthenticationProvider.enabled=false
 rf.ldapAuthenticationProvider.enabled=true
 <% end -%>
 
+
 rf.multipartResolver.maxUploadSize=100000
 rf.activiti.databaseSchemaUpdate=false
 
-rf.melissadata.expressEntry.allWords=
-rf.melissadata.expressEntry.maxMatches=
-rf.melissadata.expressEntry.webhost=
 rf.melissadata.address.webhost=<%= @melissadata['addressurl'] %>
 rf.melissadata.phone.webhost=<%= @melissadata['phoneurl'] %>
 rf.melissadata.email.webhost=<%= @melissadata['emailurl'] %>
@@ -118,7 +105,7 @@ logoLink=http://www.altisource11.com/
 rf.ui.config.termsAndConditionsLink=http://www.altisource.com/terms
 rf.ui.config.privacyPolicyLink=http://www.altisource.com/privacy
 
-brandName=realdoc-basic
+brandName=wide
 
 rf.security.maxBadLoginsDefault=3
 rf.security.lockoutWindowMinsDefault=60
@@ -162,29 +149,38 @@ realsearch.elasticsearch.url=http://<%= @elastic_host %>:9200/realsearch/entity
 rf.overwriteAppConfigArtifacts=true
 <% end -%>
 
-# deprecated properties
 
-template.mongo.database=<%= node[:mongodb_database] %>
-realdoc.mongo.host=<%= @mongo_host %>
-template.mongo.host=<%= @mongo_host %>
-mongo.host=<%= @mongo_host %>
-viewer.mongo.host=<%= @mongo_host %>
-viewer.mongo.database=<%= node[:mongodb_database] %>
+rf.activiti.jobExecutorActivate=<%= node[:rf_job_flag] %>
+
+rd.mongo.connectionsPerHost=<%= node[:rd_mongo_conns] %>
+rd.correspondence.dispatch.retry.enabled=<%= node[:rd_corres_flag] %>
+rd.correspondence.amqp.consumers.delivery=<%= node[:rd_corres_delivery] %>
+rd.correspondence.amqp.consumers.dispatch.generate=<%= node[:rd_corres_dispatch] %>
+rd.correspondence.amqp.consumers.batch.requests=<%= node[:rd_corres_batch] %>
+rd.correspondence.amqp.consumers.recon=<%= node[:rd_corres_recon] %>
+
+rd.correspondence.dispatch.retry=<%= node[:rd_corres_retry] %>
+
+################################################################################
+## Deprecated properties
+################################################################################
+
+rd.jdbc.driverClassName=com.mysql.jdbc.Driver
+rd.jdbc.initialSize=<%= node[:db_initsize] %>
+rd.jdbc.maxActive=<%= node[:db_maxactive] %>
+rd.jdbc.maxIdle=<%= node[:db_maxidle] %>
+rd.jdbc.maxWait=6000
+rd.jdbc.minIdle=0
+rd.jdbc.password=<%= @mysqldb['rdoc_dbpass'] %>
+rd.jdbc.removeAbandonedTimeout=600
+rd.jdbc.removeAbandoned=true
+rd.jdbc.testOnBorrow=true
+rd.jdbc.testWhileIdle=false
+rd.jdbc.timeBetweenEvictionRunsMillis=<%= node[:db_timeevict] %>
+rd.jdbc.url=jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rdoc_dbname'] %>?autoReconnect=true
+rd.jdbc.username=<%= @mysqldb['rdoc_dbuser'] %>
+rd.jdbc.validationQuery=SELECT 1
+rd.jdbc.validationQueryTimeout=<%= node[:db_valquerytimeout] %>
 mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
-
-#ElasticSearch props
-rd.elasticsearch.documents.indexName=documents_<%= @realdoc['es_version'] %>
-rd.elasticsearch.documents.typeName=document_<%= @realdoc['es_version'] %>
-rd.elasticsearch.documents.simpleSearchFields=businessKey,name,clientCode,types
-rd.elasticsearch.dispatches.indexName=dispatches_<%= @realdoc['es_version'] %>
-rd.elasticsearch.dispatches.typeName=dispatch_<%= @realdoc['es_version'] %>
-rd.elasticsearch.dispatches.simpleSearchFields=batchId,businessKey,clientId,deliveryChannel,deliveryProfileCode,destination,externalRequestId,status.code,status.createdBy,status.message,statusHistory.code,statusHistory.createdBy,statusHistory.message
-rd.elasticsearch.searchType=query_and_fetch
-rd.elasticsearch.nodes=<%= @realdoc['es_node'] %>
-#rd.elasticsearch.nodes=10.0.10.230:9300,10.0.10.64:9300
-rd.elasticsearch.clustername=<%= @realdoc['es_cluster'] %>
-#rd.elasticsearch.clustername=realdocvaultqa
-rd.elasticsearch.ping_timeout=10s
-rd.elasticsearch.transportclient.sniff=true

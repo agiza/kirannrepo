@@ -1,39 +1,42 @@
 mongo:
-  host: "<%= @mongo [:host] %>"
-  db: "<%= @mongo [:database] %>"
+  host: "<%= @mongo[:host] %>"
+  db:  "<%= @mongo[:database] %>"
+  
 rabbit:
-  host: <%= @amqp[:host] %>
-  username: <%= @amqp[:username] %>
-  password: <%= @amqp[:password] %>
-  vhost: <%= @amqp[:vhost] %>
+  host: "<%= node[:amqphost] %>"
+  port: "<%= node[:amqpport] %>"
+  username: "<%= @amqp[:username] %>"
+  password: "<%= @amqp[:password] %>"
+  vhost: "<%= @amqp[:vhost] %>"
+  
 database:
   # the name of your JDBC driver
-  driverClass: com.mysql.jdbc.Driver
+  driverClass: <%= node[:maitred][:db][:driver_class] %>
 
   # the username
-  user: "<%= @mysqldb['rdoc_dbuser'] %>"
+  user: "<%= node[:maitred][:db][:user] %>"
 
   # the password
-  password: "<%= @mysqldb['rdoc_dbpass'] %>"
+  password: "<%= node[:maitred][:db][:password] %>"
 
   # the JDBC URL
-  url: jdbc:mysql://<%= node[:db_server] %>:<%= node[:db_port] %>/<%= @mysqldb['rdoc_dbname'] %>?autoReconnect=true
-
+  url: <%= node[:maitred][:db][:url] %>
+  
   # any properties specific to your JDBC driver:
   properties:
     charSet: UTF-8
 
   # the maximum amount of time to wait on an empty pool before throwing an exception
-  maxWaitForConnection: 1s
+  maxWaitForConnection: <%= node[:maitred][:db][:max_wait_conn] %>
 
   # the SQL query to run when validating a connection's liveness
   validationQuery: "/* MyService Health Check */ SELECT 1"
 
   # the minimum number of connections to keep open
-  minSize: 8
+  minSize: <%= node[:maitred][:db][:min_size] %>
 
   # the maximum number of connections to keep open
-  maxSize: 32
+  maxSize: <%= node[:maitred][:db][:max_size] %>
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
@@ -44,18 +47,36 @@ database:
 #
 #  # the maximum lifetime of an idle connection
 #  closeConnectionIfIdleFor: 1 minute
+  
 logging:
-  level: INFO
+  level: <%= node[:maitred][:logging][:log_level] %>
+  appenders:
+    - type: file
+      currentLogFilename: /var/log/realdoc/correspondence-request.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: /var/log/realdoc/correspondence-request-%d.log.gz
+      archivedFileCount: <%= node[:maitred][:logging][:log_file_count] %>
+      timeZone: UTC
+      logFormat: "[%d{ISO8601,UTC}] %-5p %X{appId:-correspondence-request-1} %c: %m%n%rEx"
 
 swagger:
   enabled: true
 
-#TODO add microservice section 
-
 server:
   applicationConnectors:
-      - type: http
-        port: <%= @app_port_corr %>
+    - type: http
+      port: <%= node[:maitred][:app_port] %>
   adminConnectors:
     - type: http
-      port: <%= @adm_port_cor %>
+      port: <%= node[:maitred][:admin_port] %>
+
+  requestLog:
+    timeZone: UTC
+    appenders:
+      - type: file
+        threshold: ALL
+        currentLogFilename: /var/log/realdoc/correspondence-request-access.log
+        archive: true
+        archivedLogFilenamePattern: /var/log/realdoc/correspondence-request-access.%d.log.gz
+        archivedFileCount: <%= node[:maitred][:logging][:log_file_count] %>

@@ -1,0 +1,33 @@
+{
+  "name": "realdoc",
+  "description": "Installs/Configures realdoc",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "maintainer": "Altisource",
+  "maintainer_email": "john.mcdonald@altisource.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+    "altisource": ">= 0.0.0",
+    "mongodb": ">= 0.0.0",
+    "iptables": ">= 0.0.0",
+    "infrastructure": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.0.19"
+}

@@ -137,5 +137,52 @@ default[:microservice] = {
     :maitred_app_port => '17200',
     :maitred_adm_port => '18200'
 }
-default['elasticsearch_hosts'] = 'change me'
-default['elasticsearch_cluster'] = 'change me'
+#ods_adapter values
+default[:ods_adapter] = {
+         :mongo => {   
+          :host => 'localhost'
+          },
+         :schedule => 'Every(5mn)',
+         :db => {
+          :driver_class => 'oracle.jdbc.driver.OracleDriver',
+          :user => 'user',
+          :password => 'password',
+          :url => '<change me>',
+          :max_wait_conn => '15s',
+          :min_size => '8',
+          :initial_size => '10',
+          :max_size => '32',
+          :validation_interval => '60s',
+          :min_idle_time => '1 minute'
+          },
+         :logging => {
+          :log_level => 'DEBUG',
+          :log_file_count => '3'
+          },
+         :app_port => '19200',
+         :admin_port => '20200',
+         :aggregation_thread_poolsize => '<change me>',
+         :delivery_thread_poolsize => '10',
+         :req_items_split_threshold => '<change me>',
+         :letter_req_schema_name => 'LETTER_DB_QA'
+}
+#maitred
+default[:maitred] = {
+         :host => 'localhost',
+         :app_port => '17200',
+         :admin_port => '18200',
+         :db => {
+          :driver_class => 'com.mysql.jdbc.Driver',
+          :user => 'user',
+          :password => 'password',
+          :url => '<change me>',
+          :max_wait_conn => '1s',
+          :min_size => '8',
+          :max_size => '32'
+        },
+        :logging => {
+         :log_level => 'DEBUG',
+         :log_file_count => '3'
+    },
+}
+ 

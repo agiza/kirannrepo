@@ -6,9 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-app_name="correspondence-request"
-app_version = node[:corrreq_version]
-version_str = "corrreq_version"
+app_name= "correspondence-request"
+app_version = node[:corr_req_version]
+version_str = "corr_req_version"
 
 group "realdoc" do
   gid 1001
@@ -53,6 +53,14 @@ else
   end
 end
 
+rdrabbit = data_bag_item("rabbitmq", "realdoc")
+rdrabbit = rdrabbit['user'].split(" ").first.split("|")
+
+service "#{app_name}" do
+  supports :stop => true, :start => true, :restart => true, :reload => true
+  action :nothing
+end
+
 yum_package "#{app_name}" do
   version "#{app_version}"
   if node.attribute?('package_noinstall') || version == "0.0.0-1"
@@ -64,6 +72,20 @@ yum_package "#{app_name}" do
   flush_cache [ :before ]
   allow_downgrade true
   notifies :restart, resources(:service => "#{app_name}")
+end
+
+mongoHost = "127.0.0.1"
+
+
+rdochost = node[:rdochost]
+rdocport = node[:rdocport]
+
+begin
+  mysqldb = data_bag_item("infrastructure", "mysqldb#{node.chef_environment}")
+rescue Net::HTTPServerException
+  mysqldb = data_bag_item("infrastructure", "mysqldb")
+rescue Net::HTTPServerException
+  raise "Error trying to load mysqldb information from infrastructure data bag."
 end
 
 template "/opt/realdoc/conf/#{app_name}.yaml" do
@@ -78,15 +100,13 @@ template "/opt/realdoc/conf/#{app_name}.yaml" do
           :database => node[:mongodb_database]
 		},
        :amqp => {
-          :host => "#{amqphost}",
-          :port => "#{amqpport}",
+          :host => node[:amqphost],
+          :port => node[:amqpport],
           :username => "#{rdrabbit[0]}",
           :password => "#{rdrabbit[1]}",
           :vhost => node[:realdoc_amqp_vhost]
       },
-        :app_port_corr => node[:microservice][:correspondence_request][:app_port],
-        :adm_port_corr => node[:microservice][:correspondence_request][:adm_port],
-        :app_port_ods => node[:microservice][:adapter_ods][:app_port],
-        :adm_port_ods => node[:microservice][:adapter_ods][:adm_port]
+        :mysqldb => mysqldb["realdoc"],
+        :rdochost => "#{rdochost}"
 )
 end
