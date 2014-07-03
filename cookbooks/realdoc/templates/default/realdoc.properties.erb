@@ -181,10 +181,15 @@ rd.elasticsearch.documents.simpleSearchFields=businessKey,name,clientCode,types
 rd.elasticsearch.dispatches.indexName=dispatches_<%= node[:realdoc][:elasticsearch][:version] %>
 rd.elasticsearch.dispatches.typeName=dispatch_<%= node[:realdoc][:elasticsearch][:version] %>
 rd.elasticsearch.dispatches.simpleSearchFields=batchId,businessKey,clientId,deliveryChannel,deliveryProfileCode,destination,externalRequestId,status.code,status.createdBy,status.message,statusHistory.code,statusHistory.createdBy,statusHistory.message
-rd.elasticsearch.searchType=query_and_fetch
+rd.elasticsearch.searchType=query_then_fetch
 rd.elasticsearch.nodes=<%= node[:realdoc][:elasticsearch][:nodes] %>
 #rd.elasticsearch.nodes=10.0.10.230:9300,10.0.10.64:9300
 rd.elasticsearch.clustername=<%= node[:realdoc][:elasticsearch][:cluster] %>
 #rd.elasticsearch.clustername=realdocvaultqa
 rd.elasticsearch.ping_timeout=10s
 rd.elasticsearch.transportclient.sniff=true
+
+#ISTE Property
+<%= node[:stress][:realdoc][:rd_cache_security_seconds_until_expiration] %>
+<%= node[:stress][:realdoc][:rd_data_seconds_until_expiration] %>
+<%= node[:stress][:realdoc][:rd_default_filesystem_writer_useXrefs] %>

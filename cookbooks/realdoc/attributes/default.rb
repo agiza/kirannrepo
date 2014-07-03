@@ -192,3 +192,10 @@ default[:realdoc] = {
            :version => 'v'
          }
 }
+default[:stress] = {
+          :realdoc => {
+            :rd_cache_security_seconds_until_expiration => '',
+            :rd_data_seconds_until_expiration => '',
+            :rd_default_filesystem_writer_useXrefs => ''
+              }
+}

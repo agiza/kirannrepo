@@ -198,3 +198,8 @@ rd.elasticsearch.nodes=<%= node[:realdoc][:elasticsearch][:nodes] %>
 rd.elasticsearch.clustername=<%= node[:realdoc][:elasticsearch][:cluster] %>
 rd.elasticsearch.ping_timeout=10s
 rd.elasticsearch.transportclient.sniff=true
+
+#ISTE property
+<%= node[:stress][:realdoc][:rd_cache_security_seconds_until_expiration] %>
+<%= node[:stress][:realdoc][:rd_data_seconds_until_expiration] %>
+<%= node[:stress][:realdoc][:rd_default_filesystem_writer_useXrefs] %>
