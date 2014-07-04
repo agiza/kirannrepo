@@ -185,11 +185,11 @@ mongo.server=<%= @mongo_host %>
 mongo.database=<%= node[:mongodb_database] %>
 
 #ElasticSearch props
-rd.elasticsearch.documents.indexName=<%= node[:realdoc][:elasticsearch][:doc_version] %>
-rd.elasticsearch.documents.typeName=<%= node[:realdoc][:elasticsearch][:doc_version] %>	
+rd.elasticsearch.documents.indexName=<%= node[:realdoc][:elasticsearch][:doc_index_version] %>
+rd.elasticsearch.documents.typeName=<%= node[:realdoc][:elasticsearch][:doc_type_version] %>	
 rd.elasticsearch.documents.simpleSearchFields=businessKey,name,clientCode,types
-rd.elasticsearch.dispatches.indexName=<%= node[:realdoc][:elasticsearch][:disp_version] %>
-rd.elasticsearch.dispatches.typeName=<%= node[:realdoc][:elasticsearch][:disp_version] %>
+rd.elasticsearch.dispatches.indexName=<%= node[:realdoc][:elasticsearch][:disp_index_version] %>
+rd.elasticsearch.dispatches.typeName=<%= node[:realdoc][:elasticsearch][:disp_type_version] %>
 rd.elasticsearch.dispatches.simpleSearchFields=batchId,businessKey,clientId,deliveryChannel,deliveryProfileCode,destination,externalRequestId,status.code,status.createdBy,status.message,statusHistory.code,statusHistory.createdBy,statusHistory.message
 rd.elasticsearch.searchType=query_and_fetch
 #rd.elasticsearch.nodes=<Node_Host:Port>,<Node_Host:Port>

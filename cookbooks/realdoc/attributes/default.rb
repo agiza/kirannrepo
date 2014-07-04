@@ -189,8 +189,10 @@ default[:realdoc] = {
          :elasticsearch => {
            :nodes => 'change_me' ,
            :clusters => 'change_me',
-           :doc_version => '',
-           :disp_version => ''
+           :doc_index_version => '',
+           :doc_type_version => '',
+           :disp_index_version => '',
+           :disp_type_version => ''
          }
 }
 default[:stress] = {
