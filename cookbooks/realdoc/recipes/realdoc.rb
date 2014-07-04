@@ -172,7 +172,7 @@ directory "/opt/tomcat/files/working/recon/" do
   group "tomcat"
 end
 
-
+iptables_rule "port_realdoc_es"
 include_recipe "realdoc::correspondence-mount"
 include_recipe "realdoc::cis-mount"
 # commented out the inclusion of the rd-document-converter.

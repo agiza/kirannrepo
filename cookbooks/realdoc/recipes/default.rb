@@ -9,6 +9,7 @@
 
 include_recipe "altisource::altitomcat"
 include_recipe "mongodb::mongos"
+include_recipe "iptables::default"
 
 amqphost_search do
 end

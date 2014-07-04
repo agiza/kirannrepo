@@ -3,7 +3,7 @@
 <% stringified_parameters = @parameters.join(' ') -%>
 
 CATALINA_OPTS="<%= stringified_parameters %> -XX:-UseSplitVerifier"
-JRE_HOME=/usr/java/default
+JRE_HOME=<%= node[:altisource][:altitomcat][:setenv_java_path] %>
 
 # node specific commands
 <%= node[:altisource][:altitomcat][:setenv_cmds] %>

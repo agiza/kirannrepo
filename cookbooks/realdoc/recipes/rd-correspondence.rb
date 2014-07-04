@@ -121,5 +121,6 @@ template "/opt/tomcat/conf/Catalina/localhost/#{app_name}.xml" do
   notifies :restart, resources(:service => "altitomcat")
 end
 
+iptables_rule "port_realdoc_es"
 include_recipe "realdoc::correspondence-mount"
 
