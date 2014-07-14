@@ -1,0 +1,7 @@
+source "https://api.berkshelf.com"
+
+
+cookbook 'hadoop'
+cookbook 'mesos'
+cookbook 'tomcat'
+cookbook 'java'

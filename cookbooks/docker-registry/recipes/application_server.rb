@@ -21,3 +21,55 @@
 node.default['docker-registry']['application_server'] = true
 
 include_recipe "docker-registry"
+
+%w[ /conf /conf/Catalina /conf/Catalina/localhost ].each do |path|
+  directory path do
+    owner "root"
+    group "root"
+    mode 00755
+  end
+end
+
+template "/conf/Catalina/localhost/rd-correspondence.xml" do
+  source "rd-correspondence.xml.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+
+template "/conf/Catalina/localhost/realdoc.xml" do
+  source "realdoc.xml.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+
+template "/conf/Catalina/localhost/rd-proxy-image-generator.xml" do
+  source "rd-proxy-image-generator.xml.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+
+
+template "/conf/rd-correspondence.properties" do
+  source "rd-correspondence.properties.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+ 
+template "/conf/rd-proxy-image-generator.properties" do
+  source "rd-proxy-image-generator.properties.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+
+template "/conf/realdoc.properties" do
+  source "realdoc.properties.erb"
+  mode 00755
+  owner "root"
+  group "root"
+end
+

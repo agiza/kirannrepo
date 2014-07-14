@@ -1,0 +1,67 @@
+mongo:
+  host: "<%= @mongo[:host] %>"
+  db:  "<%= @mongo[:database] %>"
+
+rabbit:
+  host: "<%= node[:amqphost] %>"
+  port: "<%= node[:amqpport] %>"
+  username: "<%= @amqp[:username] %>"
+  password: "<%= @amqp[:password] %>"
+  vhost: "<%= @amqp[:vhost] %>"
+  
+mysql:
+
+ # the username
+  user: "<%= node[:mailroom][:db][:user] %>"
+
+ # the password
+  password: "<%= node[:mailroom][:db][:password] %>"
+
+ # the JDBC URL
+  url: <%= node[:mailroom][:db][:url] %>
+
+
+logging:
+  level: <%= node[:mailroom][:logging][:log_level] %>
+  loggers:
+    org.springframework: ERROR
+    org.hibernate: ERROR
+  appenders:
+    - type: file
+      currentLogFilename: /var/log/realdoc/mailroom.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: /var/log/realdoc/mailroom-%d.log.gz
+      archivedFileCount: <%= node[:mailroom][:logging][:log_file_count] %>
+      timeZone: UTC
+      logFormat: "[%d{ISO8601,UTC}] %-5p %X{appId:-mailroom-1} %c: %m%n%rEx"
+
+swagger:
+  enabled: true
+
+server:
+  applicationConnectors:
+    - type: http
+      port: <%= node[:mailroom][:app_port] %>
+  adminConnectors:
+    - type: http
+      port: <%= node[:mailroom][:admin_port] %>
+
+requestLog:
+    timeZone: UTC
+    appenders:
+      - type: file
+        threshold: ALL
+        currentLogFilename: /var/log/realdoc/mailroom-access.log
+        archive: true
+        archivedLogFilenamePattern: /var/log/realdoc/mailroom-access.%d.log.gz
+        archivedFileCount: <%= node[:mailroom][:logging][:log_file_count] %>
+
+vega:
+  openOfficeWorkDir: "<%= node[:mailroom][:vega][:work_dir] %>"
+  openOfficeHomeDir: "<%= node[:mailroom][:vega][:home_dir] %>"
+  openOfficePorts:
+    <% node[:mailroom][:vega][:ports].each do |port| -%>
+    - "<%= port %>"
+    <% end %>
+

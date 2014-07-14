@@ -202,3 +202,21 @@ default[:stress] = {
             :rd_default_filesystem_writer_useXrefs => ''
               }
 }
+default[:mailroom] = {
+          :db => {
+            :user => 'user',
+            :password => 'password',
+            :url => 'url'
+            },
+          :logging => {
+            :log_level => 'INFO',
+            :log_file_count => '10'
+          },
+          :app_port =>  '21200',
+          :admin_port => '22200',
+          :vega => {
+            :work_dir => '/tmp/libreoffice',
+            :home_dir => '/usr/lib64/libreoffice',
+            :ports => ['8300','8301','8302','8303','8304','8305','8306','8307','8308','8309']
+           }
+}

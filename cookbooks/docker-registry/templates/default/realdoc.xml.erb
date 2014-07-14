@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+  <Resource name="jdbc/mysql"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="com.mysql.jdbc.Driver"
+            url="jdbc:mysql://mysql:3306/realdoc?autoReconnect=true"
+            username="realdoc" password="realdoc"
+            maxActive="50" 
+            minIdle="0"
+            maxIdle="50"
+            maxWait="6000"
+            timeBetweenEvictionRunsMillis="60000"
+            removeAbandoned="true"
+            removeAbandonedTimeout="600"
+            validationQuery= "SELECT 1"
+            validationQueryTimeout="2"
+            testOnBorrow="true"
+            testWhileIdle="false"
+            initialSize="2"/>
+</Context>
