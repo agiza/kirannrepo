@@ -44,8 +44,8 @@ template "/opt/atlassian/jira/conf/server.xml" do
 #  notifies :restart, resources(:service => "jira")
 end
 
-remote_file "/opt/atlassian/jira/lib/mysql-connector-java-5.1.22-bin.jar" do
-  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+remote_file "/opt/atlassian/jira/lib/mysql-connector-java-5.1.31-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.31-bin.jar"
   mode  "0644"
   owner "jira"
   group "jira"

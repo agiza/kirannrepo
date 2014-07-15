@@ -35,8 +35,8 @@ template "/opt/atlassian/crowd/crowd-openidserver-webapp/WEB-INF/classes/crowd.p
 #  notifies :restart, resources(:service => "crowd")
 end
 
-remote_file "/opt/atlassian/crowd/crowd-webapp/WEB-INF/lib/mysql-connector-java-5.1.22-bin.jar" do
-  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.22-bin.jar"
+remote_file "/opt/atlassian/crowd/crowd-webapp/WEB-INF/lib/mysql-connector-java-5.1.31-bin.jar" do
+  source "http://10.0.0.20/yum/common/mysql-connector-java-5.1.31-bin.jar"
   mode  "0644"
   owner "root"
   group "root"
