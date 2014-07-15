@@ -7,24 +7,25 @@
 # All rights reserved - Do Not Redistribute
 #
 
-template "/etc/init.d/jira" do
-  source "jira-init.erb"
-  owner  "root"
-  group  "root"
-  mode   "0755"
-end
+# Commenting as jira was moved to new host
+#template "/etc/init.d/jira" do
+#  source "jira-init.erb"
+#  owner  "root"
+#  group  "root"
+#  mode   "0755"
+#end
 
-service "jira" do
-  supports :start => true, :stop => true, :restart => true, :status => true
-  action :nothing
-end
+#service "jira" do
+#  supports :start => true, :stop => true, :restart => true, :status => true
+#  action :nothing
+#end
 
 template "/opt/atlassian/jira/atlassian-jira/WEB-INF/classes/jira-application.properties" do
   source "jira-application.properties.erb"
   owner  "jira"
   group  "jira"
   mode   "0644"
-  notifies :restart, resources(:service => "jira")
+#  notifies :restart, resources(:service => "jira")
 end
 
 template "/var/atlassian/application-data/jira/jira-config.properties" do
@@ -32,7 +33,7 @@ template "/var/atlassian/application-data/jira/jira-config.properties" do
   owner  "jira"
   group  "jira"
   mode   "0644"
-  notifies :restart, resources(:service => "jira")
+#  notifies :restart, resources(:service => "jira")
 end
 
 template "/opt/atlassian/jira/conf/server.xml" do
@@ -40,7 +41,7 @@ template "/opt/atlassian/jira/conf/server.xml" do
   owner  "jira"
   group  "jira"
   mode   "0644"
-  notifies :restart, resources(:service => "jira")
+#  notifies :restart, resources(:service => "jira")
 end
 
 remote_file "/opt/atlassian/jira/lib/mysql-connector-java-5.1.22-bin.jar" do
@@ -58,9 +59,9 @@ template "/etc/cron.daily/jira" do
   mode "0755"
 end
 
-service "jira" do
-  supports :start => true, :stop => true, :restart => true, :status => true
-  action [:enable,:start]
-end
+#service "jira" do
+#  supports :start => true, :stop => true, :restart => true, :status => true
+#  action [:enable,:start]
+#end
 
 
