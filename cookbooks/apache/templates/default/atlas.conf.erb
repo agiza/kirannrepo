@@ -28,6 +28,10 @@ ProxyPass               balancer://atlas/fisheye stickysession=JSESSIONID|jsessi
 ProxyPass               balancer://atlas/crowd stickysession=JSESSIONID|jsessionid
 </Location>
 
+<Location /stash>
+ProxyPass               balancer://atlas/stash stickysession=JSESSIONID|jsessionid
+</Location>
+
 <Location /bamboo>
 ProxyPass               balancer://atlas/bamboo stickysession=JSESSIONID|jsessionid
 </Location>
