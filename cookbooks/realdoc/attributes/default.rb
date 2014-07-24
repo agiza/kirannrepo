@@ -37,6 +37,7 @@ default['reconadapter_version'] = '0.0.0-1'
 default['smadapter_version'] = '0.0.0-1'
 default['rdcorradap_version'] = '0.0.0-1'
 default['tp2_adapter_version'] = '0.0.0-1'
+default['mailroom_version'] = '0.0.0-1'
 # Adapters
 default[:adapters] = {
     :rs_inbound => {
@@ -140,7 +141,11 @@ default[:microservice] = {
 #ods_adapter values
 default[:ods_adapter] = {
          :mongo => {   
-          :host => 'localhost'
+          :host => 'localhost',
+          :db => 'db name',
+          :letter_request_audit_collection => 'letterRequests',
+          :letter_request_mapping_collection => 'rsLetterMapping_ods',
+          :query_params_mapping_collection => 'queryParamMappings'
           },
          :schedule => 'Every(5mn)',
          :db => {
@@ -164,7 +169,13 @@ default[:ods_adapter] = {
          :aggregation_thread_poolsize => '<change me>',
          :delivery_thread_poolsize => '10',
          :req_items_split_threshold => '<change me>',
-         :letter_req_schema_name => 'LETTER_DB_QA'
+         :letter_req_schema_name => 'LETTER_DB_QA',
+         :retry => {
+          :maxPingAttempts => '150',
+          :initialPingDelay => '20',
+          :maxInterval => '60000',
+          :intervalMultiplier => '1.5'
+          }
 }
 #maitred
 default[:maitred] = {
@@ -217,6 +228,6 @@ default[:mailroom] = {
           :vega => {
             :work_dir => '/tmp/libreoffice',
             :home_dir => '/usr/lib64/libreoffice',
-            :ports => ['8300','8301','8302','8303','8304','8305','8306','8307','8308','8309']
+            :ports => ['8032','8033']
            }
 }
