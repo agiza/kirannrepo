@@ -16,8 +16,8 @@ end
 
 user "realdoc" do
   comment "Realdoc User"
-  uid  "1001"
-  gid  1001
+  uid "1001"
+  gid 1001
   home "/opt/realdoc"
   shell "/bin/bash"
 end
@@ -48,7 +48,7 @@ else
       app_version = new_version
       node.set["#{version_str}"] = app_version
     end
- else
+  else
     Chef::Log.info("Found version attribute.")
   end
 end
@@ -69,7 +69,7 @@ yum_package "#{app_name}" do
   else
     action :install
   end
-  flush_cache [ :before ]
+  flush_cache [:before]
   allow_downgrade true
   notifies :restart, resources(:service => "#{app_name}")
 end
@@ -95,19 +95,19 @@ template "/opt/realdoc/conf/#{app_name}.yaml" do
   mode '0644'
   notifies :restart, resources(:service => "#{app_name}")
   variables(
-        :mongo => {
+      :mongo => {
           :host => "#{mongoHost}",
           :database => node[:mongodb_database]
-		},
-       :amqp => {
+      },
+      :amqp => {
           :host => node[:amqphost],
           :port => node[:amqpport],
           :username => "#{rdrabbit[0]}",
           :password => "#{rdrabbit[1]}",
           :vhost => node[:realdoc_amqp_vhost]
       },
-        :mysqldb => mysqldb["realdoc"],
-        :rdochost => "#{rdochost}"
-)
+      :mysqldb => mysqldb["realdoc"],
+      :rdochost => "#{rdochost}"
+  )
 end
 
