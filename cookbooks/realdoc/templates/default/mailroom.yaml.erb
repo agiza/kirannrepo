@@ -47,7 +47,7 @@ server:
     - type: http
       port: <%= node[:mailroom][:admin_port] %>
 
-requestLog:
+  requestLog:
     timeZone: UTC
     appenders:
       - type: file
