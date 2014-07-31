@@ -4,4 +4,9 @@ maintainer_email 'YOUR_EMAIL'
 license          'All rights reserved'
 description      'Installs/Configures rf-websrv'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.0'
+version          '0.1.1'
+
+
+depends 'java'
+depends 'shibboleth_sp'
+depends 'apache2'

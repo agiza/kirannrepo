@@ -1,12 +1,18 @@
-.DS_Store
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
+
+# Berkshelf
 .vagrant
-.vagrant-1
-.vagrant-2
+/cookbooks
 Berksfile.lock
+
+# Bundler
 Gemfile.lock
-node.json
-tmp/*
-!tmp/.gitignore
-!tmp/cookbooks/.gitignore
-!tmp/data_bags/.gitignore
-!tmp/data_bags/elasticsearch/settings.json
+bin/*
+.bundle/*
+

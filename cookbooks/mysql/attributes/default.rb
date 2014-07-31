@@ -2,12 +2,12 @@
 default['mysql']['service_name'] = 'mysql'
 
 # passwords
-default['mysql']['server_root_password'] = 'altimysql'
+default['mysql']['server_root_password'] = 'ilikerandompasswords'
 default['mysql']['server_debian_password'] = nil
 default['mysql']['server_repl_password'] = nil
 
 # used in grants.sql
-default['mysql']['allow_remote_root'] = true 
+default['mysql']['allow_remote_root'] = false
 default['mysql']['remove_anonymous_users'] = true
 default['mysql']['root_network_acl'] = nil
 

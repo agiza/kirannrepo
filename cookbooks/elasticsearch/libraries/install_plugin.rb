@@ -4,7 +4,7 @@ module Extensions
   #
   # In the simplest form, just pass a plugin name in the GitHub <user>/<repo> format:
   #
-  #     install_plugin 'karmi/elasticsearch-paramedic'
+  # install_plugin 'karmi/elasticsearch-paramedic'
   #
   # You may also optionally pass a version:
   #

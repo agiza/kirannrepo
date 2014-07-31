@@ -10,3 +10,7 @@
 include_recipe "java"
 include_recipe "tomcat-all"
 include_recipe "opendj"
+
+yum_package "apacheds" do 
+    action  :upgrade
+end

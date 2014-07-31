@@ -32,9 +32,9 @@ default['rabbitmq']['kernel']['inet_dist_listen_max'] = nil
 default['rabbitmq']['kernel']['inet_dist_use_interface'] = nil
 
 # clustering
-default['rabbitmq']['cluster'] = false
+default['rabbitmq']['cluster'] = true 
 default['rabbitmq']['cluster_disk_nodes'] = []
-default['rabbitmq']['erlang_cookie'] = 'AnyAlphaNumericStringWillDo'
+default['rabbitmq']['erlang_cookie'] = 'RealSearch1'
 default['rabbitmq']['cluster_partition_handling'] = 'ignore'
 
 # resource usage

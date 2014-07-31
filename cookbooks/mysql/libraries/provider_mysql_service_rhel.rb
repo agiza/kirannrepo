@@ -23,7 +23,7 @@ class Chef
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/usr'
               lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
+              run_dir = '/var/run/mysql'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql-server'
@@ -33,53 +33,7 @@ class Chef
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/usr'
               lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysql/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysql'
-            end
-          when '2014'
-            case new_resource.version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysql/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysql'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysql/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysql'
-            end
-          when '6'
-            case new_resource.version
-            when '5.1'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
-              pid_file = '/var/run/mysql/mysql.pid'
-              socket_file = '/var/lib/mysql/mysql.sock'
-              package_name = 'mysql-server'
-              service_name = 'mysql'
-            when '5.5'
-              base_dir = ''
-              include_dir = "#{base_dir}/etc/mysql/conf.d"
-              prefix_dir = '/usr'
-              lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
+              run_dir = '/var/run/mysql'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql-community-server'
@@ -89,7 +43,73 @@ class Chef
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/usr'
               lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
+              service_name = 'mysql'
+            end
+          when '2014'
+            case new_resource.version
+            when '5.1'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-server'
+              service_name = 'mysql'
+            when '5.5'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
+              service_name = 'mysql'
+            when '5.6'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
+              service_name = 'mysql'
+            end
+          when '6'
+            case new_resource.version
+            when '5.1'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-server'
+              service_name = 'mysql'
+            when '5.5'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
+              pid_file = '/var/run/mysql/mysql.pid'
+              socket_file = '/var/lib/mysql/mysql.sock'
+              package_name = 'mysql-community-server'
+              service_name = 'mysql'
+            when '5.6'
+              base_dir = ''
+              include_dir = "#{base_dir}/etc/mysql/conf.d"
+              prefix_dir = '/usr'
+              lc_messages_dir = nil
+              run_dir = '/var/run/mysql'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql-community-server'
@@ -102,7 +122,7 @@ class Chef
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/usr'
               lc_messages_dir = nil
-              run_dir = '/var/run/mysqld'
+              run_dir = '/var/run/mysql'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql-server'
@@ -112,38 +132,40 @@ class Chef
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/opt/rh/mysql51/root/usr'
               lc_messages_dir = nil
-              run_dir = '/opt/rh/mysql51/root/var/run/mysqld/'
+              run_dir = '/opt/rh/mysql51/root/var/run/mysql/'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql51-mysql-server'
-              service_name = 'mysql51-mysqld'
+              service_name = 'mysql51-mysql'
             when '5.5'
               base_dir = '/opt/rh/mysql55/root'
               include_dir = "#{base_dir}/etc/mysql/conf.d"
               prefix_dir = '/opt/rh/mysql55/root/usr'
               lc_messages_dir = nil
-              run_dir = '/opt/rh/mysql55/root/var/run/mysqld/'
+              run_dir = '/opt/rh/mysql55/root/var/run/mysql/'
               pid_file = '/var/run/mysql/mysql.pid'
               socket_file = '/var/lib/mysql/mysql.sock'
               package_name = 'mysql55-mysql-server'
-              service_name = 'mysql55-mysqld'
+              service_name = 'mysql55-mysql'
             end
           end
 
           converge_by 'rhel pattern' do
             # we need to enable the yum-mysql-community repository to get packages
-            case new_resource.version
-            when '5.5'
-              recipe_eval do
-                run_context.include_recipe 'yum-mysql-community::mysql55'
-              end
-            when '5.6'
-              recipe_eval do
-                run_context.include_recipe 'yum-mysql-community::mysql56'
+            unless node['platform_version'].to_i == 5
+              case new_resource.version
+              when '5.5'
+                recipe_eval do
+                  run_context.include_recipe 'yum-mysql-community::mysql55'
+                end
+              when '5.6'
+                recipe_eval do
+                  run_context.include_recipe 'yum-mysql-community::mysql56'
+                end
               end
             end
 
-            package package_name do
+            yum_package "MySQL-server-advanced" do
               action :upgrade
             end
 

@@ -6,7 +6,7 @@
 ##
 ## All rights reserved - Do Not Redistribute
 ##
-app_name= "mailroom"
+app_name="mailroom"
 app_version = node[:mailroom_version]
 version_str = "mailroom_version"
 
@@ -53,13 +53,11 @@ else
   end
 end
 
-rdrabbit = data_bag_item("rabbitmq", "realdoc")
-rdrabbit = rdrabbit['user'].split(" ").first.split("|")
-
 service "#{app_name}" do
   supports :stop => true, :start => true, :restart => true, :reload => true
   action :nothing
 end
+
 
 yum_package "#{app_name}" do
   version "#{app_version}"
@@ -76,6 +74,8 @@ end
 
 mongoHost = "127.0.0.1"
 
+rdrabbit = data_bag_item("rabbitmq", "realdoc")
+rdrabbit = rdrabbit['user'].split(" ").first.split("|")
 
 rdochost = node[:rdochost]
 rdocport = node[:rdocport]

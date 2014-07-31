@@ -16,6 +16,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+execute 'mkfs' do
+  command "mkfs -t ext4 /dev/xvdn"
+   # only if it's not mounted already
+    not_if "grep -qs /dev/xvdn /proc/mounts"
+end
+
+execute 'mkfs' do
+   command "mkfs -t ext4 /dev/xvdp"
+      #only if it's not mounted already
+      not_if "grep -qs /dev/xvdp /proc/mounts"
+end
+
+execute 'mkfs' do
+   command "mkfs -t ext4 /dev/xvdq"
+     # only if it's not mounted already
+     not_if "grep -qs /dev/xvdq /proc/mounts"
+end
+   
+execute 'mkfs' do
+   command "mkfs -t ext4 /dev/xvdr"
+     # only if it's not mounted already
+     not_if "grep -qs /dev/xvdr /proc/mounts"
+end
+
+execute 'mkfs' do
+   command "mkfs -t ext4 /dev/xvds"
+     # only if it's not mounted already
+     not_if "grep -qs /dev/xvds /proc/mounts"
+end
+
+
 group "mysql" do
     gid "495"
     action :create
@@ -40,14 +72,14 @@ directory path do
 end
  
 mount "/u02/mysqldata1/data" do
-   device "/dev/xvdm"
+   device "/dev/xvdn"
    fstype "ext4"
    options "rw"
    action [:mount,:enable]
 end
 
 mount "/u02/mysqldata1/innodb" do
-   device "/dev/xvdn"
+   device "/dev/xvdp"
    fstype "ext4"
    options "rw"
    action [:mount,:enable]
@@ -94,14 +126,14 @@ end
 
 
 mount "/u02/mysqldata/mysqllog" do
-   device "/dev/xvdo"
+   device "/dev/xvdr"
    fstype "ext4"
    options "rw"
    action [:mount,:enable]
 end
 
 mount "/u02/mysqldata/tmp" do
-   device "/dev/xvdp"
+   device "/dev/xvds"
    fstype "ext4"
    options "rw"
    action [:mount,:enable]
@@ -118,8 +150,11 @@ end
 
 
 node.override['mysql']['server_root_password'] = 'realmysql'
+node.override['mysql']['server_repl_password'] = 'realmysql'
+node.override['mysql']['server_debian_password'] = 'realmysql'
 node.override['mysql']['port'] = '3308'
 node.override['mysql']['data_dir'] = '/u02/mysqldata1/data/3306'
+node.override['mysql']['socket_file'] = '/u02/mysqldata1/mysqld_3306.sock'
 node.override['mysql']['mysql_service'] = 'mysql'
 node.override['mysql']['package_name'] = 'MySQL-server-advanced'
 
@@ -150,7 +185,6 @@ node.override['mysql']['data_dir'] = '/u02/mysqldata1/data/3306'
 node.override['mysql']['mysql_service'] = 'mysql'
 node.override['mysql']['package_name'] = 'MySQL-server-advanced'
 node.override['mysql']['template_source'] = 'rf-my.cnf.erb'
-
 
 
 mysql_service node['mysql']['mysql'] do
