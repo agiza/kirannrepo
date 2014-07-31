@@ -109,17 +109,3 @@ custom:
 
 # The name of the schema holding the ODS letter tables.
   letterRequestsSchemaName: <%= node[:ods_adapter][:letter_req_schema_name] %>
-
-retry:
- # The maximum number of ping requests to make before giving up
- maxPingAttempts: <%= node[:ods_adapter][:retry][:maxPingAttempts] %>
- 
- # Set the initial sleep interval value (ms) before making the first ping. Cannot be set to a value less than one.
- initialPingDelay: <%= node[:ods_adapter][:retry][:initialPingDelay] %>
-
- # The maximum back off period. The value will be reset to 1 if this has a value less than 1.
- # Set this to avoid infinite waits if backing off a large number of times (or if the multiplier is set too high).
- maxInterval: <%= node[:ods_adapter][:retry][:maxInterval] %>
-
- # The multiplier value. Hint: do not use values much in excess of 1.0 (or the backoff will get very long very fast).
- intervalMultiplier: <%= node[:ods_adapter][:retry][:intervalMultiplier] %>
