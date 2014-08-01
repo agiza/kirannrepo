@@ -1,0 +1,39 @@
+################################################################################
+## RealSearch properties
+################################################################################
+
+
+#Search Engine Configurations
+realsearch.elasticsearch.server.host=<%= @es[:host] %>
+realsearch.elasticsearch.server.port=<%= @es[:port] %>
+realsearch.elasticsearch.cluster.name=rf-realsearch
+realsearch.solr.connectionString=na
+
+#Rabbit MQ Configuration
+realsearch.indexservice.amqp.host=<%= @amqp[:host] %>
+realsearch.indexservice.amqp.port=<%= @amqp[:port] %>
+realsearch.indexservice.amqp.username=<%= @amqp[:username] %>
+realsearch.indexservice.amqp.password=<%= @amqp[:password] %>
+realsearch.indexservice.amqp.vhost=<%= @amqp[:vhost] %>
+realsearch.indexservice.amqp.insert.request=realsearch.data.insert.queue
+realsearch.indexservice.amqp.update.request=realsearch.data.update.queue
+realsearch.indexservice.amqp.delete.request=realsearch.data.delete.queue
+realsearch.indexservice.amqp.audit.request=realsearch.data.audit.queue
+
+#Multiple consumers configuration
+index.concurrent.consumers=20
+index.thread.pool.size=20
+index.prefetch.count=20
+audit.concurrent.consumers=10
+audit.thread.pool.size=10
+audit.prefetch.count=20
+
+realsearch.indexservice.action.insert=realsearch.data.insert
+realsearch.indexservice.action.delete=realsearch.data.delete
+realsearch.indexservice.action.update=realsearch.data.update
+realsearch.indexservice.action.audit=realsearch.data.audit
+
+realsearch.indexservice.update.retries=4
+
+documentation.services.basePath=http://<%= @local[:host] %>:8080/searchservice/
+documentation.services.version=1.0
