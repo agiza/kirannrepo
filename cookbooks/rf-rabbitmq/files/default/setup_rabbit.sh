@@ -3,7 +3,7 @@
 host=${1-$HOSTNAME}
 
 #Setup VHosts
-rabbitmqctl add_vhost /realsearch
+rabbitmqctl add_vhost realsearch
 
 #Create User
 rabbitmqctl add_user realsearch realsearch12
