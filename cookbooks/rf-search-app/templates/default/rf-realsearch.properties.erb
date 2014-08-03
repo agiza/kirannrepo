@@ -2,19 +2,18 @@
 ## RealSearch properties
 ################################################################################
 
-
 #Search Engine Configurations
-realsearch.elasticsearch.server.host=<%= @es[:host] %>
-realsearch.elasticsearch.server.port=<%= @es[:port] %>
+realsearch.elasticsearch.server.host=rfint-search-es-srv1.altidev.net
+realsearch.elasticsearch.server.port=9300
 realsearch.elasticsearch.cluster.name=rf-realsearch
-realsearch.solr.connectionString=na
+realsearch.solr.connectionString=http://rfint-search-es-srv1.altidev.net:8983/solr
 
 #Rabbit MQ Configuration
-realsearch.indexservice.amqp.host=<%= @amqp[:host] %>
-realsearch.indexservice.amqp.port=<%= @amqp[:port] %>
-realsearch.indexservice.amqp.username=<%= @amqp[:username] %>
-realsearch.indexservice.amqp.password=<%= @amqp[:password] %>
-realsearch.indexservice.amqp.vhost=<%= @amqp[:vhost] %>
+realsearch.indexservice.amqp.host=rfint-search-rabbit-srv1.altidev.net
+realsearch.indexservice.amqp.port=5672
+realsearch.indexservice.amqp.username=realsearch
+realsearch.indexservice.amqp.password=realsearch12
+realsearch.indexservice.amqp.vhost=realsearch
 realsearch.indexservice.amqp.insert.request=realsearch.data.insert.queue
 realsearch.indexservice.amqp.update.request=realsearch.data.update.queue
 realsearch.indexservice.amqp.delete.request=realsearch.data.delete.queue
@@ -35,5 +34,5 @@ realsearch.indexservice.action.audit=realsearch.data.audit
 
 realsearch.indexservice.update.retries=4
 
-documentation.services.basePath=http://<%= @local[:host] %>:8080/searchservice/
+documentation.services.basePath=http://rfint-search-tc-srv1.altidev.net:8080/searchservice/
 documentation.services.version=1.0
