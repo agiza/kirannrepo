@@ -42,3 +42,7 @@ default[:realtrans][:pv][:fetch_filter] = "alwaysFetchFilter"
 # Realtrans default mobile attributes
 default[:realtrans][:vp][:mobileEnabled] = "false"
 
+default[:realtrans][:dataquality][:connect_timeout] = 5000
+default[:realtrans][:dataquality][:read_timeout] = 5000
+default[:realtrans][:dataquality][:max_connections] = 20
+default[:realtrans][:dataquality][:max_connections_per_route] = 10

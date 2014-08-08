@@ -119,7 +119,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :pv_request_url => node[:realtrans][:pv][:request_url],
     :legacy_user => node[:realtrans][:pv][:legacy_user],
     :legacy_password => node[:realtrans][:pv][:legacy_password],
-    :pv_fetch_filter => node[:realtrans][:pv][:fetch_filter]
+    :pv_fetch_filter => node[:realtrans][:pv][:fetch_filter],
+    :rf_dq_connect_timeout => node[:realtrans][:dataquality][:connect_timeout],
+    :rf_dq_read_timeout => node[:realtrans][:dataquality][:read_timeout],
+    :rf_dq_max_connections => node[:realtrans][:dataquality][:max_connections],
+    :rf_dq_max_conn_per_route => node[:realtrans][:dataquality][:max_connections_per_route]
   )
   notifies :restart, resources(:service => "altitomcat")
 end

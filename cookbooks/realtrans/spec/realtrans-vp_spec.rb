@@ -71,6 +71,7 @@ describe 'realtrans::realtrans-vp' do
         node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
         node.set[:realtrans][:pv][:request_url] = "http://pv/request/url"
         node.set[:realtrans][:vp][:mobileEnabled] = "true"
+        node.set[:realtrans][:dataquality][:max_connections_per_route] = 5
     end.converge 'realtrans::realtrans-vp'
   end
 
@@ -134,5 +135,11 @@ describe 'realtrans::realtrans-vp' do
     expect(@chef_run).to create_file_with_content VP_PROPS, 'rt.previous.valuations.order.filter=alwaysFetchFilter'
   end
 
+  it 'should populate the dataquality properties' do 
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.dataquality.connectTimeout=5000'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.dataquality.readTimeout=5000'
 
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.dataquality.httpPool.maxTotal=20'
+    expect(@chef_run).to create_file_with_content VP_PROPS, 'rf.dataquality.httpPool.defaultMaxPerRoute=5'
+  end
 end

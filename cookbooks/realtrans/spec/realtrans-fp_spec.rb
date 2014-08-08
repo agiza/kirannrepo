@@ -69,6 +69,7 @@ describe 'realtrans::realtrans-fp' do
   		node.set[:realtrans][:logging][:maxfilesize] = '1KB'
   		node.set[:realtrans][:logging][:maxhistory] = 1999
       node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
+      node.set[:realtrans][:dataquality][:connect_timeout] = 1500
   	end.converge 'realtrans::realtrans-fp'
   end
 
@@ -128,4 +129,11 @@ describe 'realtrans::realtrans-fp' do
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rt.previous.valuations.order.filter=alwaysFetchFilter'
   end
 
+  it 'should populate the dataquality properties' do 
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.connectTimeout=1500'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.readTimeout=5000'
+
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.httpPool.maxTotal=20'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.httpPool.defaultMaxPerRoute=10'
+  end
 end

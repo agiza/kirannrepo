@@ -69,8 +69,9 @@ describe 'realtrans::realtrans-central' do
   		node.set[:db_initsize] = 0
   		node.set[:realtrans][:logging][:maxfilesize] = '1KB'
   		node.set[:realtrans][:logging][:maxhistory] = 1999
-      		node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
-		node.set[:realtrans][:pv][:request_url] = 'http://pv/request/url'
+      node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
+		  node.set[:realtrans][:pv][:request_url] = 'http://pv/request/url'
+      node.set[:realtrans][:dataquality][:read_timeout] = 1000
   	end.converge 'realtrans::realtrans-central'
   end
 
@@ -128,5 +129,13 @@ describe 'realtrans::realtrans-central' do
 
   it 'should include the pv fetch filter property' do
     expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rt.previous.valuations.order.filter=alwaysFetchFilter'
+  end
+
+  it 'should populate the dataquality properties' do 
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.connectTimeout=5000'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.readTimeout=1000'
+
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.httpPool.maxTotal=20'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.httpPool.defaultMaxPerRoute=10'
   end
 end
