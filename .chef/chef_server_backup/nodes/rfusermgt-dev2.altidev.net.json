@@ -1,0 +1,1 @@
+{"name":"rfusermgt-dev2.altidev.net","chef_environment":"Dev","json_class":"Chef::Node","automatic":{},"normal":{"tags":[]},"chef_type":"node","default":{},"override":{},"run_list":["recipe[infrastructure::base]","role[all]","role[logs]","recipe[altisource::altitomcat]"]}

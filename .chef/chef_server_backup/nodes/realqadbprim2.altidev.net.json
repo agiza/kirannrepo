@@ -1,0 +1,1 @@
+{"name":"realqadbprim2.altidev.net","chef_environment":"shared","json_class":"Chef::Node","automatic":{},"normal":{"tags":[],"transddl_version":"0.8.0-54"},"chef_type":"node","default":{},"override":{},"run_list":["role[all]"]}

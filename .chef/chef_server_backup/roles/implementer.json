@@ -1,0 +1,1 @@
+{"name":"implementer","description":"","json_class":"Chef::Role","default_attributes":{"rf_startup_flag":true},"override_attributes":{},"chef_type":"role","run_list":["recipe[implementer]"],"env_run_lists":{}}

@@ -1,0 +1,1 @@
+{"name":"shared","description":"","cookbook_versions":{"rabbitmq":"= 0.0.3"},"json_class":"Chef::Environment","chef_type":"environment","default_attributes":{"amqpproxy":"rabbit-proxy:5100","stompproxy":"rabbit-proxy:5200","novolume":true,"mmongodb":{"cluster_name":"shared"}},"override_attributes":{}}

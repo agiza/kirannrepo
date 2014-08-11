@@ -1,0 +1,1 @@
+{"name":"atlas-server","description":"","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[atlassian::apache-proxy]","recipe[atlassian::confluence]","recipe[atlassian::atlassian-cli]"],"env_run_lists":{}}

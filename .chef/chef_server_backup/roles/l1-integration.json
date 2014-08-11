@@ -1,0 +1,1 @@
+{"name":"l1-integration","description":"","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[integration::int-corelogic]","recipe[integration::int-datavision]","recipe[integration::int-etrac]","recipe[integration::int-interthinx]"],"env_run_lists":{}}

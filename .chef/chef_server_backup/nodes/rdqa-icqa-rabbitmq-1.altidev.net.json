@@ -1,0 +1,1 @@
+{"name":"rdqa-icqa-rabbitmq-1.altidev.net","chef_environment":"shared","json_class":"Chef::Node","automatic":{},"normal":{"rabbitmq-master":true,"tags":["rabbit_qa"]},"chef_type":"node","default":{},"override":{},"run_list":["role[all]","recipe[infrastructure::rabbitproxy]","role[rabbitserver]","recipe[ntp]"]}

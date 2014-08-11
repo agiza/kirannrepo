@@ -1,0 +1,1 @@
+{"name":"rdqa-vault-correspondence1.altidev.net","chef_environment":"RealdocCloudQA","json_class":"Chef::Node","automatic":{},"normal":{"rdcorr_version":"1.13.0-0","rdcorradap_version":"1.11.3-0","tags":[]},"chef_type":"node","default":{},"override":{},"run_list":["role[all]","role[logs]","role[realdoc-corr]","recipe[elasticsearch::server]"]}

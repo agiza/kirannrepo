@@ -1,0 +1,1 @@
+{"name":"rfrealsearch-qa.altidev.net","chef_environment":"QA","json_class":"Chef::Node","automatic":{},"normal":{"tags":[]},"chef_type":"node","default":{},"override":{},"run_list":["role[all]","role[logs]","recipe[altisource::altitomcat]"]}

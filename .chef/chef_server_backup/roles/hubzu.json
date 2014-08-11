@@ -1,0 +1,1 @@
+{"name":"hubzu","description":"","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[hubzu::hubzu-backoffice]","recipe[hubzu::hubzu-accounts]"],"env_run_lists":{}}

@@ -1,0 +1,1 @@
+{"name":"realservice-dev10.altidev.com","chef_environment":"Dev","json_class":"Chef::Node","automatic":{},"normal":{"tags":[]},"chef_type":"node","default":{},"override":{},"run_list":["recipe[altisource::cloudmount]","role[all]","role[logs]","recipe[altisource::altitomcat]"]}

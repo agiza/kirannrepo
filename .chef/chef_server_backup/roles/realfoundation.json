@@ -1,0 +1,1 @@
+{"name":"realfoundation","description":"","json_class":"Chef::Role","default_attributes":{"log4j_index":"realfound","access_index":"realfound"},"override_attributes":{},"chef_type":"role","run_list":["recipe[realfoundation::realfoundation]"],"env_run_lists":{}}

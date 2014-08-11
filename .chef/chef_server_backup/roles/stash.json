@@ -1,0 +1,1 @@
+{"name":"stash","description":"Recipes that are run on stash servers by default","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[infrastructure::base]","recipe[infrastructure::stash]"],"env_run_lists":{}}

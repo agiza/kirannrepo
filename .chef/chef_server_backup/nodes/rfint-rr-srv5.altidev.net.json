@@ -1,0 +1,1 @@
+{"name":"rfint-rr-srv5.altidev.net","chef_environment":"RFDev","json_class":"Chef::Node","automatic":{},"normal":{"tags":[]},"chef_type":"node","default":{},"override":{},"run_list":["role[all]","recipe[rf-report]"]}
