@@ -1,0 +1,21 @@
+#
+# Cookbook Name:: rf-app
+# Recipe:: default
+#
+# Copyright 2014, YOUR_COMPANY_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+#
+#
+
+include_recipe "java"
+include_recipe "tomcat-all"
+include_recipe "iptables::disabled"
+
+yum_package "iam-idp" do 
+   action :upgrade
+end
+
+include_recipe "shibboleth-idp::idp_installation"
+

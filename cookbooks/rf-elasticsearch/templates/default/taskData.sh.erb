@@ -1,0 +1,127 @@
+curl -XPUT 'http://127.0.0.1:9200/ru_workflow/' -d '
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 5,
+            "number_of_replicas": 1
+        }
+    },
+    "mappings": {
+        "task_data": {
+            "properties": {
+                "task": {
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "revision": {
+                            "type": "long"
+                        },
+                        "createTime": {
+                            "format": "dateOptionalTime",
+                            "type": "date"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "delegation": {
+                            "type": "string"
+                        },
+                        "parentTaskId": {
+                            "type": "string"
+                        },
+                        "processInstanceId": {
+                            "type": "string"
+                        },
+                        "priority": {
+                            "type": "long"
+                        },
+                        "taskDefinitionKey": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "executionId": {
+                            "type": "string"
+                        },
+                        "processDefinitionId": {
+                            "type": "string"
+                        },
+                        "dueDate": {
+                            "format": "dateOptionalTime",
+                            "type": "date"
+                        },
+                        "suspensionState": {
+                            "type": "long"
+                        },
+                        "assignee": {
+                            "type": "string"
+                        },
+                        "rfProcess": {
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "rfApplicationConfigurationId": {
+                                    "type": "string"
+                                },
+                                "createdBy": {
+                                    "type": "string"
+                                },
+                                "createdOn": {
+                                    "type": "long"
+                                },
+                                "versionNumber": {
+                                    "type": "long"
+                                },
+                                "lastUpdatedBy": {
+                                    "type": "string"
+                                },
+                                "processDefinitionId": {
+                                    "type": "string"
+                                },
+                                "lastUpdatedOn": {
+                                    "type": "long"
+                                },
+                                "inactive": {
+                                    "type": "long"
+                                }
+                            }
+                        },
+                        "idenityLink": {
+                            "type": "nested",
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                },
+                                "taskId": {
+                                    "type": "string"
+                                },
+                                "revision": {
+                                    "type": "long"
+                                },
+                                "type": {
+                                    "type": "string"
+                                },
+                                "groupId": {
+                                    "type": "string"
+                                },
+                                "processDefinitionId": {
+                                    "type": "string"
+                                },
+                                "userId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}'

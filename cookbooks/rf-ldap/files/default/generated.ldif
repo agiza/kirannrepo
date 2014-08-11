@@ -1,0 +1,54 @@
+dn: dc=altisource,dc=com
+objectClass: top
+objectClass: domain
+dc: altisource
+
+dn: ou=people,dc=altisource,dc=com
+objectClass: top
+objectClass: organizationalunit
+ou: people
+
+dn: uid=iam.sysadmin@altisource.com,ou=people,dc=altisource,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+givenName: iam
+sn: sysadmin
+cn: iam sysadmin
+initials: ADMIN
+uid: iam.sysadmin@altisource.com
+mail: iam.sysadmin@altisource.com
+userPassword: Welcome99
+telephoneNumber: +1 685 622 6202
+description: This is the description for IAM Sysadmin.
+
+dn: uid=steve.brown@altisource.com,ou=people,dc=altisource,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+givenName: Steve
+sn: Brown
+cn: Steve Brown
+initials: SB
+uid: steve.brown@altisource.com
+mail: steve.brown@altisource.com
+userPassword: Welcome99
+telephoneNumber: +1 685 622 6202
+description: This is the description for Steve Brown.
+
+dn: uid=peter.pan@altisource.com,ou=people,dc=altisource,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalperson
+objectClass: inetorgperson
+givenName: Peter
+sn: Pan
+cn: Peter Pan
+initials: PP
+uid: peter.pan@altisource.com
+mail: peter.pan@altisource.com
+userPassword: Welcome99
+telephoneNumber: +1 685 622 6202
+description: This is the description for Peter Pan.
