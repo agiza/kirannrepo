@@ -1,0 +1,7 @@
+#!/bin/sh
+CATALINA_OPTS=" -Xms2048m -Xmx3042m -XX:MaxPermSize=1024M"
+
+JRE_HOME=/usr/java/default
+
+# node specific commands
+<%= node[:altisource][:altitomcat][:setenv_cmds] %>

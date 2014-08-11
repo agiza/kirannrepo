@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# `basename $0`
+#
+# chkconfig: - 85 15
+# description: Jasper modifies tomcat
+# processname: java
+# pidfile: /opt/installables/apache-tomcat-7.0.53/apache-tomcat.pid
+
+. /etc/rc.d/init.d/functions
+
+# Set Apache Tomcat environment.
+USER=jasper
+CMD=`echo ${0##*/}`
+LOCKFILE=/opt/installables/apache-tomcat-7.0.53/jasperserver
+export BASEDIR=/opt/installables/apache-tomcat-7.0.53
+export TOMCAT_HOME=$BASEDIR
+export CATALINA_PID=/opt/installables/apache-tomcat-7.0.53/$CMD.pid
+export CATALINA_OPTS="-DHOME=$BASEDIR/home -Xmx512m -Djava.awt.headless=true"
+
+case "$1" in
+  start)
+        echo -n "Starting $CMD: "
+#       /opt/installables/apache-tomcat-7.0.53/bin/app-config > /dev/null 2>&1
+        status -p $CATALINA_PID $CMD > /dev/null && failure || (su -p -s /bin/sh $USER -c "$TOMCAT_HOME/bin/catalina.sh start" > /dev/null && (touch $LOCKFILE ; success))
+        echo
+        ;;
+  stop)
+        echo -n "Shutting down $CMD: "
+       # su -p -s /bin/sh $USER -c "$TOMCAT_HOME/bin/catalina.sh stop 20 -force" 2>/dev/null
+         su -p -s /bin/sh $USER -c "$TOMCAT_HOME/bin/catalina.sh stop 20" 2>/dev/null
+        stop_status=`ps -fu jasper| fgrep java|awk '{print $2}'`
+        if [ "$stop_status" != "" ]; then
+      #    echo "Attempting to kill."; ps -fu jasper| fgrep java|awk '{print $2}' | xargs -r kill -9 && rm -f $LOCKFILE && rm -f $CATALINA_PID; success
+
+           echo "Attempting to kill."; ps -fu jasper| fgrep java|awk '{print $2}' | xargs -r kill  && rm -f $LOCKFILE && rm -f $CATALINA_PID; success
+        fi
+        stop_status=`ps -fu jasper| fgrep java|awk '{print $2}'`
+        if [ "$stop_status" == "" ]; then
+        #status -p $CATALINA_PID $CMD > /dev/null && (rm -f $LOCKFILE ; success) || failure
+                success
+        else
+                failure
+        fi
+        echo
+        ;;
+  restart)
+        $0 stop
+        $0 start
+        ;;
+  condrestart)
+       [ -e $LOCKFILE ] && $0 restart
+       ;;
+  status)
+        status -p $CATALINA_PID $CMD
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart|condrestart|status}"
+        exit 1
+        ;;
+esac

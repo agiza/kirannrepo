@@ -1,0 +1,5 @@
+{
+  "name": "chef-validator",
+  "validator": true,
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw9SiyzIfESPokt70eCdU\nqQuvHXAG1TiyWikGpHgX5cLV3iyk8V/dbLAoGygaIjTVcH/CrRhBdgu9BZg8MlbO\nEPA3ym06Z256xg7nV3QWW8cFK1cWo/beQQ/uaWUr6UzNl7TA3NKikDZNEaUR+OWW\nEqhlmVKp5OhMjXxdgZLc0kBYcG1wRxQiKBApQk39xcUZXeWWFOhL7Fn7x9PolAYw\ngER8ALPf+HqgL27hUhyPcQPnxI6cwwUotrpUGb0WX9M1bb+2pl5e8kW1RoxCYtz6\nQ2IwgEVEIO7Q+fVjBhLYlhnF2/iqSZqsUINDPy2pO94nJ6bdNWC3+rMHtJGgRJaj\nMQIDAQAB\n-----END PUBLIC KEY-----\n"
+}

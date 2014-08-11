@@ -1,0 +1,5 @@
+{
+  "name": "chef-webui",
+  "admin": true,
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArU/FsLWMFfr0LEpUNe3L\nfAbtLm6CnTq9OmFMhTBk/uav+jf+w+2ABL10RKTADW4jsd9k0VHsp6vvVx4geRNy\n8f4TOsn88McE5O2LDnpdaX+UwKlWg1Uiay6eFxMSIr9IlSVKh9rjro8LYszkjnsv\nawwtT1cV1Jacd6+XoztDjqi5Oas52HTiGfjiBb/aiUrtIbN7IoPZlzIllOK8A+ha\n+/8hSdStKzZOW9fl0Pk4V1PzWTRWagTL0iBJ2uHIAipq96KTQw0/tF3hNjZbN9uR\nCJdjne1a4F29c5bqU0UkCh96qg0To39nEquc5BvAeT72XA5NVy/THoNHwU6CeSR8\nMQIDAQAB\n-----END PUBLIC KEY-----\n"
+}
