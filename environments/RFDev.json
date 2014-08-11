@@ -1,0 +1,56 @@
+{
+  "name": "RFDev",
+  "description": "Realfoundation Development",
+  "cookbook_versions": {
+    "elasticsearch": "= 0.3.10",
+    "mongodb": "= 0.0.4"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "iam_host": "rfint-iam-app1.altidev.net:8080",
+    "mongo_host": "rfint-rm-mongodb-srv1.altidev.net",
+    "monit": {
+      "mail_format": {
+        "from": "monit@amazonaws.com",
+        "subject": "[monit] $SERVICE $EVENT on $HOST",
+        "message": "$SERVICE $ACTION: $DESCRIPTION"
+      },
+      "notify_email": "<devops@altisource.com>"
+    },
+   "testing_setting": 1,
+    "rabbit_host": "rfint-rm-rabbit-srv1.atlidev.net",
+    "realsearch": {
+      "elasticsearch": {
+        "server": {
+          "host": "rfint-search-es-srv1.altidev.net",
+          "port": 9300
+        },
+        "cluster": {
+          "name": "rf-realsearch"
+        },
+        "solr": {
+          "connectionString": "http://rfint-search-es-srv1.altidev.net:8983/solr"
+        }
+      },
+      "indexservice": {
+            "ampq": {
+               "host": "rfint-search-rabbit-srv1.altidev.net",
+               "port": 5672,
+               "username": "realsearch",
+               "password": "realsearch12",
+               "vhost": "realsearch"
+             } 
+      }
+    },
+   "documentation": {
+       "services": {
+           "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
+       }
+   },
+    "shibboleth_host": "rfint-iam-app1.altidev.net",
+    "webHostname": "rfint-iam-app1.altidev.net"
+  },
+  "override_attributes": {
+  }
+}

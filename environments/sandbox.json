@@ -1,0 +1,24 @@
+{
+  "name": "sandbox",
+  "description": "",
+  "cookbook_versions": {
+    "realdoc": "= 0.1.0"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "testing_setting": 1
+  },
+  "override_attributes": {
+    "mailroom": {
+      "mysql": {
+        "url": "xxx"
+      }
+    },
+    "rabbitmq": {
+      "host": "rabbit-proxy",
+      "port": "5100",
+      "vhost": "/sandbox"
+    }
+  }
+}

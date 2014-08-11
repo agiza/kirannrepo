@@ -1,0 +1,56 @@
+{
+  "name": "scaling",
+  "description": "",
+  "cookbook_versions": {
+    "mongodb": "= 0.16.1",
+    "realdoc": "= 0.0.37"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "altisource": {
+      "altitomcat": {
+        "setenv_java_path": "/usr"
+      }
+    },
+    "altitomcat": {
+      "volume": {
+        "skip": true
+      }
+    },
+    "db_server": "scaling-mysql.altidev.net",
+    "mongodb": {
+      "cluster_name": "scaling",
+      "config": {
+        "fork": true,
+        "quiet": true,
+        "logappend": true
+      }
+    },
+    "mongodb_database": "realdoc-scaling",
+    "override_attributes": {
+    },
+    "rdcorr_version": "1.13.16-STRESS",
+    "realdoc": {
+      "elasticsearch": {
+        "nodes": "scaling-elasticsearch-s1.altidev.net:9300,scaling-elasticsearch-s2.altidev.net:9300,scaling-elasticsearch-s3.altidev.net:9300",
+        "cluster": "rdngistecloud",
+        "doc_index_version": "documents_v3",
+        "doc_type_version": "document_v3",
+        "disp_index_version": "dispatches_v3",
+        "disp_type_version": "dispatch_v3"
+      }
+    },
+    "realdoc_amqp_vhost": "/realdocscaling",
+    "realdoc_version": "1.13.16-STRESS",
+    "stress": {
+      "realdoc": {
+        "rd_cache_security_seconds_until_expiration": "rd.cache.security.secondsUntilExpiration=86400",
+        "rd_data_seconds_until_expiration": "rd.cache.data.secondsUntilExpiration=86400",
+        "rd_default_filesystem_writer_useXrefs": "rd.defaultFileSystemWriter.useXrefs=false"
+      }
+    }
+  },
+  "override_attributes": {
+  }
+}

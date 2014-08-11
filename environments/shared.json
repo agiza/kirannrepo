@@ -1,0 +1,19 @@
+{
+  "name": "shared",
+  "description": "",
+  "cookbook_versions": {
+    "rabbitmq": "= 0.0.3"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "amqpproxy": "rabbit-proxy:5100",
+    "mmongodb": {
+      "cluster_name": "shared"
+    },
+    "novolume": true,
+    "stompproxy": "rabbit-proxy:5200"
+  },
+  "override_attributes": {
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "perf",
+  "description": "Environment for performance testing mongodb",
+  "cookbook_versions": {
+    "mongodb": "= 0.16.1"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "mongodb": {
+      "cluster_name": "mongoperf",
+      "config": {
+        "fork": true,
+        "quiet": true,
+        "logappend": true
+      }
+    }
+  },
+  "override_attributes": {
+  }
+}

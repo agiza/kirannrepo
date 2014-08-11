@@ -1,0 +1,82 @@
+{
+  "name": "Demo",
+  "description": "Demo Environment",
+  "cookbook_versions": {
+    "mongodb": "= 0.1.3",
+    "realdoc": "= 0.1.0"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "amqpproxy": "rabbit-proxy:5100",
+    "db_server": "realqadbprim",
+    "mongodb_database": "realdocdemo",
+    "monit_notify_email1": "john.mcdonald@altisource.com",
+    "novolume": true,
+    "realdoc_amqp_vhost": "/realdocdemo",
+    "realservice_amqp_vhost": "/realservicedemo",
+    "realtrans_amqp_vhost": "/realtransdemo",
+    "rtng_realdoc_username": "correspondence",
+    "stompproxy": "rabbit-proxy:5200",
+    "testing_setting": 1
+  },
+  "override_attributes": {
+    "mailroom": {
+      "db": {
+        "user": "real_app",
+        "password": "0ch3N'OK",
+        "url": "jdbc:mysql://realqadbprim:3306/realdoc_demo?autoReconnect=true"
+      }
+    },
+    "print_recon_adapters": {
+      "adm": {
+        "ftp": {
+          "host": "192.168.120.38",
+          "ack_dir": "/sftp_data/RDNG/ADMRDNGUAT/ADMUAT_INBOUND",
+          "signature_dir": "/sftp_data/RDNG/ADMRDNGUAT/ADMUAT_INBOUND_SIGNATURES"
+        },
+        "dirs": {
+          "input": "/tmp/files/input/",
+          "working": "/tmp/files/work/",
+          "signature_archive": "/tmp/files/archive/",
+          "ack_archive": "/tmp/files/archive",
+          "error_archive": "/tmp/files/archive/"
+        }
+      },
+      "hov": {
+        "ftp": {
+          "host": "192.168.120.38",
+          "ack_dir": "/sftp_data/RDNG/HOVRDNGUAT/RDNG_HOV_inbound",
+          "signature_dir": "/sftp_data/RDNG/HOVRDNGUAT/RDNG_HOV_INBOUND_SIGNATURES"
+        },
+        "dirs": {
+          "input": "/tmp/files/input/",
+          "working": "/tmp/files/work/",
+          "signature_archive": "/tmp/files/archive/",
+          "ack_archive": "/tmp/files/archive",
+          "error_archive": "/tmp/files/archive/"
+        }
+      },
+      "walz": {
+        "ftp": {
+          "host": "192.168.120.38",
+          "ack_dir": "/sftp_data/RDNG/WALZRDNGUAT/RDNG_WALZ_INBOUND",
+          "signature_dir": "/sftp_data/RDNG/WALZRDNGUAT/RDNG_WALZ_INBOUND_SIGNATURES"
+        },
+        "dirs": {
+          "input": "/tmp/files/input/",
+          "working": "/tmp/files/work/",
+          "signature_archive": "/tmp/files/archive/",
+          "ack_archive": "/tmp/files/archive",
+          "error_archive": "/tmp/files/archive/"
+        }
+      }
+    },
+    "strongmail_db": {
+      "host": " 172.26.146.185",
+      "port": " 1525",
+      "schema": "REALDOC_QA",
+      "type": "oracle"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "name": "Dev",
+  "description": "Development",
+  "cookbook_versions": {
+    "mongodb": "= 0.1.3",
+    "mysql": "= 0.0.2"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "amqpproxy": "rabbit-proxy:5100",
+    "ava_amqp_vhost": "/avadev",
+    "db_server": "realqadbprim",
+    "hubzu_amqp_vhost": "/hubzudev",
+    "java_debugger": "-Xrunjdwp:transport=dt_socket,address=5005,suspend=n,server=y",
+    "l1_amqp_vhost": "/l1dev",
+    "mongodb_database": "realdocqa",
+    "monit_notify_email1": "john.mcdonald@altisource.com",
+    "novolume": true,
+    "oradb_port": 1521,
+    "oradb_server": "50.19.6.17",
+    "print_recon_adapters": {
+      "adm": {
+        "dirs": {
+          "ack_archive": "/opt/tomcat/files/archive/recon/ack",
+          "error_archive": "/opt/tomcat/files/archive/recon/error",
+          "input": "/opt/tomcat/files/input/recon/",
+          "signature_archive": "/opt/tomcat/files/archive/recon/signature",
+          "working": "/opt/tomcat/files/working/recon/"
+        },
+        "ftp": {
+          "ack_dir": "/home/realdoc/print-recon/dev/adm",
+          "host": "realdocftp",
+          "signature_dir": "/home/realdoc/print-recon/dev/adm/rcpt"
+        }
+      },
+      "hov": {
+        "dirs": {
+          "ack_archive": "/opt/tomcat/files/archive/recon/ack",
+          "error_archive": "/opt/tomcat/files/archive/recon/error",
+          "input": "/opt/tomcat/files/input/recon/",
+          "signature_archive": "/opt/tomcat/files/archive/recon/signature",
+          "working": "/opt/tomcat/files/working/recon/"
+        },
+        "ftp": {
+          "ack_dir": "/home/realdoc/print-recon/qa/hov",
+          "host": "realdocftp",
+          "signature_dir": "/home/realdoc/print-recon/qa/hov/rcpt"
+        }
+      },
+      "walz": {
+        "dirs": {
+          "ack_archive": "/opt/tomcat/files/archive/recon/ack",
+          "error_archive": "/opt/tomcat/files/archive/recon/error",
+          "input": "/opt/tomcat/files/input/recon/",
+          "signature_archive": "/opt/tomcat/files/archive/recon/signature",
+          "working": "/opt/tomcat/files/working/recon/"
+        },
+        "ftp": {
+          "ack_dir": "/home/realdoc/print-recon/qa/walz",
+          "host": "realdocftp",
+          "signature_dir": "/home/realdoc/print-recon/qa/walz/rcpt"
+        }
+      }
+    },
+    "realdoc": {
+      "elasticsearch": {
+        "nodes": "10.0.10.87:9300,10.0.10.7:9300",
+        "cluster": "rddevvault",
+        "doc_index_version": "documents_v261",
+        "doc_type_version": "document_v261",
+        "disp_index_version": "dispatches_v261",
+        "disp_type_version": "dispatch_v261"
+      }
+    },
+    "realdoc_amqp_vhost": "/rdvaultqa",
+    "realdocproxy": "10.0.0.138:8080",
+    "realservice_amqp_vhost": "/realservicedev",
+    "realtrans": {
+      "vp": {
+        "mobileEnabled": "true"
+      }
+    },
+    "realtrans_amqp_vhost": "/realtransdev",
+    "realtrans_stacktrace": true,
+    "rtng_realdoc_username": "rt-dvs",
+    "stompproxy": "rabbit-proxy:5200",
+    "testing_setting": 1
+  },
+  "override_attributes": {
+  }
+}

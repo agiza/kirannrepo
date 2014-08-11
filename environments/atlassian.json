@@ -1,0 +1,41 @@
+{
+  "name": "atlassian",
+  "description": "atlassian related recipes",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "artifactory_port": 8081,
+    "artifactory_server": "10.0.0.147",
+    "atlas_db_server": "atlasdbprim",
+    "atlassian_server": "10.0.0.20",
+    "bamboo_build_number": 3501,
+    "bamboo_dbpass": "bamboo_123",
+    "bamboo_dbuser": "bamboo",
+    "bamboo_license": "AAABUQ0ODAoPeNpdkEtrg0AUhffzKwa6VnxEAoGB+qLYahJiQjfd3OhNM6AzMjOG+u+rpva1uKvDOee75+HYIy1goM6aOsEmCDa+S+PkSD3H9UmCulK8M1wKFkF7lpKWBkQNqn7b0Fi2LaqKQ0NLVDdUZNu3Z1S7y0mj0swlsUKYzAkYZFOi5QSWsyaxFAYqs4UWWaQGEHR/5ULgsChpAbxh50myu7v0CI3hWvaqQruSLUlv0PRzOrtAo5GcZ0B7dPMbMqN6JGOKMChAVJh+dFwNC0gwgbjB4sl5hUJjWvM5rzyG2yQ8JGSn3kFwfW8Jv/tp1GsuUGtayqafRE33N2PT3NQ2KdMtG8/yvPXK931y3yZLWPT0GlovZeBYp9WzZ2VeVP4DOA4dzqPEu6JID3EW5uRLGv15lvzOXaB/HutFw1tusCb7EfMKGv8MP/77CZvBpTgwLAIUbseeNmjtP+9UNSFuGHYPv7Gb5Z0CFCG4tmOwgm9WtyRXiqoPysZY0Ee2X02gk",
+    "bamboo_port": 8085,
+    "bamboo_server": "inf-bamboo2.altidev.net",
+    "bamboo_serverid": "BGWA-KS50-U4J2-I2BS",
+    "confluence_port": 8090,
+    "confluence_server": "10.0.0.20",
+    "fisheye_port": 8060,
+    "fisheye_server": "inf-hub.altidev.net",
+    "git_repo": "github",
+    "git_user": "ubuntu",
+    "jira_port": 8080,
+    "jira_server": "inf-hub.altidev.net",
+    "mail_port": 25,
+    "mail_server": "mail.altidev.net",
+    "mysql_connector_version": "5.1.31",
+    "nexus_port": 8081,
+    "nexus_server": "10.0.0.147",
+    "testlink_port": 80,
+    "testlink_server": "10.0.0.163",
+    "yum_dir": "/storage/yum-repo",
+    "yum_user": "ubuntu",
+    "yumrepo_host": "github"
+  },
+  "override_attributes": {
+  }
+}

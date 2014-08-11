@@ -1,0 +1,27 @@
+{
+  "name": "rddemo",
+  "description": "",
+  "cookbook_versions": {
+    "realdoc": "= 0.1.0"
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "mailroom": {
+      "mongodb": {
+        "database": "realdocdemo"
+      },
+      "rdb": {
+        "url": "jdbc:mysql://realqadbprim:3306/realdoc_demo?autoReconnect=true"
+      }
+    },
+    "rabbitmq": {
+      "host": "rabbit-proxy",
+      "port": "5100",
+      "vhost": "/realdocdemo"
+    },
+    "testing_setting": 1
+  },
+  "override_attributes": {
+  }
+}

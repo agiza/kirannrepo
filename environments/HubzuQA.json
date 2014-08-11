@@ -1,0 +1,21 @@
+{
+  "name": "HubzuQA",
+  "description": "Hubzu QA",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "amqpproxy": "rabbit-proxy:5100",
+    "ava_amqp_vhost": "/avadev",
+    "db_server": "localhost",
+    "hubzu_amqp_vhost": "/hubzuqa",
+    "l1_amqp_vhost": "/l1qa",
+    "monit_notify_email1": "john.mcdonald@altisource.com",
+    "novolume": true,
+    "stompproxy": "rabbit-proxy:5200",
+    "testing_setting": 1
+  },
+  "override_attributes": {
+  }
+}
