@@ -11,6 +11,6 @@ rabbitmqctl set_user_tags realsearch administrator
 
 
 #Define Permissions
-rabbitmqctl set_permissions -p /realsearch realsearch ".*" ".*" ".*"
+rabbitmqctl set_permissions -p realsearch realsearch ".*" ".*" ".*"
 rabbitmqctl set_permissions -p / realsearch ".*" ".*" ".*"
 

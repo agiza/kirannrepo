@@ -24,7 +24,7 @@ default["opendj"]["keystore_pass"] = "badpass"
 default["opendj"]["dir_manager_bind_dn"] = "cn=Directory Manager"
 default["opendj"]["dir_manager_password"] = "secret"
 default["opendj"]["properties"] = {}
-default["opendj"]["ldif_files"] = []
+default["opendj"]["ldif_files"] = ["generated.ldif"]
 default["opendj"]["replication"]["host_search"] = 'role:sample-opendj-role'
 default["opendj"]["replication"]["port"] = default["opendj"]["ssl_port"]
 default["opendj"]["replication"]["uid"] = 'replication-user'

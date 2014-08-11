@@ -33,6 +33,9 @@ database:
   # Any additional JDBC driver parameters.
   properties:
     charSet: UTF-8
+  
+    # Make the Oracle driver behave in a Java EE-compliant manner (treat java.oracle.TIMESTAMP as java.sql.Timestamp)
+    oracle.jdbc.J2EE13Compliant: true
 
   # If a request for a connection is blocked for longer than this period, an exception will be thrown.
   maxWaitForConnection: <%= node[:ods_adapter][:db][:max_wait_conn] %>
@@ -97,15 +100,15 @@ server:
         archivedFileCount: <%= node[:ods_adapter][:logging][:log_file_count] %>
 
 custom:
-# The size of the pool holding the threads that aggregate the datapoint information from ODS database.
-# This has to be less than database.maxSize / avg. number of queries per letter request.
+  # The size of the pool holding the threads that aggregate the datapoint information from ODS database.
+  # This has to be less than database.maxSize / avg. number of queries per letter request.
   requestsAggregationThreadPoolSize: <%= node[:ods_adapter][:aggregation_thread_poolsize] %>
 
-# The size of the pool holding the threads that make the HTTP calls to MaitreD.
+  # The size of the pool holding the threads that make the HTTP calls to MaitreD.
   requestsDeliveryThreadPoolSize: <%= node[:ods_adapter][:delivery_thread_poolsize] %>
 
-# The number of request items that will be grouped in a single HTTP call to MaitreD.
+  # The number of request items that will be grouped in a single HTTP call to MaitreD.
   requestItemsSplitThreshold: <%= node[:ods_adapter][:req_items_split_threshold] %>
 
-# The name of the schema holding the ODS letter tables.
+  # The name of the schema holding the ODS letter tables.
   letterRequestsSchemaName: <%= node[:ods_adapter][:letter_req_schema_name] %>

@@ -88,7 +88,6 @@
 <%= print_value 'discovery.zen.ping.unicast.hosts' -%>
 
 <%- if node.elasticsearch[:cloud] -%>
-<%= print_value 'cloud.node.auto_attributes' -%>
 <%= print_value 'cloud.aws.access_key' -%>
 <%= print_value 'cloud.aws.secret_key' -%>
 <%= print_value 'cloud.aws.region' -%>

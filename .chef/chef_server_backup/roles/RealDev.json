@@ -1,1 +1,1 @@
-{"default_attributes":{},"name":"RealDev","env_run_lists":{},"run_list":["role[All]","recipe[realdev]"],"description":"Standard recipes for RealFoundation based Dev boxes.","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}
+{"name":"RealDev","description":"Standard recipes for RealFoundation based Dev boxes.","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[realdev]"],"env_run_lists":{}}

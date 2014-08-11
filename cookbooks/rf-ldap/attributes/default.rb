@@ -17,15 +17,14 @@ default["opendj"]["user_root_dn"] = "dc=altisource,dc=com"
 default["opendj"]["standard_port"] = "1389"
 default["opendj"]["ssl_port"] = "1636"
 default["opendj"]["admin_port"] = "4444"
-default["opendj"]["ssl_cert"] = "keystore.crt"
-default["opendj"]["ssl_key"] = "keystore.key"
+default["opendj"]["ssl_cert"] = "rf.crt"
+default["opendj"]["ssl_key"] = "rf.key"
 default["opendj"]["ssl_chain"] = [ ]
-default["opendj"]["keystore_pass"] = "badpass"
+default["opendj"]["keystore_pass"] = "changeit"
 default["opendj"]["dir_manager_bind_dn"] = "cn=Directory Manager"
 default["opendj"]["dir_manager_password"] = "secret"
 default["opendj"]["properties"] = {}
-default["opendj"]["ldif_files"] = []
-default["opendj"]["replication"]["host_search"] = 'role:sample-opendj-role'
+default["opendj"]["ldif_files"] = ["generated.ldif"] 
 default["opendj"]["replication"]["port"] = default["opendj"]["ssl_port"]
 default["opendj"]["replication"]["uid"] = 'replication-user'
 default["opendj"]["replication"]["password"] = 'badpass'

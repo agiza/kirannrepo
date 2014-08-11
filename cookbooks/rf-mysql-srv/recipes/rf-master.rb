@@ -15,7 +15,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+include_recipe "java"
+
 execute 'mkfs' do
   command "mkfs -t ext4 /dev/xvdn"
    # only if it's not mounted already
@@ -180,6 +182,13 @@ template "/etc/my.cnf" do
   group "mysql"
 end
 
+template "/etc/security/limits.conf" do 
+   source "limits.conf.erb"
+     mode 00600
+     owner "root"
+     group "root"
+end
+
 execute "clean up ownership" do
   command "chown -R mysql:mysql /u02"
 end
@@ -193,8 +202,37 @@ execute "start MYSQL service" do
     command "/etc/init.d/mysql start"
 end
 
+#execute "install root password" do
+#   command "/usr/bin/mysqladmin -u root password 'realmysql'"
+#end
+
+cookbook_file "/root/dbdump.sql" do
+   source "dbdump.sql"
+    mode  00775
+    owner "root"
+    group "root"
+end
+
+cookbook_file "/root/iamuser.sql" do
+   source "iamuser.sql"
+    mode  00775
+    owner "root"
+    group "root"
+end
+
 execute "install root password" do
    command "/usr/bin/mysqladmin -u root password 'realmysql'"
 end
 
 
+executt "initialize real db" do
+   command "cd /root;/usr/bin/mysql -u root --password=realmysql < dbdump.sql"
+end 
+
+
+execute "initialize IAM user" do
+   command "cd /root;/usr/bin/mysql -u root --password=realmysql < iamuser.sql"
+end
+
+
+include_recipe "iptables::disabled"

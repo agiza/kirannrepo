@@ -8,4 +8,5 @@ version          '0.2.0'
 
 depends  'java'
 depends  'tomcat-all'
-depends  'shibboleth_idp'
+depends  'shibboleth-idp'
+depends  'shibboleth-sp'

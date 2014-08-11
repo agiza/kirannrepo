@@ -1,1 +1,1 @@
-{"default_attributes":{"access_index":"realservice","log4j_index":"realservice"},"name":"realservicing","env_run_lists":{},"run_list":["role[All]","role[Common]","recipe[splunkforwarder]"],"description":"","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}
+{"name":"realservicing","description":"","json_class":"Chef::Role","default_attributes":{"log4j_index":"realservice","access_index":"realservice"},"override_attributes":{},"chef_type":"role","run_list":["role[all]","recipe[rsng::replication-app]","recipe[rsng::rsng-service-app]"],"env_run_lists":{}}

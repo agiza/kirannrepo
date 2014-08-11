@@ -73,3 +73,16 @@ template "/conf/realdoc.properties" do
   group "root"
 end
 
+template "/conf/jdbc-data-provider.properties" do
+  source "jdbc-data-provider.properties.erb.xml"
+  owner "root"
+  group "root"
+end
+
+template "/conf/jdbc-data-provider.xml" do
+  source "jdbc-data-provider.xml"
+  mode 00755
+  owner "root"
+  group "root"
+end
+

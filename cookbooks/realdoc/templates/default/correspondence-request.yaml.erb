@@ -41,13 +41,7 @@ database:
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
 
-# TODO find proper keys!
-#  # how long a connection must be held before it can be validated
-#  validationInterval: 10s
-#
-#  # the maximum lifetime of an idle connection
-#  closeConnectionIfIdleFor: 1 minute
-  
+
 logging:
   level: <%= node[:maitred][:logging][:log_level] %>
   appenders:

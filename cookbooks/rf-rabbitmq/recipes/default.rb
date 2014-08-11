@@ -27,3 +27,5 @@ end
 execute "install setup_rabbit.sh" do
   command "sh /tmp/setup_rabbit.sh"
 end
+
+include_recipe "iptables::disabled"

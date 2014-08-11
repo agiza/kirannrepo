@@ -1,1 +1,1 @@
-{"data_bag":"rabbitmq","name":"data_bag_item_rabbitmq_rabbitmq","raw_data":{"rabbit_cookie":"rabbitmqaltidev","id":"rabbitmq"},"json_class":"Chef::DataBagItem","chef_type":"data_bag_item"}
+{"name":"data_bag_item_rabbitmq_rabbitmq","json_class":"Chef::DataBagItem","chef_type":"data_bag_item","data_bag":"rabbitmq","raw_data":{"rabbit_cookie":"rabbitmqaltidev","adminuser":"admin|5P3cial","id":"rabbitmq"}}

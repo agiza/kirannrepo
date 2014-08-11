@@ -1,1 +1,1 @@
-{"default_attributes":{},"name":"rabbitserver","env_run_lists":{},"run_list":["recipe[rabbitmq-config]"],"description":"Role for RabbitMQ Servers","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}
+{"name":"rabbitserver","description":"Role for RabbitMQ Servers","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["recipe[rabbitmq::rabbitmqserver]"],"env_run_lists":{}}

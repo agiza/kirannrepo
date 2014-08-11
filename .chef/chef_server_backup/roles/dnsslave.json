@@ -1,1 +1,1 @@
-{"default_attributes":{},"name":"dnsslave","env_run_lists":{},"run_list":["role[All]","recipe[dns]"],"description":"","json_class":"Chef::Role","chef_type":"role","override_attributes":{}}
+{"name":"dnsslave","description":"","json_class":"Chef::Role","default_attributes":{},"override_attributes":{},"chef_type":"role","run_list":["role[all]","recipe[infrastructure::dns]"],"env_run_lists":{}}
