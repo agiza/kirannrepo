@@ -8,6 +8,11 @@
   "json_class": "Chef::Environment",
   "chef_type": "environment",
   "default_attributes": {
+    "documentation": {
+      "services": {
+        "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
+      }
+    },
     "iam_host": "rfint-iam-app1.altidev.net:8080",
     "mongo_host": "rfint-rm-mongodb-srv1.altidev.net",
     "monit": {
@@ -18,7 +23,6 @@
       },
       "notify_email": "<devops@altisource.com>"
     },
-   "testing_setting": 1,
     "rabbit_host": "rfint-rm-rabbit-srv1.atlidev.net",
     "realsearch": {
       "elasticsearch": {
@@ -34,21 +38,17 @@
         }
       },
       "indexservice": {
-            "ampq": {
-               "host": "rfint-search-rabbit-srv1.altidev.net",
-               "port": 5672,
-               "username": "realsearch",
-               "password": "realsearch12",
-               "vhost": "realsearch"
-             } 
+        "ampq": {
+          "host": "rfint-search-rabbit-srv1.altidev.net",
+          "port": 5672,
+          "username": "realsearch",
+          "password": "realsearch12",
+          "vhost": "realsearch"
+        }
       }
     },
-   "documentation": {
-       "services": {
-           "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
-       }
-   },
     "shibboleth_host": "rfint-iam-app1.altidev.net",
+    "testing_setting": 1,
     "webHostname": "rfint-iam-app1.altidev.net"
   },
   "override_attributes": {
