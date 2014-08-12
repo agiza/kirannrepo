@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: rm-rabbitmq
+# Cookbook Name:: rf-rm-rabbitmq
 # Recipe:: default
 #
 # Copyright 2014, YOUR_COMPANY_NAME
