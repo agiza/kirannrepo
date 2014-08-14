@@ -1,8 +1,8 @@
 {
-  "name": "RUQA",
+  "name": "RTDev",
   "description": "",
   "cookbook_versions": {
-    "mongodb": "= 0.16.1"
+    "elasticsearch": "= 0.3.10"
   },
   "json_class": "Chef::Environment",
   "chef_type": "environment",
