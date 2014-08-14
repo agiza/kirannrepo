@@ -67,6 +67,7 @@
         }
       }
     },
+    "rdcorr_version": "1.15.9-0",
     "realdoc_amqp_vhost": "/realdocqa",
     "realdocproxy": "10.0.0.138:8080",
     "realservice_amqp_vhost": "/realserviceqa",
@@ -92,9 +93,10 @@
     "amqpport": "5100",
     "env": "QA",
     "mailroom": {
-      "db": {
-        "user": "real_app",
-        "password": "0ch3N'OK",
+      "mongodb": {
+        "database": "realdocqa"
+      },
+      "rdb": {
         "url": "jdbc:mysql://realqadbprim:3306/realdoc?autoReconnect=true"
       }
     },
@@ -103,7 +105,8 @@
         "user": "real_app",
         "password": "0ch3N'OK",
         "url": "jdbc:mysql://realqadbprim:3306/realdoc?autoReconnect=true&socketTimeout=1000&connectTimeout=1000"
-      }
+      },
+      "version": "1.1.1-RELEASE_1"
     },
     "mongo_maxConns": "400",
     "ods_adapter": {
@@ -112,6 +115,11 @@
         "password": "rdpassword2",
         "url": "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=10.0.0.208)(PORT=1523))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cis_uat)))"
       }
+    },
+    "rabbitmq": {
+      "host": "rabbit-proxy",
+      "port": "5100",
+      "vhost": "/realdocqa"
     },
     "rd_corr_storage_method": "GRID_FS",
     "rd_corres_flag": "true"

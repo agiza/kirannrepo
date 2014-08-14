@@ -2,6 +2,7 @@
   "name": "rddemo",
   "description": "",
   "cookbook_versions": {
+    "mailroom": ">= 1.0.0",
     "realdoc": "= 0.1.0"
   },
   "json_class": "Chef::Environment",

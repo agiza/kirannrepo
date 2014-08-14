@@ -7,8 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-node.override["rabbitmq"]["cluster_disk_nodes'"] = "rfint-search-rabbit-srv1,rfint-search-rabbit-srv2"
-
 
 include_recipe  'yum-epel'
 include_recipe  'rabbitmq::default'

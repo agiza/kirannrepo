@@ -13,6 +13,26 @@
         "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
       }
     },
+    "elasticsearch": {
+      "cluster": {
+        "name": "rf-realsearch"
+      },
+      "discovery": {
+        "zen": {
+          "minimum_master_nodes": "1",
+          "ping": {
+            "unicast": {
+              "hosts": "rfint-search-es-srv1.altidev.net,rfint-search-es-srv2.altidev.net,rfint-search-es-srv3.altudev.net"
+            },
+            "multicast": {
+              "enabled": "false"
+            }
+          }
+        }
+      },
+      "download_url": "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz",
+      "version": "1.1.1"
+    },
     "iam_host": "rfint-iam-app1.altidev.net:8080",
     "mongo_host": "rfint-rm-mongodb-srv1.altidev.net",
     "monit": {
