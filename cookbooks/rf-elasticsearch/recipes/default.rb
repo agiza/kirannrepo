@@ -46,15 +46,6 @@ mount "/usr/local/var/logs/elasticsearch" do
   action [:mount,:enable]
 end
 
-node.override["elasticsearch"]["version"] = "1.1.1"
-node.override["elasticsearch"]["download_url"] = "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz"
-node.override['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = "false"
-node.override['elasticsearch']['discovery']['zen']['minimum_master_nodes'] = "1"
-node.override['elasticsearch']['cluster']['name'] = "rf-realsearch"
-node.override['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '["rfint-search-es-srv1.altidev.net","rfint-search-es-srv2.altidev.net","rfint-search-es-srv3.altudev.net"]'
-
-
-
 include_recipe "monit"
 include_recipe "elasticsearch"
 include_recipe "elasticsearch::plugins"
