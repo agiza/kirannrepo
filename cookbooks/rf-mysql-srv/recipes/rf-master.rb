@@ -202,9 +202,6 @@ execute "start MYSQL service" do
     command "/etc/init.d/mysql start"
 end
 
-#execute "install root password" do
-#   command "/usr/bin/mysqladmin -u root password 'realmysql'"
-#end
 
 cookbook_file "/root/dbdump.sql" do
    source "dbdump.sql"
@@ -225,7 +222,7 @@ execute "install root password" do
 end
 
 
-executt "initialize real db" do
+execute "initialize real db" do
    command "cd /root;/usr/bin/mysql -u root --password=realmysql < dbdump.sql"
 end 
 
