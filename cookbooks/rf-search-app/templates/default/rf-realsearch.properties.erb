@@ -1,32 +1,33 @@
 ################################################################################
-## RealSearch properties
-################################################################################
-
+### RealSearch properties
+#################################################################################
+#
 #Search Engine Configurations
-realsearch.elasticsearch.server.host=<%= node[:realsearch][:elasticsearch][:server][:host] %>
-realsearch.elasticsearch.server.port=<%= node[:realsearch][:elasticsearch][:server][:port] %>
-realsearch.elasticsearch.cluster.name=<%= node[:realsearch][:elasticsearch][:cluster][:name] %>
-realsearch.solr.connectionString=<%= node[:realsearch][:solr][:connectString]  %>
-
-#Rabbit MQ Configuration
-realsearch.indexservice.amqp.host=<%= node[:realsearch][:indexsearch][:ampq][:host] %>
-realsearch.indexservice.amqp.port=<%= node[:realsearch][:indexsearch][:ampq][:port] %>
-realsearch.indexservice.amqp.username=<%= node[:realsearch][:indexsearch][:ampq][:username] %>
-realsearch.indexservice.amqp.password=<%= node[:realsearch][:indexsearch][:ampq][:password] %>
-realsearch.indexservice.amqp.vhost=<%= node[:realsearch][:indexsearch][:ampq][:vhost] %>
+realsearch.elasticsearch.server.host= <%= node[:realsearch][:elasticsearch][:server][:host] %>
+realsearch.elasticsearch.server.port= <%= node[:realsearch][:elasticsearch][:server][:port] %>
+realsearch.elasticsearch.cluster.name= <%= node[:realsearch][:elasticsearch][:cluster][:name] %>
+realsearch.solr.connectionString= <%= node[:realsearch][:solr][:connectionString]  %>
+#
+##Rabbit MQ Configuration
+realsearch.indexservice.amqp.host= <%= node[:realsearch][:indexservice][:ampq][:host] %>
+realsearch.indexservice.amqp.port= <%= node[:realsearch][:indexservice][:ampq][:port] %>
+realsearch.indexservice.amqp.username= <%= node[:realsearch][:indexservice][:ampq][:username] %>
+realsearch.indexservice.amqp.password= <%= node[:realsearch][:indexservice][:ampq][:password] %>
+realsearch.indexservice.amqp.vhost= <%= node[:realsearch][:indexservice][:ampq][:vhost] %>
 realsearch.indexservice.amqp.insert.request=realsearch.data.insert.queue
 realsearch.indexservice.amqp.update.request=realsearch.data.update.queue
 realsearch.indexservice.amqp.delete.request=realsearch.data.delete.queue
 realsearch.indexservice.amqp.audit.request=realsearch.data.audit.queue
-
-#Multiple consumers configuration
+#
+##Multiple consumers configuration
 index.concurrent.consumers=20
 index.thread.pool.size=20
 index.prefetch.count=20
 audit.concurrent.consumers=10
 audit.thread.pool.size=10
 audit.prefetch.count=20
-
+#
+#
 realsearch.indexservice.action.insert=realsearch.data.insert
 realsearch.indexservice.action.delete=realsearch.data.delete
 realsearch.indexservice.action.update=realsearch.data.update
@@ -34,5 +35,6 @@ realsearch.indexservice.action.audit=realsearch.data.audit
 
 realsearch.indexservice.update.retries=4
 
-documentation.services.basePath=<%= node[:documentation][:services][:basePath]  %>
+documentation.services.basePath= <%= node[:documentation][:services][:basePath]  %>
 documentation.services.version=1.0
+
