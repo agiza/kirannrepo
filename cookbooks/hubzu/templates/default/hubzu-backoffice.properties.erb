@@ -108,3 +108,5 @@ thread.taskExecutor.waitForTasksToCompleteOnShutdown=true
 backoffice.environment.key=<%= @backoffice['backoffice.environment.key'] %>
 #psa.report.scheduler.delay=0 0 13 * * ?
 psa.report.scheduler.delay=0 0 3,10,13,16 * * ?
+# 15 minute docusign check envelop status scheduler active status reset wait time
+docusign.scheduler.status.reset.time=15
