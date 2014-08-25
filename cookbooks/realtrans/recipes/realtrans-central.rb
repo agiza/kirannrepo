@@ -123,7 +123,12 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rf_dq_connect_timeout => node[:realtrans][:dataquality][:connect_timeout],
     :rf_dq_read_timeout => node[:realtrans][:dataquality][:read_timeout],
     :rf_dq_max_connections => node[:realtrans][:dataquality][:max_connections],
-    :rf_dq_max_conn_per_route => node[:realtrans][:dataquality][:max_connections_per_route]
+    :rf_dq_max_conn_per_route => node[:realtrans][:dataquality][:max_connections_per_route],
+    :rd_amqphost => node[:realtrans][:realdoc][:amqphost],
+    :rd_amqpport => node[:realtrans][:realdoc][:amqpport],
+    :rd_amqpuser => node[:realtrans][:realdoc][:amqpuser],
+    :rd_amqppass => node[:realtrans][:realdoc][:amqppass], 
+    :rd_amqpvhost => node[:realtrans][:realdoc][:amqpvhost] 
   )
   notifies :restart, resources(:service => "altitomcat")
 end
