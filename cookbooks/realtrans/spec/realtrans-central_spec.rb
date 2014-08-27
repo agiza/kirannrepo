@@ -72,6 +72,10 @@ describe 'realtrans::realtrans-central' do
       node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
 		  node.set[:realtrans][:pv][:request_url] = 'http://pv/request/url'
       node.set[:realtrans][:dataquality][:read_timeout] = 1000
+		  node.set[:realtrans][:realdoc][:amqphost] = "rdamqp"
+      node.set[:realtrans][:realdoc][:amqpuser] = "rduser"
+		  node.set[:realtrans][:realdoc][:amqppass] = "rdpass"
+      node.set[:realtrans][:realdoc][:amqpvhost] = "rdocdev"
   	end.converge 'realtrans::realtrans-central'
   end
 
@@ -137,5 +141,16 @@ describe 'realtrans::realtrans-central' do
 
     expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.httpPool.maxTotal=20'
     expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rf.dataquality.httpPool.defaultMaxPerRoute=10'
+  end
+
+  it 'should populate the bulk import properties' do
+	  
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.amqp.host=rdamqp'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.amqp.port=5672'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.amqp.virtual-host=rdocdev'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.amqp.username=rduser'
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.amqp.password=rdpass'
+
+    expect(@chef_run).to create_file_with_content CENTRAL_PROPS, 'rd.bulkimport.importConfigCode=rtng.bulk.import'
   end
 end

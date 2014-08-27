@@ -46,3 +46,6 @@ default[:realtrans][:dataquality][:connect_timeout] = 5000
 default[:realtrans][:dataquality][:read_timeout] = 5000
 default[:realtrans][:dataquality][:max_connections] = 20
 default[:realtrans][:dataquality][:max_connections_per_route] = 10
+
+default[:realtrans][:realdoc][:amqpport] = 5672
+default[:realtrans][:realdoc][:import_config_code] = "rtng.bulk.import"

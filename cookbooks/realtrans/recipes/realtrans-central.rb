@@ -128,7 +128,8 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rd_amqpport => node[:realtrans][:realdoc][:amqpport],
     :rd_amqpuser => node[:realtrans][:realdoc][:amqpuser],
     :rd_amqppass => node[:realtrans][:realdoc][:amqppass], 
-    :rd_amqpvhost => node[:realtrans][:realdoc][:amqpvhost] 
+    :rd_amqpvhost => node[:realtrans][:realdoc][:amqpvhost],
+    :rd_import_config_code => node[:realtrans][:realdoc][:import_config_code]
   )
   notifies :restart, resources(:service => "altitomcat")
 end
