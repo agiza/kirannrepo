@@ -116,7 +116,11 @@ template "/opt/tomcat/conf/#{app_name}.properties" do
     :rf_dq_connect_timeout => node[:realtrans][:dataquality][:connect_timeout],
     :rf_dq_read_timeout => node[:realtrans][:dataquality][:read_timeout],
     :rf_dq_max_connections => node[:realtrans][:dataquality][:max_connections],
-    :rf_dq_max_conn_per_route => node[:realtrans][:dataquality][:max_connections_per_route]
+    :rf_dq_max_conn_per_route => node[:realtrans][:dataquality][:max_connections_per_route],
+    :rf_tm_display_countdown => node[:realtrans][:snooze][:enabled],
+    :rf_tm_include_variables_local => node[:realtrans][:snooze][:enabled],
+    :rf_enable_snooze_job => node[:realtrans][:snooze][:enabled],
+    :rf_snooze_cron_expression => node[:realtrans][:snooze][:cron]    
   )
 end
 

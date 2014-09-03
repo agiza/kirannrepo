@@ -70,6 +70,7 @@ describe 'realtrans::realtrans-fp' do
   		node.set[:realtrans][:logging][:maxhistory] = 1999
       node.set[:realtrans][:melissadata][:expressentry][:all_words] = 'ALL WORDS'
       node.set[:realtrans][:dataquality][:connect_timeout] = 1500
+      node.set[:realtrans][:snooze][:cron] = "* * * * * *"
   	end.converge 'realtrans::realtrans-fp'
   end
 
@@ -135,5 +136,13 @@ describe 'realtrans::realtrans-fp' do
 
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.httpPool.maxTotal=20'
     expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.dataquality.httpPool.defaultMaxPerRoute=10'
+  end
+
+  it 'should populate the snooze properties' do
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.taskManager.displayCountDownToWakeUp=true'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.taskManager.includeVariablesLocal=true'
+
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.enableTaskSnoozeJob=true'
+    expect(@chef_run).to create_file_with_content FP_PROPS, 'rf.taskSnoozeCronExpression=* * * * * *'
   end
 end

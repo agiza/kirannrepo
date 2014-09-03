@@ -49,3 +49,6 @@ default[:realtrans][:dataquality][:max_connections_per_route] = 10
 
 default[:realtrans][:realdoc][:amqpport] = 5672
 default[:realtrans][:realdoc][:import_config_code] = "rtng.bulk.import"
+
+default[:realtrans][:snooze][:enabled] = true
+default[:realtrans][:snooze][:cron] = "0 0/1 * * * ?"
