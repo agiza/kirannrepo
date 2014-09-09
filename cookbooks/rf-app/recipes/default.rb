@@ -204,6 +204,10 @@ yum_package "iam-selfsvc" do
     action :upgrade
 end
 
+#yum_package "iam-home" do
+#    action :upgrade
+#end
+
 service "shibd" do
   action :restart
 end
