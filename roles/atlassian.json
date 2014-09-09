@@ -1,0 +1,41 @@
+{
+  "name": "atlassian",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "artifactory_port": 8081,
+    "artifactory_server": "10.0.0.147",
+    "atlas_db_server": "atlasdbprim",
+    "atlassian_server": "10.0.0.20",
+    "bamboo_build_number": 3501,
+    "bamboo_dbpass": "bamboo_123",
+    "bamboo_dbuser": "bamboo",
+    "bamboo_license": "AAABVw0ODAoPeNpdkMtqwzAURPf6CkHXNo4dpxAQ1K8Wp86DOCGbbm7sm1RgSUGSTfP3dZy6DQVpN czMufN0wJouWkm9GfXCeRjOpz5N0h31vYlPUjSV5hfLlWQxiKNStLQga9D1x5wmSgjUFYeGlqg71 GTViiPq9WlvUBs2IYlGuJlTsMhuiY436x9JlLRQ2RUIZK8aZMVNpegWr2hGLVsCb1jDK5QGBUg4o 0BpX6Cx3KhWV+hWSpCsg6YdOtgJGoPkOGC6fQLvkFndIumTpEXZ12D2deH6OuIEjhc6k9noKe5lW c2HvHIXrdJom5K1PoPk5t4S/fbTuDVcojG0VE17Ew3ddNalha1dUmYr1n/H95+nQRCQ+0J5yuK3Q +S8l6Hn7KcL38n9uPwHsLtecJgmWS+X2TbJo4L8SL2/yNPH3BH677BWNlxwizXZ9JifYPBh/uHeb xsgp7IwLAIUDQT/vC8wLRNP+i5J2wEyfhFbTtUCFHn4yXa4KCiDmkyZuTYqo8/NOriNX02gs",
+    "bamboo_port": 8085,
+    "bamboo_server": "inf-bamboo2.altidev.net",
+    "bamboo_serverid": "BGWA-KS50-U4J2-I2BS",
+    "confluence_port": 8090,
+    "confluence_server": "10.0.0.20",
+    "fisheye_port": 8060,
+    "fisheye_server": "inf-hub.altidev.net",
+    "git_repo": "github",
+    "git_user": "ubuntu",
+    "jira_port": 8080,
+    "jira_server": "inf-hub.altidev.net",
+    "mail_port": 25,
+    "mail_server": "mail.altidev.net",
+    "nexus_port": 8081,
+    "nexus_server": "10.0.0.147",
+    "yum_dir": "/storage/yum-repo",
+    "yum_user": "ubuntu",
+    "yumrepo_host": "github"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+
+  ],
+  "env_run_lists": {
+  }
+}

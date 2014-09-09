@@ -1,0 +1,18 @@
+{
+  "name": "realtrans-ven",
+  "description": "Realtrans Vendor role",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "access_index": "realtrans",
+    "log4j_index": "realtrans"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[realtrans::realtrans-reg]",
+    "recipe[realtrans::realtrans-vp]"
+  ],
+  "env_run_lists": {
+  }
+}

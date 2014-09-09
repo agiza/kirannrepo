@@ -1,0 +1,19 @@
+{
+  "name": "realservicing",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "access_index": "realservice",
+    "log4j_index": "realservice"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "role[all]",
+    "recipe[rsng::replication-app]",
+    "recipe[rsng::rsng-service-app]"
+  ],
+  "env_run_lists": {
+  }
+}

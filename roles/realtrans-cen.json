@@ -1,0 +1,20 @@
+{
+  "name": "realtrans-cen",
+  "description": "Realtrans central apps",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "access_index": "realtrans",
+    "activiti_execute": true,
+    "log4j_index": "realtrans"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[realtrans::realtrans-rp]",
+    "recipe[realtrans::realtrans-central]",
+    "recipe[realtrans::realtrans-fp]"
+  ],
+  "env_run_lists": {
+  }
+}

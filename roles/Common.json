@@ -1,0 +1,19 @@
+{
+  "name": "Common",
+  "description": "Common cookbooks to setup the servers with common packages.\r\n                                                                                                ",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "altitomcat_version": "1.0.0-5",
+    "yum_server": "atlas"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[altisource::altirepo]",
+    "recipe[altisource::altitomcat]",
+    "recipe[altisource::appdynamics]"
+  ],
+  "env_run_lists": {
+  }
+}

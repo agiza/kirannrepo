@@ -1,0 +1,17 @@
+{
+  "name": "l1-cen",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[l1::l1-fp]",
+    "recipe[l1::l1-rp]",
+    "recipe[l1::l1-central]"
+  ],
+  "env_run_lists": {
+  }
+}

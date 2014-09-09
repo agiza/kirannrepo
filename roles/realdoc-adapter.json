@@ -1,0 +1,20 @@
+{
+  "name": "realdoc-adapter",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "access_index": "realdoc",
+    "activiti_execute": true,
+    "log4j_index": "realdoc"
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[realdoc::libreoffice-headless]",
+    "recipe[realdoc::jdbc-data-provider]",
+    "recipe[realdoc::realdoc-adapter]"
+  ],
+  "env_run_lists": {
+  }
+}
