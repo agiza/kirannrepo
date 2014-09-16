@@ -1,0 +1,73 @@
+{
+    "audit_user_management_template" : {
+        "template" : "audit_user_management*",
+        "order": 1,
+        "mappings" : {            
+            "iam": {
+                "properties" : {                    
+                    "request":{
+                        "properties":{                           
+                            "requestPath":{
+                                "type": "object",
+                                "properties":{
+                                    "user": {
+                                        "type": "nested"
+                                    },
+                                    "group": {
+                                        "type": "nested"
+                                    },
+                                    "role": {
+                                        "type": "nested"
+                                    },
+                                    "product": {
+                                        "type": "nested"
+                                    },
+                                    "resource": {
+                                        "type": "nested"
+                                    },
+                                    "permission": {
+                                        "type": "nested"
+                                    }
+                                }
+                            }
+                        }
+                    }                   
+                }
+            },
+            "sso": {
+                "properties": {
+                    "loginTime": {
+                        "type": "date"
+                    },
+                    "userName": {
+                        "type": "string",
+                        "fields": {
+                            "raw" : {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "userAgent": {
+                        "type": "string",
+                        "fields": {
+                            "raw" : {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "operatingSystem": {
+                        "type": "string",
+                        "fields": {
+                            "raw" : {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

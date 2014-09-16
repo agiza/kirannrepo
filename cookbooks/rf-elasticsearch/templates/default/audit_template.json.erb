@@ -1,0 +1,71 @@
+{
+    "auditing_template" : {
+        "template" : "*audit*",
+        "order": 0,
+        "mappings" : {
+            "_default_" : {
+                "dynamic_templates": [{
+                    "core_types_to_string": {
+                        "match_pattern": "regex",
+                        "match_mapping_type": "date|integer|long|float|double",
+                        "mapping" : {"type" : "string"}
+                    }
+                }],
+                "_all" : {"enabled" : true},
+                "properties" : {
+                    "uid":{
+                        "type":"string",
+                        "index":"not_analyzed"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "request":{
+                        "properties":{
+                            "receivedTimeStamp" : {
+                                "type" : "date"
+                            },
+                            "requestType":{
+                                "type": "string"
+                            },
+                            "requestParameters":{
+                                "type": "object"
+                            },
+                            "urlParameters":{
+                                "type": "object"
+                            },
+                            "requestBody":{
+                                "type": "object"
+                            },
+                            "requestPath":{
+                                "type": "object",
+                                "properties":{
+                                    "requestUrl":{
+                                        "type": "string",
+                                        "index":"not_analyzed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "response":{
+                        "properties":{
+                            "sentTimeStamp" : {
+                                "type" : "date"
+                            },
+                            "responseStatus":{
+                                "type": "string"
+                            },
+                            "responseBody":{
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "host":{
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}

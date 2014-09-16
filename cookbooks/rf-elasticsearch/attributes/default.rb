@@ -3,6 +3,12 @@
 settings = Chef::DataBagItem.load('elasticsearch', 'settings')[node.chef_environment] rescue {}
 Chef::Log.debug "Loaded settings: #{settings.inspect}"
 
+#Jdk
+override[:java][:openjdk_packages] = [
+  "openjdk-7-jdk", "openjdk-7-jre-headless"
+  ]
+#node.override[:java][:openjdk_packages] = ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]
+
 # Initialize the node attributes with node attributes merged with data bag attributes
 #
 node.default[:elasticsearch] ||= {}
@@ -13,6 +19,7 @@ include_attribute 'elasticsearch::customize'
 node.normal[:elasticsearch]    = DeepMerge.merge(node.default[:elasticsearch].to_hash, node.normal[:elasticsearch].to_hash)
 node.normal[:elasticsearch]    = DeepMerge.merge(node.normal[:elasticsearch].to_hash, settings.to_hash)
 
+node.default[:testing_setting] = "1"
 
 # === VERSION AND LOCATION
 #
@@ -24,7 +31,7 @@ default.elasticsearch[:download_url]  = [node.elasticsearch[:host], node.elastic
 
 # === NAMING
 #
-default.elasticsearch[:cluster][:name] = 'rf-realsearch'
+override.elasticsearch[:cluster][:name] = "rf-realsearch"
 default.elasticsearch[:node][:name]    = node.name
 
 # === USER & PATHS
@@ -38,6 +45,13 @@ default.elasticsearch[:gid]       = nil
 default.elasticsearch[:path][:conf] = "/usr/local/etc/elasticsearch"
 default.elasticsearch[:path][:data] = "/usr/local/var/data/elasticsearch"
 default.elasticsearch[:path][:logs] = "/usr/local/var/log/elasticsearch"
+
+default.elasticsearch[:path][:init][:templates] = "/usr/local/etc/elasticsearch/templates"
+default.elasticsearch[:path][:init][:scripts] = "/usr/local/etc/elasticsearch/scripts"
+
+default.elasticsearch[:path][:indices][:mappings][:audit] = "/usr/local/elasticsearch/scripts/mappings/audit"
+default.elasticsearch[:path][:indices][:mappings][:workflow] = "/usr/local/elasticsearch/scripts/mappings/workflow"
+
 
 default.elasticsearch[:pid_path]  = "/usr/local/var/run"
 default.elasticsearch[:pid_file]  = "#{node.elasticsearch[:pid_path]}/#{node.elasticsearch[:node][:name].to_s.gsub(/\W/, '_')}.pid"
@@ -81,12 +95,10 @@ default.elasticsearch[:action][:disable_delete_all_indices] = true
 default.elasticsearch[:node][:max_local_storage_nodes] = 1
 
 default.elasticsearch[:discovery][:zen][:ping][:multicast][:enabled] = false 
-default.elasticsearch[:discovery][:zen][:minimum_master_nodes] = 2
+default.elasticsearch[:discovery][:zen][:minimum_master_nodes] = 1
 default.elasticsearch[:gateway][:type] = 'local'
 default.elasticsearch[:gateway][:expected_nodes] = 1
-
 default.elasticsearch[:thread_stack_size] = "256k"
-
 default.elasticsearch[:env_options] = ""
 
 # === OTHER SETTINGS
@@ -94,13 +106,17 @@ default.elasticsearch[:env_options] = ""
 default.elasticsearch[:skip_restart] = false
 default.elasticsearch[:skip_start] = false
 
+default.elasticsearch[:discovery][:search_query] = "chef_environment:\"#{node.chef_environment}\" AND elasticsearch_cluster_name:\"#{node[:elasticsearch][:cluster][:name]}\""
+
 # === PORT
 #
 default.elasticsearch[:http][:port] = 9200
 
 # === CUSTOM CONFIGURATION
 #
-default.elasticsearch[:custom_config] = {}
+default.elasticsearch[:custom_config] = {
+	"script.disable_dynamic" => true
+}
 
 # === LOGGING
 #

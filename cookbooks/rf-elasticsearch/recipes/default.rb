@@ -1,147 +1,156 @@
 #
-# Cookbook Name:: rf-elasticsearch
+# Cookbook Name:: rf-elasticsearch-t1
 # Recipe:: default
 #
 # Copyright 2014, YOUR_COMPANY_NAME
 #
 # All rights reserved - Do Not Redistribute
 #
-#
-
-%w[ /usr/local/var /usr/local/var/data /usr/local/var/logs /usr/local/var/data/elasticsearch /usr/local/var/logs/elasticsearch].each do |path|
-directory path do
-    owner "root"
-    group "root"
-    mode  00777
-  end
-end
-
-# create data and logs filesystems
-
-execute 'mkfs' do
-  command "mkfs -t ext4 /dev/xvdn"
-   # only if it's not mounted already
-   not_if "grep -qs /dev/xvdn /proc/mounts"
-end
-
-execute 'mkfs' do
-  command "mkfs -t ext4 /dev/xvdo"
-# only if it's not mounted already
-   not_if "grep -qs /dev/xvdo /proc/mounts"
-end
- 
 
 
-mount "/usr/local/var/data/elasticsearch" do
-  device "/dev/xvdn"
-  fstype "ext4"
-  options "rw"
-  action [:mount,:enable]
-end
-
-mount "/usr/local/var/logs/elasticsearch" do
-  device "/dev/xvdo"
-  fstype "ext4"
-  options "rw"
-  action [:mount,:enable]
-end
-
-include_recipe "monit"
+include_recipe "java-wrapper"
+include_recipe "iptables::disabled"
 include_recipe "elasticsearch"
 include_recipe "elasticsearch::plugins"
+include_recipe "elasticsearch::search_discovery"
+include_recipe "altisource::altirepo"
 
-directory "/usr/local/elasticsearch/config/templates" do 
+#config:templates
+directory "#{node.normal[:elasticsearch][:path][:init][:templates]}" do 
      mode 00755
-     owner "root"
-     group "root"
+     owner "elasticsearch" #elasticsearch
+     group "elasticsearch"	 
      action :create
+     recursive true	 
 end
-
-template "/usr/local/elasticsearch/config/templates/auditing_template.json" do
-   source "auditing_template.json.erb"
+#config:templates:audit0
+template "#{node.normal[:elasticsearch][:path][:init][:templates]}/audit_template.json" do
+   source "audit_template.json.erb"
       mode 00775
-      owner "root"
-      group "root"
+      owner "elasticsearch"
+      group "elasticsearch"
 end
 
-template "/usr/local/elasticsearch/config/templates/search_template.json" do
+#config:templates:audit1
+template "#{node.normal[:elasticsearch][:path][:init][:templates]}/audit_user_management_template.json" do
+   source "audit_user_management_template.json.erb"
+      mode 00775
+      owner "elasticsearch"
+      group "elasticsearch"
+end
+
+#config:templates:search
+template "#{node.normal[:elasticsearch][:path][:init][:templates]}/search_template.json" do
    source "search_template.json.erb"
     mode 00775
-    owner "root"
-    group "root"
+    owner "elasticsearch"
+    group "elasticsearch"
 end
 
+#config:scripts
+directory "#{node.normal[:elasticsearch][:path][:init][:scripts]}" do 
+     mode 00755
+     owner "elasticsearch"
+     group "elasticsearch"
+     action :create
+	 recursive true
+end
 
-template "/root/index_user_management_iam_auditing.sh" do
+#config:scripts:inner-delete
+template "#{node.normal[:elasticsearch][:path][:init][:scripts]}/inner_delete.mvel" do
+   source "inner_delete.mvel.erb"
+    mode 00775
+    owner "elasticsearch"
+    group "elasticsearch"
+end
+
+#config:scripts:inner-update
+template "#{node.normal[:elasticsearch][:path][:init][:scripts]}/inner_update.mvel" do
+   source "inner_update.mvel.erb"
+    mode 00775
+    owner "elasticsearch"
+    group "elasticsearch"
+end
+
+#config:scripts:nested-delete
+template "#{node.normal[:elasticsearch][:path][:init][:scripts]}/nested_delete.mvel" do
+   source "nested_delete.mvel.erb"
+    mode 00775
+    owner "elasticsearch"
+    group "elasticsearch"
+end
+
+#config:scripts:nested-update
+template "#{node.normal[:elasticsearch][:path][:init][:scripts]}/nested_update.mvel" do
+   source "nested_update.mvel.erb"
+    mode 00775
+    owner "elasticsearch"
+    group "elasticsearch"
+end
+
+#indices:mappings:audit
+directory "#{node.normal[:elasticsearch][:path][:indices][:mappings][:audit]}" do 
+     mode 00755
+     owner "elasticsearch"
+     group "elasticsearch"
+     action :create
+	 recursive true
+end
+
+template "#{node.normal[:elasticsearch][:path][:indices][:mappings][:audit]}/index_user_management_iam_auditing.sh" do
    source "index_user_management_iam_auditing.sh.erb"
-    mode 00775
-    owner "root"
-    group "root"
+   mode 00775
+   owner "elasticsearch"
+   group "elasticsearch"
 end
 
+#indices:mappings:workflow
+directory "#{node.normal[:elasticsearch][:path][:indices][:mappings][:workflow]}" do 
+    mode 00755
+    owner "elasticsearch"
+    group "elasticsearch"
+    action :create
+	recursive true	 
+end
 
-
-
-template "/root/taskData.sh" do
+template "#{node.normal[:elasticsearch][:path][:indices][:mappings][:workflow]}/taskData.sh" do
    source "taskData.sh.erb"
-    mode 00775
-    owner "root"
-    group "root"
+   mode 00775
+   owner "elasticsearch"
+   group "elasticsearch"
 end
-
 
 package "mysql-connector-java" do
    action :install
 end
 
-execute "river-mongodb plugin" do
-  command '/usr/local/elasticsearch/bin/plugin -install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.0'
-   not_if do
-     File.exists?("/usr/local/elasticsearch/plugins/river-mongodb")
-   end
-end
-
 execute "head plugin install" do 
-  command '/usr/local/elasticsearch/bin/plugin -install mobz/elasticsearch-head'
+  command "#{node.normal[:elasticsearch][:dir]}/elasticsearch/bin/plugin -install mobz/elasticsearch-head"
    not_if do
-     File.exists?("/usr/local/elasticsearch/plugins/head")
+     File.exists?("#{node.normal[:elasticsearch][:dir]}/elasticsearch/plugins/head")
    end
 end
 
-execute "river-mongodb plugin" do
-  command '/usr/local/elasticsearch/bin/plugin -install jdbc --url http://xbib.org/repository/org/xbib/elasticsearch/plugin/elasticsearch-river-jdbc/1.1.0.2/elasticsearch-river-jdbc-1.1.0.2-plugin.zip'
-   not_if do
-     File.exists?("/usr/local/elasticsearch/plugins/jdbc")
-   end
-end
-
-execute "copy mysql connector jar" do 
-   command 'cp /usr/share/java/mysql-connector-java-5.1.17.jar /usr/local/elasticsearch/plugins/jdbc/'
-end
-
-yum_package "elasticsearch-scheduler-plugin" do 
+yum_package "elasticsearch-scheduler-plugin" do
     action :upgrade
 end
-
-
-include_recipe "elasticsearch::monit"
 
 service "elasticsearch" do 
    action :start
 end
 
-include_recipe "iptables::disabled"
-
-
 execute "Index script" do 
-   command 'sleep 20s;root/index_user_management_iam_auditing.sh'
+   command "#{node.normal[:elasticsearch][:path][:indices][:mappings][:audit]}/index_user_management_iam_auditing.sh"
+   only_if do
+     audit_dir = "nodes/0/indices/audit_user_management*"
+     Dir.glob(File.join("#{node.normal[:elasticsearch][:path][:data]}", "#{node.normal[:elasticsearch][:cluster][:name]}", audit_dir)).empty?
+   end
 end
 
 execute "TaskData script" do
-   command '/root/taskData.sh'
+   command "#{node.normal[:elasticsearch][:path][:indices][:mappings][:workflow]}/taskData.sh"
+   not_if do
+     wflow_dir = "nodes/0/indices/ru_workflow"
+     File.exists?(File.join("#{node.normal[:elasticsearch][:path][:data]}", "#{node.normal[:elasticsearch][:cluster][:name]}", wflow_dir))
+   end
 end
-
-service "elasticsearch" do
-   action :restart
-end
-

@@ -1,0 +1,14 @@
+curl -XPUT 'localhost:9200/_river/activiti_groups_jdbc_river/_meta' -d '{
+	"type" : "jdbc",
+	"jdbc" : {
+		"url" : "jdbc:mysql://'$2'",
+		"user" : "'$3'",
+		"password" : "'$4'",
+		"sql" :"select res.ID_ as \"_id\", res.ID_ as \"task.id\",res.REV_ as \"task.revision\",res.CREATE_TIME_ as \"task.createTime\",res.OWNER_ as \"task.owner\",res.DESCRIPTION_ as \"task.description\",res.DELEGATION_ as \"task.delegation\",res.PARENT_TASK_ID_ as \"task.parentTaskId\",res.PROC_INST_ID_ as \"task.processInstanceId\",res.PRIORITY_ as \"task.priority\",res.TASK_DEF_KEY_ as \"task.taskDefinitionKey\",res.NAME_ as \"task.name\",res.EXECUTION_ID_ as \"task.executionId\",res.PROC_DEF_ID_ as \"task.processDefinitionId\",res.DUE_DATE_ as \"task.dueDate\",res.SUSPENSION_STATE_ as \"task.suspensionState\", res.ASSIGNEE_ as \"task.assignee\",i.ID_ as \"task.idenityLink.id\",i.TASK_ID_ as \"task.idenityLink.taskId\",i.REV_ as \"task.idenityLink.revision\",i.TYPE_ as \"task.idenityLink.type\", i.GROUP_ID_ as \"task.idenityLink.groupId\",i.PROC_DEF_ID_ as \"task.idenityLink.processDefinitionId\",i.USER_ID_ as \"task.idenityLink.userId\",rfproc.ID as \"task.rfProcess.id\",rfproc.RF_APPLICATION_CONFIGURATION_ID as \"task.rfProcess.rfApplicationConfigurationId\",rfproc.CREATED_BY as \"task.rfProcess.createdBy\",rfproc.CREATED_ON as \"task.rfProcess.createdOn\",rfproc.VERSION_NUMBER as \"task.rfProcess.versionNumber\",rfproc.LAST_UPDATED_BY as \"task.rfProcess.lastUpdatedBy\",rfproc.PROCESS_DEFINITION_ID as \"task.rfProcess.processDefinitionId\",rfproc.LAST_UPDATED_ON as \"task.rfProcess.lastUpdatedOn\",rfproc.INACTIVE as \"task.rfProcess.inactive\" from act_ru_task res left outer join act_ru_identitylink i on i.task_id_ = res.id_ left outer join rf_process rfproc on rfproc.process_definition_id = res.proc_def_id_ order by res.id_",
+		"strategy" : "simple",
+		"index" : "'$1'",
+		"type" : "task_data",
+        "bulk_size": 160,
+        "max_bulk_requests": 5
+	}
+}'

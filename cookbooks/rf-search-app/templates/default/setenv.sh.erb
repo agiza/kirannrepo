@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+<% stringified_parameters = @parameters.join(' ') -%>
+CATALINA_OPTS="<%= stringified_parameters %> "

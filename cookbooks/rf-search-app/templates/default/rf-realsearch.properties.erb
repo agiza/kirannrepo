@@ -3,38 +3,41 @@
 #################################################################################
 #
 #Search Engine Configurations
-realsearch.elasticsearch.server.host= <%= node[:realsearch][:elasticsearch][:server][:host] %>
-realsearch.elasticsearch.server.port= <%= node[:realsearch][:elasticsearch][:server][:port] %>
-realsearch.elasticsearch.cluster.name= <%= node[:realsearch][:elasticsearch][:cluster][:name] %>
-realsearch.solr.connectionString= <%= node[:realsearch][:solr][:connectionString]  %>
+realsearch.elasticsearch.server.host=<%= node[:realsearch][:elasticsearch][:server][:host] %>
+realsearch.elasticsearch.server.port=<%= node[:realsearch][:elasticsearch][:server][:port] %>
+realsearch.elasticsearch.cluster.name=<%= node[:realsearch][:elasticsearch][:cluster][:name] %>
+realsearch.solr.connectionString=<%= node[:realsearch][:solr][:connectionString]  %>
 #
 ##Rabbit MQ Configuration
-realsearch.indexservice.amqp.host= <%= node[:realsearch][:indexservice][:ampq][:host] %>
-realsearch.indexservice.amqp.port= <%= node[:realsearch][:indexservice][:ampq][:port] %>
-realsearch.indexservice.amqp.username= <%= node[:realsearch][:indexservice][:ampq][:username] %>
-realsearch.indexservice.amqp.password= <%= node[:realsearch][:indexservice][:ampq][:password] %>
-realsearch.indexservice.amqp.vhost= <%= node[:realsearch][:indexservice][:ampq][:vhost] %>
-realsearch.indexservice.amqp.insert.request=realsearch.data.insert.queue
-realsearch.indexservice.amqp.update.request=realsearch.data.update.queue
-realsearch.indexservice.amqp.delete.request=realsearch.data.delete.queue
-realsearch.indexservice.amqp.audit.request=realsearch.data.audit.queue
+realsearch.indexservice.amqp.host=<%= node[:realsearch][:indexservice][:amqp][:host] %>
+realsearch.indexservice.amqp.port=<%= node[:realsearch][:indexservice][:amqp][:port] %>
+realsearch.indexservice.amqp.username=<%= node[:realsearch][:indexservice][:amqp][:username] %>
+realsearch.indexservice.amqp.password=<%= node[:realsearch][:indexservice][:amqp][:password] %>
+realsearch.indexservice.amqp.vhost=<%= node[:realsearch][:indexservice][:amqp][:vhost] %>
+#
+##Queue declaration
+realsearch.indexservice.amqp.insert.request=<%= node[:realsearch][:indexservice][:amqp][:insert][:request] %>
+realsearch.indexservice.amqp.update.request=<%= node[:realsearch][:indexservice][:amqp][:update][:request] %>
+realsearch.indexservice.amqp.delete.request=<%= node[:realsearch][:indexservice][:amqp][:delete][:request] %>
+realsearch.indexservice.amqp.audit.request=<%= node[:realsearch][:indexservice][:amqp][:audit][:request] %>
+
 #
 ##Multiple consumers configuration
-index.concurrent.consumers=20
-index.thread.pool.size=20
-index.prefetch.count=20
-audit.concurrent.consumers=10
-audit.thread.pool.size=10
-audit.prefetch.count=20
+index.concurrent.consumers=<%= node[:realsearch][:indexservice][:index][:concurrent][:consumers] %>
+index.thread.pool.size=<%= node[:realsearch][:indexservice][:index][:threadpool][:size] %>
+index.prefetch.count=<%= node[:realsearch][:indexservice][:index][:prefetch][:count] %>
+audit.concurrent.consumers=<%= node[:realsearch][:indexservice][:audit][:concurrent][:consumers] %>
+audit.thread.pool.size=<%= node[:realsearch][:indexservice][:audit][:threadpool][:size] %>
+audit.prefetch.count=<%= node[:realsearch][:indexservice][:audit][:prefetch][:count] %>
 #
 #
-realsearch.indexservice.action.insert=realsearch.data.insert
-realsearch.indexservice.action.delete=realsearch.data.delete
-realsearch.indexservice.action.update=realsearch.data.update
-realsearch.indexservice.action.audit=realsearch.data.audit
+realsearch.indexservice.action.insert=<%= node[:realsearch][:indexservice][:action][:insert]  %>
+realsearch.indexservice.action.delete=<%= node[:realsearch][:indexservice][:action][:delete]  %>
+realsearch.indexservice.action.update=<%= node[:realsearch][:indexservice][:action][:update]  %>
+realsearch.indexservice.action.audit=<%= node[:realsearch][:indexservice][:action][:audit]  %>
 
-realsearch.indexservice.update.retries=4
+realsearch.indexservice.update.retries=<%= node[:realsearch][:indexservice][:update][:retries]  %>
 
-documentation.services.basePath= <%= node[:documentation][:services][:basePath]  %>
-documentation.services.version=1.0
+documentation.services.basePath=<%= node[:realsearch][:documentation][:services][:basePath]  %>
+documentation.services.version=<%= node[:realsearch][:documentation][:services][:version]  %>
 

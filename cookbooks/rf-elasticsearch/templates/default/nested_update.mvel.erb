@@ -1,0 +1,53 @@
+id = params.get('id');
+nestedPath = params.get('nestedPath');
+fieldsPath = params.get('fieldsPath');
+values = params.get('values');
+Object[] nestedContextPath;
+Object relativePath;
+Object value;
+
+def update(nestedContextPath) {
+	int i = 0;
+	int j = 0;
+	for (i; i < nestedContextPath.size(); i++){
+		if (nestedContextPath[i].id == id) {
+			for (j; j < fieldsPath.size(); j++) {
+				relativePath = fieldsPath.get(j);
+				value = values.get(j);
+				if (relativePath.size() == 1) {
+					nestedContextPath[i][relativePath.get(0)] = value;
+				} else if (relativePath.size() == 2) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)] = value;
+				} else if (relativePath.size() == 3) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)][relativePath.get(2)] = value;
+				} else if (relativePath.size() == 4) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)][relativePath.get(2)][relativePath.get(3)] = value;
+				} else if (relativePath.size() == 5) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)][relativePath.get(2)][relativePath.get(3)][relativePath.get(4)] = value;
+				} else if (relativePath.size() == 6) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)][relativePath.get(2)][relativePath.get(3)][relativePath.get(4)][relativePath.get(5)] = value;
+				} else if (relativePath.size() == 7) {
+					nestedContextPath[i][relativePath.get(0)][relativePath.get(1)][relativePath.get(2)][relativePath.get(3)][relativePath.get(4)][relativePath.get(5)][relativePath.get(6)] = value;
+				}
+			}
+		}
+	}
+}
+
+if (nestedPath.size() == 1) {
+	nestedContextPath = ctx._source[nestedPath.get(0)];
+} else if (nestedPath.size() == 2) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)];
+} else if (nestedPath.size() == 3) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)][nestedPath.get(2)];
+} else if (nestedPath.size() == 4) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)][nestedPath.get(2)][nestedPath.get(3)];
+} else if (nestedPath.size() == 5) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)][nestedPath.get(2)][nestedPath.get(3)][nestedPath.get(4)];
+} else if (nestedPath.size() == 6) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)][nestedPath.get(2)][nestedPath.get(3)][nestedPath.get(4)][nestedPath.get(5)];
+} else if (nestedPath.size() == 7) {
+	nestedContextPath = ctx._source[nestedPath.get(0)][nestedPath.get(1)][nestedPath.get(2)][nestedPath.get(3)][nestedPath.get(4)][nestedPath.get(5)][nestedPath.get(6)];
+}
+
+update(nestedContextPath);
