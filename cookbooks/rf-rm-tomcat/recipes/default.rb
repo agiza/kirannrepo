@@ -7,17 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "altisource::altirepo"
 include_recipe "java"
 include_recipe "tomcat-all"
 include_recipe "iptables::disabled"
-
-template "/opt/tomcat/conf/server.xml" do
-    source "server.xml.erb"
-end
-
-template "/opt/tomcat/conf/rf-rules-mgmt.properties" do
-    source "rf-rules-mgmt.properties.erb"
-end
 
 yum_package "rules-mgmt-intrestwar" do
    action :upgrade
@@ -37,9 +30,4 @@ end
 
 file "/etc/init.d/altitomcat" do
     action :delete
-end
-
-
-service "tomcat" do 
-  action :restart
 end

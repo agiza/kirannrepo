@@ -6,28 +6,22 @@
 #
 # All rights reserved - Do Not Redistribute
 
-include_recipe "java"
-include_recipe "mongodb"
-
-cookbook_file "/tmp/realservicing-runtime.tar.gz" do
-     source "realservicing-runtime.tar.gz"
-     mode 00775
-end
- 
-execute "unzip realservicing-runtime" do 
-   command 'cd /tmp;tar -xvf /tmp/realservicing-runtime.tar.gz'
+directory "/data" do
+  owner "root"
+  group "root"
+  mode 00777
+  action :create
 end
 
-service "mongod" do 
-   action :start
+directory "/data/db" do
+  owner "root"
+  group "root"
+  mode 00777
+  action :create
 end
 
-execute "mongodbrestore" do 
-   command 'sleep 120s;mongorestore --db realservicing-runtime /tmp/realservicing-runtime'
-end
-
-service "mongod" do 
-   action :start
+yum_package "cyrus-sasl-devel" do
+   action :install
 end
 
 include_recipe "iptables::disabled"

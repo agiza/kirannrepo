@@ -1,0 +1,1 @@
+AJP_CONNECTOR=`grep -e '<Connector port=".*protocol="AJP.*/>' /opt/tomcat/conf/server.xml` && echo $AJP_CONNECTOR | grep -P '^(?:(?!packetSize=).)*/>' && AJP_CONNECTOR=`echo $AJP_CONNECTOR | sed -e 's:/>:packetSize="21000" />:g'` && sed -i`date "+_%Y%m%d_%H%M%S"`.bak 's:<Connector port=.*protocol="AJP.*/>:'"$AJP_CONNECTOR"':g' /opt/tomcat/conf/server.xml
