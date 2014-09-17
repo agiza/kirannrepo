@@ -4,9 +4,9 @@ default['rabbitmq']['version'] = '3.3.4'
 default['rabbitmq']['use_distro_version'] = false
 
 # being nil, the rabbitmq defaults will be used
-default['rabbitmq']['nodename']  = nil
-default['rabbitmq']['address']  = nil
-default['rabbitmq']['port']  = nil
+default['rabbitmq']['nodename'] = nil
+default['rabbitmq']['address'] = nil
+default['rabbitmq']['port'] = nil
 default['rabbitmq']['config'] = nil
 default['rabbitmq']['logdir'] = nil
 default['rabbitmq']['mnesiadir'] = '/var/lib/rabbitmq/mnesia'
@@ -32,9 +32,9 @@ default['rabbitmq']['kernel']['inet_dist_listen_max'] = nil
 default['rabbitmq']['kernel']['inet_dist_use_interface'] = nil
 
 # clustering
-default['rabbitmq']['cluster'] = true 
+default['rabbitmq']['cluster'] = true
 default['rabbitmq']['cluster_disk_nodes'] = []
-default['rabbitmq']['erlang_cookie'] = 'RealSearch1'
+default['rabbitmq']['erlang_cookie'] = 'RF_RealSearch_erlang_cookie_file'
 default['rabbitmq']['cluster_partition_handling'] = 'ignore'
 
 # resource usage
@@ -59,43 +59,41 @@ default['rabbitmq']['web_console_ssl_port'] = 15_671
 
 # tcp listen options
 default['rabbitmq']['tcp_listen_packet'] = 'raw'
-default['rabbitmq']['tcp_listen_reuseaddr']  = true
+default['rabbitmq']['tcp_listen_reuseaddr'] = true
 default['rabbitmq']['tcp_listen_backlog'] = 128
 default['rabbitmq']['tcp_listen_nodelay'] = true
 default['rabbitmq']['tcp_listen_exit_on_close'] = false
 default['rabbitmq']['tcp_listen_keepalive'] = false
 
 # virtualhosts
-default['rabbitmq']['virtualhosts'] = []
+default['rabbitmq']['virtualhosts'] = ['realsearch']
 default['rabbitmq']['disabled_virtualhosts'] = []
 
 # users
 default['rabbitmq']['enabled_users'] =
-  [{ :name => 'guest', :password => 'guest', :rights =>
-    [{ :vhost => nil , :conf => '.*', :write => '.*', :read => '.*' }]
-  }]
-default['rabbitmq']['disabled_users'] = []
+    [{:name => 'realsearch', :password => 'realsearch12', :tag => "administrator", :rights =>
+        [{:vhost => "/", :conf => '.*', :write => '.*', :read => '.*'},
+         {:vhost => "realsearch", :conf => '.*', :write => '.*', :read => '.*'}]
+     }]
+default['rabbitmq']['disabled_users'] = ["guest"]
 
 # plugins
-default['rabbitmq']['enabled_plugins'] = []
+default['rabbitmq']['enabled_plugins'] = ["rabbitmq_management"]
 default['rabbitmq']['disabled_plugins'] = []
 
 # platform specific settings
 case node['platform_family']
-when 'smartos'
-  default['rabbitmq']['service_name'] = 'rabbitmq'
-  default['rabbitmq']['config_root'] = '/opt/local/etc/rabbitmq'
-  default['rabbitmq']['config'] = '/opt/local/etc/rabbitmq/rabbitmq'
-  default['rabbitmq']['erlang_cookie_path'] = '/var/db/rabbitmq/.erlang.cookie'
+  when 'smartos'
+    default['rabbitmq']['service_name'] = 'rabbitmq'
+    default['rabbitmq']['config_root'] = '/opt/local/etc/rabbitmq'
+    default['rabbitmq']['config'] = '/opt/local/etc/rabbitmq/rabbitmq'
+    default['rabbitmq']['erlang_cookie_path'] = '/var/db/rabbitmq/.erlang.cookie'
 end
 
 # Example HA policies
-default['rabbitmq']['policies']['ha-all']['pattern'] = '^(?!amq\\.).*'
-default['rabbitmq']['policies']['ha-all']['params'] = { 'ha-mode' => 'all' }
-default['rabbitmq']['policies']['ha-all']['priority'] = 0
-
-default['rabbitmq']['policies']['ha-two']['pattern'] = "^two\."
-default['rabbitmq']['policies']['ha-two']['params'] = { 'ha-mode' => 'exactly', 'ha-params' => 2 }
-default['rabbitmq']['policies']['ha-two']['priority'] = 1
+#default['rabbitmq']['policies']=[]
+default['rabbitmq']['policies']['realsearch.data.policy']['pattern'] = 'realsearch\.data'
+default['rabbitmq']['policies']['realsearch.data.policy']['params'] = {'ha-mode' => 'all'}
+default['rabbitmq']['policies']['realsearch.data.policy']['priority'] = 0
 
 default['rabbitmq']['disabled_policies'] = []

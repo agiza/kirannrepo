@@ -7,23 +7,16 @@
 # All rights reserved - Do Not Redistribute
 #
 
+#Iptables rules for rabbitmq
+include_recipe 'iptables::default'
+iptables_rule 'port_rabbitmq'
 
-include_recipe  'yum-epel'
-include_recipe  'rabbitmq::default'
-include_recipe  'rabbitmq::plugin_management'
-include_recipe  'rabbitmq::user_management'
-include_recipe  'rabbitmq::policy_management'
-include_recipe  'rabbitmq::mgmt_console'
-include_recipe  'rabbitmq::virtualhost_management'
+#Iptables rule for ssh - just so I can connect to my vagrant container using vagrant ssh
+#This should be removed
+iptables_rule 'port_ssh'
 
+#Setting host names
+include_recipe 'rf-hosts::default'
 
-cookbook_file "/tmp/setup_rabbit.sh" do
-  source "setup_rabbit.sh"
-  mode 0755
-end
-
-execute "install setup_rabbit.sh" do
-  command "sh /tmp/setup_rabbit.sh"
-end
-
-include_recipe "iptables::disabled"
+# Install RabbitMQ in a clustered fashion
+include_recipe 'rabbitmq-cluster::cluster_management'

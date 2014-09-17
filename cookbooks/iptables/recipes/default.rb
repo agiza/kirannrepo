@@ -17,8 +17,13 @@
 # limitations under the License.
 #
 
-package "iptables" 
-package "perl"
+
+
+if platform_family?("rhel") && node["platform_version"].to_i == 7
+  package "iptables-services"
+else
+  package "iptables"
+end
 
 execute "rebuild-iptables" do
   command "/usr/sbin/rebuild-iptables"
@@ -29,9 +34,12 @@ directory "/etc/iptables.d" do
   action :create
 end
 
-cookbook_file "/usr/sbin/rebuild-iptables" do
-  source "rebuild-iptables"
+template "/usr/sbin/rebuild-iptables" do
+  source "rebuild-iptables.erb"
   mode 0755
+  variables(
+    :hashbang => ::File.exist?('/usr/bin/ruby') ? '/usr/bin/ruby' : '/opt/chef/embedded/bin/ruby'
+  )
 end
 
 case node[:platform]
@@ -45,10 +53,9 @@ when "ubuntu", "debian"
   end
 end
 
-
-iptables_rule "all_established"
-iptables_rule "all_icmp"
-iptables_rule "port_ssh"
-iptables_rule "port_backup"
-iptables_rule "port_itcm"
-iptables_rule "port_monitor"
+if node["iptables"]["install_rules"]
+  iptables_rule "all_established"
+  iptables_rule "all_icmp"
+  iptables_rule "prefix"
+  iptables_rule "postfix"
+end

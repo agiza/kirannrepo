@@ -25,7 +25,7 @@ Recipes
 default
 -------
 
-The default recipe will install iptables and provides a perl script
+The default recipe will install iptables and provides a ruby script
 (installed in `/usr/sbin/rebuild-iptables`) to manage rebuilding
 firewall rules from files dropped off in `/etc/iptables.d`.
 
@@ -59,10 +59,15 @@ template:
     -A FWR -p tcp -m tcp --dport 80 -j ACCEPT
 
 This would go in the cookbook,
-`httpd/templates/default/port_http.erb`. Then to use it in
+`httpd/templates/default/http.erb`. Then to use it in
 `recipe[httpd]`:
 
     iptables_rule "http"
+
+Attributes
+==========
+
+    default["iptables"]["install_rules"] = true  # install the default rules
 
 License and Author
 ==================
