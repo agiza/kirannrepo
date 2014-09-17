@@ -3,7 +3,7 @@
 index_date=$(date +"%Y-%m-%d")
 newIndex=audit_user_management_$index_date
 
-curl -XPUT 'http://localhost:9200/'$newIndex'/' -d '
+curl -XPUT 'http://<%= node[:ipaddress] %>:9200/'$newIndex'/' -d '
 {
     "settings": {
         "index": {
@@ -18,7 +18,7 @@ curl -XPUT 'http://localhost:9200/'$newIndex'/' -d '
 sleep 5
 
 #Creating and Switching alias
-curl -XPOST 'http://localhost:9200/_aliases' -d '
+curl -XPOST 'http://<%= node[:ipaddress] %>:9200/_aliases' -d '
 {
     "actions": [
         { "add": {
