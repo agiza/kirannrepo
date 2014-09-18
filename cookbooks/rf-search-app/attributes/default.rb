@@ -7,11 +7,6 @@
 #
 default['rf-search-app']['tomcat']['setenv_catalina_opts'] = "-XX:PermSize=512M -XX:MaxPermSize=1024m -XX:-UseSplitVerifier -Djava.awt.headless=true"
 
-#RPM's versions
-#
-default['realsearch-searchservice']['rpm']['version'] = '1.0.0-RC'
-default['realsearch-indexservice']['rpm']['version'] = '1.0.0-RC'
-
 # Search Engine Configurations
 default['realsearch']['elasticsearch']['server']['host'] = nil
 default['realsearch']['elasticsearch']['server']['port'] = 9300
