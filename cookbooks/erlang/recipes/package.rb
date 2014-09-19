@@ -27,9 +27,10 @@ when 'debian'
   package erlpkg
   package 'erlang-dev'
 
+#Modification from the recipe from supermarket - to use red hat 6 instead of 5
 when 'rhel'
   case node['platform_version'].to_i
-  when 5
+  when 6
     include_recipe 'yum-epel'
 
     yum_repository 'EPELErlangrepo' do
