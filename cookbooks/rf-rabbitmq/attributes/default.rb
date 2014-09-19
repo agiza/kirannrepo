@@ -66,14 +66,18 @@ default['rabbitmq']['tcp_listen_exit_on_close'] = false
 default['rabbitmq']['tcp_listen_keepalive'] = false
 
 # virtualhosts
-default['rabbitmq']['virtualhosts'] = ['realsearch']
+default['rabbitmq']['virtualhosts'] = ['realsearch', 'RulesPublishing']
 default['rabbitmq']['disabled_virtualhosts'] = []
 
-# users
+# users - REALSearch and RulesManagement
 default['rabbitmq']['enabled_users'] =
     [{:name => 'realsearch', :password => 'realsearch12', :tag => "administrator", :rights =>
         [{:vhost => "/", :conf => '.*', :write => '.*', :read => '.*'},
          {:vhost => "realsearch", :conf => '.*', :write => '.*', :read => '.*'}]
+     },
+     {:name => 'rulesmgmt', :password => 'rulesmgmt12', :tag => "administrator", :rights =>
+         [{:vhost => "/", :conf => '.*', :write => '.*', :read => '.*'},
+          {:vhost => "RulesPublishing", :conf => '.*', :write => '.*', :read => '.*'}]
      }]
 default['rabbitmq']['disabled_users'] = ["guest"]
 

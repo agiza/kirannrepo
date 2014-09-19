@@ -18,7 +18,7 @@
     "suse": ">= 0.0.0"
   },
   "dependencies": {
-    "rabbitmq-cluster": ">= 3.3.2",
+    "rabbitmq": ">= 3.3.2",
     "iptables": ">= 0.14.0",
     "rf-hosts": ">= 0.1.0"
   },
