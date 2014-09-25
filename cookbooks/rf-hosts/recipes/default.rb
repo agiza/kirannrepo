@@ -18,3 +18,9 @@ chefNodes.each do |node|
   end
 end
 
+#node['hosts_to_add']['hosts'].each do |host|
+#  execute "install add_host.sh" do
+#    command "sh /tmp/add_host.sh #{host['ip']} #{host['hostName']}"
+#  end
+
+#end
