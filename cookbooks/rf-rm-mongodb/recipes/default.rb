@@ -6,22 +6,40 @@
 #
 # All rights reserved - Do Not Redistribute
 
-directory "/data" do
-  owner "root"
-  group "root"
-  mode 00777
-  action :create
+include_recipe "java"
+include_recipe "mongodb"
+
+cookbook_file "/tmp/realservicing-runtime.tar.gz" do
+     source "realservicing-runtime.tar.gz"
+     mode 00775
+end
+ 
+execute "unzip realservicing-runtime" do 
+   command 'cd /tmp;tar -xvf /tmp/realservicing-runtime.tar.gz'
 end
 
-directory "/data/db" do
-  owner "root"
-  group "root"
-  mode 00777
-  action :create
+service "mongod" do 
+   action :start
 end
 
-yum_package "cyrus-sasl-devel" do
-   action :install
+package "mongodb-enterprise-mongos" do
+  action :install
+end
+
+package "mongodb-enterprise-shell" do
+  action :install
+end
+ 
+package "mongodb-enterprise-tools" do
+  action :install
+end
+
+execute "mongodbrestore" do 
+   command 'sleep 120s;mongorestore --db realservicing-runtime /tmp/realservicing-runtime'
+end
+
+service "mongod" do 
+   action :restart
 end
 
 include_recipe "iptables::disabled"
