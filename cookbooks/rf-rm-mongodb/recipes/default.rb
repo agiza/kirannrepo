@@ -6,7 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 
-include_recipe "java"
 include_recipe "mongodb"
 
 cookbook_file "/tmp/realservicing-runtime.tar.gz" do
@@ -16,10 +15,6 @@ end
  
 execute "unzip realservicing-runtime" do 
    command 'cd /tmp;tar -xvf /tmp/realservicing-runtime.tar.gz'
-end
-
-service "mongod" do 
-   action :start
 end
 
 package "mongodb-enterprise-mongos" do
@@ -41,6 +36,4 @@ end
 service "mongod" do 
    action :restart
 end
-
-include_recipe "iptables::disabled"
 

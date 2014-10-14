@@ -1,22 +1,18 @@
 rf-rm-mongodb Cookbook
 ======================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+This cookbook will create the Mongo DB machines used by the RFNG RMS Service
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+This cookbook depends:
+1- DEV-OPS Supported "mongodb" cookbook
+2- realservicing-runtime.tar.gz - this is the bootstrap collections for the MongoDB 
+	In case of upgrades that will require new collections we will have to 
+	post a new version of this file and rerun the cookbook to update the MongoDB
 
-e.g.
-#### packages
-- `toaster` - rf-rm-mongodb needs toaster to brown your bagel.
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
 e.g.
 #### rf-rm-mongodb::default
 <table>
@@ -27,9 +23,9 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['rf-rm-mongodb']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
+    <td><tt>['mongodb']['config']['dbpath']</tt></td>
+    <td>String</td>
+    <td>Location in the file system where MongoDB will save the databases and collections</td>
     <td><tt>true</tt></td>
   </tr>
 </table>
@@ -50,19 +46,3 @@ Just include `rf-rm-mongodb` in your node's `run_list`:
   ]
 }
 ```
-
-Contributing
-------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
-
-License and Authors
--------------------
-Authors: TODO: List authors
