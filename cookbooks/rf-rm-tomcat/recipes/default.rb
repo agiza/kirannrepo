@@ -7,10 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "altisource::altirepo"
-include_recipe "java"
-include_recipe "tomcat-all"
-include_recipe "iptables::disabled"
+include_recipe "tomcat"
 
 yum_package "rules-mgmt-intrestwar" do
    action :upgrade
@@ -26,8 +23,4 @@ end
 
 execute "clean tomcat privs" do 
    command 'chown -R tomcat:tomcat /opt/tomcat; chmod -R 775 /opt/tomcat'
-end
-
-file "/etc/init.d/altitomcat" do
-    action :delete
 end

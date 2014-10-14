@@ -17,18 +17,22 @@
 # limitations under the License.
 #
 
-default['rf']['rm']['shibboleth']['host'] = ""
-default['rf']['rm']['iam']['host'] = ""
+# The commented attributes will be defined in the environment
+# We will use those lines only the setup of local environments
+# In that case one should uncomment the lines and use it
+
+# default['rf']['rm']['shibboleth']['host'] = ""
+# default['rf']['rm']['iam']['host'] = ""
 
 #mongo properties
 default['rf']['rm']['mongo']['database'] = "realservicing-runtime"
-default['rf']['rm']['mongo']['replicaset'] = ""
+# default['rf']['rm']['mongo']['replicaset'] = ""
 
 #rabbit properties for Rules Management
-default['rf']['rm']['rabbit']['host'] = ""
-default['rf']['rm']['rabbit']['port'] = "5672"
-default['rf']['rm']['rabbit']['username'] = "rulesmgmt"
-default['rf']['rm']['rabbit']['password'] = "rulesmgmt12"
-default['rf']['rm']['rabbit']['virtualHost'] = "RulesPublishing"
+# default['rf']['rm']['rabbit']['host'] = ""
+# default['rf']['rm']['rabbit']['port'] = "5672"
+# default['rf']['rm']['rabbit']['username'] = "rulesmgmt"
+# default['rf']['rm']['rabbit']['password'] = "rulesmgmt12"
+# default['rf']['rm']['rabbit']['virtualHost'] = "RulesPublishing"
 
 
