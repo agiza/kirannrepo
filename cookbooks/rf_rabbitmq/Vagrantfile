@@ -1,0 +1,69 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.require_version ">= 1.5.0"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.omnibus.chef_version = :latest
+  config.berkshelf.enabled = true
+
+  #Rabbit Node 1
+  config.vm.define "realsearch-rabbit-node-1" do |rabbit_config|
+    rabbit_config.vm.box = "chef/centos-6.5"
+    rabbit_config.vm.network "private_network", ip:"192.168.60.101"
+    rabbit_config.vm.network "forwarded_port", guest:5672, host:5673
+    rabbit_config.vm.network "forwarded_port", guest:15672, host:15673
+    rabbit_config.vm.network "forwarded_port", guest:25672, host:25673
+    rabbit_config.vm.hostname = "realsearch-rabbit-node-1"
+    rabbit_config.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id, '--memory', '512']
+    end
+
+    # Chef configurations
+    rabbit_config.vm.provision "chef_client" do |chef|
+      chef.chef_server_url = "https://inf-chef2.altidev.net"
+      chef.validation_key_path = "./../.chef/chef-validator.pem"
+
+      # Add an environment
+      chef.environment = "REALSearchTest"
+      # Add a recipe
+      chef.add_recipe "rf_rabbitmq"
+
+      # Cleanup
+      chef.delete_node = true
+      chef.delete_client = true
+    end
+  end
+
+  #Rabbit Node 2
+  config.vm.define "realsearch-rabbit-node-2" do |rabbit_config|
+    rabbit_config.vm.box = "chef/centos-6.5"
+    rabbit_config.vm.network "private_network", ip:"192.168.60.102"
+    rabbit_config.vm.network "forwarded_port", guest:5672, host:5674
+    rabbit_config.vm.network "forwarded_port", guest:15672, host:15674
+    rabbit_config.vm.network "forwarded_port", guest:25672, host:25674
+    rabbit_config.vm.hostname = "realsearch-rabbit-node-2"
+    rabbit_config.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id, '--memory', '512']
+    end
+
+    # Chef configurations
+    rabbit_config.vm.provision "chef_client" do |chef|
+      chef.chef_server_url = "https://inf-chef2.altidev.net"
+      chef.validation_key_path = "./../.chef/chef-validator.pem"
+
+      # Add an environment
+      chef.environment = "REALSearchTest"
+      # Add a recipe
+      chef.add_recipe "rf_rabbitmq"
+
+      # Cleanup
+      chef.delete_node = true
+      chef.delete_client = true
+    end
+  end
+end
