@@ -1,13 +1,9 @@
-rf-elasticsearch CHANGELOG
-==========================
+# 0.1.0
 
-This file is used to list changes made in each version of the rf-elasticsearch cookbook.
+Initial release of rf-elasticsearch
 
-0.1.0
------
-- [your_name] - Initial release of rf-elasticsearch
+# 0.4.0
 
-- - -
-Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
-
-The [Github Flavored Markdown page](http://github.github.com/github-flavored-markdown/) describes the differences between markdown on github and standard markdown.
+Fixing templates and scripts directory resolution.
+Fixing ES wrong version
+Fixing scripts for creating initial indexes, which were not running
