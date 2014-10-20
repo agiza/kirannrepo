@@ -46,8 +46,8 @@ default.elasticsearch[:path][:conf] = "/usr/local/etc/elasticsearch"
 default.elasticsearch[:path][:data] = "/usr/local/var/data/elasticsearch"
 default.elasticsearch[:path][:logs] = "/usr/local/var/log/elasticsearch"
 
-default.elasticsearch[:path][:init][:templates] = "/usr/local/etc/elasticsearch/templates"
-default.elasticsearch[:path][:init][:scripts] = "/usr/local/etc/elasticsearch/scripts"
+normal.elasticsearch[:path][:init][:templates] = "/usr/local/etc/elasticsearch/templates"
+normal.elasticsearch[:path][:init][:scripts] = "/usr/local/etc/elasticsearch/scripts"
 
 default.elasticsearch[:path][:indices][:mappings][:audit] = "/usr/local/elasticsearch/scripts/mappings/audit"
 default.elasticsearch[:path][:indices][:mappings][:workflow] = "/usr/local/elasticsearch/scripts/mappings/workflow"

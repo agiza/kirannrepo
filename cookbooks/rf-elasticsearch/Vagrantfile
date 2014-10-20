@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   }
 
   config.omnibus.chef_version = :latest
-  #config.berkshelf.enabled = true
+  config.berkshelf.enabled = true
 
   #ES Node 1
   config.vm.define "realsearch-es-node-1" do |es_config|

@@ -5,7 +5,7 @@ license          'All rights reserved'
 description      'Installs/Configures rf-elasticsearch'
 long_description 'Installs/Configures rf-elasticsearch'
 
-version          '0.4.0'
+version          '0.5.0'
 
 depends "altisource"
 depends "iptables"

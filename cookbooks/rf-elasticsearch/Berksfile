@@ -1,0 +1,12 @@
+source "https://supermarket.getchef.com"
+
+
+
+metadata
+
+
+cookbook "elasticsearch", "~> 0.3.10"
+cookbook "iptables", "~> 0.14.0"
+cookbook 'altisource', git: 'ssh://git@inf-hub.altidev.net:7999/devops/chef-repo.git', rel: 'cookbooks/altisource'
+cookbook 'java-wrapper', git: 'git@github.altidev.net:chef-repo', rel: 'cookbooks/java-wrapper'
+cookbook 'infrastructure', git: 'ssh://git@inf-hub.altidev.net:7999/devops/chef-repo.git', rel: 'cookbooks/infrastructure'
