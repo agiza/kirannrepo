@@ -21,9 +21,10 @@ end
 
 jvm_params = []
 
-if node['rf-search-app']['tomcat']['setenv_catalina_opts']
+if !node['rf-search-app'].to_s.empty? && !node['rf-search-app']['tomcat'].to_s.empty? && !node['rf-search-app']['tomcat']['setenv_catalina_opts'].to_s.empty?
   jvm_params << "#{node['rf-search-app']['tomcat']['setenv_catalina_opts']}"
 end
+
 
 template "/opt/tomcat/bin/setenv.sh" do
   source "setenv.sh.erb"
@@ -35,7 +36,7 @@ template "/opt/tomcat/bin/setenv.sh" do
   )
 end
 
-if !node['realsearch-searchservice']['rpm']['version'].nil? && !node['realsearch-searchservice']['rpm']['version'].empty?
+if !node['realsearch-searchservice'].to_s.empty? && !node['realsearch-searchservice']['rpm'].to_s.empty? && !node['realsearch-searchservice']['rpm']['version'].to_s.empty?
   Chef::Log.info("Installing searchservice with version #{node['realsearch-searchservice']['rpm']['version']}")
   yum_package "realsearch-searchservice" do
     action :install
@@ -44,7 +45,7 @@ if !node['realsearch-searchservice']['rpm']['version'].nil? && !node['realsearch
   end
 else
   yum_package "realsearch-searchservice" do
-    action :upgrade
+    action :install
   end
 end
 
@@ -55,3 +56,5 @@ end
 service "tomcat" do
   action :restart
 end
+
+node.set['rf_search_server'] = true

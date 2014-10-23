@@ -44,9 +44,9 @@ default['realsearch']['indexservice']['action']['audit'] = 'realsearch.data.audi
 
 default['realsearch']['indexservice']['update']['retries'] = 4
 
-default['realsearch']['documentation']['services']['basePath'] = 'http://localhost:8080/searchservice'
+default['realsearch']['documentation']['services']['basePath'] = "http://#{node.ipaddress}:8080/searchservice"
 default['realsearch']['documentation']['services']['version'] = '1.0'
 
 #others
 default['realsearch']['app_search_es'] = "chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:*"
-default['realsearch']['app_search_rq'] = "chef_environment:#{node.chef_environment} AND rf-rabbitmq-master:*"
+default['realsearch']['app_search_rq'] = "chef_environment:#{node.chef_environment} AND rf_proxy:true"

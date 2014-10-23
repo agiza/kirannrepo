@@ -1,0 +1,14 @@
+DEPENDENCIES
+  haproxy
+  rf-haproxy
+    path: .
+    metadata: true
+
+GRAPH
+  build-essential (2.1.2)
+  cpu (0.2.0)
+  haproxy (1.6.6)
+    build-essential (>= 0.0.0)
+    cpu (>= 0.2.0)
+  rf-haproxy (0.1.0)
+    haproxy (>= 0.0.0)
