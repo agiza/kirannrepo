@@ -46,5 +46,14 @@
         allow from all
     </Directory>
 
+    Alias /realtest/ "/storage/realtest/"
+    <Directory "/storage/realtest/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+
 </VirtualHost>
 
