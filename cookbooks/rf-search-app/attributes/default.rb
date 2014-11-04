@@ -49,4 +49,6 @@ default['realsearch']['documentation']['services']['version'] = '1.0'
 
 #others
 default['realsearch']['app_search_es'] = "chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:*"
-default['realsearch']['app_search_rq'] = "chef_environment:#{node.chef_environment} AND rf_proxy:true"
+default['realsearch']['app_search_rq_ha'] = "chef_environment:#{node.chef_environment} AND rf_proxy:true"
+default['realsearch']['app_search_rq'] = "chef_environment:#{node.chef_environment}  AND rf_rabbitmq_cluster:*"
+default['realsearch']['ha_installation'] = false
