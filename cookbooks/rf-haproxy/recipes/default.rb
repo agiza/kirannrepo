@@ -44,7 +44,7 @@ haproxy_lb 'rabbitmq_frontend' do
          ])
 end
 
-members_rabbit = search("node", "chef_environment:#{node.chef_environment} AND rf_rabbitmq_cluster:*") || []
+members_rabbit = search("node", "chef_environment:#{node.chef_environment} AND rf-rabbitmq-cluster:*") || []
 servers_rabbit = members_rabbit.uniq.map do |s|
   "#{s[:hostname]} #{s[:ipaddress]}:5672 maxconn 6000 check"
 end
