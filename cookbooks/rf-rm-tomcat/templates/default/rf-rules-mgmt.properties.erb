@@ -3,17 +3,17 @@
 ################################################################################
 
 #mongo properties
-mongo.database = <%= node[:rf][:rm][:mongo][:database] %>
-mongo.replicaset = <%= node[:rf][:rm][:mongo][:replicaset] %>
+mongo.database = <%= node[:rf_rm_mongo_database] %>
+mongo.replicaset = <%= node[:rf_rm_mongo_replicaset] %>
 
-service.provider.logout.success.url=https://<%= node[:rf][:rm][:shibboleth][:host] %>/Shibboleth.sso/Logout
+service.provider.logout.success.url=https://<%= node[:rf_webproxy_host] %>/Shibboleth.sso/Logout
 service.provider.context=rsng-rules-mgmt-rest
 spring.security.role=IS_AUTHENTICATED_ANONYMOUSLY
-iam.authz.token.url=http://<%= node[:rf][:rm][:iam][:host] %>/iamsvc/authz/token
+iam.authz.token.url=http://<%= node[:rf_idp_servername] %>:8080/iamsvc/authz/token
 
 #rabbit properties for Rules Management
-rabbit.host = <%= node[:rf][:rm][:rabbit][:host] %>
-rabbit.port = <%= node[:rf][:rm][:rabbit][:port] %>
-rabbit.username  = <%= node[:rf][:rm][:rabbit][:username] %>
-rabbit.password = <%= node[:rf][:rm][:rabbit][:password] %>
-rabbit.virtualHost = <%= node[:rf][:rm][:rabbit][:virtualHost] %>
+rabbit.host = <%= node[:rf_indexing_host] %>
+rabbit.port = <%= node[:rf_indexing_host_port] %>
+rabbit.username  = <%= node[:rf_indexing_host_username] %>
+rabbit.password = <%= node[:rf_indexing_host_password] %>
+rabbit.virtualHost = <%= node[:rf_indexing_host_virtualHost] %>

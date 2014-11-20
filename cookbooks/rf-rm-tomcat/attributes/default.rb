@@ -16,23 +16,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+#default['rf_rm_rpm_version'] = "1.0.0-RC"
 
-# The commented attributes will be defined in the environment
-# We will use those lines only the setup of local environments
-# In that case one should uncomment the lines and use it
+#default['rf_rm_basic_authentication_define'] = "-Dspring.profiles.active=dev"
 
-# default['rf']['rm']['shibboleth']['host'] = ""
-# default['rf']['rm']['iam']['host'] = ""
+#default['rf_webproxy_host'] = "rf-devint-iam-web1.altidev.net"
+
+#default['rf_idp_servername'] = "rf-devint-iam-app1.altidev.net"
 
 #mongo properties
-default['rf']['rm']['mongo']['database'] = "realservicing-runtime"
-# default['rf']['rm']['mongo']['replicaset'] = ""
+default['rf_rm_mongo_database'] = "realservicing-runtime"
+#default['rf_rm_mongo_replicaset'] = "rf-devint-rm-mongodb-srv1.altidev.net:27017"
 
 #rabbit properties for Rules Management
-# default['rf']['rm']['rabbit']['host'] = ""
-# default['rf']['rm']['rabbit']['port'] = "5672"
-# default['rf']['rm']['rabbit']['username'] = "rulesmgmt"
-# default['rf']['rm']['rabbit']['password'] = "rulesmgmt12"
-# default['rf']['rm']['rabbit']['virtualHost'] = "RulesPublishing"
+#default['rf_indexing_host'] = "rf-devint-search-rabbit-srv1.altidev.net"
+
+default['rf_indexing_host_port'] = "5672"
+default['rf_indexing_host_username'] = "rulesmgmt"
+default['rf_indexing_host_password'] = "rulesmgmt12"
+default['rf_indexing_host_virtualHost'] = "RulesPublishing"
 
 
