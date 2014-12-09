@@ -1,6 +1,6 @@
 name             'rf-opendj'
-maintainer       'YOUR_COMPANY_NAME'
-maintainer_email 'YOUR_EMAIL'
+maintainer       'Altisource Labs'
+maintainer_email 'yi.chen@altisource.com'
 license          'All rights reserved'
 description      'Installs/Configures opendj'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))

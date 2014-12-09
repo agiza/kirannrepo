@@ -8,10 +8,6 @@ tomcat
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
-#### rf-iam-app::default
 <table>
   <tr>
     <th>Key</th>

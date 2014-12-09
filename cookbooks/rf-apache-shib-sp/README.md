@@ -4,18 +4,15 @@ rf-apache-shib-sp Cookbook
 This cookbook installs apache with https, shibboleth sp. You should also run additional recipe to install your ui content.
 See rf-iam-web as a reference
 
+Related recipe: rf-shib-sp-metagen
 
 Requirements
 ------------
 Apache2.x with https
 Shibboleth SP
 
-
 Attributes
 ----------
-
-e.g.
-#### rf-apache-shib-sp::default
 <table>
   <tr>
     <th>Key</th>

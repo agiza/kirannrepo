@@ -9,10 +9,6 @@ On IAM web node, run the two cookbooks in the order
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
-#### rf-apache-shib-sp::default
 <table>
   <tr>
     <th>Key</th>

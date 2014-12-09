@@ -83,12 +83,37 @@ SSLCryptoDevice builtin
   ProxyPass /shibboleth-sp/* !
 
   ProxyPass /iamsvc ajp://<%= node[:iam_app_host] %>:8009/iamsvc
+  ProxyPass /idp ajp://<%= node[:iam_app_host] %>:8009/idp
 
  <Location />
        AuthType shibboleth
        ShibUseHeaders On
        ShibRequestSetting requireSession true
        Require valid-user
+  </Location>
+
+  <Location /iamsvc/selfsvc>
+        AuthType Shibboleth
+        ShibRequestSetting requireSession false
+        Require Shibboleth
+  </Location>
+
+  <Location /iamsvc/metadata>
+        AuthType Shibboleth
+        ShibRequestSetting requireSession false
+        Require Shibboleth
+  </Location>
+
+  <Location /selfsvc>
+        AuthType Shibboleth
+        ShibRequestSetting requireSession false
+        Require Shibboleth
+  </Location>
+
+  <Location /idp>
+        AuthType Shibboleth
+        ShibRequestSetting requireSession false
+        Require Shibboleth
   </Location>
 
   <Location /favicon.ico>
@@ -240,4 +265,3 @@ CustomLog logs/ssl_request_log \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
 </VirtualHost>
-
