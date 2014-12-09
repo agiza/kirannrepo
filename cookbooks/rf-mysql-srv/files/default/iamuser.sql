@@ -1,3 +1,0 @@
-CREATE USER 'rfng_iam_user'@'%' IDENTIFIED BY 'awd37jk';
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, CREATE VIEW, SHOW VIEW, TRIGGER ON `real_usermgt`.* TO 'rfng_iam_user'@'%' ;     
-flush privileges;
