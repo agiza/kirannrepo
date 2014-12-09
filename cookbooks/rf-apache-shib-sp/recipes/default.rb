@@ -45,24 +45,6 @@ template "/etc/httpd/conf.d/ssl.conf" do
      mode  0775
 end
 
-yum_package "iam-iam" do
-    action :install
-    version "#{node['iam-iam']['rpm']['version']}"
-    allow_downgrade true
-end
-
-yum_package "iam-selfsvc" do
-    action :install
-    version "#{node['iam-selfsvc']['rpm']['version']}"
-    allow_downgrade true
-end
-
-yum_package "iam-home" do
-    action :install
-    version "#{node['iam-home']['rpm']['version']}"
-    allow_downgrade true
-end
-
 include_recipe "shibboleth-sp"
 
 template "/etc/shibboleth/attribute-map.xml" do

@@ -1,18 +1,15 @@
-rf-apache-shib-sp Cookbook
+rf-iam-web Cookbook
 ==========================
 
-This cookbook installs apache with https, shibboleth sp. You should also run additional recipe to install your ui content.
-See rf-iam-web as a reference
+On IAM web node, run the two cookbooks in the order
 
-
-Requirements
-------------
-Apache2.x with https
-Shibboleth SP
+1. rf-apache-shib-sp
+2. rf-iam-web
 
 
 Attributes
 ----------
+TODO: List your cookbook attributes here.
 
 e.g.
 #### rf-apache-shib-sp::default
@@ -34,7 +31,8 @@ e.g.
 Usage
 -----
 rf-apache-shib-sp::default
+rf-iam-web::default
 
 License and Authors
 -------------------
-Authors: Brandon Chen, Sean McNally
+Authors: Brandon Chen
