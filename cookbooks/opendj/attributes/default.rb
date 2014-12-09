@@ -1,9 +1,13 @@
-default['java']['jdk_version'] = '7'
-default["opendj"]["version"] = "2.7.0-20140711"
+#
+# Cookbook Name:: opendj
+# Attributes:: default
+#
+
+default["opendj"]["version"] = "2.6.0"
 default["opendj"]["install_dir"] = "/opt"
 default["opendj"]["installer_archive"] = default["opendj"]["install_dir"] + "/OpenDJ-" + default["opendj"]["version"] + ".zip"
 default["opendj"]["dsml_war"] = "OpenDJ-" + default["opendj"]["version"] + "-DSML.war"
-default["opendj"]["home"] =  "/opt/opendj"
+default["opendj"]["home"] = "/opt/opendj"
 
 default["opendj"]["sync_enabled"] = false
 default["opendj"]["sync_user"] = "ldapsync"
@@ -13,20 +17,22 @@ default["opendj"]["sync_file"] = default["opendj"]["sync_dir"] + '/backup.ldif'
 default["opendj"]["sync_keys"] = []
 
 default["opendj"]["user"] = "opendj"
-default["opendj"]["user_root_dn"] = "dc=altisource,dc=com"
+default["opendj"]["user_root_dn"] = "dc=foo,dc=com"
 default["opendj"]["standard_port"] = "1389"
 default["opendj"]["ssl_port"] = "1636"
 default["opendj"]["admin_port"] = "4444"
-default["opendj"]["ssl_cert"] = "keystore.crt"
-default["opendj"]["ssl_key"] = "keystore.key"
+default["opendj"]["ssl_cert"] = "myCertificateCER.cer"
+default["opendj"]["ssl_key"] = "privateKey.key"
 default["opendj"]["ssl_chain"] = [ ]
-default["opendj"]["keystore_pass"] = "badpass"
+default["opendj"]["keystore_pass"] = "changeit"
 default["opendj"]["dir_manager_bind_dn"] = "cn=Directory Manager"
-default["opendj"]["dir_manager_password"] = "secret"
+default["opendj"]["dir_manager_password"] = "badpass"
+default["opendj"]["indexes"] = []
+default["opendj"]["backup_ldif"] = "backup.ldif"
 default["opendj"]["properties"] = {}
-default["opendj"]["ldif_files"] = ["generated.ldif"]
-default["opendj"]["replication"]["host_search"] = 'role:sample-opendj-role'
-default["opendj"]["replication"]["port"] = default["opendj"]["ssl_port"]
+default["opendj"]["ldif_files"] = []
+default["opendj"]["replication"]["host_search"] = 'role:opendj-replication-role'
+default["opendj"]["replication"]["port"] = '8989'
 default["opendj"]["replication"]["uid"] = 'replication-user'
 default["opendj"]["replication"]["password"] = 'badpass'
 

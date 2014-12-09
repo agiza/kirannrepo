@@ -1,0 +1,41 @@
+service.provider.logout.success.url=https://<%= node[:rf_webproxy_host] %>/Shibboleth.sso/Logout
+service.provider.context=iam
+spring.security.role=IS_AUTHENTICATED_ANONYMOUSLY
+iam.authz.token.url=#
+spring.security.user.details.service=#
+
+email.from=realsuite.admin@altisource.com
+rf.email.host=smtp.sendgrid.net
+rf.email.port=587
+rf.email.username=altisource
+rf.email.password=Gtd453!abc
+
+registration.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/registration/
+password.reset.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/resetPwd/
+password.forgot.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/forgotPwd
+
+ldap.url=ldap://<%= node[:iam_opendj_host] %>:1389
+ldap.username=cn=Directory Manager
+ldap.password=secret
+ldap.path=ou=people,dc=realsuite,dc=com
+
+registration.link.ttl.hours=24
+password.reset.link.ttl.hours=24
+
+rf.db.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+rf.db.generateDdl=false
+rf.db.showSql=false
+
+audit.iam.scope=audit_user_management
+audit.iam.type=iam
+audit.iam.login.type=sso
+audit.idp.session.type=sso_idp_session
+audit.logout.type=sso_logout
+
+logback.log.location=/opt/tomcat/logs
+logback.com.altisource.usermgmt.level=INFO
+logback.org.springframework.level=WARN
+logback.org.hibernate.level=WARN
+logback.org.hibernate.SQL.level=WARN
+logback.org.hibernate.type.descriptor.sql.BasicBinder.level=WARN
+logback.root.level=INFO

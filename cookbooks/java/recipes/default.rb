@@ -18,15 +18,11 @@
 # limitations under the License.
 #
 
-if node['java']['jdk_version'].to_i == 8 and node['java']['install_flavor'] != 'oracle'
-  Chef::Application.fatal!("JDK 8 is currently only provided with the Oracle JDK")
+if node['java']['install_flavor'] != 'windows'
+  if node['java']['jdk_version'].to_i == 8 and node['java']['install_flavor'] != 'oracle'
+    Chef::Application.fatal!("JDK 8 is currently only provided with the Oracle JDK")
+  end
 end
-
-node.force_override['java']['jdk_version'] = '7'
-node.force_override['java']['install_flavor'] = 'oracle'
-node.force_override['java']['accept_license_agreement'] = true
-
-
 
 include_recipe "java::set_attributes_from_version"
 include_recipe "java::#{node['java']['install_flavor']}"

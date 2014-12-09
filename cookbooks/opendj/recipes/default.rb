@@ -1,3 +1,5 @@
+include_recipe 'java::default'
+
 # Make sure we have what we need to unpack archives
 package "unzip" do
   action :install
@@ -13,7 +15,6 @@ end
 
 user "#{node['opendj']['user']}" do
   comment "OpenDJ user"
-  home "/home/opendj"
   system true
 end
 
@@ -32,16 +33,6 @@ end
 opendj_postinstallconfig "default" do
   action :nothing
   subscribes :run, resources("script[unpack_archive]"), :immediately
-end
-
-cookbook_file "#{node['opendj']['home']}/dsml.war" do
-  source "#{node['opendj']['dsml_war']}"
-  mode "0644"
-end
-
-template "/opt/tomcat/conf/Catalina/localhost/dsml.xml" do
-  source "dsml.xml.erb"
-  mode 0644
 end
 
 if node['opendj']['sync_enabled']
@@ -67,42 +58,5 @@ if node['opendj']['sync_enabled']
   end
   template "/etc/cron.daily/ldapsync.sh" do
     mode "0755"
-  end
-end
-
-results = Chef::Search::Query.new.search(:node, node["opendj"]["replication"]["host_search"]).first.compact
-if not results.nil? and results.count > 1
-  repargs = ""
-  hostnum = 0
-  results.each() do |n|
-    host = n['ipaddress']
-    hostnum = hostnum + 1
-    repargs << " --host#{hostnum} #{host}"
-    repargs << " --port#{hostnum} #{node['opendj']['ssl_port']}"
-    repargs << " --bindDN#{hostnum} \"#{node['opendj']['dir_manager_bind_dn']}\""
-    repargs << " --bindPassword#{hostnum} #{node['opendj']['dir_manager_password']}"
-    repargs << " --replicationPort#{hostnum} #{node['opendj']['replication']['port']}"
-  end
-  file "#{node['opendj']['home']}/setup_replication.sh" do
-    mode "0700"
-    owner "#{node['opendj']['user']}"
-    content <<-EOH
-#!/bin/bash
-#{node["opendj"]["home"]}/bin/dsframework create-admin-user \\
- --port #{node["opendj"]["ssl_port"]} \\
- --hostname 127.0.0.1 \\
- --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \\
- --bindPassword "#{node["opendj"]["dir_manager_password"]}" \\
- --trustAll \\
- --userID #{node["opendj"]["replication"]["uid"]} \\
- --set password:"#{node["opendj"]["replication"]["password"]}"
-#{node["opendj"]["home"]}/bin/dsreplication enable \\
- --adminUID #{node["opendj"]["replication"]["uid"]} \\
- --adminPassword "#{node["opendj"]["replication"]["password"]}" \\
- --baseDN #{node["opendj"]["user_root_dn"]} \\
- #{repargs} \\
- --trustAll \\
- --no-prompt
-    EOH
   end
 end

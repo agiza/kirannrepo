@@ -21,19 +21,20 @@ action :run do
     end
     cacerts = cacerts + "#{cert} "
   end
+
   script "create_keystore" do
     interpreter "bash"
     cwd "#{node['opendj']['home']}/certs"
     user "#{node['opendj']['user']}"
     code <<-EOH
-      cat #{cacerts} > cacerts.pem
+      cat #{cacerts} > cacerts.crt
       openssl pkcs12 -export \
-       -inkey #{node['opendj']['ssl_key']} \
-       -in #{node['opendj']['ssl_cert']} \
-       -chain \
-       -CAfile cacerts.pem \
-       -password pass:#{node['opendj']['keystore_pass']} \
-       -out keystore.p12
+        -in #{node['opendj']['ssl_cert']} \
+        -inkey #{node['opendj']['ssl_key']} \
+        -out Mycertificate.pfx \
+        -password pass:#{node['opendj']['keystore_pass']} \
+        # -chain \
+        # -CAfile cacerts.crt
     EOH
   end
 
@@ -42,9 +43,14 @@ action :run do
     cwd "#{node['opendj']['home']}"
     user "#{node['opendj']['user']}"
     code <<-EOH
-      ./setup --cli --no-prompt --addBaseEntry --enableStartTLS \
+      ./setup --cli \
+        --no-prompt \
+        --addBaseEntry \
+        --enableStartTLS \
         --doNotStart \
-        --usePkcs12Keystore #{node['opendj']['home']}/certs/keystore.p12 \
+        --acceptLicense \
+        --noPropertiesFile \
+        --usePkcs12Keystore #{node['opendj']['home']}/certs/Mycertificate.pfx \
         --keyStorePassword #{node["opendj"]["keystore_pass"]} \
         --baseDN #{node["opendj"]["user_root_dn"]} \
         --ldapPort #{node["opendj"]["standard_port"]} \
@@ -138,27 +144,40 @@ action :run do
     end
   end
 
-  script "setup_replication" do
-    interpreter "bash"
-    user "#{node['opendj']['user']}"
-    code <<-EOH
-#{node["opendj"]["home"]}/bin/dsconfig create-replication-server \
- #{commonArguments} \
- --no-prompt \
- --provider-name "Multimaster Synchronization" \
- --set replication-port:8989 \
- --set replication-server-id:2 \
- --type generic
-#{node["opendj"]["home"]}/bin/dsconfig create-replication-domain \
- #{commonArguments} \
- --no-prompt \
- --provider-name "Multimaster Synchronization" \
- --set base-dn:#{node["opendj"]["user_root_dn"]} \
- --set replication-server:127.0.0.1:8989 \
- --set server-id:3 \
- --type generic \
- --domain-name "dc=ucsf,dc=edu"
-    EOH
+  # Enable replication
+  results = Chef::Search::Query.new.search(:node, node["opendj"]["replication"]["host_search"] + "AND chef_environment:#{node.chef_environment}").first.compact
+  if not results.nil? and results.count > 0
+
+    repargs = ""
+
+    firstNode = results.fetch(0)
+    firstHost = firstNode['ipaddress']
+    repargs << " --host1 #{firstHost}"
+    repargs << " --port1 #{node['opendj']['admin_port']}"
+    repargs << " --bindDN1 \"#{node['opendj']['dir_manager_bind_dn']}\""
+    repargs << " --bindPassword1 #{node['opendj']['dir_manager_password']}"
+    repargs << " --replicationPort1 #{node['opendj']['replication']['port']}"
+
+    currentHost = "#{node['ipaddress']}"
+    repargs << " --host2 #{currentHost}"
+    repargs << " --port2 #{node['opendj']['admin_port']}"
+    repargs << " --bindDN2 \"#{node['opendj']['dir_manager_bind_dn']}\""
+    repargs << " --bindPassword2 #{node['opendj']['dir_manager_password']}"
+    repargs << " --replicationPort2 #{node['opendj']['replication']['port']}"
+
+    script "replication_enable" do
+      interpreter "bash"
+      user "#{node['opendj']['user']}"
+      code <<-EOH
+      #{node["opendj"]["home"]}/bin/dsreplication enable \
+        --adminUID #{node["opendj"]["replication"]["uid"]} \
+        --adminPassword "#{node["opendj"]["replication"]["password"]}" \
+        --baseDN #{node["opendj"]["user_root_dn"]} \\
+        #{repargs} \
+        --trustAll \
+        --no-prompt
+      EOH
+    end
   end
 
   node["opendj"]["properties"].each() do |name,operations|
@@ -186,6 +205,100 @@ action :run do
          --no-prompt
       EOH
     end
+  end
+
+  # Set password policy and password validator
+  script "delete_character_set" do
+    interpreter "bash"
+    user "#{node['opendj']['user']}"
+    code <<-EOH
+    #{node['opendj']['home']}/bin/dsconfig delete-password-validator \
+        --port  #{node["opendj"]["admin_port"]} \
+        --hostname 127.0.0.1 \
+        --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \
+        --bindPassword "#{node["opendj"]["dir_manager_password"]}" \
+        --validator-name "Character Set" \
+        --trustAll \
+        --no-prompt
+    EOH
+  end
+
+  script "create_character_set" do
+    interpreter "bash"
+    user "#{node['opendj']['user']}"
+    code <<-EOH
+    #{node['opendj']['home']}/bin/dsconfig create-password-validator \
+        --port  #{node["opendj"]["admin_port"]} \
+        --hostname 127.0.0.1 \
+        --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \
+        --bindPassword "#{node["opendj"]["dir_manager_password"]}" \
+        --validator-name "Character Set" \
+        --set allow-unclassified-characters:true \
+        --set enabled:true \
+        --set character-set:1:0123456789 \
+        --set character-set:1:ABCDEFGHIJKLMNOPQRSTUVWXYZ \
+        --set character-set:1:abcdefghijklmnopqrstuvwxyz \
+        --type character-set \
+        --trustAll \
+        --no-prompt
+    EOH
+  end
+
+  script "delete_length_based_password_validator" do
+    interpreter "bash"
+    user "#{node['opendj']['user']}"
+    code <<-EOH
+    #{node['opendj']['home']}/bin/dsconfig delete-password-validator \
+        --port  #{node["opendj"]["admin_port"]} \
+        --hostname 127.0.0.1 \
+        --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \
+        --bindPassword "#{node["opendj"]["dir_manager_password"]}" \
+        --validator-name "Length-Based Password Validator" \
+        --trustAll \
+        --no-prompt
+    EOH
+  end
+
+  script "create_length_based_password_validator" do
+    interpreter "bash"
+    user "#{node['opendj']['user']}"
+    code <<-EOH
+    #{node['opendj']['home']}/bin/dsconfig create-password-validator \
+        --port  #{node["opendj"]["admin_port"]} \
+        --hostname 127.0.0.1 \
+        --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \
+        --bindPassword "#{node["opendj"]["dir_manager_password"]}" \
+        --validator-name "Length-Based Password Validator" \
+        --set enabled:true \
+        --set max-password-length:40 \
+        --set min-password-length:8 \
+        --type length-based \
+        --trustAll \
+        --no-prompt
+    EOH
+  end
+
+  script "password_policy" do
+    interpreter "bash"
+    user "#{node['opendj']['user']}"
+    code <<-EOH
+    #{node['opendj']['home']}/bin/dsconfig set-password-policy-prop \
+        --port  #{node["opendj"]["admin_port"]} \
+        --hostname 127.0.0.1 \
+        --bindDN "#{node["opendj"]["dir_manager_bind_dn"]}" \
+        --bindPassword "#{node["opendj"]["dir_manager_password"]}" \
+        --policy-name "Default Password Policy" \
+        --set expire-passwords-without-warning:true \
+        --set grace-login-count:1 \
+        --set lockout-duration:10m \
+        --set lockout-failure-count:3 \
+        --set max-password-age:118d \
+        --set min-password-age:28d \
+        --set password-validator:"Length-Based Password Validator" \
+        --set password-validator:"Character Set" \
+        --trustAll \
+        --no-prompt
+    EOH
   end
 
   # Stop the service so we can rebuild the indexes

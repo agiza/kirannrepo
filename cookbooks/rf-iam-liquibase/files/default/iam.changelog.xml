@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet author="iam" id="1">
+        <createTable tableName="iam_entity_attribute">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ENTITY_TYPE" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENTITY_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ATTRIBUTE_NAME" type="VARCHAR(64)"/>
+            <column name="ATTRIBUTE_VALUE" type="VARCHAR(255)"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="2">
+        <createTable tableName="iam_group">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="TENANT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROUP_NAME" type="VARCHAR(36)"/>
+            <column name="GROUP_DESC" type="CHAR(255)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="3">
+        <createTable tableName="iam_group_role">
+            <column name="GROUP_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="4">
+        <createTable tableName="iam_hostname_mapping">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="TENANT_ID" type="BIGINT(19)"/>
+            <column name="HOST_NAME_PATTERN" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="MANAGED" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="WHITE_LIST" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_TYPE" type="VARCHAR(36)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="5">
+        <createTable tableName="iam_large_entity">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ENTITY_NAME" type="VARCHAR(72)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STR_ENTITY" type="LONGTEXT"/>
+            <column name="BIN_ENTITY" type="BLOB"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="6">
+        <createTable tableName="iam_permission">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="RESOURCE_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPERATION" type="CHAR(36)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="7">
+        <createTable tableName="iam_postal_address">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ADDRESS1" type="VARCHAR(255)"/>
+            <column name="ADDRESS2" type="VARCHAR(255)"/>
+            <column name="CITY" type="CHAR(255)"/>
+            <column name="STATE" type="CHAR(2)"/>
+            <column name="POSTAL_CODE" type="CHAR(8)"/>
+            <column name="COUNTRY" type="CHAR(12)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="8">
+        <createTable tableName="iam_product">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="PRODUCT_NAME" type="CHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_DESC" type="CHAR(255)"/>
+            <column name="DEFAULT_ROLE_ID" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="9">
+        <createTable tableName="iam_ref_code">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="REF_DESC" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REF_TYPE" type="VARCHAR(8)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+            <column name="REF_CODE" type="CHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="10">
+        <createTable tableName="iam_registration">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOKEN" type="CHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="APPROVED_BY" type="BIGINT(19)"/>
+            <column name="APPROVED_ON" type="BIGINT(19)"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+            <column name="USER_TYPE" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TENANT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MANAGED" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="11">
+        <createTable tableName="iam_resource">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="PRODUCT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_NAME" type="CHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_DESC" type="CHAR(255)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="12">
+        <createTable tableName="iam_role">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="ROLE_NAME" type="VARCHAR(36)"/>
+            <column name="ROLE_DESC" type="CHAR(255)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+            <column name="TENANT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="13">
+        <createTable tableName="iam_role_permission">
+            <column name="ROLE_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PERMISSION_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="14">
+        <createTable tableName="iam_tenant">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+            <column name="BRANDING" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="15">
+        <createTable tableName="iam_tenant_product">
+            <column name="TENANT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="16">
+        <createTable tableName="iam_tenant_user">
+            <column name="TENANT_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="17">
+        <createTable tableName="iam_user">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="USER_NAME" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACCESS_HOUR_START" type="DECIMAL(5, 2)"/>
+            <column name="ACCESS_HOUR_END" type="DECIMAL(5, 2)"/>
+            <column name="ACCESS_IP_MASK" type="VARCHAR(24)"/>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+            <column name="USER_TYPE" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="1" name="MANAGED" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECRET_QUESTION_1" type="VARCHAR(255)"/>
+            <column name="SECRET_ANSWER_1" type="VARCHAR(255)"/>
+            <column name="SECRET_QUESTION_2" type="VARCHAR(255)"/>
+            <column name="SECRET_ANSWER_2" type="VARCHAR(255)"/>
+            <column defaultValueNumeric="1" name="ACTIVE" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEACTIVATE_DATE" type="BIGINT(19)"/>
+            <column name="EMAIL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME_PREFIX" type="VARCHAR(36)"/>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MIDDLE_NAME" type="VARCHAR(255)"/>
+            <column name="NAME_SUFFIX" type="VARCHAR(36)"/>
+            <column name="ALIAS" type="VARCHAR(255)"/>
+            <column name="PRIMARY_PHONE" type="VARCHAR(36)"/>
+            <column name="ALTERNATIVE_PHONE" type="VARCHAR(36)"/>
+            <column name="FAX" type="VARCHAR(36)"/>
+            <column name="ADDRESS_ID" type="BIGINT(19)"/>
+            <column name="COMPANY" type="VARCHAR(255)"/>
+            <column name="DEPARTMENT" type="VARCHAR(255)"/>
+            <column name="Office" type="VARCHAR(255)"/>
+            <column name="TAGS" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="18">
+        <createTable tableName="iam_user_group">
+            <column name="USER_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROUP_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="19">
+        <createTable tableName="iam_user_legacy">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="USER_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LEGACY_ID" type="VARCHAR(48)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SP_NAME" type="VARCHAR(48)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="20">
+        <createTable tableName="iam_user_password_token">
+            <column autoIncrement="true" name="ID" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="USER_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOKEN" type="CHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLAIMED_ON" type="BIGINT(19)"/>
+            <column name="EXPIRES_ON" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="BIGINT(19)"/>
+            <column name="CREATED_ON" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_BY" type="BIGINT(19)"/>
+            <column name="LAST_UPDATED_ON" type="BIGINT(19)"/>
+            <column defaultValueNumeric="1" name="VERSION_NUMBER" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="21">
+        <createTable tableName="iam_user_role">
+            <column name="USER_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="iam" id="22">
+        <addForeignKeyConstraint baseColumnNames="DEFAULT_ROLE_ID" baseTableName="iam_product"
+                                 constraintName="FKiam_product1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="SET NULL" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_role"/>
+    </changeSet>
+    <changeSet author="iam" id="23">
+        <addForeignKeyConstraint baseColumnNames="TENANT_ID" baseTableName="iam_role"
+                                 constraintName="FKiam_role_tenant1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_tenant"/>
+    </changeSet>
+    <changeSet author="iam" id="24">
+        <addForeignKeyConstraint baseColumnNames="TENANT_ID" baseTableName="iam_tenant_user"
+                                 constraintName="FKiam_tenat_user1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_tenant"/>
+    </changeSet>
+    <changeSet author="iam" id="25">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="iam_tenant_user"
+                                 constraintName="FKiam_tenat_user2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="26">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="iam_user_legacy"
+                                 constraintName="FKiam_user_legacy1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="27">
+        <addForeignKeyConstraint baseColumnNames="TENANT_ID" baseTableName="iam_group" constraintName="FKrf_group1"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="iam_tenant"/>
+    </changeSet>
+    <changeSet author="iam" id="28">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="iam_group_role"
+                                 constraintName="FKrf_group_role1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_role"/>
+    </changeSet>
+    <changeSet author="iam" id="29">
+        <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="iam_group_role"
+                                 constraintName="FKrf_group_role2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_group"/>
+    </changeSet>
+    <changeSet author="iam" id="30">
+        <addForeignKeyConstraint baseColumnNames="RESOURCE_ID" baseTableName="iam_permission"
+                                 constraintName="FKrf_permission1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_resource"/>
+    </changeSet>
+    <changeSet author="iam" id="31">
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="iam_resource"
+                                 constraintName="FKrf_resource1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_product"/>
+    </changeSet>
+    <changeSet author="iam" id="32">
+        <addForeignKeyConstraint baseColumnNames="PERMISSION_ID" baseTableName="iam_role_permission"
+                                 constraintName="FKrf_role_permission1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_permission"/>
+    </changeSet>
+    <changeSet author="iam" id="33">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="iam_role_permission"
+                                 constraintName="FKrf_role_permission2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_role"/>
+    </changeSet>
+    <changeSet author="iam" id="34">
+        <addForeignKeyConstraint baseColumnNames="TENANT_ID" baseTableName="iam_tenant_product"
+                                 constraintName="FKrf_tenant_product1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_tenant"/>
+    </changeSet>
+    <changeSet author="iam" id="35">
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="iam_tenant_product"
+                                 constraintName="FKrf_tenant_product2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_product"/>
+    </changeSet>
+    <changeSet author="iam" id="36">
+        <addForeignKeyConstraint baseColumnNames="ADDRESS_ID" baseTableName="iam_user" constraintName="FKrf_user5"
+                                 deferrable="false" initiallyDeferred="false" onDelete="SET NULL" onUpdate="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="iam_postal_address"/>
+    </changeSet>
+    <changeSet author="iam" id="37">
+        <addForeignKeyConstraint baseColumnNames="GROUP_ID" baseTableName="iam_user_group"
+                                 constraintName="FKrf_user_group1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_group"/>
+    </changeSet>
+    <changeSet author="iam" id="38">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="iam_user_group"
+                                 constraintName="FKrf_user_group2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="39">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="iam_user_password_token"
+                                 constraintName="FKrf_user_password_token" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="40">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="iam_user_role"
+                                 constraintName="FKrf_user_role1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_role"/>
+    </changeSet>
+    <changeSet author="iam" id="41">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="iam_user_role"
+                                 constraintName="FKrf_user_role2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="42">
+        <addUniqueConstraint columnNames="EMAIL" constraintName="EMAIL" deferrable="false" disabled="false"
+                             initiallyDeferred="false" tableName="iam_registration"/>
+    </changeSet>
+    <changeSet author="iam" id="43">
+        <addUniqueConstraint columnNames="GROUP_NAME,TENANT_ID" constraintName="GROUP_NAME" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_group"/>
+    </changeSet>
+    <changeSet author="iam" id="44">
+        <addUniqueConstraint columnNames="HOST_NAME_PATTERN, USER_TYPE" constraintName="HOST_NAME_PATTERN"
+                             deferrable="false" disabled="false" initiallyDeferred="false"
+                             tableName="iam_hostname_mapping"/>
+    </changeSet>
+    <changeSet author="iam" id="45">
+        <addUniqueConstraint columnNames="NAME" constraintName="NAME" deferrable="false" disabled="false"
+                             initiallyDeferred="false" tableName="iam_tenant"/>
+    </changeSet>
+    <changeSet author="iam" id="46">
+        <addUniqueConstraint columnNames="PRODUCT_NAME" constraintName="PRODUCT_NAME" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_product"/>
+    </changeSet>
+    <changeSet author="iam" id="47">
+        <addUniqueConstraint columnNames="ROLE_NAME,TENANT_ID" constraintName="ROLE_NAME" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_role"/>
+    </changeSet>
+    <changeSet author="iam" id="48">
+        <addUniqueConstraint columnNames="USER_NAME" constraintName="USER_NAME" deferrable="false" disabled="false"
+                             initiallyDeferred="false" tableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="49">
+        <addUniqueConstraint columnNames="ENTITY_NAME" constraintName="large_entity_name" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_large_entity"/>
+    </changeSet>
+    <changeSet author="iam" id="50">
+        <addUniqueConstraint columnNames="TOKEN" constraintName="token" deferrable="false" disabled="false"
+                             initiallyDeferred="false" tableName="iam_user_password_token"/>
+    </changeSet>
+    <changeSet author="iam" id="51">
+        <addUniqueConstraint columnNames="RESOURCE_ID, OPERATION" constraintName="uk_rf_permission" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_permission"/>
+    </changeSet>
+    <changeSet author="iam" id="52">
+        <addUniqueConstraint columnNames="PRODUCT_ID, RESOURCE_NAME" constraintName="uk_rf_resource" deferrable="false"
+                             disabled="false" initiallyDeferred="false" tableName="iam_resource"/>
+    </changeSet>
+    <changeSet author="iam" id="53">
+        <createIndex indexName="active" tableName="iam_group" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="54">
+        <createIndex indexName="active" tableName="iam_permission" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="55">
+        <createIndex indexName="active" tableName="iam_postal_address" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="56">
+        <createIndex indexName="active" tableName="iam_product" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="57">
+        <createIndex indexName="active" tableName="iam_ref_code" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="58">
+        <createIndex indexName="active" tableName="iam_resource" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="59">
+        <createIndex indexName="active" tableName="iam_role" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="60">
+        <createIndex indexName="active" tableName="iam_tenant" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="61">
+        <createIndex indexName="active" tableName="iam_user" unique="false">
+            <column name="ACTIVE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="62">
+        <createIndex indexName="entity_attribute_index" tableName="iam_entity_attribute" unique="false">
+            <column name="ENTITY_TYPE"/>
+            <column name="ENTITY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="63">
+        <createIndex indexName="ref_type" tableName="iam_ref_code" unique="false">
+            <column name="REF_TYPE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="64">
+        <createIndex indexName="token" tableName="iam_registration" unique="false">
+            <column name="TOKEN"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="iam" id="65">
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY" baseTableName="iam_role" constraintName="FKrf_role1"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID" referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="66">
+        <addForeignKeyConstraint baseColumnNames="LAST_UPDATED_BY" baseTableName="iam_role" constraintName="FKrf_role2"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID" referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="67">
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY" baseTableName="iam_group" constraintName="FKrf_group2"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID" referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="68">
+        <addForeignKeyConstraint baseColumnNames="LAST_UPDATED_BY" baseTableName="iam_group"
+                                 constraintName="FKrf_group3" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="69">
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY" baseTableName="iam_resource"
+                                 constraintName="FKrf_resource2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="70">
+        <addForeignKeyConstraint baseColumnNames="LAST_UPDATED_BY" baseTableName="iam_resource"
+                                 constraintName="FKrf_resource3" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="71">
+        <addForeignKeyConstraint baseColumnNames="CREATED_BY" baseTableName="iam_product" constraintName="FKrf_product1"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="ID" referencedTableName="iam_user"/>
+    </changeSet>
+    <changeSet author="iam" id="72">
+        <addForeignKeyConstraint baseColumnNames="LAST_UPDATED_BY" baseTableName="iam_product"
+                                 constraintName="FKrf_product2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="ID"
+                                 referencedTableName="iam_user"/>
+    </changeSet>
+</databaseChangeLog>

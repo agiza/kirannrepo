@@ -1,0 +1,43 @@
+#REALSearch Configuation
+realsearch.baseUrl=http://<%= node[:rf_search_host] %>:8080/searchservice
+realsearch.identifierUrl=_search
+
+#Rabbit MQ Configuration - The endpoints and credentials for connecting to RabbitMQ and the queues names
+realsearch.index.amqp.host=<%= node[:rf_indexing_host] %>
+realsearch.index.amqp.port=5672
+realsearch.index.amqp.username=realsearch
+realsearch.index.amqp.password=realsearch12
+realsearch.indexservice.amqp.vhost=realsearch
+realsearch.index.amqp.insert.request=realsearch.data.insert.queue
+realsearch.index.amqp.update.request=realsearch.data.update.queue
+realsearch.index.amqp.delete.request=realsearch.data.delete.queue
+realsearch.index.amqp.audit.request=realsearch.data.audit.queue
+
+#The number of threads to be used when publishing to RabbitMQ. The client works asynchronous and you can configure the number of workers which will publish the messages. Default to 10.
+gateway.pool.size=10
+
+#Retry parameters. The values represent the defaults.
+realsearch.client.retry.initialInterval=1000
+#BackOffPolicy - the intervals when the retry will be made and how it will increase the time difference. The values are in milliseconds.
+realsearch.client.retry.maxInterval=1000000
+realsearch.client.retry.multiplier=2
+realsearch.client.retry.attempts=10
+#The number of attempts
+
+#Audit Configuration (Only needs to be added if you are using Auditing capabilities of REALSearch)
+
+
+#Scope/Index for insertion of data
+realsearch.audit.scope=audit_user_management
+#Document type
+realsearch.audit.type=iam
+#Audit buffer size - documents will be pushed to messaging broker provided buffer reaches this size
+audit.threshold=50
+#Audit buffer timeout - documents will be pushed to rabbit provided timeout has elapsed, even if buffer is not full
+audit.timeout=10000
+#Time after which buffer is checked to look at its size or timeout properters
+audit.reaper.rate=5000
+
+#Login Audit
+audit.iam.scope=audit_user_management
+audit.iam.login.type=sso

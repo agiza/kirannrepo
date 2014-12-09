@@ -142,6 +142,57 @@ Here is an example of a configuration set defined as part of a role:
       }
     }
 
+Using openssl for generating SSL certificates
+=============================================
+
+**1. Create Private Key:**
+
+**`Syntax:`** `openssl req  -new -newkey rsa:2048 -nodes -keyout <<keyName>>.key`
+
+**`Example:`** `openssl req  -new -newkey rsa:2048 -nodes -keyout privateKey.key`
+
+**2. Check a private key:**
+
+**`Syntax:`** `openssl rsa -in <<keyName>>.key -check`
+
+**`Example:`** `openssl rsa -in privateKey.key -check`
+
+**3. Remove passphrase from private key:**
+
+**`Syntax:`** `openssl rsa -in <<yourKey>>.key -out <<newKeyWithoutPassword>>.key`
+
+**`Example:`** `openssl rsa -in privateKey.key -out newKeyWithoutPassword.key`
+
+**4. Create CSR (Certificate Signing Request) from private key:**
+
+**`Syntax:`** `openssl req -out <<certificateSigningRequestName>>.csr -key <<keyName>>.key -new`
+
+**`Example:`** `openssl req -out myCertificate.csr -key privateKey.key -new`
+
+**5. Check CSR:**
+
+**`Syntax:`** `openssl req -text -noout -verify -in <<certificateSigningRequestName>>.csr`
+
+**`Example:`** `openssl req -text -noout -verify -in myCertificate.csr`
+
+**6. Create CRT/CER (certificate itself, the file extensions .CRT and .CER are interchangeable) file:**
+
+**`Syntax:`** `openssl x509 -req -in <<certificateSigningRequestName>>.csr -signkey <<keyName>>.key -out <<certificateName>>.crt/cer`
+
+**`Example:`** `openssl x509 -req -in myCertificate.csr -signkey privateKey.key -out myCertificateCER.cer`
+
+**7. Check public key certificate:**
+
+**`Syntax:`** `openssl x509 -in <<certificateName>>.cer -text -noout`
+
+**`Example:`** `openssl x509 -in myCertificateCER.cer -text -noout`
+
+**8. Copy the `<<keyName>>.key` and `<<certificateName>>.cer` files to the path: `opendj/files/default`.**
+
+The names of the `<<keyName>>.key` and `<<certificateName>>.cer` files are referenced to the `opendj/attributes/default` file.
+
+You should update the `default["opendj"]["ssl_cert"]` and `default["opendj"]["ssl_key"]` attributes with the correct values.
+
 License and Author
 ==================
 

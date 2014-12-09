@@ -19,3 +19,8 @@ rspec.xml
 
 # No data bags in git
 data_bags/
+
+#intelliJ
+.idea/*
+*.iml
+pom.xml

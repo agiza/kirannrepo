@@ -1,0 +1,65 @@
+dn: dc=realsuite,dc=com
+objectClass: top
+objectClass: domain
+dc: realsuite
+
+dn: ou=people,dc=realsuite,dc=com
+objectClass: top
+objectClass: organizationalunit
+ou: people
+
+dn: uid=SysAdmin,ou=people,dc=realsuite,dc=com
+description: SysAdmin
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectClass: person
+objectclass: top
+sn: SysAdminLast
+givenName: SysFirst
+uid: SysAdmin
+cn: SysFirst SysLast
+userpassword: Welcome99
+o: RF
+title: user
+
+dn: uid=TenantAdmin,ou=people,dc=realsuite,dc=com
+description: TenantAdmin
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectClass: person
+objectclass: top
+sn: TenantAdminLast
+givenName: TenantFirst
+uid: TenantAdmin
+cn: TenantFirst TenantLast
+userpassword: Welcome99
+o: RF
+title: user
+
+dn: uid=RulesAdmin,ou=people,dc=realsuite,dc=com
+description: RulesAdmin
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectClass: person
+objectclass: top
+sn: RALast
+givenName: RAFirst
+uid: RulesAdmin
+cn: RAFirst RALast
+userpassword: Welcome99
+o: RF
+title: user
+
+dn: uid=RulesUser,ou=people,dc=realsuite,dc=com
+description: RulesUser
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectClass: person
+objectclass: top
+sn: RULast
+givenName: RUFirst
+uid: RulesUser
+cn: RUFirst RULast
+userpassword: Welcome99
+o: RF
+title: user
