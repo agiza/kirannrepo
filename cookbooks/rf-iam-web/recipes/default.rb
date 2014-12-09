@@ -25,3 +25,17 @@ yum_package "iam-home" do
     allow_downgrade true
 end
 
+template "/etc/httpd/conf.d/ssl.conf" do
+   source "ssl.conf.erb"
+     owner "root"
+     group "root"
+     mode  0775
+end
+
+service "shibd" do
+  action :restart
+end
+
+service "httpd" do
+  action :restart
+end
