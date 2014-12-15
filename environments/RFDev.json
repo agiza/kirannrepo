@@ -1,96 +1,118 @@
 {
-  "name": "RFDev",
-  "description": "Realfoundation Development",
-  "cookbook_versions": {
-    "elasticsearch": "= 0.3.10",
-    "mongodb": "= 0.0.4"
-  },
-  "json_class": "Chef::Environment",
-  "chef_type": "environment",
-  "default_attributes": {
-    "elasticsearch": {
-        "version": "1.1.1",
-        "download_url": "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz",
-        "cluster": {
-            "name": "rf-realsearch"
+    "name": "RFDev",
+    "description": "Realfoundation Development",
+    "cookbook_versions": {
+        "elasticsearch": "= 0.3.10",
+        "mongodb": "= 0.0.4"
+    },
+    "json_class": "Chef::Environment",
+    "chef_type": "environment",
+    "default_attributes": {
+        "elasticsearch": {
+            "version": "1.1.1",
+            "download_url": "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz",
+            "cluster": {
+                "name": "rf-realsearch"
             },
-        "discovery": {
-            "zen": {
-                "minimum_master_nodes": "1",
-                "ping": {
-                    "unicast": {
-                        "hosts": "rfint-search-es-srv1.altidev.net,rfint-search-es-srv2.altidev.net,rfint-search-es-srv3.altudev.net"
+            "discovery": {
+                "zen": {
+                    "minimum_master_nodes": "1",
+                    "ping": {
+                        "unicast": {
+                            "hosts": "rfint-search-es-srv1.altidev.net,rfint-search-es-srv2.altidev.net,rfint-search-es-srv3.altudev.net"
                         },
-                    "multicast": {
-                        "enabled": "false"
+                        "multicast": {
+                            "enabled": "false"
                         }
+                    }
                 }
-             }
-          }
-        },
-    "documentation": {
-      "services": {
-        "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
-      }
-    },
-    "elasticsearch": {
-      "cluster": {
-        "name": "rf-realsearch"
-      },
-      "discovery": {
-        "zen": {
-          "minimum_master_nodes": "1",
-          "ping": {
-            "unicast": {
-              "hosts": "rfint-search-es-srv1.altidev.net,rfint-search-es-srv2.altidev.net,rfint-search-es-srv3.altudev.net"
-            },
-            "multicast": {
-              "enabled": "false"
             }
-          }
-        }
-      },
-      "download_url": "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz",
-      "version": "1.1.1"
-    },
-    "iam_host": "rfint-iam-app1.altidev.net:8080",
-    "mongo_host": "rfint-rm-mongodb-srv1.altidev.net",
-    "monit": {
-      "mail_format": {
-        "from": "monit@amazonaws.com",
-        "subject": "[monit] $SERVICE $EVENT on $HOST",
-        "message": "$SERVICE $ACTION: $DESCRIPTION"
-      },
-      "notify_email": "<devops@altisource.com>"
-    },
-    "rabbit_host": "rfint-rm-rabbit-srv1.atlidev.net",
-    "realsearch": {
-      "elasticsearch": {
-        "server": {
-          "host": "rfint-search-es-srv1.altidev.net",
-          "port": 9300
         },
-        "cluster": {
-          "name": "rf-realsearch"
+        "documentation": {
+            "services": {
+                "basePath": "http://rfint-search-tc-srv1.altidev.net:8080/searchservice/"
+            }
         },
-        "solr": {
-          "connectionString": "http://rfint-search-es-srv1.altidev.net:8983/solr"
-        }
-      },
-      "indexservice": {
-        "ampq": {
-          "host": "rfint-search-rabbit-srv1.altidev.net",
-          "port": 5672,
-          "username": "realsearch",
-          "password": "realsearch12",
-          "vhost": "realsearch"
-        }
-      }
+        "elasticsearch": {
+            "cluster": {
+                "name": "rf-realsearch"
+            },
+            "discovery": {
+                "zen": {
+                    "minimum_master_nodes": "1",
+                    "ping": {
+                        "unicast": {
+                            "hosts": "rfint-search-es-srv1.altidev.net,rfint-search-es-srv2.altidev.net,rfint-search-es-srv3.altudev.net"
+                        },
+                        "multicast": {
+                            "enabled": "false"
+                        }
+                    }
+                }
+            },
+            "download_url": "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.tar.gz",
+            "version": "1.1.1"
+        },
+        "iam_host": "rfint-iam-app1.altidev.net:8080",
+        "mongo_host": "rfint-rm-mongodb-srv1.altidev.net",
+        "monit": {
+            "mail_format": {
+                "from": "monit@amazonaws.com",
+                "subject": "[monit] $SERVICE $EVENT on $HOST",
+                "message": "$SERVICE $ACTION: $DESCRIPTION"
+            },
+            "notify_email": "<devops@altisource.com>"
+        },
+        "rabbit_host": "rfint-rm-rabbit-srv1.atlidev.net",
+        "realsearch": {
+            "elasticsearch": {
+                "server": {
+                    "host": "rfint-search-es-srv1.altidev.net",
+                    "port": 9300
+                },
+                "cluster": {
+                    "name": "rf-realsearch"
+                },
+                "solr": {
+                    "connectionString": "http://rfint-search-es-srv1.altidev.net:8983/solr"
+                }
+            },
+            "indexservice": {
+                "ampq": {
+                    "host": "rfint-search-rabbit-srv1.altidev.net",
+                    "port": 5672,
+                    "username": "realsearch",
+                    "password": "realsearch12",
+                    "vhost": "realsearch"
+                }
+            }
+        },
+        "mysql": {
+            "server_root_password": "realmysql",
+            "server_repl_password": "replmysql",
+            "data_dir": "/u02/mysqldata1/data/3306",
+            "port": "3306"
+        },
+        "rf-iam-mysql": {
+            "dbname": "rfng_iam",
+            "dbuser_root_pwd": "realmysql",
+            "dbuser_iam": "rfng_iam_user",
+            "dbuser_iam_pwd": "awd37jk",
+            "port": "3306",
+            "auto-increment-offset": 0
+        },
+        "rf_iam_liquibase": {
+            "connection": {
+                "driver": "com.mysql.jdbc.Driver",
+                "adapter": "mysql",
+                "username": "root"
+            },
+            "change_log_file": "master-db-changelog.xml"
+        },
+        "shibboleth_host": "rfint-iam-app1.altidev.net",
+        "testing_setting": 1,
+        "webHostname": "rfint-iam-app1.altidev.net"
     },
-    "shibboleth_host": "rfint-iam-app1.altidev.net",
-    "testing_setting": 1,
-    "webHostname": "rfint-iam-app1.altidev.net"
-  },
-  "override_attributes": {
-  }
+    "override_attributes": {
+    }
 }

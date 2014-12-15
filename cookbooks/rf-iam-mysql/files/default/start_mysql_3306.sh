@@ -1,0 +1,1 @@
+nohup /usr/bin/mysqld_safe --defaults-file=/etc/my.cnf > /u02/mysqldata/mysqllog/3306/mysql3306_nohup.out &

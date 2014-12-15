@@ -1,0 +1,3 @@
+CREATE USER '<%= node['rf-iam-mysql']['dbuser_iam'] %>'@'%' IDENTIFIED BY '<%= node['rf-iam-mysql']['dbuser_iam_pwd'] %>';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, CREATE VIEW, SHOW VIEW, TRIGGER ON `<%= node['rf-iam-mysql']['dbname'] %>`.* TO '<%= node['rf-iam-mysql']['dbuser_iam'] %>'@'%' ;
+flush privileges;

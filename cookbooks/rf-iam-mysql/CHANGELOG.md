@@ -2,6 +2,9 @@ rf-iam-mysql CHANGELOG
 ======================
 
 This file is used to list changes made in each version of the rf-iam-mysql cookbook.
+0.2.0
+-----
+- [Thanooj Kamavarapu] - Upgraded to MySQL 5.6.
 
 0.1.11
 -----
@@ -16,6 +19,3 @@ This file is used to list changes made in each version of the rf-iam-mysql cookb
 - [Thanooj Kamavarapu] - Initial release of rf-iam-mysql
 
 - - -
-Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
-
-The [Github Flavored Markdown page](http://github.github.com/github-flavored-markdown/) describes the differences between markdown on github and standard markdown.
