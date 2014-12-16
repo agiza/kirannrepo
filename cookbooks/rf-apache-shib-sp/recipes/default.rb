@@ -22,6 +22,7 @@ directory "/etc/httpd/ssl" do
    owner "root"
    group "root"
    mode  00775
+   action :create
 end
 
 file "/etc/httpd/ssl/rf.crt" do
@@ -32,7 +33,7 @@ end
 
 file "/etc/httpd/ssl/rf.key" do
   mode '0775'
-  content IO.read("/iam/share/ssl/rf.crt")
+  content IO.read("/iam/share/ssl/rf.key")
   action :create_if_missing
 end
 

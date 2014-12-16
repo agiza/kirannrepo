@@ -9,4 +9,5 @@ version          '0.3.0'
 depends  'java'
 depends  'tomcat'
 depends  'rf-shib-sp-metagen'
+depends 'mysql_connector'
 

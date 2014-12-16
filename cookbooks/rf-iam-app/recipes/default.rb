@@ -35,12 +35,8 @@ template "#{node['tomcat']['home']}/bin/setenv.sh" do
      mode    0775
 end
 
-cookbook_file "/opt/tomcat/lib/mysql-connector-java-5.1.21.jar" do
-   source "mysql-connector-java-5.1.21.jar"
-    mode  0644
-    owner "tomcat"
-    group "tomcat"
-end
+# Copy MySQL Connector J jar file to Tomcat lib directory
+mysql_connector_j "#{node['tomcat']['home']/lib}"
 
 template "#{node['tomcat']['home']}/conf/iamsvc.properties" do
      source "iamsvc.properties.erb"
