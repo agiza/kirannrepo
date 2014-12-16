@@ -19,15 +19,13 @@ Cookbook works as a wrapper for installing IAM database on community MySQL serve
 
 The cookbook utilizes three recipes depending on the server's role.
 
-`rf-master.rb` : sets up a master MySQL server and creates replicant users 
-for each slave node definded within attributes. 
+`rf-master.rb` : sets up master MySQL server and creates replicant users for each slave node defined within attributes. 
 
-`rf-slave.rb` : sets up a slave MySQL server pointing to the master node 
-definded within attributes.
+`rf-slave.rb` : sets up a slave MySQL server pointing to the master node defined within attributes.
 
 `rf-default` : setups a MySQL server instance without any replications setup
 
-`rf-storage` : sets up storage locations for MySQL installation. Recipe only creates folder structure necessary. 
+`rf-storage` : sets up storage locations for MySQL installation. Recipe only creates necessary folder structure. 
 Mounting drives should be done outside of this recipe. Used internally from rf-master & rf-slave
 
 `rf-base` : installs IAM database, created IAM user for access, copies DBA scripts. 
@@ -43,7 +41,7 @@ Attributes
 
 `['mysql']['port']` : Default port for mysqld service to listen on. Defaults to `3306`.
 
-`['mysql']['data_dir']` : '/u02/mysqldata1/data/3306'
+`['mysql']['data_dir']` : Defaults to '/u02/mysqldata1/data/3306'
 
 `['mysql']['server_root_password']` : set root password
 
@@ -52,6 +50,10 @@ Attributes
 # mysql-multi attribute defaults
 
 `['mysql-multi']['slave_user']` : Default to user `repl`
+
+`['mysql-multi']['server_repl_password']` : Set the value to match `['mysql']['server_repl_password']`. 
+By default the value is copied from the node attribute
+
 
 # rf-iam-mysql attribute defaults
 
@@ -77,14 +79,24 @@ Attributes
 
 `['rf-iam-mysql']['auto-increment-increment']` : Defaults to '10'
 
-`['rf-iam-mysql']['auto-increment-offset']` :  [0123] (0,1,2 or 3 depending on which instance you are on. 
-Use even numbers for the masters and odd numbers for the slaves.) 
+`['rf-iam-mysql']['auto-increment-offset']` :  Defaults to 1.
+Use one of the value from [0123]. Use even numbers for the masters and odd numbers for the slaves. 
 
 
 Usage
 -----
 #### rf-iam-mysql::rf-master
-TODO: Write usage instructions for each cookbook.
+Change the value of `['rf-iam-mysql']['auto-increment-offset']` to even number 0 or 2
+Include this recipe in your run list, if you want to have MySQL Server acting as master.
+Recipe will not work if there are 1 or more MYSQL master's already available in the same environment 
+
+#### rf-iam-mysql::rf-slave
+Change the value of `['rf-iam-mysql']['auto-increment-offset']` to odd number 1 or 3
+Include this recipe in your run list, if you want to have MySQL Server acting as slave.
+This will work only if there is one Master available in your current environment
+
+#### rf-iam-mysql
+Include this recipe in your run list, if you want to have standard MySQL Server. No replication is set.
 
 License and Authors
 -------------------

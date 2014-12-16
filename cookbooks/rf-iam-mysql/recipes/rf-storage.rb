@@ -29,7 +29,7 @@ end
   directory path do
     owner 'mysql'
     group 'mysql'
-    mode  '0775'
+    mode  '0744'
     action :create
   end
 end
@@ -41,7 +41,7 @@ end
   directory path do
     owner 'mysql'
     group 'mysql'
-    mode  '0775'
+    mode  '0755'
     action :create
   end
 end
@@ -53,7 +53,7 @@ end
   directory path do
     owner 'mysql'
     group 'mysql'
-    mode  '0775'
+    mode  '0755'
     action :create
   end
 end
@@ -67,7 +67,7 @@ end
   directory path do
     owner 'mysql'
     group 'mysql'
-    mode  '0775'
+    mode  '0744'
     action :create
   end
 end
