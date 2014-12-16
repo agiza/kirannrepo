@@ -8,7 +8,7 @@
 #
 
 include_recipe "java"
-include_recipe "tomcat"
+include_recipe "tomcat-all"
 
 yum_package "iam-idp" do 
    action :install
