@@ -1,2 +1,5 @@
 idp.home = /opt/shibboleth-idp
-idp.hostname=<%= node[:rf_webproxy_host] %>
+idp.hostname=<%= node[:iam_public_hostname] %>
+
+idp.keystore.pass=changeit
+idp.cert.lifetime=20

@@ -7,24 +7,27 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "rf-apache-shib-sp"
+
 yum_package "iam-iam" do
     action :install
-    version "#{node['iam-iam']['rpm']['version']}"
+    version "#{node['iam']['rpm']['version']}"
     allow_downgrade true
 end
 
 yum_package "iam-selfsvc" do
     action :install
-    version "#{node['iam-selfsvc']['rpm']['version']}"
+    version "#{node['iam']['rpm']['version']}"
     allow_downgrade true
 end
 
 yum_package "iam-home" do
     action :install
-    version "#{node['iam-home']['rpm']['version']}"
+    version "#{node['iam']['rpm']['version']}"
     allow_downgrade true
 end
 
+# replace ssl.conf using my own
 template "/etc/httpd/conf.d/ssl.conf" do
    source "ssl.conf.erb"
      owner "root"

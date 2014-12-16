@@ -1,5 +1,4 @@
-service.provider.logout.success.url=https://<%= node[:rf_webproxy_host] %>/Shibboleth.sso/Logout
-service.provider.context=iam
+service.provider.logout.success.url=https://<%= node[:iam_public_hostname] %>/Shibboleth.sso/Logout
 spring.security.role=IS_AUTHENTICATED_ANONYMOUSLY
 iam.authz.token.url=#
 spring.security.user.details.service=#
@@ -10,9 +9,9 @@ rf.email.port=587
 rf.email.username=altisource
 rf.email.password=Gtd453!abc
 
-registration.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/registration/
-password.reset.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/resetPwd/
-password.forgot.url=https://<%= node[:rf_webproxy_host] %>/selfsvc/#/forgotPwd
+registration.url=https://<%= node[:iam_public_hostname] %>/selfsvc/#/registration/
+password.reset.url=https://<%= node[:iam_public_hostname] %>/selfsvc/#/resetPwd/
+password.forgot.url=https://<%= node[:iam_public_hostname] %>/selfsvc/#/forgotPwd
 
 ldap.url=ldap://<%= node[:iam_opendj_host] %>:1389
 ldap.username=cn=Directory Manager

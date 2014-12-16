@@ -1,31 +1,20 @@
 rf-shib-sp-metagen Cookbook
 ===================
-Generates Shibboleth SP metadata and the key/cert pair. The sp-metadata.xml should be submitted to the idp admin. The key/cert pair
-should be used to overwrite the pair generated during SP installation.
+Generates Shibboleth SP metadata and the key/cert pair.
 
-Related Cookbooks: rf-apache-shib-sp
+For example, in iqa (chef env) environment for realreport (app name), three files will be generated
 
-Attributes
-----------
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['rf-shib-sp-metagen']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+/iam/share/iqa/realreport-metadata.xml
+/iam/share/iqa/realreport/sp-cert.pem
+/iam/share/iqa/realreport/sp-key.pem
+
+The first file will be imported into IDP configuration manually (not needed for SP). The other two will be copied to overwrite the ones on all realreport SP servers.
 
 Usage
 -----
 rf-shib-sp-metagen::default
 
+
 License and Authors
 -------------------
-Authors: Brandon Chen, Sean McNally
+Authors: Brandon Chen

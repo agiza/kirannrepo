@@ -23,14 +23,14 @@ default['shibboleth-idp']['container_auth'] = "form"
 default['shibboleth-idp']['custom_webapp_templates'] = "asdf"
 default['shibboleth-idp']['group'] = node['tomcat']['group']
 default['shibboleth-idp']['idp_home'] = "/opt/shibboleth-idp"
-default['shibboleth-idp']['host_name'] = node['rf_webproxy_host']
+default['shibboleth-idp']['host_name'] = node['iam_public_hostname']
 default['shibboleth-idp']['keystore_password'] = "changeit"
 default['shibboleth-idp']['owner'] = node['tomcat']['user']
 default['shibboleth-idp']['soap_port'] = 8443
 default['shibboleth-idp']['status_allowed_ips'] = %w{ 127.0.0.1/32 ::1/128 }
 default['shibboleth-idp']['template_cookbook'] = "shibboleth-idp"
 default['shibboleth-idp']['tomcat6_dta_ssl_download_url'] = "https://build.shibboleth.net/nexus/content/repositories/releases/edu/internet2/middleware/security/tomcat6/tomcat6-dta-ssl/1.0.0/tomcat6-dta-ssl-1.0.0.jar"
-default['shibboleth-idp']['version'] = "2.4.0"
+default['shibboleth-idp']['version'] = "2.4.3"
 
 # iptables
 #default['shibboleth-idp']['ip_tables']['in_interface'] = ""
@@ -43,8 +43,11 @@ default['shibboleth-idp']['logging']['org.opensaml'] = "WARN"
 default['shibboleth-idp']['logging']['org.springframework'] = "OFF"
 default['shibboleth-idp']['logging']['PROTOCOL_MESSAGE'] = "OFF"
 
-default['rf_idp_metadatafile'] = "/opt/shibboleth-idp/metadata/idp-metadata.xml"
-default['rf_idp_servername'] = ""
-default['rf_webproxy_host'] = ""
-default['rf_sp_metadatafile'] = "/opt/shibboleth-idp/metadata/sp-metadata.xml"
+# sp metadata
+default['sp_public_hostname'] = "same-as-iam_public_hostname"
+default['sp_app_name']="iam"
+
+# others
 default['tomcat']['home'] = "/opt/tomcat"
+default['iam_public_hostname'] = ""
+

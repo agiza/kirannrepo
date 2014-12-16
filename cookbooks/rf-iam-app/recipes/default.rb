@@ -8,15 +8,15 @@
 #
 
 include_recipe "java"
-include_recipe "tomcat-all"
+include_recipe "tomcat"
 
 yum_package "iam-idp" do 
    action :install
-   version "#{node['iam-idp']['rpm']['version']}"
+   version "#{node['iam']['rpm']['version']}"
    allow_downgrade true
 end
 
-template "/var/chef/cache/shibboleth-identity-provider-2.4.0/src/installer/resources/install.properties" do
+template "/var/chef/cache/shibboleth-identity-provider-2.4.3/src/installer/resources/install.properties" do
     source "install.properties.erb"
     owner "tomcat"
     group "tomcat"
@@ -24,15 +24,9 @@ template "/var/chef/cache/shibboleth-identity-provider-2.4.0/src/installer/resou
 end
 
 execute "shibboleth-idp install" do
-   command 'cd /var/chef/cache/shibboleth-identity-provider-2.4.0; ./install.sh'
+   command 'cd /var/chef/cache/shibboleth-identity-provider-2.4.3; ./install.sh'
    not_if { File.exists?("#{node['shibboleth-idp']['idp_home']}")}
 end
-
-execute "shibboleth-idp install" do
-   command 'cd /var/chef/cache/shibboleth-identity-provider-2.4.0; ./reinstall.sh'
-   only_if { File.exists?("#{node['shibboleth-idp']['idp_home']}") }
-end
-
 
 template "#{node['tomcat']['home']}/bin/setenv.sh" do
      source "setenv.sh.erb"
@@ -124,33 +118,19 @@ template "#{node['shibboleth-idp']['idp_home']}/conf/handler.xml" do
          mode 00644
 end
 
-directory "#{node['tomcat']['home']}/endorsed" do
-   mode 00775
-   owner "tomcat"
-   group "tomcat"
-end
-
-execute "Endorsed Jars" do
-  command "cp /var/chef/cache/shibboleth-identity-provider-2.4.0/endorsed/* #{node['tomcat']['home']}/endorsed/"
-end
-
-execute "Change protection on endorsed Jars" do
-   command "chmod -R 775  #{node['tomcat']['home']}/endorsed;chown -R tomcat:tomcat  #{node['tomcat']['home']}/endorsed"
-end
-
 execute "Adjust Ownership" do
   command "chown -R tomcat #{node['shibboleth-idp']['idp_home']};chmod -R 744 #{node['shibboleth-idp']['idp_home']}"
 end
 
 yum_package "iam-iamsvc" do
    action :install
-   version "#{node['iam-iamsvc']['rpm']['version']}"
+   version "#{node['iam']['rpm']['version']}"
    allow_downgrade true
 end
 
-file "/etc/init.d/altitomcat" do
-   action :delete
-end
+#file "/etc/init.d/altitomcat" do
+#   action :delete
+#end
 
 #catalina.sh is lookig for Java in wrong place.  Stupid workaround.
 
@@ -165,78 +145,98 @@ link "/usr/java/default/bin/java" do
   to "/usr/bin/java"
 end
 
-#See if keys and metadata are needed in this environment
-result = search(:node, "rf_iam_sp_certpem:* AND chef_environment:#{node.chef_environment}").first
-if result.nil?
+# create iam-sp-metadata.xml if necessary
+include_recipe "rf-shib-sp-metagen"
 
-#copy metadata to idpmetadatafile attribute
-Chef::Log.info "Reading data from #{node['rf_idp_metadatafile']}"
-ruby_block "add metadata file to node attributes" do
-  block do
-    f = File.open(node['rf_idp_metadatafile'],"r")
-    result = f.read
-    node.default[:rf_idp_metadata] = result
-  end
+# copy iam-sp-metadata.xml
+file "/opt/shibboleth-idp/metadata/iam-sp-metadata.xml" do
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  content IO.read("/iam/share/#{node['chef_environment']}/iam-sp-metadata.xml")
+  action :create_if_missing
 end
 
-  #Generate SP metadata file
-  cookbook_file "#{node['shibboleth-idp']['idp_home']}/bin/keygen.sh" do
-     source "keygen.sh"
-      mode  0775
-      owner "tomcat"
-      group "tomcat"
-  end
+# share idp-metadata.xml if this is the first one, then update local idp-metadata.xml
+file "/iam/share/#{node['chef_environment']}/idp-metadata.xml" do
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  content IO.read("/opt/shibboleth-idp/metadata/idp-metadata.xml")
+  action :create_if_missing
+end
 
-  cookbook_file "#{node['shibboleth-idp']['idp_home']}/bin/metagen.sh" do
-     source "metagen.sh"
-      mode  0775
-      owner "tomcat"
-      group "tomcat"
-  end
+file "/opt/shibboleth-idp/metadata/idp-metadata.xml" do
+  action :delete
+end
 
-  execute "Generate key" do
-    command "#{node['shibboleth-idp']['idp_home']}/bin/keygen.sh  -f -u shibd -h #{node['rf_webproxy_host']} -y 3 -e https://#{node['rf_webproxy_host']} -o #{node['shibboleth-idp']['idp_home']}/credentials"
-  end
+file "/opt/shibboleth-idp/metadata/idp-metadata.xml" do
+  content IO.read("/iam/share/#{node['chef_environment']}/idp-metadata.xml")
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  action :create
+end
 
-  execute "Generate SP metadata" do
-    command "#{node['shibboleth-idp']['idp_home']}/bin/metagen.sh -2ALN -c #{node['shibboleth-idp']['idp_home']}/credentials/sp-cert.pem -e https://#{node['rf_webproxy_host']}/shibboleth -h #{node['rf_webproxy_host']} > #{node['shibboleth-idp']['idp_home']}/metadata/sp-metadata.xml"
-  end
+# share idp.key if this is the first one, then update local idp.key
+file "/iam/share/#{node['chef_environment']}/iam/idp.key" do
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  content IO.read("/opt/shibboleth-idp/credentials/idp.key")
+  action :create_if_missing
+end
 
-  file "#{node['shibboleth-idp']['idp_home']}/metadata/sp-metadata.xml" do
-      mode  0660
-      owner "tomcat"
-      group "tomcat"
-  end  
+file "/opt/shibboleth-idp/credentials/idp.key" do
+  action :delete
+end
 
-  #copy key and cert to node attribute
-  Chef::Log.info "Reading data from #{node['shibboleth-idp']['idp_home']}/credentials/sp-cert.pem}"
-  ruby_block "adding cert file to node attributes" do
-    block do
-      f = File.open("#{node['shibboleth-idp']['idp_home']}/credentials/sp-cert.pem","r")
-      result = f.read
-      node.default[:rf_iam_sp_certpem] = result
-    end
-  end
+file "/opt/shibboleth-idp/credentials/idp.key" do
+  content IO.read("/iam/share/#{node['chef_environment']}/iam/idp.key")
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  action :create
+end
 
-  Chef::Log.info "Reading data from #{node['shibboleth-idp']['idp_home']}/credentials/sp-key.pem}"
-  ruby_block "adding key file to node attributes" do
-    block do
-      f = File.open("#{node['shibboleth-idp']['idp_home']}/credentials/sp-key.pem","r")
-      result = f.read
-      node.default[:rf_iam_sp_keypem] = result
-    end
-  end
+# share idp.crt if this is the first one, then update local idp.crt
+file "/iam/share/#{node['chef_environment']}/iam/idp.crt" do
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  content IO.read("/opt/shibboleth-idp/credentials/idp.crt")
+  action :create_if_missing
+end
 
-  Chef::Log.info "Reading data from #{node['rf_idp_metadatafile']}"
-  ruby_block "add metadata file to node attributes" do
-    block do
-      f = File.open(node['rf_sp_metadatafile'],"r")
-      result = f.read
-      node.default[:rf_sp_metadata] = result
-    end
-  end
+file "/opt/shibboleth-idp/credentials/idp.crt" do
+  action :delete
+end
 
-else
- Chef::Log.info "Key and cert found at #{result}, not generationg another one"
-end  
+file "/opt/shibboleth-idp/credentials/idp.crt" do
+  content IO.read("/iam/share/#{node['chef_environment']}/iam/idp.crt")
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  action :create
+end
 
+# share idp.jks if this is the first one, then update local idp.jks
+file "/iam/share/#{node['chef_environment']}/iam/idp.jks" do
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  content IO.read("/opt/shibboleth-idp/credentials/idp.jks")
+  action :create_if_missing
+end
+
+file "/opt/shibboleth-idp/credentials/idp.jks" do
+  action :delete
+end
+
+file "/opt/shibboleth-idp/credentials/idp.jks" do
+  content IO.read("/iam/share/#{node['chef_environment']}/iam/idp.jks")
+  owner 'tomcat'
+  group 'tomcat'
+  mode 0755
+  action :create
+end

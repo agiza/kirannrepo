@@ -21,9 +21,9 @@
     <!-- ========================================== -->
     <!--      Relying Party Configurations          -->
     <!-- ========================================== -->
-    <rp:AnonymousRelyingParty provider="https://<%= node[:rf_webproxy_host] %>/idp/shibboleth" defaultSigningCredentialRef="IdPCredential"/>
+    <rp:AnonymousRelyingParty provider="https://<%= node[:iam_public_hostname] %>/idp/shibboleth" defaultSigningCredentialRef="IdPCredential"/>
     
-    <rp:DefaultRelyingParty provider="https://<%= node[:rf_webproxy_host] %>/idp/shibboleth" defaultSigningCredentialRef="IdPCredential">
+    <rp:DefaultRelyingParty provider="https://<%= node[:iam_public_hostname] %>/idp/shibboleth" defaultSigningCredentialRef="IdPCredential">
         <!-- 
             Each attribute in these profiles configuration is set to its default value,
             that is, the values that would be in effect if those attributes were not present.
@@ -86,7 +86,7 @@
         <!-- To use: fill in 'metadataURL' and 'backingFile' properties on MetadataResource element -->
        
         <metadata:MetadataProvider id="sp-metadata" xsi:type="metadata:FilesystemMetadataProvider"
-                          metadataFile="/opt/shibboleth-idp/metadata/sp-metadata.xml">
+                          metadataFile="/opt/shibboleth-idp/metadata/iam-sp-metadata.xml">
             <!--
             <metadata:MetadataFilter xsi:type="metadata:ChainingFilter">
                 <metadata:MetadataFilter xsi:type="metadata:RequiredValidUntil" 
