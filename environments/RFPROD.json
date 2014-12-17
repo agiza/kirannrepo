@@ -63,6 +63,8 @@
     "rf_search_host": "rfprd-ha1.mia.vz.altidev.net",
     "rf_indexing_host": "rfprd-ha1.mia.vz.altidev.net",
     "rf_idp_servername": "rfprd-ha1.mia.vz.altidev.net",
+    "rf_smtp_server_host": "mail02.svc.mia.vz.altidev.net",
+    "rf_smtp_server_port": "25",
     "zabbix": {
       "agent": {
         "servers": [
