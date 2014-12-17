@@ -1,0 +1,103 @@
+{
+  "name": "RFPROD",
+  "description": "Production Environment for RF",
+  "cookbook_versions": {
+
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "testing_setting": 0
+  },
+  "override_attributes": {
+    "realsearch-searchservice": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "yumserver": "10.52.89.6",
+    "set_fqdn": "*.mia.vz.altidev.net",
+    "realsearch-indexservice": {
+      "rpm": {
+
+      }
+    },
+    "rf_rm_rpm_version": "1.0.0-RELEASE",
+    "iam-iam": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "iam-selfsvc": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "iam-home": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "iam-iamsvc": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "iam-idp": {
+      "rpm": {
+        "version": "1.0.0-RELEASE"
+      }
+    },
+    "elasticsearch": {
+      "schedulerplugin": {
+        "rpm": {
+          "version": "1.0.0-RELEASE"
+        }
+      }
+    },
+    "rf_webproxy_host": "realsuite.altisource.com",
+    "iam_app_host": "rfprd-ha1.mia.vz.altidev.net",
+    "iam_opendj_host": "rfprd-ha1.mia.vz.altidev.net",
+    "iam_mysql_host": "rfprd-ha1.mia.vz.altidev.net",
+    "rm_app_host": "rfprd-ha1.mia.vz.altidev.net",
+    "rf_search_host": "rfprd-ha1.mia.vz.altidev.net",
+    "rf_indexing_host": "rfprd-ha1.mia.vz.altidev.net",
+    "rf_idp_servername": "rfprd-ha1.mia.vz.altidev.net",
+    "zabbix": {
+      "agent": {
+        "servers": [
+          "zabbix.mia.vz.altidev.net"
+        ]
+      }
+    },
+    "tomcat": {
+      "home": "/opt/tomcat"
+    },
+    "erlang": {
+      "install_method": "package"
+    },
+    "mysql": {
+      "server_root_password": "realmysql",
+      "server_repl_password": "replmysql",
+      "data_dir": "/u02/mysqldata1/data/3306",
+      "port": "3306"
+    },
+    "rf-iam-mysql": {
+      "dbname": "rfng_iam",
+      "dbuser_root_pwd": "realmysql",
+      "dbuser_iam": "rfng_iam_user",
+      "dbuser_iam_pwd": "awd37jk",
+      "port": "3306",
+      "auto-increment-offset": 0
+    },
+    "rf_iam_liquibase": {
+      "connection": {
+        "driver": "com.mysql.jdbc.Driver",
+        "adapter": "mysql",
+        "username": "root"
+      },
+      "change_log_file": "master-db-changelog.xml"
+    }
+  }
+}
+
