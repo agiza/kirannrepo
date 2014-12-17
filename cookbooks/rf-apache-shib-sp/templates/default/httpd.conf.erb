@@ -275,7 +275,7 @@ ServerAdmin admin@realsuite.com
 # You will have to access it by its address anyway, and this will make 
 # redirections work in a sensible way.
 #
-ServerName <%= node[:rf_webproxy_host] %>
+ServerName <%= node[:fqdn] %>
 
 #
 # UseCanonicalName: Determines how Apache constructs self-referencing 
@@ -1004,6 +1004,6 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 # server name.
 #
 <VirtualHost *:80>
-        ServerName <%= node[:rf_webproxy_host] %>
-        Redirect permanent / https://<%= node[:rf_webproxy_host] %>/
+        ServerName <%= node[:fqdn] %>
+        Redirect permanent / https://<%= node[:sp_public_hostname] %>/
 </VirtualHost>

@@ -6,7 +6,7 @@
     clockSkew="180">
 
     <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
-    <ApplicationDefaults entityID="https://<%= node[:rf_webproxy_host] %>/shibboleth"
+    <ApplicationDefaults entityID="https://<%= node[:sp_public_hostname] %>/shibboleth"
                          REMOTE_USER="uid">
 
         <!--
@@ -27,7 +27,7 @@
             (Set discoveryProtocol to "WAYF" for legacy Shibboleth WAYF support.)
             You can also override entityID on /Login query string, or in RequestMap/htaccess.
             -->
-            <SSO entityID="https://<%= node[:rf_webproxy_host] %>/idp/shibboleth"
+            <SSO entityID="https://<%= node[:iam_public_hostname] %>/idp/shibboleth"
                  >
               SAML2 SAML1
             </SSO>
