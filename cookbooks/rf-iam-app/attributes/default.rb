@@ -51,3 +51,4 @@ default['sp_app_name']="iam"
 default['tomcat']['home'] = "/opt/tomcat"
 default['iam_public_hostname'] = ""
 
+node.default['build_essential']['compiletime'] = true

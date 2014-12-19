@@ -11,103 +11,91 @@ yum_package "mod_ssl" do
    action :upgrade
 end
 
+include_recipe "shibboleth-sp"
+
+include_recipe "rf-shib-sp-metagen"
+
 template "/etc/httpd/conf/httpd.conf" do
          source "httpd.conf.erb"
          owner "root"
          group "root"
-         mode 0755
+         mode '0755'
 end
 
 directory "/etc/httpd/ssl" do
    owner "root"
    group "root"
-   mode  00775
+   mode  '0775'
    action :create
 end
 
-file "/etc/httpd/ssl/rf.crt" do
-  mode '0775'
-  content IO.read("/iam/share/ssl/rf.crt")
-  action :create_if_missing
+execute "copy rf.crt" do
+  command "cp /iam/share/ssl/rf.crt /etc/httpd/ssl"
+  only_if do
+    File.exists?("/iam/share/ssl/rf.crt")
+  end
 end
 
-file "/etc/httpd/ssl/rf.key" do
-  mode '0775'
-  content IO.read("/iam/share/ssl/rf.key")
-  action :create_if_missing
+execute "copy rf.key" do
+  command "cp /iam/share/ssl/rf.key /etc/httpd/ssl"
+  only_if do
+    File.exists?("/iam/share/ssl/rf.key")
+  end
 end
 
 template "/etc/httpd/conf.d/ssl.conf" do
    source "ssl.conf.erb"
      owner "root"
      group "root"
-     mode  0775
+     mode  '0775'
 end
-
-include_recipe "shibboleth-sp"
 
 template "/etc/shibboleth/attribute-map.xml" do
    source "attribute-map.xml.erb"
     owner "root"
     group "root"
-    mode 0755
+    mode '0755'
 end
 
 template "/etc/shibboleth/attribute-policy.xml" do
    source "attribute-policy.xml.erb"
     owner "root"
     group "root"
-    mode 0755
+    mode '0755'
 end
 
 template "/etc/shibboleth/shibboleth2.xml" do
    source "shibboleth2.xml.erb"
     owner "root"
     group "root"
-    mode 0755
+    mode '0755'
 end
 
 template "/etc/shibboleth/localLogout.html" do
    source "localLogout.html.erb"
     owner "root"
     group "root"
-    mode 0755
+    mode '0755'
 end
 
-include_recipe "rf-shib-sp-metagen"
 
-# replace key/cert pair (remove first and then create)
-
-file "/etc/shibboleth/sp-cert.pem" do
-  action :delete
+execute "copy sp-cert.pem" do
+  command "cp -f /iam/share/#{node.chef_environment}/#{node['sp_app_name']}/sp-cert.pem /etc/shibboleth/sp-cert.pem"
+  only_if do
+    File.exists?("/iam/share/#{node.chef_environment}/#{node['sp_app_name']}/sp-cert.pem")
+  end
 end
 
-file "/etc/shibboleth/sp-cert.pem" do
-  mode '0644'
-  owner 'root'
-  group 'root'
-  content IO.read("/iam/share/#{node['chef_environment']}/#{node['sp_app_name']}/sp-cert.pem")
-  action :create
+execute "copy sp-key.pem" do
+  command "cp -f /iam/share/#{node.chef_environment}/#{node['sp_app_name']}/sp-key.pem /etc/shibboleth/sp-key.pem"
+  only_if do
+    File.exists?("/iam/share/#{node.chef_environment}/#{node['sp_app_name']}/sp-key.pem")
+  end
 end
 
-file "/etc/shibboleth/sp-key.pem" do
-  action :delete
+execute "copy idp-metadata.xml" do
+  command "cp /iam/share/#{node.chef_environment}/idp-metadata.xml /etc/shibboleth"
+  only_if do
+    File.exists?("/iam/share/#{node.chef_environment}/idp-metadata.xml")
+  end
 end
-
-file "/etc/shibboleth/sp-key.pem" do
-  mode '0644'
-  owner 'root'
-  group 'root'
-  content IO.read("/iam/share/#{node['chef_environment']}/#{node['sp_app_name']}/sp-key.pem")
-  action :create
-end
-
-# copy idp-metadata.xml
-file "/etc/shibboleth/idp-metadata.xml" do
-  owner 'root'
-  group 'root'
-  mode 0755
-  content IO.read("/iam/share/#{node['chef_environment']}/idp-metadata.xml")
-  action :create
-end
-
