@@ -85,6 +85,11 @@ SSLCryptoDevice builtin
   ProxyPass /iamsvc ajp://<%= node[:iam_app_host] %>:8009/iamsvc
   ProxyPass /idp ajp://<%= node[:iam_app_host] %>:8009/idp
 
+  <Location /idp/profile/Metadata/SAML>
+      Order Deny,Allow
+      Deny from all
+  </Location>
+
  <Location />
        AuthType shibboleth
        ShibUseHeaders On
