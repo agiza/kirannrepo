@@ -14,7 +14,7 @@
 end
 
 mount "/iam/share" do
-  device "inf-chef2.altidev.net:/shib-metadata"
+  device "#{node['nfs_directory']}"
   fstype "nfs"
   options "rw"
   action [:mount, :enable]

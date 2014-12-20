@@ -6,6 +6,10 @@
 include_recipe "java"
 include_recipe "tomcat-all"
 
+service 'tomcat' do
+  action :stop
+end
+
 yum_package "iam-idp" do 
    action :install
    version "#{node['iam']['rpm']['version']}"
@@ -115,7 +119,7 @@ template "#{node['shibboleth-idp']['idp_home']}/conf/handler.xml" do
 end
 
 execute "Adjust Ownership" do
-  command "chown -R tomcat #{node['shibboleth-idp']['idp_home']}; chmod -R 744 #{node['shibboleth-idp']['idp_home']}"
+  command "chown -R tomcat:tomcat #{node['shibboleth-idp']['idp_home']}; chmod -R 744 #{node['shibboleth-idp']['idp_home']}"
 end
 
 yum_package "iam-iamsvc" do
@@ -213,4 +217,8 @@ execute "copy idp.jks" do
   only_if do
     File.exists?("/iam/share/#{node.chef_environment}/iam/idp.jks")
   end
+end
+
+service 'tomcat' do
+  action :start
 end
