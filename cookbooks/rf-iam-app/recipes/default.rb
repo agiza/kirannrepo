@@ -6,10 +6,6 @@
 include_recipe "java"
 include_recipe "tomcat-all"
 
-service 'tomcat' do
-  action :stop
-end
-
 yum_package "iam-idp" do 
    action :install
    version "#{node['iam']['rpm']['version']}"
@@ -25,7 +21,6 @@ end
 
 execute "shibboleth-idp install" do
    command 'cd /var/chef/cache/shibboleth-identityprovider-2.4.3; chmod 755 install.sh; ./install.sh'
-   not_if { File.exists?("#{node['shibboleth-idp']['idp_home']}")}
 end
 
 execute "Adjust Ownership" do
@@ -220,5 +215,5 @@ execute "copy idp.jks" do
 end
 
 service 'tomcat' do
-  action :start
+  action :restart
 end
