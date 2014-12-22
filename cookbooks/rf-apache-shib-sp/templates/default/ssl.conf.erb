@@ -74,7 +74,7 @@ SSLCryptoDevice builtin
 <VirtualHost _default_:443>
 
   DocumentRoot "/var/www/html"
-  ServerName <%= node[:fqdn] %>:443
+  ServerName <%= node[:sp_public_hostname] %>:443
 
   RedirectMatch ^/$ /home/
 

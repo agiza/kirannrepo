@@ -71,10 +71,14 @@ SSLCryptoDevice builtin
 ## SSL Virtual Host Context
 ##
 
+# enforce secure and http_only cookie
+Header edit Set-Cookie "(?i)^((?:(?!;\s?HttpOnly).)+)$" "$1; HttpOnly"
+Header edit Set-Cookie "(?i)^((?:(?!;\s?Secure).)+)$" "$1; Secure"
+
 <VirtualHost _default_:443>
 
   DocumentRoot "/var/www/html"
-  ServerName <%= node[:fqdn] %>:443
+  ServerName <%= node[:sp_public_hostname] %>:443
 
   RedirectMatch ^/$ /home/
 
