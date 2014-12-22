@@ -3,6 +3,10 @@
 # Recipe:: default
 #
 
+package "nfs-utils" do
+  action :install
+end
+
 %w[ /iam
     /iam/share].each do |path|
   directory path do
