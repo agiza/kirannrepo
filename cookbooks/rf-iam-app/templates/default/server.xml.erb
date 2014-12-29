@@ -50,7 +50,7 @@
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="com.mysql.jdbc.Driver"
-            url="jdbc:mysql://<%= node[:iam_mysql_host] %>:3306/rfng_iam"
+            url="jdbc:mysql://<%= node[:iam_mysql_host] %>:3306/rfng_iam?CharSet=utf8&amp;useUnicode=true&amp;characterEncoding=UTF-8"
             username="rfng_iam_user"
             password="awd37jk"
             maxActive="30"
