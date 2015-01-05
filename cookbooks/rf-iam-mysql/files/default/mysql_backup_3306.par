@@ -1,0 +1,16 @@
+#Parameter for both bin log and database backup
+MYSQL_PORT=3306
+BACKUP_FS=/u03/mysqldata/backup/3306
+MYSQL_SOCKET=/var/lib/mysql/mysql.sock
+#Parameter for binlog backup
+BIN_LOG_PATH=/u02/mysqldata/mysqllog/3306/bin
+PURGE_BIN_LOGS=YES
+BIN_LOG_BKUP_RET_DYS=10
+
+#Parameter for database backup
+#Enter ALL to backup all databases or comma separated list(without spaces) to backup only specific databases.
+DATABASE_LIST=ALL
+DATABASE_BKUP_RET_DYS=15
+
+#Path for MySQL Enterprise Backup(meb).
+#MYSQL_BACKUP=/opt/mysql/meb-3.7/bin/mysqlbackup

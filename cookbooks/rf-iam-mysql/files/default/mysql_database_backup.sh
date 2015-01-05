@@ -17,7 +17,7 @@ if [ $# -ne 1 ]
 then
 
  echo "Usage:$0 <backup parameter file>"
- echo "eg:$0 mysql_backup_3307.par"
+ echo "eg:$0 mysql_backup_3306.par"
  exit 1
 
 fi
