@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "java"
+#include_recipe "java"
 include_recipe "liquibase-cookbook-master"
 
 mysql_connector_j "#{node[:liquibase][:install_path]}"

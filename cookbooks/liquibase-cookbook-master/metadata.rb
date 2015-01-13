@@ -9,4 +9,4 @@ version          "1.0.0"
   supports os
 end
 
-depends "java"
+depends "java-wrapper"

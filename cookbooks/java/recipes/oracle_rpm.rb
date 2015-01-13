@@ -20,7 +20,7 @@
 include_recipe 'java::set_java_home'
 
 
-slave_cmds = case node['java']['oracle_rpm']['type']
+slave_cmds = case #{node['java']['oracle_rpm']['type']}
              when 'jdk'
                %W[appletviewer apt ControlPanel extcheck idlj jar jarsigner javac javadoc javafxpackager javah javap java-rmi.cgi javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps jrunscript jsadebugd jstack jstat jstatd jvisualvm keytool native2ascii orbd pack200 policytool rmic rmid rmiregistry schemagen serialver servertool tnameserv unpack200 wsgen wsimport xjc]
 

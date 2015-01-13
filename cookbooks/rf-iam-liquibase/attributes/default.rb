@@ -7,7 +7,7 @@ default[:liquibase][:version]      = "3.1.1"
 default[:liquibase][:install_path] = "/opt/liquibase-#{node[:liquibase][:version]}"
 
 # override[:java][:openjdk_packages] = ["openjdk-7-jdk", "openjdk-7-jre-headless"]
-override[:java][:openjdk_packages] = ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]
+# override[:java][:openjdk_packages] = ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]
 
 #default['mysql_connector']['j']['version'] = "5.1.31"
 
