@@ -10,7 +10,7 @@ end
 chefNodes = search(:node, "chef_environment:#{node.chef_environment}")
 chefNodes.each do |node|
   execute "install add_host.sh" do
-    Chef::Log.info("Adding alias #{node['ipaddress']}:#{node['fqdn']}")
-    command "sh /tmp/add_host.sh #{node['ipaddress']} #{node['fqdn']}"
+    Chef::Log.info("Adding alias #{node['ipaddress']}:#{node['hostname']}")
+    command "sh /tmp/add_host.sh #{node['ipaddress']} #{node['hostname']}"
   end
 end

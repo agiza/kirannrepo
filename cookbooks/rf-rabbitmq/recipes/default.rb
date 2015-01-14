@@ -21,6 +21,9 @@ include_recipe 'rf-hosts::default'
 # Install RabbitMQ in a clustered fashion
 include_recipe 'rabbitmq::cluster_management'
 
+package "wget" do
+  action :install
+end
 
 ##Rules Management
 ##Be aware this stuff is hardcoded here

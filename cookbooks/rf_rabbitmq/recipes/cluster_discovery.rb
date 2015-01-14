@@ -42,8 +42,11 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
     action :nothing
   end
 
+end
+
+if node['rabbitmq']['cluster']
   #Setting RabbitMQ in a cluster can be done in two ways: 1.auto-configuration 2.starting independent nodes,
-  #find all the chef nodes which have a custom attribute and which are in the same environment. The first node
+  #find all the chef nodes which have a custom tag and which are in the same environment. The first node
   #will consider himself master, the others will try to join the cluster of all the nodes they found.
   #If option 1 is chosen you have to know all the nodes from the beginning and set the host (cluster_nodes field)
   #in the RabbitMQ configuration file. Note that the cluster configuration is applied only to fresh nodes.
@@ -55,11 +58,11 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
   #which will differentiate it from the slaves, where the attribute will be false
 
   #Searching for the master node in the current environment.
-  rabbitMQMster = search(:node, "rf_rabbitmq_cluster:master AND chef_environment:#{node.chef_environment}")
+  rabbitMQMster = search(:node, "tags:rf_rabbitmq_node_master AND chef_environment:#{node.chef_environment}")
   if rabbitMQMster.nil? || rabbitMQMster.empty?
     #No master found. Then set this node as a master and trigger the rabbitmq master recipe
     Chef::Log.info("There is no rabbitmq master detected in the environment #{node.chef_environment}, this node will be delegated as master.")
-    node.set['rf_rabbitmq_cluster'] = 'master'
+    tag('rf_rabbitmq_node_master')
     include_recipe 'rabbitmq::virtualhost_management'
     include_recipe 'rabbitmq::user_management'
     include_recipe 'rf_rabbitmq::queue_management'
@@ -68,7 +71,7 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
     include_recipe 'rabbitmq::policy_management'
   else
     # If this is the master, trigger the rabbitmq master recipe.
-    if !node.attribute?('rf_rabbitmq_cluster').nil? && node.attribute?('rf_rabbitmq_cluster') == 'master'
+    if tagged?('rf_rabbitmq_node_master')
       Chef::Log.info("This is the master node.")
       include_recipe 'rabbitmq::virtualhost_management'
       include_recipe 'rabbitmq::user_management'
@@ -86,19 +89,19 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
         action :delete
       end
 
-      #Search all the nodes from the same environment and with the attribute rf-rabbitmq-master
-      rabbitMQClusterNodes = search(:node, "rf_rabbitmq_cluster:* AND chef_environment:#{node.chef_environment}")
+      #Search all the nodes from the same environment and with the tag set
+      rabbitMQClusterNodes = search(:node, "(tags:rf_rabbitmq_node_master OR tags:rf_rabbitmq_node_slave) AND chef_environment:#{node.chef_environment}")
 
       #For every node found, check if rabbit is running => rabbitmqctl -n <node_name> command
       #If is running the response should contain "amqp_client"
       #If running, join the cluster
       rabbitMQClusterNodes.each do |clusterNode|
-        if node['fqdn'] != clusterNode['fqdn']
-          Chef::Log.info("Worker node #{node['fqdn']} joining cluster rabbit@#{clusterNode['fqdn']}")
+        if node['hostname'] != clusterNode['hostname']
+          Chef::Log.info("Worker node #{node['hostname']} joining cluster rabbit@#{clusterNode['hostname']}")
           bash "check node and join cluster" do
             cwd "/tmp"
             code <<-EOH
-              STATUS=`rabbitmqctl -n rabbit@#{clusterNode['fqdn']} status`
+              STATUS=`rabbitmqctl -n rabbit@#{clusterNode['hostname']} status`
               echo $STATUS &>> #{results}
               if grep -q amqp_client <<<$STATUS
               then
@@ -111,13 +114,13 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
 
               if [[ $statusRes == 0 ]]
               then
-                  echo "Joining cluster with RabbitMQ node on #{clusterNode['fqdn']}" &>> #{results};
+                  echo "Joining cluster with RabbitMQ node on #{clusterNode['hostname']}" &>> #{results};
                   rabbitmqctl stop_app &>> #{results}
-                  rabbitmqctl join_cluster rabbit@#{clusterNode['fqdn']} &>> #{results}
+                  rabbitmqctl join_cluster rabbit@#{clusterNode['hostname']} &>> #{results}
                   rabbitmqctl start_app &>> #{results}
                   res=0
               else
-                  echo "Not Joining cluster with RabbitMQ node on #{clusterNode['fqdn']}" &>> #{results}
+                  echo "Not Joining cluster with RabbitMQ node on #{clusterNode['hostname']}" &>> #{results}
                   res=1
               fi
               if [[ $res == 0 ]]
@@ -141,7 +144,7 @@ if node['rabbitmq']['cluster'] && (node['rabbitmq']['erlang_cookie'] != existing
       end
 
       #This is a slave
-      node.set['rf_rabbitmq_cluster'] = 'worker'
+      tag('rf_rabbitmq_node_slave')
     end
   end
 end

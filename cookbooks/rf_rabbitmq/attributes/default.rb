@@ -100,13 +100,13 @@ end
 # Example HA policies
 #default['rabbitmq']['policies']=[]
 default['rabbitmq']['policies']['realsearch.data.policy']['pattern'] = 'realsearch\.data'
-default['rabbitmq']['policies']['realsearch.data.policy']['params'] = {'ha-mode' => 'all'}
+default['rabbitmq']['policies']['realsearch.data.policy']['params'] = {'ha-mode' => 'all', 'ha-sync-mode' => 'automatic'}
 default['rabbitmq']['policies']['realsearch.data.policy']['priority'] = 0
 default['rabbitmq']['policies']['realsearch.data.policy']['vhost'] = 'realsearch'
 
 
 default['rabbitmq']['policies']['rulesmgmt.data.policy']['pattern'] = 'publishQueue'
-default['rabbitmq']['policies']['rulesmgmt.data.policy']['params'] = {'ha-mode' => 'all'}
+default['rabbitmq']['policies']['rulesmgmt.data.policy']['params'] = {'ha-mode' => 'all', 'ha-sync-mode' => 'automatic'}
 default['rabbitmq']['policies']['rulesmgmt.data.policy']['priority'] = 0
 default['rabbitmq']['policies']['rulesmgmt.data.policy']['vhost'] = 'RulesPublishing'
 
@@ -127,10 +127,17 @@ default['rabbitmq']['queues'] =
 
 #Exchanges
 default['rabbitmq']['exchanges'] =
-    [{:exchange => 'toRabbit', :type => 'direct', :vhost => 'RulesPublishing', :user => 'rulesmgmt', :password => 'rulesmgmt12'
-     }]
+    [
+	 {:exchange => 'toRabbit', :type => 'direct', :vhost => 'RulesPublishing', :user => 'rulesmgmt', :password => 'rulesmgmt12'},
+	 {:exchange => 'realsearch', :type => 'direct', :vhost => 'realsearch', :user => 'realsearch', :password => 'realsearch12'}
+	]
 
 #Bindings
 default['rabbitmq']['bindings'] =
-    [{:exchange => 'toRabbit', :destination_type => 'queue', :destination => 'publishQueue', :routing_key => 'publishKey', :vhost => 'RulesPublishing', :user => 'rulesmgmt', :password => 'rulesmgmt12'
-     }]
+    [
+	 {:exchange => 'toRabbit', :destination_type => 'queue', :destination => 'publishQueue', :routing_key => 'publishKey', :vhost => 'RulesPublishing', :user => 'rulesmgmt', :password => 'rulesmgmt12'},
+	 {:exchange => 'realsearch', :destination_type => 'queue', :destination => 'realsearch.data.insert.queue', :routing_key => 'realsearch.data.insert.queue', :vhost => 'realsearch', :user => 'realsearch', :password => 'realsearch12'},
+	 {:exchange => 'realsearch', :destination_type => 'queue', :destination => 'realsearch.data.update.queue', :routing_key => 'realsearch.data.update.queue', :vhost => 'realsearch', :user => 'realsearch', :password => 'realsearch12'},
+	 {:exchange => 'realsearch', :destination_type => 'queue', :destination => 'realsearch.data.delete.queue', :routing_key => 'realsearch.data.delete.queue', :vhost => 'realsearch', :user => 'realsearch', :password => 'realsearch12'},
+	 {:exchange => 'realsearch', :destination_type => 'queue', :destination => 'realsearch.data.audit.queue', :routing_key => 'realsearch.data.audit.queue', :vhost => 'realsearch', :user => 'realsearch', :password => 'realsearch12'}
+	]

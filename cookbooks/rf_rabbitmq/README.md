@@ -1,10 +1,10 @@
 # rf_rabbitmq-cookbook
 
-Install rabbitmq in a clustered fashion
+TODO: Enter the cookbook description here.
 
 ## Supported Platforms
 
-Tested on centos 6
+TODO: List your supported platforms.
 
 ## Attributes
 
@@ -39,4 +39,4 @@ Include `rf_rabbitmq` in your node's `run_list`:
 
 ## License and Authors
 
-Author:: Cosmin Vasii (cosmin.vasii@endava.com)
+Author:: YOUR_NAME (<YOUR_EMAIL>)
