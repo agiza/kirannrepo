@@ -5,10 +5,11 @@
 
 default[:liquibase][:version]      = "3.1.1"
 default[:liquibase][:install_path] = "/opt/liquibase-#{node[:liquibase][:version]}"
+default[:liquibase][:checksum] = nil
 
 # override[:java][:openjdk_packages] = ["openjdk-7-jdk", "openjdk-7-jre-headless"]
 # override[:java][:openjdk_packages] = ["java-1.7.0-openjdk", "java-1.7.0-openjdk-devel"]
-
+override['java']['oracle_rpm']['type'] = "jdk"
 #default['mysql_connector']['j']['version'] = "5.1.31"
 
 default[:rf_iam_liquibase][:change_log_file] = "master-db-changelog.xml"

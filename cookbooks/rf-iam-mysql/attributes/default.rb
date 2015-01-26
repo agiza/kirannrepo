@@ -43,3 +43,20 @@ default['rf-iam-mysql']['storage']['tmp'] = '/u02/mysqldata/tmp'
 default['rf-iam-mysql']['storage']['backup'] = '/u03/mysqldata'
 
 default['rf-iam-mysql']['auto-increment-offset'] = 1
+
+# HaProxy for MySQL
+default['rf-iam-mysql']['serverid']     	= 1
+default['rf-iam-mysql']['m_m_host_ip'] 		= '127.0.0.1'
+default['rf-iam-mysql']['masterhost1'] 		= '127.0.0.1'
+default['rf-iam-mysql']['masterhost2'] 		= '127.0.0.1'
+default['rf-iam-mysql']['masterhost']  		= '127.0.0.1'
+default['rf-iam-mysql']['masterpassword'] 	= 'password'
+default['rf-iam-mysql']['masterlogfile'] 	= 'mysql-bin.000006'
+default['rf-iam-mysql']['masterlogpos'] 	= 120
+default['rf-iam-mysql']['hacheck'] 			= '127.0.0.1'
+default['rf-iam-mysql']['harootuser'] 		= '127.0.0.1'
+default['rf-iam-mysql']['harootpassword'] 	= 'password'
+default['rf-iam-mysql']['retries']			= 3
+default['rf-iam-mysql']['connect']  		= 5000
+default['rf-iam-mysql']['client']			= 10000
+default['rf-iam-mysql']['server']			= 10000

@@ -1,0 +1,8 @@
+DELETE FROM mysql.user where User like 'haproxycheck%';
+DELETE FROM mysql.user where User like 'repl%';
+DELETE FROM mysql.user where User='';
+flush privileges;
+CREATE USER 'replicator'@'%' identified by 'password';
+GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%';
+INSERT INTO mysql.user (Host,User) values ('<%= node['rf-iam-mysql']['hacheck'] %>','haproxycheck');FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'haproxyroot'@'<%= node['rf-iam-mysql']['harootuser'] %>' IDENTIFIED BY '<%= node['rf-iam-mysql']['harootpassword'] %>' WITH GRANT OPTION; FLUSH PRIVILEGES;

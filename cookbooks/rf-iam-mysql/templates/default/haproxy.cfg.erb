@@ -1,0 +1,25 @@
+global
+ log 127.0.0.1 local0
+ log 127.0.0.1 local1 notice
+ maxconn 4096
+ user haproxy
+ group haproxy
+  
+ defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries <%= node['rf-iam-mysql']['retries'] %>
+    option redispatch
+    timeout connect  <%= node['rf-iam-mysql']['connect'] %>
+    timeout client  <%= node['rf-iam-mysql']['client'] %>
+    timeout server  <%= node['rf-iam-mysql']['server'] %>
+  
+ listen mysql-cluster 0.0.0.0:3306
+ mode udp
+ balance roundrobin
+ option tcpka
+ option mysql-check user haproxycheck
+ server db01 <%= node['rf-iam-mysql']['masterhost1'] %>:3306 weight 1 maxconn 1 check
+ server db02 <%= node['rf-iam-mysql']['masterhost2'] %>:3306 weight 1 maxconn 1 check

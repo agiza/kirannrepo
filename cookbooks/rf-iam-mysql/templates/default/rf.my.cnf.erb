@@ -22,10 +22,7 @@ event_scheduler         = 0
 skip-character-set-client-handshake
 
 # * Bind Address
-<% if @bind_address -%>
-bind-address        = <%= @bind_address %>
-<% end -%>
-
+#bind-address        = <%= node['rf-iam-mysql']['m_m_host_ip'] %>
 
 # * Fine Tuning
 max_allowed_packet      = 64M
@@ -88,7 +85,7 @@ general_log             = 0
 general_log_file        = /u02/mysqldata/mysqllog/3306/general/mysql_general.log
 
 # Binary Log and Replication Configuration
-#log_bin                 = /u02/mysqldata/mysqllog/3306/bin/mysql-bin.log
+log_bin                 = /u02/mysqldata/mysqllog/3306/bin/mysql-bin.log
 #log-bin-index           = /u02/mysqldata/mysqllog/3306/bin/mysql-bin.index
 #binlog-cache-size       = 256K
 #binlog_format           = ROW
@@ -100,7 +97,7 @@ max_binlog_size         = 100M
 binlog_cache_size       = 256K
 sync_binlog             = 1
 
-#binlog_do_db           = include_database_name
+binlog_do_db            = rfng_iam
 #binlog_ignore_db       = include_database_name
 # replicate_do_db: Unset
 # replicate_do_table: Unset
@@ -116,7 +113,7 @@ sync_binlog             = 1
 # binlog_ignore_db: Unset
 
 # * Replication
-server_id                   = <%= @serverid %>
+server_id                   = <%= node['rf-iam-mysql']['serverid'] %>
 auto-increment-increment    = 10
 auto-increment-offset       = <%= node['rf-iam-mysql']['auto-increment-offset'] %>
 concurrent_insert           = 2

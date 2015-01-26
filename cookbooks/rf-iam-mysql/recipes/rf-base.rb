@@ -14,8 +14,8 @@ template "/root/create_rfiamdb.sql" do
   group "root"
 end
 
-template "/root/iamuser.sql" do
-  source "iamuser.sql.erb"
+template "/root/create_rfiamuser.sql" do
+  source "create_rfiamuser.sql.erb"
   mode  00775
   owner "root"
   group "root"
@@ -54,5 +54,5 @@ execute "initialize real db" do
 end
 
 execute "initialize IAM user" do
-  command "cd /root;/usr/bin/mysql -u root --password=#{node['mysql']['server_root_password']} < iamuser.sql"
+  command "cd /root;/usr/bin/mysql -u root --password=#{node['mysql']['server_root_password']} < create_rfiamuser.sql"
 end

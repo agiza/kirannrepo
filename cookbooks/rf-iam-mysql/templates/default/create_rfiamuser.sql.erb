@@ -1,0 +1,21 @@
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ANSI';
+USE mysql ;
+DROP PROCEDURE IF EXISTS mysql.create_user_if_not_exists ;
+DELIMITER $$
+CREATE PROCEDURE mysql.create_user_if_not_exists()
+BEGIN
+  DECLARE foo BIGINT DEFAULT 0 ;
+  SELECT COUNT(*)
+  INTO foo
+    FROM mysql.user
+      WHERE User like 'rfng_iam_user%';
+   IF foo < 1 THEN
+		CREATE USER '<%= node['rf-iam-mysql']['dbuser_iam'] %>'@'127.0.0.1' IDENTIFIED BY '<%= node['rf-iam-mysql']['dbuser_iam_pwd'] %>';
+		GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, CREATE VIEW, SHOW VIEW, TRIGGER ON `<%= node['rf-iam-mysql']['dbname'] %>`.* TO '<%= node['rf-iam-mysql']['dbuser_iam'] %>'@'127.0.0.1' ;
+  END IF;
+END ;$$
+DELIMITER ;
+CALL mysql.create_user_if_not_exists() ;
+DROP PROCEDURE IF EXISTS mysql.create_user_if_not_exists ;
+SET SQL_MODE=@OLD_SQL_MODE ;
+

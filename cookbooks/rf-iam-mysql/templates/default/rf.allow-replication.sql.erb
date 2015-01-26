@@ -1,0 +1,3 @@
+stop slave;
+CHANGE MASTER TO MASTER_HOST='<%= node['rf-iam-mysql']['masterhost'] %>',MASTER_USER='replicator',MASTER_PASSWORD='<%= node['rf-iam-mysql']['masterpassword'] %>',MASTER_LOG_FILE='<%= node['rf-iam-mysql']['masterlogfile'] %>',MASTER_LOG_POS=<%= node['rf-iam-mysql']['masterlogpos'] %>;
+start slave;

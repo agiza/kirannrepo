@@ -1,17 +1,21 @@
 rf-iam-mysql Cookbook
 =====================
 Chef wrapper cookbook to 
-1. create master/slave MySQL server setup
-2. set up storage structure according to Altisource standards
-3. create an empty IAM database.
+1. Creates master/slave MySQL server setup
+2. Sets up storage structure according to Altisource standards
+3. Creates an empty IAM database = rfng_iam
 4. Creates IAM user to be used within IAM application
+5. Creates MySQL master-master replication
+6. Creates MySQL HAProxy load-balancer configuration
 
 This cookbook is tested on RHEL platform (CentOS 6.5)    
 
 Requirements
 ------------
-This cookbook should run in conjunction with `rf-iam-liquibase`, which populates IAM database with seed data.
+Use the cookbook, either 1) configuration, or 2), never both in the same time.
+1) This cookbook should run in conjunction with `rf-iam-liquibase`, which populates IAM database with seed data.
 Depends on `mysql-multi` & `mysql` community cookbooks.
+2)To be used for HAProxy MySQL configuration
 
 Utilization
 ------------
@@ -82,6 +86,39 @@ By default the value is copied from the node attribute
 `['rf-iam-mysql']['auto-increment-offset']` :  Defaults to 1.
 Use one of the value from [0123]. Use even numbers for the masters and odd numbers for the slaves. 
 
+# MySQL master-master 
+
+['rf-iam-mysql']['m_m_host_ip']    :  default to '127.0.0.1' and is the 'bind-address' from my.cnf; replace with machine real IP, so MySQL accepts connections from LAN/Internet
+
+['rf-iam-mysql']['masterhost']     :  default to '127.0.0.1', but needs to be filled in with the IP of the other Master machine
+
+['rf-iam-mysql']['masterpassword'] :  defaults to 'password'; is the master of the 'replicator' user
+
+['rf-iam-mysql']['masterlogfile']  :  defaults to a unreal value 'mysql-bin.000001'. After executing on the other master machine at mysql shell: "show master status", bring the real value from "File" column in the table shown
+
+['rf-iam-mysql']['masterlogpos']   :  defaults to a unreal value 120. After executing on the other master machine at mysql shell: "show master status", bring the real value from "Position" column in the table shown
+
+# MySQL HAProxy
+
+['rf-iam-mysql']['masterhost1'] 	: defaults to '127.0.0.1'. It's the IP of MySQL server droplet 1
+
+['rf-iam-mysql']['masterhost2'] 	: defaults to '127.0.0.1'. It's the IP of MySQL server droplet 2
+
+['rf-iam-mysql']['hacheck'] 		: defaults to 'haproxycheck' string. It is used by HAProxy service to check the status of the MySQL servers.
+
+['rf-iam-mysql']['harootuser'] 		: defaults to 'haproxyroot' string. It's for a MySQL user is needed with root privileges for accessing the MySQL m-m from HAProxy
+
+['rf-iam-mysql']['harootpassword']  : defaults to 'password' string. It's the password of HAProxyRoot user
+
+['rf-iam-mysql']['maxconn'] 		: defaults to 4096. Specifies the no of concurrent connections on the frontend. Can be tuned anyhow
+
+['rf-iam-mysql']['connect'] 		: defaults to 5s. Specifies the maximum time to wait for a connection to succeed.
+
+['rf-iam-mysql']['client'] 			: defaults to 10s. Specifies client timeout applied for ACK during TCP connection.
+
+['rf-iam-mysql']['server']			: defaults to 10s. Specifies server timeout applied for sending during TCP connection
+
+['rf-iam-mysql']['retries']			: defaults to 3. Specifies the  no of retries to perform  
 
 Usage
 -----
@@ -90,6 +127,8 @@ Change the value of `['rf-iam-mysql']['auto-increment-offset']` to even number 0
 Include this recipe in your run list, if you want to have MySQL Server acting as master.
 Recipe will not work if there are 1 or more MYSQL master's already available in the same environment 
 
+#### rf-iam-mysql::rf-master-patch
+Include this recipe in your run list, if you want to have MySQL master-master replication fully functional.
 #### rf-iam-mysql::rf-slave
 Change the value of `['rf-iam-mysql']['auto-increment-offset']` to odd number 1 or 3
 Include this recipe in your run list, if you want to have MySQL Server acting as slave.
@@ -98,6 +137,8 @@ This will work only if there is one Master available in your current environment
 #### rf-iam-mysql
 Include this recipe in your run list, if you want to have standard MySQL Server. No replication is set.
 
+#### rf-mysqlhaproxy
+Include this recipe if you need haproxy service running over a MySQL master-master replication setup
 License and Authors
 -------------------
 Authors: Thanooj Kamavarapu(thanooj.kamavarapu@altisource.com)
