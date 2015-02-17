@@ -6,7 +6,7 @@
 mongo.database = <%= node[:rf_rm_mongo_database] %>
 mongo.replicaset = <%= node[:rf_rm_mongo_replicaset] %>
 
-service.provider.logout.success.url=https://<%= node[:rf_webproxy_host] %>/Shibboleth.sso/Logout
+service.provider.logout.success.url=https://<%= node[:rm_webproxy_host] %>/Shibboleth.sso/Logout
 service.provider.context=rsng-rules-mgmt-rest
 spring.security.role=IS_AUTHENTICATED_ANONYMOUSLY
 iam.authz.token.url=http://<%= node[:rf_idp_servername] %>:8080/iamsvc/authz/token

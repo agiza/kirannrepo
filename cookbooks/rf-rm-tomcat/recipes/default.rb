@@ -40,12 +40,6 @@ yum_package "rules-mgmt-restwar" do
    allow_downgrade true   
 end
 
-yum_package "rules-mgmt-uiwar" do
-   action :install
-   version "#{node['rf_rm_rpm_version']}"
-   allow_downgrade true   
-end
-
 execute "clean tomcat privs" do 
    command 'chown -R tomcat:tomcat /opt/tomcat; chmod -R 775 /opt/tomcat'
 end
